@@ -1,0 +1,73 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+	id 'eclipse'
+	id 'idea'
+}
+
+apply plugin: "java-library"
+
+sourceCompatibility = targetCompatibility = 17
+
+def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
+def BUILD_VERSION = project.findProperty('com.jyuzawa.onnxruntime.build_version')
+version = "${ORT_VERSION}-${BUILD_VERSION}"
+
+repositories {
+	mavenCentral()
+}
+
+java {
+	withJavadocJar()
+	withSourcesJar()
+}
+
+publishing {
+	repositories {
+		maven {
+			name = 'GitHub'
+			url = uri("https://maven.pkg.github.com/yuzawa-san/onnxruntime-java")
+			credentials {
+				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+			}
+		}
+	}
+	publications {
+		maven(MavenPublication) {
+			groupId = 'com.jyuzawa'
+			artifactId = 'onnxruntime-java'
+			from components.java
+		}
+	}
+}
+
+dependencies {
+	testImplementation "junit:junit:4.13.2"
+	api "io.netty:netty-common:4.1.73.Final"
+}
+
+task make(type: Exec) {
+	commandLine 'make', "ORT_VERSION=${ORT_VERSION}"
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs += "${project.buildDir}/generated/jextract/"
+		}
+	}
+}
+
+compileJava {
+	dependsOn make
+	options.compilerArgs += ["--add-modules","jdk.incubator.foreign"]
+}
+
+jar {
+	from "${project.buildDir}/jnioutput"
+}
+
+test {
+	jvmArgs '--enable-native-access=ALL-UNNAMED --add-modules jdk.incubator.foreign'
+}
