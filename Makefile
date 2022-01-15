@@ -1,4 +1,4 @@
-all: build/generated/jextract/com/jyuzawa/onnxruntime/extern/OrtApi.java
+all: build/generated/jextract/com/jyuzawa/onnxruntime/extern/onnxruntime_c_api_h.java
 
 clean:
 	rm -rf build/jnioutput
@@ -32,5 +32,7 @@ build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib: build/onnx
 symbols.conf: build/onnxruntime/onnxruntime-osx-universal2-${ORT_VERSION}/include/onnxruntime_cxx_api.h build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib
 	jextract -d build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime.extern -I /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -I $(PWD)/build/onnxruntime/onnxruntime-osx-universal2-${ORT_VERSION}/include --dump-includes symbols.conf $(PWD)/build/onnxruntime/onnxruntime-osx-universal2-${ORT_VERSION}/include/onnxruntime_c_api.h
 
-build/generated/jextract/com/jyuzawa/onnxruntime/extern/OrtApi.java: build/jnioutput/META-INF/native/libonnxruntime_linux_x86_64.so build/jnioutput/META-INF/native/libonnxruntime_linux_aarch_64.so build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib
+build/generated/jextract/com/jyuzawa/onnxruntime/extern/onnxruntime_c_api_h.java: build/jnioutput/META-INF/native/libonnxruntime_linux_x86_64.so build/jnioutput/META-INF/native/libonnxruntime_linux_aarch_64.so build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib
 	jextract -d build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime.extern -I /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -I $(PWD)/build/onnxruntime/onnxruntime-osx-universal2-${ORT_VERSION}/include @symbols.conf $(PWD)/build/onnxruntime/onnxruntime-osx-universal2-${ORT_VERSION}/include/onnxruntime_c_api.h
+	# strip out loads since we'll manage load
+	sed -i .bak '/System.loadLibrary/d' build/generated/jextract/com/jyuzawa/onnxruntime/extern/onnxruntime_c_api_h.java
