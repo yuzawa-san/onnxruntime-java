@@ -2,15 +2,22 @@ package com.jyuzawa.onnxruntime;
 
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
+import jdk.incubator.foreign.SymbolLookup;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemorySegment;
 
 import jdk.incubator.foreign.Addressable;
 
-import static com.jyuzawa.onnxruntime.extern.onnxruntime_c_api_h.*;
+import static com.jyuzawa.onnxruntime.extern.onnxruntime_all_h.*;
 import static jdk.incubator.foreign.CLinker.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Arrays;
 
 import com.jyuzawa.onnxruntime.extern.OrtApi;
@@ -21,7 +28,8 @@ public class Ort {
 		System.load("/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib");
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
 		try (var scope = ResourceScope.newConfinedScope()) {
 			MemoryAddress apiBaseAddress = OrtGetApiBase();
 			MemorySegment apiBase = apiBaseAddress.asSegment(OrtApiBase.sizeof(), scope);
@@ -35,15 +43,28 @@ public class Ort {
 			MemorySegment env = allocator.allocate(C_POINTER);
 			checkStatus(api, OrtApi.CreateEnv(api).apply(ORT_LOGGING_LEVEL_ERROR(), logName.address(), env.address()));
 			MemorySegment session = allocator.allocate(C_POINTER);
-			MemorySegment file = toCString("/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/src/test/resources/mmo_model.onnx",
+			String fpath= "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/src/test/resources/mmo_model.onnx";
+			MemorySegment file = toCString(fpath,
 					scope);
 			
+			
+			try(RandomAccessFile raf = new RandomAccessFile(new File(fpath), "r");
+					//Get file channel in read-only mode
+		            FileChannel fileChannel = raf.getChannel()){
+		             
+		            //Get direct byte buffer access using channel.map() operation
+		            MappedByteBuffer buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size());
+		            MemorySegment mappedBuf  = MemorySegment.ofByteBuffer(buffer);
 			
 			MemorySegment sessionOptions = allocator.allocate(C_POINTER);
 			checkStatus(api, OrtApi.CreateSessionOptions(api).apply(sessionOptions.address()));
 			checkStatus(api, OrtApi.SetIntraOpNumThreads(api).apply(sessionOptions.address(), 1));
-			checkStatus(api, OrtApi.CreateSession(api).apply(MemoryAccess.getAddress(env), file.address(),
+//			checkStatus(api, OrtApi.CreateSession(api).apply(MemoryAccess.getAddress(env), file.address(),
+//					MemoryAccess.getAddress(sessionOptions), session.address()));
+			checkStatus(api, OrtApi.CreateSessionFromArray(api).apply(MemoryAccess.getAddress(env), mappedBuf.address(), buffer.capacity(),
 					MemoryAccess.getAddress(sessionOptions), session.address()));
+			mappedBuf.unload();
+			}
 
 			MemorySegment ortAllocator = allocator.allocate(C_POINTER);
 			checkStatus(api, OrtApi.GetAllocatorWithDefaultOptions(api).apply(ortAllocator.address()));

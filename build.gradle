@@ -51,6 +51,10 @@ task make(type: Exec) {
 	commandLine 'make', "ORT_VERSION=${ORT_VERSION}"
 }
 
+task jextract(type: Exec) {
+	commandLine 'make', 'onnxruntime_all.h.conf', "ORT_VERSION=${ORT_VERSION}"
+}
+
 sourceSets {
 	main {
 		java {
