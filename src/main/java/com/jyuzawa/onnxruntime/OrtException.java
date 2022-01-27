@@ -1,6 +1,6 @@
 package com.jyuzawa.onnxruntime;
 
-public class OrtException extends Exception {
+public class OrtException extends RuntimeException {
 	private static final int UNKNOWN_CODE= -1;
 	private final int code;
 
