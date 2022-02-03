@@ -11,6 +11,7 @@ apply plugin: "java-library"
 	spotless {
 		java {
 			targetExclude("**/Wire.java")
+			importOrder()
 			removeUnusedImports()
 			googleJavaFormat()
 		}
