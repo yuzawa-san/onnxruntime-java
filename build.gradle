@@ -10,10 +10,11 @@ apply plugin: "java-library"
 
 	spotless {
 		java {
-			targetExclude("**/Wire.java")
+			targetExclude("build/generated/**/*.java")
 			importOrder()
 			removeUnusedImports()
 			googleJavaFormat()
+			licenseHeader '/* Copyright (c) $YEAR yuzawa-san, Licensed under the MIT License. */'
 		}
 		format 'gradle', {
 			target '**/*.gradle'

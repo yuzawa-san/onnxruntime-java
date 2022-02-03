@@ -1,3 +1,4 @@
+/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
 package com.jyuzawa.onnxruntime;
 
 import java.io.File;
@@ -42,6 +43,8 @@ public class RunIt {
         session.run(txn);
       }
     }
+    System.out.flush();
+    System.err.flush();
     System.out.println("done");
   }
 }
