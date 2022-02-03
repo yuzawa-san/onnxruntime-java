@@ -1,13 +1,12 @@
 package com.jyuzawa.onnxruntime;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface TensorInfo {
-	
-	OnnxTensorElementDataType getType();
-	 
-	Collection<Long> getShape();
-	
-	long getElementCount();
 
+  OnnxTensorElementDataType getType();
+
+  List<Long> getShape();
+
+  long getElementCount();
 }

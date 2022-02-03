@@ -1,4 +1,5 @@
 plugins {
+	id "com.diffplug.spotless" version "6.1.0"
 	id 'java'
 	id 'maven-publish'
 	id 'eclipse'
@@ -6,6 +7,19 @@ plugins {
 }
 
 apply plugin: "java-library"
+
+	spotless {
+		java {
+			targetExclude("**/Wire.java")
+			removeUnusedImports()
+			googleJavaFormat()
+		}
+		format 'gradle', {
+			target '**/*.gradle'
+			trimTrailingWhitespace()
+			indentWithTabs()
+		}
+	}
 
 sourceCompatibility = targetCompatibility = 17
 
@@ -65,7 +79,18 @@ sourceSets {
 
 compileJava {
 	dependsOn make
-	options.compilerArgs += ["--add-modules","jdk.incubator.foreign"]
+}
+
+tasks.withType(AbstractCompile) {
+options.compilerArgs += ["--add-modules", "jdk.incubator.foreign"]
+}
+
+tasks.withType(Test) {
+jvmArgs += ["--add-modules", "jdk.incubator.foreign"]
+}
+
+javadoc {
+	options.addStringOption("-add-modules","jdk.incubator.foreign")
 }
 
 jar {
@@ -73,5 +98,5 @@ jar {
 }
 
 test {
-	jvmArgs '--enable-native-access=ALL-UNNAMED --add-modules jdk.incubator.foreign'
+	jvmArgs '--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign'
 }
