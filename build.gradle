@@ -1,5 +1,5 @@
 plugins {
-	id "com.diffplug.spotless" version "6.1.0"
+	id "com.diffplug.spotless" version "6.2.1"
 	id 'java'
 	id 'maven-publish'
 	id 'eclipse'
@@ -8,20 +8,28 @@ plugins {
 
 apply plugin: "java-library"
 
-	spotless {
-		java {
-			targetExclude("build/generated/**/*.java")
-			importOrder()
-			removeUnusedImports()
-			googleJavaFormat()
-			licenseHeader '/* Copyright (c) $YEAR yuzawa-san, Licensed under the MIT License. */'
-		}
-		format 'gradle', {
-			target '**/*.gradle'
-			trimTrailingWhitespace()
-			indentWithTabs()
-		}
+spotless {
+	java {
+		target '**/*.java'
+		targetExclude "${project.buildDir}/**/*.java"
+		licenseHeader '/*\n * Copyright (c) $YEAR James Yuzawa (https://www.jyuzawa.com/)\n * All rights reserved. Licensed under the MIT License.\n */'
+		removeUnusedImports()
+		importOrder()
+		palantirJavaFormat()
+		endWithNewline()
 	}
+	format 'misc', {
+		target '**/*.gradle', '**/*.proto', '**/*.feature'
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
+	format 'md', {
+		target '**/*.md'
+		trimTrailingWhitespace()
+		endWithNewline()
+	}
+}
 
 sourceCompatibility = targetCompatibility = 17
 

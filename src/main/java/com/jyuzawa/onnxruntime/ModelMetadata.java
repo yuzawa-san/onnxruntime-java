@@ -1,20 +1,23 @@
-/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * All rights reserved. Licensed under the MIT License.
+ */
 package com.jyuzawa.onnxruntime;
 
 import java.util.Map;
 
 public interface ModelMetadata {
-  String getDescription();
+    String getDescription();
 
-  String getDomain();
+    String getDomain();
 
-  String getGraphDescription();
+    String getGraphDescription();
 
-  String getGraphName();
+    String getGraphName();
 
-  String getProducerName();
+    String getProducerName();
 
-  long getVersion();
+    long getVersion();
 
-  Map<String, String> getCustomMetadata();
+    Map<String, String> getCustomMetadata();
 }

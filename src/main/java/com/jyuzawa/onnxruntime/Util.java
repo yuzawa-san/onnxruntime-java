@@ -1,4 +1,7 @@
-/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * All rights reserved. Licensed under the MIT License.
+ */
 package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.toJavaString;
@@ -8,13 +11,13 @@ import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 
 final class Util {
-  private static void checkStatus(MemorySegment api, MemoryAddress status) {
-    if (MemoryAddress.NULL.equals(status)) {
-      return;
+    private static void checkStatus(MemorySegment api, MemoryAddress status) {
+        if (MemoryAddress.NULL.equals(status)) {
+            return;
+        }
+        int code = OrtApi.GetErrorCode(api).apply(status);
+        String message = toJavaString(OrtApi.GetErrorMessage(api).apply(status));
+        OrtApi.ReleaseStatus(api).apply(status);
+        throw new RuntimeException("FAILED " + code + ": " + message);
     }
-    int code = OrtApi.GetErrorCode(api).apply(status);
-    String message = toJavaString(OrtApi.GetErrorMessage(api).apply(status));
-    OrtApi.ReleaseStatus(api).apply(status);
-    throw new RuntimeException("FAILED " + code + ": " + message);
-  }
 }

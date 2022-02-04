@@ -1,4 +1,7 @@
-/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * All rights reserved. Licensed under the MIT License.
+ */
 package com.jyuzawa.onnxruntime;
 
 import java.io.IOException;
@@ -7,25 +10,23 @@ import java.nio.file.Path;
 import java.util.Map;
 
 public interface Session extends Managed {
-  Map<String, NodeInfo> getInputs();
+    Map<String, NodeInfo> getInputs();
 
-  ModelMetadata getModelMetadata();
+    ModelMetadata getModelMetadata();
 
-  Map<String, NodeInfo> getOutputs();
+    Map<String, NodeInfo> getOutputs();
 
-  Map<String, NodeInfo> getOverridableInitializers();
+    Map<String, NodeInfo> getOverridableInitializers();
 
-  Output run(Transaction transaction);
+    Output run(Transaction transaction);
 
-  public interface Builder {
-    Builder setPath(Path path);
+    public interface Builder {
+        Builder setPath(Path path);
 
-    default Builder setBytes(byte[] bytes) {
-      return setBuffer(ByteBuffer.wrap(bytes));
+        Builder setByteArray(byte[] bytes);
+
+        Builder setByteBuffer(ByteBuffer byteBuffer);
+
+        Session build() throws IOException;
     }
-
-    Builder setBuffer(ByteBuffer byteBuffer);
-
-    Session build() throws IOException;
-  }
 }

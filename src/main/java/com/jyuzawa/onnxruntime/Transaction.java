@@ -1,4 +1,7 @@
-/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * All rights reserved. Licensed under the MIT License.
+ */
 package com.jyuzawa.onnxruntime;
 
 import java.util.Collection;
@@ -6,24 +9,24 @@ import java.util.Map;
 
 public interface Transaction {
 
-  Map<String, float[]> getInputs();
+    Map<String, float[]> getInputs();
 
-  Collection<String> getOutputs();
+    Collection<String> getOutputs();
 
-  //	RunOptions getRunOptions();
+    //	RunOptions getRunOptions();
 
-  static Builder newBuilder() {
-    return new TransactionBuilderImpl();
-  }
+    static Builder newBuilder() {
+        return new TransactionBuilderImpl();
+    }
 
-  public interface Builder {
+    public interface Builder {
 
-    Builder addInput(String name, float[] input);
+        Builder addInput(String name, float[] input);
 
-    Builder addOutput(String name);
+        Builder addOutput(String name);
 
-    //		Builder setRunOptions(RunOptions runOptions);
+        //		Builder setRunOptions(RunOptions runOptions);
 
-    Transaction build();
-  }
+        Transaction build();
+    }
 }

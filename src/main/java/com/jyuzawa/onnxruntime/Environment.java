@@ -1,28 +1,31 @@
-/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * All rights reserved. Licensed under the MIT License.
+ */
 package com.jyuzawa.onnxruntime;
 
 public interface Environment extends Managed {
 
-  void setTelemetryEvents(boolean enabled);
+    void setTelemetryEvents(boolean enabled);
 
-  void setLanguageProjection(int languageProjection);
+    void setLanguageProjection(int languageProjection);
 
-  // TODO: allocator
-  //	void createAndRegisterAllocator();
+    // TODO: allocator
+    //	void createAndRegisterAllocator();
 
-  Session.Builder newSession();
+    Session.Builder newSession();
 
-  public interface Builder {
-    Builder setLogSeverityLevel(int level);
+    public interface Builder {
+        Builder setLogSeverityLevel(int level);
 
-    Builder setLogId(String id);
+        Builder setLogId(String id);
 
-    // TODO: threading options
-    //		Builder setThreadingOptions(ThreadingOptions threadingOptions);
+        // TODO: threading options
+        //		Builder setThreadingOptions(ThreadingOptions threadingOptions);
 
-    // TODO: custom logger
-    //		Builder setCustomLogger();
+        // TODO: custom logger
+        //		Builder setCustomLogger();
 
-    Environment build();
-  }
+        Environment build();
+    }
 }

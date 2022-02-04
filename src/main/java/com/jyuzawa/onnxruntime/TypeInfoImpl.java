@@ -1,4 +1,7 @@
-/* Copyright (c) 2022 yuzawa-san, Licensed under the MIT License. */
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * All rights reserved. Licensed under the MIT License.
+ */
 package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.C_INT;
@@ -15,93 +18,88 @@ import jdk.incubator.foreign.SegmentAllocator;
 
 final class TypeInfoImpl implements TypeInfo {
 
-  // TODO: denotation
-  private final OnnxType type;
-  private final TensorInfo tensorInfo;
-  private final MapInfo mapInfo;
-  private final SequenceInfo sequenceInfo;
+    // TODO: denotation
+    private final OnnxType type;
+    private final TensorInfo tensorInfo;
+    private final MapInfo mapInfo;
+    private final SequenceInfo sequenceInfo;
 
-  TypeInfoImpl(ApiImpl api, MemoryAddress typeInfo, MemoryAddress ortAllocator) {
-    try (ResourceScope scope = ResourceScope.newConfinedScope()) {
-      SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
-      MemorySegment typePointer = allocator.allocate(C_INT);
-      api.checkStatus(api.GetOnnxTypeFromTypeInfo.apply(typeInfo, typePointer.address()));
-      this.type = OnnxType.forNumber(MemoryAccess.getInt(typePointer));
+    TypeInfoImpl(ApiImpl api, MemoryAddress typeInfo, MemoryAddress ortAllocator) {
+        try (ResourceScope scope = ResourceScope.newConfinedScope()) {
+            SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
+            MemorySegment typePointer = allocator.allocate(C_INT);
+            api.checkStatus(api.GetOnnxTypeFromTypeInfo.apply(typeInfo, typePointer.address()));
+            this.type = OnnxType.forNumber(MemoryAccess.getInt(typePointer));
 
-      TensorInfo tensorInfo = null;
-      MapInfo mapInfo = null;
-      SequenceInfo sequenceInfo = null;
+            TensorInfo tensorInfo = null;
+            MapInfo mapInfo = null;
+            SequenceInfo sequenceInfo = null;
 
-      if (type == OnnxType.TENSOR) {
-        MemoryAddress ortTensorInfo =
-            api.create(allocator, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
-        OnnxTensorElementDataType dataType =
-            OnnxTensorElementDataType.forNumber(
-                api.extractInt(
-                    allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
-        long dimCount =
-            api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-        MemorySegment dims = allocator.allocateArray(C_LONG, dimCount);
-        api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims.address(), dimCount));
-        long elementCount =
-            api.extractInt(
-                allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
-        List<Long> shape = new ArrayList<>(Math.toIntExact(dimCount));
-        for (long value : dims.toLongArray()) {
-          shape.add(value);
+            if (type == OnnxType.TENSOR) {
+                MemoryAddress ortTensorInfo =
+                        api.create(allocator, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
+                OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
+                        api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
+                long dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
+                MemorySegment dims = allocator.allocateArray(C_LONG, dimCount);
+                api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims.address(), dimCount));
+                long elementCount =
+                        api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
+                List<Long> shape = new ArrayList<>(Math.toIntExact(dimCount));
+                for (long value : dims.toLongArray()) {
+                    shape.add(value);
+                }
+                tensorInfo = new TensorInfoImpl(dataType, Collections.unmodifiableList(shape), elementCount);
+                api.ReleaseTensorTypeAndShapeInfo.apply(ortTensorInfo);
+            } else {
+                throw new IllegalArgumentException("unsupported type: " + type);
+            }
+
+            this.tensorInfo = tensorInfo;
+            this.mapInfo = mapInfo;
+            this.sequenceInfo = sequenceInfo;
         }
-        tensorInfo =
-            new TensorInfoImpl(dataType, Collections.unmodifiableList(shape), elementCount);
-        api.ReleaseTensorTypeAndShapeInfo.apply(ortTensorInfo);
-      } else {
-        throw new IllegalArgumentException("unsupported type: " + type);
-      }
-
-      this.tensorInfo = tensorInfo;
-      this.mapInfo = mapInfo;
-      this.sequenceInfo = sequenceInfo;
     }
-  }
 
-  @Override
-  public OnnxType getType() {
-    return type;
-  }
-
-  @Override
-  public TensorInfo getTensorInfo() {
-    if (tensorInfo == null) {
-      throw new IllegalStateException("tensor");
+    @Override
+    public OnnxType getType() {
+        return type;
     }
-    return tensorInfo;
-  }
 
-  @Override
-  public MapInfo getMapInfo() {
-    if (mapInfo == null) {
-      throw new IllegalStateException("map");
+    @Override
+    public TensorInfo getTensorInfo() {
+        if (tensorInfo == null) {
+            throw new IllegalStateException("tensor");
+        }
+        return tensorInfo;
     }
-    return mapInfo;
-  }
 
-  @Override
-  public SequenceInfo getSequenceInfo() {
-    if (sequenceInfo == null) {
-      throw new IllegalStateException("sequence");
+    @Override
+    public MapInfo getMapInfo() {
+        if (mapInfo == null) {
+            throw new IllegalStateException("map");
+        }
+        return mapInfo;
     }
-    return sequenceInfo;
-  }
 
-  public String toString() {
-    StringBuilder out = new StringBuilder();
-    out.append("{TypeInfo: type=").append(type);
-    if (tensorInfo != null) {
-      out.append(", tensorInfo=").append(tensorInfo);
-    } else if (mapInfo != null) {
-      out.append(", mapInfo=").append(mapInfo);
-    } else if (sequenceInfo != null) {
-      out.append(", sequenceInfo=").append(sequenceInfo);
+    @Override
+    public SequenceInfo getSequenceInfo() {
+        if (sequenceInfo == null) {
+            throw new IllegalStateException("sequence");
+        }
+        return sequenceInfo;
     }
-    return out.append("}").toString();
-  }
+
+    public String toString() {
+        StringBuilder out = new StringBuilder();
+        out.append("{TypeInfo: type=").append(type);
+        if (tensorInfo != null) {
+            out.append(", tensorInfo=").append(tensorInfo);
+        } else if (mapInfo != null) {
+            out.append(", mapInfo=").append(mapInfo);
+        } else if (sequenceInfo != null) {
+            out.append(", sequenceInfo=").append(sequenceInfo);
+        }
+        return out.append("}").toString();
+    }
 }
