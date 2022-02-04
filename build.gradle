@@ -4,6 +4,7 @@ plugins {
 	id 'maven-publish'
 	id 'eclipse'
 	id 'idea'
+	id 'jacoco'
 }
 
 apply plugin: "java-library"
@@ -30,6 +31,19 @@ spotless {
 		endWithNewline()
 	}
 }
+
+jacocoTestReport {
+	reports {
+		xml.required = true
+		html.required = true
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: "com/jyuzawa/onnxruntime/extern/**")
+		}))
+	}
+}
+check.dependsOn jacocoTestReport
 
 sourceCompatibility = targetCompatibility = 17
 
@@ -69,6 +83,8 @@ publishing {
 dependencies {
 	testImplementation "junit:junit:4.13.2"
 	api "io.netty:netty-common:4.1.73.Final"
+	api 'org.slf4j:slf4j-api:1.7.35'
+	testRuntimeOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.1'
 }
 
 task make(type: Exec) {
@@ -100,6 +116,7 @@ jvmArgs += ["--add-modules", "jdk.incubator.foreign"]
 }
 
 javadoc {
+	exclude 'com/jyuzawa/onnxruntime/extern/**'
 	options.addStringOption("-add-modules","jdk.incubator.foreign")
 }
 

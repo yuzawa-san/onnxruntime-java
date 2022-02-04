@@ -16,7 +16,7 @@ public interface Environment extends Managed {
     Session.Builder newSession();
 
     public interface Builder {
-        Builder setLogSeverityLevel(int level);
+        Builder setLogSeverityLevel(OrtLoggingLevel level);
 
         Builder setLogId(String id);
 

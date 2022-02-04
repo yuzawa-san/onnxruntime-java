@@ -441,7 +441,7 @@ final class ApiImpl implements Api {
 
     @Override
     public Environment.Builder newEnvironment() {
-        return new EnviromentBuilderImpl(this);
+        return new EnvironmentBuilderImpl(this);
     }
 
     void checkStatus(MemoryAddress status) {

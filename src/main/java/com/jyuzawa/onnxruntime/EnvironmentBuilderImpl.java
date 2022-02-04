@@ -4,7 +4,6 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime.extern.onnxruntime_all_h.ORT_LOGGING_LEVEL_ERROR;
 import static jdk.incubator.foreign.CLinker.toCString;
 
 import jdk.incubator.foreign.MemoryAddress;
@@ -12,20 +11,20 @@ import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-final class EnviromentBuilderImpl implements Environment.Builder {
+final class EnvironmentBuilderImpl implements Environment.Builder {
 
     private final ApiImpl api;
-    int severityLevel;
+    OrtLoggingLevel severityLevel;
     String logId;
 
-    EnviromentBuilderImpl(ApiImpl api) {
+    EnvironmentBuilderImpl(ApiImpl api) {
         this.api = api;
-        this.severityLevel = ORT_LOGGING_LEVEL_ERROR();
+        this.severityLevel = OrtLoggingLevel.DEFAULT;
         this.logId = "onnxruntime-java";
     }
 
     @Override
-    public Environment.Builder setLogSeverityLevel(int severityLevel) {
+    public Environment.Builder setLogSeverityLevel(OrtLoggingLevel severityLevel) {
         this.severityLevel = severityLevel;
         return this;
     }
@@ -41,7 +40,14 @@ final class EnviromentBuilderImpl implements Environment.Builder {
         ResourceScope scope = ResourceScope.newConfinedScope();
         SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
         MemorySegment logName = toCString(logId, scope);
-        MemoryAddress env = api.create(allocator, out -> api.CreateEnv.apply(severityLevel, logName.address(), out));
+        MemoryAddress env = api.create(
+                allocator,
+                out -> api.CreateEnvWithCustomLogger.apply(
+                        OrtLoggingLevel.LOG_CALLBACK,
+                        MemoryAddress.NULL,
+                        severityLevel.getNumber(),
+                        logName.address(),
+                        out));
         scope.addCloseAction(() -> {
             api.ReleaseEnv.apply(env);
         });

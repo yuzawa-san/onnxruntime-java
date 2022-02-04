@@ -34,11 +34,11 @@ public enum OnnxTensorElementDataType {
         this.valueLayout = valueLayout;
     }
 
-    public int getNumber() {
+    int getNumber() {
         return number;
     }
 
-    public static final OnnxTensorElementDataType forNumber(int number) {
+    static final OnnxTensorElementDataType forNumber(int number) {
         switch (number) {
             case 1:
                 return FLOAT;
