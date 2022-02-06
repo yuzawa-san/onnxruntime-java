@@ -30,39 +30,37 @@ final class ModelMetadataImpl implements ModelMetadata {
         try (ResourceScope scope = ResourceScope.newConfinedScope()) {
             SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
             {
-                MemorySegment pointer = allocator.allocate(C_POINTER);
-                api.checkStatus(api.ModelMetadataGetDescription.apply(metadata, ortAllocator, pointer.address()));
-                this.description = toJavaString(MemoryAccess.getAddress(pointer));
-                api.checkStatus(api.AllocatorFree.apply(ortAllocator, MemoryAccess.getAddress(pointer)));
+                MemoryAddress pointer = api.create(
+                        allocator, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));
+                this.description = toJavaString(pointer);
+                api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
             }
             {
-                MemorySegment pointer = allocator.allocate(C_POINTER);
-                api.checkStatus(api.ModelMetadataGetDomain.apply(metadata, ortAllocator, pointer.address()));
-                this.domain = toJavaString(MemoryAccess.getAddress(pointer));
-                api.checkStatus(api.AllocatorFree.apply(ortAllocator, MemoryAccess.getAddress(pointer)));
+                MemoryAddress pointer =
+                        api.create(allocator, out -> api.ModelMetadataGetDomain.apply(metadata, ortAllocator, out));
+                this.domain = toJavaString(pointer);
+                api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
             }
             {
-                MemorySegment pointer = allocator.allocate(C_POINTER);
-                api.checkStatus(api.ModelMetadataGetGraphDescription.apply(metadata, ortAllocator, pointer.address()));
-                this.graphDescription = toJavaString(MemoryAccess.getAddress(pointer));
-                api.checkStatus(api.AllocatorFree.apply(ortAllocator, MemoryAccess.getAddress(pointer)));
+                MemoryAddress pointer = api.create(
+                        allocator, out -> api.ModelMetadataGetGraphDescription.apply(metadata, ortAllocator, out));
+                this.graphDescription = toJavaString(pointer);
+                api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
             }
             {
-                MemorySegment pointer = allocator.allocate(C_POINTER);
-                api.checkStatus(api.ModelMetadataGetGraphName.apply(metadata, ortAllocator, pointer.address()));
-                this.graphName = toJavaString(MemoryAccess.getAddress(pointer));
-                api.checkStatus(api.AllocatorFree.apply(ortAllocator, MemoryAccess.getAddress(pointer)));
+                MemoryAddress pointer =
+                        api.create(allocator, out -> api.ModelMetadataGetGraphName.apply(metadata, ortAllocator, out));
+                this.graphName = toJavaString(pointer);
+                api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
             }
             {
-                MemorySegment pointer = allocator.allocate(C_POINTER);
-                api.checkStatus(api.ModelMetadataGetProducerName.apply(metadata, ortAllocator, pointer.address()));
-                this.producerName = toJavaString(MemoryAccess.getAddress(pointer));
-                api.checkStatus(api.AllocatorFree.apply(ortAllocator, MemoryAccess.getAddress(pointer)));
+                MemoryAddress pointer = api.create(
+                        allocator, out -> api.ModelMetadataGetProducerName.apply(metadata, ortAllocator, out));
+                this.producerName = toJavaString(pointer);
+                api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
             }
             {
-                MemorySegment pointer = allocator.allocate(C_LONG);
-                api.checkStatus(api.ModelMetadataGetVersion.apply(metadata, pointer.address()));
-                this.version = MemoryAccess.getLong(pointer);
+                this.version = api.extractLong(allocator, out -> api.ModelMetadataGetVersion.apply(metadata, out));
             }
             {
                 MemorySegment count = allocator.allocate(C_LONG);
