@@ -5,14 +5,15 @@
 package com.jyuzawa.onnxruntime;
 
 import java.util.List;
+import java.util.Map;
 
-public interface TensorInfo {
+public interface NamedCollection<V> {
 
-    OnnxTensorElementDataType getType();
+    V get(String name);
 
-    List<Long> getShape();
+    V get(int index);
 
-    long getElementCount();
+    Map<String, V> map();
 
-    long getByteCount();
+    List<V> list();
 }

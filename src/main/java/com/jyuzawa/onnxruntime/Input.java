@@ -4,4 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface Input {}
+import java.nio.ByteBuffer;
+
+public interface Input {
+
+    static Builder newBuilder(NodeInfo nodeInfo) {
+        return new InputBuilderImpl(nodeInfo);
+    }
+
+    public interface Builder {
+
+        ByteBuffer getTensorBuffer();
+    }
+}

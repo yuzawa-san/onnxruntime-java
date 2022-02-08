@@ -19,13 +19,15 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
 
     @Override
     public void setTelemetryEvents(boolean enabled) {
-        // TODO Auto-generated method stub
-
+        if (enabled) {
+            api.checkStatus(api.EnableTelemetryEvents.apply(address));
+        } else {
+            api.checkStatus(api.DisableTelemetryEvents.apply(address));
+        }
     }
 
     @Override
     public void setLanguageProjection(int languageProjection) {
-        // TODO Auto-generated method stub
-
+        api.checkStatus(api.SetLanguageProjection.apply(address, languageProjection));
     }
 }

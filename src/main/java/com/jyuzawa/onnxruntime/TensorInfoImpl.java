@@ -37,4 +37,10 @@ final class TensorInfoImpl implements TensorInfo {
     public String toString() {
         return "{TensorInfo: type=" + type + ", shape=" + shape + ", elementCount=" + elementCount + "}";
     }
+
+    @Override
+    public long getByteCount() {
+        // TODO: handle missing valueLayout
+        return elementCount * type.getValueLayout().byteSize();
+    }
 }

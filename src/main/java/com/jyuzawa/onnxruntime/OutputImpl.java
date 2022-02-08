@@ -4,4 +4,17 @@
  */
 package com.jyuzawa.onnxruntime;
 
-final class OutputImpl implements Output {}
+import java.nio.ByteBuffer;
+
+final class OutputImpl implements Output, Value {
+    private final ByteBuffer byteBuffer;
+
+    OutputImpl(ByteBuffer byteBuffer) {
+        this.byteBuffer = byteBuffer;
+    }
+
+    @Override
+    public ByteBuffer getTensorBuffer() {
+        return byteBuffer;
+    }
+}

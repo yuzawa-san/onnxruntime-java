@@ -4,28 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.util.Collection;
-import java.util.Map;
-
 public interface Transaction {
 
-    Map<String, float[]> getInputs();
-
-    Collection<String> getOutputs();
-
-    //	RunOptions getRunOptions();
-
-    static Builder newBuilder() {
-        return new TransactionBuilderImpl();
-    }
+    NamedCollection<Value> run();
 
     public interface Builder {
+        Input.Builder addInput(NodeInfo nodeInfo);
 
-        Builder addInput(String name, float[] input);
+        Builder addOutput(NodeInfo nodeInfo);
 
-        Builder addOutput(String name);
-
-        //		Builder setRunOptions(RunOptions runOptions);
+        Builder setRunOptions(RunOptions runOptions);
 
         Transaction build();
     }

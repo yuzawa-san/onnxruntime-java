@@ -16,7 +16,7 @@ public class RunIt {
     @Test
     public void test() throws FileNotFoundException, IOException, InterruptedException {
         System.load(
-                "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib");
+                "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/build/jnioutput/META-INF/native/libonnxruntime.jnilib");
         ApiBase apiBase = ApiBase.get();
         System.out.println(apiBase.getVersion());
         Api api = apiBase.getApi();
@@ -43,12 +43,18 @@ public class RunIt {
 
                 // session.newTransaction().addInput().addOutput().run();
 
-                Transaction txn = Transaction.newBuilder()
-                        .addInput("float_input", new float[] {6195379, 28388, 4700000})
-                        .addOutput("variable")
-                        .build();
-
-                session.run(txn);
+                Transaction.Builder txn = session.newTransaction();
+                NodeInfo inputNode = session.getInputs().get(0);
+                System.out.println("X "
+                        + txn.addInput(inputNode)
+                                .getTensorBuffer()
+                                .asFloatBuffer()
+                                .put(new float[] {6195379, 28388, 4700000})
+                                .remaining());
+                NodeInfo outputNode = session.getOutputs().get(0);
+                txn.addOutput(outputNode);
+                NamedCollection<Value> output = txn.build().run();
+                System.out.println(output.get(0).getTensorBuffer().getFloat());
             }
         }
         System.out.flush();

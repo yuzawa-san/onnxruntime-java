@@ -10,21 +10,21 @@ import jdk.incubator.foreign.ValueLayout;
 public enum OnnxTensorElementDataType {
     UNDEFINED(0, null),
     FLOAT(1, CLinker.C_FLOAT),
-    UINT8(2, null),
-    INT8(3, null),
-    UINT16(4, null),
+    UINT8(2, CLinker.C_CHAR),
+    INT8(3, CLinker.C_CHAR),
+    UINT16(4, CLinker.C_SHORT),
     INT16(5, CLinker.C_SHORT),
     INT32(6, CLinker.C_INT),
     INT64(7, CLinker.C_LONG),
     STRING(8, null),
     BOOL(9, null),
-    FLOAT16(10, null),
+    FLOAT16(10, CLinker.C_SHORT),
     DOUBLE(11, CLinker.C_DOUBLE),
-    UINT32(12, null),
-    UINT64(13, null),
-    COMPLEX64(14, null),
-    COMPLEX128(15, null),
-    BFLOAT16(16, null);
+    UINT32(12, CLinker.C_INT),
+    UINT64(13, CLinker.C_LONG),
+    COMPLEX64(14, CLinker.C_LONG),
+    COMPLEX128(15, CLinker.C_LONG_LONG),
+    BFLOAT16(16, CLinker.C_SHORT);
 
     private final int number;
     private final ValueLayout valueLayout;

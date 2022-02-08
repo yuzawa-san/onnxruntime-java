@@ -7,18 +7,17 @@ package com.jyuzawa.onnxruntime;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
-import java.util.Map;
 
 public interface Session extends Managed {
-    Map<String, NodeInfo> getInputs();
-
     ModelMetadata getModelMetadata();
 
-    Map<String, NodeInfo> getOutputs();
+    NamedCollection<NodeInfo> getInputs();
 
-    Map<String, NodeInfo> getOverridableInitializers();
+    NamedCollection<NodeInfo> getOutputs();
 
-    Output run(Transaction transaction);
+    NamedCollection<NodeInfo> getOverridableInitializers();
+
+    Transaction.Builder newTransaction();
 
     public interface Builder {
         Builder setPath(Path path);

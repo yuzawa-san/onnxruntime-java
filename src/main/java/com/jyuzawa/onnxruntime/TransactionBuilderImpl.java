@@ -6,29 +6,47 @@ package com.jyuzawa.onnxruntime;
 
 import com.jyuzawa.onnxruntime.Transaction.Builder;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import jdk.incubator.foreign.MemoryAddress;
 
 final class TransactionBuilderImpl implements Transaction.Builder {
 
-    private final Map<String, float[]> inputs = new LinkedHashMap<>();
-    private final List<String> outputs = new ArrayList<>();
+    final ApiImpl api;
+    final MemoryAddress session;
+    final MemoryAddress ortAllocator;
+    final List<InputBuilderImpl> inputs;
+    final List<NodeInfo> outputs;
+    RunOptions runOptions = new RunOptionsImpl();
 
-    @Override
-    public Transaction build() {
-        return new TransactionImpl(inputs, outputs);
+    public TransactionBuilderImpl(ApiImpl api, MemoryAddress session, MemoryAddress ortAllocator) {
+        this.api = api;
+        this.session = session;
+        this.ortAllocator = ortAllocator;
+        this.inputs = new ArrayList<>();
+        this.outputs = new ArrayList<>();
     }
 
     @Override
-    public Builder addInput(String name, float[] input) {
-        inputs.put(name, input);
+    public Transaction build() {
+        return new TransactionImpl(this);
+    }
+
+    @Override
+    public Input.Builder addInput(NodeInfo node) {
+        InputBuilderImpl input = new InputBuilderImpl(node);
+        inputs.add(input);
+        return input;
+    }
+
+    @Override
+    public Builder addOutput(NodeInfo node) {
+        outputs.add(node);
         return this;
     }
 
     @Override
-    public Builder addOutput(String name) {
-        outputs.add(name);
+    public Builder setRunOptions(RunOptions runOptions) {
+        this.runOptions = runOptions;
         return this;
     }
 }
