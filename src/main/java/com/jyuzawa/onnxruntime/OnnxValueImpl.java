@@ -17,7 +17,7 @@ abstract class OnnxValueImpl implements OnnxValue {
     }
 
     @Override
-    public OnnxType getType() {
+    public final OnnxType getType() {
         return type;
     }
 

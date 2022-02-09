@@ -38,12 +38,12 @@ abstract class OnnxTensorImpl<T extends Buffer> extends OnnxValueImpl implements
     }
 
     @Override
-    public OnnxTensor asTensor() {
+    public final OnnxTensor asTensor() {
         return this;
     }
 
     @Override
-    public TensorInfo getInfo() {
+    public final TensorInfo getInfo() {
         return tensorInfo;
     }
 
