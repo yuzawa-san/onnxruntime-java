@@ -40,7 +40,9 @@ public class RunIt {
                 // session.newTransaction().addInput().addOutput().run();
                 Transaction.Builder txn = session.newTransaction();
                 NodeInfo inputNode = session.getInputs().get(0);
-                FloatBuffer xxx = txn.addInput(inputNode).asTensor().getFloatBuffer();
+                OnnxValue input = txn.addInput(inputNode);
+                System.out.println(input);
+                FloatBuffer xxx = input.asTensor().getFloatBuffer();
                 //                xxx.put(0);
                 //                xxx.put(24603);
                 //                xxx.put(100000);

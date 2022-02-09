@@ -32,6 +32,10 @@ abstract class OnnxTensorImpl<T extends Buffer> extends OnnxValueImpl implements
         this.tensorInfo = tensorInfo;
         this.buffer = factory.apply(Math.toIntExact(tensorInfo.getElementCount()));
     }
+    
+    public String toString() {
+    	return "{OnnxTensor: info="+tensorInfo+", buffer="+buffer+"}";
+    }
 
     @Override
     public OnnxTensor asTensor() {
