@@ -18,12 +18,21 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     final MemoryAddress ortAllocator;
     final Map<String, OnnxValueImpl> inputs;
     final List<NodeInfo> outputs;
-    RunOptions runOptions = new RunOptionsImpl();
+    RunOptions runOptions = null;
+    private final NamedCollection<NodeInfo> allInputs;
+    private final NamedCollection<NodeInfo> allOutputs;
 
-    public TransactionBuilderImpl(ApiImpl api, MemoryAddress session, MemoryAddress ortAllocator) {
+    public TransactionBuilderImpl(
+            ApiImpl api,
+            MemoryAddress session,
+            MemoryAddress ortAllocator,
+            NamedCollection<NodeInfo> allInputs,
+            NamedCollection<NodeInfo> allOutputs) {
         this.api = api;
         this.session = session;
         this.ortAllocator = ortAllocator;
+        this.allInputs = allInputs;
+        this.allOutputs = allOutputs;
         this.inputs = new LinkedHashMap<>();
         this.outputs = new ArrayList<>();
     }
@@ -34,21 +43,39 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     }
 
     @Override
-    public OnnxValue addInput(NodeInfo node) {
+    public Builder setRunOptions(RunOptions runOptions) {
+        this.runOptions = runOptions;
+        return this;
+    }
+
+    private OnnxValue addInput(NodeInfo node) {
         OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(node.getTypeInfo());
         inputs.put(node.getName(), input);
         return input;
     }
 
     @Override
-    public Builder addOutput(NodeInfo node) {
+    public OnnxValue addInput(String name) {
+        return addInput(allInputs.get(name));
+    }
+
+    @Override
+    public OnnxValue addInput(int index) {
+        return addInput(allInputs.get(index));
+    }
+
+    private Builder addOutput(NodeInfo node) {
         outputs.add(node);
         return this;
     }
 
     @Override
-    public Builder setRunOptions(RunOptions runOptions) {
-        this.runOptions = runOptions;
-        return this;
+    public Builder addOutput(String name) {
+        return addOutput(allOutputs.get(name));
+    }
+
+    @Override
+    public Builder addOutput(int index) {
+        return addOutput(allOutputs.get(index));
     }
 }

@@ -116,6 +116,6 @@ final class SessionImpl extends ManagedImpl implements Session {
 
     @Override
     public Transaction.Builder newTransaction() {
-        return new TransactionBuilderImpl(api, address, ortAllocator);
+        return new TransactionBuilderImpl(api, address, ortAllocator, inputs, outputs);
     }
 }

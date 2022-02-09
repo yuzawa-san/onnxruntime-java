@@ -9,9 +9,13 @@ public interface Transaction {
     NamedCollection<OnnxValue> run();
 
     public interface Builder {
-        OnnxValue addInput(NodeInfo nodeInfo);
+        OnnxValue addInput(String name);
 
-        Builder addOutput(NodeInfo nodeInfo);
+        OnnxValue addInput(int index);
+
+        Builder addOutput(String name);
+
+        Builder addOutput(int index);
 
         Builder setRunOptions(RunOptions runOptions);
 

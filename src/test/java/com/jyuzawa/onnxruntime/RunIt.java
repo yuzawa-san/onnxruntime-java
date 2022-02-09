@@ -7,7 +7,6 @@ package com.jyuzawa.onnxruntime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import org.junit.Test;
 
@@ -39,16 +38,8 @@ public class RunIt {
 
                 // session.newTransaction().addInput().addOutput().run();
                 Transaction.Builder txn = session.newTransaction();
-                NodeInfo inputNode = session.getInputs().get(0);
-                OnnxValue input = txn.addInput(inputNode);
-                System.out.println(input);
-                FloatBuffer xxx = input.asTensor().getFloatBuffer();
-                //                xxx.put(0);
-                //                xxx.put(24603);
-                //                xxx.put(100000);
-                xxx.put(new float[] {6195379, 28388, 4700000});
-                NodeInfo outputNode = session.getOutputs().get(0);
-                txn.addOutput(outputNode);
+                txn.addInput(0).asTensor().getFloatBuffer().put(new float[] {6195379, 28388, 4700000});
+                txn.addOutput(0);
                 NamedCollection<OnnxValue> output = txn.build().run();
                 System.out.println(output.get(0).asTensor().getFloatBuffer().get());
             }
