@@ -4,4 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public class InputImpl implements Input {}
+import java.util.Map;
+
+public interface OnnxMap {
+
+    MapInfo getInfo();
+
+    <K> Map<K, OnnxValue> getData(Class<K> keyClazz);
+}

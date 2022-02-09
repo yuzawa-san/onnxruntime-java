@@ -4,9 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface MapInfo {
+import java.nio.ByteBuffer;
 
-    OnnxTensorElementDataType getKeyType();
+public interface OnnxOpaque {
 
-    TypeInfo getValueType();
+    OpaqueInfo getInfo();
+
+    ByteBuffer getByteBuffer();
 }

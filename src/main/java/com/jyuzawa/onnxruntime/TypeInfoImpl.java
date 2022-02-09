@@ -22,7 +22,6 @@ final class TypeInfoImpl implements TypeInfo {
     private final OnnxType type;
     private final TensorInfo tensorInfo;
     private final MapInfo mapInfo;
-    private final SequenceInfo sequenceInfo;
 
     TypeInfoImpl(ApiImpl api, MemoryAddress typeInfo, MemoryAddress ortAllocator) {
         try (ResourceScope scope = ResourceScope.newConfinedScope()) {
@@ -33,7 +32,6 @@ final class TypeInfoImpl implements TypeInfo {
 
             TensorInfo tensorInfo = null;
             MapInfo mapInfo = null;
-            SequenceInfo sequenceInfo = null;
 
             if (type == OnnxType.TENSOR) {
                 MemoryAddress ortTensorInfo =
@@ -52,12 +50,11 @@ final class TypeInfoImpl implements TypeInfo {
                 tensorInfo = new TensorInfoImpl(dataType, Collections.unmodifiableList(shape), elementCount);
                 api.ReleaseTensorTypeAndShapeInfo.apply(ortTensorInfo);
             } else {
-                throw new IllegalArgumentException("unsupported type: " + type);
+                throw new UnsupportedOperationException("unsupported type: " + type);
             }
 
             this.tensorInfo = tensorInfo;
             this.mapInfo = mapInfo;
-            this.sequenceInfo = sequenceInfo;
         }
     }
 
@@ -82,14 +79,6 @@ final class TypeInfoImpl implements TypeInfo {
         return mapInfo;
     }
 
-    @Override
-    public SequenceInfo getSequenceInfo() {
-        if (sequenceInfo == null) {
-            throw new IllegalStateException("sequence");
-        }
-        return sequenceInfo;
-    }
-
     public String toString() {
         StringBuilder out = new StringBuilder();
         out.append("{TypeInfo: type=").append(type);
@@ -97,9 +86,25 @@ final class TypeInfoImpl implements TypeInfo {
             out.append(", tensorInfo=").append(tensorInfo);
         } else if (mapInfo != null) {
             out.append(", mapInfo=").append(mapInfo);
-        } else if (sequenceInfo != null) {
-            out.append(", sequenceInfo=").append(sequenceInfo);
         }
         return out.append("}").toString();
+    }
+
+    @Override
+    public TypeInfo getSequenceInfo() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public TypeInfo getOptionalInfo() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public OpaqueInfo getOpaqueInfo() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -7,7 +7,7 @@ package com.jyuzawa.onnxruntime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import org.junit.Test;
 
@@ -24,11 +24,7 @@ public class RunIt {
             File f = new File(
                     "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/src/test/resources/mmo_model.onnx");
             byte[] b = Files.readAllBytes(f.toPath());
-            ByteBuffer bb = ByteBuffer.allocateDirect(b.length);
-            bb.put(b);
-            bb.flip();
-            try (Session session =
-                    environment.newSession().setByteBuffer(ByteBuffer.wrap(b)).build()) {
+            try (Session session = environment.newSession().setPath(f.toPath()).build()) {
                 System.out.println(session.getInputs());
                 System.out.println(session.getOutputs());
                 System.out.println(session.getOverridableInitializers());
@@ -42,19 +38,17 @@ public class RunIt {
                 System.out.println(session.getModelMetadata().getCustomMetadata());
 
                 // session.newTransaction().addInput().addOutput().run();
-
                 Transaction.Builder txn = session.newTransaction();
                 NodeInfo inputNode = session.getInputs().get(0);
-                System.out.println("X "
-                        + txn.addInput(inputNode)
-                                .getTensorBuffer()
-                                .asFloatBuffer()
-                                .put(new float[] {6195379, 28388, 4700000})
-                                .remaining());
+                FloatBuffer xxx = txn.addInput(inputNode).asTensor().getFloatBuffer();
+                //                xxx.put(0);
+                //                xxx.put(24603);
+                //                xxx.put(100000);
+                xxx.put(new float[] {6195379, 28388, 4700000});
                 NodeInfo outputNode = session.getOutputs().get(0);
                 txn.addOutput(outputNode);
-                NamedCollection<Value> output = txn.build().run();
-                System.out.println(output.get(0).getTensorBuffer().getFloat());
+                NamedCollection<OnnxValue> output = txn.build().run();
+                System.out.println(output.get(0).asTensor().getFloatBuffer().get());
             }
         }
         System.out.flush();

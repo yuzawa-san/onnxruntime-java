@@ -4,4 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface Output {}
+public interface OpaqueInfo {
+
+    String getDomain();
+
+    String getName();
+}

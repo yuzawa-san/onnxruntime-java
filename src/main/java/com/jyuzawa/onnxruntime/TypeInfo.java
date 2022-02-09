@@ -12,5 +12,9 @@ public interface TypeInfo {
 
     MapInfo getMapInfo();
 
-    SequenceInfo getSequenceInfo();
+    TypeInfo getSequenceInfo();
+
+    TypeInfo getOptionalInfo();
+
+    OpaqueInfo getOpaqueInfo();
 }

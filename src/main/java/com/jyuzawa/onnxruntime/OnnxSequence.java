@@ -4,9 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface MapInfo {
+import java.util.List;
 
-    OnnxTensorElementDataType getKeyType();
+public interface OnnxSequence {
 
-    TypeInfo getValueType();
+    TypeInfo getInfo();
+
+    List<OnnxValue> getData();
 }

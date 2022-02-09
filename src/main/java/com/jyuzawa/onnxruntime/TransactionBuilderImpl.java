@@ -6,7 +6,9 @@ package com.jyuzawa.onnxruntime;
 
 import com.jyuzawa.onnxruntime.Transaction.Builder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import jdk.incubator.foreign.MemoryAddress;
 
 final class TransactionBuilderImpl implements Transaction.Builder {
@@ -14,7 +16,7 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     final ApiImpl api;
     final MemoryAddress session;
     final MemoryAddress ortAllocator;
-    final List<InputBuilderImpl> inputs;
+    final Map<String, OnnxValueImpl> inputs;
     final List<NodeInfo> outputs;
     RunOptions runOptions = new RunOptionsImpl();
 
@@ -22,7 +24,7 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         this.api = api;
         this.session = session;
         this.ortAllocator = ortAllocator;
-        this.inputs = new ArrayList<>();
+        this.inputs = new LinkedHashMap<>();
         this.outputs = new ArrayList<>();
     }
 
@@ -32,9 +34,9 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     }
 
     @Override
-    public Input.Builder addInput(NodeInfo node) {
-        InputBuilderImpl input = new InputBuilderImpl(node);
-        inputs.add(input);
+    public OnnxValue addInput(NodeInfo node) {
+        OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(node.getTypeInfo());
+        inputs.put(node.getName(), input);
         return input;
     }
 

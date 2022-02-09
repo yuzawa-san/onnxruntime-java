@@ -4,9 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.nio.ByteBuffer;
+public interface OnnxOptional {
 
-public interface Value {
+    TypeInfo getInfo();
 
-    ByteBuffer getTensorBuffer();
+    boolean isPresent();
+
+    OnnxValue get();
 }

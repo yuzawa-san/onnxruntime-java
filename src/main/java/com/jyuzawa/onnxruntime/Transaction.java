@@ -6,10 +6,10 @@ package com.jyuzawa.onnxruntime;
 
 public interface Transaction {
 
-    NamedCollection<Value> run();
+    NamedCollection<OnnxValue> run();
 
     public interface Builder {
-        Input.Builder addInput(NodeInfo nodeInfo);
+        OnnxValue addInput(NodeInfo nodeInfo);
 
         Builder addOutput(NodeInfo nodeInfo);
 

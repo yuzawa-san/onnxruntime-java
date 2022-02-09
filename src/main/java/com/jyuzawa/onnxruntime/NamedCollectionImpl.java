@@ -39,7 +39,10 @@ final class NamedCollectionImpl<V> implements NamedCollection<V> {
 
     @Override
     public List<V> list() {
-        // TODO Auto-generated method stub
-        return null;
+        return list;
+    }
+
+    public String toString() {
+        return map.toString();
     }
 }

@@ -4,13 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface SequenceInfo {
+public interface OnnxSparseTensor {
 
-    int getSize();
+    TensorInfo getInfo();
 
-    boolean isSequenceOfMaps();
-
-    MapInfo getMapInfo();
-
-    OnnxTensorElementDataType getSequenceType();
+    // TODO: representation
 }
