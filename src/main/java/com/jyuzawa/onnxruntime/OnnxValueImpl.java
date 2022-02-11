@@ -60,6 +60,14 @@ abstract class OnnxValueImpl implements OnnxValue {
         switch (type) {
             case TENSOR:
                 return OnnxTensorImpl.fromTypeInfo(typeInfo.getTensorInfo());
+            case SEQUENCE:
+                return new OnnxSequenceImpl(typeInfo.getSequenceInfo());
+            case MAP:
+                return new OnnxMapImpl(typeInfo.getMapInfo());
+            case OPAQUE:
+                return new OnnxOpaqueImpl(typeInfo.getOpaqueInfo());
+            case OPTIONAL:
+                return new OnnxOptionalImpl(typeInfo.getOptionalInfo());
             default:
                 throw new UnsupportedOperationException("OnnxValue with type " + type + " is not supported");
         }

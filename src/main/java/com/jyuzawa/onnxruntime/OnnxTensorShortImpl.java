@@ -4,16 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
+final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
 
-    OnnxTensorFloatImpl(TensorInfo tensorInfo) {
-        super(tensorInfo, FloatBuffer::allocate);
+    OnnxTensorShortImpl(TensorInfo tensorInfo) {
+        super(tensorInfo, ShortBuffer::allocate);
     }
 
-    public FloatBuffer getFloatBuffer() {
+    public ShortBuffer getShortBuffer() {
         return buffer;
     }
 

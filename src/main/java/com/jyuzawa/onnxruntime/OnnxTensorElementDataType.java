@@ -17,7 +17,7 @@ public enum OnnxTensorElementDataType {
     INT32(6, CLinker.C_INT),
     INT64(7, CLinker.C_LONG),
     STRING(8, null),
-    BOOL(9, null),
+    BOOL(9, CLinker.C_CHAR),
     FLOAT16(10, CLinker.C_SHORT),
     DOUBLE(11, CLinker.C_DOUBLE),
     UINT32(12, CLinker.C_INT),

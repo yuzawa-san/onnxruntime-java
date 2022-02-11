@@ -4,11 +4,17 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.util.Map;
-
 public interface OnnxMap {
 
     MapInfo getInfo();
 
-    <K> Map<K, OnnxValue> getData(Class<K> keyClazz);
+    OnnxValue get(Byte key);
+
+    OnnxValue get(Short key);
+
+    OnnxValue get(Integer key);
+
+    OnnxValue get(Long key);
+
+    OnnxValue get(String key);
 }

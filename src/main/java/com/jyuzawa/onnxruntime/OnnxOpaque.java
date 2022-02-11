@@ -10,5 +10,7 @@ public interface OnnxOpaque {
 
     OpaqueInfo getInfo();
 
-    ByteBuffer getByteBuffer();
+    void set(ByteBuffer buffer);
+
+    ByteBuffer get();
 }

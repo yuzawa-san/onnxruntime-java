@@ -11,4 +11,6 @@ public interface OnnxOptional {
     boolean isPresent();
 
     OnnxValue get();
+
+    OnnxValue set();
 }

@@ -10,5 +10,7 @@ public interface OnnxSequence {
 
     TypeInfo getInfo();
 
+    OnnxValue add();
+
     List<OnnxValue> getData();
 }
