@@ -22,18 +22,8 @@ abstract class OnnxValueImpl implements OnnxValue {
     }
 
     @Override
-    public final boolean isTensor() {
-        return type == OnnxType.TENSOR;
-    }
-
-    @Override
     public OnnxTensor asTensor() {
         throw new IllegalStateException("OnnxValue is not a tensor");
-    }
-
-    @Override
-    public final boolean isSequence() {
-        return type == OnnxType.SEQUENCE;
     }
 
     @Override
@@ -42,38 +32,8 @@ abstract class OnnxValueImpl implements OnnxValue {
     }
 
     @Override
-    public final boolean isMap() {
-        return type == OnnxType.MAP;
-    }
-
-    @Override
-    public OnnxMap<Byte> asByteMap() {
-        throw new IllegalStateException("OnnxValue is not a map with byte keys.");
-    }
-
-    @Override
-    public OnnxMap<Short> asShortMap() {
-        throw new IllegalStateException("OnnxValue is not a map with short keys.");
-    }
-
-    @Override
-    public OnnxMap<Integer> asIntegerMap() {
-        throw new IllegalStateException("OnnxValue is not a map with integer keys.");
-    }
-
-    @Override
-    public OnnxMap<Long> asLongMap() {
-        throw new IllegalStateException("OnnxValue is not a map with long keys.");
-    }
-
-    @Override
-    public OnnxMap<String> asStringMap() {
-        throw new IllegalStateException("OnnxValue is not a map with string keys.");
-    }
-
-    @Override
-    public final boolean isOpaque() {
-        return type == OnnxType.OPAQUE;
+    public OnnxMap asMap() {
+        throw new IllegalStateException("OnnxValue is not a map");
     }
 
     @Override
@@ -82,18 +42,8 @@ abstract class OnnxValueImpl implements OnnxValue {
     }
 
     @Override
-    public final boolean isSparseTensor() {
-        return type == OnnxType.SPARSETENSOR;
-    }
-
-    @Override
     public OnnxSparseTensor asSparseTensor() {
         throw new IllegalStateException("OnnxValue is not a sparse tensor");
-    }
-
-    @Override
-    public final boolean isOptional() {
-        return type == OnnxType.OPTIONAL;
     }
 
     @Override

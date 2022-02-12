@@ -8,35 +8,15 @@ public interface OnnxValue {
 
     OnnxType getType();
 
-    boolean isTensor();
-
     OnnxTensor asTensor();
-
-    boolean isSequence();
 
     OnnxSequence asSequence();
 
-    boolean isMap();
-
-    OnnxMap<Byte> asByteMap();
-
-    OnnxMap<Short> asShortMap();
-
-    OnnxMap<Integer> asIntegerMap();
-
-    OnnxMap<Long> asLongMap();
-
-    OnnxMap<String> asStringMap();
-
-    boolean isOpaque();
+    OnnxMap asMap();
 
     OnnxOpaque asOpaque();
 
-    boolean isSparseTensor();
-
     OnnxSparseTensor asSparseTensor();
-
-    boolean isOptional();
 
     OnnxOptional asOptional();
 }

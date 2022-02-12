@@ -11,7 +11,7 @@ final class OnnxMapByteImpl extends OnnxMapImpl<Byte> {
     }
 
     @Override
-    public OnnxMap<Byte> asByteMap() {
+    public OnnxTypedMap<Byte> asByteMap() {
         return this;
     }
 }

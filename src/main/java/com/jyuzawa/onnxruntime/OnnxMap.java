@@ -4,14 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.util.Map;
-
 /**
- * A type-safe map of an {@link OnnxValue}. Extends {@link java.util.Map} but 1) put operations are restricted to respect ONNX type information. 2) views are immutable.
- *
- * @param <K> key type
+ * A map view of an {@link OnnxValue}. Use the {@link MapInfo#getKeyType()} to select a type-safe view.
  */
-public interface OnnxMap<K> extends Map<K, OnnxValue> {
+public interface OnnxMap {
 
     /**
      *
@@ -19,28 +15,13 @@ public interface OnnxMap<K> extends Map<K, OnnxValue> {
      */
     MapInfo getInfo();
 
-    /**
-     *
-     * @param key
-     * @return A new OnnxValue of correct type, which the key is mapped towards.
-     */
-    OnnxValue put(K key);
+    OnnxTypedMap<Byte> asByteMap();
 
-    /**
-     * WARNING: Elements can only be put using {@link OnnxMap#put(Object)}.
-     * @throws UnsupportedOperationException
-     */
-    @Override
-    default OnnxValue put(K key, OnnxValue value) {
-        throw new UnsupportedOperationException("Elements can only be put using OnnxTypedMap.set(K)");
-    }
+    OnnxTypedMap<Short> asShortMap();
 
-    /**
-     * WARNING: Elements can only be put using {@link OnnxMap#put(Object)}.
-     * @throws UnsupportedOperationException
-     */
-    @Override
-    default void putAll(Map<? extends K, ? extends OnnxValue> m) {
-        throw new UnsupportedOperationException("Elements can only be put using OnnxTypedMap.set(K)");
-    }
+    OnnxTypedMap<Integer> asIntegerMap();
+
+    OnnxTypedMap<Long> asLongMap();
+
+    OnnxTypedMap<String> asStringMap();
 }

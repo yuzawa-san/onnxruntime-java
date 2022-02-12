@@ -11,7 +11,7 @@ final class OnnxMapLongImpl extends OnnxMapImpl<Long> {
     }
 
     @Override
-    public OnnxMap<Long> asLongMap() {
+    public OnnxTypedMap<Long> asLongMap() {
         return this;
     }
 }

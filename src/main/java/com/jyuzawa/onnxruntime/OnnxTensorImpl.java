@@ -11,6 +11,7 @@ import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
@@ -31,34 +32,41 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
         return tensorInfo;
     }
 
-    private final IllegalStateException fail() {
-        return new IllegalStateException("Invalid access of OnnxTensor with type " + tensorInfo.getType());
+    private final NoSuchElementException fail() {
+        return new NoSuchElementException("Invalid access of OnnxTensor with type " + tensorInfo.getType());
     }
 
+    @Override
     public ByteBuffer getByteBuffer() {
         throw fail();
     }
 
+    @Override
     public ShortBuffer getShortBuffer() {
         throw fail();
     }
 
+    @Override
     public IntBuffer getIntBuffer() {
         throw fail();
     }
 
+    @Override
     public LongBuffer getLongBuffer() {
         throw fail();
     }
 
+    @Override
     public FloatBuffer getFloatBuffer() {
         throw fail();
     }
 
+    @Override
     public DoubleBuffer getDoubleBuffer() {
         throw fail();
     }
 
+    @Override
     public String[] getStringBuffer() {
         throw fail();
     }

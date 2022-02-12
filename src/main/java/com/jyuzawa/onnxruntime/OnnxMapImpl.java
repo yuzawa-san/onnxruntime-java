@@ -8,12 +8,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap<K> {
+abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
 
     private final Map<K, OnnxValueImpl> data;
     private final MapInfo mapInfo;
@@ -50,6 +51,35 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap<K> {
     @Override
     public final MapInfo getInfo() {
         return mapInfo;
+    }
+
+    private final NoSuchElementException fail() {
+        return new NoSuchElementException("Invalid access of OnnxMap with key type " + mapInfo.getKeyType());
+    }
+
+    @Override
+    public OnnxTypedMap<Byte> asByteMap() {
+        throw fail();
+    }
+
+    @Override
+    public OnnxTypedMap<Short> asShortMap() {
+        throw fail();
+    }
+
+    @Override
+    public OnnxTypedMap<Integer> asIntegerMap() {
+        throw fail();
+    }
+
+    @Override
+    public OnnxTypedMap<Long> asLongMap() {
+        throw fail();
+    }
+
+    @Override
+    public OnnxTypedMap<String> asStringMap() {
+        throw fail();
     }
 
     @Override

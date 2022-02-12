@@ -11,7 +11,7 @@ final class OnnxMapShortImpl extends OnnxMapImpl<Short> {
     }
 
     @Override
-    public OnnxMap<Short> asShortMap() {
+    public OnnxTypedMap<Short> asShortMap() {
         return this;
     }
 }

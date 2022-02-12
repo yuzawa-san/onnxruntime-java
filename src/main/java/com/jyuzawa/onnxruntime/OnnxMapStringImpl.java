@@ -11,7 +11,7 @@ final class OnnxMapStringImpl extends OnnxMapImpl<String> {
     }
 
     @Override
-    public OnnxMap<String> asStringMap() {
+    public OnnxTypedMap<String> asStringMap() {
         return this;
     }
 }

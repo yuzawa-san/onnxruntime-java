@@ -11,7 +11,7 @@ final class OnnxMapIntImpl extends OnnxMapImpl<Integer> {
     }
 
     @Override
-    public OnnxMap<Integer> asIntegerMap() {
+    public OnnxTypedMap<Integer> asIntegerMap() {
         return this;
     }
 }

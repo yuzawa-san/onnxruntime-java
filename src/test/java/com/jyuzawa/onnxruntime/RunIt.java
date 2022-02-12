@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.Map;
+
 import org.junit.Test;
 
 public class RunIt {
@@ -45,7 +46,7 @@ public class RunIt {
                     OnnxSequence sequence = txn.addInput(0).asSequence();
                     sequence.add().asTensor().getFloatBuffer().put(315);
                     sequence.add().asTensor().getFloatBuffer().put(23);
-                    OnnxMap<Long> map = txn.addInput(0).asLongMap();
+                    OnnxTypedMap<Long> map = txn.addInput(0).asMap().asLongMap();
                     map.put(15115L).asTensor().getFloatBuffer().put(315);
                     txn.addInput(0).asOpaque().set(ByteBuffer.wrap(new byte[] {}));
                     txn.addInput(0)
@@ -61,7 +62,7 @@ public class RunIt {
                     for (OnnxValue value : sequenceOut) {
                         value.asTensor().getFloatBuffer().get();
                     }
-                    OnnxMap<Long> mapOut = output.get(0).asLongMap();
+                    OnnxTypedMap<Long> mapOut = output.get(0).asMap().asLongMap();
                     for (Map.Entry<Long, OnnxValue> entry : mapOut.entrySet()) {
                         entry.getValue().asTensor().getFloatBuffer().get();
                     }
