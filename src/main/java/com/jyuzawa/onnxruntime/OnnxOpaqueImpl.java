@@ -5,8 +5,6 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
@@ -28,7 +26,7 @@ final class OnnxOpaqueImpl extends OnnxValueImpl implements OnnxOpaque {
     public OpaqueInfo getInfo() {
         return opaqueInfo;
     }
-    
+
     public String toString() {
         return "{OnnxOpaque: info=" + opaqueInfo + ", buffer=" + buffer + "}";
     }

@@ -4,17 +4,21 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * A map view of an {@link OnnxValue}. The keys are restricted to byte, short, integer, long, and string. Use the {@code with*} methods to get a typed view of the map.
+ *
+ */
 public interface OnnxMap {
 
     MapInfo getInfo();
 
-    OnnxValue get(Byte key);
+    OnnxTypedMap<Byte> withByteKeys();
 
-    OnnxValue get(Short key);
+    OnnxTypedMap<Short> withShortKeys();
 
-    OnnxValue get(Integer key);
+    OnnxTypedMap<Integer> withIntegerKeys();
 
-    OnnxValue get(Long key);
+    OnnxTypedMap<Long> withLongKeys();
 
-    OnnxValue get(String key);
+    OnnxTypedMap<String> withStringKeys();
 }

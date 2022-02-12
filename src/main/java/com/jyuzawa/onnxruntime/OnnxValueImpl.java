@@ -63,7 +63,7 @@ abstract class OnnxValueImpl implements OnnxValue {
             case SEQUENCE:
                 return new OnnxSequenceImpl(typeInfo.getSequenceInfo());
             case MAP:
-                return new OnnxMapImpl(typeInfo.getMapInfo());
+                return OnnxMapImpl.fromTypeInfo(typeInfo.getMapInfo());
             case OPAQUE:
                 return new OnnxOpaqueImpl(typeInfo.getOpaqueInfo());
             case OPTIONAL:

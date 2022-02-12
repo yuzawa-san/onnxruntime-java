@@ -4,7 +4,6 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
@@ -19,7 +18,7 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
         super(OnnxType.OPTIONAL);
         this.typeInfo = typeInfo;
     }
-    
+
     public String toString() {
         return "{OnnxOptional: info=" + typeInfo + ", data=" + data + "}";
     }

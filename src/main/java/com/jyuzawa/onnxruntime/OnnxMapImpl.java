@@ -4,60 +4,57 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-final class OnnxMapImpl extends OnnxValueImpl implements OnnxMap {
+abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
 
-    private final Map<Object, OnnxValueImpl> data;
+    private final Map<K, OnnxValueImpl> data;
     private final MapInfo mapInfo;
-    private final Class<?> keyClass;
 
-    OnnxMapImpl(MapInfo mapInfo) {
+    protected OnnxMapImpl(MapInfo mapInfo) {
         super(OnnxType.MAP);
         this.data = new LinkedHashMap<>();
         this.mapInfo = mapInfo;
-        this.keyClass = getKeyClass(mapInfo.getKeyType());
     }
 
-    private static Class<?> getKeyClass(OnnxTensorElementDataType type) {
+    static final OnnxValueImpl fromTypeInfo(MapInfo mapInfo) {
+        OnnxTensorElementDataType type = mapInfo.getKeyType();
         switch (type) {
             case INT8:
-                return Byte.class;
+                return new OnnxTypedMapByteImpl(mapInfo);
             case INT16:
-                return Short.class;
+                return new OnnxTypedMapShortImpl(mapInfo);
             case INT32:
-                return Integer.class;
+                return new OnnxTypedMapIntImpl(mapInfo);
             case INT64:
-                return Long.class;
+                return new OnnxTypedMapLongImpl(mapInfo);
             case STRING:
-                return String.class;
+                return new OnnxTypedMapStringImpl(mapInfo);
             default:
                 throw new UnsupportedOperationException("OnnxMap does not support keys of type " + type);
         }
     }
-    
-    public String toString() {
+
+    @Override
+    public final String toString() {
         return "{OnnxMap: info=" + mapInfo + ", data=" + data + "}";
     }
 
-    public OnnxMap asMap() {
+    @Override
+    public final OnnxMap asMap() {
         return this;
     }
 
-    public MapInfo getInfo() {
+    @Override
+    public final MapInfo getInfo() {
         return mapInfo;
-    }
-
-    private <T> OnnxValue put0(T key, Class<T> keyClass) {
-        if (!this.keyClass.equals(keyClass)) {
-            throw new IllegalArgumentException("OnnxMap expects keys of type " + this.keyClass);
-        }
-        return data.computeIfAbsent(key, k -> OnnxValueImpl.fromTypeInfo(mapInfo.getValueType()));
     }
 
     @Override
@@ -72,28 +69,93 @@ final class OnnxMapImpl extends OnnxValueImpl implements OnnxMap {
 
     }
 
-    @Override
-    public OnnxValue get(Byte key) {
-        return put0(key, Byte.class);
+    private final IllegalStateException fail() {
+        return new IllegalStateException("Invalid access of OnnxMap with key type " + mapInfo.getKeyType());
     }
 
     @Override
-    public OnnxValue get(Short key) {
-        return put0(key, Short.class);
+    public OnnxTypedMap<Byte> withByteKeys() {
+        throw fail();
     }
 
     @Override
-    public OnnxValue get(Integer key) {
-        return put0(key, Integer.class);
+    public OnnxTypedMap<Short> withShortKeys() {
+        throw fail();
     }
 
     @Override
-    public OnnxValue get(Long key) {
-        return put0(key, Long.class);
+    public OnnxTypedMap<Integer> withIntegerKeys() {
+        throw fail();
     }
 
     @Override
-    public OnnxValue get(String key) {
-        return put0(key, String.class);
+    public OnnxTypedMap<Long> withLongKeys() {
+        throw fail();
+    }
+
+    @Override
+    public OnnxTypedMap<String> withStringKeys() {
+        throw fail();
+    }
+
+    @Override
+    public final OnnxValue put(K key) {
+        OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(mapInfo.getValueType());
+        data.put(key, input);
+        return input;
+    }
+
+    private final Map<K, OnnxValue> unmodifiableMap() {
+        return Collections.unmodifiableMap(data);
+    }
+
+    @Override
+    public final int size() {
+        return data.size();
+    }
+
+    @Override
+    public final boolean isEmpty() {
+        return data.isEmpty();
+    }
+
+    @Override
+    public final boolean containsKey(Object key) {
+        return data.containsKey(key);
+    }
+
+    @Override
+    public final boolean containsValue(Object value) {
+        return data.containsValue(value);
+    }
+
+    @Override
+    public final OnnxValue get(Object key) {
+        return data.get(key);
+    }
+
+    @Override
+    public final OnnxValue remove(Object key) {
+        return data.remove(key);
+    }
+
+    @Override
+    public final void clear() {
+        data.clear();
+    }
+
+    @Override
+    public final Set<K> keySet() {
+        return unmodifiableMap().keySet();
+    }
+
+    @Override
+    public final Collection<OnnxValue> values() {
+        return unmodifiableMap().values();
+    }
+
+    @Override
+    public final Set<Entry<K, OnnxValue>> entrySet() {
+        return unmodifiableMap().entrySet();
     }
 }
