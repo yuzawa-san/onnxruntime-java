@@ -14,7 +14,7 @@ public interface TypeInfo {
 
     TypeInfo getSequenceInfo();
 
-    TypeInfo getOptionalInfo();
+    //  TypeInfo getOptionalInfo();
 
-    OpaqueInfo getOpaqueInfo();
+    // OpaqueInfo getOpaqueInfo();
 }

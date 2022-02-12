@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface OnnxOptional {
+interface OnnxOptional {
 
     TypeInfo getInfo();
 

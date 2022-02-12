@@ -14,9 +14,9 @@ public interface OnnxValue {
 
     OnnxMap asMap();
 
-    OnnxOpaque asOpaque();
+    //    OnnxOpaque asOpaque();
 
-    OnnxSparseTensor asSparseTensor();
+    //    OnnxSparseTensor asSparseTensor();
 
-    OnnxOptional asOptional();
+    //    OnnxOptional asOptional();
 }

@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface OnnxSparseTensor {
+interface OnnxSparseTensor {
 
     TensorInfo getInfo();
 

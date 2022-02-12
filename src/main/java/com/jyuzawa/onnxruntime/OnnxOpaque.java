@@ -6,7 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.ByteBuffer;
 
-public interface OnnxOpaque {
+interface OnnxOpaque {
 
     OpaqueInfo getInfo();
 

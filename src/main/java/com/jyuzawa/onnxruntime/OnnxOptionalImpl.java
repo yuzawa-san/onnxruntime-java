@@ -24,10 +24,10 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
         return "{OnnxOptional: info=" + typeInfo + ", data=" + data + "}";
     }
 
-    @Override
-    public OnnxOptional asOptional() {
-        return this;
-    }
+    //    @Override
+    //    public OnnxOptional asOptional() {
+    //        return this;
+    //    }
 
     @Override
     public TypeInfo getInfo() {

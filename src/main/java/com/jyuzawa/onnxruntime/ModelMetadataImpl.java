@@ -64,13 +64,15 @@ final class ModelMetadataImpl implements ModelMetadata {
             }
             {
                 MemorySegment count = allocator.allocate(C_LONG);
-                MemorySegment keys = allocator.allocate(C_POINTER);
-                api.checkStatus(api.ModelMetadataGetCustomMetadataMapKeys.apply(
-                        metadata, ortAllocator, keys.address(), count.address()));
+                MemoryAddress keys = api.create(
+                        allocator,
+                        out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(
+                                metadata, ortAllocator, out, count.address()));
                 long numKeys = MemoryAccess.getLong(count);
+                MemorySegment keyArray = keys.asSegment(C_POINTER.byteSize() * numKeys, scope);
                 Map<String, String> customMetadata = new LinkedHashMap<>(Math.toIntExact(numKeys));
                 for (long i = 0; i < numKeys; i++) {
-                    MemoryAddress key = MemoryAccess.getAddressAtOffset(keys, i);
+                    MemoryAddress key = MemoryAccess.getAddressAtIndex(keyArray, i);
                     MemoryAddress value = api.create(
                             allocator,
                             out -> api.ModelMetadataLookupCustomMetadataMap.apply(metadata, ortAllocator, key, out));
