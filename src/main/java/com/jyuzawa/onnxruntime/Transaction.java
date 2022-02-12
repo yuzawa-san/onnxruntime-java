@@ -17,8 +17,7 @@ public interface Transaction {
 
         Builder addOutput(int index);
 
-        Builder setRunOptions(RunOptions runOptions);
-
+        // TODO: more run options
         Transaction build();
     }
 }

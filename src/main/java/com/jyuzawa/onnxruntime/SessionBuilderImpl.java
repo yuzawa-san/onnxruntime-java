@@ -57,9 +57,8 @@ final class SessionBuilderImpl implements Session.Builder {
                 if (buffer.isDirect()) {
                     mappedBuf = MemorySegment.ofByteBuffer(buffer);
                 } else {
-                    byte[] out = new byte[buffer.remaining()];
-                    buffer.get(out);
-                    mappedBuf = allocator.allocateArray(CLinker.C_CHAR, out);
+                    mappedBuf = allocator.allocateArray(CLinker.C_CHAR, buffer.remaining());
+                    mappedBuf.copyFrom(MemorySegment.ofByteBuffer(buffer));
                 }
             } else if (bytes != null) {
                 mappedBuf = allocator.allocateArray(CLinker.C_CHAR, bytes);

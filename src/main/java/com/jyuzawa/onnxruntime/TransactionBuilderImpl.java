@@ -18,7 +18,6 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     final MemoryAddress ortAllocator;
     final Map<String, OnnxValueImpl> inputs;
     final List<NodeInfo> outputs;
-    RunOptions runOptions = null;
     private final NamedCollection<NodeInfo> allInputs;
     private final NamedCollection<NodeInfo> allOutputs;
 
@@ -40,12 +39,6 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     @Override
     public Transaction build() {
         return new TransactionImpl(this);
-    }
-
-    @Override
-    public Builder setRunOptions(RunOptions runOptions) {
-        this.runOptions = runOptions;
-        return this;
     }
 
     private OnnxValue addInput(NodeInfo node) {

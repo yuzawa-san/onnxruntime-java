@@ -10,6 +10,7 @@ import static jdk.incubator.foreign.CLinker.C_LONG;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
@@ -66,7 +67,7 @@ final class TypeInfoImpl implements TypeInfo {
     @Override
     public TensorInfo getTensorInfo() {
         if (tensorInfo == null) {
-            throw new IllegalStateException("tensor");
+            throw new NoSuchElementException("tensor");
         }
         return tensorInfo;
     }
@@ -74,7 +75,7 @@ final class TypeInfoImpl implements TypeInfo {
     @Override
     public MapInfo getMapInfo() {
         if (mapInfo == null) {
-            throw new IllegalStateException("map");
+            throw new NoSuchElementException("map");
         }
         return mapInfo;
     }

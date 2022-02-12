@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.NoSuchElementException;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
@@ -23,32 +24,32 @@ abstract class OnnxValueImpl implements OnnxValue {
 
     @Override
     public OnnxTensor asTensor() {
-        throw new IllegalStateException("OnnxValue is not a tensor");
+        throw new NoSuchElementException("OnnxValue is not a tensor");
     }
 
     @Override
     public OnnxSequence asSequence() {
-        throw new IllegalStateException("OnnxValue is not a sequence");
+        throw new NoSuchElementException("OnnxValue is not a sequence");
     }
 
     @Override
     public OnnxMap asMap() {
-        throw new IllegalStateException("OnnxValue is not a map");
+        throw new NoSuchElementException("OnnxValue is not a map");
     }
 
     @Override
     public OnnxOpaque asOpaque() {
-        throw new IllegalStateException("OnnxValue is not an opaque");
+        throw new NoSuchElementException("OnnxValue is not an opaque");
     }
 
     @Override
     public OnnxSparseTensor asSparseTensor() {
-        throw new IllegalStateException("OnnxValue is not a sparse tensor");
+        throw new NoSuchElementException("OnnxValue is not a sparse tensor");
     }
 
     @Override
     public OnnxOptional asOptional() {
-        throw new IllegalStateException("OnnxValue is not an optional");
+        throw new NoSuchElementException("OnnxValue is not an optional");
     }
 
     abstract MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator);

@@ -8,7 +8,7 @@ public interface Environment extends Managed {
 
     void setTelemetryEvents(boolean enabled);
 
-    void setLanguageProjection(int languageProjection);
+    //    void setLanguageProjection(int languageProjection);
 
     // TODO: allocator
     // void createAndRegisterAllocator();

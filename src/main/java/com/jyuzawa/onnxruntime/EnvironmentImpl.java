@@ -27,8 +27,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         }
     }
 
-    @Override
-    public void setLanguageProjection(int languageProjection) {
-        api.checkStatus(api.SetLanguageProjection.apply(address, languageProjection));
-    }
+    //    @Override
+    //    public void setLanguageProjection(int languageProjection) {
+    //        api.checkStatus(api.SetLanguageProjection.apply(address, languageProjection));
+    //    }
 }

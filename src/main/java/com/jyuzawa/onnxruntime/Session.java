@@ -25,6 +25,7 @@ public interface Session extends Managed {
         Builder setByteArray(byte[] bytes);
 
         Builder setByteBuffer(ByteBuffer byteBuffer);
+        // TODO: more session options
 
         Session build() throws IOException;
     }
