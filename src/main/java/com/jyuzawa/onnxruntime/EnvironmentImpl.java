@@ -13,6 +13,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         super(api, scope, address);
     }
 
+    @Override
     public Session.Builder newSession() {
         return new SessionBuilderImpl(api, address);
     }

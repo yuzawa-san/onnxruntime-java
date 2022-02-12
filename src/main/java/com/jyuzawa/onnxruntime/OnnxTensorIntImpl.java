@@ -13,10 +13,12 @@ final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
         super(tensorInfo, IntBuffer::allocate);
     }
 
+    @Override
     public IntBuffer getIntBuffer() {
         return buffer;
     }
 
+    @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
     }

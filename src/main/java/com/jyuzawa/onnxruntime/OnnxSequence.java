@@ -8,7 +8,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A sequence view of an {@link OnnxValue}. Extends {@link java.util.List} but 1) add/set operations are restricted to respect ONNX type information 2) views are immutable.
+ * A sequence view of an {@link OnnxValue}. Extends {@link java.util.List} but
+ * 1) add/set operations are restricted to respect ONNX type information 2)
+ * views are immutable.
  *
  */
 public interface OnnxSequence extends List<OnnxValue> {
@@ -41,6 +43,7 @@ public interface OnnxSequence extends List<OnnxValue> {
 
     /**
      * WARNING: Elements can only be added using {@link OnnxSequence#add()}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -50,6 +53,7 @@ public interface OnnxSequence extends List<OnnxValue> {
 
     /**
      * WARNING: Elements can only be added using {@link OnnxSequence#add()}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -59,6 +63,7 @@ public interface OnnxSequence extends List<OnnxValue> {
 
     /**
      * WARNING: Elements can only be added using {@link OnnxSequence#add()}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -68,6 +73,7 @@ public interface OnnxSequence extends List<OnnxValue> {
 
     /**
      * WARNING: Elements can only be set using {@link OnnxSequence#set(int)}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -76,7 +82,9 @@ public interface OnnxSequence extends List<OnnxValue> {
     }
 
     /**
-     * WARNING: Elements can only be added at index using {@link OnnxSequence#add(int)}.
+     * WARNING: Elements can only be added at index using
+     * {@link OnnxSequence#add(int)}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override

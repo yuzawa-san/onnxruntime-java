@@ -5,5 +5,6 @@
 package com.jyuzawa.onnxruntime;
 
 public interface Managed extends AutoCloseable {
+    @Override
     void close();
 }

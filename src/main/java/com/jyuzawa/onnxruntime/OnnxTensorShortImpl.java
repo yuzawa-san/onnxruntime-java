@@ -13,10 +13,12 @@ final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
         super(tensorInfo, ShortBuffer::allocate);
     }
 
+    @Override
     public ShortBuffer getShortBuffer() {
         return buffer;
     }
 
+    @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
     }

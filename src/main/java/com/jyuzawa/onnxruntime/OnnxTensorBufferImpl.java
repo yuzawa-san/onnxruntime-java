@@ -25,10 +25,12 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         this.buffer = factory.apply(Math.toIntExact(tensorInfo.getElementCount()));
     }
 
+    @Override
     public final String toString() {
         return "{OnnxTensor: info=" + tensorInfo + ", buffer=" + buffer + "}";
     }
 
+    @Override
     final MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator) {
         MemorySegment rawInputData = getMemorySegment();
         // TODO: move value layout to this class?
@@ -50,6 +52,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
                         out));
     }
 
+    @Override
     final void fromNative(ApiImpl api, MemoryAddress address, ResourceScope scope, SegmentAllocator allocator) {
         MemorySegment floatOutput = allocator.allocate(C_POINTER);
         api.checkStatus(api.GetTensorMutableData.apply(address, floatOutput.address()));

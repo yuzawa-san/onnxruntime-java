@@ -18,19 +18,23 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         this.buffer = new String[Math.toIntExact(tensorInfo.getElementCount())];
     }
 
+    @Override
     public String toString() {
         return "{OnnxTensor: info=" + tensorInfo + ", buffer=" + Arrays.toString(buffer) + "}";
     }
 
+    @Override
     public String[] getStringBuffer() {
         return buffer;
     }
 
+    @Override
     MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator) {
         // TODO: implement this
         return null;
     }
 
+    @Override
     void fromNative(ApiImpl api, MemoryAddress address, ResourceScope scope, SegmentAllocator allocator) {
         // TODO: implement this
     }

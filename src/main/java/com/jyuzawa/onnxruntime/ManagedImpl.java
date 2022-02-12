@@ -19,10 +19,12 @@ class ManagedImpl implements Managed {
         this.address = address;
     }
 
+    @Override
     public void close() {
         scope.close();
     }
 
+    @Override
     public String toString() {
         return "{" + getClass().getSimpleName() + ": " + address + "}";
     }

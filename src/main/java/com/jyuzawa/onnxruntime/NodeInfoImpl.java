@@ -24,6 +24,7 @@ final class NodeInfoImpl implements NodeInfo {
         return typeInfo;
     }
 
+    @Override
     public String toString() {
         return "{NodeInfo: name=" + name + ", typeInfo=" + typeInfo + "}";
     }

@@ -13,10 +13,12 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
         super(tensorInfo, LongBuffer::allocate);
     }
 
+    @Override
     public LongBuffer getLongBuffer() {
         return buffer;
     }
 
+    @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
     }

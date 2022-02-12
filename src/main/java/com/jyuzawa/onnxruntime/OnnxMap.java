@@ -5,7 +5,8 @@
 package com.jyuzawa.onnxruntime;
 
 /**
- * A map view of an {@link OnnxValue}. Use the {@link MapInfo#getKeyType()} to select a type-safe view.
+ * A map view of an {@link OnnxValue}. Use the {@link MapInfo#getKeyType()} to
+ * select a type-safe view.
  */
 public interface OnnxMap {
 

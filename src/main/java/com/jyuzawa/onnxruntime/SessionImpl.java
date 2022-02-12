@@ -4,8 +4,6 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime.extern.onnxruntime_all_h.*;
-import static jdk.incubator.foreign.CLinker.*;
 import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 

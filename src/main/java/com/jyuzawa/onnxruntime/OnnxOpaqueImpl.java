@@ -19,14 +19,17 @@ final class OnnxOpaqueImpl extends OnnxValueImpl implements OnnxOpaque {
         this.opaqueInfo = opaqueInfo;
     }
 
+    @Override
     public OnnxOpaque asOpaque() {
         return this;
     }
 
+    @Override
     public OpaqueInfo getInfo() {
         return opaqueInfo;
     }
 
+    @Override
     public String toString() {
         return "{OnnxOpaque: info=" + opaqueInfo + ", buffer=" + buffer + "}";
     }

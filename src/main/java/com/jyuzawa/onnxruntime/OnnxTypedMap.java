@@ -7,7 +7,9 @@ package com.jyuzawa.onnxruntime;
 import java.util.Map;
 
 /**
- * A type-safe map of an {@link OnnxValue}. Extends {@link java.util.Map} but 1) put operations are restricted to respect ONNX type information. 2) views are immutable.
+ * A type-safe map of an {@link OnnxValue}. Extends {@link java.util.Map} but 1)
+ * put operations are restricted to respect ONNX type information. 2) views are
+ * immutable.
  *
  * @param <K> key type
  */
@@ -28,6 +30,7 @@ public interface OnnxTypedMap<K> extends Map<K, OnnxValue> {
 
     /**
      * WARNING: Elements can only be put using {@link OnnxTypedMap#put(Object)}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override
@@ -37,6 +40,7 @@ public interface OnnxTypedMap<K> extends Map<K, OnnxValue> {
 
     /**
      * WARNING: Elements can only be put using {@link OnnxTypedMap#put(Object)}.
+     *
      * @throws UnsupportedOperationException
      */
     @Override

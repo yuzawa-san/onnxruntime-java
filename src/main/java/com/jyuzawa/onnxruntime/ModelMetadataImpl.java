@@ -118,15 +118,9 @@ final class ModelMetadataImpl implements ModelMetadata {
         return customMetadata;
     }
 
+    @Override
     public String toString() {
-        return "{ModelMetadata: graphName="
-                + graphName
-                + ", version="
-                + version
-                + ", producerName="
-                + producerName
-                + ", domain="
-                + domain
-                + "}";
+        return "{ModelMetadata: graphName=" + graphName + ", version=" + version + ", producerName=" + producerName
+                + ", domain=" + domain + "}";
     }
 }

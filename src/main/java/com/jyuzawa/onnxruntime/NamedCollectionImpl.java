@@ -42,6 +42,7 @@ final class NamedCollectionImpl<V> implements NamedCollection<V> {
         return list;
     }
 
+    @Override
     public String toString() {
         return map.toString();
     }

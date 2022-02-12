@@ -19,18 +19,22 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
         this.typeInfo = typeInfo;
     }
 
+    @Override
     public String toString() {
         return "{OnnxOptional: info=" + typeInfo + ", data=" + data + "}";
     }
 
+    @Override
     public OnnxOptional asOptional() {
         return this;
     }
 
+    @Override
     public TypeInfo getInfo() {
         return typeInfo;
     }
 
+    @Override
     public boolean isPresent() {
         return data != null;
     }

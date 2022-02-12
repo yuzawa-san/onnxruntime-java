@@ -13,10 +13,12 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
         super(tensorInfo, DoubleBuffer::allocate);
     }
 
+    @Override
     public DoubleBuffer getDoubleBuffer() {
         return buffer;
     }
 
+    @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
     }

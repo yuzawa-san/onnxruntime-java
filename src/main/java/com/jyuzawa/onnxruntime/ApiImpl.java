@@ -4,13 +4,13 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime.extern.OrtApi.*;
 import static jdk.incubator.foreign.CLinker.C_INT;
 import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
 import com.jyuzawa.onnxruntime.extern.OrtApi;
+import com.jyuzawa.onnxruntime.extern.OrtApi.*;
 import java.util.function.Function;
 import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemoryAddress;

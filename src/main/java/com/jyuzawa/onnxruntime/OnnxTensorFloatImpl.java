@@ -13,10 +13,12 @@ final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
         super(tensorInfo, FloatBuffer::allocate);
     }
 
+    @Override
     public FloatBuffer getFloatBuffer() {
         return buffer;
     }
 
+    @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
     }

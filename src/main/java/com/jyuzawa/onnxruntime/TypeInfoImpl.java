@@ -79,6 +79,7 @@ final class TypeInfoImpl implements TypeInfo {
         return mapInfo;
     }
 
+    @Override
     public String toString() {
         StringBuilder out = new StringBuilder();
         out.append("{TypeInfo: type=").append(type);

@@ -29,6 +29,7 @@ final class SessionBuilderImpl implements Session.Builder {
         this.environment = environment;
     }
 
+    @Override
     public Builder setByteArray(byte[] bytes) {
         this.bytes = bytes;
         return this;

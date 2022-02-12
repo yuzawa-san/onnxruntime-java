@@ -11,7 +11,7 @@ public interface Environment extends Managed {
     void setLanguageProjection(int languageProjection);
 
     // TODO: allocator
-    //	void createAndRegisterAllocator();
+    // void createAndRegisterAllocator();
 
     Session.Builder newSession();
 
@@ -21,10 +21,10 @@ public interface Environment extends Managed {
         Builder setLogId(String id);
 
         // TODO: threading options
-        //		Builder setThreadingOptions(ThreadingOptions threadingOptions);
+        // Builder setThreadingOptions(ThreadingOptions threadingOptions);
 
         // TODO: custom logger
-        //		Builder setCustomLogger();
+        // Builder setCustomLogger();
 
         Environment build();
     }
