@@ -4,14 +4,14 @@
  */
 package com.jyuzawa.onnxruntime;
 
-final class OnnxTypedMapStringImpl extends OnnxMapImpl<String> {
+final class OnnxMapLongImpl extends OnnxMapImpl<Long> {
 
-    OnnxTypedMapStringImpl(MapInfo mapInfo) {
+    OnnxMapLongImpl(MapInfo mapInfo) {
         super(mapInfo);
     }
 
     @Override
-    public OnnxTypedMap<String> withStringKeys() {
+    public OnnxMap<Long> asLongMap() {
         return this;
     }
 }

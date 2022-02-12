@@ -4,14 +4,14 @@
  */
 package com.jyuzawa.onnxruntime;
 
-final class OnnxTypedMapShortImpl extends OnnxMapImpl<Short> {
+final class OnnxMapByteImpl extends OnnxMapImpl<Byte> {
 
-    OnnxTypedMapShortImpl(MapInfo mapInfo) {
+    OnnxMapByteImpl(MapInfo mapInfo) {
         super(mapInfo);
     }
 
     @Override
-    public OnnxTypedMap<Short> withShortKeys() {
+    public OnnxMap<Byte> asByteMap() {
         return this;
     }
 }

@@ -13,7 +13,7 @@ import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
+abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap<K> {
 
     private final Map<K, OnnxValueImpl> data;
     private final MapInfo mapInfo;
@@ -28,15 +28,15 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxType
         OnnxTensorElementDataType type = mapInfo.getKeyType();
         switch (type) {
             case INT8:
-                return new OnnxTypedMapByteImpl(mapInfo);
+                return new OnnxMapByteImpl(mapInfo);
             case INT16:
-                return new OnnxTypedMapShortImpl(mapInfo);
+                return new OnnxMapShortImpl(mapInfo);
             case INT32:
-                return new OnnxTypedMapIntImpl(mapInfo);
+                return new OnnxMapIntImpl(mapInfo);
             case INT64:
-                return new OnnxTypedMapLongImpl(mapInfo);
+                return new OnnxMapLongImpl(mapInfo);
             case STRING:
-                return new OnnxTypedMapStringImpl(mapInfo);
+                return new OnnxMapStringImpl(mapInfo);
             default:
                 throw new UnsupportedOperationException("OnnxMap does not support keys of type " + type);
         }
@@ -45,11 +45,6 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxType
     @Override
     public final String toString() {
         return "{OnnxMap: info=" + mapInfo + ", data=" + data + "}";
-    }
-
-    @Override
-    public final OnnxMap asMap() {
-        return this;
     }
 
     @Override
@@ -67,35 +62,6 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxType
     void fromNative(ApiImpl api, MemoryAddress address, ResourceScope scope, SegmentAllocator allocator) {
         // TODO Auto-generated method stub
 
-    }
-
-    private final IllegalStateException fail() {
-        return new IllegalStateException("Invalid access of OnnxMap with key type " + mapInfo.getKeyType());
-    }
-
-    @Override
-    public OnnxTypedMap<Byte> withByteKeys() {
-        throw fail();
-    }
-
-    @Override
-    public OnnxTypedMap<Short> withShortKeys() {
-        throw fail();
-    }
-
-    @Override
-    public OnnxTypedMap<Integer> withIntegerKeys() {
-        throw fail();
-    }
-
-    @Override
-    public OnnxTypedMap<Long> withLongKeys() {
-        throw fail();
-    }
-
-    @Override
-    public OnnxTypedMap<String> withStringKeys() {
-        throw fail();
     }
 
     @Override

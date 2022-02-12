@@ -4,14 +4,14 @@
  */
 package com.jyuzawa.onnxruntime;
 
-final class OnnxTypedMapIntImpl extends OnnxMapImpl<Integer> {
+final class OnnxMapStringImpl extends OnnxMapImpl<String> {
 
-    OnnxTypedMapIntImpl(MapInfo mapInfo) {
+    OnnxMapStringImpl(MapInfo mapInfo) {
         super(mapInfo);
     }
 
     @Override
-    public OnnxTypedMap<Integer> withIntegerKeys() {
+    public OnnxMap<String> asStringMap() {
         return this;
     }
 }

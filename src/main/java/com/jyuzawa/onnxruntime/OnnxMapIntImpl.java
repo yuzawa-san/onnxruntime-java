@@ -4,14 +4,14 @@
  */
 package com.jyuzawa.onnxruntime;
 
-final class OnnxTypedMapByteImpl extends OnnxMapImpl<Byte> {
+final class OnnxMapIntImpl extends OnnxMapImpl<Integer> {
 
-    OnnxTypedMapByteImpl(MapInfo mapInfo) {
+    OnnxMapIntImpl(MapInfo mapInfo) {
         super(mapInfo);
     }
 
     @Override
-    public OnnxTypedMap<Byte> withByteKeys() {
+    public OnnxMap<Integer> asIntegerMap() {
         return this;
     }
 }

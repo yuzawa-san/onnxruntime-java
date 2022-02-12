@@ -7,7 +7,9 @@ package com.jyuzawa.onnxruntime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.util.Map;
 import org.junit.Test;
 
 public class RunIt {
@@ -19,7 +21,8 @@ public class RunIt {
         ApiBase apiBase = ApiBase.get();
         System.out.println(apiBase.getVersion());
         Api api = apiBase.getApi();
-        try (Environment environment = api.newEnvironment().build()) {
+        try (Environment environment =
+                api.newEnvironment().setLogSeverityLevel(OrtLoggingLevel.ERROR).build()) {
             File f = new File(
                     "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/src/test/resources/mmo_model.onnx");
             byte[] b = Files.readAllBytes(f.toPath());
@@ -35,13 +38,39 @@ public class RunIt {
                 System.out.println(session.getModelMetadata().getProducerName());
                 System.out.println(session.getModelMetadata().getVersion());
                 System.out.println(session.getModelMetadata().getCustomMetadata());
-
-                // session.newTransaction().addInput().addOutput().run();
-                Transaction.Builder txn = session.newTransaction();
-                txn.addInput(0).asTensor().getFloatBuffer().put(new float[] {6195379, 28388, 4700000});
-                txn.addOutput(0);
-                NamedCollection<OnnxValue> output = txn.build().run();
-                System.out.println(output.get(0).asTensor().getFloatBuffer().get());
+                for (int i = 0; i < 10000; i++) {
+                    // session.newTransaction().addInput().addOutput().run();
+                    Transaction.Builder txn = session.newTransaction();
+                    txn.addInput(0).asTensor().getFloatBuffer().put(new float[] {6195379, 28388, 4700000});
+                    OnnxSequence sequence = txn.addInput(0).asSequence();
+                    sequence.add().asTensor().getFloatBuffer().put(315);
+                    sequence.add().asTensor().getFloatBuffer().put(23);
+                    OnnxMap<Long> map = txn.addInput(0).asLongMap();
+                    map.put(15115L).asTensor().getFloatBuffer().put(315);
+                    txn.addInput(0).asOpaque().set(ByteBuffer.wrap(new byte[] {}));
+                    txn.addInput(0)
+                            .asOptional()
+                            .set()
+                            .asTensor()
+                            .getFloatBuffer()
+                            .put(315);
+                    txn.addOutput(0);
+                    NamedCollection<OnnxValue> output = txn.build().run();
+                    System.out.println(output.get(0).asTensor().getFloatBuffer().get());
+                    OnnxSequence sequenceOut = output.get(0).asSequence();
+                    for (OnnxValue value : sequenceOut) {
+                        value.asTensor().getFloatBuffer().get();
+                    }
+                    OnnxMap<Long> mapOut = output.get(0).asLongMap();
+                    for (Map.Entry<Long, OnnxValue> entry : mapOut.entrySet()) {
+                        entry.getValue().asTensor().getFloatBuffer().get();
+                    }
+                    output.get(0).asOpaque().get().get();
+                    OnnxOptional optionalOut = output.get(0).asOptional();
+                    if (optionalOut.isPresent()) {
+                        optionalOut.get().asTensor().getFloatBuffer().get();
+                    }
+                }
             }
         }
         System.out.flush();
