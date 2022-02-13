@@ -9,8 +9,8 @@ import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
-import com.jyuzawa.onnxruntime.extern.OrtApi;
-import com.jyuzawa.onnxruntime.extern.OrtApi.*;
+import com.jyuzawa.onnxruntime_extern.OrtApi;
+import com.jyuzawa.onnxruntime_extern.OrtApi.*;
 import java.util.function.Function;
 import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemoryAddress;

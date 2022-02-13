@@ -8,6 +8,7 @@ import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import jdk.incubator.foreign.MemoryAccess;
@@ -69,18 +70,23 @@ final class ModelMetadataImpl implements ModelMetadata {
                         out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(
                                 metadata, ortAllocator, out, count.address()));
                 long numKeys = MemoryAccess.getLong(count);
-                MemorySegment keyArray = keys.asSegment(C_POINTER.byteSize() * numKeys, scope);
-                Map<String, String> customMetadata = new LinkedHashMap<>(Math.toIntExact(numKeys));
-                for (long i = 0; i < numKeys; i++) {
-                    MemoryAddress key = MemoryAccess.getAddressAtIndex(keyArray, i);
-                    MemoryAddress value = api.create(
-                            allocator,
-                            out -> api.ModelMetadataLookupCustomMetadataMap.apply(metadata, ortAllocator, key, out));
-                    customMetadata.put(toJavaString(key), toJavaString(value));
-                    api.checkStatus(api.AllocatorFree.apply(ortAllocator, key));
-                    api.checkStatus(api.AllocatorFree.apply(ortAllocator, value));
+                if (numKeys == 0) {
+                    this.customMetadata = Collections.emptyMap();
+                } else {
+                    MemorySegment keyArray = keys.asSegment(C_POINTER.byteSize() * numKeys, scope);
+                    Map<String, String> customMetadata = new LinkedHashMap<>(Math.toIntExact(numKeys));
+                    for (long i = 0; i < numKeys; i++) {
+                        MemoryAddress key = MemoryAccess.getAddressAtIndex(keyArray, i);
+                        MemoryAddress value = api.create(
+                                allocator,
+                                out -> api.ModelMetadataLookupCustomMetadataMap.apply(
+                                        metadata, ortAllocator, key, out));
+                        customMetadata.put(toJavaString(key), toJavaString(value));
+                        api.checkStatus(api.AllocatorFree.apply(ortAllocator, key));
+                        api.checkStatus(api.AllocatorFree.apply(ortAllocator, value));
+                    }
+                    this.customMetadata = customMetadata;
                 }
-                this.customMetadata = customMetadata;
             }
         }
     }

@@ -84,8 +84,8 @@ publishing {
 dependencies {
 	testImplementation "junit:junit:4.13.2"
 	testImplementation 'com.google.protobuf:protobuf-java:3.19.4'
-	// api "io.netty:netty-common:4.1.73.Final"
-	api 'org.slf4j:slf4j-api:1.7.35'
+	api "io.netty:netty-common:4.1.73.Final"
+	implementation 'org.slf4j:slf4j-api:1.7.35'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.1'
 }
 
@@ -107,6 +107,9 @@ sourceSets {
 		java {
 			srcDirs "${protobuf.generatedFilesBaseDir}/test/java"
 		}
+		resources {
+			srcDir "${project.buildDir}/jnioutput"
+		}
 	}
 }
 
@@ -114,29 +117,29 @@ compileJava {
 	dependsOn make
 }
 
-tasks.withType(AbstractCompile) {
-options.compilerArgs += ["--add-modules", "jdk.incubator.foreign"]
-}
-
-tasks.withType(Test) {
-jvmArgs += ["--add-modules", "jdk.incubator.foreign"]
+java {
+	modularity.inferModulePath = true
 }
 
 javadoc {
-	exclude 'com/jyuzawa/onnxruntime/extern/**'
-	options.addStringOption("-add-modules","jdk.incubator.foreign")
 }
 
+def moduleName = "com.jyuzawa.onnxruntime"
 jar {
 	from "${project.buildDir}/jnioutput"
+	manifest {
+		attributes('Automatic-Module-Name': moduleName)
+	}
 }
+
+tasks.named('compileJava') {
+	// use the project's version or define one directly
+	options.javaModuleVersion = provider { project.version }
+}
+
 
 test {
-	jvmArgs '--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign'
-}
-
-sourceSets {
-
+	jvmArgs "--enable-native-access=ALL-UNNAMED", '--add-modules', 'jdk.incubator.foreign'
 }
 
 protobuf {

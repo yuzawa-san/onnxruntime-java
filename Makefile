@@ -1,4 +1,4 @@
-all: build/generated/jextract/com/jyuzawa/onnxruntime/extern/onnxruntime_all_h.java
+all: build/generated/jextract/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java
 
 clean:
 	rm -rf build/jnioutput
@@ -34,9 +34,9 @@ build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib:
 
 # manually generate the symbols (and manually strip out the irrelevant symbols)
 onnxruntime_all.h.conf: build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include/onnxruntime_cxx_api.h
-	docker run --rm -v $(PWD):/workdir jextract -d /workdir/build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime.extern -I /usr/include -I build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include --dump-includes symbols.conf onnxruntime_all.h
+	docker run --rm -v $(PWD):/workdir jextract -d /workdir/build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include --dump-includes symbols.conf onnxruntime_all.h
 
-build/generated/jextract/com/jyuzawa/onnxruntime/extern/onnxruntime_all_h.java: build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include/onnxruntime_cxx_api.h build/jnioutput/META-INF/native/libonnxruntime_linux_x86_64.so build/jnioutput/META-INF/native/libonnxruntime_linux_aarch_64.so build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib
-	docker run --rm -v $(PWD):/workdir jextract -d /workdir/build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime.extern -I /usr/include -I build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include @symbols.conf onnxruntime_all.h
+build/generated/jextract/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java: build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include/onnxruntime_cxx_api.h build/jnioutput/META-INF/native/libonnxruntime_linux_x86_64.so build/jnioutput/META-INF/native/libonnxruntime_linux_aarch_64.so build/jnioutput/META-INF/native/libonnxruntime_osx_universal2.jnilib
+	docker run --rm -v $(PWD):/workdir jextract -d /workdir/build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I build/onnxruntime/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include @symbols.conf onnxruntime_all.h
 	# strip out loads since we'll manage load
-	sed -i .bak '/System.loadLibrary/d' build/generated/jextract/com/jyuzawa/onnxruntime/extern/onnxruntime_all_h.java
+	sed -i .bak '/System.loadLibrary/d' build/generated/jextract/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java

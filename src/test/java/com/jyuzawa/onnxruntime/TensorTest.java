@@ -24,8 +24,6 @@ public class TensorTest {
 
     @Test
     public void test() throws IOException {
-        System.load(
-                "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/build/jnioutput/META-INF/native/libonnxruntime.jnilib");
         ApiBase apiBase = ApiBase.get();
         System.out.println(apiBase.getVersion());
         Api api = apiBase.getApi();
@@ -56,7 +54,7 @@ public class TensorTest {
                                                             .addDim(Dimension.newBuilder()
                                                                     .setDimValue(3))))))
                             .addOutput(ValueInfoProto.newBuilder()
-                                    .setName("input")
+                                    .setName("output")
                                     .setType(TypeProto.newBuilder()
                                             .setTensorType(Tensor.newBuilder()
                                                     .setElemType(DataType.FLOAT_VALUE)

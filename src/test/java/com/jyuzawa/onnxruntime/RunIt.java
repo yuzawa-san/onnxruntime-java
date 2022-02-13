@@ -7,9 +7,7 @@ package com.jyuzawa.onnxruntime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
-import java.util.Map;
 import onnx.OnnxMl.GraphProto;
 import onnx.OnnxMl.ModelProto;
 import onnx.OnnxMl.NodeProto;
@@ -26,8 +24,6 @@ public class RunIt {
 
     @Test
     public void test() throws FileNotFoundException, IOException, InterruptedException {
-        System.load(
-                "/Users/jtyuzawa/Documents/personal_repos/onnxruntime-java/build/jnioutput/META-INF/native/libonnxruntime.jnilib");
         ApiBase apiBase = ApiBase.get();
         System.out.println(apiBase.getVersion());
         Api api = apiBase.getApi();
@@ -52,34 +48,9 @@ public class RunIt {
                     // session.newTransaction().addInput().addOutput().run();
                     Transaction.Builder txn = session.newTransaction();
                     txn.addInput(0).asTensor().getFloatBuffer().put(new float[] {6195379, 28388, 4700000});
-                    OnnxSequence sequence = txn.addInput(0).asSequence();
-                    sequence.add().asTensor().getFloatBuffer().put(315);
-                    sequence.add().asTensor().getFloatBuffer().put(23);
-                    OnnxTypedMap<Long> map = txn.addInput(0).asMap().asLongMap();
-                    map.put(15115L).asTensor().getFloatBuffer().put(315);
-                    txn.addInput(0).asOpaque().set(ByteBuffer.wrap(new byte[] {}));
-                    txn.addInput(0)
-                            .asOptional()
-                            .set()
-                            .asTensor()
-                            .getFloatBuffer()
-                            .put(315);
                     txn.addOutput(0);
                     NamedCollection<OnnxValue> output = txn.build().run();
                     System.out.println(output.get(0).asTensor().getFloatBuffer().get());
-                    OnnxSequence sequenceOut = output.get(0).asSequence();
-                    for (OnnxValue value : sequenceOut) {
-                        value.asTensor().getFloatBuffer().get();
-                    }
-                    OnnxTypedMap<Long> mapOut = output.get(0).asMap().asLongMap();
-                    for (Map.Entry<Long, OnnxValue> entry : mapOut.entrySet()) {
-                        entry.getValue().asTensor().getFloatBuffer().get();
-                    }
-                    output.get(0).asOpaque().get().get();
-                    OnnxOptional optionalOut = output.get(0).asOptional();
-                    if (optionalOut.isPresent()) {
-                        optionalOut.get().asTensor().getFloatBuffer().get();
-                    }
                 }
             }
         }

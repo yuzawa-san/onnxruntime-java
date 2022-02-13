@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime.extern.onnxruntime_all_h.OrtArenaAllocator;
-import static com.jyuzawa.onnxruntime.extern.onnxruntime_all_h.OrtMemTypeDefault;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toCString;
 
