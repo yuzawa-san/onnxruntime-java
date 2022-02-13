@@ -17,11 +17,13 @@ import jdk.incubator.foreign.SegmentAllocator;
 final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
 
     private final List<OnnxValueImpl> data;
+    private final List<OnnxValue> unmodifiableData;
     private final TypeInfo typeInfo;
 
     OnnxSequenceImpl(TypeInfo typeInfo) {
         super(OnnxType.SEQUENCE);
         this.data = new ArrayList<>();
+        this.unmodifiableData = Collections.unmodifiableList(data);
         this.typeInfo = typeInfo;
     }
 
@@ -52,20 +54,6 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     @Override
-    public OnnxValue set(int index) {
-        OnnxValueImpl item = newItem();
-        data.set(index, item);
-        return item;
-    }
-
-    @Override
-    public OnnxValue add(int index) {
-        OnnxValueImpl item = newItem();
-        data.add(index, item);
-        return item;
-    }
-
-    @Override
     MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator) {
         // TODO Auto-generated method stub
         return null;
@@ -77,97 +65,118 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
 
     }
 
-    private List<OnnxValue> unmodifiableList() {
-        return Collections.unmodifiableList(data);
+    @Override
+    public boolean add(OnnxValue e) {
+        return unmodifiableData.add(e);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends OnnxValue> c) {
+        return unmodifiableData.addAll(c);
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends OnnxValue> c) {
+        return unmodifiableData.addAll(index, c);
+    }
+
+    @Override
+    public OnnxValue set(int index, OnnxValue element) {
+        return unmodifiableData.set(index, element);
+    }
+
+    @Override
+    public void add(int index, OnnxValue element) {
+        unmodifiableData.add(index, element);
     }
 
     @Override
     public int size() {
-        return data.size();
+        return unmodifiableData.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return data.isEmpty();
+        return unmodifiableData.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-        return data.contains(o);
+        return unmodifiableData.contains(o);
     }
 
     @Override
     public Iterator<OnnxValue> iterator() {
-        return unmodifiableList().iterator();
+        return unmodifiableData.iterator();
     }
 
     @Override
     public Object[] toArray() {
-        return data.toArray();
+        return unmodifiableData.toArray();
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return data.toArray(a);
+        return unmodifiableData.toArray(a);
     }
 
     @Override
     public boolean remove(Object o) {
-        return data.remove(o);
+        return unmodifiableData.remove(o);
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return data.containsAll(c);
+        return unmodifiableData.containsAll(c);
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return data.removeAll(c);
+        return unmodifiableData.removeAll(c);
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return data.retainAll(c);
+        return unmodifiableData.retainAll(c);
     }
 
     @Override
     public void clear() {
-        data.clear();
+        unmodifiableData.clear();
     }
 
     @Override
     public OnnxValue get(int index) {
-        return data.get(index);
+        return unmodifiableData.get(index);
     }
 
     @Override
     public OnnxValue remove(int index) {
-        return data.remove(index);
+        return unmodifiableData.remove(index);
     }
 
     @Override
     public int indexOf(Object o) {
-        return data.indexOf(o);
+        return unmodifiableData.indexOf(o);
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return data.lastIndexOf(o);
+        return unmodifiableData.lastIndexOf(o);
     }
 
     @Override
     public ListIterator<OnnxValue> listIterator() {
-        return unmodifiableList().listIterator();
+        return unmodifiableData.listIterator();
     }
 
     @Override
     public ListIterator<OnnxValue> listIterator(int index) {
-        return unmodifiableList().listIterator(index);
+        return unmodifiableData.listIterator(index);
     }
 
     @Override
     public List<OnnxValue> subList(int fromIndex, int toIndex) {
-        return unmodifiableList().subList(fromIndex, toIndex);
+        return unmodifiableData.subList(fromIndex, toIndex);
     }
 }

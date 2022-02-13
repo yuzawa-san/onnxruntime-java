@@ -17,11 +17,13 @@ import jdk.incubator.foreign.SegmentAllocator;
 abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
 
     private final Map<K, OnnxValueImpl> data;
+    private final Map<K, OnnxValue> unmodifiableData;
     private final MapInfo mapInfo;
 
     protected OnnxMapImpl(MapInfo mapInfo) {
         super(OnnxType.MAP);
         this.data = new LinkedHashMap<>();
+        this.unmodifiableData = Collections.unmodifiableMap(data);
         this.mapInfo = mapInfo;
     }
 
@@ -95,63 +97,69 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxType
     }
 
     @Override
-    public final OnnxValue put(K key) {
+    public final OnnxValue set(K key) {
         OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(mapInfo.getValueType());
         data.put(key, input);
         return input;
     }
 
-    private final Map<K, OnnxValue> unmodifiableMap() {
-        return Collections.unmodifiableMap(data);
+    @Override
+    public final OnnxValue put(K key, OnnxValue value) {
+        return unmodifiableData.put(key, value);
+    }
+
+    @Override
+    public final void putAll(Map<? extends K, ? extends OnnxValue> m) {
+        unmodifiableData.putAll(m);
     }
 
     @Override
     public final int size() {
-        return data.size();
+        return unmodifiableData.size();
     }
 
     @Override
     public final boolean isEmpty() {
-        return data.isEmpty();
+        return unmodifiableData.isEmpty();
     }
 
     @Override
     public final boolean containsKey(Object key) {
-        return data.containsKey(key);
+        return unmodifiableData.containsKey(key);
     }
 
     @Override
     public final boolean containsValue(Object value) {
-        return data.containsValue(value);
+        return unmodifiableData.containsValue(value);
     }
 
     @Override
     public final OnnxValue get(Object key) {
-        return data.get(key);
+        return unmodifiableData.get(key);
     }
 
     @Override
     public final OnnxValue remove(Object key) {
-        return data.remove(key);
+        return unmodifiableData.remove(key);
     }
 
     @Override
     public final void clear() {
-        data.clear();
+        unmodifiableData.clear();
     }
 
     @Override
     public final Set<K> keySet() {
-        return unmodifiableMap().keySet();
+        return unmodifiableData.keySet();
     }
 
     @Override
     public final Collection<OnnxValue> values() {
-        return unmodifiableMap().values();
+        return unmodifiableData.values();
     }
 
     @Override
     public final Set<Entry<K, OnnxValue>> entrySet() {
-        return unmodifiableMap().entrySet();
+        return unmodifiableData.entrySet();
     }
 }
