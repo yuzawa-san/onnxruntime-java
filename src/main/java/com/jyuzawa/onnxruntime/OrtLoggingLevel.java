@@ -6,6 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -13,8 +15,6 @@ import jdk.incubator.foreign.CLinker;
 import jdk.incubator.foreign.FunctionDescriptor;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public enum OrtLoggingLevel {
     VERBOSE(0),
@@ -23,7 +23,7 @@ public enum OrtLoggingLevel {
     ERROR(3),
     FATAL(4);
 
-    private static final Logger LOG = LoggerFactory.getLogger(OrtLoggingLevel.class);
+    private static final Logger LOG = System.getLogger(OrtLoggingLevel.class.getName());
 
     static final MemoryAddress LOG_CALLBACK = createCallback();
     static final OrtLoggingLevel DEFAULT = getDefaultLogLevel();
@@ -68,33 +68,33 @@ public enum OrtLoggingLevel {
         String message = toJavaString(messageAddress);
         switch (OrtLoggingLevel.forNumber(level)) {
             case VERBOSE:
-                LOG.debug("{} {} {} {}", category, id, location, message);
+                LOG.log(Level.DEBUG, "{} {} {} {}", category, id, location, message);
                 break;
             case INFO:
-                LOG.info("{} {} {} {}", category, id, location, message);
+                LOG.log(Level.INFO, "{} {} {} {}", category, id, location, message);
                 break;
             case WARNING:
-                LOG.warn("{} {} {} {}", category, id, location, message);
+                LOG.log(Level.WARNING, "{} {} {} {}", category, id, location, message);
                 break;
             case FATAL:
             case ERROR:
-                LOG.error("{} {} {} {}", category, id, location, message);
+                LOG.log(Level.ERROR, "{} {} {} {}", category, id, location, message);
                 break;
         }
         return MemoryAddress.NULL;
     }
 
     private static final OrtLoggingLevel getDefaultLogLevel() {
-        if (LOG.isDebugEnabled()) {
+        if (LOG.isLoggable(Level.DEBUG)) {
             return VERBOSE;
         }
-        if (LOG.isInfoEnabled()) {
+        if (LOG.isLoggable(Level.INFO)) {
             return INFO;
         }
-        if (LOG.isWarnEnabled()) {
+        if (LOG.isLoggable(Level.WARNING)) {
             return WARNING;
         }
-        if (LOG.isErrorEnabled()) {
+        if (LOG.isLoggable(Level.ERROR)) {
             return ERROR;
         }
         return FATAL;
