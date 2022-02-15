@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.LongBuffer;
+import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
@@ -21,5 +22,10 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
     @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
+    }
+
+    @Override
+    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
+        buffer.put(MemoryAccess.getLongAtIndex(valueSegment, i));
     }
 }

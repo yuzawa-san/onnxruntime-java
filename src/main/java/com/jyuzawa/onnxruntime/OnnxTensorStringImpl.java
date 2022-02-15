@@ -84,4 +84,18 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
             buffer[i] = new String(output.toByteArray(), CharsetUtil.UTF_8);
         }
     }
+
+    @Override
+    void fromNativeMapValue(
+            ApiImpl api,
+            MemoryAddress valueAddress,
+            MemorySegment valueSegment,
+            SegmentAllocator allocator,
+            int index) {
+        long length =
+                api.extractLong(allocator, out -> api.GetStringTensorElementLength.apply(valueAddress, index, out));
+        MemorySegment output = allocator.allocateArray(C_CHAR, length);
+        api.checkStatus(api.GetStringTensorElement.apply(valueAddress, length, index, output.address()));
+        buffer[0] = new String(output.toByteArray(), CharsetUtil.UTF_8);
+    }
 }

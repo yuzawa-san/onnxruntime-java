@@ -16,12 +16,6 @@ public interface OnnxMap {
      */
     MapInfo getInfo();
 
-    OnnxTypedMap<Byte> asByteMap();
-
-    OnnxTypedMap<Short> asShortMap();
-
-    OnnxTypedMap<Integer> asIntMap();
-
     OnnxTypedMap<Long> asLongMap();
 
     OnnxTypedMap<String> asStringMap();

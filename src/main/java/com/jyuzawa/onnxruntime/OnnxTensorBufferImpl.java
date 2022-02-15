@@ -67,5 +67,14 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         getMemorySegment().copyFrom(segment);
     }
 
+    @Override
+    final void fromNativeMapValue(
+            ApiImpl api, MemoryAddress valueAddress, MemorySegment valueSegment, SegmentAllocator allocator, int i) {
+        fromNativeMapValue(valueSegment, i);
+        buffer.flip();
+    }
+
+    protected abstract void fromNativeMapValue(MemorySegment valueSegment, int i);
+
     protected abstract MemorySegment getMemorySegment();
 }

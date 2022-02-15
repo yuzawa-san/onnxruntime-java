@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.ShortBuffer;
+import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
@@ -21,5 +22,10 @@ final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
     @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
+    }
+
+    @Override
+    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
+        buffer.put(MemoryAccess.getShortAtIndex(valueSegment, i));
     }
 }

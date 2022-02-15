@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -339,7 +340,7 @@ public class SessionTest {
     }
 
     @Test
-    public void mapTest() throws IOException {
+    public void zipMapLongTest() throws IOException {
         ModelProto modelProto = ModelProto.newBuilder()
                 .setIrVersion(8)
                 .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
@@ -400,21 +401,95 @@ public class SessionTest {
         System.out.println(modelProto);
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build()) {
-            System.out.println(session.getInputs());
-            System.out.println(session.getOutputs());
             Transaction.Builder txn = session.newTransaction();
-            float[] rawInput1 = new float[] {554354, 52345234, 143646};
-            txn.addInput(0).asTensor().getFloatBuffer().put(1101).put(35135).put(515);
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput(0);
             NamedCollection<OnnxValue> output = txn.build().run();
-            System.out.println(output.get(0));
-            //                    float[] outputBuffer = new float[1];
-            //                    OnnxTypedMap<Integer> outputMap = output.get(0).asMap().asIntMap();
-            //                    assertEquals(2, outputMap.size());
-            //                    outputMap.get(135).asTensor().getFloatBuffer().get(outputBuffer);
-            //                    assertTrue(Arrays.equals(rawInput1, outputBuffer));
-            //                    outputMap.get(745).asTensor().getFloatBuffer().get(outputBuffer);
-            //                    assertTrue(Arrays.equals(rawInput2, outputBuffer));
+            OnnxTypedMap<Long> outputMap =
+                    output.get(0).asSequence().get(0).asMap().asLongMap();
+            float[] rawOutput = new float[3];
+            rawOutput[0] = outputMap.get(1435L).asTensor().getFloatBuffer().get();
+            rawOutput[1] = outputMap.get(35234L).asTensor().getFloatBuffer().get();
+            rawOutput[2] = outputMap.get(572457L).asTensor().getFloatBuffer().get();
+            assertTrue(Arrays.equals(rawInput, rawOutput));
+        }
+    }
+
+    @Test
+    public void zipMapStringTest() throws IOException {
+        ModelProto modelProto = ModelProto.newBuilder()
+                .setIrVersion(8)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
+                .setGraph(
+                        GraphProto.newBuilder()
+                                .addNode(NodeProto.newBuilder()
+                                        .addInput("input")
+                                        .addOutput("output")
+                                        .setOpType("ZipMap")
+                                        .setDomain("ai.onnx.ml")
+                                        .addAttribute(AttributeProto.newBuilder()
+                                                .setName("classlabels_strings")
+                                                .setType(AttributeType.STRINGS)
+                                                .addStrings(ByteString.copyFrom("foo", "utf-8"))
+                                                .addStrings(ByteString.copyFrom("bazz", "utf-8"))
+                                                .addStrings(ByteString.copyFrom("barss", "utf-8"))))
+                                .addInput(ValueInfoProto.newBuilder()
+                                        .setName("input")
+                                        .setType(TypeProto.newBuilder()
+                                                .setTensorType(Tensor.newBuilder()
+                                                        .setElemType(DataType.FLOAT_VALUE)
+                                                        .setShape(TensorShapeProto.newBuilder()
+                                                                .addDim(Dimension.newBuilder()
+                                                                        .setDimValue(3))))))
+                                .addOutput(
+                                        ValueInfoProto.newBuilder()
+                                                .setName("output")
+                                                .setType(
+                                                        TypeProto.newBuilder()
+                                                                .setSequenceType(
+                                                                        Sequence.newBuilder()
+                                                                                .setElemType(
+                                                                                        TypeProto.newBuilder()
+                                                                                                .setMapType(
+                                                                                                        TypeProto.Map
+                                                                                                                .newBuilder()
+                                                                                                                .setKeyType(
+                                                                                                                        DataType
+                                                                                                                                .STRING_VALUE)
+                                                                                                                .setValueType(
+                                                                                                                        TypeProto
+                                                                                                                                .newBuilder()
+                                                                                                                                .setTensorType(
+                                                                                                                                        Tensor
+                                                                                                                                                .newBuilder()
+                                                                                                                                                .setElemType(
+                                                                                                                                                        DataType
+                                                                                                                                                                .FLOAT_VALUE)
+                                                                                                                                                .setShape(
+                                                                                                                                                        TensorShapeProto
+                                                                                                                                                                .newBuilder()
+                                                                                                                                                                .addDim(
+                                                                                                                                                                        Dimension
+                                                                                                                                                                                .newBuilder()
+                                                                                                                                                                                .setDimValue(
+                                                                                                                                                                                        1)))))))))))
+                .build();
+        System.out.println(modelProto);
+        ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
+        try (Session session = environment.newSession().setByteBuffer(model).build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            OnnxTypedMap<String> outputMap =
+                    output.get(0).asSequence().get(0).asMap().asStringMap();
+            float[] rawOutput = new float[3];
+            rawOutput[0] = outputMap.get("foo").asTensor().getFloatBuffer().get();
+            rawOutput[1] = outputMap.get("bazz").asTensor().getFloatBuffer().get();
+            rawOutput[2] = outputMap.get("barss").asTensor().getFloatBuffer().get();
+            assertTrue(Arrays.equals(rawInput, rawOutput));
         }
     }
 }

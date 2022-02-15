@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.DoubleBuffer;
+import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
@@ -21,5 +22,10 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
     @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
+    }
+
+    @Override
+    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
+        buffer.put(MemoryAccess.getByteAtOffset(valueSegment, i));
     }
 }

@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.ByteBuffer;
+import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
@@ -21,5 +22,10 @@ final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
     @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
+    }
+
+    @Override
+    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
+        buffer.put(MemoryAccess.getByteAtOffset(valueSegment, i));
     }
 }

@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.IntBuffer;
+import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
@@ -21,5 +22,10 @@ final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
     @Override
     protected MemorySegment getMemorySegment() {
         return MemorySegment.ofArray(buffer.array());
+    }
+
+    @Override
+    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
+        buffer.put(MemoryAccess.getIntAtIndex(valueSegment, i));
     }
 }
