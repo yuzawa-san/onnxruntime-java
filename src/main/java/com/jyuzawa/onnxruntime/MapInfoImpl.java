@@ -23,4 +23,9 @@ final class MapInfoImpl implements MapInfo {
     public TypeInfo getValueType() {
         return typeInfo;
     }
+
+    @Override
+    public String toString() {
+        return "{MapInfo: keyType=" + keyType + ", valueType=" + typeInfo + "}";
+    }
 }

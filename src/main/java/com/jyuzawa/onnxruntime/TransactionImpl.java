@@ -51,7 +51,7 @@ final class TransactionImpl implements Transaction {
             for (Map.Entry<String, OnnxValueImpl> entry : inputs.entrySet()) {
                 MemorySegment input1 = toCString(entry.getKey(), scope);
                 inputNamesVector[idx] = input1;
-                MemoryAddress valueAddress = entry.getValue().toNative(api, memoryInfo, allocator);
+                MemoryAddress valueAddress = entry.getValue().toNative(api, ortAllocator, memoryInfo, scope, allocator);
                 inputValuesVector[idx] = valueAddress;
                 scope.addCloseAction(() -> {
                     api.ReleaseValue.apply(valueAddress);
@@ -86,7 +86,7 @@ final class TransactionImpl implements Transaction {
                 // TODO: get typeinfo from result
                 NodeInfo nodeInfo = outputs.get(i);
                 OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
-                outputValue.fromNative(api, outputAddress, scope, allocator);
+                outputValue.fromNative(api, ortAllocator, outputAddress, scope, allocator);
                 out.put(nodeInfo.getName(), outputValue);
             }
 

@@ -20,7 +20,7 @@ public interface OnnxMap {
 
     OnnxTypedMap<Short> asShortMap();
 
-    OnnxTypedMap<Integer> asIntegerMap();
+    OnnxTypedMap<Integer> asIntMap();
 
     OnnxTypedMap<Long> asLongMap();
 

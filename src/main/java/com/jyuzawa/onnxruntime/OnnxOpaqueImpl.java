@@ -35,13 +35,23 @@ final class OnnxOpaqueImpl extends OnnxValueImpl implements OnnxOpaque {
     }
 
     @Override
-    MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator) {
+    MemoryAddress toNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress memoryInfo,
+            ResourceScope scope,
+            SegmentAllocator allocator) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    void fromNative(ApiImpl api, MemoryAddress address, ResourceScope scope, SegmentAllocator allocator) {
+    void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            ResourceScope scope,
+            SegmentAllocator allocator) {
         // TODO Auto-generated method stub
 
     }

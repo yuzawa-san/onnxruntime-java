@@ -102,6 +102,8 @@ final class TypeInfoImpl implements TypeInfo {
             out.append(", tensorInfo=").append(tensorInfo);
         } else if (mapInfo != null) {
             out.append(", mapInfo=").append(mapInfo);
+        } else if (sequenceInfo != null) {
+            out.append(", sequenceInfo=").append(sequenceInfo);
         }
         return out.append("}").toString();
     }

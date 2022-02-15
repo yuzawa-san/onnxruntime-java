@@ -16,4 +16,6 @@ public interface NamedCollection<V> {
     Map<String, V> map();
 
     List<V> list();
+
+    int size();
 }

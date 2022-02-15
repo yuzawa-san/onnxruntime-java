@@ -5,12 +5,10 @@
 package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.C_LONG;
-import static jdk.incubator.foreign.CLinker.C_POINTER;
 
 import java.nio.Buffer;
 import java.util.List;
 import java.util.function.IntFunction;
-import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
@@ -31,7 +29,12 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     }
 
     @Override
-    final MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator) {
+    final MemoryAddress toNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress memoryInfo,
+            ResourceScope scope,
+            SegmentAllocator allocator) {
         MemorySegment rawInputData = getMemorySegment();
         // TODO: move value layout to this class?
         MemorySegment inputData =
@@ -53,10 +56,14 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     }
 
     @Override
-    final void fromNative(ApiImpl api, MemoryAddress address, ResourceScope scope, SegmentAllocator allocator) {
-        MemorySegment floatOutput = allocator.allocate(C_POINTER);
-        api.checkStatus(api.GetTensorMutableData.apply(address, floatOutput.address()));
-        MemorySegment segment = MemoryAccess.getAddress(floatOutput).asSegment(tensorInfo.getByteCount(), scope);
+    final void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            ResourceScope scope,
+            SegmentAllocator allocator) {
+        MemoryAddress floatOutput = api.create(allocator, out -> api.GetTensorMutableData.apply(address, out));
+        MemorySegment segment = floatOutput.asSegment(tensorInfo.getByteCount(), scope);
         getMemorySegment().copyFrom(segment);
     }
 

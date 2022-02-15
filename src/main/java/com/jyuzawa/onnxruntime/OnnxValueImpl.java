@@ -52,9 +52,19 @@ abstract class OnnxValueImpl implements OnnxValue {
     //        throw new NoSuchElementException("OnnxValue is not an optional");
     //    }
 
-    abstract MemoryAddress toNative(ApiImpl api, MemoryAddress memoryInfo, SegmentAllocator allocator);
+    abstract MemoryAddress toNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress memoryInfo,
+            ResourceScope scope,
+            SegmentAllocator allocator);
 
-    abstract void fromNative(ApiImpl api, MemoryAddress address, ResourceScope scope, SegmentAllocator allocator);
+    abstract void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            ResourceScope scope,
+            SegmentAllocator allocator);
 
     static final OnnxValueImpl fromTypeInfo(TypeInfo typeInfo) {
         OnnxType type = typeInfo.getType();

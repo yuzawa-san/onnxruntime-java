@@ -85,7 +85,7 @@ final class ModelMetadataImpl implements ModelMetadata {
                         api.checkStatus(api.AllocatorFree.apply(ortAllocator, key));
                         api.checkStatus(api.AllocatorFree.apply(ortAllocator, value));
                     }
-                    this.customMetadata = customMetadata;
+                    this.customMetadata = Collections.unmodifiableMap(customMetadata);
                 }
             }
         }
