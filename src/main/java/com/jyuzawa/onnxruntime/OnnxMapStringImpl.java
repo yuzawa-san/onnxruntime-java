@@ -5,8 +5,8 @@
 package com.jyuzawa.onnxruntime;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 final class OnnxMapStringImpl extends OnnxMapImpl<String, OnnxTensorStringImpl> {
 
@@ -29,7 +29,7 @@ final class OnnxMapStringImpl extends OnnxMapImpl<String, OnnxTensorStringImpl> 
     }
 
     @Override
-    protected List<String> explodeKeyVector(OnnxTensorStringImpl keyVector) {
-        return Arrays.asList(keyVector.getStringBuffer());
+    protected Stream<String> explodeKeyVector(OnnxTensorStringImpl keyVector) {
+        return Arrays.stream(keyVector.getStringBuffer());
     }
 }

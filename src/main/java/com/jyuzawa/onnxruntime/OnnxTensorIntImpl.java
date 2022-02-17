@@ -6,7 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.IntBuffer;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Stream;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
@@ -33,9 +33,7 @@ final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
     }
 
     @Override
-    public void getScalars(List<OnnxTensorImpl> scalars) {
-        for (OnnxTensorImpl scalar : scalars) {
-            scalar.getIntBuffer().put(buffer.get()).flip();
-        }
+    public void getScalars(Stream<OnnxTensorImpl> scalars) {
+        scalars.forEach(scalar -> scalar.getIntBuffer().put(buffer.get()).flip());
     }
 }

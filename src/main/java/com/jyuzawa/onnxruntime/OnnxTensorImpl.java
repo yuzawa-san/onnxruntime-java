@@ -13,6 +13,7 @@ import java.nio.ShortBuffer;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
@@ -74,7 +75,7 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
     abstract void putScalars(Collection<OnnxTensorImpl> scalars);
 
-    abstract void getScalars(List<OnnxTensorImpl> scalars);
+    abstract void getScalars(Stream<OnnxTensorImpl> scalars);
 
     protected static final long[] shape(List<Long> original) {
         int shapeSize = original.size();

@@ -12,7 +12,9 @@ import static jdk.incubator.foreign.CLinker.toCString;
 import io.netty.util.CharsetUtil;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 import jdk.incubator.foreign.Addressable;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
@@ -95,9 +97,11 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    public void getScalars(List<OnnxTensorImpl> scalars) {
+    public void getScalars(Stream<OnnxTensorImpl> scalars) {
         int i = 0;
-        for (OnnxTensorImpl scalar : scalars) {
+        Iterator<OnnxTensorImpl> iter = scalars.iterator();
+        while (iter.hasNext()) {
+            OnnxTensorImpl scalar = iter.next();
             scalar.getStringBuffer()[0] = buffer[i++];
         }
     }

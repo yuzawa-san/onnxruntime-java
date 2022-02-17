@@ -6,15 +6,14 @@ package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import jdk.incubator.foreign.Addressable;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
@@ -63,7 +62,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
 
     protected abstract void implodeKeyVector(T keyVector, Set<K> keys);
 
-    protected abstract List<K> explodeKeyVector(T keyVector);
+    protected abstract Stream<K> explodeKeyVector(T keyVector);
 
     @Override
     public final String toString() {
@@ -129,11 +128,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         OnnxTensorImpl valueVector = newValueVector(size);
         keyVector.fromNative(api, ortAllocator, keyAddress, scope, allocator);
         valueVector.fromNative(api, ortAllocator, valueAddress, scope, allocator);
-        List<OnnxTensorImpl> values = new ArrayList<>(size);
-        for (K key : explodeKeyVector(keyVector)) {
-            values.add(set(key));
-        }
-        valueVector.getScalars(values);
+        valueVector.getScalars(explodeKeyVector(keyVector).map(this::set));
     }
 
     @Override

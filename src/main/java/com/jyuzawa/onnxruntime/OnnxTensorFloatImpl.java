@@ -6,7 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.FloatBuffer;
 import java.util.Collection;
-import java.util.List;
+import java.util.stream.Stream;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
@@ -33,9 +33,7 @@ final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
     }
 
     @Override
-    public void getScalars(List<OnnxTensorImpl> scalars) {
-        for (OnnxTensorImpl scalar : scalars) {
-            scalar.getFloatBuffer().put(buffer.get()).flip();
-        }
+    public void getScalars(Stream<OnnxTensorImpl> scalars) {
+        scalars.forEach(scalar -> scalar.getFloatBuffer().put(buffer.get()).flip());
     }
 }
