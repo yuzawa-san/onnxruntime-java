@@ -72,9 +72,9 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
         throw fail();
     }
 
-    abstract void implodeValues(Collection<OnnxTensorImpl> values);
+    abstract void putScalars(Collection<OnnxTensorImpl> scalars);
 
-    abstract void loadScalarFromVector(int index, OnnxTensorImpl scalar);
+    abstract void getScalars(List<OnnxTensorImpl> scalars);
 
     protected static final long[] shape(List<Long> original) {
         int shapeSize = original.size();

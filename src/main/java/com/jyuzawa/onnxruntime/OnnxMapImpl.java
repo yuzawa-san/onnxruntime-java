@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -105,7 +106,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         implodeKeyVector(keyVector, data.keySet());
         OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
                 new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
-        valueVector.implodeValues(data.values());
+        valueVector.putScalars(data.values());
         MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         MemorySegment kvArray = allocator.allocateArray(C_POINTER, new Addressable[] {keyAddress, valueAddress});
@@ -128,11 +129,11 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         OnnxTensorImpl valueVector = newValueVector(size);
         keyVector.fromNative(api, ortAllocator, keyAddress, scope, allocator);
         valueVector.fromNative(api, ortAllocator, valueAddress, scope, allocator);
-        int i = 0;
+        List<OnnxTensorImpl> values = new ArrayList<>(size);
         for (K key : explodeKeyVector(keyVector)) {
-            OnnxTensorImpl value = set(key);
-            valueVector.loadScalarFromVector(i++, value);
+            values.add(set(key));
         }
+        valueVector.getScalars(values);
     }
 
     @Override

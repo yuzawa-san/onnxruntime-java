@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.FloatBuffer;
 import java.util.Collection;
+import java.util.List;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
@@ -25,14 +26,16 @@ final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
     }
 
     @Override
-    public void implodeValues(Collection<OnnxTensorImpl> values) {
-        for (OnnxTensorImpl value : values) {
-            buffer.put(value.getFloatBuffer().get());
+    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            buffer.put(scalar.getFloatBuffer().get());
         }
     }
 
     @Override
-    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        scalar.getFloatBuffer().put(0, buffer.get(index));
+    public void getScalars(List<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            scalar.getFloatBuffer().put(buffer.get()).flip();
+        }
     }
 }

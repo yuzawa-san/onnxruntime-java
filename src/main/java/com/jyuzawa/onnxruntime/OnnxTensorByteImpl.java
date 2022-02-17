@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.ByteBuffer;
 import java.util.Collection;
+import java.util.List;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
@@ -25,14 +26,16 @@ final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
     }
 
     @Override
-    public void implodeValues(Collection<OnnxTensorImpl> values) {
-        for (OnnxTensorImpl value : values) {
-            buffer.put(value.getByteBuffer().get());
+    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            buffer.put(scalar.getByteBuffer().get());
         }
     }
 
     @Override
-    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        scalar.getByteBuffer().put(0, buffer.get(index));
+    public void getScalars(List<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            scalar.getByteBuffer().put(buffer.get()).flip();
+        }
     }
 }

@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.DoubleBuffer;
 import java.util.Collection;
+import java.util.List;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
@@ -25,14 +26,16 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
     }
 
     @Override
-    public void implodeValues(Collection<OnnxTensorImpl> values) {
-        for (OnnxTensorImpl value : values) {
-            buffer.put(value.getDoubleBuffer().get());
+    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            buffer.put(scalar.getDoubleBuffer().get());
         }
     }
 
     @Override
-    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        scalar.getDoubleBuffer().put(0, buffer.get(index));
+    public void getScalars(List<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            scalar.getDoubleBuffer().put(buffer.get()).flip();
+        }
     }
 }

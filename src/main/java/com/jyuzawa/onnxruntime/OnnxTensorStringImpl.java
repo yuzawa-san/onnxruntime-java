@@ -87,15 +87,18 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    public void implodeValues(Collection<OnnxTensorImpl> values) {
+    public void putScalars(Collection<OnnxTensorImpl> scalars) {
         int i = 0;
-        for (OnnxTensorImpl value : values) {
-            buffer[i++] = value.getStringBuffer()[0];
+        for (OnnxTensorImpl scalar : scalars) {
+            buffer[i++] = scalar.getStringBuffer()[0];
         }
     }
 
     @Override
-    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        scalar.getStringBuffer()[0] = buffer[index];
+    public void getScalars(List<OnnxTensorImpl> scalars) {
+        int i = 0;
+        for (OnnxTensorImpl scalar : scalars) {
+            scalar.getStringBuffer()[0] = buffer[i++];
+        }
     }
 }

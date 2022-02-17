@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.nio.LongBuffer;
 import java.util.Collection;
+import java.util.List;
 import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
@@ -25,14 +26,16 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
     }
 
     @Override
-    public void implodeValues(Collection<OnnxTensorImpl> values) {
-        for (OnnxTensorImpl value : values) {
-            buffer.put(value.getLongBuffer().get());
+    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            buffer.put(scalar.getLongBuffer().get());
         }
     }
 
     @Override
-    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        scalar.getLongBuffer().put(0, buffer.get(index));
+    public void getScalars(List<OnnxTensorImpl> scalars) {
+        for (OnnxTensorImpl scalar : scalars) {
+            scalar.getLongBuffer().put(buffer.get()).flip();
+        }
     }
 }
