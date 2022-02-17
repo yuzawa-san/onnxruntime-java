@@ -28,7 +28,7 @@ final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
     @Override
     public void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
-            buffer.put(scalar.getShortBuffer().get());
+            buffer.put(scalar.getShortBuffer().flip().get());
         }
     }
 

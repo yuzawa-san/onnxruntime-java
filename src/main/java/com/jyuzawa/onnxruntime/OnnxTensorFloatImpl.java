@@ -28,7 +28,7 @@ final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
     @Override
     public void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
-            buffer.put(scalar.getFloatBuffer().get());
+            buffer.put(scalar.getFloatBuffer().flip().get());
         }
     }
 

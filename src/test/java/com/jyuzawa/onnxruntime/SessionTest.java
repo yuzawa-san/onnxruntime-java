@@ -7,11 +7,18 @@ package com.jyuzawa.onnxruntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Map;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.google.protobuf.ByteString;
+
+import io.netty.util.CharsetUtil;
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -26,9 +33,6 @@ import onnx.OnnxMl.TypeProto;
 import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class SessionTest {
 
@@ -398,7 +402,6 @@ public class SessionTest {
                                                                                                                                                                                 .setDimValue(
                                                                                                                                                                                         1)))))))))))
                 .build();
-        System.out.println(modelProto);
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build()) {
             Transaction.Builder txn = session.newTransaction();
@@ -475,7 +478,6 @@ public class SessionTest {
                                                                                                                                                                                 .setDimValue(
                                                                                                                                                                                         1)))))))))))
                 .build();
-        System.out.println(modelProto);
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build()) {
             Transaction.Builder txn = session.newTransaction();
@@ -490,6 +492,170 @@ public class SessionTest {
             rawOutput[1] = outputMap.get("bazz").asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get("barss").asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
+        }
+    }
+
+    @Test
+    public void castMapStringTest() throws IOException {
+        ModelProto modelProto = ModelProto.newBuilder()
+                .setIrVersion(8)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput("input")
+                                .addOutput("output")
+                                .setOpType("CastMap")
+                                .setDomain("ai.onnx.ml")
+                                .addAttribute(AttributeProto.newBuilder()
+                                        .setName("cast_to")
+                                        .setType(AttributeType.STRING)
+                                        .setS(ByteString.copyFrom("TO_STRING", CharsetUtil.UTF_8))))
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input")
+                                .setType(TypeProto.newBuilder()
+                                        .setMapType(TypeProto.Map.newBuilder()
+                                                .setKeyType(DataType.INT64_VALUE)
+                                                .setValueType(TypeProto.newBuilder()
+                                                        .setTensorType(Tensor.newBuilder()
+                                                                .setElemType(DataType.STRING_VALUE)
+                                                                .setShape(TensorShapeProto.newBuilder()
+                                                                        .addDim(Dimension.newBuilder()
+                                                                                .setDimValue(1))))))))
+                        .addOutput(ValueInfoProto.newBuilder()
+                                .setName("output")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder()
+                                                .setElemType(DataType.STRING_VALUE)
+                                                .setShape(TensorShapeProto.newBuilder()
+                                                        .addDim(Dimension.newBuilder()
+                                                                .setDimValue(5)))))))
+                .build();
+        ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
+        try (Session session = environment.newSession().setByteBuffer(model).build()) {
+            Transaction.Builder txn = session.newTransaction();
+            String[] rawInputs = new String[] {"fsaf", "fa3sf", "fe", "ab", "xr"};
+            long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
+            OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
+            mapInput.set(keys[0]).asTensor().getStringBuffer()[0] = rawInputs[0];
+            mapInput.set(keys[1]).asTensor().getStringBuffer()[0] = rawInputs[1];
+            mapInput.set(keys[2]).asTensor().getStringBuffer()[0] = rawInputs[2];
+            mapInput.set(keys[3]).asTensor().getStringBuffer()[0] = rawInputs[3];
+            mapInput.set(keys[4]).asTensor().getStringBuffer()[0] = rawInputs[4];
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            String[] rawOutput = output.get(0).asTensor().getStringBuffer();
+            String[] orderedOut = new String[] {"ab", "xr", "fe", "fsaf", "fa3sf"};
+            assertTrue(Arrays.equals(orderedOut, rawOutput));
+        }
+    }
+
+    @Test
+    public void castMapLongTest() throws IOException {
+        ModelProto modelProto = ModelProto.newBuilder()
+                .setIrVersion(8)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput("input")
+                                .addOutput("output")
+                                .setOpType("CastMap")
+                                .setDomain("ai.onnx.ml")
+                                .addAttribute(AttributeProto.newBuilder()
+                                        .setName("cast_to")
+                                        .setType(AttributeType.STRING)
+                                        .setS(ByteString.copyFrom("TO_INT64", CharsetUtil.UTF_8))))
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input")
+                                .setType(TypeProto.newBuilder()
+                                        .setMapType(TypeProto.Map.newBuilder()
+                                                .setKeyType(DataType.INT64_VALUE)
+                                                .setValueType(TypeProto.newBuilder()
+                                                        .setTensorType(Tensor.newBuilder()
+                                                                .setElemType(DataType.FLOAT_VALUE)
+                                                                .setShape(TensorShapeProto.newBuilder()
+                                                                        .addDim(Dimension.newBuilder()
+                                                                                .setDimValue(1))))))))
+                        .addOutput(ValueInfoProto.newBuilder()
+                                .setName("output")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder()
+                                                .setElemType(DataType.INT64_VALUE)
+                                                .setShape(TensorShapeProto.newBuilder()
+                                                        .addDim(Dimension.newBuilder()
+                                                                .setDimValue(5)))))))
+                .build();
+        ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
+        try (Session session = environment.newSession().setByteBuffer(model).build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInputs = new float[] {1092, 20932, 53, 10, 902};
+            long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
+            OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
+            mapInput.set(keys[0]).asTensor().getFloatBuffer().put(rawInputs[0]);
+            mapInput.set(keys[1]).asTensor().getFloatBuffer().put(rawInputs[1]);
+            mapInput.set(keys[2]).asTensor().getFloatBuffer().put(rawInputs[2]);
+            mapInput.set(keys[3]).asTensor().getFloatBuffer().put(rawInputs[3]);
+            mapInput.set(keys[4]).asTensor().getFloatBuffer().put(rawInputs[4]);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            long[] rawOutput = new long[5];
+            output.get(0).asTensor().getLongBuffer().get(rawOutput);
+            long[] orderedOut = new long[] {10, 902, 53, 1092, 20932};
+            assertTrue(Arrays.equals(orderedOut, rawOutput));
+        }
+    }
+
+    @Test
+    public void castMapFloatTest() throws IOException {
+        ModelProto modelProto = ModelProto.newBuilder()
+                .setIrVersion(8)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput("input")
+                                .addOutput("output")
+                                .setOpType("CastMap")
+                                .setDomain("ai.onnx.ml")
+                                .addAttribute(AttributeProto.newBuilder()
+                                        .setName("cast_to")
+                                        .setType(AttributeType.STRING)
+                                        .setS(ByteString.copyFrom("TO_FLOAT", CharsetUtil.UTF_8))))
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input")
+                                .setType(TypeProto.newBuilder()
+                                        .setMapType(TypeProto.Map.newBuilder()
+                                                .setKeyType(DataType.INT64_VALUE)
+                                                .setValueType(TypeProto.newBuilder()
+                                                        .setTensorType(Tensor.newBuilder()
+                                                                .setElemType(DataType.FLOAT_VALUE)
+                                                                .setShape(TensorShapeProto.newBuilder()
+                                                                        .addDim(Dimension.newBuilder()
+                                                                                .setDimValue(1))))))))
+                        .addOutput(ValueInfoProto.newBuilder()
+                                .setName("output")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder()
+                                                .setElemType(DataType.FLOAT_VALUE)
+                                                .setShape(TensorShapeProto.newBuilder()
+                                                        .addDim(Dimension.newBuilder()
+                                                                .setDimValue(5)))))))
+                .build();
+        ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
+        try (Session session = environment.newSession().setByteBuffer(model).build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInputs = new float[] {1092, 20932, 53, 10, 902};
+            long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
+            OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
+            mapInput.set(keys[0]).asTensor().getFloatBuffer().put(rawInputs[0]);
+            mapInput.set(keys[1]).asTensor().getFloatBuffer().put(rawInputs[1]);
+            mapInput.set(keys[2]).asTensor().getFloatBuffer().put(rawInputs[2]);
+            mapInput.set(keys[3]).asTensor().getFloatBuffer().put(rawInputs[3]);
+            mapInput.set(keys[4]).asTensor().getFloatBuffer().put(rawInputs[4]);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            float[] rawOutput = new float[5];
+            output.get(0).asTensor().getFloatBuffer().get(rawOutput);
+            float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
+            assertTrue(Arrays.equals(orderedOut, rawOutput));
         }
     }
 }

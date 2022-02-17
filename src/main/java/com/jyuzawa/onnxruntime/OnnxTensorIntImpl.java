@@ -28,7 +28,7 @@ final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
     @Override
     public void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
-            buffer.put(scalar.getIntBuffer().get());
+            buffer.put(scalar.getIntBuffer().flip().get());
         }
     }
 

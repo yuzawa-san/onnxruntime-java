@@ -28,7 +28,7 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
     @Override
     public void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
-            buffer.put(scalar.getDoubleBuffer().get());
+            buffer.put(scalar.getDoubleBuffer().flip().get());
         }
     }
 
