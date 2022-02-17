@@ -4,10 +4,14 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 final class OnnxMapStringImpl extends OnnxMapImpl<String, OnnxTensorStringImpl> {
 
     OnnxMapStringImpl(MapInfo mapInfo) {
-        super(mapInfo);
+        super(mapInfo, OnnxTensorStringImpl::new);
     }
 
     @Override
@@ -16,7 +20,16 @@ final class OnnxMapStringImpl extends OnnxMapImpl<String, OnnxTensorStringImpl> 
     }
 
     @Override
-    protected OnnxTensorStringImpl newKeyVector(int size) {
-        return new OnnxTensorStringImpl(new TensorInfoImpl(mapInfo.getKeyType(), size));
+    protected void implodeKeyVector(OnnxTensorStringImpl keyVector, Set<String> keys) {
+        String[] buffer = keyVector.getStringBuffer();
+        int i = 0;
+        for (String key : keys) {
+            buffer[i++] = key;
+        }
+    }
+
+    @Override
+    protected List<String> explodeKeyVector(OnnxTensorStringImpl keyVector) {
+        return Arrays.asList(keyVector.getStringBuffer());
     }
 }

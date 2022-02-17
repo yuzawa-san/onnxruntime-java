@@ -10,10 +10,11 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor, VectorScalarConverter {
+abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
     protected final TensorInfo tensorInfo;
 
@@ -70,6 +71,10 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor, Vecto
     public String[] getStringBuffer() {
         throw fail();
     }
+
+    abstract void implodeValues(Collection<OnnxTensorImpl> values);
+
+    abstract void loadScalarFromVector(int index, OnnxTensorImpl scalar);
 
     protected static final long[] shape(List<Long> original) {
         int shapeSize = original.size();

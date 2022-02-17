@@ -5,10 +5,10 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.DoubleBuffer;
-import java.util.List;
+import java.util.Collection;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> implements MapScalar<Double> {
+final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
 
     OnnxTensorDoubleImpl(TensorInfo tensorInfo) {
         super(tensorInfo, DoubleBuffer::allocate);
@@ -25,26 +25,14 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> impl
     }
 
     @Override
-    public void put(int index, Double scalar) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public List<Double> getValues() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+    public void implodeValues(Collection<OnnxTensorImpl> values) {
+        for (OnnxTensorImpl value : values) {
+            buffer.put(value.getDoubleBuffer().get());
+        }
     }
 
     @Override
     public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+        scalar.getDoubleBuffer().put(0, buffer.get(index));
     }
 }

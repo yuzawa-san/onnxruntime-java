@@ -5,10 +5,10 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.LongBuffer;
-import java.util.List;
+import java.util.Collection;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> implements MapScalar<Long> {
+final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
 
     OnnxTensorLongImpl(TensorInfo tensorInfo) {
         super(tensorInfo, LongBuffer::allocate);
@@ -25,26 +25,14 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> implemen
     }
 
     @Override
-    public void put(int index, Long scalar) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public List<Long> getValues() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+    public void implodeValues(Collection<OnnxTensorImpl> values) {
+        for (OnnxTensorImpl value : values) {
+            buffer.put(value.getLongBuffer().get());
+        }
     }
 
     @Override
     public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+        scalar.getLongBuffer().put(0, buffer.get(index));
     }
 }

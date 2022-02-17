@@ -5,10 +5,10 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.ShortBuffer;
-import java.util.List;
+import java.util.Collection;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> implements MapScalar<Short> {
+final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
 
     OnnxTensorShortImpl(TensorInfo tensorInfo) {
         super(tensorInfo, ShortBuffer::allocate);
@@ -25,26 +25,14 @@ final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> implem
     }
 
     @Override
-    public void put(int index, Short scalar) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public List<Short> getValues() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+    public void implodeValues(Collection<OnnxTensorImpl> values) {
+        for (OnnxTensorImpl value : values) {
+            buffer.put(value.getShortBuffer().get());
+        }
     }
 
     @Override
     public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+        scalar.getShortBuffer().put(0, buffer.get(index));
     }
 }

@@ -4,10 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.nio.LongBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
 
     OnnxMapLongImpl(MapInfo mapInfo) {
-        super(mapInfo);
+        super(mapInfo, OnnxTensorLongImpl::new);
     }
 
     @Override
@@ -16,7 +21,21 @@ final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
     }
 
     @Override
-    protected OnnxTensorLongImpl newKeyVector(int size) {
-        return new OnnxTensorLongImpl(new TensorInfoImpl(mapInfo.getKeyType(), size));
+    protected void implodeKeyVector(OnnxTensorLongImpl keyVector, Set<Long> keys) {
+        LongBuffer buffer = keyVector.buffer;
+        for (Long key : keys) {
+            buffer.put(key);
+        }
+        buffer.flip();
+    }
+
+    @Override
+    protected List<Long> explodeKeyVector(OnnxTensorLongImpl keyVector) {
+        LongBuffer buffer = keyVector.buffer;
+        List<Long> out = new ArrayList<>(buffer.capacity());
+        for (Long key : buffer.array()) {
+            out.add(key);
+        }
+        return out;
     }
 }

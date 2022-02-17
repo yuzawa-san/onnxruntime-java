@@ -5,8 +5,11 @@
 package com.jyuzawa.onnxruntime;
 
 import java.util.NoSuchElementException;
+import jdk.incubator.foreign.MemoryAddress;
+import jdk.incubator.foreign.ResourceScope;
+import jdk.incubator.foreign.SegmentAllocator;
 
-abstract class OnnxValueImpl implements OnnxValue, OnnxValueConverter {
+abstract class OnnxValueImpl implements OnnxValue {
 
     protected OnnxType type;
 
@@ -48,6 +51,20 @@ abstract class OnnxValueImpl implements OnnxValue, OnnxValueConverter {
     //    public OnnxOptional asOptional() {
     //        throw new NoSuchElementException("OnnxValue is not an optional");
     //    }
+
+    abstract MemoryAddress toNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress memoryInfo,
+            ResourceScope scope,
+            SegmentAllocator allocator);
+
+    abstract void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            ResourceScope scope,
+            SegmentAllocator allocator);
 
     static final OnnxValueImpl fromTypeInfo(TypeInfo typeInfo) {
         OnnxType type = typeInfo.getType();

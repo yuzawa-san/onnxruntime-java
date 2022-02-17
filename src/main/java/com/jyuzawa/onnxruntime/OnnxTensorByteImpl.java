@@ -5,10 +5,10 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.ByteBuffer;
-import java.util.List;
+import java.util.Collection;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> implements MapScalar<Byte> {
+final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
 
     OnnxTensorByteImpl(TensorInfo tensorInfo) {
         super(tensorInfo, ByteBuffer::allocate);
@@ -25,26 +25,14 @@ final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> implemen
     }
 
     @Override
-    public void put(int index, Byte scalar) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public List<Byte> getValues() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+    public void implodeValues(Collection<OnnxTensorImpl> values) {
+        for (OnnxTensorImpl value : values) {
+            buffer.put(value.getByteBuffer().get());
+        }
     }
 
     @Override
     public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
-        // TODO Auto-generated method stub
-
+        scalar.getByteBuffer().put(0, buffer.get(index));
     }
 }

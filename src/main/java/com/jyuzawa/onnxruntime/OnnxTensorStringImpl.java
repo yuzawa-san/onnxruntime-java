@@ -11,6 +11,7 @@ import static jdk.incubator.foreign.CLinker.toCString;
 
 import io.netty.util.CharsetUtil;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import jdk.incubator.foreign.Addressable;
 import jdk.incubator.foreign.MemoryAddress;
@@ -18,7 +19,7 @@ import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-final class OnnxTensorStringImpl extends OnnxTensorImpl implements MapScalar<String> {
+final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
     private final String[] buffer;
 
@@ -86,22 +87,15 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl implements MapScalar<Str
     }
 
     @Override
-    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
-        buffer[index] = scalar.getStringBuffer()[0];
+    public void implodeValues(Collection<OnnxTensorImpl> values) {
+        int i = 0;
+        for (OnnxTensorImpl value : values) {
+            buffer[i++] = value.getStringBuffer()[0];
+        }
     }
 
     @Override
     public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
         scalar.getStringBuffer()[0] = buffer[index];
-    }
-
-    @Override
-    public void put(int index, String scalar) {
-        buffer[index] = scalar;
-    }
-
-    @Override
-    public List<String> getValues() {
-        return Arrays.asList(buffer);
     }
 }

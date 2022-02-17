@@ -9,24 +9,27 @@ import static jdk.incubator.foreign.CLinker.C_POINTER;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Function;
 import jdk.incubator.foreign.Addressable;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-abstract class OnnxMapImpl<K, T extends MapScalar<K> & VectorScalarConverter> extends OnnxValueImpl
-        implements OnnxMap, OnnxTypedMap<K> {
+abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
 
+    private final Function<TensorInfo, T> keyVectorFactory;
     private final Map<K, OnnxTensorImpl> data;
     private final Map<K, OnnxValue> unmodifiableData;
     protected final MapInfo mapInfo;
 
-    protected OnnxMapImpl(MapInfo mapInfo) {
+    protected OnnxMapImpl(MapInfo mapInfo, Function<TensorInfo, T> keyVectorFactory) {
         super(OnnxType.MAP);
+        this.keyVectorFactory = keyVectorFactory;
         this.data = new LinkedHashMap<>();
         this.unmodifiableData = Collections.unmodifiableMap(data);
         this.mapInfo = mapInfo;
@@ -48,7 +51,18 @@ abstract class OnnxMapImpl<K, T extends MapScalar<K> & VectorScalarConverter> ex
         }
     }
 
-    protected abstract T newKeyVector(int size);
+    private final T newKeyVector(int size) {
+        return keyVectorFactory.apply(new TensorInfoImpl(mapInfo.getKeyType(), size));
+    }
+
+    private final OnnxTensorImpl newValueVector(int size) {
+        return OnnxTensorImpl.fromTypeInfo(
+                new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
+    }
+
+    protected abstract void implodeKeyVector(T keyVector, Set<K> keys);
+
+    protected abstract List<K> explodeKeyVector(T keyVector);
 
     @Override
     public final String toString() {
@@ -88,14 +102,10 @@ abstract class OnnxMapImpl<K, T extends MapScalar<K> & VectorScalarConverter> ex
             SegmentAllocator allocator) {
         int size = data.size();
         T keyVector = newKeyVector(size);
+        implodeKeyVector(keyVector, data.keySet());
         OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
                 new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
-        int i = 0;
-        for (Map.Entry<K, OnnxTensorImpl> entry : data.entrySet()) {
-            keyVector.put(i, entry.getKey());
-            valueVector.loadVectorFromScalar(i, entry.getValue());
-            i++;
-        }
+        valueVector.implodeValues(data.values());
         MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         MemorySegment kvArray = allocator.allocateArray(C_POINTER, new Addressable[] {keyAddress, valueAddress});
@@ -115,12 +125,11 @@ abstract class OnnxMapImpl<K, T extends MapScalar<K> & VectorScalarConverter> ex
         int size =
                 Math.toIntExact(api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
         T keyVector = newKeyVector(size);
-        OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
-                new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
+        OnnxTensorImpl valueVector = newValueVector(size);
         keyVector.fromNative(api, ortAllocator, keyAddress, scope, allocator);
         valueVector.fromNative(api, ortAllocator, valueAddress, scope, allocator);
         int i = 0;
-        for (K key : keyVector.getValues()) {
+        for (K key : explodeKeyVector(keyVector)) {
             OnnxTensorImpl value = set(key);
             valueVector.loadScalarFromVector(i++, value);
         }
