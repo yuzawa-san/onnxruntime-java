@@ -58,7 +58,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     @Override
-    MemoryAddress toNative(
+    public MemoryAddress toNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress memoryInfo,
@@ -77,7 +77,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     @Override
-    void fromNative(
+    public void fromNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress address,

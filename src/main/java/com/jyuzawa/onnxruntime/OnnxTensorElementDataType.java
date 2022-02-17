@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Collections;
 import jdk.incubator.foreign.CLinker;
 import jdk.incubator.foreign.ValueLayout;
 
@@ -28,10 +29,16 @@ public enum OnnxTensorElementDataType {
 
     private final int number;
     private final ValueLayout valueLayout;
+    private final TensorInfo scalarInfo;
 
     private OnnxTensorElementDataType(int number, ValueLayout valueLayout) {
         this.number = number;
         this.valueLayout = valueLayout;
+        this.scalarInfo = new TensorInfoImpl(this, Collections.singletonList(1L), 1L);
+    }
+
+    TensorInfo getScalarInfo() {
+        return scalarInfo;
     }
 
     int getNumber() {

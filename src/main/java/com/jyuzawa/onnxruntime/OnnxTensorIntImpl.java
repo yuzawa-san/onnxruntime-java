@@ -5,10 +5,11 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.IntBuffer;
-import jdk.incubator.foreign.MemoryAccess;
+import java.util.ArrayList;
+import java.util.List;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
+final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> implements MapScalar<Integer> {
 
     OnnxTensorIntImpl(TensorInfo tensorInfo) {
         super(tensorInfo, IntBuffer::allocate);
@@ -25,7 +26,26 @@ final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
     }
 
     @Override
-    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
-        buffer.put(MemoryAccess.getIntAtIndex(valueSegment, i));
+    public void put(int index, Integer scalar) {
+        buffer.put(index, scalar);
+    }
+
+    @Override
+    public List<Integer> getValues() {
+        List<Integer> out = new ArrayList<>(buffer.capacity());
+        for (Integer key : buffer.array()) {
+            out.add(key);
+        }
+        return out;
+    }
+
+    @Override
+    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
+        buffer.put(index, scalar.getIntBuffer().get(0));
+    }
+
+    @Override
+    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
+        scalar.getIntBuffer().put(0, buffer.get(index));
     }
 }

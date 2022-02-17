@@ -29,7 +29,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     }
 
     @Override
-    final MemoryAddress toNative(
+    public final MemoryAddress toNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress memoryInfo,
@@ -56,7 +56,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     }
 
     @Override
-    final void fromNative(
+    public final void fromNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress address,
@@ -66,15 +66,6 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         MemorySegment segment = floatOutput.asSegment(tensorInfo.getByteCount(), scope);
         getMemorySegment().copyFrom(segment);
     }
-
-    @Override
-    final void fromNativeMapValue(
-            ApiImpl api, MemoryAddress valueAddress, MemorySegment valueSegment, SegmentAllocator allocator, int i) {
-        fromNativeMapValue(valueSegment, i);
-        buffer.flip();
-    }
-
-    protected abstract void fromNativeMapValue(MemorySegment valueSegment, int i);
 
     protected abstract MemorySegment getMemorySegment();
 }

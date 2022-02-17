@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Collections;
 import java.util.List;
 
 final class TensorInfoImpl implements TensorInfo {
@@ -17,6 +18,14 @@ final class TensorInfoImpl implements TensorInfo {
         this.type = type;
         this.shape = shape;
         this.elementCount = elementCount;
+    }
+
+    TensorInfoImpl(OnnxTensorElementDataType type, long elementCount) {
+        this(type, Collections.singletonList(elementCount), elementCount);
+    }
+
+    TensorInfoImpl(OnnxTensorElementDataType type) {
+        this(type, 1);
     }
 
     @Override

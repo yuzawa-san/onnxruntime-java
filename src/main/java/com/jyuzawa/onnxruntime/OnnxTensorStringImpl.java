@@ -18,7 +18,7 @@ import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-final class OnnxTensorStringImpl extends OnnxTensorImpl {
+final class OnnxTensorStringImpl extends OnnxTensorImpl implements MapScalar<String> {
 
     private final String[] buffer;
 
@@ -38,7 +38,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    MemoryAddress toNative(
+    public MemoryAddress toNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress memoryInfo,
@@ -68,7 +68,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    void fromNative(
+    public void fromNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress address,
@@ -86,16 +86,22 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    void fromNativeMapValue(
-            ApiImpl api,
-            MemoryAddress valueAddress,
-            MemorySegment valueSegment,
-            SegmentAllocator allocator,
-            int index) {
-        long length =
-                api.extractLong(allocator, out -> api.GetStringTensorElementLength.apply(valueAddress, index, out));
-        MemorySegment output = allocator.allocateArray(C_CHAR, length);
-        api.checkStatus(api.GetStringTensorElement.apply(valueAddress, length, index, output.address()));
-        buffer[0] = new String(output.toByteArray(), CharsetUtil.UTF_8);
+    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
+        buffer[index] = scalar.getStringBuffer()[0];
+    }
+
+    @Override
+    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
+        scalar.getStringBuffer()[0] = buffer[index];
+    }
+
+    @Override
+    public void put(int index, String scalar) {
+        buffer[index] = scalar;
+    }
+
+    @Override
+    public List<String> getValues() {
+        return Arrays.asList(buffer);
     }
 }

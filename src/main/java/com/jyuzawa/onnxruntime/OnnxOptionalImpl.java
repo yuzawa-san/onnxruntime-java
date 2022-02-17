@@ -55,7 +55,7 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
     }
 
     @Override
-    MemoryAddress toNative(
+    public MemoryAddress toNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress memoryInfo,
@@ -66,7 +66,7 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
     }
 
     @Override
-    void fromNative(
+    public void fromNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress address,

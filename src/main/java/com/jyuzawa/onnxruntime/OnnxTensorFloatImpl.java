@@ -5,10 +5,10 @@
 package com.jyuzawa.onnxruntime;
 
 import java.nio.FloatBuffer;
-import jdk.incubator.foreign.MemoryAccess;
+import java.util.List;
 import jdk.incubator.foreign.MemorySegment;
 
-final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
+final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> implements MapScalar<Float> {
 
     OnnxTensorFloatImpl(TensorInfo tensorInfo) {
         super(tensorInfo, FloatBuffer::allocate);
@@ -25,7 +25,26 @@ final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
     }
 
     @Override
-    protected void fromNativeMapValue(MemorySegment valueSegment, int i) {
-        buffer.put(MemoryAccess.getFloatAtIndex(valueSegment, i));
+    public void put(int index, Float scalar) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public List<Float> getValues() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void loadVectorFromScalar(int index, OnnxTensorImpl scalar) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void loadScalarFromVector(int index, OnnxTensorImpl scalar) {
+        // TODO Auto-generated method stub
+
     }
 }

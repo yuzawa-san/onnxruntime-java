@@ -12,11 +12,8 @@ import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.util.List;
 import java.util.NoSuchElementException;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.SegmentAllocator;
 
-abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
+abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor, VectorScalarConverter {
 
     protected final TensorInfo tensorInfo;
 
@@ -105,7 +102,4 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
                 throw new UnsupportedOperationException("OnnxTensor with type " + type + " is not supported");
         }
     }
-
-    abstract void fromNativeMapValue(
-            ApiImpl api, MemoryAddress valueAddress, MemorySegment valueSegment, SegmentAllocator allocator, int i);
 }

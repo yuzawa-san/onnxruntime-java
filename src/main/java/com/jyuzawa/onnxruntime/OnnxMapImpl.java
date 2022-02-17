@@ -9,7 +9,6 @@ import static jdk.incubator.foreign.CLinker.C_POINTER;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -19,7 +18,8 @@ import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 import jdk.incubator.foreign.SegmentAllocator;
 
-abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
+abstract class OnnxMapImpl<K, T extends MapScalar<K> & VectorScalarConverter> extends OnnxValueImpl
+        implements OnnxMap, OnnxTypedMap<K> {
 
     private final Map<K, OnnxTensorImpl> data;
     private final Map<K, OnnxValue> unmodifiableData;
@@ -47,6 +47,8 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxType
                 throw new UnsupportedOperationException("OnnxMap does not support keys of type " + type);
         }
     }
+
+    protected abstract T newKeyVector(int size);
 
     @Override
     public final String toString() {
@@ -78,66 +80,49 @@ abstract class OnnxMapImpl<K> extends OnnxValueImpl implements OnnxMap, OnnxType
     }
 
     @Override
-    MemoryAddress toNative(
+    public MemoryAddress toNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress memoryInfo,
             ResourceScope scope,
             SegmentAllocator allocator) {
         int size = data.size();
-        Addressable[] keysAddresses = new Addressable[size];
-        Addressable[] valuesAddresses = new Addressable[size];
-        if (mapInfo.getKeyType() == OnnxTensorElementDataType.STRING) {}
-
-        for (int i = 0; i < size; i++) {
-            OnnxValueImpl value = data.get(i);
-            valuesAddresses[i] = value.toNative(api, ortAllocator, memoryInfo, scope, allocator);
+        T keyVector = newKeyVector(size);
+        OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
+                new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
+        int i = 0;
+        for (Map.Entry<K, OnnxTensorImpl> entry : data.entrySet()) {
+            keyVector.put(i, entry.getKey());
+            valueVector.loadVectorFromScalar(i, entry.getValue());
+            i++;
         }
-        for (Map.Entry<K, OnnxTensorImpl> entry : data.entrySet()) {}
-
-        MemorySegment keysArray = allocator.allocateArray(C_POINTER, keysAddresses);
-        MemorySegment valuesArray = allocator.allocateArray(C_POINTER, valuesAddresses);
-        MemoryAddress keys = api.create(
-                allocator, out -> api.CreateValue.apply(keysArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
-        MemoryAddress values = api.create(
-                allocator,
-                out -> api.CreateValue.apply(valuesArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
-        MemorySegment kvArray = allocator.allocateArray(C_POINTER, new Addressable[] {keys, values});
+        MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
+        MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
+        MemorySegment kvArray = allocator.allocateArray(C_POINTER, new Addressable[] {keyAddress, valueAddress});
         return api.create(allocator, out -> api.CreateValue.apply(kvArray.address(), 2, OnnxType.MAP.getNumber(), out));
     }
 
-    protected abstract List<K> fromNativeMapKeys(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress keysAddresss,
-            ResourceScope scope,
-            SegmentAllocator allocator);
-
     @Override
-    void fromNative(
+    public void fromNative(
             ApiImpl api,
             MemoryAddress ortAllocator,
             MemoryAddress address,
             ResourceScope scope,
             SegmentAllocator allocator) {
-
         MemoryAddress keyAddress = api.create(allocator, out -> api.GetValue.apply(address, 0, ortAllocator, out));
         MemoryAddress valueAddress = api.create(allocator, out -> api.GetValue.apply(address, 1, ortAllocator, out));
-        OnnxTensorElementDataType valueType =
-                mapInfo.getValueType().getTensorInfo().getType();
-        List<K> keys = fromNativeMapKeys(api, ortAllocator, keyAddress, scope, allocator);
-        int count = keys.size();
-        MemorySegment valueSegment = null;
-        if (valueType != OnnxTensorElementDataType.STRING) {
-            MemoryAddress valueContentAddress =
-                    api.create(allocator, out -> api.GetTensorMutableData.apply(valueAddress, out));
-            valueSegment =
-                    valueContentAddress.asSegment(valueType.getValueLayout().byteSize() * count, scope);
-        }
-        for (int i = 0; i < count; i++) {
-            K key = keys.get(i);
+        MemoryAddress keyInfo = api.create(allocator, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
+        int size =
+                Math.toIntExact(api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
+        T keyVector = newKeyVector(size);
+        OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
+                new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
+        keyVector.fromNative(api, ortAllocator, keyAddress, scope, allocator);
+        valueVector.fromNative(api, ortAllocator, valueAddress, scope, allocator);
+        int i = 0;
+        for (K key : keyVector.getValues()) {
             OnnxTensorImpl value = set(key);
-            value.fromNativeMapValue(api, valueAddress, valueSegment, allocator, i);
+            valueVector.loadScalarFromVector(i++, value);
         }
     }
 
