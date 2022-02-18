@@ -88,11 +88,12 @@ def makePom(node, osArches) {
 }
 
 project.group = "com.jyuzawa"
+def REPO = "github.com/yuzawa-san/onnxruntime-java"
 publishing {
 	repositories {
 		maven {
 			name = 'GitHub'
-			url = uri("https://maven.pkg.github.com/yuzawa-san/onnxruntime-java")
+			url = uri("https://maven.pkg.${REPO}")
 			credentials {
 				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
 				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
@@ -118,25 +119,25 @@ publishing {
 			pom {
 				name = 'ONNX Runtime for Java'
 				description = "A Java binding of Microsoft's onnxruntime project."
-				url = 'https://github.com/yuzawa-san/onnxruntime-java'
+				url = "https://${REPO}"
 				licenses {
 					license {
-							name = 'MIT License'
-							url = 'https://opensource.org/licenses/mit-license.php'
-							distribution = 'repo'
+						name = 'MIT License'
+						url = 'https://opensource.org/licenses/mit-license.php'
+						distribution = 'repo'
 					}
 				}
 				developers {
 					developer {
-							id = 'yuzawa-san'
-							name = 'James Yuzawa'
-							email = 'jtyuzawa@gmail.com'
+						id = 'yuzawa-san'
+						name = 'James Yuzawa'
+						email = 'jtyuzawa@gmail.com'
 					}
 				}
 				scm {
-					connection = 'scm:git:git://github.com/yuzawa-san/onnxruntime-java.git'
-					developerConnection = 'scm:git:ssh://github.com/yuzawa-san/onnxruntime-java.git'
-					url = 'https://github.com/yuzawa-san/onnxruntime-java'
+					connection = "scm:git:git://${REPO}.git"
+					developerConnection = "scm:git:ssh://${REPO}.git"
+					url = REPO
 				}
 			}
 		}
