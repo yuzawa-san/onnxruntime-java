@@ -60,6 +60,34 @@ java {
 	withSourcesJar()
 }
 
+def cpuOsArches = ["linux-x86_64", "linux-aarch64", "windows-x86_64", "osx-x86_64", "osx-aarch64"]
+def gpuOsArches = ["linux-x86_64", "windows-x86_64"]
+
+task platformJar (type: Jar) {
+	from "${project.buildDir}/jnioutput"
+	classifier "osx-universal2"
+}
+
+def makePom(node, osArches) {
+	def parentNode = node.appendNode('parent')
+	parentNode.appendNode('groupId', project.group)
+	parentNode.appendNode('artifactId', project.name)
+	parentNode.appendNode('version', version)
+	def dependenciesNode = node.appendNode('dependencies')
+	def mainDependency = dependenciesNode.appendNode('dependency')
+	mainDependency.appendNode('groupId', project.group)
+	mainDependency.appendNode('artifactId', project.name)
+	mainDependency.appendNode('version', version)
+	osArches.forEach {
+		def dependency = dependenciesNode.appendNode('dependency')
+		dependency.appendNode('groupId', project.group)
+		dependency.appendNode('artifactId', project.name)
+		dependency.appendNode('version', version)
+		dependency.appendNode('classifier', it)
+	}
+}
+
+project.group = "com.jyuzawa"
 publishing {
 	repositories {
 		maven {
@@ -72,11 +100,48 @@ publishing {
 		}
 	}
 	publications {
-		maven(MavenPublication) {
-			groupId = 'com.jyuzawa'
-			artifactId = 'onnxruntime-java'
-			from components.java
+		onnxruntimeCpu(MavenPublication) {
+			artifactId = "${rootProject.name}-cpu"
+			pom.withXml {
+				makePom(asNode(), cpuOsArches)
+			}
 		}
+		onnxruntimeGpu(MavenPublication) {
+			artifactId = "${rootProject.name}-gpu"
+			pom.withXml {
+				makePom(asNode(), gpuOsArches)
+			}
+		}
+		onnxruntime(MavenPublication) {
+			from components.java
+			artifact platformJar
+			pom {
+				name = 'ONNX Runtime for Java'
+				description = "A Java binding of Microsoft's onnxruntime project."
+				url = 'https://github.com/yuzawa-san/onnxruntime-java'
+				licenses {
+					license {
+							name = 'MIT License'
+							url = 'https://opensource.org/licenses/mit-license.php'
+							distribution = 'repo'
+					}
+				}
+				developers {
+					developer {
+							id = 'yuzawa-san'
+							name = 'James Yuzawa'
+							email = 'jtyuzawa@gmail.com'
+					}
+				}
+				scm {
+					connection = 'scm:git:git://github.com/yuzawa-san/onnxruntime-java.git'
+					developerConnection = 'scm:git:ssh://github.com/yuzawa-san/onnxruntime-java.git'
+					url = 'https://github.com/yuzawa-san/onnxruntime-java'
+				}
+			}
+		}
+		
+		
 	}
 }
 
@@ -125,7 +190,6 @@ javadoc {
 
 def moduleName = "com.jyuzawa.onnxruntime"
 jar {
-	from "${project.buildDir}/jnioutput"
 	manifest {
 		attributes('Automatic-Module-Name': moduleName)
 	}
