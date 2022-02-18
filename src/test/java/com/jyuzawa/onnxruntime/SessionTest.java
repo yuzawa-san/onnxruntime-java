@@ -7,18 +7,12 @@ package com.jyuzawa.onnxruntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.protobuf.ByteString;
+import io.netty.util.CharsetUtil;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Map;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.protobuf.ByteString;
-
-import io.netty.util.CharsetUtil;
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -33,6 +27,9 @@ import onnx.OnnxMl.TypeProto;
 import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class SessionTest {
 
