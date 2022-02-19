@@ -109,12 +109,12 @@ publishing {
 				makePom(asNode(), cpuOsArches)
 			}
 		}
-		onnxruntimeGpu(MavenPublication) {
+		/*onnxruntimeGpu(MavenPublication) {
 			artifactId = "${rootProject.name}-gpu"
 			pom.withXml {
 				makePom(asNode(), gpuOsArches)
 			}
-		}
+		}*/
 		onnxruntime(MavenPublication) {
 			from components.java
 			allArches.each {
