@@ -10,8 +10,7 @@ import static jdk.incubator.foreign.CLinker.toJavaString;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
-import io.netty.util.internal.NativeLibraryLoader;
-import io.netty.util.internal.PlatformDependent;
+
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
@@ -23,9 +22,7 @@ enum ApiBaseImpl implements ApiBase {
     private final ApiImpl api;
 
     private ApiBaseImpl() {
-        String os = PlatformDependent.normalizedOs();
-        String arch = PlatformDependent.isOsx() ? "universal2" : PlatformDependent.normalizedArch();
-        NativeLibraryLoader.load("onnxruntime_" + os + "_" + arch, ApiBase.class.getClassLoader());
+    	Loader.load();
         ResourceScope scope = ResourceScope.globalScope();
         MemorySegment segment = OrtGetApiBase().asSegment(OrtApiBase.sizeof(), scope);
         this.version = toJavaString(OrtApiBase.GetVersionString(segment).apply());

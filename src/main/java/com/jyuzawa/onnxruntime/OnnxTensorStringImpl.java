@@ -9,12 +9,13 @@ import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toCString;
 
-import io.netty.util.CharsetUtil;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
+
 import jdk.incubator.foreign.Addressable;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
@@ -23,6 +24,8 @@ import jdk.incubator.foreign.SegmentAllocator;
 
 final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
+	private static final Charset UTF8 = Charset.forName("utf-8");
+	
     private final String[] buffer;
 
     OnnxTensorStringImpl(TensorInfo tensorInfo) {
@@ -84,7 +87,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                     api.extractLong(allocator, out -> api.GetStringTensorElementLength.apply(address, index, out));
             MemorySegment output = allocator.allocateArray(C_CHAR, length);
             api.checkStatus(api.GetStringTensorElement.apply(address, length, index, output.address()));
-            buffer[i] = new String(output.toByteArray(), CharsetUtil.UTF_8);
+            buffer[i] = new String(output.toByteArray(), UTF8);
         }
     }
 

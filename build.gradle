@@ -48,8 +48,6 @@ jacocoTestReport {
 sourceCompatibility = targetCompatibility = 17
 
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
-def BUILD_VERSION = project.findProperty('com.jyuzawa.onnxruntime.build_version')
-version = "${ORT_VERSION}-${BUILD_VERSION}"
 
 repositories {
 	mavenCentral()
@@ -60,12 +58,15 @@ java {
 	withSourcesJar()
 }
 
-def cpuOsArches = ["linux-x86_64", "linux-aarch64", "windows-x86_64", "osx-x86_64", "osx-aarch64"]
-def gpuOsArches = ["linux-x86_64", "windows-x86_64"]
+def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch64", "osx-x86_64", "osx-aarch_64"]
+def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
+def allArches = cpuOsArches + gpuOsArches
 
-task platformJar (type: Jar) {
-	from "${project.buildDir}/jnioutput"
-	classifier "osx-universal2"
+allArches.each { osArch ->
+	task "osArchJar${osArch}" (type: Jar) {
+		from "${project.buildDir}/jnioutput/${osArch}"
+		classifier osArch
+	}
 }
 
 def makePom(node, osArches) {
@@ -78,7 +79,7 @@ def makePom(node, osArches) {
 	mainDependency.appendNode('groupId', project.group)
 	mainDependency.appendNode('artifactId', project.name)
 	mainDependency.appendNode('version', version)
-	osArches.forEach {
+	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
 		dependency.appendNode('groupId', project.group)
 		dependency.appendNode('artifactId', project.name)
@@ -115,7 +116,9 @@ publishing {
 		}
 		onnxruntime(MavenPublication) {
 			from components.java
-			artifact platformJar
+			allArches.each {
+				artifact tasks.named("osArchJar${it}")
+			}
 			pom {
 				name = 'ONNX Runtime for Java'
 				description = "A Java binding of Microsoft's onnxruntime project."
@@ -149,7 +152,6 @@ publishing {
 dependencies {
 	testImplementation "junit:junit:4.13.2"
 	testImplementation 'com.google.protobuf:protobuf-java:3.19.4'
-	implementation "io.netty:netty-common:4.1.73.Final"
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.17.1'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.17.1'
 }
@@ -173,7 +175,9 @@ sourceSets {
 			srcDirs "${protobuf.generatedFilesBaseDir}/test/java"
 		}
 		resources {
-			srcDir "${project.buildDir}/jnioutput"
+			cpuOsArches.each { osArch ->
+				srcDir "${project.buildDir}/jnioutput/${osArch}"
+			}
 		}
 	}
 }
