@@ -58,15 +58,16 @@ java {
 	withSourcesJar()
 }
 
-def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch64", "osx-x86_64", "osx-aarch_64"]
+def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
 def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
 def allArches = cpuOsArches + gpuOsArches
 
 allArches.each { osArch ->
 	task "osArchJar${osArch}" (type: Jar) {
-		from "${project.buildDir}/jnioutput/${osArch}"
+		from ("${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}")
 		classifier osArch
 	}
+	build.dependsOn tasks.named("osArchJar${osArch}")
 }
 
 def makePom(node, osArches) {
@@ -176,7 +177,7 @@ sourceSets {
 		}
 		resources {
 			cpuOsArches.each { osArch ->
-				srcDir "${project.buildDir}/jnioutput/${osArch}"
+				srcDir "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
 			}
 		}
 	}

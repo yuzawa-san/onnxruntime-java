@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
-
 import jdk.incubator.foreign.Addressable;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
@@ -24,8 +23,8 @@ import jdk.incubator.foreign.SegmentAllocator;
 
 final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
-	private static final Charset UTF8 = Charset.forName("utf-8");
-	
+    private static final Charset UTF8 = Charset.forName("utf-8");
+
     private final String[] buffer;
 
     OnnxTensorStringImpl(TensorInfo tensorInfo) {

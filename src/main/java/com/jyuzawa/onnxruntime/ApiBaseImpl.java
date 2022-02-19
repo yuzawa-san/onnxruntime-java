@@ -10,7 +10,6 @@ import static jdk.incubator.foreign.CLinker.toJavaString;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
-
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
@@ -22,7 +21,7 @@ enum ApiBaseImpl implements ApiBase {
     private final ApiImpl api;
 
     private ApiBaseImpl() {
-    	Loader.load();
+        Loader.load();
         ResourceScope scope = ResourceScope.globalScope();
         MemorySegment segment = OrtGetApiBase().asSegment(OrtApiBase.sizeof(), scope);
         this.version = toJavaString(OrtApiBase.GetVersionString(segment).apply());

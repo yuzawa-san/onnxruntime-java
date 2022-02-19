@@ -7,18 +7,12 @@ package com.jyuzawa.onnxruntime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Map;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.protobuf.ByteString;
-
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -33,10 +27,13 @@ import onnx.OnnxMl.TypeProto;
 import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class SessionTest {
-	
-	private static final Charset UTF8 = Charset.forName("utf-8");
+
+    private static final Charset UTF8 = Charset.forName("utf-8");
     private static Environment environment;
 
     @BeforeClass
