@@ -43,6 +43,9 @@ final class TransactionImpl implements Transaction {
             SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
             MemoryAddress memoryInfo = api.create(
                     allocator, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
+            scope.addCloseAction(() -> {
+                api.ReleaseMemoryInfo.apply(memoryInfo);
+            });
 
             int numInputs = inputs.size();
             Addressable[] inputNamesVector = new Addressable[numInputs];
@@ -53,9 +56,6 @@ final class TransactionImpl implements Transaction {
                 inputNamesVector[idx] = input1;
                 MemoryAddress valueAddress = entry.getValue().toNative(api, ortAllocator, memoryInfo, scope, allocator);
                 inputValuesVector[idx] = valueAddress;
-                scope.addCloseAction(() -> {
-                    api.ReleaseValue.apply(valueAddress);
-                });
                 idx++;
             }
             MemorySegment inputNames = allocator.allocateArray(C_POINTER, inputNamesVector);

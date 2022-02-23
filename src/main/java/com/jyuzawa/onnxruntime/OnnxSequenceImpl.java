@@ -71,9 +71,13 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
             valuesAddresses[i] = value.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         }
         MemorySegment valuesArray = allocator.allocateArray(C_POINTER, valuesAddresses);
-        return api.create(
+        MemoryAddress value = api.create(
                 allocator,
                 out -> api.CreateValue.apply(valuesArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(value);
+        });
+        return value;
     }
 
     @Override
@@ -92,6 +96,9 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
             value.fromNative(api, ortAllocator, valueAddress, scope, allocator);
             data.add(value);
         }
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(address);
+        });
     }
 
     @Override

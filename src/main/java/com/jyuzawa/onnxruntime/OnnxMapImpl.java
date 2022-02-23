@@ -109,7 +109,12 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
         MemorySegment kvArray = allocator.allocateArray(C_POINTER, new Addressable[] {keyAddress, valueAddress});
-        return api.create(allocator, out -> api.CreateValue.apply(kvArray.address(), 2, OnnxType.MAP.getNumber(), out));
+        MemoryAddress value = api.create(
+                allocator, out -> api.CreateValue.apply(kvArray.address(), 2, OnnxType.MAP.getNumber(), out));
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(value);
+        });
+        return value;
     }
 
     @Override
@@ -129,6 +134,9 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         keyVector.fromNative(api, ortAllocator, keyAddress, scope, allocator);
         valueVector.fromNative(api, ortAllocator, valueAddress, scope, allocator);
         valueVector.getScalars(explodeKeyVector(keyVector).map(this::set));
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(address);
+        });
     }
 
     @Override

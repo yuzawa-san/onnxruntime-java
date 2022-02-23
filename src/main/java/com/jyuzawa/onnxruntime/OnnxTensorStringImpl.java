@@ -69,6 +69,9 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                         tensorInfo.getType().getNumber(),
                         out));
         api.checkStatus(api.FillStringTensor.apply(tensor, stringArray.address(), numOutputs));
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(tensor);
+        });
         return tensor;
     }
 
@@ -88,6 +91,9 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
             api.checkStatus(api.GetStringTensorElement.apply(address, length, index, output.address()));
             buffer[i] = new String(output.toByteArray(), UTF8);
         }
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(address);
+        });
     }
 
     @Override

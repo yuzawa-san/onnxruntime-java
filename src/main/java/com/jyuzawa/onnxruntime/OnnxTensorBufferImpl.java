@@ -43,7 +43,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         List<Long> shape = tensorInfo.getShape();
         int shapeSize = shape.size();
         MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
-        return api.create(
+        MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
                         memoryInfo,
@@ -53,6 +53,10 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
                         shapeSize,
                         tensorInfo.getType().getNumber(),
                         out));
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(tensor);
+        });
+        return tensor;
     }
 
     @Override
@@ -65,6 +69,9 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         MemoryAddress floatOutput = api.create(allocator, out -> api.GetTensorMutableData.apply(address, out));
         MemorySegment segment = floatOutput.asSegment(tensorInfo.getByteCount(), scope);
         getMemorySegment().copyFrom(segment);
+        scope.addCloseAction(() -> {
+            api.ReleaseValue.apply(address);
+        });
     }
 
     protected abstract MemorySegment getMemorySegment();
