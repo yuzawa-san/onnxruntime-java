@@ -11,6 +11,7 @@ import java.lang.System.Logger.Level;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.function.Supplier;
 import jdk.incubator.foreign.CLinker;
 import jdk.incubator.foreign.FunctionDescriptor;
 import jdk.incubator.foreign.MemoryAddress;
@@ -66,19 +67,28 @@ public enum OrtLoggingLevel {
         String id = toJavaString(idAddress);
         String location = toJavaString(locationAddress);
         String message = toJavaString(messageAddress);
+        Supplier<String> line = () -> new StringBuilder()
+                .append(category)
+                .append(' ')
+                .append(id)
+                .append(' ')
+                .append(location)
+                .append(' ')
+                .append(message)
+                .toString();
         switch (OrtLoggingLevel.forNumber(level)) {
             case VERBOSE:
-                LOG.log(Level.DEBUG, "{} {} {} {}", category, id, location, message);
+                LOG.log(Level.DEBUG, line);
                 break;
             case INFO:
-                LOG.log(Level.INFO, "{} {} {} {}", category, id, location, message);
+                LOG.log(Level.INFO, line);
                 break;
             case WARNING:
-                LOG.log(Level.WARNING, "{} {} {} {}", category, id, location, message);
+                LOG.log(Level.WARNING, line);
                 break;
             case FATAL:
             case ERROR:
-                LOG.log(Level.ERROR, "{} {} {} {}", category, id, location, message);
+                LOG.log(Level.ERROR, line);
                 break;
         }
         return MemoryAddress.NULL;
