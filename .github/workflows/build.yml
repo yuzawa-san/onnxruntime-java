@@ -1,0 +1,52 @@
+name: build
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Java ${{ matrix.java }} build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gradle/wrapper-validation-action@v1
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Cache Gradle packages
+        uses: actions/cache@v2.1.7
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle-caches-
+      - name: Cache onnxruntime archives
+        uses: actions/cache@v2.1.7
+        with:
+          path: ./cache
+          key: ${{ runner.os }}-onnxruntime-${{ hashFiles('gradle.properties') }}
+      - name: Build with Gradle
+        run: |
+          ./gradlew build -s
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2.1.0
+        if: ${{ matrix.java == '17' }}
+      - name: Save reports
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: reports-${{ matrix.java }}
+          path: build/reports/
