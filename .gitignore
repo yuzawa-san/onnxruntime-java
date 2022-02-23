@@ -17,3 +17,5 @@ cmake-build-*/
 .project
 .classpath
 bin/
+
+cache/
