@@ -159,19 +159,26 @@ dependencies {
 }
 
 task make(type: Exec) {
-	commandLine 'make', "ORT_VERSION=${ORT_VERSION}"
+	environment('ORT_VERSION', ORT_VERSION)
+	commandLine 'make'
+}
+
+compileJava {
+	dependsOn make
+}
+
+task jextractClean(type: Delete) {
+	delete 'symbols.conf'
+	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
 }
 
 task jextract(type: Exec) {
-	commandLine 'make', 'onnxruntime_all.h.conf', "ORT_VERSION=${ORT_VERSION}"
+	environment('ORT_VERSION', ORT_VERSION)
+	commandLine 'make', 'src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java'
+	finalizedBy tasks.named('spotlessApply')
 }
 
 sourceSets {
-	main {
-		java {
-			srcDirs += "${project.buildDir}/generated/jextract/"
-		}
-	}
 	test {
 		java {
 			srcDirs "${protobuf.generatedFilesBaseDir}/test/java"
@@ -182,10 +189,6 @@ sourceSets {
 			}
 		}
 	}
-}
-
-compileJava {
-	dependsOn make
 }
 
 java {

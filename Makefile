@@ -35,10 +35,13 @@ build/onnxruntime-${ORT_VERSION}/windows-x86_64-gpu/com/jyuzawa/onnxruntime/nati
 	./download.sh ${ORT_VERSION} windows-x86_64 -gpu win-x64-gpu zip dll
 
 # manually generate the symbols (and manually strip out the irrelevant symbols)
-onnxruntime_all.h.conf: build/onnxruntime-${ORT_VERSION}/linux-x86_64-gpu/com/jyuzawa/onnxruntime/native/linux-x86_64/libraries
-	docker run --rm -v $(PWD):/workdir jextract -d /workdir/build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I build/onnxruntime-${ORT_VERSION}/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include --dump-includes symbols.conf onnxruntime_all.h
-
-build/generated/jextract/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java: build/onnxruntime-${ORT_VERSION}/linux-x86_64-gpu/com/jyuzawa/onnxruntime/native/linux-x86_64/libraries
-	docker run --rm -v $(PWD):/workdir jextract -d /workdir/build/generated/jextract -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I build/onnxruntime-${ORT_VERSION}/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include @symbols.conf onnxruntime_all.h
+src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java: build/onnxruntime-${ORT_VERSION}/linux-x86_64-gpu/com/jyuzawa/onnxruntime/native/linux-x86_64/libraries
+	docker run --rm -v $(PWD):/workdir `docker build -q .` -d /workdir/src/main/java -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I build/onnxruntime-${ORT_VERSION}/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include --dump-includes symbols.conf onnxruntime_all.h
+	# strip out the irrelevant symbols
+	csplit symbols.conf "/onnxruntime_c_api.h/"
+	rm xx00
+	mv xx01 symbols.conf
+	docker run --rm -v $(PWD):/workdir `docker build -q .` -d /workdir/src/main/java -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I build/onnxruntime-${ORT_VERSION}/onnxruntime-linux-x64-gpu-${ORT_VERSION}/include @symbols.conf onnxruntime_all.h
 	# strip out loads since we'll manage load
-	sed -i .bak '/System.loadLibrary/d' build/generated/jextract/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java
+	sed -i .bak '/System.loadLibrary/d' src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java
+	rm src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java.bak
