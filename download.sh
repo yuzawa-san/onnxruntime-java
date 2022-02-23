@@ -20,7 +20,7 @@ else
 fi
 cd ../build/onnxruntime-${ORT_VERSION}
 ln -s ../../${CACHED_FILE} ${FILENAME}
-if [ "$compression" = "zip" ]; then
+if [ "${COMPRESSION}" = "zip" ]; then
   unzip ${FILENAME}
 else
   tar xvzf ${FILENAME}
