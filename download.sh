@@ -9,12 +9,21 @@ LIBRARY_SUFFIX=$6
 
 
 mkdir -p build/onnxruntime-${ORT_VERSION}
-cd build/onnxruntime-${ORT_VERSION}
-curl -OL https://github.com/microsoft/onnxruntime/releases/download/v${ORT_VERSION}/onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}.${COMPRESSION}
-if [ "$compression" = "zip" ]; then
-    unzip onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}.${COMPRESSION}
+FILENAME=onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}.${COMPRESSION}
+CACHED_FILE=cache/${FILENAME}
+cd cache/
+if [ -f "$CACHED_FILE" ]; then
+  echo "HIT ${FILENAME}"
 else
-    tar xvzf onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}.${COMPRESSION}
+  echo "MISS ${FILENAME}"
+  curl -OL https://github.com/microsoft/onnxruntime/releases/download/v${ORT_VERSION}/${FILENAME}
+fi
+cd ../build/onnxruntime-${ORT_VERSION}
+ln -s ../../${CACHED_FILE} ${FILENAME}
+if [ "$compression" = "zip" ]; then
+  unzip ${FILENAME}
+else
+  tar xvzf ${FILENAME}
 fi
 
 mkdir -p ${OS_ARCH}${GPU_SUFFIX}/com/jyuzawa/onnxruntime/native/${OS_ARCH}
