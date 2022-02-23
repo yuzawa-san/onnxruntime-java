@@ -10,16 +10,15 @@ LIBRARY_SUFFIX=$6
 
 mkdir -p build/onnxruntime-${ORT_VERSION}
 FILENAME=onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}.${COMPRESSION}
-CACHED_FILE=cache/${FILENAME}
 cd cache/
-if [ -f "$CACHED_FILE" ]; then
+if [ -f "${FILENAME}" ]; then
   echo "HIT ${FILENAME}"
 else
   echo "MISS ${FILENAME}"
   curl -OL https://github.com/microsoft/onnxruntime/releases/download/v${ORT_VERSION}/${FILENAME}
 fi
 cd ../build/onnxruntime-${ORT_VERSION}
-ln -s ../../${CACHED_FILE} ${FILENAME}
+ln -s ../../cache/${FILENAME} ${FILENAME}
 if [ "${COMPRESSION}" = "zip" ]; then
   unzip ${FILENAME}
 else
