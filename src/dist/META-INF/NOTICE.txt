@@ -1,0 +1,6 @@
+This product contains compiled artifacts from onnxruntime: https://github.com/microsoft/onnxruntime/releases
+
+  * LICENSE (MIT license)
+    * license/LICENSE.onnxruntime.txt
+  * HOMEPAGE:
+    * https://github.com/microsoft/onnxruntime
