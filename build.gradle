@@ -214,7 +214,7 @@ task jextractClean(type: Delete) {
 task jextract(type: Exec) {
 	environment('ORT_VERSION', ORT_VERSION)
 	commandLine 'make', 'src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java'
-	finalizedBy tasks.named('spotlessApply')
+	finalizedBy tasks.named('spotlessJavaApply')
 }
 
 sourceSets {
