@@ -19,11 +19,11 @@ public enum OnnxType {
         this.number = number;
     }
 
-    int getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    static final OnnxType forNumber(int number) {
+    public static final OnnxType forNumber(int number) {
         switch (number) {
             case 1:
                 return TENSOR;

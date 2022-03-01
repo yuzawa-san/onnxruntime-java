@@ -7,7 +7,7 @@ package com.jyuzawa.onnxruntime;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 
-class ManagedImpl implements Managed {
+class ManagedImpl {
 
     protected final ApiImpl api;
     protected final ResourceScope scope;
@@ -19,7 +19,6 @@ class ManagedImpl implements Managed {
         this.address = address;
     }
 
-    @Override
     public void close() {
         scope.close();
     }

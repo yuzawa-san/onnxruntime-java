@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
 
-public interface Session extends Managed {
+public interface Session extends AutoCloseable {
+
+    @Override
+    void close();
+
     ModelMetadata getModelMetadata();
 
     NamedCollection<NodeInfo> getInputs();

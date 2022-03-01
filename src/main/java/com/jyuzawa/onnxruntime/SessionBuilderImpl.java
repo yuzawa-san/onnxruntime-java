@@ -68,9 +68,9 @@ final class SessionBuilderImpl implements Session.Builder {
             } else {
                 throw new IllegalArgumentException("missing model source");
             }
-
+            // TODO: more session options
             MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
-            api.checkStatus(api.SetIntraOpNumThreads.apply(sessionOptions, 1));
+            // api.checkStatus(api.SetIntraOpNumThreads.apply(sessionOptions, 1));
             scope.addCloseAction(() -> {
                 api.ReleaseSessionOptions.apply(sessionOptions);
             });

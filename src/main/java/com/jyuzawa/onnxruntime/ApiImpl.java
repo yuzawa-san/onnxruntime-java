@@ -451,7 +451,7 @@ final class ApiImpl implements Api {
         int code = GetErrorCode.apply(status);
         String message = toJavaString(GetErrorMessage.apply(status));
         ReleaseStatus.apply(status);
-        throw new OrtException(code, message);
+        throw new OnnxRuntimeException(code, message);
     }
 
     MemoryAddress create(SegmentAllocator allocator, Function<MemoryAddress, MemoryAddress> constructor) {

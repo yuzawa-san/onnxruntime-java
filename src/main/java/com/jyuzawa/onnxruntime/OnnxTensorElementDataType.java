@@ -41,11 +41,11 @@ public enum OnnxTensorElementDataType {
         return scalarInfo;
     }
 
-    int getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    static final OnnxTensorElementDataType forNumber(int number) {
+    public static final OnnxTensorElementDataType forNumber(int number) {
         switch (number) {
             case 1:
                 return FLOAT;

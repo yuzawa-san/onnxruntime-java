@@ -96,16 +96,14 @@ final class TypeInfoImpl implements TypeInfo {
 
     @Override
     public String toString() {
-        StringBuilder out = new StringBuilder();
-        out.append("{TypeInfo: type=").append(type);
         if (tensorInfo != null) {
-            out.append(", tensorInfo=").append(tensorInfo);
+            return tensorInfo.toString();
         } else if (mapInfo != null) {
-            out.append(", mapInfo=").append(mapInfo);
+            return mapInfo.toString();
         } else if (sequenceInfo != null) {
-            out.append(", sequenceInfo=").append(sequenceInfo);
+            return "sequence(" + sequenceInfo + ")";
         }
-        return out.append("}").toString();
+        return "{TypeInfo: type=" + type + "}";
     }
 
     @Override

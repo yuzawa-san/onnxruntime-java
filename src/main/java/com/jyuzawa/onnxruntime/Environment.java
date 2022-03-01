@@ -4,7 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public interface Environment extends Managed {
+public interface Environment extends AutoCloseable {
+
+    @Override
+    void close();
 
     void setTelemetryEvents(boolean enabled);
 
@@ -16,7 +19,7 @@ public interface Environment extends Managed {
     Session.Builder newSession();
 
     public interface Builder {
-        Builder setLogSeverityLevel(OrtLoggingLevel level);
+        Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
 
         Builder setLogId(String id);
 

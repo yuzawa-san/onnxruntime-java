@@ -14,17 +14,17 @@ import jdk.incubator.foreign.SegmentAllocator;
 final class EnvironmentBuilderImpl implements Environment.Builder {
 
     private final ApiImpl api;
-    OrtLoggingLevel severityLevel;
+    OnnxRuntimeLoggingLevel severityLevel;
     String logId;
 
     EnvironmentBuilderImpl(ApiImpl api) {
         this.api = api;
-        this.severityLevel = OrtLoggingLevel.DEFAULT;
+        this.severityLevel = OnnxRuntimeLoggingLevel.DEFAULT;
         this.logId = "onnxruntime-java";
     }
 
     @Override
-    public Environment.Builder setLogSeverityLevel(OrtLoggingLevel severityLevel) {
+    public Environment.Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel severityLevel) {
         this.severityLevel = severityLevel;
         return this;
     }
@@ -43,7 +43,7 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
         MemoryAddress env = api.create(
                 allocator,
                 out -> api.CreateEnvWithCustomLogger.apply(
-                        OrtLoggingLevel.LOG_CALLBACK,
+                        OnnxRuntimeLoggingLevel.LOG_CALLBACK,
                         MemoryAddress.NULL,
                         severityLevel.getNumber(),
                         logName.address(),

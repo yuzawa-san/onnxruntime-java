@@ -45,7 +45,7 @@ public class SessionTest {
         ApiBase apiBase = ApiBase.get();
         Api api = apiBase.getApi();
         environment = api.newEnvironment()
-                .setLogSeverityLevel(OrtLoggingLevel.VERBOSE)
+                .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .build();
     }
 

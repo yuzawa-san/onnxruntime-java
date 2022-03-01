@@ -4,31 +4,31 @@
  */
 package com.jyuzawa.onnxruntime;
 
-public class OrtException extends RuntimeException {
+public class OnnxRuntimeException extends RuntimeException {
     private static final int UNKNOWN_CODE = -1;
     private final int code;
 
     private static final long serialVersionUID = 1322802709564007780L;
 
-    public OrtException(int code) {
+    public OnnxRuntimeException(int code) {
         super();
         this.code = code;
     }
 
-    public OrtException() {
+    public OnnxRuntimeException() {
         this(UNKNOWN_CODE);
     }
 
-    public OrtException(int code, String message) {
+    public OnnxRuntimeException(int code, String message) {
         super(message);
         this.code = code;
     }
 
-    public OrtException(String message) {
+    public OnnxRuntimeException(String message) {
         this(UNKNOWN_CODE, message);
     }
 
-    public OrtException(String message, Throwable cause) {
+    public OnnxRuntimeException(String message, Throwable cause) {
         super(message, cause);
         this.code = UNKNOWN_CODE;
     }

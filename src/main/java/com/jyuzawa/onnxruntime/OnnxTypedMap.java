@@ -15,12 +15,6 @@ public interface OnnxTypedMap<K> extends Map<K, OnnxValue> {
 
     /**
      *
-     * @return Information about the key and value types.
-     */
-    MapInfo getInfo();
-
-    /**
-     *
      * @param key
      * @return A new OnnxValue of correct type, which the key is mapped towards.
      */

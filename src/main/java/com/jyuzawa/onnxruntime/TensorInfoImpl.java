@@ -45,7 +45,7 @@ final class TensorInfoImpl implements TensorInfo {
 
     @Override
     public String toString() {
-        return "{TensorInfo: type=" + type + ", shape=" + shape + ", elementCount=" + elementCount + "}";
+        return "tensor(" + type + shape + ")";
     }
 
     @Override

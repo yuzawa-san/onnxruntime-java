@@ -17,7 +17,7 @@ import jdk.incubator.foreign.FunctionDescriptor;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 
-public enum OrtLoggingLevel {
+public enum OnnxRuntimeLoggingLevel {
     VERBOSE(0),
     INFO(1),
     WARNING(2),
@@ -27,11 +27,11 @@ public enum OrtLoggingLevel {
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
     static final MemoryAddress LOG_CALLBACK = createCallback();
-    static final OrtLoggingLevel DEFAULT = getDefaultLogLevel();
+    static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
 
     private final int number;
 
-    private OrtLoggingLevel(int number) {
+    private OnnxRuntimeLoggingLevel(int number) {
         this.number = number;
     }
 
@@ -39,7 +39,7 @@ public enum OrtLoggingLevel {
         return number;
     }
 
-    static final OrtLoggingLevel forNumber(int number) {
+    public static final OnnxRuntimeLoggingLevel forNumber(int number) {
         switch (number) {
             case 1:
                 return INFO;
@@ -76,7 +76,7 @@ public enum OrtLoggingLevel {
                 .append(' ')
                 .append(message)
                 .toString();
-        switch (OrtLoggingLevel.forNumber(level)) {
+        switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
             case VERBOSE:
                 LOG.log(Level.DEBUG, line);
                 break;
@@ -94,7 +94,7 @@ public enum OrtLoggingLevel {
         return MemoryAddress.NULL;
     }
 
-    private static final OrtLoggingLevel getDefaultLogLevel() {
+    private static final OnnxRuntimeLoggingLevel getDefaultLogLevel() {
         if (LOG.isLoggable(Level.DEBUG)) {
             return VERBOSE;
         }
@@ -122,7 +122,7 @@ public enum OrtLoggingLevel {
                     CLinker.C_POINTER);
             MethodHandle LOG_CALLBACK_HANDLE = MethodHandles.lookup()
                     .findStatic(
-                            OrtLoggingLevel.class,
+                            OnnxRuntimeLoggingLevel.class,
                             "logCallback",
                             MethodType.methodType(
                                     MemoryAddress.class,
@@ -135,7 +135,7 @@ public enum OrtLoggingLevel {
             return CLinker.getInstance()
                     .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, ResourceScope.globalScope());
         } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new OrtException("failed to initialize logger", e);
+            throw new OnnxRuntimeException("failed to initialize logger", e);
         }
     }
 }
