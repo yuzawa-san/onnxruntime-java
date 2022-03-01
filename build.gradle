@@ -86,8 +86,7 @@ java {
 }
 
 def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
-// TODO: enable gpu eventually
-def gpuOsArches = [] //["linux-x86_64-gpu", "windows-x86_64-gpu"]
+def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
 def allArches = cpuOsArches + gpuOsArches
 
 allArches.each { osArch ->
