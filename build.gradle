@@ -193,7 +193,7 @@ publishing {
 dependencies {
 	testImplementation "junit:junit:4.13.2"
 	testImplementation 'com.google.protobuf:protobuf-java:3.19.4'
-	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.17.1'
+	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.17.2'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.17.2'
 }
 
