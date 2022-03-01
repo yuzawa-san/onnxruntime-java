@@ -4,9 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.NoSuchElementException;
+
 /**
  * A map view of an {@link OnnxValue}. Use the {@link MapInfo#getKeyType()} to
- * select a type-safe view.
+ * select a type-safe view. A {@link NoSuchElementException} will be thrown if a view does not exist for this instance's type.
  */
 public interface OnnxMap {
 

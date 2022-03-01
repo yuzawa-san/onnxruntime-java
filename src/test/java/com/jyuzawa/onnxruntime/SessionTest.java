@@ -42,7 +42,7 @@ public class SessionTest {
 
     @BeforeClass
     public static void setup() {
-        ApiBase apiBase = ApiBase.get();
+        OnnxRuntime apiBase = OnnxRuntime.get();
         Api api = apiBase.getApi();
         environment = api.newEnvironment()
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)

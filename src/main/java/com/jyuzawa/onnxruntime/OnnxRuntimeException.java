@@ -4,6 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * An exception thrown from within the ONNX runtime.
+ *
+ */
 public class OnnxRuntimeException extends RuntimeException {
     private static final int UNKNOWN_CODE = -1;
     private final int code;

@@ -8,6 +8,10 @@ import java.util.Collections;
 import jdk.incubator.foreign.CLinker;
 import jdk.incubator.foreign.ValueLayout;
 
+/**
+ * A tensor type from ONNX.
+ *
+ */
 public enum OnnxTensorElementDataType {
     UNDEFINED(0, null),
     FLOAT(1, CLinker.C_FLOAT),
@@ -45,6 +49,11 @@ public enum OnnxTensorElementDataType {
         return number;
     }
 
+    /**
+     * Get a level based off its internal number.
+     * @param number the internal number of the level
+     * @return the level, UNDEFINED if not found
+     */
     public static final OnnxTensorElementDataType forNumber(int number) {
         switch (number) {
             case 1:

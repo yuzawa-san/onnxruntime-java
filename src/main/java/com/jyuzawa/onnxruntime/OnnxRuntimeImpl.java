@@ -14,13 +14,14 @@ import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 
-enum ApiBaseImpl implements ApiBase {
+// NOTE: this class actually is more like OrtApiBase
+enum OnnxRuntimeImpl implements OnnxRuntime {
     INSTANCE;
 
     private final String version;
     private final ApiImpl api;
 
-    private ApiBaseImpl() {
+    private OnnxRuntimeImpl() {
         Loader.load();
         ResourceScope scope = ResourceScope.globalScope();
         MemorySegment segment = OrtGetApiBase().asSegment(OrtApiBase.sizeof(), scope);

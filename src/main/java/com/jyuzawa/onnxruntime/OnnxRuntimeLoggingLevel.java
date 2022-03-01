@@ -17,6 +17,10 @@ import jdk.incubator.foreign.FunctionDescriptor;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.ResourceScope;
 
+/**
+ * The level for the internal logger within the ONNX runtime.
+ *
+ */
 public enum OnnxRuntimeLoggingLevel {
     VERBOSE(0),
     INFO(1),
@@ -39,6 +43,11 @@ public enum OnnxRuntimeLoggingLevel {
         return number;
     }
 
+    /**
+     * Get a level based off its internal number.
+     * @param number the internal number of the level
+     * @return the level, VERBOSE if not found
+     */
     public static final OnnxRuntimeLoggingLevel forNumber(int number) {
         switch (number) {
             case 1:

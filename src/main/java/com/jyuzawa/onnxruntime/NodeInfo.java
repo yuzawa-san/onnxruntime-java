@@ -4,6 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * A tuple of name and type information.
+ *
+ */
 public interface NodeInfo {
 
     String getName();

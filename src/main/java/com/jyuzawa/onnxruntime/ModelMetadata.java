@@ -6,6 +6,10 @@ package com.jyuzawa.onnxruntime;
 
 import java.util.Map;
 
+/**
+ * A representation of the metadata stored in an ONNX model.
+ *
+ */
 public interface ModelMetadata {
     String getDescription();
 
@@ -19,5 +23,8 @@ public interface ModelMetadata {
 
     long getVersion();
 
+    /**
+     * @return an immutable map of custom key-value pairs.
+     */
     Map<String, String> getCustomMetadata();
 }

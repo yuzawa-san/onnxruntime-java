@@ -4,6 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * A type from ONNX.
+ *
+ */
 public enum OnnxType {
     UNKNOWN(0),
     TENSOR(1),
@@ -23,6 +27,11 @@ public enum OnnxType {
         return number;
     }
 
+    /**
+     * Get a level based off its internal number.
+     * @param number the internal number of the level
+     * @return the level, UNKNOWN if not found
+     */
     public static final OnnxType forNumber(int number) {
         switch (number) {
             case 1:

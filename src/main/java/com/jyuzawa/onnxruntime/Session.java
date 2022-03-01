@@ -8,8 +8,14 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
 
+/**
+ * An evaluation session loaded from an ONNX file or bytes.
+ */
 public interface Session extends AutoCloseable {
 
+    /**
+     * Release native resources.
+     */
     @Override
     void close();
 
@@ -21,8 +27,16 @@ public interface Session extends AutoCloseable {
 
     NamedCollection<NodeInfo> getOverridableInitializers();
 
+    /**
+     * Create a new transaction.
+     * @return a builder
+     */
     Transaction.Builder newTransaction();
 
+    /**
+     * A builder of a {@link Session}. Must provide either bytes or a path.
+     *
+     */
     public interface Builder {
         Builder setPath(Path path);
 
@@ -31,6 +45,11 @@ public interface Session extends AutoCloseable {
         Builder setByteBuffer(ByteBuffer byteBuffer);
         // TODO: more session options
 
+        /**
+         * Construct a {@link Session}.
+         * @return a new instance
+         * @throws IOException
+         */
         Session build() throws IOException;
     }
 }

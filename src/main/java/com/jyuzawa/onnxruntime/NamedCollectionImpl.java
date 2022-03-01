@@ -33,12 +33,12 @@ final class NamedCollectionImpl<V> implements NamedCollection<V> {
     }
 
     @Override
-    public Map<String, V> map() {
+    public Map<String, V> getMap() {
         return map;
     }
 
     @Override
-    public List<V> list() {
+    public List<V> getList() {
         return list;
     }
 

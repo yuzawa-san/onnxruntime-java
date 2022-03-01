@@ -10,7 +10,12 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
+import java.util.NoSuchElementException;
 
+/**
+ * A representation of a dense tensor. Use {@link #getInfo()} to select the proper buffer type. A {@link NoSuchElementException} will be thrown if a view does not exist for this instance's type.
+ *
+ */
 public interface OnnxTensor {
 
     TensorInfo getInfo();

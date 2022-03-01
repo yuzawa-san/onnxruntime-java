@@ -4,7 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * The top-level API of the ONNX runtime.
+ *
+ */
 public interface Api {
 
+    /**
+     * Create a new environment.
+     * @return a builder
+     */
     Environment.Builder newEnvironment();
 }
