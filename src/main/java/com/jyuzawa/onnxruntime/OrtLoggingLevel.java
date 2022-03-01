@@ -24,7 +24,7 @@ public enum OrtLoggingLevel {
     ERROR(3),
     FATAL(4);
 
-    private static final Logger LOG = System.getLogger(OrtLoggingLevel.class.getName());
+    private static final Logger LOG = System.getLogger(Environment.class.getName());
 
     static final MemoryAddress LOG_CALLBACK = createCallback();
     static final OrtLoggingLevel DEFAULT = getDefaultLogLevel();
