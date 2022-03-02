@@ -54,7 +54,7 @@ jacocoTestReport {
 	}
 }
 
-description = "A Java binding of Microsoft's onnxruntime project."
+description = "A Java binding of Microsoft's ONNX Runtime project."
 
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
 
