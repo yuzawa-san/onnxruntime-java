@@ -11,26 +11,34 @@ plugins {
 
 apply plugin: "java-library"
 
-spotless {
-	java {
-		target '**/*.java'
-		targetExclude "${project.buildDir}/**/*.java"
-		licenseHeader '/*\n * Copyright (c) $YEAR James Yuzawa (https://www.jyuzawa.com/)\n * SPDX-License-Identifier: MIT\n */'
-		removeUnusedImports()
-		importOrder()
-		palantirJavaFormat()
-		endWithNewline()
+allprojects {
+	apply plugin: "java"
+	apply plugin: "com.diffplug.spotless"
+	sourceCompatibility = targetCompatibility = 17
+	repositories {
+		mavenCentral()
 	}
-	format 'misc', {
-		target '**/*.gradle', '**/*.proto', '**/*.feature'
-		trimTrailingWhitespace()
-		indentWithTabs()
-		endWithNewline()
-	}
-	format 'md', {
-		target '**/*.md'
-		trimTrailingWhitespace()
-		endWithNewline()
+	spotless {
+		java {
+			target '**/*.java'
+			targetExclude "${project.buildDir}/**/*.java"
+			licenseHeader '/*\n * Copyright (c) $YEAR James Yuzawa (https://www.jyuzawa.com/)\n * SPDX-License-Identifier: MIT\n */'
+			removeUnusedImports()
+			importOrder()
+			palantirJavaFormat()
+			endWithNewline()
+		}
+		format 'misc', {
+			target '**/*.gradle', '**/*.proto', '**/*.feature'
+			trimTrailingWhitespace()
+			indentWithTabs()
+			endWithNewline()
+		}
+		format 'md', {
+			target '**/*.md'
+			trimTrailingWhitespace()
+			endWithNewline()
+		}
 	}
 }
 
@@ -45,8 +53,6 @@ jacocoTestReport {
 		}))
 	}
 }
-
-sourceCompatibility = targetCompatibility = 17
 
 description = "A Java binding of Microsoft's onnxruntime project."
 
@@ -76,13 +82,13 @@ def jarAttributes = [
 	'Build-OS'               : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
 ]
 
-repositories {
-	mavenCentral()
-}
-
 java {
 	withJavadocJar()
 	withSourcesJar()
+}
+
+configurations {
+	cpu
 }
 
 def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
@@ -103,6 +109,12 @@ allArches.each { osArch ->
 		}
 	}
 	build.dependsOn tasks.named("osArchJar${osArch}")
+}
+
+artifacts {
+	cpuOsArches.each {
+		cpu tasks.named("osArchJar${it}")
+	}
 }
 
 def makePom(node, osArches) {
@@ -260,7 +272,7 @@ tasks.named('compileJava') {
 
 
 test {
-	jvmArgs "--enable-native-access=ALL-UNNAMED", '--add-modules', 'jdk.incubator.foreign'
+	jvmArgs '--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign'
 	finalizedBy jacocoTestReport
 }
 

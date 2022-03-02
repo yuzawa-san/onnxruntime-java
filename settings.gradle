@@ -1,1 +1,3 @@
 rootProject.name = 'onnxruntime'
+include 'onnxruntime-sample-library'
+include 'onnxruntime-sample-application'

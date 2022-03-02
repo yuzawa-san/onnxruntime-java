@@ -1,0 +1,8 @@
+apply plugin: "java-library"
+
+dependencies {
+	api project(":")
+
+	// In your library, use the following instead:
+	// api "com.jyuzawa:onnxruntime:X.Y.Z"
+}

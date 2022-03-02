@@ -1,0 +1,19 @@
+apply plugin: "application"
+
+dependencies {
+	implementation project(":onnxruntime-sample-library")
+	runtimeOnly project(path: ":", configuration: 'cpu')
+
+	// In your application, use the following instead:
+	// implementation "com.example:sample-library:X.Y.Z"
+	// Optionally, provide the CPU libraries
+	// runtimeOnly "com.jyuzawa:onnxruntime-cpu:X.Y.Z"
+	// Optionally, provide the GPU libraries
+	// runtimeOnly "com.jyuzawa:onnxruntime-gpu:X.Y.Z"
+	// Alternatively, do nothing and the Java library path will be used
+}
+
+application {
+	mainClass = 'com.example.onnxruntime_sample_application.Application'
+	applicationDefaultJvmArgs = ['--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign']
+}
