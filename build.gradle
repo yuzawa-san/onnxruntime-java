@@ -130,10 +130,10 @@ publishing {
 	repositories {
 		maven {
 			name = 'GitHub'
-			url = uri("https://maven.pkg.${REPO}")
+			url = uri(version.endsWith('-SNAPSHOT') ? 'https://s01.oss.sonatype.org/content/repositories/snapshots/' : 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/')
 			credentials {
-				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+				username = project.findProperty("ossrhUsername")
+				password = project.findProperty("ossrhPassword")
 			}
 		}
 	}
@@ -189,6 +189,9 @@ publishing {
 }
 
 signing {
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
 	sign publishing.publications
 }
 
