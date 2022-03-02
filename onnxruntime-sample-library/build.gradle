@@ -3,6 +3,7 @@ apply plugin: "java-library"
 dependencies {
 	api project(":")
 
-	// In your library, use the following instead:
+	// In your library, use the following instead to expose a compile dependency.
+	// This allows the users of your Java library to bring the native libraries.
 	// api "com.jyuzawa:onnxruntime:X.Y.Z"
 }

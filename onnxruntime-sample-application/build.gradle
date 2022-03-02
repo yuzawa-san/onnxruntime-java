@@ -4,8 +4,9 @@ dependencies {
 	implementation project(":onnxruntime-sample-library")
 	runtimeOnly project(path: ":", configuration: 'cpu')
 
-	// In your application, use the following instead:
+	// In your application, use the following instead to use a compile dependency.
 	// implementation "com.example:sample-library:X.Y.Z"
+	// For the application to work, you will need to provide the native libraries.
 	// Optionally, provide the CPU libraries
 	// runtimeOnly "com.jyuzawa:onnxruntime-cpu:X.Y.Z"
 	// Optionally, provide the GPU libraries
