@@ -38,6 +38,12 @@ final class TransactionBuilderImpl implements Transaction.Builder {
 
     @Override
     public Transaction build() {
+        if (inputs.isEmpty()) {
+            throw new IllegalArgumentException("No inputs specified");
+        }
+        if (outputs.isEmpty()) {
+            throw new IllegalArgumentException("No outputs specified");
+        }
         return new TransactionImpl(this);
     }
 

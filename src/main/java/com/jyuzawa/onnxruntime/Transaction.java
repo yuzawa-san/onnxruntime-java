@@ -5,7 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 /**
- * A representation of a model evaluation.
+ * A representation of a model evaluation. Should NOT be reused.
  *
  */
 public interface Transaction {
