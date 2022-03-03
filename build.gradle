@@ -141,7 +141,7 @@ def REPO = "yuzawa-san/onnxruntime-java"
 publishing {
 	repositories {
 		maven {
-			name = 'GitHub'
+			name = 'Maven'
 			url = uri(version.endsWith('-SNAPSHOT') ? 'https://s01.oss.sonatype.org/content/repositories/snapshots/' : 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/')
 			credentials {
 				username = project.findProperty("ossrhUsername")
