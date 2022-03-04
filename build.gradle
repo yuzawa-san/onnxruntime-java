@@ -87,9 +87,6 @@ java {
 	withSourcesJar()
 }
 
-configurations {
-	cpu
-}
 
 def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
 def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
@@ -111,9 +108,29 @@ allArches.each { osArch ->
 	build.dependsOn tasks.named("osArchJar${osArch}")
 }
 
-artifacts {
-	cpuOsArches.each {
-		cpu tasks.named("osArchJar${it}")
+configurations {
+	cpu {
+		cpuOsArches.each {
+			outgoing.artifact(tasks.named("osArchJar${it}"))
+		}
+	}
+	nativeElements {
+		canBeResolved = false
+		canBeConsumed = true
+		attributes {
+			attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
+			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.DYNAMIC_LIB))
+
+		}
+		allArches.each {
+			outgoing.artifact(tasks.named("osArchJar${it}"))
+		}
+	}
+}
+components.java {
+	addVariantsFromConfiguration(configurations.nativeElements) {
+		mapToOptional()
 	}
 }
 
@@ -164,9 +181,6 @@ publishing {
 		}
 		onnxruntime(MavenPublication) {
 			from components.java
-			allArches.each {
-				artifact tasks.named("osArchJar${it}")
-			}
 			pom {
 				name = 'ONNX Runtime for Java'
 				inceptionYear = '2022'
@@ -201,9 +215,6 @@ publishing {
 }
 
 signing {
-	def signingKey = findProperty("signingKey")
-	def signingPassword = findProperty("signingPassword")
-	useInMemoryPgpKeys(signingKey, signingPassword)
 	sign publishing.publications
 }
 
