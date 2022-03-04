@@ -110,7 +110,6 @@ allArches.each { osArch ->
 			into "META-INF/licenses/"
 		}
 	}
-	build.dependsOn tasks.named("osArchJar${osArch}")
 }
 
 configurations {
