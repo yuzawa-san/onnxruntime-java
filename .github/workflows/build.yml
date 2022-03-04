@@ -59,7 +59,7 @@ jobs:
     strategy:
       matrix:
         java: [17]
-        os: ['ubuntu-latest'] #, 'macos-latest', 'windows-latest']
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
     runs-on: ${{ matrix.os }}
     name: Run on ${{ matrix.os }} java ${{ matrix.java }}
     steps:
