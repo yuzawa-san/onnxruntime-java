@@ -7,6 +7,7 @@ plugins {
 	id 'idea'
 	id 'jacoco'
 	id "com.google.protobuf" version "0.8.18"
+	id "com.github.jakemarsden.git-hooks" version "0.0.2"
 }
 
 apply plugin: "java-library"
@@ -40,6 +41,10 @@ allprojects {
 			endWithNewline()
 		}
 	}
+}
+
+gitHooks {
+	hooks = ['pre-push': 'spotlessCheck']
 }
 
 jacocoTestReport {
