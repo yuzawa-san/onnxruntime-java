@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: gradle/wrapper-validation-action@v1
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           distribution: temurin
@@ -40,12 +40,38 @@ jobs:
           key: ${{ runner.os }}-onnxruntime-${{ hashFiles('gradle.properties') }}
       - name: Build with Gradle
         run: |
-          ./gradlew build -s
+          ./gradlew build onnxruntime-sample-application:installDist -s
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2.1.0
       - name: Save reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: reports-${{ matrix.java }}
           path: build/reports/
+      - name: Save artifact for OS runs
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: ./onnxruntime-sample-application/build/install/onnxruntime-sample-application
+  run:
+    needs: [build]
+    strategy:
+      matrix:
+        java: [17]
+        os: ['ubuntu-latest'] #, 'macos-latest', 'windows-latest']
+    runs-on: ${{ matrix.os }}
+    name: Run on ${{ matrix.os }} java ${{ matrix.java }}
+    steps:
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+      - name: Download artifact for runs
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+      - name: Run test application
+        run: |
+          ./bin/onnxruntime-sample-application
