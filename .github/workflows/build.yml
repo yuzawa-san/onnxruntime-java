@@ -40,7 +40,7 @@ jobs:
           key: ${{ runner.os }}-onnxruntime-${{ hashFiles('gradle.properties') }}
       - name: Build with Gradle
         run: |
-          ./gradlew build onnxruntime-sample-application:installDist -s
+          ./gradlew :build onnxruntime-sample-application:distZip -s
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2.1.0
       - name: Save reports
@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: ./onnxruntime-sample-application/build/install/onnxruntime-sample-application
+          path: ./onnxruntime-sample-application/build/distributions/
   run:
     needs: [build]
     strategy:
@@ -74,4 +74,7 @@ jobs:
           name: my-artifact
       - name: Run test application
         run: |
+          unzip onnxruntime-sample-application*.zip
+          rm *.zip
+          cd onnxruntime-sample-application*
           ./bin/onnxruntime-sample-application
