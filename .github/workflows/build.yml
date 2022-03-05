@@ -12,7 +12,6 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         java: [17]
@@ -47,6 +46,7 @@ jobs:
         run: |
           ./gradlew :build -s
       - name: Upload coverage to Codecov
+        if: ${{ matrix.java == '17' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v2.1.0
       - name: Save reports
         uses: actions/upload-artifact@v3
