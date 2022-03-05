@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static com.jyuzawa.onnxruntime_extern.SizeT.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_INT;
-import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 
 import java.lang.invoke.MethodHandle;
@@ -778,8 +778,7 @@ public class OrtApi {
     static final FunctionDescriptor CreateSessionFromArray$FUNC =
             FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER);
     static final MethodHandle CreateSessionFromArray$MH = RuntimeHelper.downcallHandle(
-            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;" + SizeT.get().descriptor
-                    + "Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateSessionFromArray$FUNC,
             false);
 
@@ -797,9 +796,7 @@ public class OrtApi {
                     CreateSessionFromArray.class,
                     fi,
                     OrtApi.CreateSessionFromArray$FUNC,
-                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;"
-                            + SizeT.get().descriptor
-                            + "Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
         }
 
         static MemoryAddress allocate(CreateSessionFromArray fi, ResourceScope scope) {
@@ -807,9 +804,7 @@ public class OrtApi {
                     CreateSessionFromArray.class,
                     fi,
                     OrtApi.CreateSessionFromArray$FUNC,
-                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;"
-                            + SizeT.get().descriptor
-                            + "Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
                     scope);
         }
 
@@ -820,8 +815,8 @@ public class OrtApi {
                     jdk.incubator.foreign.MemoryAddress x3,
                     jdk.incubator.foreign.MemoryAddress x4) -> {
                 try {
-                    return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateSessionFromArray$MH.invokeExact(
-                            (Addressable) addr, x0, x1, SizeT.get().cast.apply(x2), x3, x4);
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.CreateSessionFromArray$MH.invokeExact((Addressable) addr, x0, x1, x2, x3, x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }

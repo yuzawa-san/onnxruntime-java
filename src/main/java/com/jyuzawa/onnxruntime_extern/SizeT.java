@@ -4,24 +4,11 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import java.util.function.LongFunction;
+import jdk.incubator.foreign.CLinker;
+import jdk.incubator.foreign.ValueLayout;
 
-enum SizeT {
-    NIX("J", x -> x),
-    WINDOWS("J", x -> Math.toIntExact(x));
-
-    static final boolean IS_WINDOWS =
+class SizeT {
+    private static final boolean IS_WINDOWS =
             System.getProperty("os.name", "").toLowerCase().startsWith("windows");
-
-    final String descriptor;
-    final LongFunction<Object> cast;
-
-    private SizeT(String descriptor, LongFunction<Object> cast) {
-        this.descriptor = descriptor;
-        this.cast = cast;
-    }
-
-    static SizeT get() {
-        return IS_WINDOWS ? WINDOWS : NIX;
-    }
+    static final ValueLayout C_LONG = IS_WINDOWS ? CLinker.C_LONG_LONG : CLinker.C_LONG;
 }
