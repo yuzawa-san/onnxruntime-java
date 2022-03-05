@@ -14,7 +14,7 @@ public class OrtROCMProviderOptions {
     static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
                     C_INT.withName("device_id"),
                     C_INT.withName("miopen_conv_exhaustive_search"),
-                    C_LONG.withName("gpu_mem_limit"),
+                    C_LONG_LONG.withName("gpu_mem_limit"),
                     C_INT.withName("arena_extend_strategy"),
                     C_INT.withName("do_copy_in_default_stream"),
                     C_INT.withName("has_user_compute_stream"),

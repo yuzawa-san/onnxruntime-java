@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_LONG;
+import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +41,7 @@ final class TypeInfoImpl implements TypeInfo {
                 OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
                         api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
                 int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = allocator.allocateArray(C_LONG, dimCount);
+                MemorySegment dims = allocator.allocateArray(C_LONG_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims.address(), dimCount));
                 long elementCount =
                         api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));

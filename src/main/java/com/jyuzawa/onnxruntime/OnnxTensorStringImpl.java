@@ -5,7 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.C_CHAR;
-import static jdk.incubator.foreign.CLinker.C_LONG;
+import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toCString;
 
@@ -59,7 +59,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
         List<Long> shape = tensorInfo.getShape();
         int shapeSize = shape.size();
-        MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
+        MemorySegment shapeData = allocator.allocateArray(C_LONG_LONG, shape(shape));
         MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorAsOrtValue.apply(
