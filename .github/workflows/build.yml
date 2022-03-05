@@ -13,15 +13,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Java ${{ matrix.java }} build
+    strategy:
+      matrix:
+        java: [17]
+        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+    runs-on: ${{ matrix.os }}
+    name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
     steps:
       - uses: actions/checkout@v2
       - uses: gradle/wrapper-validation-action@v1
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v2
         with:
           distribution: temurin
-          java-version: 17
+          java-version: ${{ matrix.java }}
       - name: Cache Gradle wrapper
         uses: actions/cache@v2.1.7
         with:
@@ -37,44 +42,15 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: ./cache
-          key: ${{ runner.os }}-onnxruntime-${{ hashFiles('gradle.properties') }}
+          key: onnxruntime-${{ hashFiles('gradle.properties') }}
       - name: Build with Gradle
         run: |
-          ./gradlew :build onnxruntime-sample-application:distZip -s
+          ./gradlew :build -s
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2.1.0
       - name: Save reports
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
-          name: reports-${{ matrix.java }}
+          name: reports-${{ matrix.os }}-${{ matrix.java }}
           path: build/reports/
-      - name: Save artifact for OS runs
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: ./onnxruntime-sample-application/build/distributions/
-  run:
-    needs: [build]
-    strategy:
-      matrix:
-        java: [17]
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
-    runs-on: ${{ matrix.os }}
-    name: Run on ${{ matrix.os }} java ${{ matrix.java }}
-    steps:
-      - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v2
-        with:
-          distribution: temurin
-          java-version: ${{ matrix.java }}
-      - name: Download artifact for runs
-        uses: actions/download-artifact@v3
-        with:
-          name: my-artifact
-      - name: Run test application
-        run: |
-          unzip onnxruntime-sample-application*.zip
-          rm *.zip
-          cd onnxruntime-sample-application*
-          ./bin/onnxruntime-sample-application
