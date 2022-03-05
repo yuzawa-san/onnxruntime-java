@@ -5,7 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import static jdk.incubator.foreign.CLinker.C_INT;
-import static jdk.incubator.foreign.CLinker.C_LONG;
+import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
@@ -224,7 +224,7 @@ final class ApiImpl implements Api {
     }
 
     long extractLong(SegmentAllocator allocator, Function<MemoryAddress, MemoryAddress> method) {
-        MemorySegment pointer = allocator.allocate(C_LONG);
+        MemorySegment pointer = allocator.allocate(C_LONG_LONG);
         checkStatus(method.apply(pointer.address()));
         return MemoryAccess.getLong(pointer);
     }

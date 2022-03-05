@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_LONG;
+import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
@@ -64,7 +64,7 @@ final class ModelMetadataImpl implements ModelMetadata {
                 this.version = api.extractLong(allocator, out -> api.ModelMetadataGetVersion.apply(metadata, out));
             }
             {
-                MemorySegment count = allocator.allocate(C_LONG);
+                MemorySegment count = allocator.allocate(C_LONG_LONG);
                 MemoryAddress keys = api.create(
                         allocator,
                         out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(

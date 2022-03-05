@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_LONG;
+import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
 import java.util.LinkedHashMap;
@@ -75,7 +75,7 @@ final class SessionImpl extends ManagedImpl implements Session {
             GetCount getCount,
             GetName getName,
             GetTypeInfo getTypeInfo) {
-        MemorySegment numInputsSegment = allocator.allocate(C_LONG);
+        MemorySegment numInputsSegment = allocator.allocate(C_LONG_LONG);
         api.checkStatus(getCount.apply(session, numInputsSegment.address()));
         long numInputs = MemoryAccess.getLong(numInputsSegment);
         LinkedHashMap<String, NodeInfo> inputs = new LinkedHashMap<>();

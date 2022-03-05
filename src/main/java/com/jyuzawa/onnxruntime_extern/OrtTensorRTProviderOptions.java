@@ -17,7 +17,7 @@ public class OrtTensorRTProviderOptions {
                     C_POINTER.withName("user_compute_stream"),
                     C_INT.withName("trt_max_partition_iterations"),
                     C_INT.withName("trt_min_subgraph_size"),
-                    C_LONG.withName("trt_max_workspace_size"),
+                    C_LONG_LONG.withName("trt_max_workspace_size"),
                     C_INT.withName("trt_fp16_enable"),
                     C_INT.withName("trt_int8_enable"),
                     C_POINTER.withName("trt_int8_calibration_table_name"),

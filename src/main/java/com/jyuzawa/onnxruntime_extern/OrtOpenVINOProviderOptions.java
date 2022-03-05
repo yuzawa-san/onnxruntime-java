@@ -16,7 +16,7 @@ public class OrtOpenVINOProviderOptions {
                     C_CHAR.withName("enable_vpu_fast_compile"),
                     MemoryLayout.paddingLayout(56),
                     C_POINTER.withName("device_id"),
-                    C_LONG.withName("num_of_threads"),
+                    C_LONG_LONG.withName("num_of_threads"),
                     C_CHAR.withName("use_compiled_network"),
                     MemoryLayout.paddingLayout(56),
                     C_POINTER.withName("blob_dump_path"),

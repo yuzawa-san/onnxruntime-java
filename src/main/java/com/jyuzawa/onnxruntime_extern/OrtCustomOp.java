@@ -260,7 +260,7 @@ public class OrtCustomOp {
         return GetExecutionProviderType.ofAddress(GetExecutionProviderType$get(segment));
     }
 
-    static final FunctionDescriptor GetInputType$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG);
+    static final FunctionDescriptor GetInputType$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetInputType$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;J)I", OrtCustomOp.GetInputType$FUNC, false);
 
@@ -320,7 +320,7 @@ public class OrtCustomOp {
         return GetInputType.ofAddress(GetInputType$get(segment));
     }
 
-    static final FunctionDescriptor GetInputTypeCount$FUNC = FunctionDescriptor.of(C_LONG, C_POINTER);
+    static final FunctionDescriptor GetInputTypeCount$FUNC = FunctionDescriptor.of(C_LONG_LONG, C_POINTER);
     static final MethodHandle GetInputTypeCount$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;)J", OrtCustomOp.GetInputTypeCount$FUNC, false);
 
@@ -384,7 +384,7 @@ public class OrtCustomOp {
         return GetInputTypeCount.ofAddress(GetInputTypeCount$get(segment));
     }
 
-    static final FunctionDescriptor GetOutputType$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG);
+    static final FunctionDescriptor GetOutputType$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetOutputType$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;J)I", OrtCustomOp.GetOutputType$FUNC, false);
 
@@ -447,7 +447,7 @@ public class OrtCustomOp {
         return GetOutputType.ofAddress(GetOutputType$get(segment));
     }
 
-    static final FunctionDescriptor GetOutputTypeCount$FUNC = FunctionDescriptor.of(C_LONG, C_POINTER);
+    static final FunctionDescriptor GetOutputTypeCount$FUNC = FunctionDescriptor.of(C_LONG_LONG, C_POINTER);
     static final MethodHandle GetOutputTypeCount$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;)J", OrtCustomOp.GetOutputTypeCount$FUNC, false);
 
@@ -639,7 +639,7 @@ public class OrtCustomOp {
         return KernelDestroy.ofAddress(KernelDestroy$get(segment));
     }
 
-    static final FunctionDescriptor GetInputCharacteristic$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG);
+    static final FunctionDescriptor GetInputCharacteristic$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetInputCharacteristic$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;J)I", OrtCustomOp.GetInputCharacteristic$FUNC, false);
 
@@ -703,7 +703,7 @@ public class OrtCustomOp {
         return GetInputCharacteristic.ofAddress(GetInputCharacteristic$get(segment));
     }
 
-    static final FunctionDescriptor GetOutputCharacteristic$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG);
+    static final FunctionDescriptor GetOutputCharacteristic$FUNC = FunctionDescriptor.of(C_INT, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetOutputCharacteristic$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;J)I", OrtCustomOp.GetOutputCharacteristic$FUNC, false);
 

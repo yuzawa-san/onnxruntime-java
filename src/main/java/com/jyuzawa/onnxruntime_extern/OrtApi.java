@@ -4,20 +4,11 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static com.jyuzawa.onnxruntime_extern.SizeT.C_LONG;
-import static jdk.incubator.foreign.CLinker.C_INT;
-import static jdk.incubator.foreign.CLinker.C_POINTER;
+import static jdk.incubator.foreign.CLinker.*;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
-import jdk.incubator.foreign.Addressable;
-import jdk.incubator.foreign.FunctionDescriptor;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemoryHandles;
-import jdk.incubator.foreign.MemoryLayout;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
+import jdk.incubator.foreign.*;
 
 public class OrtApi {
 
@@ -776,7 +767,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateSessionFromArray$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER);
     static final MethodHandle CreateSessionFromArray$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateSessionFromArray$FUNC,
@@ -853,7 +844,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor Run$FUNC = FunctionDescriptor.of(
-            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG, C_POINTER);
+            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle Run$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.Run$FUNC,
@@ -2483,7 +2474,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor SessionGetInputTypeInfo$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle SessionGetInputTypeInfo$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SessionGetInputTypeInfo$FUNC,
@@ -2552,7 +2543,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor SessionGetOutputTypeInfo$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle SessionGetOutputTypeInfo$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SessionGetOutputTypeInfo$FUNC,
@@ -2621,7 +2612,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor SessionGetOverridableInitializerTypeInfo$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle SessionGetOverridableInitializerTypeInfo$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SessionGetOverridableInitializerTypeInfo$FUNC,
@@ -2694,7 +2685,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor SessionGetInputName$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER);
     static final MethodHandle SessionGetInputName$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SessionGetInputName$FUNC,
@@ -2768,7 +2759,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor SessionGetOutputName$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER);
     static final MethodHandle SessionGetOutputName$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SessionGetOutputName$FUNC,
@@ -2842,7 +2833,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor SessionGetOverridableInitializerName$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER);
     static final MethodHandle SessionGetOverridableInitializerName$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SessionGetOverridableInitializerName$FUNC,
@@ -3531,7 +3522,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateTensorAsOrtValue$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_INT, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_INT, C_POINTER);
     static final MethodHandle CreateTensorAsOrtValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateTensorAsOrtValue$FUNC,
@@ -3607,8 +3598,8 @@ public class OrtApi {
         return CreateTensorAsOrtValue.ofAddress(CreateTensorAsOrtValue$get(segment));
     }
 
-    static final FunctionDescriptor CreateTensorWithDataAsOrtValue$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG, C_INT, C_POINTER);
+    static final FunctionDescriptor CreateTensorWithDataAsOrtValue$FUNC = FunctionDescriptor.of(
+            C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_LONG_LONG, C_INT, C_POINTER);
     static final MethodHandle CreateTensorWithDataAsOrtValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;JILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateTensorWithDataAsOrtValue$FUNC,
@@ -3824,7 +3815,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor FillStringTensor$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle FillStringTensor$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.FillStringTensor$FUNC,
@@ -3961,7 +3952,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor GetStringTensorContent$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetStringTensorContent$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.GetStringTensorContent$FUNC,
@@ -4308,7 +4299,8 @@ public class OrtApi {
         return SetTensorElementType.ofAddress(SetTensorElementType$get(segment));
     }
 
-    static final FunctionDescriptor SetDimensions$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+    static final FunctionDescriptor SetDimensions$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle SetDimensions$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.SetDimensions$FUNC,
@@ -4509,7 +4501,8 @@ public class OrtApi {
         return GetDimensionsCount.ofAddress(GetDimensionsCount$get(segment));
     }
 
-    static final FunctionDescriptor GetDimensions$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+    static final FunctionDescriptor GetDimensions$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetDimensions$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.GetDimensions$FUNC,
@@ -4577,7 +4570,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor GetSymbolicDimensions$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetSymbolicDimensions$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.GetSymbolicDimensions$FUNC,
@@ -5394,7 +5387,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor AllocatorAlloc$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle AllocatorAlloc$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.AllocatorAlloc$FUNC,
@@ -5874,7 +5867,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateValue$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_INT, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_INT, C_POINTER);
     static final MethodHandle CreateValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateValue$FUNC,
@@ -5945,7 +5938,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateOpaqueValue$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle CreateOpaqueValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateOpaqueValue$FUNC,
@@ -6021,7 +6014,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor GetOpaqueValue$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle GetOpaqueValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.GetOpaqueValue$FUNC,
@@ -6456,7 +6449,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor KernelContext_GetInput$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle KernelContext_GetInput$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.KernelContext_GetInput$FUNC,
@@ -6525,7 +6518,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor KernelContext_GetOutput$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle KernelContext_GetOutput$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.KernelContext_GetOutput$FUNC,
@@ -8953,7 +8946,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor GetStringTensorElementLength$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle GetStringTensorElementLength$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.GetStringTensorElementLength$FUNC,
@@ -9022,7 +9015,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor GetStringTensorElement$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG, C_LONG_LONG, C_POINTER);
     static final MethodHandle GetStringTensorElement$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;JJLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.GetStringTensorElement$FUNC,
@@ -9094,7 +9087,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor FillStringTensorElement$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle FillStringTensorElement$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.FillStringTensorElement$FUNC,
@@ -10062,7 +10055,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor TensorAt$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle TensorAt$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.TensorAt$FUNC,
@@ -10992,7 +10985,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateArenaCfg$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_LONG, C_INT, C_INT, C_INT, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_LONG_LONG, C_INT, C_INT, C_INT, C_POINTER);
     static final MethodHandle CreateArenaCfg$MH = RuntimeHelper.downcallHandle(
             "(JIIILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateArenaCfg$FUNC,
@@ -11551,7 +11544,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateArenaCfgV2$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle CreateArenaCfgV2$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateArenaCfgV2$FUNC,
@@ -11911,7 +11904,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateSessionFromArrayWithPrepackedWeightsContainer$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER, C_POINTER);
     static final MethodHandle CreateSessionFromArrayWithPrepackedWeightsContainer$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$FUNC,
@@ -12140,7 +12133,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor UpdateTensorRTProviderOptions$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle UpdateTensorRTProviderOptions$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.UpdateTensorRTProviderOptions$FUNC,
@@ -12621,7 +12614,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateSparseTensorAsOrtValue$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_INT, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_INT, C_POINTER);
     static final MethodHandle CreateSparseTensorAsOrtValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateSparseTensorAsOrtValue$FUNC,
@@ -12697,8 +12690,8 @@ public class OrtApi {
         return CreateSparseTensorAsOrtValue.ofAddress(CreateSparseTensorAsOrtValue$get(segment));
     }
 
-    static final FunctionDescriptor FillSparseTensorCoo$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER, C_LONG);
+    static final FunctionDescriptor FillSparseTensorCoo$FUNC = FunctionDescriptor.of(
+            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle FillSparseTensorCoo$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.FillSparseTensorCoo$FUNC,
@@ -12778,7 +12771,16 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor FillSparseTensorCsr$FUNC = FunctionDescriptor.of(
-            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG);
+            C_POINTER,
+            C_POINTER,
+            C_POINTER,
+            C_POINTER,
+            C_LONG_LONG,
+            C_POINTER,
+            C_POINTER,
+            C_LONG_LONG,
+            C_POINTER,
+            C_LONG_LONG);
     static final MethodHandle FillSparseTensorCsr$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.FillSparseTensorCsr$FUNC,
@@ -12862,7 +12864,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor FillSparseTensorBlockSparse$FUNC = FunctionDescriptor.of(
-            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle FillSparseTensorBlockSparse$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.FillSparseTensorBlockSparse$FUNC,
@@ -12945,7 +12947,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor CreateSparseTensorWithValuesAsOrtValue$FUNC = FunctionDescriptor.of(
-            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG, C_INT, C_POINTER);
+            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_LONG_LONG, C_INT, C_POINTER);
     static final MethodHandle CreateSparseTensorWithValuesAsOrtValue$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;JILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.CreateSparseTensorWithValuesAsOrtValue$FUNC,
@@ -13029,7 +13031,8 @@ public class OrtApi {
         return CreateSparseTensorWithValuesAsOrtValue.ofAddress(CreateSparseTensorWithValuesAsOrtValue$get(segment));
     }
 
-    static final FunctionDescriptor UseCooIndices$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+    static final FunctionDescriptor UseCooIndices$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle UseCooIndices$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.UseCooIndices$FUNC,
@@ -13097,7 +13100,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor UseCsrIndices$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER, C_LONG_LONG);
     static final MethodHandle UseCsrIndices$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.UseCsrIndices$FUNC,
@@ -13173,7 +13176,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor UseBlockSparseIndices$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG, C_POINTER);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG, C_POINTER);
     static final MethodHandle UseBlockSparseIndices$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;JLjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.UseBlockSparseIndices$FUNC,

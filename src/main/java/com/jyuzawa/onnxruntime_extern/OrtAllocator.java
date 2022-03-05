@@ -47,7 +47,7 @@ public class OrtAllocator {
         OrtAllocator.version$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final FunctionDescriptor Alloc$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG);
+    static final FunctionDescriptor Alloc$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle Alloc$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtAllocator.Alloc$FUNC,
