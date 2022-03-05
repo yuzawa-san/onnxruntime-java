@@ -9,8 +9,6 @@ import static jdk.incubator.foreign.CLinker.C_LONG;
 import static jdk.incubator.foreign.CLinker.C_POINTER;
 import static jdk.incubator.foreign.CLinker.toJavaString;
 
-import java.util.function.Function;
-
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToMapTypeInfo;
@@ -70,7 +68,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
-
+import java.util.function.Function;
 import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemorySegment;
@@ -136,7 +134,6 @@ final class ApiImpl implements Api {
     final SessionGetOverridableInitializerCount SessionGetOverridableInitializerCount;
     final SessionGetOverridableInitializerName SessionGetOverridableInitializerName;
     final SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo;
-
 
     ApiImpl(MemorySegment segment) {
         this.AllocatorFree = OrtApi.AllocatorFree(segment);
