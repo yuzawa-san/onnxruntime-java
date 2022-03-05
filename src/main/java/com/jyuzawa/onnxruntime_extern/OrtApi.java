@@ -5657,7 +5657,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor AddFreeDimensionOverride$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle AddFreeDimensionOverride$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.AddFreeDimensionOverride$FUNC,
@@ -8742,7 +8742,7 @@ public class OrtApi {
     }
 
     static final FunctionDescriptor AddFreeDimensionOverrideByName$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG);
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
     static final MethodHandle AddFreeDimensionOverrideByName$MH = RuntimeHelper.downcallHandle(
             "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
             OrtApi.AddFreeDimensionOverrideByName$FUNC,
