@@ -5,7 +5,6 @@
 package com.jyuzawa.onnxruntime;
 
 import java.util.Collections;
-
 import jdk.incubator.foreign.CLinker;
 import jdk.incubator.foreign.ValueLayout;
 
