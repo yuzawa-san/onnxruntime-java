@@ -1,22 +1,27 @@
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * SPDX-License-Identifier: MIT
+ */
 package com.jyuzawa.onnxruntime_extern;
 
 import java.util.function.LongFunction;
 
- enum SizeT {
-	NIX( "J", x-> x), WINDOWS( "J", x-> Math.toIntExact(x));
-	
-	 static final boolean IS_WINDOWS = System.getProperty("os.name", "").toLowerCase().startsWith("windows");
+enum SizeT {
+    NIX("J", x -> x),
+    WINDOWS("J", x -> Math.toIntExact(x));
 
- final String descriptor;
- final LongFunction<Object> cast;
+    static final boolean IS_WINDOWS =
+            System.getProperty("os.name", "").toLowerCase().startsWith("windows");
 
-private SizeT(String descriptor, LongFunction<Object> cast) {
-	this.descriptor= descriptor;
-	this.cast = cast;
-}
+    final String descriptor;
+    final LongFunction<Object> cast;
 
-static SizeT get() {
-	return IS_WINDOWS? WINDOWS: NIX;
-}
+    private SizeT(String descriptor, LongFunction<Object> cast) {
+        this.descriptor = descriptor;
+        this.cast = cast;
+    }
 
+    static SizeT get() {
+        return IS_WINDOWS ? WINDOWS : NIX;
+    }
 }
