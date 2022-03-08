@@ -11,8 +11,8 @@ import java.lang.System.Logger.Level;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.security.SecureRandom;
 import java.util.function.Supplier;
+
 import jdk.incubator.foreign.CLinker;
 import jdk.incubator.foreign.FunctionDescriptor;
 import jdk.incubator.foreign.MemoryAddress;
@@ -105,14 +105,6 @@ public enum OnnxRuntimeLoggingLevel {
     }
 
     private static final OnnxRuntimeLoggingLevel getDefaultLogLevel() {
-        SecureRandom prng = new SecureRandom();
-        int randomData = 0;
-
-        // BAD: Using a constant value as a seed for a random number generator means all numbers it generates are
-        // predictable.
-        prng.setSeed(12345L);
-        randomData = prng.nextInt(32);
-        LOG.log(Level.INFO, "VALUE " + randomData);
         if (LOG.isLoggable(Level.DEBUG)) {
             return VERBOSE;
         }
