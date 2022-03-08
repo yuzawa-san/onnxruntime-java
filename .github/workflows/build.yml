@@ -50,6 +50,7 @@ jobs:
           path: ./cache
           key: onnxruntime-${{ hashFiles('gradle.properties') }}
       - name: Initialize CodeQL
+        if: ${{ matrix.java == '17' && matrix.os == 'ubuntu-latest' }}
         uses: github/codeql-action/init@v1
         with:
           languages: java
