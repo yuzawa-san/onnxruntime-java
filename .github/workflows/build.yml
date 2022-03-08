@@ -9,6 +9,8 @@ on:
     branches:
       - develop
       - master
+  schedule:
+    - cron: '22 19 * * 5'
 
 jobs:
   build:
@@ -43,12 +45,19 @@ jobs:
         with:
           path: ./cache
           key: onnxruntime-${{ hashFiles('gradle.properties') }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: java
       - name: Build with Gradle
         run: |
           ./gradlew :build -s
       - name: Upload coverage to Codecov
         if: ${{ matrix.java == '17' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v2.1.0
+      - name: Perform CodeQL Analysis
+        if: ${{ matrix.java == '17' && matrix.os == 'ubuntu-latest' }}
+        uses: github/codeql-action/analyze@v1
       - name: Save reports
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
