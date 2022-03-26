@@ -3,15 +3,8 @@ all: build/onnxruntime-${ORT_VERSION}/linux-aarch_64/com/jyuzawa/onnxruntime/nat
 clean:
 	rm -rf build/onnxruntime*
 
-# linux aarch64 shim, since its not in the main releases
 build/onnxruntime-${ORT_VERSION}/linux-aarch_64/com/jyuzawa/onnxruntime/native/linux-aarch_64/libraries:
-	mkdir -p build/onnxruntime-${ORT_VERSION}
-	cd build/onnxruntime-${ORT_VERSION} && \
-	curl -OL https://registry.npmjs.org/onnxruntime-node/-/onnxruntime-node-${ORT_VERSION}.tgz && \
-	tar xvzf onnxruntime-node-${ORT_VERSION}.tgz
-	mkdir -p build/onnxruntime-${ORT_VERSION}/linux-aarch_64/com/jyuzawa/onnxruntime/native/linux-aarch_64
-	cp build/onnxruntime-${ORT_VERSION}/package/bin/napi-v3/linux/arm64/libonnxruntime.so.${ORT_VERSION} build/onnxruntime-${ORT_VERSION}/linux-aarch_64/com/jyuzawa/onnxruntime/native/linux-aarch_64/libonnxruntime.so
-	echo libonnxruntime.so > build/onnxruntime-${ORT_VERSION}/linux-aarch_64/com/jyuzawa/onnxruntime/native/linux-aarch_64/libraries
+	./download.sh ${ORT_VERSION} linux-aarch_64 "" linux-aarch64 tgz so
 
 build/onnxruntime-${ORT_VERSION}/linux-x86_64/com/jyuzawa/onnxruntime/native/linux-x86_64/libraries:
 	./download.sh ${ORT_VERSION} linux-x86_64 "" linux-x64 tgz so
