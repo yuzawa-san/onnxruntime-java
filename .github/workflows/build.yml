@@ -26,7 +26,7 @@ jobs:
       security-events: write
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v2
@@ -34,18 +34,18 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Cache Gradle wrapper
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
       - name: Cache Gradle packages
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle-caches-
       - name: Cache onnxruntime archives
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: ./cache
           key: onnxruntime-${{ hashFiles('gradle.properties') }}
