@@ -22,6 +22,7 @@ ln -s ../../cache/${FILENAME} ${FILENAME}
 if [ "${COMPRESSION}" = "zip" ]; then
   unzip ${FILENAME}
 else
+  set MSYS=winsymlinks:lnk
   tar xvzf ${FILENAME}
 fi
 
