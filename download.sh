@@ -22,8 +22,9 @@ ln -s ../../cache/${FILENAME} ${FILENAME}
 if [ "${COMPRESSION}" = "zip" ]; then
   unzip ${FILENAME}
 else
-  set MSYS=winsymlinks:native
-  tar xvzf ${FILENAME}
+  # https://github.com/msys2/MSYS2-packages/issues/1216
+  # https://github.com/heroku/heroku-slugs/issues/3
+  tar xvzf ${FILENAME} || tar xvzf ${FILENAME}
 fi
 
 mkdir -p ${OS_ARCH}${GPU_SUFFIX}/com/jyuzawa/onnxruntime/native/${OS_ARCH}
