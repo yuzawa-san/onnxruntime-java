@@ -19,7 +19,7 @@ public class onnxruntime_all_h {
     onnxruntime_all_h() {}
 
     public static int ORT_API_VERSION() {
-        return (int) 10L;
+        return (int) 11L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
@@ -341,6 +341,23 @@ public class onnxruntime_all_h {
         var mh$ = RuntimeHelper.requireNonNull(
                 constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$MH,
                 "OrtSessionOptionsAppendExecutionProvider_CUDA");
+        try {
+            return (jdk.incubator.foreign.MemoryAddress) mh$.invokeExact(options.address(), device_id);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH() {
+        return RuntimeHelper.requireNonNull(
+                constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH,
+                "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+    }
+
+    public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_MIGraphX(Addressable options, int device_id) {
+        var mh$ = RuntimeHelper.requireNonNull(
+                constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH,
+                "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
         try {
             return (jdk.incubator.foreign.MemoryAddress) mh$.invokeExact(options.address(), device_id);
         } catch (Throwable ex$) {

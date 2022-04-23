@@ -61,6 +61,7 @@ jacocoTestReport {
 
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
+// NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
 
 def getGitHash = { ->

@@ -216,7 +216,13 @@ public class OrtApi {
                     C_POINTER.withName("SetGlobalCustomThreadCreationOptions"),
                     C_POINTER.withName("SetGlobalCustomJoinThreadFn"),
                     C_POINTER.withName("SynchronizeBoundInputs"),
-                    C_POINTER.withName("SynchronizeBoundOutputs"))
+                    C_POINTER.withName("SynchronizeBoundOutputs"),
+                    C_POINTER.withName("SessionOptionsAppendExecutionProvider_CUDA_V2"),
+                    C_POINTER.withName("CreateCUDAProviderOptions"),
+                    C_POINTER.withName("UpdateCUDAProviderOptions"),
+                    C_POINTER.withName("GetCUDAProviderOptionsAsString"),
+                    C_POINTER.withName("ReleaseCUDAProviderOptions"),
+                    C_POINTER.withName("SessionOptionsAppendExecutionProvider_MIGraphX"))
             .withName("OrtApi");
 
     public static MemoryLayout $LAYOUT() {
@@ -14425,6 +14431,436 @@ public class OrtApi {
 
     public static SynchronizeBoundOutputs SynchronizeBoundOutputs(MemorySegment segment) {
         return SynchronizeBoundOutputs.ofAddress(SynchronizeBoundOutputs$get(segment));
+    }
+
+    static final FunctionDescriptor SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER);
+    static final MethodHandle SessionOptionsAppendExecutionProvider_CUDA_V2$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC,
+            false);
+
+    public interface SessionOptionsAppendExecutionProvider_CUDA_V2 {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0, jdk.incubator.foreign.MemoryAddress x1);
+
+        static MemoryAddress allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider_CUDA_V2.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider_CUDA_V2.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0, jdk.incubator.foreign.MemoryAddress x1) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$MH.invokeExact(
+                                    (Addressable) addr, x0, x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle SessionOptionsAppendExecutionProvider_CUDA_V2$VH =
+            MemoryHandles.asAddressVarHandle($struct$LAYOUT.varHandle(
+                    long.class,
+                    MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider_CUDA_V2")));
+
+    public static VarHandle SessionOptionsAppendExecutionProvider_CUDA_V2$VH() {
+        return OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH;
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.get(seg);
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.set(seg, x);
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(
+            MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2(
+            MemorySegment segment) {
+        return SessionOptionsAppendExecutionProvider_CUDA_V2.ofAddress(
+                SessionOptionsAppendExecutionProvider_CUDA_V2$get(segment));
+    }
+
+    static final FunctionDescriptor CreateCUDAProviderOptions$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER);
+    static final MethodHandle CreateCUDAProviderOptions$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.CreateCUDAProviderOptions$FUNC,
+            false);
+
+    public interface CreateCUDAProviderOptions {
+
+        jdk.incubator.foreign.MemoryAddress apply(jdk.incubator.foreign.MemoryAddress x0);
+
+        static MemoryAddress allocate(CreateCUDAProviderOptions fi) {
+            return RuntimeHelper.upcallStub(
+                    CreateCUDAProviderOptions.class,
+                    fi,
+                    OrtApi.CreateCUDAProviderOptions$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(CreateCUDAProviderOptions fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    CreateCUDAProviderOptions.class,
+                    fi,
+                    OrtApi.CreateCUDAProviderOptions$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static CreateCUDAProviderOptions ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.CreateCUDAProviderOptions$MH.invokeExact((Addressable) addr, x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle CreateCUDAProviderOptions$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("CreateCUDAProviderOptions")));
+
+    public static VarHandle CreateCUDAProviderOptions$VH() {
+        return OrtApi.CreateCUDAProviderOptions$VH;
+    }
+
+    public static MemoryAddress CreateCUDAProviderOptions$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateCUDAProviderOptions$VH.get(seg);
+    }
+
+    public static void CreateCUDAProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.CreateCUDAProviderOptions$VH.set(seg, x);
+    }
+
+    public static MemoryAddress CreateCUDAProviderOptions$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.CreateCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void CreateCUDAProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.CreateCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static CreateCUDAProviderOptions CreateCUDAProviderOptions(MemorySegment segment) {
+        return CreateCUDAProviderOptions.ofAddress(CreateCUDAProviderOptions$get(segment));
+    }
+
+    static final FunctionDescriptor UpdateCUDAProviderOptions$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
+    static final MethodHandle UpdateCUDAProviderOptions$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.UpdateCUDAProviderOptions$FUNC,
+            false);
+
+    public interface UpdateCUDAProviderOptions {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                jdk.incubator.foreign.MemoryAddress x2,
+                long x3);
+
+        static MemoryAddress allocate(UpdateCUDAProviderOptions fi) {
+            return RuntimeHelper.upcallStub(
+                    UpdateCUDAProviderOptions.class,
+                    fi,
+                    OrtApi.UpdateCUDAProviderOptions$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(UpdateCUDAProviderOptions fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    UpdateCUDAProviderOptions.class,
+                    fi,
+                    OrtApi.UpdateCUDAProviderOptions$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static UpdateCUDAProviderOptions ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    jdk.incubator.foreign.MemoryAddress x2,
+                    long x3) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.UpdateCUDAProviderOptions$MH.invokeExact((Addressable) addr, x0, x1, x2, x3);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle UpdateCUDAProviderOptions$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("UpdateCUDAProviderOptions")));
+
+    public static VarHandle UpdateCUDAProviderOptions$VH() {
+        return OrtApi.UpdateCUDAProviderOptions$VH;
+    }
+
+    public static MemoryAddress UpdateCUDAProviderOptions$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.UpdateCUDAProviderOptions$VH.get(seg);
+    }
+
+    public static void UpdateCUDAProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.UpdateCUDAProviderOptions$VH.set(seg, x);
+    }
+
+    public static MemoryAddress UpdateCUDAProviderOptions$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.UpdateCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void UpdateCUDAProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.UpdateCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static UpdateCUDAProviderOptions UpdateCUDAProviderOptions(MemorySegment segment) {
+        return UpdateCUDAProviderOptions.ofAddress(UpdateCUDAProviderOptions$get(segment));
+    }
+
+    static final FunctionDescriptor GetCUDAProviderOptionsAsString$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER);
+    static final MethodHandle GetCUDAProviderOptionsAsString$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.GetCUDAProviderOptionsAsString$FUNC,
+            false);
+
+    public interface GetCUDAProviderOptionsAsString {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                jdk.incubator.foreign.MemoryAddress x2);
+
+        static MemoryAddress allocate(GetCUDAProviderOptionsAsString fi) {
+            return RuntimeHelper.upcallStub(
+                    GetCUDAProviderOptionsAsString.class,
+                    fi,
+                    OrtApi.GetCUDAProviderOptionsAsString$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(GetCUDAProviderOptionsAsString fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    GetCUDAProviderOptionsAsString.class,
+                    fi,
+                    OrtApi.GetCUDAProviderOptionsAsString$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static GetCUDAProviderOptionsAsString ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    jdk.incubator.foreign.MemoryAddress x2) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.GetCUDAProviderOptionsAsString$MH.invokeExact((Addressable) addr, x0, x1, x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetCUDAProviderOptionsAsString$VH =
+            MemoryHandles.asAddressVarHandle($struct$LAYOUT.varHandle(
+                    long.class, MemoryLayout.PathElement.groupElement("GetCUDAProviderOptionsAsString")));
+
+    public static VarHandle GetCUDAProviderOptionsAsString$VH() {
+        return OrtApi.GetCUDAProviderOptionsAsString$VH;
+    }
+
+    public static MemoryAddress GetCUDAProviderOptionsAsString$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.GetCUDAProviderOptionsAsString$VH.get(seg);
+    }
+
+    public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.GetCUDAProviderOptionsAsString$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetCUDAProviderOptionsAsString$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.GetCUDAProviderOptionsAsString$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.GetCUDAProviderOptionsAsString$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetCUDAProviderOptionsAsString GetCUDAProviderOptionsAsString(MemorySegment segment) {
+        return GetCUDAProviderOptionsAsString.ofAddress(GetCUDAProviderOptionsAsString$get(segment));
+    }
+
+    static final FunctionDescriptor ReleaseCUDAProviderOptions$FUNC = FunctionDescriptor.ofVoid(C_POINTER);
+    static final MethodHandle ReleaseCUDAProviderOptions$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;)V", OrtApi.ReleaseCUDAProviderOptions$FUNC, false);
+
+    public interface ReleaseCUDAProviderOptions {
+
+        void apply(jdk.incubator.foreign.MemoryAddress x0);
+
+        static MemoryAddress allocate(ReleaseCUDAProviderOptions fi) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseCUDAProviderOptions.class,
+                    fi,
+                    OrtApi.ReleaseCUDAProviderOptions$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)V");
+        }
+
+        static MemoryAddress allocate(ReleaseCUDAProviderOptions fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseCUDAProviderOptions.class,
+                    fi,
+                    OrtApi.ReleaseCUDAProviderOptions$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)V",
+                    scope);
+        }
+
+        static ReleaseCUDAProviderOptions ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0) -> {
+                try {
+                    OrtApi.ReleaseCUDAProviderOptions$MH.invokeExact((Addressable) addr, x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle ReleaseCUDAProviderOptions$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("ReleaseCUDAProviderOptions")));
+
+    public static VarHandle ReleaseCUDAProviderOptions$VH() {
+        return OrtApi.ReleaseCUDAProviderOptions$VH;
+    }
+
+    public static MemoryAddress ReleaseCUDAProviderOptions$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseCUDAProviderOptions$VH.get(seg);
+    }
+
+    public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.ReleaseCUDAProviderOptions$VH.set(seg, x);
+    }
+
+    public static MemoryAddress ReleaseCUDAProviderOptions$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.ReleaseCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.ReleaseCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions(MemorySegment segment) {
+        return ReleaseCUDAProviderOptions.ofAddress(ReleaseCUDAProviderOptions$get(segment));
+    }
+
+    static final FunctionDescriptor SessionOptionsAppendExecutionProvider_MIGraphX$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER);
+    static final MethodHandle SessionOptionsAppendExecutionProvider_MIGraphX$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$FUNC,
+            false);
+
+    public interface SessionOptionsAppendExecutionProvider_MIGraphX {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0, jdk.incubator.foreign.MemoryAddress x1);
+
+        static MemoryAddress allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider_MIGraphX.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider_MIGraphX.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0, jdk.incubator.foreign.MemoryAddress x1) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$MH.invokeExact(
+                                    (Addressable) addr, x0, x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle SessionOptionsAppendExecutionProvider_MIGraphX$VH =
+            MemoryHandles.asAddressVarHandle($struct$LAYOUT.varHandle(
+                    long.class,
+                    MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider_MIGraphX")));
+
+    public static VarHandle SessionOptionsAppendExecutionProvider_MIGraphX$VH() {
+        return OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH;
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.get(seg);
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.set(seg, x);
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(
+            MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX(
+            MemorySegment segment) {
+        return SessionOptionsAppendExecutionProvider_MIGraphX.ofAddress(
+                SessionOptionsAppendExecutionProvider_MIGraphX$get(segment));
     }
 
     public static long sizeof() {
