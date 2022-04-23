@@ -28,6 +28,14 @@ class constants$1 {
             "(Ljdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
             constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC,
             false);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_INT);
+    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH = RuntimeHelper.downcallHandle(
+            onnxruntime_all_h.LIBRARIES,
+            "OrtSessionOptionsAppendExecutionProvider_MIGraphX",
+            "(Ljdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
+            constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC,
+            false);
     static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC =
             FunctionDescriptor.of(C_POINTER, C_POINTER, C_INT);
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH = RuntimeHelper.downcallHandle(
