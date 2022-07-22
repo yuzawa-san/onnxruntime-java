@@ -222,7 +222,16 @@ public class OrtApi {
                     C_POINTER.withName("UpdateCUDAProviderOptions"),
                     C_POINTER.withName("GetCUDAProviderOptionsAsString"),
                     C_POINTER.withName("ReleaseCUDAProviderOptions"),
-                    C_POINTER.withName("SessionOptionsAppendExecutionProvider_MIGraphX"))
+                    C_POINTER.withName("SessionOptionsAppendExecutionProvider_MIGraphX"),
+                    C_POINTER.withName("AddExternalInitializers"),
+                    C_POINTER.withName("CreateOpAttr"),
+                    C_POINTER.withName("ReleaseOpAttr"),
+                    C_POINTER.withName("CreateOp"),
+                    C_POINTER.withName("InvokeOp"),
+                    C_POINTER.withName("ReleaseOp"),
+                    C_POINTER.withName("SessionOptionsAppendExecutionProvider"),
+                    C_POINTER.withName("CopyKernelInfo"),
+                    C_POINTER.withName("ReleaseKernelInfo"))
             .withName("OrtApi");
 
     public static MemoryLayout $LAYOUT() {
@@ -14861,6 +14870,651 @@ public class OrtApi {
             MemorySegment segment) {
         return SessionOptionsAppendExecutionProvider_MIGraphX.ofAddress(
                 SessionOptionsAppendExecutionProvider_MIGraphX$get(segment));
+    }
+
+    static final FunctionDescriptor AddExternalInitializers$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
+    static final MethodHandle AddExternalInitializers$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.AddExternalInitializers$FUNC,
+            false);
+
+    public interface AddExternalInitializers {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                jdk.incubator.foreign.MemoryAddress x2,
+                long x3);
+
+        static MemoryAddress allocate(AddExternalInitializers fi) {
+            return RuntimeHelper.upcallStub(
+                    AddExternalInitializers.class,
+                    fi,
+                    OrtApi.AddExternalInitializers$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(AddExternalInitializers fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    AddExternalInitializers.class,
+                    fi,
+                    OrtApi.AddExternalInitializers$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static AddExternalInitializers ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    jdk.incubator.foreign.MemoryAddress x2,
+                    long x3) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.AddExternalInitializers$MH.invokeExact((Addressable) addr, x0, x1, x2, x3);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle AddExternalInitializers$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("AddExternalInitializers")));
+
+    public static VarHandle AddExternalInitializers$VH() {
+        return OrtApi.AddExternalInitializers$VH;
+    }
+
+    public static MemoryAddress AddExternalInitializers$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.AddExternalInitializers$VH.get(seg);
+    }
+
+    public static void AddExternalInitializers$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.AddExternalInitializers$VH.set(seg, x);
+    }
+
+    public static MemoryAddress AddExternalInitializers$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.AddExternalInitializers$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void AddExternalInitializers$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.AddExternalInitializers$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static AddExternalInitializers AddExternalInitializers(MemorySegment segment) {
+        return AddExternalInitializers.ofAddress(AddExternalInitializers$get(segment));
+    }
+
+    static final FunctionDescriptor CreateOpAttr$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_INT, C_INT, C_POINTER);
+    static final MethodHandle CreateOpAttr$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;IILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.CreateOpAttr$FUNC,
+            false);
+
+    public interface CreateOpAttr {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                int x2,
+                int x3,
+                jdk.incubator.foreign.MemoryAddress x4);
+
+        static MemoryAddress allocate(CreateOpAttr fi) {
+            return RuntimeHelper.upcallStub(
+                    CreateOpAttr.class,
+                    fi,
+                    OrtApi.CreateOpAttr$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;IILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(CreateOpAttr fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    CreateOpAttr.class,
+                    fi,
+                    OrtApi.CreateOpAttr$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;IILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static CreateOpAttr ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    int x2,
+                    int x3,
+                    jdk.incubator.foreign.MemoryAddress x4) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.CreateOpAttr$MH.invokeExact((Addressable) addr, x0, x1, x2, x3, x4);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle CreateOpAttr$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("CreateOpAttr")));
+
+    public static VarHandle CreateOpAttr$VH() {
+        return OrtApi.CreateOpAttr$VH;
+    }
+
+    public static MemoryAddress CreateOpAttr$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateOpAttr$VH.get(seg);
+    }
+
+    public static void CreateOpAttr$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.CreateOpAttr$VH.set(seg, x);
+    }
+
+    public static MemoryAddress CreateOpAttr$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateOpAttr$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void CreateOpAttr$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.CreateOpAttr$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static CreateOpAttr CreateOpAttr(MemorySegment segment) {
+        return CreateOpAttr.ofAddress(CreateOpAttr$get(segment));
+    }
+
+    static final FunctionDescriptor ReleaseOpAttr$FUNC = FunctionDescriptor.ofVoid(C_POINTER);
+    static final MethodHandle ReleaseOpAttr$MH =
+            RuntimeHelper.downcallHandle("(Ljdk/incubator/foreign/MemoryAddress;)V", OrtApi.ReleaseOpAttr$FUNC, false);
+
+    public interface ReleaseOpAttr {
+
+        void apply(jdk.incubator.foreign.MemoryAddress x0);
+
+        static MemoryAddress allocate(ReleaseOpAttr fi) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseOpAttr.class, fi, OrtApi.ReleaseOpAttr$FUNC, "(Ljdk/incubator/foreign/MemoryAddress;)V");
+        }
+
+        static MemoryAddress allocate(ReleaseOpAttr fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseOpAttr.class,
+                    fi,
+                    OrtApi.ReleaseOpAttr$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)V",
+                    scope);
+        }
+
+        static ReleaseOpAttr ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0) -> {
+                try {
+                    OrtApi.ReleaseOpAttr$MH.invokeExact((Addressable) addr, x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle ReleaseOpAttr$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("ReleaseOpAttr")));
+
+    public static VarHandle ReleaseOpAttr$VH() {
+        return OrtApi.ReleaseOpAttr$VH;
+    }
+
+    public static MemoryAddress ReleaseOpAttr$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseOpAttr$VH.get(seg);
+    }
+
+    public static void ReleaseOpAttr$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.ReleaseOpAttr$VH.set(seg, x);
+    }
+
+    public static MemoryAddress ReleaseOpAttr$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseOpAttr$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void ReleaseOpAttr$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.ReleaseOpAttr$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static ReleaseOpAttr ReleaseOpAttr(MemorySegment segment) {
+        return ReleaseOpAttr.ofAddress(ReleaseOpAttr$get(segment));
+    }
+
+    static final FunctionDescriptor CreateOp$FUNC = FunctionDescriptor.of(
+            C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_INT, C_POINTER, C_POINTER, C_INT, C_POINTER, C_INT, C_INT,
+            C_INT, C_POINTER);
+    static final MethodHandle CreateOp$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;IIILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.CreateOp$FUNC,
+            false);
+
+    public interface CreateOp {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                jdk.incubator.foreign.MemoryAddress x2,
+                int x3,
+                jdk.incubator.foreign.MemoryAddress x4,
+                jdk.incubator.foreign.MemoryAddress x5,
+                int x6,
+                jdk.incubator.foreign.MemoryAddress x7,
+                int x8,
+                int x9,
+                int x10,
+                jdk.incubator.foreign.MemoryAddress x11);
+
+        static MemoryAddress allocate(CreateOp fi) {
+            return RuntimeHelper.upcallStub(
+                    CreateOp.class,
+                    fi,
+                    OrtApi.CreateOp$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;IIILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(CreateOp fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    CreateOp.class,
+                    fi,
+                    OrtApi.CreateOp$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;IIILjdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static CreateOp ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    jdk.incubator.foreign.MemoryAddress x2,
+                    int x3,
+                    jdk.incubator.foreign.MemoryAddress x4,
+                    jdk.incubator.foreign.MemoryAddress x5,
+                    int x6,
+                    jdk.incubator.foreign.MemoryAddress x7,
+                    int x8,
+                    int x9,
+                    int x10,
+                    jdk.incubator.foreign.MemoryAddress x11) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateOp$MH.invokeExact(
+                            (Addressable) addr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle CreateOp$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("CreateOp")));
+
+    public static VarHandle CreateOp$VH() {
+        return OrtApi.CreateOp$VH;
+    }
+
+    public static MemoryAddress CreateOp$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateOp$VH.get(seg);
+    }
+
+    public static void CreateOp$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.CreateOp$VH.set(seg, x);
+    }
+
+    public static MemoryAddress CreateOp$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CreateOp$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void CreateOp$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.CreateOp$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static CreateOp CreateOp(MemorySegment segment) {
+        return CreateOp.ofAddress(CreateOp$get(segment));
+    }
+
+    static final FunctionDescriptor InvokeOp$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_INT, C_POINTER, C_INT);
+    static final MethodHandle InvokeOp$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.InvokeOp$FUNC,
+            false);
+
+    public interface InvokeOp {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                jdk.incubator.foreign.MemoryAddress x2,
+                int x3,
+                jdk.incubator.foreign.MemoryAddress x4,
+                int x5);
+
+        static MemoryAddress allocate(InvokeOp fi) {
+            return RuntimeHelper.upcallStub(
+                    InvokeOp.class,
+                    fi,
+                    OrtApi.InvokeOp$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(InvokeOp fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    InvokeOp.class,
+                    fi,
+                    OrtApi.InvokeOp$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static InvokeOp ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    jdk.incubator.foreign.MemoryAddress x2,
+                    int x3,
+                    jdk.incubator.foreign.MemoryAddress x4,
+                    int x5) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.InvokeOp$MH.invokeExact((Addressable) addr, x0, x1, x2, x3, x4, x5);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle InvokeOp$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("InvokeOp")));
+
+    public static VarHandle InvokeOp$VH() {
+        return OrtApi.InvokeOp$VH;
+    }
+
+    public static MemoryAddress InvokeOp$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.InvokeOp$VH.get(seg);
+    }
+
+    public static void InvokeOp$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.InvokeOp$VH.set(seg, x);
+    }
+
+    public static MemoryAddress InvokeOp$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.InvokeOp$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void InvokeOp$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.InvokeOp$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static InvokeOp InvokeOp(MemorySegment segment) {
+        return InvokeOp.ofAddress(InvokeOp$get(segment));
+    }
+
+    static final FunctionDescriptor ReleaseOp$FUNC = FunctionDescriptor.ofVoid(C_POINTER);
+    static final MethodHandle ReleaseOp$MH =
+            RuntimeHelper.downcallHandle("(Ljdk/incubator/foreign/MemoryAddress;)V", OrtApi.ReleaseOp$FUNC, false);
+
+    public interface ReleaseOp {
+
+        void apply(jdk.incubator.foreign.MemoryAddress x0);
+
+        static MemoryAddress allocate(ReleaseOp fi) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseOp.class, fi, OrtApi.ReleaseOp$FUNC, "(Ljdk/incubator/foreign/MemoryAddress;)V");
+        }
+
+        static MemoryAddress allocate(ReleaseOp fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseOp.class, fi, OrtApi.ReleaseOp$FUNC, "(Ljdk/incubator/foreign/MemoryAddress;)V", scope);
+        }
+
+        static ReleaseOp ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0) -> {
+                try {
+                    OrtApi.ReleaseOp$MH.invokeExact((Addressable) addr, x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle ReleaseOp$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("ReleaseOp")));
+
+    public static VarHandle ReleaseOp$VH() {
+        return OrtApi.ReleaseOp$VH;
+    }
+
+    public static MemoryAddress ReleaseOp$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseOp$VH.get(seg);
+    }
+
+    public static void ReleaseOp$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.ReleaseOp$VH.set(seg, x);
+    }
+
+    public static MemoryAddress ReleaseOp$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseOp$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void ReleaseOp$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.ReleaseOp$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static ReleaseOp ReleaseOp(MemorySegment segment) {
+        return ReleaseOp.ofAddress(ReleaseOp$get(segment));
+    }
+
+    static final FunctionDescriptor SessionOptionsAppendExecutionProvider$FUNC =
+            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_POINTER, C_LONG_LONG);
+    static final MethodHandle SessionOptionsAppendExecutionProvider$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.SessionOptionsAppendExecutionProvider$FUNC,
+            false);
+
+    public interface SessionOptionsAppendExecutionProvider {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0,
+                jdk.incubator.foreign.MemoryAddress x1,
+                jdk.incubator.foreign.MemoryAddress x2,
+                jdk.incubator.foreign.MemoryAddress x3,
+                long x4);
+
+        static MemoryAddress allocate(SessionOptionsAppendExecutionProvider fi) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(SessionOptionsAppendExecutionProvider fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;J)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static SessionOptionsAppendExecutionProvider ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0,
+                    jdk.incubator.foreign.MemoryAddress x1,
+                    jdk.incubator.foreign.MemoryAddress x2,
+                    jdk.incubator.foreign.MemoryAddress x3,
+                    long x4) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.SessionOptionsAppendExecutionProvider$MH.invokeExact(
+                                    (Addressable) addr, x0, x1, x2, x3, x4);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle SessionOptionsAppendExecutionProvider$VH =
+            MemoryHandles.asAddressVarHandle($struct$LAYOUT.varHandle(
+                    long.class, MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider")));
+
+    public static VarHandle SessionOptionsAppendExecutionProvider$VH() {
+        return OrtApi.SessionOptionsAppendExecutionProvider$VH;
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider$VH.get(seg);
+    }
+
+    public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider$VH.set(seg, x);
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress)
+                OrtApi.SessionOptionsAppendExecutionProvider$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static SessionOptionsAppendExecutionProvider SessionOptionsAppendExecutionProvider(MemorySegment segment) {
+        return SessionOptionsAppendExecutionProvider.ofAddress(SessionOptionsAppendExecutionProvider$get(segment));
+    }
+
+    static final FunctionDescriptor CopyKernelInfo$FUNC = FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER);
+    static final MethodHandle CopyKernelInfo$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+            OrtApi.CopyKernelInfo$FUNC,
+            false);
+
+    public interface CopyKernelInfo {
+
+        jdk.incubator.foreign.MemoryAddress apply(
+                jdk.incubator.foreign.MemoryAddress x0, jdk.incubator.foreign.MemoryAddress x1);
+
+        static MemoryAddress allocate(CopyKernelInfo fi) {
+            return RuntimeHelper.upcallStub(
+                    CopyKernelInfo.class,
+                    fi,
+                    OrtApi.CopyKernelInfo$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;");
+        }
+
+        static MemoryAddress allocate(CopyKernelInfo fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    CopyKernelInfo.class,
+                    fi,
+                    OrtApi.CopyKernelInfo$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
+                    scope);
+        }
+
+        static CopyKernelInfo ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0, jdk.incubator.foreign.MemoryAddress x1) -> {
+                try {
+                    return (jdk.incubator.foreign.MemoryAddress)
+                            OrtApi.CopyKernelInfo$MH.invokeExact((Addressable) addr, x0, x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle CopyKernelInfo$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("CopyKernelInfo")));
+
+    public static VarHandle CopyKernelInfo$VH() {
+        return OrtApi.CopyKernelInfo$VH;
+    }
+
+    public static MemoryAddress CopyKernelInfo$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CopyKernelInfo$VH.get(seg);
+    }
+
+    public static void CopyKernelInfo$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.CopyKernelInfo$VH.set(seg, x);
+    }
+
+    public static MemoryAddress CopyKernelInfo$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.CopyKernelInfo$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void CopyKernelInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.CopyKernelInfo$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static CopyKernelInfo CopyKernelInfo(MemorySegment segment) {
+        return CopyKernelInfo.ofAddress(CopyKernelInfo$get(segment));
+    }
+
+    static final FunctionDescriptor ReleaseKernelInfo$FUNC = FunctionDescriptor.ofVoid(C_POINTER);
+    static final MethodHandle ReleaseKernelInfo$MH = RuntimeHelper.downcallHandle(
+            "(Ljdk/incubator/foreign/MemoryAddress;)V", OrtApi.ReleaseKernelInfo$FUNC, false);
+
+    public interface ReleaseKernelInfo {
+
+        void apply(jdk.incubator.foreign.MemoryAddress x0);
+
+        static MemoryAddress allocate(ReleaseKernelInfo fi) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseKernelInfo.class,
+                    fi,
+                    OrtApi.ReleaseKernelInfo$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)V");
+        }
+
+        static MemoryAddress allocate(ReleaseKernelInfo fi, ResourceScope scope) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseKernelInfo.class,
+                    fi,
+                    OrtApi.ReleaseKernelInfo$FUNC,
+                    "(Ljdk/incubator/foreign/MemoryAddress;)V",
+                    scope);
+        }
+
+        static ReleaseKernelInfo ofAddress(MemoryAddress addr) {
+            return (jdk.incubator.foreign.MemoryAddress x0) -> {
+                try {
+                    OrtApi.ReleaseKernelInfo$MH.invokeExact((Addressable) addr, x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle ReleaseKernelInfo$VH = MemoryHandles.asAddressVarHandle(
+            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("ReleaseKernelInfo")));
+
+    public static VarHandle ReleaseKernelInfo$VH() {
+        return OrtApi.ReleaseKernelInfo$VH;
+    }
+
+    public static MemoryAddress ReleaseKernelInfo$get(MemorySegment seg) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseKernelInfo$VH.get(seg);
+    }
+
+    public static void ReleaseKernelInfo$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.ReleaseKernelInfo$VH.set(seg, x);
+    }
+
+    public static MemoryAddress ReleaseKernelInfo$get(MemorySegment seg, long index) {
+        return (jdk.incubator.foreign.MemoryAddress) OrtApi.ReleaseKernelInfo$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void ReleaseKernelInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.ReleaseKernelInfo$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static ReleaseKernelInfo ReleaseKernelInfo(MemorySegment segment) {
+        return ReleaseKernelInfo.ofAddress(ReleaseKernelInfo$get(segment));
     }
 
     public static long sizeof() {
