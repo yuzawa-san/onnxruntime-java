@@ -15,7 +15,9 @@ apply plugin: "java-library"
 
 release {
 	tagTemplate = 'v${version}'
-	requireBranch = 'master'
+	git {
+		requireBranch = 'master'
+	}
 }
 afterReleaseBuild.dependsOn publish
 
