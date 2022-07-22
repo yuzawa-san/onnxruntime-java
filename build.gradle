@@ -17,6 +17,7 @@ release {
 	tagTemplate = 'v${version}'
 	git {
 		requireBranch.set('master')
+		signTag.set(true)
 	}
 }
 afterReleaseBuild.dependsOn publish
