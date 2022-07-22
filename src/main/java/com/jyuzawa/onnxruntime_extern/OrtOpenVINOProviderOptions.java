@@ -20,7 +20,10 @@ public class OrtOpenVINOProviderOptions {
                     C_CHAR.withName("use_compiled_network"),
                     MemoryLayout.paddingLayout(56),
                     C_POINTER.withName("blob_dump_path"),
-                    C_POINTER.withName("context"))
+                    C_POINTER.withName("context"),
+                    C_CHAR.withName("enable_opencl_throttling"),
+                    C_CHAR.withName("enable_dynamic_shapes"),
+                    MemoryLayout.paddingLayout(48))
             .withName("OrtOpenVINOProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
@@ -190,6 +193,52 @@ public class OrtOpenVINOProviderOptions {
 
     public static void context$set(MemorySegment seg, long index, MemoryAddress x) {
         OrtOpenVINOProviderOptions.context$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle enable_opencl_throttling$VH =
+            $struct$LAYOUT.varHandle(byte.class, MemoryLayout.PathElement.groupElement("enable_opencl_throttling"));
+
+    public static VarHandle enable_opencl_throttling$VH() {
+        return OrtOpenVINOProviderOptions.enable_opencl_throttling$VH;
+    }
+
+    public static byte enable_opencl_throttling$get(MemorySegment seg) {
+        return (byte) OrtOpenVINOProviderOptions.enable_opencl_throttling$VH.get(seg);
+    }
+
+    public static void enable_opencl_throttling$set(MemorySegment seg, byte x) {
+        OrtOpenVINOProviderOptions.enable_opencl_throttling$VH.set(seg, x);
+    }
+
+    public static byte enable_opencl_throttling$get(MemorySegment seg, long index) {
+        return (byte) OrtOpenVINOProviderOptions.enable_opencl_throttling$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void enable_opencl_throttling$set(MemorySegment seg, long index, byte x) {
+        OrtOpenVINOProviderOptions.enable_opencl_throttling$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle enable_dynamic_shapes$VH =
+            $struct$LAYOUT.varHandle(byte.class, MemoryLayout.PathElement.groupElement("enable_dynamic_shapes"));
+
+    public static VarHandle enable_dynamic_shapes$VH() {
+        return OrtOpenVINOProviderOptions.enable_dynamic_shapes$VH;
+    }
+
+    public static byte enable_dynamic_shapes$get(MemorySegment seg) {
+        return (byte) OrtOpenVINOProviderOptions.enable_dynamic_shapes$VH.get(seg);
+    }
+
+    public static void enable_dynamic_shapes$set(MemorySegment seg, byte x) {
+        OrtOpenVINOProviderOptions.enable_dynamic_shapes$VH.set(seg, x);
+    }
+
+    public static byte enable_dynamic_shapes$get(MemorySegment seg, long index) {
+        return (byte) OrtOpenVINOProviderOptions.enable_dynamic_shapes$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void enable_dynamic_shapes$set(MemorySegment seg, long index, byte x) {
+        OrtOpenVINOProviderOptions.enable_dynamic_shapes$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {

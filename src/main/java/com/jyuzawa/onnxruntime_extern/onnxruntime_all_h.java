@@ -19,7 +19,7 @@ public class onnxruntime_all_h {
     onnxruntime_all_h() {}
 
     public static int ORT_API_VERSION() {
-        return (int) 11L;
+        return (int) 12L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
@@ -216,6 +216,34 @@ public class onnxruntime_all_h {
 
     public static int ORT_EP_FAIL() {
         return (int) 11L;
+    }
+
+    public static int ORT_OP_ATTR_UNDEFINED() {
+        return (int) 0L;
+    }
+
+    public static int ORT_OP_ATTR_INT() {
+        return (int) 1L;
+    }
+
+    public static int ORT_OP_ATTR_INTS() {
+        return (int) 2L;
+    }
+
+    public static int ORT_OP_ATTR_FLOAT() {
+        return (int) 3L;
+    }
+
+    public static int ORT_OP_ATTR_FLOATS() {
+        return (int) 4L;
+    }
+
+    public static int ORT_OP_ATTR_STRING() {
+        return (int) 5L;
+    }
+
+    public static int ORT_OP_ATTR_STRINGS() {
+        return (int) 6L;
     }
 
     public static int ORT_DISABLE_ALL() {
