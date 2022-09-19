@@ -59,7 +59,7 @@ jobs:
           ./gradlew :build -s
       - name: Upload coverage to Codecov
         if: ${{ matrix.java == '17' && matrix.os == 'ubuntu-latest' }}
-        uses: codecov/codecov-action@v3.1.0
+        uses: codecov/codecov-action@v3.1.1
       - name: Perform CodeQL Analysis
         if: ${{ matrix.java == '17' && matrix.os == 'ubuntu-latest' }}
         uses: github/codeql-action/analyze@v2
