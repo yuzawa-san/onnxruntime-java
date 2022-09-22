@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.ADDRESS;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -102,9 +102,9 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         valueVector.putScalars(data.values());
         MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, allocator);
         MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, allocator);
-        MemorySegment kvArray = allocator.allocateArray(ADDRESS, 2);
-        kvArray.setAtIndex(ADDRESS, 0, keyAddress);
-        kvArray.setAtIndex(ADDRESS, 1, valueAddress);
+        MemorySegment kvArray = allocator.allocateArray(C_POINTER, 2);
+        kvArray.setAtIndex(C_POINTER, 0, keyAddress);
+        kvArray.setAtIndex(C_POINTER, 1, valueAddress);
         MemoryAddress value = api.create(
                 allocator, out -> api.CreateValue.apply(kvArray.address(), 2, OnnxType.MAP.getNumber(), out));
         allocator.addCloseAction(() -> {

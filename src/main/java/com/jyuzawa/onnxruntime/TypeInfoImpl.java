@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -39,13 +39,13 @@ final class TypeInfoImpl implements TypeInfo {
                 OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
                         api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
                 int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = allocator.allocateArray(JAVA_LONG, dimCount);
+                MemorySegment dims = allocator.allocateArray(C_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims.address(), dimCount));
                 long elementCount =
                         api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
                 List<Long> shape = new ArrayList<>(dimCount);
                 for (int i = 0; i < dimCount; i++) {
-                    shape.add(dims.getAtIndex(JAVA_LONG, i));
+                    shape.add(dims.getAtIndex(C_LONG, i));
                 }
                 tensorInfo = new TensorInfoImpl(dataType, Collections.unmodifiableList(shape), elementCount);
             } else if (type == OnnxType.MAP) {

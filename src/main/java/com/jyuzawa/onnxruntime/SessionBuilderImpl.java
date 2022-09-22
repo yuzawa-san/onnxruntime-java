@@ -4,9 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.JAVA_BYTE;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 
-import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.foreign.MemoryAddress;
@@ -16,6 +15,8 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+
+import com.jyuzawa.onnxruntime.Session.Builder;
 
 final class SessionBuilderImpl implements Session.Builder {
 
@@ -59,11 +60,11 @@ final class SessionBuilderImpl implements Session.Builder {
                     mappedBuf = MemorySegment.ofBuffer(buffer);
 
                 } else {
-                    mappedBuf = allocator.allocateArray(JAVA_BYTE, buffer.remaining());
+                    mappedBuf = allocator.allocateArray(C_CHAR, buffer.remaining());
                     mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
                 }
             } else if (bytes != null) {
-                mappedBuf = allocator.allocateArray(JAVA_BYTE, bytes);
+                mappedBuf = allocator.allocateArray(C_CHAR, bytes);
             } else if (path != null) {
                 try (RandomAccessFile file = new RandomAccessFile(path.toFile(), "r")) {
                     FileChannel fileChannel = file.getChannel();

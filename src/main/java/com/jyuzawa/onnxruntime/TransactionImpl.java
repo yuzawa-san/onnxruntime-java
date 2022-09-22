@@ -4,9 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
-import static java.lang.foreign.ValueLayout.ADDRESS;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -43,26 +43,26 @@ final class TransactionImpl implements Transaction {
             });
 
             int numInputs = inputs.size();
-            MemorySegment inputNames = allocator.allocateArray(ADDRESS, numInputs);
-            MemorySegment inputValues = allocator.allocateArray(ADDRESS, numInputs);
+            MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
+            MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
             int idx = 0;
             for (Map.Entry<String, OnnxValueImpl> entry : inputs.entrySet()) {
                 MemorySegment input1 = allocator.allocateUtf8String(entry.getKey());
-                inputNames.set(ADDRESS, idx, input1);
+                inputNames.setAtIndex(C_POINTER, idx, input1);
                 MemoryAddress valueAddress = entry.getValue().toNative(api, ortAllocator, memoryInfo, allocator);
-                inputValues.set(ADDRESS, idx, valueAddress);
+                inputValues.setAtIndex(C_POINTER, idx, valueAddress);
                 idx++;
             }
 
             int numOutputs = outputs.size();
-            MemorySegment outputNames = allocator.allocateArray(ADDRESS, numOutputs);
+            MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
             for (int i = 0; i < numOutputs; i++) {
                 MemorySegment input1 =
                         allocator.allocateUtf8String(outputs.get(i).getName());
-                outputNames.set(ADDRESS, i, input1);
+                outputNames.setAtIndex(C_POINTER, i, input1);
             }
 
-            MemorySegment output = allocator.allocate(ADDRESS);
+            MemorySegment output = allocator.allocate(C_POINTER);
             api.checkStatus(api.Run.apply(
                     session,
                     MemoryAddress.NULL,
@@ -75,7 +75,7 @@ final class TransactionImpl implements Transaction {
 
             LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
-                MemoryAddress outputAddress = output.get(ADDRESS, i);
+                MemoryAddress outputAddress = output.getAtIndex(C_POINTER, i);
                 // TODO: get typeinfo from result
                 NodeInfo nodeInfo = outputs.get(i);
                 OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());

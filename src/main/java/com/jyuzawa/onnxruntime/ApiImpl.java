@@ -4,9 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.ADDRESS;
-import static java.lang.foreign.ValueLayout.JAVA_INT;
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+
+import java.lang.foreign.Addressable;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
+import java.util.function.Function;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
@@ -67,11 +73,6 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
-import java.util.function.Function;
 
 final class ApiImpl implements Api {
 
@@ -213,20 +214,20 @@ final class ApiImpl implements Api {
     }
 
     MemoryAddress create(MemorySession allocator, Function<MemoryAddress, Addressable> constructor) {
-        MemorySegment pointer = allocator.allocate(ADDRESS);
+        MemorySegment pointer = allocator.allocate(C_POINTER);
         checkStatus(constructor.apply(pointer.address()));
-        return pointer.get(ADDRESS, 0);
+        return pointer.getAtIndex(C_POINTER, 0);
     }
 
     int extractInt(MemorySession allocator, Function<MemoryAddress, Addressable> method) {
-        MemorySegment pointer = allocator.allocate(JAVA_INT);
+        MemorySegment pointer = allocator.allocate(C_INT);
         checkStatus(method.apply(pointer.address()));
-        return pointer.get(JAVA_INT, 0);
+        return pointer.getAtIndex(C_INT, 0);
     }
 
     long extractLong(MemorySession allocator, Function<MemoryAddress, Addressable> method) {
-        MemorySegment pointer = allocator.allocate(JAVA_LONG);
+        MemorySegment pointer = allocator.allocate(C_LONG);
         checkStatus(method.apply(pointer.address()));
-        return pointer.get(JAVA_LONG, 0);
+        return pointer.getAtIndex(C_LONG, 0);
     }
 }

@@ -4,12 +4,12 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.JAVA_BYTE;
-import static java.lang.foreign.ValueLayout.JAVA_DOUBLE;
-import static java.lang.foreign.ValueLayout.JAVA_FLOAT;
-import static java.lang.foreign.ValueLayout.JAVA_INT;
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
-import static java.lang.foreign.ValueLayout.JAVA_SHORT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_DOUBLE;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_FLOAT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_SHORT;
 
 import java.lang.foreign.ValueLayout;
 import java.util.Collections;
@@ -20,17 +20,17 @@ import java.util.Collections;
  */
 public enum OnnxTensorElementDataType {
     UNDEFINED(0, null),
-    FLOAT(1, JAVA_FLOAT),
+    FLOAT(1, C_FLOAT),
     UINT8(2, null),
-    INT8(3, JAVA_BYTE),
+    INT8(3, C_CHAR),
     UINT16(4, null),
-    INT16(5, JAVA_SHORT),
-    INT32(6, JAVA_INT),
-    INT64(7, JAVA_LONG),
+    INT16(5, C_SHORT),
+    INT32(6, C_INT),
+    INT64(7, C_LONG),
     STRING(8, null),
-    BOOL(9, JAVA_BYTE),
+    BOOL(9, C_CHAR),
     FLOAT16(10, null),
-    DOUBLE(11, JAVA_DOUBLE),
+    DOUBLE(11, C_DOUBLE),
     UINT32(12, null),
     UINT64(13, null),
     COMPLEX64(14, null),

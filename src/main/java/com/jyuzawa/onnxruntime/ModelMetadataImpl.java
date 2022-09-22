@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.ADDRESS;
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -60,18 +60,18 @@ final class ModelMetadataImpl implements ModelMetadata {
                 this.version = api.extractLong(allocator, out -> api.ModelMetadataGetVersion.apply(metadata, out));
             }
             {
-                MemorySegment count = allocator.allocate(JAVA_LONG);
+                MemorySegment count = allocator.allocate(C_LONG);
                 MemoryAddress keys = api.create(
                         allocator,
                         out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(
                                 metadata, ortAllocator, out, count.address()));
-                long numKeys = count.get(JAVA_LONG, 0);
+                long numKeys = count.getAtIndex(C_LONG, 0);
                 if (numKeys == 0) {
                     this.customMetadata = Collections.emptyMap();
                 } else {
                     Map<String, String> customMetadata = new LinkedHashMap<>(Math.toIntExact(numKeys));
                     for (long i = 0; i < numKeys; i++) {
-                        MemoryAddress key = keys.getAtIndex(ADDRESS, i);
+                        MemoryAddress key = keys.getAtIndex(C_POINTER, i);
                         MemoryAddress value = api.create(
                                 allocator,
                                 out -> api.ModelMetadataLookupCustomMetadataMap.apply(

@@ -4,9 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.ADDRESS;
-import static java.lang.foreign.ValueLayout.JAVA_CHAR;
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -41,13 +41,13 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
             ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
 
         int numOutputs = buffer.length;
-        MemorySegment stringArray = allocator.allocateArray(ADDRESS, numOutputs);
+        MemorySegment stringArray = allocator.allocateArray(C_POINTER, numOutputs);
         for (int i = 0; i < numOutputs; i++) {
-            stringArray.setAtIndex(ADDRESS, i, allocator.allocateUtf8String(buffer[i]));
+            stringArray.setAtIndex(C_POINTER, i, allocator.allocateUtf8String(buffer[i]));
         }
         List<Long> shape = tensorInfo.getShape();
         int shapeSize = shape.size();
-        MemorySegment shapeData = allocator.allocateArray(JAVA_LONG, shape(shape));
+        MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
         MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorAsOrtValue.apply(
@@ -70,7 +70,8 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
             final long index = i;
             long length =
                     api.extractLong(allocator, out -> api.GetStringTensorElementLength.apply(address, index, out));
-            MemorySegment output = allocator.allocateArray(JAVA_CHAR, length);
+            // add a byte for the null termination
+            MemorySegment output = allocator.allocateArray(C_CHAR, length + 1);
             api.checkStatus(api.GetStringTensorElement.apply(address, length, index, output.address()));
             buffer[i] = output.getUtf8String(0);
         }

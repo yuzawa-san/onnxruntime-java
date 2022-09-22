@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.ADDRESS;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -59,10 +59,10 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     public MemoryAddress toNative(
             ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
         int size = data.size();
-        MemorySegment valuesArray = allocator.allocateArray(ADDRESS, size);
+        MemorySegment valuesArray = allocator.allocateArray(C_POINTER, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
-            valuesArray.setAtIndex(ADDRESS, i, value.toNative(api, ortAllocator, memoryInfo, allocator));
+            valuesArray.setAtIndex(C_POINTER, i, value.toNative(api, ortAllocator, memoryInfo, allocator));
         }
         MemoryAddress value = api.create(
                 allocator,

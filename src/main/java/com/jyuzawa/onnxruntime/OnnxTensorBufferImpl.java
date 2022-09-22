@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -37,7 +37,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         inputData.copyFrom(rawInputData);
         List<Long> shape = tensorInfo.getShape();
         int shapeSize = shape.size();
-        MemorySegment shapeData = allocator.allocateArray(JAVA_LONG, shape(shape));
+        MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
         MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorWithDataAsOrtValue.apply(

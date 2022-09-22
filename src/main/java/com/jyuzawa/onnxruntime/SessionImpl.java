@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
 import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
@@ -72,9 +72,9 @@ final class SessionImpl extends ManagedImpl implements Session {
             GetCount getCount,
             GetName getName,
             GetTypeInfo getTypeInfo) {
-        MemorySegment numInputsSegment = allocator.allocate(JAVA_LONG);
+        MemorySegment numInputsSegment = allocator.allocate(C_LONG);
         api.checkStatus(getCount.apply(session, numInputsSegment.address()));
-        long numInputs = numInputsSegment.get(JAVA_LONG, 0);
+        long numInputs = numInputsSegment.getAtIndex(C_LONG, 0);
         LinkedHashMap<String, NodeInfo> inputs = new LinkedHashMap<>();
         for (long i = 0; i < numInputs; i++) {
             final long j = i;
