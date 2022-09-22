@@ -4,25 +4,25 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
-import jdk.incubator.foreign.*;
 
 public class OrtOpenVINOProviderOptions {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    C_POINTER.withName("device_type"),
-                    C_CHAR.withName("enable_vpu_fast_compile"),
+    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+                    Constants$root.C_POINTER$LAYOUT.withName("device_type"),
+                    Constants$root.C_CHAR$LAYOUT.withName("enable_vpu_fast_compile"),
                     MemoryLayout.paddingLayout(56),
-                    C_POINTER.withName("device_id"),
-                    C_LONG_LONG.withName("num_of_threads"),
-                    C_CHAR.withName("use_compiled_network"),
+                    Constants$root.C_POINTER$LAYOUT.withName("device_id"),
+                    Constants$root.C_LONG_LONG$LAYOUT.withName("num_of_threads"),
+                    Constants$root.C_CHAR$LAYOUT.withName("use_compiled_network"),
                     MemoryLayout.paddingLayout(56),
-                    C_POINTER.withName("blob_dump_path"),
-                    C_POINTER.withName("context"),
-                    C_CHAR.withName("enable_opencl_throttling"),
-                    C_CHAR.withName("enable_dynamic_shapes"),
+                    Constants$root.C_POINTER$LAYOUT.withName("blob_dump_path"),
+                    Constants$root.C_POINTER$LAYOUT.withName("context"),
+                    Constants$root.C_CHAR$LAYOUT.withName("enable_opencl_throttling"),
+                    Constants$root.C_CHAR$LAYOUT.withName("enable_dynamic_shapes"),
                     MemoryLayout.paddingLayout(48))
             .withName("OrtOpenVINOProviderOptions");
 
@@ -30,15 +30,15 @@ public class OrtOpenVINOProviderOptions {
         return OrtOpenVINOProviderOptions.$struct$LAYOUT;
     }
 
-    static final VarHandle device_type$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("device_type")));
+    static final VarHandle device_type$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("device_type"));
 
     public static VarHandle device_type$VH() {
         return OrtOpenVINOProviderOptions.device_type$VH;
     }
 
     public static MemoryAddress device_type$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtOpenVINOProviderOptions.device_type$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtOpenVINOProviderOptions.device_type$VH.get(seg);
     }
 
     public static void device_type$set(MemorySegment seg, MemoryAddress x) {
@@ -46,7 +46,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     public static MemoryAddress device_type$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtOpenVINOProviderOptions.device_type$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -55,7 +55,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     static final VarHandle enable_vpu_fast_compile$VH =
-            $struct$LAYOUT.varHandle(byte.class, MemoryLayout.PathElement.groupElement("enable_vpu_fast_compile"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("enable_vpu_fast_compile"));
 
     public static VarHandle enable_vpu_fast_compile$VH() {
         return OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH;
@@ -77,15 +77,14 @@ public class OrtOpenVINOProviderOptions {
         OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle device_id$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("device_id")));
+    static final VarHandle device_id$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("device_id"));
 
     public static VarHandle device_id$VH() {
         return OrtOpenVINOProviderOptions.device_id$VH;
     }
 
     public static MemoryAddress device_id$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtOpenVINOProviderOptions.device_id$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtOpenVINOProviderOptions.device_id$VH.get(seg);
     }
 
     public static void device_id$set(MemorySegment seg, MemoryAddress x) {
@@ -93,7 +92,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     public static MemoryAddress device_id$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtOpenVINOProviderOptions.device_id$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -102,7 +101,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     static final VarHandle num_of_threads$VH =
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("num_of_threads"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("num_of_threads"));
 
     public static VarHandle num_of_threads$VH() {
         return OrtOpenVINOProviderOptions.num_of_threads$VH;
@@ -125,7 +124,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     static final VarHandle use_compiled_network$VH =
-            $struct$LAYOUT.varHandle(byte.class, MemoryLayout.PathElement.groupElement("use_compiled_network"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("use_compiled_network"));
 
     public static VarHandle use_compiled_network$VH() {
         return OrtOpenVINOProviderOptions.use_compiled_network$VH;
@@ -147,15 +146,15 @@ public class OrtOpenVINOProviderOptions {
         OrtOpenVINOProviderOptions.use_compiled_network$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle blob_dump_path$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("blob_dump_path")));
+    static final VarHandle blob_dump_path$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("blob_dump_path"));
 
     public static VarHandle blob_dump_path$VH() {
         return OrtOpenVINOProviderOptions.blob_dump_path$VH;
     }
 
     public static MemoryAddress blob_dump_path$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtOpenVINOProviderOptions.blob_dump_path$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtOpenVINOProviderOptions.blob_dump_path$VH.get(seg);
     }
 
     public static void blob_dump_path$set(MemorySegment seg, MemoryAddress x) {
@@ -163,7 +162,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     public static MemoryAddress blob_dump_path$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtOpenVINOProviderOptions.blob_dump_path$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -171,15 +170,14 @@ public class OrtOpenVINOProviderOptions {
         OrtOpenVINOProviderOptions.blob_dump_path$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle context$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("context")));
+    static final VarHandle context$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("context"));
 
     public static VarHandle context$VH() {
         return OrtOpenVINOProviderOptions.context$VH;
     }
 
     public static MemoryAddress context$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtOpenVINOProviderOptions.context$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtOpenVINOProviderOptions.context$VH.get(seg);
     }
 
     public static void context$set(MemorySegment seg, MemoryAddress x) {
@@ -187,7 +185,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     public static MemoryAddress context$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtOpenVINOProviderOptions.context$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -196,7 +194,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     static final VarHandle enable_opencl_throttling$VH =
-            $struct$LAYOUT.varHandle(byte.class, MemoryLayout.PathElement.groupElement("enable_opencl_throttling"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("enable_opencl_throttling"));
 
     public static VarHandle enable_opencl_throttling$VH() {
         return OrtOpenVINOProviderOptions.enable_opencl_throttling$VH;
@@ -219,7 +217,7 @@ public class OrtOpenVINOProviderOptions {
     }
 
     static final VarHandle enable_dynamic_shapes$VH =
-            $struct$LAYOUT.varHandle(byte.class, MemoryLayout.PathElement.groupElement("enable_dynamic_shapes"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("enable_dynamic_shapes"));
 
     public static VarHandle enable_dynamic_shapes$VH() {
         return OrtOpenVINOProviderOptions.enable_dynamic_shapes$VH;
@@ -249,19 +247,11 @@ public class OrtOpenVINOProviderOptions {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocate(ResourceScope scope) {
-        return allocate(SegmentAllocator.ofScope(scope));
-    }
-
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
-    }
-
-    public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }

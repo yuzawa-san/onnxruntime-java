@@ -4,18 +4,20 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.toJavaString;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.lang.foreign.Addressable;
+import java.lang.foreign.FunctionDescriptor;
+import java.lang.foreign.Linker;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySession;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.function.Supplier;
-import jdk.incubator.foreign.CLinker;
-import jdk.incubator.foreign.FunctionDescriptor;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.ResourceScope;
 
 /**
  * The level for the internal logger within the ONNX runtime.
@@ -30,7 +32,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
-    static final MemoryAddress LOG_CALLBACK = createCallback();
+//    static final MemoryAddress LOG_CALLBACK = createCallback();
     static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
 
     private final int number;
@@ -65,17 +67,17 @@ public enum OnnxRuntimeLoggingLevel {
     }
 
     @SuppressWarnings("unused")
-    private static final MemoryAddress logCallback(
-            MemoryAddress parameterAddress,
+    private static final Addressable logCallback(
+            Addressable parameterAddress,
             int level,
-            MemoryAddress categoryAddress,
-            MemoryAddress idAddress,
-            MemoryAddress locationAddress,
-            MemoryAddress messageAddress) {
-        String category = toJavaString(categoryAddress);
-        String id = toJavaString(idAddress);
-        String location = toJavaString(locationAddress);
-        String message = toJavaString(messageAddress);
+            Addressable categoryAddress,
+            Addressable idAddress,
+            Addressable locationAddress,
+            Addressable messageAddress) {
+        String category = categoryAddress.address().getUtf8String(0);
+        String id = idAddress.address().getUtf8String(0);
+        String location = locationAddress.address().getUtf8String(0);
+        String message = messageAddress.address().getUtf8String(0);
         Supplier<String> line = () -> new StringBuilder()
                 .append(category)
                 .append(' ')
@@ -121,28 +123,23 @@ public enum OnnxRuntimeLoggingLevel {
 
     private static final MemoryAddress createCallback() {
         try {
-            FunctionDescriptor LOG_CALLBACK_DESCRIPTOR = FunctionDescriptor.of(
-                    CLinker.C_POINTER,
-                    CLinker.C_POINTER,
-                    CLinker.C_INT,
-                    CLinker.C_POINTER,
-                    CLinker.C_POINTER,
-                    CLinker.C_POINTER,
-                    CLinker.C_POINTER);
+            FunctionDescriptor LOG_CALLBACK_DESCRIPTOR =
+                    FunctionDescriptor.ofVoid(C_POINTER, C_POINTER, C_INT, C_POINTER, C_POINTER, C_POINTER, C_POINTER);
             MethodHandle LOG_CALLBACK_HANDLE = MethodHandles.lookup()
                     .findStatic(
                             OnnxRuntimeLoggingLevel.class,
                             "logCallback",
                             MethodType.methodType(
-                                    MemoryAddress.class,
-                                    MemoryAddress.class,
+                            		Addressable.class,
+                                    Addressable.class,
                                     int.class,
-                                    MemoryAddress.class,
-                                    MemoryAddress.class,
-                                    MemoryAddress.class,
-                                    MemoryAddress.class));
-            return CLinker.getInstance()
-                    .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, ResourceScope.globalScope());
+                                    Addressable.class,
+                                    Addressable.class,
+                                    Addressable.class,
+                                    Addressable.class));
+            return Linker.nativeLinker()
+                    .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, MemorySession.global())
+                    .address();
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new OnnxRuntimeException("failed to initialize logger", e);
         }

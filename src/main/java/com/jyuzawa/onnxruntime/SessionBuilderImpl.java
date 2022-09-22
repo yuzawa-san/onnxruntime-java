@@ -4,17 +4,18 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static java.lang.foreign.ValueLayout.JAVA_BYTE;
+
 import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import jdk.incubator.foreign.CLinker;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 final class SessionBuilderImpl implements Session.Builder {
 
@@ -50,43 +51,47 @@ final class SessionBuilderImpl implements Session.Builder {
     @Override
     public Session build() throws IOException {
 
-        try (ResourceScope scope = ResourceScope.newConfinedScope(); ) {
-            SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
+        try (MemorySession allocator = MemorySession.openShared()) {
+
             final MemorySegment mappedBuf;
             if (buffer != null) {
                 if (buffer.isDirect()) {
-                    mappedBuf = MemorySegment.ofByteBuffer(buffer);
+                    mappedBuf = MemorySegment.ofBuffer(buffer);
+
                 } else {
-                    mappedBuf = allocator.allocateArray(CLinker.C_CHAR, buffer.remaining());
-                    mappedBuf.copyFrom(MemorySegment.ofByteBuffer(buffer));
+                    mappedBuf = allocator.allocateArray(JAVA_BYTE, buffer.remaining());
+                    mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
                 }
             } else if (bytes != null) {
-                mappedBuf = allocator.allocateArray(CLinker.C_CHAR, bytes);
+                mappedBuf = allocator.allocateArray(JAVA_BYTE, bytes);
             } else if (path != null) {
-                long size = Files.size(path);
-                mappedBuf = MemorySegment.mapFile(path, 0, size, FileChannel.MapMode.READ_ONLY, scope);
+                try (RandomAccessFile file = new RandomAccessFile(path.toFile(), "r")) {
+                    FileChannel fileChannel = file.getChannel();
+                    long size = fileChannel.size();
+                    MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, size);
+                    mappedBuf = MemorySegment.ofBuffer(mappedByteBuffer);
+                }
             } else {
                 throw new IllegalArgumentException("missing model source");
             }
             // TODO: more session options
             MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
             // api.checkStatus(api.SetIntraOpNumThreads.apply(sessionOptions, 1));
-            scope.addCloseAction(() -> {
+            allocator.addCloseAction(() -> {
                 api.ReleaseSessionOptions.apply(sessionOptions);
             });
 
-            ResourceScope sessionScope = ResourceScope.newConfinedScope();
-            SegmentAllocator sessionAllocator = SegmentAllocator.ofScope(sessionScope);
+            MemorySession sessionAllocator = MemorySession.openShared();
 
             MemoryAddress session = api.create(
                     sessionAllocator,
                     out -> api.CreateSessionFromArray.apply(
                             environment, mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
-            sessionScope.addCloseAction(() -> {
+            sessionAllocator.addCloseAction(() -> {
                 api.ReleaseSession.apply(session);
             });
 
-            return new SessionImpl(api, sessionScope, session);
+            return new SessionImpl(api, sessionAllocator, session);
         }
     }
 }

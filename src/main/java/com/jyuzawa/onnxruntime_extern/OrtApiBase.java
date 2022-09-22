@@ -4,45 +4,41 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
-import jdk.incubator.foreign.*;
 
 public class OrtApiBase {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    C_POINTER.withName("GetApi"), C_POINTER.withName("GetVersionString"))
+    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+                    Constants$root.C_POINTER$LAYOUT.withName("GetApi"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetVersionString"))
             .withName("OrtApiBase");
 
     public static MemoryLayout $LAYOUT() {
         return OrtApiBase.$struct$LAYOUT;
     }
 
-    static final FunctionDescriptor GetApi$FUNC = FunctionDescriptor.of(C_POINTER, C_INT);
-    static final MethodHandle GetApi$MH =
-            RuntimeHelper.downcallHandle("(I)Ljdk/incubator/foreign/MemoryAddress;", OrtApiBase.GetApi$FUNC, false);
+    static final FunctionDescriptor GetApi$FUNC =
+            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
+    static final MethodHandle GetApi$MH = RuntimeHelper.downcallHandle(OrtApiBase.GetApi$FUNC);
 
     public interface GetApi {
 
-        jdk.incubator.foreign.MemoryAddress apply(int x0);
+        java.lang.foreign.Addressable apply(int _x0);
 
-        static MemoryAddress allocate(GetApi fi) {
-            return RuntimeHelper.upcallStub(
-                    GetApi.class, fi, OrtApiBase.GetApi$FUNC, "(I)Ljdk/incubator/foreign/MemoryAddress;");
+        static MemorySegment allocate(GetApi fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(GetApi.class, fi, OrtApiBase.GetApi$FUNC, session);
         }
 
-        static MemoryAddress allocate(GetApi fi, ResourceScope scope) {
-            return RuntimeHelper.upcallStub(
-                    GetApi.class, fi, OrtApiBase.GetApi$FUNC, "(I)Ljdk/incubator/foreign/MemoryAddress;", scope);
-        }
-
-        static GetApi ofAddress(MemoryAddress addr) {
-            return (int x0) -> {
+        static GetApi ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (int __x0) -> {
                 try {
-                    return (jdk.incubator.foreign.MemoryAddress)
-                            OrtApiBase.GetApi$MH.invokeExact((Addressable) addr, x0);
+                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                            OrtApiBase.GetApi$MH.invokeExact((Addressable) symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -50,15 +46,14 @@ public class OrtApiBase {
         }
     }
 
-    static final VarHandle GetApi$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("GetApi")));
+    static final VarHandle GetApi$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetApi"));
 
     public static VarHandle GetApi$VH() {
         return OrtApiBase.GetApi$VH;
     }
 
     public static MemoryAddress GetApi$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtApiBase.GetApi$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetApi$VH.get(seg);
     }
 
     public static void GetApi$set(MemorySegment seg, MemoryAddress x) {
@@ -66,47 +61,34 @@ public class OrtApiBase {
     }
 
     public static MemoryAddress GetApi$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtApiBase.GetApi$VH.get(seg.asSlice(index * sizeof()));
+        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetApi$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetApi$set(MemorySegment seg, long index, MemoryAddress x) {
         OrtApiBase.GetApi$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetApi GetApi(MemorySegment segment) {
-        return GetApi.ofAddress(GetApi$get(segment));
+    public static GetApi GetApi(MemorySegment segment, MemorySession session) {
+        return GetApi.ofAddress(GetApi$get(segment), session);
     }
 
-    static final FunctionDescriptor GetVersionString$FUNC = FunctionDescriptor.of(C_POINTER);
-    static final MethodHandle GetVersionString$MH = RuntimeHelper.downcallHandle(
-            "()Ljdk/incubator/foreign/MemoryAddress;", OrtApiBase.GetVersionString$FUNC, false);
+    static final FunctionDescriptor GetVersionString$FUNC = FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetVersionString$MH = RuntimeHelper.downcallHandle(OrtApiBase.GetVersionString$FUNC);
 
     public interface GetVersionString {
 
-        jdk.incubator.foreign.MemoryAddress apply();
+        java.lang.foreign.Addressable apply();
 
-        static MemoryAddress allocate(GetVersionString fi) {
-            return RuntimeHelper.upcallStub(
-                    GetVersionString.class,
-                    fi,
-                    OrtApiBase.GetVersionString$FUNC,
-                    "()Ljdk/incubator/foreign/MemoryAddress;");
+        static MemorySegment allocate(GetVersionString fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(GetVersionString.class, fi, OrtApiBase.GetVersionString$FUNC, session);
         }
 
-        static MemoryAddress allocate(GetVersionString fi, ResourceScope scope) {
-            return RuntimeHelper.upcallStub(
-                    GetVersionString.class,
-                    fi,
-                    OrtApiBase.GetVersionString$FUNC,
-                    "()Ljdk/incubator/foreign/MemoryAddress;",
-                    scope);
-        }
-
-        static GetVersionString ofAddress(MemoryAddress addr) {
+        static GetVersionString ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
             return () -> {
                 try {
-                    return (jdk.incubator.foreign.MemoryAddress)
-                            OrtApiBase.GetVersionString$MH.invokeExact((Addressable) addr);
+                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                            OrtApiBase.GetVersionString$MH.invokeExact((Addressable) symbol);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -114,15 +96,15 @@ public class OrtApiBase {
         }
     }
 
-    static final VarHandle GetVersionString$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("GetVersionString")));
+    static final VarHandle GetVersionString$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVersionString"));
 
     public static VarHandle GetVersionString$VH() {
         return OrtApiBase.GetVersionString$VH;
     }
 
     public static MemoryAddress GetVersionString$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtApiBase.GetVersionString$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetVersionString$VH.get(seg);
     }
 
     public static void GetVersionString$set(MemorySegment seg, MemoryAddress x) {
@@ -130,15 +112,15 @@ public class OrtApiBase {
     }
 
     public static MemoryAddress GetVersionString$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtApiBase.GetVersionString$VH.get(seg.asSlice(index * sizeof()));
+        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetVersionString$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetVersionString$set(MemorySegment seg, long index, MemoryAddress x) {
         OrtApiBase.GetVersionString$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetVersionString GetVersionString(MemorySegment segment) {
-        return GetVersionString.ofAddress(GetVersionString$get(segment));
+    public static GetVersionString GetVersionString(MemorySegment segment, MemorySession session) {
+        return GetVersionString.ofAddress(GetVersionString$get(segment), session);
     }
 
     public static long sizeof() {
@@ -149,19 +131,11 @@ public class OrtApiBase {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocate(ResourceScope scope) {
-        return allocate(SegmentAllocator.ofScope(scope));
-    }
-
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
-    }
-
-    public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }

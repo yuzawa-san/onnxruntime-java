@@ -4,44 +4,37 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
-import jdk.incubator.foreign.*;
 
 class constants$1 {
 
-    static final FunctionDescriptor OrtCustomCreateThreadFn$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_POINTER, C_POINTER);
-    static final MethodHandle OrtCustomCreateThreadFn$MH = RuntimeHelper.downcallHandle(
-            "(Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)Ljdk/incubator/foreign/MemoryAddress;",
-            constants$1.OrtCustomCreateThreadFn$FUNC,
-            false);
-    static final FunctionDescriptor OrtCustomJoinThreadFn$FUNC = FunctionDescriptor.ofVoid(C_POINTER);
-    static final MethodHandle OrtCustomJoinThreadFn$MH = RuntimeHelper.downcallHandle(
-            "(Ljdk/incubator/foreign/MemoryAddress;)V", constants$1.OrtCustomJoinThreadFn$FUNC, false);
-    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_INT);
+    static final FunctionDescriptor OrtCustomCreateThreadFn$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle OrtCustomCreateThreadFn$MH =
+            RuntimeHelper.downcallHandle(constants$1.OrtCustomCreateThreadFn$FUNC);
+    static final FunctionDescriptor OrtCustomJoinThreadFn$FUNC =
+            FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle OrtCustomJoinThreadFn$MH =
+            RuntimeHelper.downcallHandle(constants$1.OrtCustomJoinThreadFn$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH = RuntimeHelper.downcallHandle(
-            onnxruntime_all_h.LIBRARIES,
             "OrtSessionOptionsAppendExecutionProvider_CUDA",
-            "(Ljdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
-            constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC,
-            false);
-    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_INT);
+            constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH = RuntimeHelper.downcallHandle(
-            onnxruntime_all_h.LIBRARIES,
             "OrtSessionOptionsAppendExecutionProvider_MIGraphX",
-            "(Ljdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
-            constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC,
-            false);
-    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC =
-            FunctionDescriptor.of(C_POINTER, C_POINTER, C_INT);
+            constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH = RuntimeHelper.downcallHandle(
-            onnxruntime_all_h.LIBRARIES,
             "OrtSessionOptionsAppendExecutionProvider_Tensorrt",
-            "(Ljdk/incubator/foreign/MemoryAddress;I)Ljdk/incubator/foreign/MemoryAddress;",
-            constants$1.OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC,
-            false);
+            constants$1.OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC);
 }

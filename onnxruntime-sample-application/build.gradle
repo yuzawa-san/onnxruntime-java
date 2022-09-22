@@ -16,5 +16,5 @@ dependencies {
 
 application {
 	mainClass = 'com.example.onnxruntime_sample_application.Application'
-	applicationDefaultJvmArgs = ['--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign']
+	applicationDefaultJvmArgs = ['--enable-preview', '--enable-native-access=ALL-UNNAMED']
 }

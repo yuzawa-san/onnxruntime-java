@@ -4,34 +4,34 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
-import jdk.incubator.foreign.*;
 
 public class OrtTensorRTProviderOptions {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    C_INT.withName("device_id"),
-                    C_INT.withName("has_user_compute_stream"),
-                    C_POINTER.withName("user_compute_stream"),
-                    C_INT.withName("trt_max_partition_iterations"),
-                    C_INT.withName("trt_min_subgraph_size"),
-                    C_LONG_LONG.withName("trt_max_workspace_size"),
-                    C_INT.withName("trt_fp16_enable"),
-                    C_INT.withName("trt_int8_enable"),
-                    C_POINTER.withName("trt_int8_calibration_table_name"),
-                    C_INT.withName("trt_int8_use_native_calibration_table"),
-                    C_INT.withName("trt_dla_enable"),
-                    C_INT.withName("trt_dla_core"),
-                    C_INT.withName("trt_dump_subgraphs"),
-                    C_INT.withName("trt_engine_cache_enable"),
+    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+                    Constants$root.C_INT$LAYOUT.withName("device_id"),
+                    Constants$root.C_INT$LAYOUT.withName("has_user_compute_stream"),
+                    Constants$root.C_POINTER$LAYOUT.withName("user_compute_stream"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_max_partition_iterations"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_min_subgraph_size"),
+                    Constants$root.C_LONG_LONG$LAYOUT.withName("trt_max_workspace_size"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_fp16_enable"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_int8_enable"),
+                    Constants$root.C_POINTER$LAYOUT.withName("trt_int8_calibration_table_name"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_int8_use_native_calibration_table"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_dla_enable"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_dla_core"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_dump_subgraphs"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_engine_cache_enable"),
                     MemoryLayout.paddingLayout(32),
-                    C_POINTER.withName("trt_engine_cache_path"),
-                    C_INT.withName("trt_engine_decryption_enable"),
+                    Constants$root.C_POINTER$LAYOUT.withName("trt_engine_cache_path"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_engine_decryption_enable"),
                     MemoryLayout.paddingLayout(32),
-                    C_POINTER.withName("trt_engine_decryption_lib_path"),
-                    C_INT.withName("trt_force_sequential_engine_build"),
+                    Constants$root.C_POINTER$LAYOUT.withName("trt_engine_decryption_lib_path"),
+                    Constants$root.C_INT$LAYOUT.withName("trt_force_sequential_engine_build"),
                     MemoryLayout.paddingLayout(32))
             .withName("OrtTensorRTProviderOptions");
 
@@ -39,8 +39,7 @@ public class OrtTensorRTProviderOptions {
         return OrtTensorRTProviderOptions.$struct$LAYOUT;
     }
 
-    static final VarHandle device_id$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("device_id"));
+    static final VarHandle device_id$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("device_id"));
 
     public static VarHandle device_id$VH() {
         return OrtTensorRTProviderOptions.device_id$VH;
@@ -63,7 +62,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle has_user_compute_stream$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("has_user_compute_stream"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("has_user_compute_stream"));
 
     public static VarHandle has_user_compute_stream$VH() {
         return OrtTensorRTProviderOptions.has_user_compute_stream$VH;
@@ -85,15 +84,15 @@ public class OrtTensorRTProviderOptions {
         OrtTensorRTProviderOptions.has_user_compute_stream$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle user_compute_stream$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("user_compute_stream")));
+    static final VarHandle user_compute_stream$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("user_compute_stream"));
 
     public static VarHandle user_compute_stream$VH() {
         return OrtTensorRTProviderOptions.user_compute_stream$VH;
     }
 
     public static MemoryAddress user_compute_stream$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtTensorRTProviderOptions.user_compute_stream$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtTensorRTProviderOptions.user_compute_stream$VH.get(seg);
     }
 
     public static void user_compute_stream$set(MemorySegment seg, MemoryAddress x) {
@@ -101,7 +100,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     public static MemoryAddress user_compute_stream$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtTensorRTProviderOptions.user_compute_stream$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -110,7 +109,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_max_partition_iterations$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_max_partition_iterations"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_max_partition_iterations"));
 
     public static VarHandle trt_max_partition_iterations$VH() {
         return OrtTensorRTProviderOptions.trt_max_partition_iterations$VH;
@@ -133,7 +132,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_min_subgraph_size$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_min_subgraph_size"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_min_subgraph_size"));
 
     public static VarHandle trt_min_subgraph_size$VH() {
         return OrtTensorRTProviderOptions.trt_min_subgraph_size$VH;
@@ -156,7 +155,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_max_workspace_size$VH =
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("trt_max_workspace_size"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_max_workspace_size"));
 
     public static VarHandle trt_max_workspace_size$VH() {
         return OrtTensorRTProviderOptions.trt_max_workspace_size$VH;
@@ -179,7 +178,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_fp16_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_fp16_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_fp16_enable"));
 
     public static VarHandle trt_fp16_enable$VH() {
         return OrtTensorRTProviderOptions.trt_fp16_enable$VH;
@@ -202,7 +201,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_int8_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_int8_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_int8_enable"));
 
     public static VarHandle trt_int8_enable$VH() {
         return OrtTensorRTProviderOptions.trt_int8_enable$VH;
@@ -225,16 +224,14 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_int8_calibration_table_name$VH =
-            MemoryHandles.asAddressVarHandle($struct$LAYOUT.varHandle(
-                    long.class, MemoryLayout.PathElement.groupElement("trt_int8_calibration_table_name")));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_int8_calibration_table_name"));
 
     public static VarHandle trt_int8_calibration_table_name$VH() {
         return OrtTensorRTProviderOptions.trt_int8_calibration_table_name$VH;
     }
 
     public static MemoryAddress trt_int8_calibration_table_name$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress)
-                OrtTensorRTProviderOptions.trt_int8_calibration_table_name$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtTensorRTProviderOptions.trt_int8_calibration_table_name$VH.get(seg);
     }
 
     public static void trt_int8_calibration_table_name$set(MemorySegment seg, MemoryAddress x) {
@@ -242,7 +239,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     public static MemoryAddress trt_int8_calibration_table_name$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtTensorRTProviderOptions.trt_int8_calibration_table_name$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -250,8 +247,8 @@ public class OrtTensorRTProviderOptions {
         OrtTensorRTProviderOptions.trt_int8_calibration_table_name$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle trt_int8_use_native_calibration_table$VH = $struct$LAYOUT.varHandle(
-            int.class, MemoryLayout.PathElement.groupElement("trt_int8_use_native_calibration_table"));
+    static final VarHandle trt_int8_use_native_calibration_table$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_int8_use_native_calibration_table"));
 
     public static VarHandle trt_int8_use_native_calibration_table$VH() {
         return OrtTensorRTProviderOptions.trt_int8_use_native_calibration_table$VH;
@@ -275,7 +272,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_dla_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_dla_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_dla_enable"));
 
     public static VarHandle trt_dla_enable$VH() {
         return OrtTensorRTProviderOptions.trt_dla_enable$VH;
@@ -298,7 +295,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_dla_core$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_dla_core"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_dla_core"));
 
     public static VarHandle trt_dla_core$VH() {
         return OrtTensorRTProviderOptions.trt_dla_core$VH;
@@ -321,7 +318,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_dump_subgraphs$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_dump_subgraphs"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_dump_subgraphs"));
 
     public static VarHandle trt_dump_subgraphs$VH() {
         return OrtTensorRTProviderOptions.trt_dump_subgraphs$VH;
@@ -344,7 +341,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_engine_cache_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_engine_cache_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_engine_cache_enable"));
 
     public static VarHandle trt_engine_cache_enable$VH() {
         return OrtTensorRTProviderOptions.trt_engine_cache_enable$VH;
@@ -366,15 +363,15 @@ public class OrtTensorRTProviderOptions {
         OrtTensorRTProviderOptions.trt_engine_cache_enable$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle trt_engine_cache_path$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("trt_engine_cache_path")));
+    static final VarHandle trt_engine_cache_path$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_engine_cache_path"));
 
     public static VarHandle trt_engine_cache_path$VH() {
         return OrtTensorRTProviderOptions.trt_engine_cache_path$VH;
     }
 
     public static MemoryAddress trt_engine_cache_path$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtTensorRTProviderOptions.trt_engine_cache_path$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtTensorRTProviderOptions.trt_engine_cache_path$VH.get(seg);
     }
 
     public static void trt_engine_cache_path$set(MemorySegment seg, MemoryAddress x) {
@@ -382,7 +379,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     public static MemoryAddress trt_engine_cache_path$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtTensorRTProviderOptions.trt_engine_cache_path$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -391,7 +388,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_engine_decryption_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("trt_engine_decryption_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_engine_decryption_enable"));
 
     public static VarHandle trt_engine_decryption_enable$VH() {
         return OrtTensorRTProviderOptions.trt_engine_decryption_enable$VH;
@@ -414,16 +411,14 @@ public class OrtTensorRTProviderOptions {
     }
 
     static final VarHandle trt_engine_decryption_lib_path$VH =
-            MemoryHandles.asAddressVarHandle($struct$LAYOUT.varHandle(
-                    long.class, MemoryLayout.PathElement.groupElement("trt_engine_decryption_lib_path")));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_engine_decryption_lib_path"));
 
     public static VarHandle trt_engine_decryption_lib_path$VH() {
         return OrtTensorRTProviderOptions.trt_engine_decryption_lib_path$VH;
     }
 
     public static MemoryAddress trt_engine_decryption_lib_path$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress)
-                OrtTensorRTProviderOptions.trt_engine_decryption_lib_path$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtTensorRTProviderOptions.trt_engine_decryption_lib_path$VH.get(seg);
     }
 
     public static void trt_engine_decryption_lib_path$set(MemorySegment seg, MemoryAddress x) {
@@ -431,7 +426,7 @@ public class OrtTensorRTProviderOptions {
     }
 
     public static MemoryAddress trt_engine_decryption_lib_path$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtTensorRTProviderOptions.trt_engine_decryption_lib_path$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -439,8 +434,8 @@ public class OrtTensorRTProviderOptions {
         OrtTensorRTProviderOptions.trt_engine_decryption_lib_path$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle trt_force_sequential_engine_build$VH = $struct$LAYOUT.varHandle(
-            int.class, MemoryLayout.PathElement.groupElement("trt_force_sequential_engine_build"));
+    static final VarHandle trt_force_sequential_engine_build$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("trt_force_sequential_engine_build"));
 
     public static VarHandle trt_force_sequential_engine_build$VH() {
         return OrtTensorRTProviderOptions.trt_force_sequential_engine_build$VH;
@@ -470,19 +465,11 @@ public class OrtTensorRTProviderOptions {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocate(ResourceScope scope) {
-        return allocate(SegmentAllocator.ofScope(scope));
-    }
-
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
-    }
-
-    public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }

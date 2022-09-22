@@ -4,8 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_POINTER;
+import static java.lang.foreign.ValueLayout.ADDRESS;
 
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -14,11 +17,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import jdk.incubator.foreign.Addressable;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
 
@@ -95,35 +93,28 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
 
     @Override
     public MemoryAddress toNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress memoryInfo,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
         int size = data.size();
         T keyVector = newKeyVector(size);
         implodeKeyVector(keyVector, data.keySet());
         OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
                 new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
         valueVector.putScalars(data.values());
-        MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
-        MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, scope, allocator);
-        MemorySegment kvArray = allocator.allocateArray(C_POINTER, new Addressable[] {keyAddress, valueAddress});
+        MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, allocator);
+        MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, allocator);
+        MemorySegment kvArray = allocator.allocateArray(ADDRESS, 2);
+        kvArray.setAtIndex(ADDRESS, 0, keyAddress);
+        kvArray.setAtIndex(ADDRESS, 1, valueAddress);
         MemoryAddress value = api.create(
                 allocator, out -> api.CreateValue.apply(kvArray.address(), 2, OnnxType.MAP.getNumber(), out));
-        scope.addCloseAction(() -> {
+        allocator.addCloseAction(() -> {
             api.ReleaseValue.apply(value);
         });
         return value;
     }
 
     @Override
-    public void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+    public void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
         MemoryAddress keyAddress = api.create(allocator, out -> api.GetValue.apply(address, 0, ortAllocator, out));
         MemoryAddress valueAddress = api.create(allocator, out -> api.GetValue.apply(address, 1, ortAllocator, out));
         MemoryAddress keyInfo = api.create(allocator, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
@@ -131,10 +122,10 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
                 Math.toIntExact(api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
         T keyVector = newKeyVector(size);
         OnnxTensorImpl valueVector = newValueVector(size);
-        keyVector.fromNative(api, ortAllocator, keyAddress, scope, allocator);
-        valueVector.fromNative(api, ortAllocator, valueAddress, scope, allocator);
+        keyVector.fromNative(api, ortAllocator, keyAddress, allocator);
+        valueVector.fromNative(api, ortAllocator, valueAddress, allocator);
         valueVector.getScalars(explodeKeyVector(keyVector).map(this::set));
-        scope.addCloseAction(() -> {
+        allocator.addCloseAction(() -> {
             api.ReleaseValue.apply(address);
         });
     }

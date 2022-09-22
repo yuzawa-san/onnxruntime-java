@@ -4,9 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static java.lang.foreign.ValueLayout.JAVA_BYTE;
+import static java.lang.foreign.ValueLayout.JAVA_DOUBLE;
+import static java.lang.foreign.ValueLayout.JAVA_FLOAT;
+import static java.lang.foreign.ValueLayout.JAVA_INT;
+import static java.lang.foreign.ValueLayout.JAVA_LONG;
+import static java.lang.foreign.ValueLayout.JAVA_SHORT;
+
+import java.lang.foreign.ValueLayout;
 import java.util.Collections;
-import jdk.incubator.foreign.CLinker;
-import jdk.incubator.foreign.ValueLayout;
 
 /**
  * A tensor type from ONNX.
@@ -14,17 +20,17 @@ import jdk.incubator.foreign.ValueLayout;
  */
 public enum OnnxTensorElementDataType {
     UNDEFINED(0, null),
-    FLOAT(1, CLinker.C_FLOAT),
+    FLOAT(1, JAVA_FLOAT),
     UINT8(2, null),
-    INT8(3, CLinker.C_CHAR),
+    INT8(3, JAVA_BYTE),
     UINT16(4, null),
-    INT16(5, CLinker.C_SHORT),
-    INT32(6, CLinker.C_INT),
-    INT64(7, CLinker.C_LONG_LONG),
+    INT16(5, JAVA_SHORT),
+    INT32(6, JAVA_INT),
+    INT64(7, JAVA_LONG),
     STRING(8, null),
-    BOOL(9, CLinker.C_CHAR),
+    BOOL(9, JAVA_BYTE),
     FLOAT16(10, null),
-    DOUBLE(11, CLinker.C_DOUBLE),
+    DOUBLE(11, JAVA_DOUBLE),
     UINT32(12, null),
     UINT64(13, null),
     COMPLEX64(14, null),

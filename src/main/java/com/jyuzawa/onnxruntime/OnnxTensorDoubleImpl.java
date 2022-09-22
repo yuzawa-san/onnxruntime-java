@@ -4,10 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemorySegment;
 import java.nio.DoubleBuffer;
 import java.util.Collection;
 import java.util.stream.Stream;
-import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
 

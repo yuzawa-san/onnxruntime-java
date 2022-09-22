@@ -4,10 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySession;
 import java.nio.ByteBuffer;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 final class OnnxOpaqueImpl extends OnnxValueImpl implements OnnxOpaque {
 
@@ -36,22 +35,13 @@ final class OnnxOpaqueImpl extends OnnxValueImpl implements OnnxOpaque {
 
     @Override
     public MemoryAddress toNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress memoryInfo,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+    public void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
         // TODO Auto-generated method stub
 
     }

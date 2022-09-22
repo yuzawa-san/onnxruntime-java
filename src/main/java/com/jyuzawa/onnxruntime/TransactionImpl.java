@@ -6,18 +6,14 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
-import static jdk.incubator.foreign.CLinker.C_POINTER;
-import static jdk.incubator.foreign.CLinker.toCString;
+import static java.lang.foreign.ValueLayout.ADDRESS;
 
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import jdk.incubator.foreign.Addressable;
-import jdk.incubator.foreign.MemoryAccess;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 final class TransactionImpl implements Transaction {
 
@@ -39,37 +35,34 @@ final class TransactionImpl implements Transaction {
     @Override
     public NamedCollection<OnnxValue> run() {
 
-        try (ResourceScope scope = ResourceScope.newConfinedScope()) {
-            SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
+        try (MemorySession allocator = MemorySession.openShared()) {
             MemoryAddress memoryInfo = api.create(
                     allocator, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            scope.addCloseAction(() -> {
+            allocator.addCloseAction(() -> {
                 api.ReleaseMemoryInfo.apply(memoryInfo);
             });
 
             int numInputs = inputs.size();
-            Addressable[] inputNamesVector = new Addressable[numInputs];
-            Addressable[] inputValuesVector = new Addressable[numInputs];
+            MemorySegment inputNames = allocator.allocateArray(ADDRESS, numInputs);
+            MemorySegment inputValues = allocator.allocateArray(ADDRESS, numInputs);
             int idx = 0;
             for (Map.Entry<String, OnnxValueImpl> entry : inputs.entrySet()) {
-                MemorySegment input1 = toCString(entry.getKey(), scope);
-                inputNamesVector[idx] = input1;
-                MemoryAddress valueAddress = entry.getValue().toNative(api, ortAllocator, memoryInfo, scope, allocator);
-                inputValuesVector[idx] = valueAddress;
+                MemorySegment input1 = allocator.allocateUtf8String(entry.getKey());
+                inputNames.set(ADDRESS, idx, input1);
+                MemoryAddress valueAddress = entry.getValue().toNative(api, ortAllocator, memoryInfo, allocator);
+                inputValues.set(ADDRESS, idx, valueAddress);
                 idx++;
             }
-            MemorySegment inputNames = allocator.allocateArray(C_POINTER, inputNamesVector);
-            MemorySegment inputValues = allocator.allocateArray(C_POINTER, inputValuesVector);
 
             int numOutputs = outputs.size();
-            Addressable[] outputNamesVector = new Addressable[numOutputs];
+            MemorySegment outputNames = allocator.allocateArray(ADDRESS, numOutputs);
             for (int i = 0; i < numOutputs; i++) {
-                MemorySegment input1 = toCString(outputs.get(i).getName(), scope);
-                outputNamesVector[i] = input1;
+                MemorySegment input1 =
+                        allocator.allocateUtf8String(outputs.get(i).getName());
+                outputNames.set(ADDRESS, i, input1);
             }
-            MemorySegment outputNames = allocator.allocateArray(C_POINTER, outputNamesVector);
 
-            MemorySegment output = allocator.allocate(C_POINTER);
+            MemorySegment output = allocator.allocate(ADDRESS);
             api.checkStatus(api.Run.apply(
                     session,
                     MemoryAddress.NULL,
@@ -82,11 +75,11 @@ final class TransactionImpl implements Transaction {
 
             LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
-                MemoryAddress outputAddress = MemoryAccess.getAddressAtIndex(output, i);
+                MemoryAddress outputAddress = output.get(ADDRESS, i);
                 // TODO: get typeinfo from result
                 NodeInfo nodeInfo = outputs.get(i);
                 OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
-                outputValue.fromNative(api, ortAllocator, outputAddress, scope, allocator);
+                outputValue.fromNative(api, ortAllocator, outputAddress, allocator);
                 out.put(nodeInfo.getName(), outputValue);
             }
 

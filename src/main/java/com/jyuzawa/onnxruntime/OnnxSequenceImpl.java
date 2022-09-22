@@ -4,19 +4,17 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_POINTER;
+import static java.lang.foreign.ValueLayout.ADDRESS;
 
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import jdk.incubator.foreign.Addressable;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
 
@@ -59,44 +57,34 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
 
     @Override
     public MemoryAddress toNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress memoryInfo,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
         int size = data.size();
-        Addressable[] valuesAddresses = new Addressable[size];
+        MemorySegment valuesArray = allocator.allocateArray(ADDRESS, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
-            valuesAddresses[i] = value.toNative(api, ortAllocator, memoryInfo, scope, allocator);
+            valuesArray.setAtIndex(ADDRESS, i, value.toNative(api, ortAllocator, memoryInfo, allocator));
         }
-        MemorySegment valuesArray = allocator.allocateArray(C_POINTER, valuesAddresses);
         MemoryAddress value = api.create(
                 allocator,
                 out -> api.CreateValue.apply(valuesArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
-        scope.addCloseAction(() -> {
+        allocator.addCloseAction(() -> {
             api.ReleaseValue.apply(value);
         });
         return value;
     }
 
     @Override
-    public void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+    public void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
         long outputs = api.extractLong(allocator, out -> api.GetValueCount.apply(address, out));
         for (int i = 0; i < outputs; i++) {
             final int index = i;
             MemoryAddress valueAddress =
                     api.create(allocator, out -> api.GetValue.apply(address, index, ortAllocator, out));
             OnnxValueImpl value = OnnxValueImpl.fromTypeInfo(typeInfo);
-            value.fromNative(api, ortAllocator, valueAddress, scope, allocator);
+            value.fromNative(api, ortAllocator, valueAddress, allocator);
             data.add(value);
         }
-        scope.addCloseAction(() -> {
+        allocator.addCloseAction(() -> {
             api.ReleaseValue.apply(address);
         });
     }

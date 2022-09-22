@@ -25,7 +25,10 @@ afterReleaseBuild.dependsOn publish
 allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
-	sourceCompatibility = targetCompatibility = 17
+	sourceCompatibility = targetCompatibility = 19
+	tasks.withType(JavaCompile) {
+		options.compilerArgs += "--enable-preview"
+	}
 	repositories {
 		mavenCentral()
 	}
@@ -102,7 +105,6 @@ java {
 	withJavadocJar()
 	withSourcesJar()
 }
-
 
 def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
 def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
@@ -279,6 +281,10 @@ java {
 
 javadoc {
 }
+javadoc.options {
+	addBooleanOption('-enable-preview', true)
+	addStringOption('-release', '19')
+}
 
 def moduleName = "com.jyuzawa.onnxruntime"
 jar {
@@ -298,7 +304,7 @@ tasks.named('compileJava') {
 
 
 test {
-	jvmArgs '--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign'
+	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
 	finalizedBy jacocoTestReport
 }
 

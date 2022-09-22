@@ -4,12 +4,12 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.ResourceScope;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySession;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {
 
-    EnvironmentImpl(ApiImpl api, ResourceScope scope, MemoryAddress address) {
+    EnvironmentImpl(ApiImpl api, MemorySession scope, MemoryAddress address) {
         super(api, scope, address);
     }
 
