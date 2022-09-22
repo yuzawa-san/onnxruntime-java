@@ -36,14 +36,14 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
     public Environment build() {
         MemorySession scope = MemorySession.openShared();
         MemorySegment logName = scope.allocateUtf8String(logId);
-        MemoryAddress env =
-                api.create(scope, 
-                		out -> api.CreateEnvWithCustomLogger.apply(
-                                OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                MemoryAddress.NULL,
-                                severityLevel.getNumber(),
-                                logName.address(),
-                                out));
+        MemoryAddress env = api.create(
+                scope,
+                out -> api.CreateEnvWithCustomLogger.apply(
+                        OnnxRuntimeLoggingLevel.LOG_CALLBACK,
+                        MemoryAddress.NULL,
+                        severityLevel.getNumber(),
+                        logName.address(),
+                        out));
         scope.addCloseAction(() -> {
             api.ReleaseEnv.apply(env);
         });

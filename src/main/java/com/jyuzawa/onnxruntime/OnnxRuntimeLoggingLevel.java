@@ -31,7 +31,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
-       static final MemoryAddress LOG_CALLBACK = createCallback();
+    static final MemoryAddress LOG_CALLBACK = createCallback();
     static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
 
     private final int number;
@@ -67,7 +67,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     @SuppressWarnings("unused")
     private static final void logCallback(
-    		MemoryAddress parameterAddress,
+            MemoryAddress parameterAddress,
             int level,
             MemoryAddress categoryAddress,
             MemoryAddress idAddress,
@@ -122,20 +122,14 @@ public enum OnnxRuntimeLoggingLevel {
     private static final MemoryAddress createCallback() {
         try {
             FunctionDescriptor LOG_CALLBACK_DESCRIPTOR =
-            		FunctionDescriptor.ofVoid(
-            	            C_POINTER,
-            	            C_INT,
-            	            C_POINTER,
-            	            C_POINTER,
-            	            C_POINTER,
-            	            C_POINTER);
+                    FunctionDescriptor.ofVoid(C_POINTER, C_INT, C_POINTER, C_POINTER, C_POINTER, C_POINTER);
             MethodHandle LOG_CALLBACK_HANDLE = MethodHandles.lookup()
                     .findStatic(
                             OnnxRuntimeLoggingLevel.class,
                             "logCallback",
                             MethodType.methodType(
-                            		void.class,
-                            		MemoryAddress.class,
+                                    void.class,
+                                    MemoryAddress.class,
                                     int.class,
                                     MemoryAddress.class,
                                     MemoryAddress.class,
