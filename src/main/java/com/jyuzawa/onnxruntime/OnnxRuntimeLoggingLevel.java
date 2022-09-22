@@ -32,7 +32,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
-//    static final MemoryAddress LOG_CALLBACK = createCallback();
+    //    static final MemoryAddress LOG_CALLBACK = createCallback();
     static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
 
     private final int number;
@@ -130,7 +130,7 @@ public enum OnnxRuntimeLoggingLevel {
                             OnnxRuntimeLoggingLevel.class,
                             "logCallback",
                             MethodType.methodType(
-                            		Addressable.class,
+                                    Addressable.class,
                                     Addressable.class,
                                     int.class,
                                     Addressable.class,
