@@ -8,12 +8,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
-import java.util.function.Function;
-
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToMapTypeInfo;
@@ -73,6 +67,11 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
+import java.lang.foreign.Addressable;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
+import java.util.function.Function;
 
 final class ApiImpl implements Api {
 

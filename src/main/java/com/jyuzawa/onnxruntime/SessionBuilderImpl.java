@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 
+import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.foreign.MemoryAddress;
@@ -15,8 +16,6 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
-
-import com.jyuzawa.onnxruntime.Session.Builder;
 
 final class SessionBuilderImpl implements Session.Builder {
 
