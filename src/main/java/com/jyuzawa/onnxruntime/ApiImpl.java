@@ -8,13 +8,19 @@ import static java.lang.foreign.ValueLayout.ADDRESS;
 import static java.lang.foreign.ValueLayout.JAVA_INT;
 import static java.lang.foreign.ValueLayout.JAVA_LONG;
 
+import java.lang.foreign.Addressable;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
+import java.util.function.Function;
+
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToMapTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToSequenceTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToTensorInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateCpuMemoryInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnv;
+import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLogger;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionFromArray;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionOptions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateTensorAsOrtValue;
@@ -67,11 +73,6 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
-import java.util.function.Function;
 
 final class ApiImpl implements Api {
 
@@ -80,7 +81,7 @@ final class ApiImpl implements Api {
     final CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo;
     final CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo;
     final CreateCpuMemoryInfo CreateCpuMemoryInfo;
-    final CreateEnv CreateEnv;
+    final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateSessionFromArray CreateSessionFromArray;
     final CreateSessionOptions CreateSessionOptions;
     final CreateTensorAsOrtValue CreateTensorAsOrtValue;
@@ -141,7 +142,7 @@ final class ApiImpl implements Api {
         this.CastTypeInfoToSequenceTypeInfo = OrtApi.CastTypeInfoToSequenceTypeInfo(segment, scope);
         this.CastTypeInfoToTensorInfo = OrtApi.CastTypeInfoToTensorInfo(segment, scope);
         this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(segment, scope);
-        this.CreateEnv = OrtApi.CreateEnv(segment, scope);
+        this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(segment, scope);
         this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(segment, scope);
         this.CreateSessionOptions = OrtApi.CreateSessionOptions(segment, scope);
         this.CreateTensorAsOrtValue = OrtApi.CreateTensorAsOrtValue(segment, scope);

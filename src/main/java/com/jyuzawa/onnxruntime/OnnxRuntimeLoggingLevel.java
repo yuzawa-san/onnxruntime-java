@@ -9,7 +9,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.Addressable;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
 import java.lang.foreign.MemoryAddress;
@@ -32,7 +31,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
-    //    static final MemoryAddress LOG_CALLBACK = createCallback();
+       static final MemoryAddress LOG_CALLBACK = createCallback();
     static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
 
     private final int number;
@@ -67,20 +66,20 @@ public enum OnnxRuntimeLoggingLevel {
     }
 
     @SuppressWarnings("unused")
-    private static final Addressable logCallback(
-            Addressable parameterAddress,
+    private static final void logCallback(
+    		MemoryAddress parameterAddress,
             int level,
-            Addressable categoryAddress,
-            Addressable idAddress,
-            Addressable locationAddress,
-            Addressable messageAddress) {
+            MemoryAddress categoryAddress,
+            MemoryAddress idAddress,
+            MemoryAddress locationAddress,
+            MemoryAddress messageAddress) {
         String category = categoryAddress.address().getUtf8String(0);
         String id = idAddress.address().getUtf8String(0);
         String location = locationAddress.address().getUtf8String(0);
         String message = messageAddress.address().getUtf8String(0);
         Supplier<String> line = () -> new StringBuilder()
                 .append(category)
-                .append(' ')
+                .append(" HELLO ")
                 .append(id)
                 .append(' ')
                 .append(location)
@@ -102,7 +101,6 @@ public enum OnnxRuntimeLoggingLevel {
                 LOG.log(Level.ERROR, line);
                 break;
         }
-        return MemoryAddress.NULL;
     }
 
     private static final OnnxRuntimeLoggingLevel getDefaultLogLevel() {
@@ -124,19 +122,25 @@ public enum OnnxRuntimeLoggingLevel {
     private static final MemoryAddress createCallback() {
         try {
             FunctionDescriptor LOG_CALLBACK_DESCRIPTOR =
-                    FunctionDescriptor.ofVoid(C_POINTER, C_POINTER, C_INT, C_POINTER, C_POINTER, C_POINTER, C_POINTER);
+            		FunctionDescriptor.ofVoid(
+            	            C_POINTER,
+            	            C_INT,
+            	            C_POINTER,
+            	            C_POINTER,
+            	            C_POINTER,
+            	            C_POINTER);
             MethodHandle LOG_CALLBACK_HANDLE = MethodHandles.lookup()
                     .findStatic(
                             OnnxRuntimeLoggingLevel.class,
                             "logCallback",
                             MethodType.methodType(
-                                    Addressable.class,
-                                    Addressable.class,
+                            		void.class,
+                            		MemoryAddress.class,
                                     int.class,
-                                    Addressable.class,
-                                    Addressable.class,
-                                    Addressable.class,
-                                    Addressable.class));
+                                    MemoryAddress.class,
+                                    MemoryAddress.class,
+                                    MemoryAddress.class,
+                                    MemoryAddress.class));
             return Linker.nativeLinker()
                     .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, MemorySession.global())
                     .address();
