@@ -79,7 +79,7 @@ public enum OnnxRuntimeLoggingLevel {
         String message = messageAddress.address().getUtf8String(0);
         Supplier<String> line = () -> new StringBuilder()
                 .append(category)
-                .append(" HELLO ")
+                .append(' ')
                 .append(id)
                 .append(' ')
                 .append(location)
