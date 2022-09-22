@@ -6,7 +6,8 @@ by [@yuzawa-san](https://github.com/yuzawa-san/)
 
 This is an **experimental** Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime).
 
-This uses Java's Panama project. Given the incubating status of that project, this library should be considered a proof of concept and lacks the stability guarantees at this time. The minimum supported Java version is 17.
+The minimum supported Java version is 19.
+Given the fact that the foreign function API (f/k/a Project 'Panama') is in preview, this library should be considered a proof of concept and lacks full stability guarantees at this time.
 
 This project's goals are to provide a type-safe, performant binding which abstracts a lot of the native and C API intricacies and is loosely coupled to the upstream project.
 
@@ -46,4 +47,4 @@ The example application can be ran:
 #### JVM Arguments
 
 Since this uses a native library, this will require the runtime to have the `--enable-native-access` JVM option, likely `--enable-native-access=ALL-UNNAMED`.
-If you are not using modules, you will need to also use `--add-modules jdk.incubator.foreign` as well.
+Since the foreign function API is in preview in Java 19, the `--enable-preview` will also be needed.
