@@ -237,7 +237,7 @@ signing {
 
 dependencies {
 	testImplementation "junit:junit:4.13.2"
-	testImplementation 'com.google.protobuf:protobuf-java:3.21.6'
+	testImplementation 'com.google.protobuf:protobuf-java:3.21.7'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.19.0'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.19.0'
 }
@@ -310,7 +310,7 @@ test {
 
 protobuf {
 	protoc {
-		artifact = "com.google.protobuf:protoc:3.21.6"
+		artifact = "com.google.protobuf:protoc:3.21.7"
 	}
 	generateProtoTasks {
 		all().each { task -> }
