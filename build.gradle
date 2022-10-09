@@ -74,7 +74,6 @@ jacocoTestReport {
 
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
-// NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
 
 def getGitHash = { ->
@@ -111,19 +110,36 @@ def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
 def allArches = cpuOsArches + gpuOsArches
 
 allArches.each { osArch ->
+	def osArchRoot = "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
+	task "download${osArch}" (type: Exec) {
+		environment('ORT_VERSION', ORT_VERSION)
+		environment('VARIANT', osArch)
+		commandLine './download.sh'
+		outputs.dir(osArchRoot)
+	}
 	task "osArchJar${osArch}" (type: Jar) {
-		from ("${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}")
+		from tasks.named("download${osArch}")
 		classifier osArch
-		manifest {
-			attributes(jarAttributes)
+		doFirst {
+			manifest {
+				attributes(jarAttributes)
+			}
 		}
 		from ("${project.projectDir}/src/dist")
-		from ("${project.buildDir}/onnxruntime-${ORT_VERSION}/onnxruntime-linux-x64-1.10.0/LICENSE") {
+		from ("${osArchRoot}/LICENSE") {
 			rename "LICENSE", "LICENSE.onnxruntime.txt"
 			into "META-INF/licenses/"
 		}
 	}
 }
+
+task jextract(type: Exec) {
+	environment('ORT_VERSION', ORT_VERSION)
+	commandLine './jextract.sh'
+	dependsOn tasks.named("downloadlinux-x86_64-gpu")
+	outputs.dir("${project.buildDir}/generated/source/jextract")
+}
+compileJava.dependsOn(jextract)
 
 configurations {
 	cpu {
@@ -242,34 +258,16 @@ dependencies {
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.19.0'
 }
 
-task make(type: Exec) {
-	environment('ORT_VERSION', ORT_VERSION)
-	commandLine 'make'
-}
-
-compileJava {
-	dependsOn make
-}
-
-task jextractClean(type: Delete) {
-	delete 'symbols.conf'
-	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
-}
-
-task jextract(type: Exec) {
-	environment('ORT_VERSION', ORT_VERSION)
-	commandLine 'make', 'src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java'
-	finalizedBy tasks.named('spotlessJavaApply')
-}
-
 sourceSets {
-	test {
+	main {
 		java {
-			srcDirs "${protobuf.generatedFilesBaseDir}/test/java"
+			srcDirs jextract
 		}
+	}
+	test {
 		resources {
 			cpuOsArches.each { osArch ->
-				srcDir "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
+				srcDir tasks.named("download${osArch}")
 			}
 		}
 	}
@@ -288,8 +286,13 @@ javadoc.options {
 
 def moduleName = "com.jyuzawa.onnxruntime"
 jar {
-	manifest {
-		attributes(jarAttributes)
+	doFirst {
+		manifest {
+			attributes(jarAttributes)
+		}
+	}
+	from ("${project.projectDir}/LICENSE") {
+		into "META-INF/"
 	}
 	into("META-INF/maven/$project.group/$project.name") {
 		from { generatePomFileForOnnxruntimePublication }
@@ -313,7 +316,6 @@ protobuf {
 		artifact = "com.google.protobuf:protoc:3.21.7"
 	}
 	generateProtoTasks {
-		all().each { task -> }
-		ofSourceSet('test')
+		ofSourceSet('test').each { task -> sourceSets.test.java.srcDirs files("${protobuf.generatedFilesBaseDir}/test/java").builtBy(task) }
 	}
 }
