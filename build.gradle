@@ -74,6 +74,7 @@ jacocoTestReport {
 
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
+// NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
 
 def getGitHash = { ->
@@ -133,10 +134,17 @@ allArches.each { osArch ->
 	}
 }
 
+// TODO: enable jextract
+task jextractClean(type: Delete) {
+	delete 'symbols.conf'
+	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
+}
+
 task jextract(type: Exec) {
 	environment('ORT_VERSION', ORT_VERSION)
 	commandLine 'sh','./jextract.sh'
 	dependsOn tasks.named("downloadlinux-x86_64-gpu")
+	finalizedBy tasks.named('spotlessJavaApply')
 	// TODO: enable jextract
 	// outputs.dir("${project.buildDir}/generated/source/jextract")
 }
