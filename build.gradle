@@ -114,7 +114,7 @@ allArches.each { osArch ->
 	task "download${osArch}" (type: Exec) {
 		environment('ORT_VERSION', ORT_VERSION)
 		environment('VARIANT', osArch)
-		commandLine './download.sh'
+		commandLine 'sh','./download.sh'
 		outputs.dir(osArchRoot)
 	}
 	task "osArchJar${osArch}" (type: Jar) {
@@ -135,11 +135,13 @@ allArches.each { osArch ->
 
 task jextract(type: Exec) {
 	environment('ORT_VERSION', ORT_VERSION)
-	commandLine './jextract.sh'
+	commandLine 'sh','./jextract.sh'
 	dependsOn tasks.named("downloadlinux-x86_64-gpu")
-	outputs.dir("${project.buildDir}/generated/source/jextract")
+	// TODO: enable jextract
+	// outputs.dir("${project.buildDir}/generated/source/jextract")
 }
-compileJava.dependsOn(jextract)
+// TODO: enable jextract
+//compileJava.dependsOn(jextract)
 
 configurations {
 	cpu {
@@ -261,7 +263,8 @@ dependencies {
 sourceSets {
 	main {
 		java {
-			srcDirs jextract
+			// TODO: enable jextract
+			// srcDirs jextract
 		}
 	}
 	test {
