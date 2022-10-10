@@ -6,7 +6,7 @@ plugins {
 	id 'eclipse'
 	id 'idea'
 	id 'jacoco'
-	id "com.google.protobuf" version "0.8.19"
+	id "com.google.protobuf" version "0.9.1"
 	id "com.github.jakemarsden.git-hooks" version "0.0.2"
 	id 'net.researchgate.release' version '3.0.2'
 }
