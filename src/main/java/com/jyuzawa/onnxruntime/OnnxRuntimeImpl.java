@@ -6,13 +6,12 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_API_VERSION;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
-import static jdk.incubator.foreign.CLinker.toJavaString;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 
 // NOTE: this class actually is more like OrtApiBase
 enum OnnxRuntimeImpl implements OnnxRuntime {
@@ -23,11 +22,13 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private OnnxRuntimeImpl() {
         Loader.load();
-        ResourceScope scope = ResourceScope.globalScope();
-        MemorySegment segment = OrtGetApiBase().asSegment(OrtApiBase.sizeof(), scope);
-        this.version = toJavaString(OrtApiBase.GetVersionString(segment).apply());
-        MemoryAddress apiAddress = OrtApiBase.GetApi(segment).apply(ORT_API_VERSION());
-        this.api = new ApiImpl(apiAddress.asSegment(OrtApi.sizeof(), scope));
+        MemorySession scope = MemorySession.global();
+        MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase(), OrtApiBase.sizeof(), scope);
+        this.version =
+                OrtApiBase.GetVersionString(segment, scope).apply().address().getUtf8String(0);
+        MemoryAddress apiAddress =
+                OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION()).address();
+        this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress, OrtApi.sizeof(), scope));
     }
 
     @Override

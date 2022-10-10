@@ -4,25 +4,24 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
-import jdk.incubator.foreign.*;
 
 public class OrtMIGraphXProviderOptions {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    C_INT.withName("device_id"),
-                    C_INT.withName("migraphx_fp16_enable"),
-                    C_INT.withName("migraphx_int8_enable"))
+    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+                    Constants$root.C_INT$LAYOUT.withName("device_id"),
+                    Constants$root.C_INT$LAYOUT.withName("migraphx_fp16_enable"),
+                    Constants$root.C_INT$LAYOUT.withName("migraphx_int8_enable"))
             .withName("OrtMIGraphXProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
         return OrtMIGraphXProviderOptions.$struct$LAYOUT;
     }
 
-    static final VarHandle device_id$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("device_id"));
+    static final VarHandle device_id$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("device_id"));
 
     public static VarHandle device_id$VH() {
         return OrtMIGraphXProviderOptions.device_id$VH;
@@ -45,7 +44,7 @@ public class OrtMIGraphXProviderOptions {
     }
 
     static final VarHandle migraphx_fp16_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("migraphx_fp16_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("migraphx_fp16_enable"));
 
     public static VarHandle migraphx_fp16_enable$VH() {
         return OrtMIGraphXProviderOptions.migraphx_fp16_enable$VH;
@@ -68,7 +67,7 @@ public class OrtMIGraphXProviderOptions {
     }
 
     static final VarHandle migraphx_int8_enable$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("migraphx_int8_enable"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("migraphx_int8_enable"));
 
     public static VarHandle migraphx_int8_enable$VH() {
         return OrtMIGraphXProviderOptions.migraphx_int8_enable$VH;
@@ -98,19 +97,11 @@ public class OrtMIGraphXProviderOptions {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocate(ResourceScope scope) {
-        return allocate(SegmentAllocator.ofScope(scope));
-    }
-
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
-    }
-
-    public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }

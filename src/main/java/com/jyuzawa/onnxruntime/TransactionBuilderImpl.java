@@ -5,11 +5,11 @@
 package com.jyuzawa.onnxruntime;
 
 import com.jyuzawa.onnxruntime.Transaction.Builder;
+import java.lang.foreign.MemoryAddress;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import jdk.incubator.foreign.MemoryAddress;
 
 final class TransactionBuilderImpl implements Transaction.Builder {
 

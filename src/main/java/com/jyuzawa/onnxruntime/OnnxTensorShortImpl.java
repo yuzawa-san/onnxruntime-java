@@ -4,10 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemorySegment;
 import java.nio.ShortBuffer;
 import java.util.Collection;
 import java.util.stream.Stream;
-import jdk.incubator.foreign.MemorySegment;
 
 final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
 

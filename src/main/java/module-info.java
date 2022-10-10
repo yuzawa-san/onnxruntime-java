@@ -3,9 +3,8 @@
  * <p>
  * This library wraps their native library and tries to obscure the various nuances of native memory from the Java developer.
  * <p>
- * This is experimental and uses Java's "Panama" FFI integration.
- * This will require the runtime to have the {@code --enable-native-access=ALL-UNNAMED} JVM option.
- * If you are not using modules, you will need to also use {@code --add-modules jdk.incubator.foreign} as well.
+ * This is experimental and uses Java's "Panama" FFI integration, currently in preview.
+ * This will require the runtime to have the {@code --enable-native-access=ALL-UNNAMED} and {@code --enable-preview} JVM options.
  * <ul>
  * <li>The {@code onnxruntime-cpu} artifact provides support for several common operating systems / CPU architecture combinations.
  * <li>The {@code onnxruntime-gpu} artifact provides GPU (CUDA) support for several common operating systems / CPU architecture combinations.
@@ -16,6 +15,4 @@
  */
 module com.jyuzawa.onnxruntime {
     exports com.jyuzawa.onnxruntime;
-
-    requires jdk.incubator.foreign;
 }

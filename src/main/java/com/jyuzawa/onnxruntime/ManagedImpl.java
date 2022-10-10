@@ -4,16 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.ResourceScope;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySession;
 
 class ManagedImpl {
 
     protected final ApiImpl api;
-    protected final ResourceScope scope;
+    protected final MemorySession scope;
     protected final MemoryAddress address;
 
-    protected ManagedImpl(ApiImpl api, ResourceScope scope, MemoryAddress address) {
+    protected ManagedImpl(ApiImpl api, MemorySession scope, MemoryAddress address) {
         this.api = api;
         this.scope = scope;
         this.address = address;

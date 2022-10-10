@@ -25,7 +25,10 @@ afterReleaseBuild.dependsOn publish
 allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
-	sourceCompatibility = targetCompatibility = 17
+	sourceCompatibility = targetCompatibility = 19
+	tasks.withType(JavaCompile) {
+		options.compilerArgs += "--enable-preview"
+	}
 	repositories {
 		mavenCentral()
 	}
@@ -103,25 +106,50 @@ java {
 	withSourcesJar()
 }
 
-
 def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
 def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
 def allArches = cpuOsArches + gpuOsArches
 
 allArches.each { osArch ->
+	def osArchRoot = "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
+	task "download${osArch}" (type: Exec) {
+		environment('ORT_VERSION', ORT_VERSION)
+		environment('VARIANT', osArch)
+		commandLine 'sh','./download.sh'
+		outputs.dir(osArchRoot)
+	}
 	task "osArchJar${osArch}" (type: Jar) {
-		from ("${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}")
+		from tasks.named("download${osArch}")
 		classifier osArch
-		manifest {
-			attributes(jarAttributes)
+		doFirst {
+			manifest {
+				attributes(jarAttributes)
+			}
 		}
 		from ("${project.projectDir}/src/dist")
-		from ("${project.buildDir}/onnxruntime-${ORT_VERSION}/onnxruntime-linux-x64-1.10.0/LICENSE") {
+		from ("${osArchRoot}/LICENSE") {
 			rename "LICENSE", "LICENSE.onnxruntime.txt"
 			into "META-INF/licenses/"
 		}
 	}
 }
+
+// TODO: enable jextract
+task jextractClean(type: Delete) {
+	delete 'symbols.conf'
+	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
+}
+
+task jextract(type: Exec) {
+	environment('ORT_VERSION', ORT_VERSION)
+	commandLine 'sh','./jextract.sh'
+	dependsOn tasks.named("downloadlinux-x86_64-gpu")
+	finalizedBy tasks.named('spotlessJavaApply')
+	// TODO: enable jextract
+	// outputs.dir("${project.buildDir}/generated/source/jextract")
+}
+// TODO: enable jextract
+//compileJava.dependsOn(jextract)
 
 configurations {
 	cpu {
@@ -240,34 +268,17 @@ dependencies {
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.19.0'
 }
 
-task make(type: Exec) {
-	environment('ORT_VERSION', ORT_VERSION)
-	commandLine 'make'
-}
-
-compileJava {
-	dependsOn make
-}
-
-task jextractClean(type: Delete) {
-	delete 'symbols.conf'
-	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
-}
-
-task jextract(type: Exec) {
-	environment('ORT_VERSION', ORT_VERSION)
-	commandLine 'make', 'src/main/java/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java'
-	finalizedBy tasks.named('spotlessJavaApply')
-}
-
 sourceSets {
-	test {
+	main {
 		java {
-			srcDirs "${protobuf.generatedFilesBaseDir}/test/java"
+			// TODO: enable jextract
+			// srcDirs jextract
 		}
+	}
+	test {
 		resources {
 			cpuOsArches.each { osArch ->
-				srcDir "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
+				srcDir tasks.named("download${osArch}")
 			}
 		}
 	}
@@ -279,11 +290,20 @@ java {
 
 javadoc {
 }
+javadoc.options {
+	addBooleanOption('-enable-preview', true)
+	addStringOption('-release', '19')
+}
 
 def moduleName = "com.jyuzawa.onnxruntime"
 jar {
-	manifest {
-		attributes(jarAttributes)
+	doFirst {
+		manifest {
+			attributes(jarAttributes)
+		}
+	}
+	from ("${project.projectDir}/LICENSE") {
+		into "META-INF/"
 	}
 	into("META-INF/maven/$project.group/$project.name") {
 		from { generatePomFileForOnnxruntimePublication }
@@ -298,7 +318,7 @@ tasks.named('compileJava') {
 
 
 test {
-	jvmArgs '--enable-native-access=ALL-UNNAMED', '--add-modules', 'jdk.incubator.foreign'
+	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
 	finalizedBy jacocoTestReport
 }
 
@@ -307,7 +327,6 @@ protobuf {
 		artifact = "com.google.protobuf:protoc:3.21.7"
 	}
 	generateProtoTasks {
-		all().each { task -> }
-		ofSourceSet('test')
+		ofSourceSet('test').each { task -> sourceSets.test.java.srcDirs files("${protobuf.generatedFilesBaseDir}/test/java").builtBy(task) }
 	}
 }

@@ -4,19 +4,23 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
-import jdk.incubator.foreign.*;
 
 public class onnxruntime_all_h {
 
-    static {
-    }
+    /* package-private */ onnxruntime_all_h() {}
 
-    static final SymbolLookup LIBRARIES = RuntimeHelper.lookup(); /* package-private */
-
-    onnxruntime_all_h() {}
+    public static OfByte C_CHAR = Constants$root.C_CHAR$LAYOUT;
+    public static OfShort C_SHORT = Constants$root.C_SHORT$LAYOUT;
+    public static OfInt C_INT = Constants$root.C_INT$LAYOUT;
+    public static OfLong C_LONG = Constants$root.C_LONG_LONG$LAYOUT;
+    public static OfLong C_LONG_LONG = Constants$root.C_LONG_LONG$LAYOUT;
+    public static OfFloat C_FLOAT = Constants$root.C_FLOAT$LAYOUT;
+    public static OfDouble C_DOUBLE = Constants$root.C_DOUBLE$LAYOUT;
+    public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
 
     public static int ORT_API_VERSION() {
         return (int) 12L;
@@ -246,6 +250,8 @@ public class onnxruntime_all_h {
         return (int) 6L;
     }
 
+    public static OfAddress OrtStatusPtr = Constants$root.C_POINTER$LAYOUT;
+
     public static int ORT_DISABLE_ALL() {
         return (int) 0L;
     }
@@ -343,13 +349,15 @@ public class onnxruntime_all_h {
     }
 
     public static MemoryAddress OrtGetApiBase() {
-        var mh$ = RuntimeHelper.requireNonNull(constants$0.OrtGetApiBase$MH, "OrtGetApiBase");
+        var mh$ = OrtGetApiBase$MH();
         try {
-            return (jdk.incubator.foreign.MemoryAddress) mh$.invokeExact();
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact();
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
     }
+
+    public static OfAddress OrtCustomThreadHandle = Constants$root.C_POINTER$LAYOUT;
 
     public static int INPUT_OUTPUT_REQUIRED() {
         return (int) 0L;
@@ -366,11 +374,9 @@ public class onnxruntime_all_h {
     }
 
     public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_CUDA(Addressable options, int device_id) {
-        var mh$ = RuntimeHelper.requireNonNull(
-                constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$MH,
-                "OrtSessionOptionsAppendExecutionProvider_CUDA");
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_CUDA$MH();
         try {
-            return (jdk.incubator.foreign.MemoryAddress) mh$.invokeExact(options.address(), device_id);
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, device_id);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -383,11 +389,9 @@ public class onnxruntime_all_h {
     }
 
     public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_MIGraphX(Addressable options, int device_id) {
-        var mh$ = RuntimeHelper.requireNonNull(
-                constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH,
-                "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH();
         try {
-            return (jdk.incubator.foreign.MemoryAddress) mh$.invokeExact(options.address(), device_id);
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, device_id);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -400,11 +404,9 @@ public class onnxruntime_all_h {
     }
 
     public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_Tensorrt(Addressable options, int device_id) {
-        var mh$ = RuntimeHelper.requireNonNull(
-                constants$1.OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH,
-                "OrtSessionOptionsAppendExecutionProvider_Tensorrt");
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH();
         try {
-            return (jdk.incubator.foreign.MemoryAddress) mh$.invokeExact(options.address(), device_id);
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, device_id);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }

@@ -4,12 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.toCString;
-
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 
 final class EnvironmentBuilderImpl implements Environment.Builder {
 
@@ -37,11 +34,10 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
 
     @Override
     public Environment build() {
-        ResourceScope scope = ResourceScope.newConfinedScope();
-        SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
-        MemorySegment logName = toCString(logId, scope);
+        MemorySession scope = MemorySession.openShared();
+        MemorySegment logName = scope.allocateUtf8String(logId);
         MemoryAddress env = api.create(
-                allocator,
+                scope,
                 out -> api.CreateEnvWithCustomLogger.apply(
                         OnnxRuntimeLoggingLevel.LOG_CALLBACK,
                         MemoryAddress.NULL,

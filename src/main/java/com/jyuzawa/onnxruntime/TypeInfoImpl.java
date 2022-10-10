@@ -4,16 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 final class TypeInfoImpl implements TypeInfo {
 
@@ -24,11 +23,10 @@ final class TypeInfoImpl implements TypeInfo {
     private final TypeInfo sequenceInfo;
 
     TypeInfoImpl(ApiImpl api, MemoryAddress typeInfo, MemoryAddress ortAllocator) {
-        try (ResourceScope scope = ResourceScope.newConfinedScope()) {
-            scope.addCloseAction(() -> {
+        try (MemorySession allocator = MemorySession.openConfined()) {
+            allocator.addCloseAction(() -> {
                 api.ReleaseTypeInfo.apply(typeInfo);
             });
-            SegmentAllocator allocator = SegmentAllocator.ofScope(scope);
             this.type = OnnxType.forNumber(
                     api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
             TensorInfo tensorInfo = null;
@@ -41,13 +39,13 @@ final class TypeInfoImpl implements TypeInfo {
                 OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
                         api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
                 int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = allocator.allocateArray(C_LONG_LONG, dimCount);
+                MemorySegment dims = allocator.allocateArray(C_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims.address(), dimCount));
                 long elementCount =
                         api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
                 List<Long> shape = new ArrayList<>(dimCount);
-                for (long value : dims.toLongArray()) {
-                    shape.add(value);
+                for (int i = 0; i < dimCount; i++) {
+                    shape.add(dims.getAtIndex(C_LONG, i));
                 }
                 tensorInfo = new TensorInfoImpl(dataType, Collections.unmodifiableList(shape), elementCount);
             } else if (type == OnnxType.MAP) {

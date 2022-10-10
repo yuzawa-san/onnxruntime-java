@@ -4,15 +4,14 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static jdk.incubator.foreign.CLinker.C_LONG_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.nio.Buffer;
 import java.util.List;
 import java.util.function.IntFunction;
-import jdk.incubator.foreign.MemoryAddress;
-import jdk.incubator.foreign.MemorySegment;
-import jdk.incubator.foreign.ResourceScope;
-import jdk.incubator.foreign.SegmentAllocator;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
@@ -30,11 +29,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
     @Override
     public final MemoryAddress toNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress memoryInfo,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
         MemorySegment rawInputData = getMemorySegment();
         // TODO: move value layout to this class?
         MemorySegment inputData =
@@ -42,7 +37,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         inputData.copyFrom(rawInputData);
         List<Long> shape = tensorInfo.getShape();
         int shapeSize = shape.size();
-        MemorySegment shapeData = allocator.allocateArray(C_LONG_LONG, shape(shape));
+        MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
         MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
@@ -53,7 +48,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
                         shapeSize,
                         tensorInfo.getType().getNumber(),
                         out));
-        scope.addCloseAction(() -> {
+        allocator.addCloseAction(() -> {
             api.ReleaseValue.apply(tensor);
         });
         return tensor;
@@ -61,15 +56,11 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
     @Override
     public final void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            ResourceScope scope,
-            SegmentAllocator allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
         MemoryAddress floatOutput = api.create(allocator, out -> api.GetTensorMutableData.apply(address, out));
-        MemorySegment segment = floatOutput.asSegment(tensorInfo.getByteCount(), scope);
+        MemorySegment segment = MemorySegment.ofAddress(floatOutput, tensorInfo.getByteCount(), allocator);
         getMemorySegment().copyFrom(segment);
-        scope.addCloseAction(() -> {
+        allocator.addCloseAction(() -> {
             api.ReleaseValue.apply(address);
         });
     }

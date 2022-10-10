@@ -4,46 +4,41 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
-import jdk.incubator.foreign.*;
+import java.lang.foreign.*;
 
 public interface OrtLoggingFunction {
 
     void apply(
-            jdk.incubator.foreign.MemoryAddress x0,
-            int x1,
-            jdk.incubator.foreign.MemoryAddress x2,
-            jdk.incubator.foreign.MemoryAddress x3,
-            jdk.incubator.foreign.MemoryAddress x4,
-            jdk.incubator.foreign.MemoryAddress x5);
+            java.lang.foreign.MemoryAddress param,
+            int severity,
+            java.lang.foreign.MemoryAddress category,
+            java.lang.foreign.MemoryAddress logid,
+            java.lang.foreign.MemoryAddress code_location,
+            java.lang.foreign.MemoryAddress message);
 
-    static MemoryAddress allocate(OrtLoggingFunction fi) {
-        return RuntimeHelper.upcallStub(
-                OrtLoggingFunction.class,
-                fi,
-                constants$0.OrtLoggingFunction$FUNC,
-                "(Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)V");
+    static MemorySegment allocate(OrtLoggingFunction fi, MemorySession session) {
+        return RuntimeHelper.upcallStub(OrtLoggingFunction.class, fi, constants$0.OrtLoggingFunction$FUNC, session);
     }
 
-    static MemoryAddress allocate(OrtLoggingFunction fi, ResourceScope scope) {
-        return RuntimeHelper.upcallStub(
-                OrtLoggingFunction.class,
-                fi,
-                constants$0.OrtLoggingFunction$FUNC,
-                "(Ljdk/incubator/foreign/MemoryAddress;ILjdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;Ljdk/incubator/foreign/MemoryAddress;)V",
-                scope);
-    }
-
-    static OrtLoggingFunction ofAddress(MemoryAddress addr) {
-        return (jdk.incubator.foreign.MemoryAddress x0,
-                int x1,
-                jdk.incubator.foreign.MemoryAddress x2,
-                jdk.incubator.foreign.MemoryAddress x3,
-                jdk.incubator.foreign.MemoryAddress x4,
-                jdk.incubator.foreign.MemoryAddress x5) -> {
+    static OrtLoggingFunction ofAddress(MemoryAddress addr, MemorySession session) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+        return (java.lang.foreign.MemoryAddress _param,
+                int _severity,
+                java.lang.foreign.MemoryAddress _category,
+                java.lang.foreign.MemoryAddress _logid,
+                java.lang.foreign.MemoryAddress _code_location,
+                java.lang.foreign.MemoryAddress _message) -> {
             try {
-                constants$0.OrtLoggingFunction$MH.invokeExact((Addressable) addr, x0, x1, x2, x3, x4, x5);
+                constants$0.OrtLoggingFunction$MH.invokeExact(
+                        (Addressable) symbol,
+                        (java.lang.foreign.Addressable) _param,
+                        _severity,
+                        (java.lang.foreign.Addressable) _category,
+                        (java.lang.foreign.Addressable) _logid,
+                        (java.lang.foreign.Addressable) _code_location,
+                        (java.lang.foreign.Addressable) _message);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }

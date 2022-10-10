@@ -4,31 +4,30 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
-import static jdk.incubator.foreign.CLinker.*;
+import static java.lang.foreign.ValueLayout.*;
 
+import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
-import jdk.incubator.foreign.*;
 
 public class OrtCUDAProviderOptions {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    C_INT.withName("device_id"),
-                    C_INT.withName("cudnn_conv_algo_search"),
-                    C_LONG_LONG.withName("gpu_mem_limit"),
-                    C_INT.withName("arena_extend_strategy"),
-                    C_INT.withName("do_copy_in_default_stream"),
-                    C_INT.withName("has_user_compute_stream"),
+    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+                    Constants$root.C_INT$LAYOUT.withName("device_id"),
+                    Constants$root.C_INT$LAYOUT.withName("cudnn_conv_algo_search"),
+                    Constants$root.C_LONG_LONG$LAYOUT.withName("gpu_mem_limit"),
+                    Constants$root.C_INT$LAYOUT.withName("arena_extend_strategy"),
+                    Constants$root.C_INT$LAYOUT.withName("do_copy_in_default_stream"),
+                    Constants$root.C_INT$LAYOUT.withName("has_user_compute_stream"),
                     MemoryLayout.paddingLayout(32),
-                    C_POINTER.withName("user_compute_stream"),
-                    C_POINTER.withName("default_memory_arena_cfg"))
+                    Constants$root.C_POINTER$LAYOUT.withName("user_compute_stream"),
+                    Constants$root.C_POINTER$LAYOUT.withName("default_memory_arena_cfg"))
             .withName("OrtCUDAProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
         return OrtCUDAProviderOptions.$struct$LAYOUT;
     }
 
-    static final VarHandle device_id$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("device_id"));
+    static final VarHandle device_id$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("device_id"));
 
     public static VarHandle device_id$VH() {
         return OrtCUDAProviderOptions.device_id$VH;
@@ -51,7 +50,7 @@ public class OrtCUDAProviderOptions {
     }
 
     static final VarHandle cudnn_conv_algo_search$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("cudnn_conv_algo_search"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("cudnn_conv_algo_search"));
 
     public static VarHandle cudnn_conv_algo_search$VH() {
         return OrtCUDAProviderOptions.cudnn_conv_algo_search$VH;
@@ -74,7 +73,7 @@ public class OrtCUDAProviderOptions {
     }
 
     static final VarHandle gpu_mem_limit$VH =
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("gpu_mem_limit"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("gpu_mem_limit"));
 
     public static VarHandle gpu_mem_limit$VH() {
         return OrtCUDAProviderOptions.gpu_mem_limit$VH;
@@ -97,7 +96,7 @@ public class OrtCUDAProviderOptions {
     }
 
     static final VarHandle arena_extend_strategy$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("arena_extend_strategy"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("arena_extend_strategy"));
 
     public static VarHandle arena_extend_strategy$VH() {
         return OrtCUDAProviderOptions.arena_extend_strategy$VH;
@@ -120,7 +119,7 @@ public class OrtCUDAProviderOptions {
     }
 
     static final VarHandle do_copy_in_default_stream$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("do_copy_in_default_stream"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("do_copy_in_default_stream"));
 
     public static VarHandle do_copy_in_default_stream$VH() {
         return OrtCUDAProviderOptions.do_copy_in_default_stream$VH;
@@ -143,7 +142,7 @@ public class OrtCUDAProviderOptions {
     }
 
     static final VarHandle has_user_compute_stream$VH =
-            $struct$LAYOUT.varHandle(int.class, MemoryLayout.PathElement.groupElement("has_user_compute_stream"));
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("has_user_compute_stream"));
 
     public static VarHandle has_user_compute_stream$VH() {
         return OrtCUDAProviderOptions.has_user_compute_stream$VH;
@@ -165,15 +164,15 @@ public class OrtCUDAProviderOptions {
         OrtCUDAProviderOptions.has_user_compute_stream$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle user_compute_stream$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("user_compute_stream")));
+    static final VarHandle user_compute_stream$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("user_compute_stream"));
 
     public static VarHandle user_compute_stream$VH() {
         return OrtCUDAProviderOptions.user_compute_stream$VH;
     }
 
     public static MemoryAddress user_compute_stream$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtCUDAProviderOptions.user_compute_stream$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtCUDAProviderOptions.user_compute_stream$VH.get(seg);
     }
 
     public static void user_compute_stream$set(MemorySegment seg, MemoryAddress x) {
@@ -181,7 +180,7 @@ public class OrtCUDAProviderOptions {
     }
 
     public static MemoryAddress user_compute_stream$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtCUDAProviderOptions.user_compute_stream$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -189,15 +188,15 @@ public class OrtCUDAProviderOptions {
         OrtCUDAProviderOptions.user_compute_stream$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle default_memory_arena_cfg$VH = MemoryHandles.asAddressVarHandle(
-            $struct$LAYOUT.varHandle(long.class, MemoryLayout.PathElement.groupElement("default_memory_arena_cfg")));
+    static final VarHandle default_memory_arena_cfg$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("default_memory_arena_cfg"));
 
     public static VarHandle default_memory_arena_cfg$VH() {
         return OrtCUDAProviderOptions.default_memory_arena_cfg$VH;
     }
 
     public static MemoryAddress default_memory_arena_cfg$get(MemorySegment seg) {
-        return (jdk.incubator.foreign.MemoryAddress) OrtCUDAProviderOptions.default_memory_arena_cfg$VH.get(seg);
+        return (java.lang.foreign.MemoryAddress) OrtCUDAProviderOptions.default_memory_arena_cfg$VH.get(seg);
     }
 
     public static void default_memory_arena_cfg$set(MemorySegment seg, MemoryAddress x) {
@@ -205,7 +204,7 @@ public class OrtCUDAProviderOptions {
     }
 
     public static MemoryAddress default_memory_arena_cfg$get(MemorySegment seg, long index) {
-        return (jdk.incubator.foreign.MemoryAddress)
+        return (java.lang.foreign.MemoryAddress)
                 OrtCUDAProviderOptions.default_memory_arena_cfg$VH.get(seg.asSlice(index * sizeof()));
     }
 
@@ -221,19 +220,11 @@ public class OrtCUDAProviderOptions {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocate(ResourceScope scope) {
-        return allocate(SegmentAllocator.ofScope(scope));
-    }
-
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
-    }
-
-    public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }
