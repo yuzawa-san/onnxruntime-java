@@ -12,5 +12,5 @@ mv xx01 symbols.conf
 docker run --rm -v `pwd`:/workdir `docker build -q .` --output ${GENERATED_DIR} -l onnxruntime --source --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I ${HEADER_DIR} @symbols.conf onnxruntime_all.h
 # strip out loads since we'll manage load
 RUNTIME_HELPER=${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/RuntimeHelper.java
-sed -i ".bak" "/System.loadLibrary/d" "${RUNTIME_HELPER}"
-rm ${RUNTIME_HELPER}.bak
+grep -v "System.loadLibrary" < ${RUNTIME_HELPER} > ${RUNTIME_HELPER}.bak
+mv ${RUNTIME_HELPER}.bak ${RUNTIME_HELPER}
