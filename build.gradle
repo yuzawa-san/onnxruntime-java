@@ -324,7 +324,7 @@ test {
 
 protobuf {
 	protoc {
-		artifact = "com.google.protobuf:protoc:3.21.7"
+		artifact = "com.google.protobuf:protoc:3.21.8"
 	}
 	generateProtoTasks {
 		ofSourceSet('test').each { task -> sourceSets.test.java.srcDirs files("${protobuf.generatedFilesBaseDir}/test/java").builtBy(task) }
