@@ -231,7 +231,13 @@ public class OrtApi {
                     Constants$root.C_POINTER$LAYOUT.withName("ReleaseOp"),
                     Constants$root.C_POINTER$LAYOUT.withName("SessionOptionsAppendExecutionProvider"),
                     Constants$root.C_POINTER$LAYOUT.withName("CopyKernelInfo"),
-                    Constants$root.C_POINTER$LAYOUT.withName("ReleaseKernelInfo"))
+                    Constants$root.C_POINTER$LAYOUT.withName("ReleaseKernelInfo"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetTrainingApi"),
+                    Constants$root.C_POINTER$LAYOUT.withName("SessionOptionsAppendExecutionProvider_CANN"),
+                    Constants$root.C_POINTER$LAYOUT.withName("CreateCANNProviderOptions"),
+                    Constants$root.C_POINTER$LAYOUT.withName("UpdateCANNProviderOptions"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetCANNProviderOptionsAsString"),
+                    Constants$root.C_POINTER$LAYOUT.withName("ReleaseCANNProviderOptions"))
             .withName("OrtApi");
 
     public static MemoryLayout $LAYOUT() {
@@ -13626,6 +13632,369 @@ public class OrtApi {
 
     public static ReleaseKernelInfo ReleaseKernelInfo(MemorySegment segment, MemorySession session) {
         return ReleaseKernelInfo.ofAddress(ReleaseKernelInfo$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetTrainingApi$FUNC =
+            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
+    static final MethodHandle GetTrainingApi$MH = RuntimeHelper.downcallHandle(OrtApi.GetTrainingApi$FUNC);
+
+    public interface GetTrainingApi {
+
+        java.lang.foreign.Addressable apply(int _x0);
+
+        static MemorySegment allocate(GetTrainingApi fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(GetTrainingApi.class, fi, OrtApi.GetTrainingApi$FUNC, session);
+        }
+
+        static GetTrainingApi ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (int __x0) -> {
+                try {
+                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                            OrtApi.GetTrainingApi$MH.invokeExact((Addressable) symbol, __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetTrainingApi$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetTrainingApi"));
+
+    public static VarHandle GetTrainingApi$VH() {
+        return OrtApi.GetTrainingApi$VH;
+    }
+
+    public static MemoryAddress GetTrainingApi$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.GetTrainingApi$VH.get(seg);
+    }
+
+    public static void GetTrainingApi$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.GetTrainingApi$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetTrainingApi$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.GetTrainingApi$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetTrainingApi$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.GetTrainingApi$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetTrainingApi GetTrainingApi(MemorySegment segment, MemorySession session) {
+        return GetTrainingApi.ofAddress(GetTrainingApi$get(segment), session);
+    }
+
+    static final FunctionDescriptor SessionOptionsAppendExecutionProvider_CANN$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle SessionOptionsAppendExecutionProvider_CANN$MH =
+            RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_CANN$FUNC);
+
+    public interface SessionOptionsAppendExecutionProvider_CANN {
+
+        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CANN fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    SessionOptionsAppendExecutionProvider_CANN.class,
+                    fi,
+                    OrtApi.SessionOptionsAppendExecutionProvider_CANN$FUNC,
+                    session);
+        }
+
+        static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+                try {
+                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                            OrtApi.SessionOptionsAppendExecutionProvider_CANN$MH.invokeExact(
+                                    (Addressable) symbol,
+                                    (java.lang.foreign.Addressable) __x0,
+                                    (java.lang.foreign.Addressable) __x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle SessionOptionsAppendExecutionProvider_CANN$VH = $struct$LAYOUT.varHandle(
+            MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider_CANN"));
+
+    public static VarHandle SessionOptionsAppendExecutionProvider_CANN$VH() {
+        return OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH;
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.get(seg);
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.set(seg, x);
+    }
+
+    public static MemoryAddress SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static SessionOptionsAppendExecutionProvider_CANN SessionOptionsAppendExecutionProvider_CANN(
+            MemorySegment segment, MemorySession session) {
+        return SessionOptionsAppendExecutionProvider_CANN.ofAddress(
+                SessionOptionsAppendExecutionProvider_CANN$get(segment), session);
+    }
+
+    static final FunctionDescriptor CreateCANNProviderOptions$FUNC =
+            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle CreateCANNProviderOptions$MH =
+            RuntimeHelper.downcallHandle(OrtApi.CreateCANNProviderOptions$FUNC);
+
+    public interface CreateCANNProviderOptions {
+
+        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(CreateCANNProviderOptions fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    CreateCANNProviderOptions.class, fi, OrtApi.CreateCANNProviderOptions$FUNC, session);
+        }
+
+        static CreateCANNProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (java.lang.foreign.Addressable)
+                            (java.lang.foreign.MemoryAddress) OrtApi.CreateCANNProviderOptions$MH.invokeExact(
+                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle CreateCANNProviderOptions$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("CreateCANNProviderOptions"));
+
+    public static VarHandle CreateCANNProviderOptions$VH() {
+        return OrtApi.CreateCANNProviderOptions$VH;
+    }
+
+    public static MemoryAddress CreateCANNProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCANNProviderOptions$VH.get(seg);
+    }
+
+    public static void CreateCANNProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.CreateCANNProviderOptions$VH.set(seg, x);
+    }
+
+    public static MemoryAddress CreateCANNProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void CreateCANNProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.CreateCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static CreateCANNProviderOptions CreateCANNProviderOptions(MemorySegment segment, MemorySession session) {
+        return CreateCANNProviderOptions.ofAddress(CreateCANNProviderOptions$get(segment), session);
+    }
+
+    static final FunctionDescriptor UpdateCANNProviderOptions$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_LONG_LONG$LAYOUT);
+    static final MethodHandle UpdateCANNProviderOptions$MH =
+            RuntimeHelper.downcallHandle(OrtApi.UpdateCANNProviderOptions$FUNC);
+
+    public interface UpdateCANNProviderOptions {
+
+        java.lang.foreign.Addressable apply(
+                java.lang.foreign.MemoryAddress _x0,
+                java.lang.foreign.MemoryAddress _x1,
+                java.lang.foreign.MemoryAddress _x2,
+                long _x3);
+
+        static MemorySegment allocate(UpdateCANNProviderOptions fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    UpdateCANNProviderOptions.class, fi, OrtApi.UpdateCANNProviderOptions$FUNC, session);
+        }
+
+        static UpdateCANNProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0,
+                    java.lang.foreign.MemoryAddress __x1,
+                    java.lang.foreign.MemoryAddress __x2,
+                    long __x3) -> {
+                try {
+                    return (java.lang.foreign.Addressable)
+                            (java.lang.foreign.MemoryAddress) OrtApi.UpdateCANNProviderOptions$MH.invokeExact(
+                                    (Addressable) symbol,
+                                    (java.lang.foreign.Addressable) __x0,
+                                    (java.lang.foreign.Addressable) __x1,
+                                    (java.lang.foreign.Addressable) __x2,
+                                    __x3);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle UpdateCANNProviderOptions$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("UpdateCANNProviderOptions"));
+
+    public static VarHandle UpdateCANNProviderOptions$VH() {
+        return OrtApi.UpdateCANNProviderOptions$VH;
+    }
+
+    public static MemoryAddress UpdateCANNProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateCANNProviderOptions$VH.get(seg);
+    }
+
+    public static void UpdateCANNProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.UpdateCANNProviderOptions$VH.set(seg, x);
+    }
+
+    public static MemoryAddress UpdateCANNProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void UpdateCANNProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.UpdateCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static UpdateCANNProviderOptions UpdateCANNProviderOptions(MemorySegment segment, MemorySession session) {
+        return UpdateCANNProviderOptions.ofAddress(UpdateCANNProviderOptions$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetCANNProviderOptionsAsString$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetCANNProviderOptionsAsString$MH =
+            RuntimeHelper.downcallHandle(OrtApi.GetCANNProviderOptionsAsString$FUNC);
+
+    public interface GetCANNProviderOptionsAsString {
+
+        java.lang.foreign.Addressable apply(
+                java.lang.foreign.MemoryAddress _x0,
+                java.lang.foreign.MemoryAddress _x1,
+                java.lang.foreign.MemoryAddress _x2);
+
+        static MemorySegment allocate(GetCANNProviderOptionsAsString fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    GetCANNProviderOptionsAsString.class, fi, OrtApi.GetCANNProviderOptionsAsString$FUNC, session);
+        }
+
+        static GetCANNProviderOptionsAsString ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0,
+                    java.lang.foreign.MemoryAddress __x1,
+                    java.lang.foreign.MemoryAddress __x2) -> {
+                try {
+                    return (java.lang.foreign.Addressable)
+                            (java.lang.foreign.MemoryAddress) OrtApi.GetCANNProviderOptionsAsString$MH.invokeExact(
+                                    (Addressable) symbol,
+                                    (java.lang.foreign.Addressable) __x0,
+                                    (java.lang.foreign.Addressable) __x1,
+                                    (java.lang.foreign.Addressable) __x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetCANNProviderOptionsAsString$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetCANNProviderOptionsAsString"));
+
+    public static VarHandle GetCANNProviderOptionsAsString$VH() {
+        return OrtApi.GetCANNProviderOptionsAsString$VH;
+    }
+
+    public static MemoryAddress GetCANNProviderOptionsAsString$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.GetCANNProviderOptionsAsString$VH.get(seg);
+    }
+
+    public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.GetCANNProviderOptionsAsString$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetCANNProviderOptionsAsString$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtApi.GetCANNProviderOptionsAsString$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.GetCANNProviderOptionsAsString$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetCANNProviderOptionsAsString GetCANNProviderOptionsAsString(
+            MemorySegment segment, MemorySession session) {
+        return GetCANNProviderOptionsAsString.ofAddress(GetCANNProviderOptionsAsString$get(segment), session);
+    }
+
+    static final FunctionDescriptor ReleaseCANNProviderOptions$FUNC =
+            FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle ReleaseCANNProviderOptions$MH =
+            RuntimeHelper.downcallHandle(OrtApi.ReleaseCANNProviderOptions$FUNC);
+
+    public interface ReleaseCANNProviderOptions {
+
+        void apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(ReleaseCANNProviderOptions fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    ReleaseCANNProviderOptions.class, fi, OrtApi.ReleaseCANNProviderOptions$FUNC, session);
+        }
+
+        static ReleaseCANNProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    OrtApi.ReleaseCANNProviderOptions$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle ReleaseCANNProviderOptions$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("ReleaseCANNProviderOptions"));
+
+    public static VarHandle ReleaseCANNProviderOptions$VH() {
+        return OrtApi.ReleaseCANNProviderOptions$VH;
+    }
+
+    public static MemoryAddress ReleaseCANNProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseCANNProviderOptions$VH.get(seg);
+    }
+
+    public static void ReleaseCANNProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+        OrtApi.ReleaseCANNProviderOptions$VH.set(seg, x);
+    }
+
+    public static MemoryAddress ReleaseCANNProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtApi.ReleaseCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void ReleaseCANNProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtApi.ReleaseCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static ReleaseCANNProviderOptions ReleaseCANNProviderOptions(MemorySegment segment, MemorySession session) {
+        return ReleaseCANNProviderOptions.ofAddress(ReleaseCANNProviderOptions$get(segment), session);
     }
 
     public static long sizeof() {
