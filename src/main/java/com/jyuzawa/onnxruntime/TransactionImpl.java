@@ -14,6 +14,8 @@ import java.lang.foreign.MemorySession;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 final class TransactionImpl implements Transaction {
 
@@ -33,7 +35,10 @@ final class TransactionImpl implements Transaction {
     }
 
     @Override
-    public NamedCollection<OnnxValue> run() {
+    public NamedCollection<OnnxValue> run() throws InterruptedException, ExecutionException {
+    	CompletableFuture<String> x = new CompletableFuture<>();
+    	
+    	String w = x.get();
 
         try (MemorySession allocator = MemorySession.openShared()) {
             MemoryAddress memoryInfo = api.create(

@@ -14,6 +14,8 @@ public interface Transaction {
      * @return the results
      */
     NamedCollection<OnnxValue> run();
+    
+    void cancel();
 
     /**
      * A builder of a {@link Transaction}.
@@ -27,6 +29,14 @@ public interface Transaction {
         Builder addOutput(String name);
 
         Builder addOutput(int index);
+        
+        Builder setLogLevel​(OrtLoggingLevel level);
+        
+        Builder setLogVerbosityLevel​(int level);
+        
+        Builder setRunTag​(java.lang.String runTag);
+        
+
 
         // TODO: more run options
         /**
