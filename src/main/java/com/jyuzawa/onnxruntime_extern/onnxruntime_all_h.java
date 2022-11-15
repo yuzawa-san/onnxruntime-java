@@ -23,7 +23,7 @@ public class onnxruntime_all_h {
     public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
 
     public static int ORT_API_VERSION() {
-        return (int) 12L;
+        return (int) 13L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
