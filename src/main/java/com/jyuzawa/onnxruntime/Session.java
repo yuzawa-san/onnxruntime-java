@@ -44,6 +44,8 @@ public interface Session extends AutoCloseable {
 
         Builder setByteBuffer(ByteBuffer byteBuffer);
        
+        SessionOptions.Builder getSessionOptionsBuilder();
+        
         /**
          * Construct a {@link Session}.
          * @return a new instance

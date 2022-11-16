@@ -6,7 +6,6 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 
-import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.foreign.MemoryAddress;
@@ -17,10 +16,13 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 
+import com.jyuzawa.onnxruntime.Session.Builder;
+
 final class SessionBuilderImpl implements Session.Builder {
 
     private final ApiImpl api;
     private final MemoryAddress environment;
+    private final SessionOptionsBuilderImpl sessionOptionsBuilder;
     Path path;
     byte[] bytes;
     ByteBuffer buffer;
@@ -28,6 +30,7 @@ final class SessionBuilderImpl implements Session.Builder {
     SessionBuilderImpl(ApiImpl api, MemoryAddress environment) {
         this.api = api;
         this.environment = environment;
+        this.sessionOptionsBuilder = new SessionOptionsBuilderImpl();
     }
 
     @Override
@@ -46,6 +49,11 @@ final class SessionBuilderImpl implements Session.Builder {
     public Session.Builder setByteBuffer(ByteBuffer buffer) {
         this.buffer = buffer;
         return this;
+    }
+    
+    @Override
+	public SessionOptions.Builder getSessionOptionsBuilder() {
+    	return sessionOptionsBuilder;
     }
 
     @Override
@@ -74,9 +82,8 @@ final class SessionBuilderImpl implements Session.Builder {
             } else {
                 throw new IllegalArgumentException("missing model source");
             }
-            // TODO: more session options
-            MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
-            // api.checkStatus(api.SetIntraOpNumThreads.apply(sessionOptions, 1));
+
+            MemoryAddress sessionOptions = sessionOptionsBuilder.build(api, allocator);
             allocator.addCloseAction(() -> {
                 api.ReleaseSessionOptions.apply(sessionOptions);
             });
