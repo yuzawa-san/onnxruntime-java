@@ -14,10 +14,10 @@ import java.lang.foreign.MemorySession;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 final class TransactionImpl implements Transaction {
 
+	private final Object cancelLock;
 	private final ApiImpl api;
 	private final MemoryAddress session;
 	private final MemoryAddress ortAllocator;
@@ -34,13 +34,15 @@ final class TransactionImpl implements Transaction {
 		this.inputs = builder.inputs;
 		this.outputs = builder.outputs;
 		this.runOptionsBuilder = builder.runOptionsBuilder;
+		this.cancelLock = new Object();
 	}
-
+ 
+	@Override
 	public void cancel() {
-		synchronized(runOptions) {
-		if(runOptions != null) {
-			api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
-		}
+		synchronized (cancelLock) {
+			if (runOptions != null) {
+				api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
+			}
 		}
 	}
 
@@ -74,14 +76,14 @@ final class TransactionImpl implements Transaction {
 
 			MemorySegment output = allocator.allocate(C_POINTER);
 			MemoryAddress runOptionsAddress = runOptionsBuilder.build(api, allocator);
-			synchronized(runOptions) {
+			synchronized (cancelLock) {
 				this.runOptions = runOptionsAddress;
 			}
 			try {
 				api.checkStatus(api.Run.apply(session, runOptionsAddress, inputNames.address(), inputValues.address(),
 						numInputs, outputNames.address(), numOutputs, output.address()));
 			} finally {
-				synchronized(runOptions) {
+				synchronized (cancelLock) {
 					api.ReleaseRunOptions.apply(runOptions);
 					runOptions = null;
 				}
@@ -100,7 +102,4 @@ final class TransactionImpl implements Transaction {
 		}
 	}
 
-	private final class Canceller {
-		AtomicInteger referenceCount;
-	}
 }

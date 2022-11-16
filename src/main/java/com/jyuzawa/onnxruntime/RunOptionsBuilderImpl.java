@@ -52,7 +52,7 @@ final class RunOptionsBuilderImpl implements RunOptions.Builder {
 		if (runTag != null) {
 			api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, scope.allocateUtf8String(runTag).address()));
 		}
-		if (config != null || !config.isEmpty()) {
+		if (config != null && !config.isEmpty()) {
 			for (Map.Entry<String, String> entry : config.entrySet()) {
 				api.checkStatus(
 						api.AddRunConfigEntry.apply(runOptions, scope.allocateUtf8String(entry.getKey()).address(),
