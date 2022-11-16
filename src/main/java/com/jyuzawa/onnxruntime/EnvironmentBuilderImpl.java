@@ -35,7 +35,7 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
     
     @Override
 	public ThreadingOptions.Builder getThreadingOptionsBuilder(){
-    	if(threadingOptions!= null) {
+    	if(threadingOptions == null) {
     		threadingOptions = new ThreadingOptionsBuilderImpl();
     	}
     	return threadingOptions;
