@@ -50,14 +50,8 @@ public interface Environment extends AutoCloseable {
          * @return the builder
          */
         Builder setLogId(String id);
-
-        Builder setGlobalDenormalAsZero();
         
-        Builder setGlobalInterOpNumThreads​(int numThreads);
-        
-        Builder setGlobalIntraOpNumThreads​(int numThreads);
-        
-        Builder setGlobalSpinControl​(boolean allowSpinning);
+        ThreadingOptions.Builder getThreadingOptionsBuilder();
 
         /**
          * Constructs the {@link Environment}.

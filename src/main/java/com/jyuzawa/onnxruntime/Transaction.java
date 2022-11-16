@@ -9,40 +9,35 @@ package com.jyuzawa.onnxruntime;
  *
  */
 public interface Transaction {
-    /**
-     * Run the model evaluation.
-     * @return the results
-     */
-    NamedCollection<OnnxValue> run();
-    
-    void cancel();
+	/**
+	 * Run the model evaluation.
+	 * 
+	 * @return the results
+	 */
+	NamedCollection<OnnxValue> run();
 
-    /**
-     * A builder of a {@link Transaction}.
-     *
-     */
-    public interface Builder {
-        OnnxValue addInput(String name);
+	void cancel();
 
-        OnnxValue addInput(int index);
+	/**
+	 * A builder of a {@link Transaction}.
+	 *
+	 */
+	public interface Builder {
+		OnnxValue addInput(String name);
 
-        Builder addOutput(String name);
+		OnnxValue addInput(int index);
 
-        Builder addOutput(int index);
-        
-        Builder setLogLevel​(OrtLoggingLevel level);
-        
-        Builder setLogVerbosityLevel​(int level);
-        
-        Builder setRunTag​(java.lang.String runTag);
-        
+		Builder addOutput(String name);
 
+		Builder addOutput(int index);
 
-        // TODO: more run options
-        /**
-         * Construct a {@link Transaction}.
-         * @return a new instance
-         */
-        Transaction build();
-    }
+		RunOptions.Builder getRunOptionsBuilder();
+
+		/**
+		 * Construct a {@link Transaction}.
+		 * 
+		 * @return a new instance
+		 */
+		Transaction build();
+	}
 }

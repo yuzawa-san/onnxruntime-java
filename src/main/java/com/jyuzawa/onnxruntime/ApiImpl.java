@@ -15,6 +15,7 @@ import java.lang.foreign.MemorySession;
 import java.util.function.Function;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
+import com.jyuzawa.onnxruntime_extern.OrtApi.AddRunConfigEntry;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToMapTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToSequenceTypeInfo;
@@ -22,6 +23,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToTensorInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateCpuMemoryInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLogger;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools;
+import com.jyuzawa.onnxruntime_extern.OrtApi.CreateRunOptions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionFromArray;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionOptions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.CreateTensorAsOrtValue;
@@ -59,6 +61,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataLookupCustomMetadataMa
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseEnv;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseMemoryInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseModelMetadata;
+import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseRunOptions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseSession;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseSessionOptions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseStatus;
@@ -66,6 +69,10 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseThreadingOptions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseValue;
 import com.jyuzawa.onnxruntime_extern.OrtApi.Run;
+import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogSeverityLevel;
+import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogVerbosityLevel;
+import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunTag;
+import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetTerminate;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputTypeInfo;
@@ -83,13 +90,15 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalSpinControl;
 
 final class ApiImpl implements Api {
 
-    final AllocatorFree AllocatorFree;
+	final AddRunConfigEntry AddRunConfigEntry;
+	final AllocatorFree AllocatorFree;
     final CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo;
     final CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo;
     final CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo;
     final CreateCpuMemoryInfo CreateCpuMemoryInfo;
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
+    final CreateRunOptions CreateRunOptions;
     final CreateSessionFromArray CreateSessionFromArray;
     final CreateSessionOptions CreateSessionOptions;
     final CreateTensorAsOrtValue CreateTensorAsOrtValue;
@@ -127,6 +136,7 @@ final class ApiImpl implements Api {
     final ReleaseEnv ReleaseEnv;
     final ReleaseMemoryInfo ReleaseMemoryInfo;
     final ReleaseModelMetadata ReleaseModelMetadata;
+    final ReleaseRunOptions ReleaseRunOptions;
     final ReleaseSession ReleaseSession;
     final ReleaseSessionOptions ReleaseSessionOptions;
     final ReleaseStatus ReleaseStatus;
@@ -134,6 +144,10 @@ final class ApiImpl implements Api {
     final ReleaseTypeInfo ReleaseTypeInfo;
     final ReleaseValue ReleaseValue;
     final Run Run;
+    final RunOptionsSetRunLogSeverityLevel RunOptionsSetRunLogSeverityLevel;
+    final RunOptionsSetRunLogVerbosityLevel RunOptionsSetRunLogVerbosityLevel;
+    final RunOptionsSetRunTag RunOptionsSetRunTag;
+    final RunOptionsSetTerminate RunOptionsSetTerminate;
     final SetGlobalDenormalAsZero SetGlobalDenormalAsZero;
     final SetGlobalIntraOpNumThreads SetGlobalIntraOpNumThreads;
     final SetGlobalInterOpNumThreads SetGlobalInterOpNumThreads;
@@ -151,6 +165,7 @@ final class ApiImpl implements Api {
 
     ApiImpl(MemorySegment segment) {
         MemorySession scope = MemorySession.global();
+        this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(segment, scope);
         this.AllocatorFree = OrtApi.AllocatorFree(segment, scope);
         this.CastTypeInfoToMapTypeInfo = OrtApi.CastTypeInfoToMapTypeInfo(segment, scope);
         this.CastTypeInfoToSequenceTypeInfo = OrtApi.CastTypeInfoToSequenceTypeInfo(segment, scope);
@@ -158,6 +173,7 @@ final class ApiImpl implements Api {
         this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(segment, scope);
         this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(segment, scope);
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools = OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(segment,scope);
+        this.CreateRunOptions = OrtApi.CreateRunOptions(segment, scope);
         this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(segment, scope);
         this.CreateSessionOptions = OrtApi.CreateSessionOptions(segment, scope);
         this.CreateTensorAsOrtValue = OrtApi.CreateTensorAsOrtValue(segment, scope);
@@ -195,6 +211,7 @@ final class ApiImpl implements Api {
         this.ReleaseEnv = OrtApi.ReleaseEnv(segment, scope);
         this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(segment, scope);
         this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(segment, scope);
+        this.ReleaseRunOptions = OrtApi.ReleaseRunOptions(segment, scope);
         this.ReleaseSession = OrtApi.ReleaseSession(segment, scope);
         this.ReleaseSessionOptions = OrtApi.ReleaseSessionOptions(segment, scope);
         this.ReleaseStatus = OrtApi.ReleaseStatus(segment, scope);
@@ -202,6 +219,10 @@ final class ApiImpl implements Api {
         this.ReleaseTypeInfo = OrtApi.ReleaseTypeInfo(segment, scope);
         this.ReleaseValue = OrtApi.ReleaseValue(segment, scope);
         this.Run = OrtApi.Run(segment, scope);
+        this.RunOptionsSetRunLogSeverityLevel = OrtApi.RunOptionsSetRunLogSeverityLevel(segment, scope);
+        this.RunOptionsSetRunLogVerbosityLevel = OrtApi.RunOptionsSetRunLogVerbosityLevel(segment, scope);
+        this.RunOptionsSetRunTag = OrtApi.RunOptionsSetRunTag(segment, scope);
+        this.RunOptionsSetTerminate = OrtApi.RunOptionsSetTerminate(segment, scope);
         this.SetGlobalDenormalAsZero= OrtApi.SetGlobalDenormalAsZero(segment, scope);
         this.SetGlobalIntraOpNumThreads = OrtApi.SetGlobalIntraOpNumThreads(segment, scope);
         this.SetGlobalInterOpNumThreads = OrtApi.SetGlobalInterOpNumThreads(segment, scope);

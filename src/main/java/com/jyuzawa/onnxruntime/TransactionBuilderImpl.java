@@ -4,12 +4,13 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import com.jyuzawa.onnxruntime.Transaction.Builder;
 import java.lang.foreign.MemoryAddress;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.jyuzawa.onnxruntime.Transaction.Builder;
 
 final class TransactionBuilderImpl implements Transaction.Builder {
 
@@ -20,6 +21,8 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     final List<NodeInfo> outputs;
     private final NamedCollection<NodeInfo> allInputs;
     private final NamedCollection<NodeInfo> allOutputs;
+     final RunOptionsBuilderImpl runOptionsBuilder = new RunOptionsBuilderImpl();
+    
 
     public TransactionBuilderImpl(
             ApiImpl api,
@@ -76,5 +79,10 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     @Override
     public Builder addOutput(int index) {
         return addOutput(allOutputs.get(index));
+    }
+    
+    @Override
+	public RunOptions.Builder getRunOptionsBuilder(){
+    	return runOptionsBuilder;
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
@@ -28,10 +27,6 @@ public interface Session extends AutoCloseable {
 
     NamedCollection<NodeInfo> getOverridableInitializers();
     
-void endProfiling();
-
-long getProfilingStartTimeInNs();
-
     /**
      * Create a new transaction.
      * @return a builder
@@ -48,41 +43,7 @@ long getProfilingStartTimeInNs();
         Builder setByteArray(byte[] bytes);
 
         Builder setByteBuffer(ByteBuffer byteBuffer);
-        
-        
-        Builder disablePerSessionThreads();
-        
-        Builder 	disableProfiling();
-        
-        Builder 	enableProfiling​(File profilePath);
-        
-        Builder 	setExecutionMode​(OrtSession.SessionOptions.ExecutionMode mode);
-        
-        Builder setInterOpNumThreads​(int numThreads);
-        
-        Builder setIntraOpNumThreads​(int numThreads);
-        
-        
-        Builder setLoggerId​(java.lang.String loggerId);
-        
-        Builder setMemoryPatternOptimization​(boolean memoryPatternOptimization);
-      Builder   setCPUArenaAllocator​(boolean useArena);
-        
-        Builder setOptimizationLevel​(OrtSession.SessionOptions.OptLevel level);
-        
-        Builder setOptimizedModelFilePath​(File outputPath);
-        
-        Builder 	setSessionLogLevel​(OrtLoggingLevel logLevel);
-        
-        
-        Builder 	setSessionLogVerbosityLevel​(int logLevel);
-        
-        Builder 	addConfigEntry​(java.lang.String configKey, java.lang.String configValue);
-        
-        Builder registerCustomOpLibrary​(java.lang.String path);
-        
-        Builder setSymbolicDimensionValue​(java.lang.String dimensionName, long dimensionValue);
-
+       
         /**
          * Construct a {@link Session}.
          * @return a new instance
