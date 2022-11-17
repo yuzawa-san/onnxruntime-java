@@ -4,9 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
+import java.util.Map;
 
 /**
  * An evaluation session loaded from an ONNX file or bytes.
@@ -43,7 +45,32 @@ public interface Session extends AutoCloseable {
         Builder setByteArray(byte[] bytes);
 
         Builder setByteBuffer(ByteBuffer byteBuffer);
-        // TODO: more session options
+
+        Builder disablePerSessionThreads();
+
+        Builder enableProfiling(File filePath);
+
+        Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
+
+        Builder setLogVerbosityLevel(int level);
+
+        Builder setSessionConfigMap(Map<String, String> config);
+
+        Builder setExecutionMode(OnnxRuntimeExecutionMode mode);
+
+        Builder setInterOpNumThreads(int numThreads);
+
+        Builder setIntraOpNumThreads(int numThreads);
+
+        Builder setCpuMemoryArena(boolean useMemoryArena);
+
+        Builder setLoggerId(String loggerId);
+
+        Builder setMemoryPatternOptimization(boolean memoryPatternOptimization);
+
+        Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level);
+
+        Builder setOptimizedModelFilePath(File outputPath);
 
         /**
          * Construct a {@link Session}.

@@ -5,7 +5,8 @@
 package com.jyuzawa.onnxruntime;
 
 /**
- * The environment in which model evaluation sessions can be constructed. Only one environment should be used in your application.
+ * The environment in which model evaluation sessions can be constructed. Only
+ * one environment should be used in your application.
  */
 public interface Environment extends AutoCloseable {
 
@@ -17,28 +18,30 @@ public interface Environment extends AutoCloseable {
 
     /**
      * Change the telemetry events.
+     *
      * @param enabled true if telemetry events should be enabled.
      */
     void setTelemetryEvents(boolean enabled);
-
-    //    void setLanguageProjection(int languageProjection);
 
     // TODO: allocator
     // void createAndRegisterAllocator();
 
     /**
      * Create a new session for model evaluation.
+     *
      * @return a builder
      */
     Session.Builder newSession();
 
     /**
-     * A builder of an {@link Environment}. The default severity level is determined from the logger level of the logger of {@link Environment}.
+     * A builder of an {@link Environment}. The default severity level is determined
+     * from the logger level of the logger of {@link Environment}.
      *
      */
     public interface Builder {
         /**
          * Set the severity for logging.
+         *
          * @param level the severity
          * @return the builder
          */
@@ -46,19 +49,23 @@ public interface Environment extends AutoCloseable {
 
         /**
          * Set the logging identifier.
+         *
          * @param id the identifier
          * @return the builder
          */
         Builder setLogId(String id);
 
-        // TODO: threading options
-        // Builder setThreadingOptions(ThreadingOptions threadingOptions);
+        Builder setGlobalDenormalAsZero(boolean globalDenormalAsZero);
 
-        // TODO: custom logger
-        // Builder setCustomLogger();
+        Builder setGlobalInterOpNumThreads(int numThreads);
+
+        Builder setGlobalIntraOpNumThreads(int numThreads);
+
+        Builder setGlobalSpinControl(boolean globalSpinControl);
 
         /**
          * Constructs the {@link Environment}.
+         *
          * @return a new instance
          */
         Environment build();

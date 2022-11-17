@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import com.jyuzawa.onnxruntime.Transaction.Builder;
 import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySession;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,6 +21,10 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     final List<NodeInfo> outputs;
     private final NamedCollection<NodeInfo> allInputs;
     private final NamedCollection<NodeInfo> allOutputs;
+    private OnnxRuntimeLoggingLevel logSeverityLevel;
+    private Integer logVerbosityLevel;
+    private String runTag;
+    private Map<String, String> config;
 
     public TransactionBuilderImpl(
             ApiImpl api,
@@ -76,5 +81,52 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     @Override
     public Builder addOutput(int index) {
         return addOutput(allOutputs.get(index));
+    }
+
+    @Override
+    public Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level) {
+        this.logSeverityLevel = level;
+        return this;
+    }
+
+    @Override
+    public Builder setLogVerbosityLevel(int level) {
+        this.logVerbosityLevel = level;
+        return this;
+    }
+
+    @Override
+    public Builder setRunTag(String runTag) {
+        this.runTag = runTag;
+        return this;
+    }
+
+    @Override
+    public Builder setRunConfigMap(Map<String, String> config) {
+        this.config = config;
+        return this;
+    }
+
+    MemoryAddress newRunOptions(MemorySession scope) {
+        MemoryAddress runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
+        if (logSeverityLevel != null) {
+            api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
+        }
+        if (logVerbosityLevel != null) {
+            api.checkStatus(api.RunOptionsSetRunLogVerbosityLevel.apply(runOptions, logVerbosityLevel));
+        }
+        if (runTag != null) {
+            api.checkStatus(api.RunOptionsSetRunTag.apply(
+                    runOptions, scope.allocateUtf8String(runTag).address()));
+        }
+        if (config != null && !config.isEmpty()) {
+            for (Map.Entry<String, String> entry : config.entrySet()) {
+                api.checkStatus(api.AddRunConfigEntry.apply(
+                        runOptions,
+                        scope.allocateUtf8String(entry.getKey()).address(),
+                        scope.allocateUtf8String(entry.getValue()).address()));
+            }
+        }
+        return runOptions;
     }
 }

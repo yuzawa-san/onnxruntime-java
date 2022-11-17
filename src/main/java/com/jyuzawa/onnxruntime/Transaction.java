@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Map;
+
 /**
  * A representation of a model evaluation. Should NOT be reused.
  *
@@ -11,9 +13,12 @@ package com.jyuzawa.onnxruntime;
 public interface Transaction {
     /**
      * Run the model evaluation.
+     *
      * @return the results
      */
     NamedCollection<OnnxValue> run();
+
+    //    void cancel();
 
     /**
      * A builder of a {@link Transaction}.
@@ -28,9 +33,16 @@ public interface Transaction {
 
         Builder addOutput(int index);
 
-        // TODO: more run options
+        Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
+
+        Builder setLogVerbosityLevel(int level);
+
+        Builder setRunTag(String runTag);
+
+        Builder setRunConfigMap(Map<String, String> config);
         /**
          * Construct a {@link Transaction}.
+         *
          * @return a new instance
          */
         Transaction build();

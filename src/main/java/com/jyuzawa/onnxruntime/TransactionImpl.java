@@ -17,24 +17,30 @@ import java.util.Map;
 
 final class TransactionImpl implements Transaction {
 
-    private final ApiImpl api;
-    private final MemoryAddress session;
-    private final MemoryAddress ortAllocator;
+    //    private final Object cancelLock;
+    //    private MemoryAddress runOptions;
 
-    private final Map<String, OnnxValueImpl> inputs;
-    private final List<NodeInfo> outputs;
+    private final TransactionBuilderImpl builder;
 
     TransactionImpl(TransactionBuilderImpl builder) {
-        this.api = builder.api;
-        this.session = builder.session;
-        this.ortAllocator = builder.ortAllocator;
-        this.inputs = builder.inputs;
-        this.outputs = builder.outputs;
+        this.builder = builder;
+        //        this.cancelLock = new Object();
     }
+
+    //    @Override
+    //    public void cancel() {
+    //        synchronized (cancelLock) {
+    //            if (runOptions != null) {
+    //                ApiImpl api = builder.api;
+    //                api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
+    //            }
+    //        }
+    //    }
 
     @Override
     public NamedCollection<OnnxValue> run() {
-
+        ApiImpl api = builder.api;
+        MemoryAddress ortAllocator = builder.ortAllocator;
         try (MemorySession allocator = MemorySession.openShared()) {
             MemoryAddress memoryInfo = api.create(
                     allocator, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
@@ -42,6 +48,7 @@ final class TransactionImpl implements Transaction {
                 api.ReleaseMemoryInfo.apply(memoryInfo);
             });
 
+            Map<String, OnnxValueImpl> inputs = builder.inputs;
             int numInputs = inputs.size();
             MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
             MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
@@ -54,6 +61,7 @@ final class TransactionImpl implements Transaction {
                 idx++;
             }
 
+            List<NodeInfo> outputs = builder.outputs;
             int numOutputs = outputs.size();
             MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
             for (int i = 0; i < numOutputs; i++) {
@@ -63,16 +71,26 @@ final class TransactionImpl implements Transaction {
             }
 
             MemorySegment output = allocator.allocate(C_POINTER);
-            api.checkStatus(api.Run.apply(
-                    session,
-                    MemoryAddress.NULL,
-                    inputNames.address(),
-                    inputValues.address(),
-                    numInputs,
-                    outputNames.address(),
-                    numOutputs,
-                    output.address()));
-
+            MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
+            //            synchronized (cancelLock) {
+            //                this.runOptions = runOptionsAddress;
+            //            }
+            try {
+                api.checkStatus(api.Run.apply(
+                        builder.session,
+                        runOptionsAddress,
+                        inputNames.address(),
+                        inputValues.address(),
+                        numInputs,
+                        outputNames.address(),
+                        numOutputs,
+                        output.address()));
+            } finally {
+                //                synchronized (cancelLock) {
+                api.ReleaseRunOptions.apply(runOptionsAddress);
+                //                    runOptions = null;
+                //                }
+            }
             LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
                 MemoryAddress outputAddress = output.getAtIndex(C_POINTER, i);
