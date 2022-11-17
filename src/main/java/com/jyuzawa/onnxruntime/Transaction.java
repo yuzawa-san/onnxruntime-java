@@ -18,7 +18,7 @@ public interface Transaction {
      */
     NamedCollection<OnnxValue> run();
 
-    void cancel();
+    //    void cancel();
 
     /**
      * A builder of a {@link Transaction}.

@@ -17,25 +17,25 @@ import java.util.Map;
 
 final class TransactionImpl implements Transaction {
 
-    private final Object cancelLock;
-    private MemoryAddress runOptions;
+    //    private final Object cancelLock;
+    //    private MemoryAddress runOptions;
 
     private final TransactionBuilderImpl builder;
 
     TransactionImpl(TransactionBuilderImpl builder) {
         this.builder = builder;
-        this.cancelLock = new Object();
+        //        this.cancelLock = new Object();
     }
 
-    @Override
-    public void cancel() {
-        synchronized (cancelLock) {
-            if (runOptions != null) {
-                ApiImpl api = builder.api;
-                api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
-            }
-        }
-    }
+    //    @Override
+    //    public void cancel() {
+    //        synchronized (cancelLock) {
+    //            if (runOptions != null) {
+    //                ApiImpl api = builder.api;
+    //                api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
+    //            }
+    //        }
+    //    }
 
     @Override
     public NamedCollection<OnnxValue> run() {
@@ -72,9 +72,9 @@ final class TransactionImpl implements Transaction {
 
             MemorySegment output = allocator.allocate(C_POINTER);
             MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
-            synchronized (cancelLock) {
-                this.runOptions = runOptionsAddress;
-            }
+            //            synchronized (cancelLock) {
+            //                this.runOptions = runOptionsAddress;
+            //            }
             try {
                 api.checkStatus(api.Run.apply(
                         builder.session,
@@ -86,10 +86,10 @@ final class TransactionImpl implements Transaction {
                         numOutputs,
                         output.address()));
             } finally {
-                synchronized (cancelLock) {
-                    api.ReleaseRunOptions.apply(runOptions);
-                    runOptions = null;
-                }
+                //                synchronized (cancelLock) {
+                api.ReleaseRunOptions.apply(runOptionsAddress);
+                //                    runOptions = null;
+                //                }
             }
             LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
