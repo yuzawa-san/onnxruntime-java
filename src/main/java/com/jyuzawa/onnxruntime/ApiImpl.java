@@ -8,12 +8,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
-import java.util.function.Function;
-
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AddRunConfigEntry;
 import com.jyuzawa.onnxruntime_extern.OrtApi.AddSessionConfigEntry;
@@ -103,12 +97,17 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionGraphOptimizationLevel;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogId;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogSeverityLevel;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogVerbosityLevel;
+import java.lang.foreign.Addressable;
+import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
+import java.util.function.Function;
 
 final class ApiImpl implements Api {
 
-	final AddRunConfigEntry AddRunConfigEntry;
-	final AddSessionConfigEntry AddSessionConfigEntry;
-	final AllocatorFree AllocatorFree;
+    final AddRunConfigEntry AddRunConfigEntry;
+    final AddSessionConfigEntry AddSessionConfigEntry;
+    final AllocatorFree AllocatorFree;
     final CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo;
     final CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo;
     final CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo;
@@ -205,7 +204,8 @@ final class ApiImpl implements Api {
         this.CastTypeInfoToTensorInfo = OrtApi.CastTypeInfoToTensorInfo(segment, scope);
         this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(segment, scope);
         this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(segment, scope);
-        this.CreateEnvWithCustomLoggerAndGlobalThreadPools = OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(segment,scope);
+        this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
+                OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(segment, scope);
         this.CreateRunOptions = OrtApi.CreateRunOptions(segment, scope);
         this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(segment, scope);
         this.CreateSessionOptions = OrtApi.CreateSessionOptions(segment, scope);
@@ -255,7 +255,7 @@ final class ApiImpl implements Api {
         this.ReleaseSession = OrtApi.ReleaseSession(segment, scope);
         this.ReleaseSessionOptions = OrtApi.ReleaseSessionOptions(segment, scope);
         this.ReleaseStatus = OrtApi.ReleaseStatus(segment, scope);
-        this.ReleaseThreadingOptions = OrtApi.ReleaseThreadingOptions(segment,scope);
+        this.ReleaseThreadingOptions = OrtApi.ReleaseThreadingOptions(segment, scope);
         this.ReleaseTypeInfo = OrtApi.ReleaseTypeInfo(segment, scope);
         this.ReleaseValue = OrtApi.ReleaseValue(segment, scope);
         this.Run = OrtApi.Run(segment, scope);
@@ -263,7 +263,7 @@ final class ApiImpl implements Api {
         this.RunOptionsSetRunLogVerbosityLevel = OrtApi.RunOptionsSetRunLogVerbosityLevel(segment, scope);
         this.RunOptionsSetRunTag = OrtApi.RunOptionsSetRunTag(segment, scope);
         this.RunOptionsSetTerminate = OrtApi.RunOptionsSetTerminate(segment, scope);
-        this.SetGlobalDenormalAsZero= OrtApi.SetGlobalDenormalAsZero(segment, scope);
+        this.SetGlobalDenormalAsZero = OrtApi.SetGlobalDenormalAsZero(segment, scope);
         this.SetGlobalIntraOpNumThreads = OrtApi.SetGlobalIntraOpNumThreads(segment, scope);
         this.SetGlobalInterOpNumThreads = OrtApi.SetGlobalInterOpNumThreads(segment, scope);
         this.SetGlobalSpinControl = OrtApi.SetGlobalSpinControl(segment, scope);

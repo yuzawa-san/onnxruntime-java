@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 
+import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -18,8 +19,6 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.util.Map;
 
-import com.jyuzawa.onnxruntime.Session.Builder;
-
 final class SessionBuilderImpl implements Session.Builder {
 
     private final ApiImpl api;
@@ -28,17 +27,17 @@ final class SessionBuilderImpl implements Session.Builder {
     private byte[] bytes;
     private ByteBuffer buffer;
     private OnnxRuntimeLoggingLevel logSeverityLevel;
-  	private Integer logVerbosityLevel;
-  	private String loggerId;
-  	private Boolean memoryPatternOptimization;
-  	private Map<String, String> config;
-  	private Integer interOpNumThreads;
-  	private Integer intraOpNumThreads;
-  	private File optimizedFilePath;
-  	private File profilingOutput;
-  	private boolean disablePerSessionThreads;
-  	private OnnxRuntimeExecutionMode executionMode;
-  	private OnnxRuntimeOptimizationLevel optimizationLevel;
+    private Integer logVerbosityLevel;
+    private String loggerId;
+    private Boolean memoryPatternOptimization;
+    private Map<String, String> config;
+    private Integer interOpNumThreads;
+    private Integer intraOpNumThreads;
+    private File optimizedFilePath;
+    private File profilingOutput;
+    private boolean disablePerSessionThreads;
+    private OnnxRuntimeExecutionMode executionMode;
+    private OnnxRuntimeOptimizationLevel optimizationLevel;
 
     SessionBuilderImpl(ApiImpl api, MemoryAddress environment) {
         this.api = api;
@@ -62,134 +61,139 @@ final class SessionBuilderImpl implements Session.Builder {
         this.buffer = buffer;
         return this;
     }
-    
 
-	@Override
-	public Session.Builder enableProfiling​(File filePath) {
-		this.profilingOutput = filePath;
-		return this;
-	}
+    @Override
+    public Session.Builder enableProfiling(File filePath) {
+        this.profilingOutput = filePath;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setOptimizedModelFilePath​(File outputPath) {
-		this.optimizedFilePath = outputPath;
-		return this;
-	}
+    @Override
+    public Session.Builder setOptimizedModelFilePath(File outputPath) {
+        this.optimizedFilePath = outputPath;
+        return this;
+    }
 
-	@Override
-	public Session.Builder disablePerSessionThreads() {
-		this.disablePerSessionThreads = true;
-		return this;
-	}
+    @Override
+    public Session.Builder disablePerSessionThreads() {
+        this.disablePerSessionThreads = true;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setExecutionMode​(OnnxRuntimeExecutionMode mode) {
-		this.executionMode = mode;
-		return this;
-	}
+    @Override
+    public Session.Builder setExecutionMode(OnnxRuntimeExecutionMode mode) {
+        this.executionMode = mode;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setOptimizationLevel​(OnnxRuntimeOptimizationLevel level) {
-		this.optimizationLevel = level;
-		return this;
-	}
+    @Override
+    public Session.Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level) {
+        this.optimizationLevel = level;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setLogSeverityLevel​(OnnxRuntimeLoggingLevel level) {
-		this.logSeverityLevel = level;
-		return this;
-	}
+    @Override
+    public Session.Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level) {
+        this.logSeverityLevel = level;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setLogVerbosityLevel​(int level) {
-		this.logVerbosityLevel = level;
-		return this;
-	}
+    @Override
+    public Session.Builder setLogVerbosityLevel(int level) {
+        this.logVerbosityLevel = level;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setLoggerId​(String loggerId) {
-		this.loggerId = loggerId;
-		return this;
-	}
+    @Override
+    public Session.Builder setLoggerId(String loggerId) {
+        this.loggerId = loggerId;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setMemoryPatternOptimization​(boolean memoryPatternOptimization) {
-		this.memoryPatternOptimization = memoryPatternOptimization;
-		return this;
-	}
+    @Override
+    public Session.Builder setMemoryPatternOptimization(boolean memoryPatternOptimization) {
+        this.memoryPatternOptimization = memoryPatternOptimization;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setSessionConfigMap(Map<String, String> config) {
-		this.config = config;
-		return this;
-	}
+    @Override
+    public Session.Builder setSessionConfigMap(Map<String, String> config) {
+        this.config = config;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setInterOpNumThreads​(int numThreads) {
-		this.interOpNumThreads = numThreads;
-		return this;
-	}
+    @Override
+    public Session.Builder setInterOpNumThreads(int numThreads) {
+        this.interOpNumThreads = numThreads;
+        return this;
+    }
 
-	@Override
-	public Session.Builder setIntraOpNumThreads​(int numThreads) {
-		this.intraOpNumThreads = numThreads;
-		return this;
-	}
+    @Override
+    public Session.Builder setIntraOpNumThreads(int numThreads) {
+        this.intraOpNumThreads = numThreads;
+        return this;
+    }
 
-	private MemoryAddress newSessionOptions(MemorySession allocator) {
-		MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
+    private MemoryAddress newSessionOptions(MemorySession allocator) {
+        MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
 
-		if (logSeverityLevel != null) {
-			api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
-		}
-		if (logVerbosityLevel != null) {
-			api.checkStatus(api.SetSessionLogVerbosityLevel.apply(sessionOptions, logVerbosityLevel));
-		}
-		if (loggerId != null) {
-			api.checkStatus(
-					api.SetSessionLogId.apply(sessionOptions, allocator.allocateUtf8String(loggerId).address()));
-		}
-		if (memoryPatternOptimization != null) {
-			if (memoryPatternOptimization) {
-				api.checkStatus(api.EnableMemPattern.apply(sessionOptions));
-			} else {
-				api.checkStatus(api.DisableMemPattern.apply(sessionOptions));
-			}
-		}
-		if (interOpNumThreads != null) {
-			api.checkStatus(api.SetInterOpNumThreads.apply(sessionOptions, interOpNumThreads));
-		}
-		if (intraOpNumThreads != null) {
-			api.checkStatus(api.SetIntraOpNumThreads.apply(sessionOptions, intraOpNumThreads));
-		}
-		if (disablePerSessionThreads) {
-			api.checkStatus(api.DisablePerSessionThreads.apply(sessionOptions));
-		}
-		if (executionMode != null) {
-			api.checkStatus(api.SetSessionExecutionMode.apply(sessionOptions, executionMode.getNumber()));
-		}
-		if (optimizationLevel != null) {
-			api.checkStatus(api.SetSessionGraphOptimizationLevel.apply(sessionOptions, optimizationLevel.getNumber()));
-		}
-		if (optimizedFilePath != null) {
-			api.checkStatus(api.SetOptimizedModelFilePath.apply(sessionOptions,
-					allocator.allocateUtf8String(optimizedFilePath.getAbsolutePath()).address()));
-		}
-		if (profilingOutput != null) {
-			api.checkStatus(api.EnableProfiling.apply(sessionOptions,
-					allocator.allocateUtf8String(optimizedFilePath.getAbsolutePath()).address()));
-		}
-		if (config != null && !config.isEmpty()) {
-			for (Map.Entry<String, String> entry : config.entrySet()) {
-				api.checkStatus(api.AddSessionConfigEntry.apply(sessionOptions,
-						allocator.allocateUtf8String(entry.getKey()).address(),
-						allocator.allocateUtf8String(entry.getValue()).address()));
-			}
-		}
+        if (logSeverityLevel != null) {
+            api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
+        }
+        if (logVerbosityLevel != null) {
+            api.checkStatus(api.SetSessionLogVerbosityLevel.apply(sessionOptions, logVerbosityLevel));
+        }
+        if (loggerId != null) {
+            api.checkStatus(api.SetSessionLogId.apply(
+                    sessionOptions, allocator.allocateUtf8String(loggerId).address()));
+        }
+        if (memoryPatternOptimization != null) {
+            if (memoryPatternOptimization) {
+                api.checkStatus(api.EnableMemPattern.apply(sessionOptions));
+            } else {
+                api.checkStatus(api.DisableMemPattern.apply(sessionOptions));
+            }
+        }
+        if (interOpNumThreads != null) {
+            api.checkStatus(api.SetInterOpNumThreads.apply(sessionOptions, interOpNumThreads));
+        }
+        if (intraOpNumThreads != null) {
+            api.checkStatus(api.SetIntraOpNumThreads.apply(sessionOptions, intraOpNumThreads));
+        }
+        if (disablePerSessionThreads) {
+            api.checkStatus(api.DisablePerSessionThreads.apply(sessionOptions));
+        }
+        if (executionMode != null) {
+            api.checkStatus(api.SetSessionExecutionMode.apply(sessionOptions, executionMode.getNumber()));
+        }
+        if (optimizationLevel != null) {
+            api.checkStatus(api.SetSessionGraphOptimizationLevel.apply(sessionOptions, optimizationLevel.getNumber()));
+        }
+        if (optimizedFilePath != null) {
+            api.checkStatus(api.SetOptimizedModelFilePath.apply(
+                    sessionOptions,
+                    allocator
+                            .allocateUtf8String(optimizedFilePath.getAbsolutePath())
+                            .address()));
+        }
+        if (profilingOutput != null) {
+            api.checkStatus(api.EnableProfiling.apply(
+                    sessionOptions,
+                    allocator
+                            .allocateUtf8String(optimizedFilePath.getAbsolutePath())
+                            .address()));
+        }
+        if (config != null && !config.isEmpty()) {
+            for (Map.Entry<String, String> entry : config.entrySet()) {
+                api.checkStatus(api.AddSessionConfigEntry.apply(
+                        sessionOptions,
+                        allocator.allocateUtf8String(entry.getKey()).address(),
+                        allocator.allocateUtf8String(entry.getValue()).address()));
+            }
+        }
 
-		return sessionOptions;
-	}
-
+        return sessionOptions;
+    }
 
     @Override
     public Session build() throws IOException {

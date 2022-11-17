@@ -11,40 +11,40 @@ import java.util.Map;
  *
  */
 public interface Transaction {
-	/**
-	 * Run the model evaluation.
-	 * 
-	 * @return the results
-	 */
-	NamedCollection<OnnxValue> run();
+    /**
+     * Run the model evaluation.
+     *
+     * @return the results
+     */
+    NamedCollection<OnnxValue> run();
 
-	void cancel();
+    void cancel();
 
-	/**
-	 * A builder of a {@link Transaction}.
-	 *
-	 */
-	public interface Builder {
-		OnnxValue addInput(String name);
+    /**
+     * A builder of a {@link Transaction}.
+     *
+     */
+    public interface Builder {
+        OnnxValue addInput(String name);
 
-		OnnxValue addInput(int index);
+        OnnxValue addInput(int index);
 
-		Builder addOutput(String name);
+        Builder addOutput(String name);
 
-		Builder addOutput(int index);
+        Builder addOutput(int index);
 
-Builder setLogSeverityLevel​(OnnxRuntimeLoggingLevel level);
-        
-        Builder setLogVerbosityLevel​(int level);
-        
-        Builder setRunTag​(String runTag);
-        
-        Builder setRunConfigMap(Map<String,String> config);
-		/**
-		 * Construct a {@link Transaction}.
-		 * 
-		 * @return a new instance
-		 */
-		Transaction build();
-	}
+        Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
+
+        Builder setLogVerbosityLevel(int level);
+
+        Builder setRunTag(String runTag);
+
+        Builder setRunConfigMap(Map<String, String> config);
+        /**
+         * Construct a {@link Transaction}.
+         *
+         * @return a new instance
+         */
+        Transaction build();
+    }
 }

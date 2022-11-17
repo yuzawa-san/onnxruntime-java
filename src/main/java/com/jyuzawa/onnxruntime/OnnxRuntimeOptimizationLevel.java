@@ -10,7 +10,6 @@ public enum OnnxRuntimeOptimizationLevel {
     ENABLE_EXTENDED(2),
     ENABLE_ALL(99);
 
-
     private final int number;
 
     private OnnxRuntimeOptimizationLevel(int number) {

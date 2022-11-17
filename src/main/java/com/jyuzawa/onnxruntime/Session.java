@@ -28,7 +28,7 @@ public interface Session extends AutoCloseable {
     NamedCollection<NodeInfo> getOutputs();
 
     NamedCollection<NodeInfo> getOverridableInitializers();
-    
+
     /**
      * Create a new transaction.
      * @return a builder
@@ -45,31 +45,31 @@ public interface Session extends AutoCloseable {
         Builder setByteArray(byte[] bytes);
 
         Builder setByteBuffer(ByteBuffer byteBuffer);
-       
+
         Builder disablePerSessionThreads();
 
-		Builder enableProfiling​(File filePath);
+        Builder enableProfiling(File filePath);
 
-		Builder setLogSeverityLevel​(OnnxRuntimeLoggingLevel level);
+        Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
 
-		Builder setLogVerbosityLevel​(int level);
+        Builder setLogVerbosityLevel(int level);
 
-		Builder setSessionConfigMap(Map<String, String> config);
+        Builder setSessionConfigMap(Map<String, String> config);
 
-		Builder setExecutionMode​(OnnxRuntimeExecutionMode mode);
+        Builder setExecutionMode(OnnxRuntimeExecutionMode mode);
 
-		Builder setInterOpNumThreads​(int numThreads);
+        Builder setInterOpNumThreads(int numThreads);
 
-		Builder setIntraOpNumThreads​(int numThreads);
+        Builder setIntraOpNumThreads(int numThreads);
 
-		Builder setLoggerId​(String loggerId);
+        Builder setLoggerId(String loggerId);
 
-		Builder setMemoryPatternOptimization​(boolean memoryPatternOptimization);
+        Builder setMemoryPatternOptimization(boolean memoryPatternOptimization);
 
-		Builder setOptimizationLevel​(OnnxRuntimeOptimizationLevel level);
+        Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level);
 
-		Builder setOptimizedModelFilePath​(File outputPath);
-        
+        Builder setOptimizedModelFilePath(File outputPath);
+
         /**
          * Construct a {@link Session}.
          * @return a new instance

@@ -1,9 +1,12 @@
+/*
+ * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * SPDX-License-Identifier: MIT
+ */
 package com.jyuzawa.onnxruntime;
 
 public enum OnnxRuntimeExecutionMode {
-	SEQUENTIAL(0),
+    SEQUENTIAL(0),
     PARALLEL(1);
-
 
     private final int number;
 
