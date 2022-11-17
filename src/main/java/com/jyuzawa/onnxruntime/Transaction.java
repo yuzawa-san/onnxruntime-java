@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Map;
+
 /**
  * A representation of a model evaluation. Should NOT be reused.
  *
@@ -31,8 +33,13 @@ public interface Transaction {
 
 		Builder addOutput(int index);
 
-		RunOptions.Builder getRunOptionsBuilder();
-
+Builder setLogSeverityLevel​(OnnxRuntimeLoggingLevel level);
+        
+        Builder setLogVerbosityLevel​(int level);
+        
+        Builder setRunTag​(String runTag);
+        
+        Builder setRunConfigMap(Map<String,String> config);
 		/**
 		 * Construct a {@link Transaction}.
 		 * 

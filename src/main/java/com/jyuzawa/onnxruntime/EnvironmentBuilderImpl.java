@@ -13,7 +13,11 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
     private final ApiImpl api;
     private OnnxRuntimeLoggingLevel severityLevel;
     private String logId;
-    private ThreadingOptionsBuilderImpl threadingOptions;
+    private boolean useThreadingOptions;
+    private Boolean globalDenormalAsZero;
+	private Integer globalInterOpNumThreads;
+	private Integer globalIntraOpNumThreads;
+	private Boolean globalSpinControl;
 
     EnvironmentBuilderImpl(ApiImpl api) {
         this.api = api;
@@ -33,13 +37,51 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
         return this;
     }
     
-    @Override
-	public ThreadingOptions.Builder getThreadingOptionsBuilder(){
-    	if(threadingOptions == null) {
-    		threadingOptions = new ThreadingOptionsBuilderImpl();
+
+	@Override
+	public Environment.Builder setGlobalDenormalAsZero(boolean globalDenormalAsZero){
+		this.useThreadingOptions = true;
+		this.globalDenormalAsZero = globalDenormalAsZero;
+		return this;
+	}
+	
+	@Override
+	public Environment.Builder setGlobalInterOpNumThreads​(int numThreads){
+		this.useThreadingOptions = true;
+		this.globalInterOpNumThreads = numThreads;
+		return this;
+	}
+       
+	@Override
+	public Environment.Builder setGlobalIntraOpNumThreads​(int numThreads){
+		this.useThreadingOptions = true;
+		this.globalIntraOpNumThreads = numThreads;
+		return this;
+	}
+       
+	@Override
+	public Environment.Builder setGlobalSpinControl​(boolean globalSpinControl){
+		this.useThreadingOptions = true;
+		this.globalSpinControl = globalSpinControl;
+		return this;
+	}
+	
+	private MemoryAddress newThreadingOptions(MemorySession scope) {
+		MemoryAddress threadingOptions = api.create(scope, out-> api.CreateThreadingOptions.apply(out));
+    	if(globalDenormalAsZero != null && globalSpinControl) {
+    	api.checkStatus(api.SetGlobalDenormalAsZero.apply(threadingOptions));
+    	}
+    	if(globalSpinControl != null) {
+    	api.checkStatus(api.SetGlobalSpinControl.apply(threadingOptions, globalSpinControl ? 1:0));
+    	}
+    	if(globalInterOpNumThreads!= null) {
+    	api.checkStatus(api.SetGlobalInterOpNumThreads.apply(threadingOptions, globalInterOpNumThreads));
+    	}
+    	if(globalIntraOpNumThreads!= null) {
+    	api.checkStatus(api.SetGlobalIntraOpNumThreads.apply(threadingOptions, globalIntraOpNumThreads));
     	}
     	return threadingOptions;
-    }
+	}
     
 
     @Override
@@ -47,8 +89,8 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
         MemorySession scope = MemorySession.openShared();
         MemorySegment logName = scope.allocateUtf8String(logId);
         MemoryAddress env;
-        if(threadingOptions!= null) {
-        	MemoryAddress threadingOptionsAddress = threadingOptions.build(api, scope);
+        if(useThreadingOptions) {
+        	MemoryAddress threadingOptionsAddress = newThreadingOptions(scope);
         	env = api.create(
                     scope,
                     out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
