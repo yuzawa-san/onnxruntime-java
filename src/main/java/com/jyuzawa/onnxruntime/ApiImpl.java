@@ -91,6 +91,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalIntraOpNumThreads;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalSpinControl;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetInterOpNumThreads;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetIntraOpNumThreads;
+import com.jyuzawa.onnxruntime_extern.OrtApi.SetLanguageProjection;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetOptimizedModelFilePath;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionExecutionMode;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionGraphOptimizationLevel;
@@ -177,6 +178,7 @@ final class ApiImpl implements Api {
     final SetGlobalSpinControl SetGlobalSpinControl;
     final SetInterOpNumThreads SetInterOpNumThreads;
     final SetIntraOpNumThreads SetIntraOpNumThreads;
+    final SetLanguageProjection SetLanguageProjection;
     final SetOptimizedModelFilePath SetOptimizedModelFilePath;
     final SetSessionExecutionMode SetSessionExecutionMode;
     final SetSessionGraphOptimizationLevel SetSessionGraphOptimizationLevel;
@@ -269,6 +271,7 @@ final class ApiImpl implements Api {
         this.SetGlobalSpinControl = OrtApi.SetGlobalSpinControl(segment, scope);
         this.SetInterOpNumThreads = OrtApi.SetInterOpNumThreads(segment, scope);
         this.SetIntraOpNumThreads = OrtApi.SetIntraOpNumThreads(segment, scope);
+        this.SetLanguageProjection = OrtApi.SetLanguageProjection(segment, scope);
         this.SetOptimizedModelFilePath = OrtApi.SetOptimizedModelFilePath(segment, scope);
         this.SetSessionExecutionMode = OrtApi.SetSessionExecutionMode(segment, scope);
         this.SetSessionGraphOptimizationLevel = OrtApi.SetSessionGraphOptimizationLevel(segment, scope);

@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JAVA;
+
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
@@ -109,6 +111,7 @@ final class EnvironmentBuilderImpl implements Environment.Builder {
                             logName.address(),
                             out));
         }
+        api.checkStatus(api.SetLanguageProjection.apply(env, ORT_PROJECTION_JAVA()));
         scope.addCloseAction(() -> {
             api.ReleaseEnv.apply(env);
         });

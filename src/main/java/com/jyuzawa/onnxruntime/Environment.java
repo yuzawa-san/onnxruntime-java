@@ -23,8 +23,6 @@ public interface Environment extends AutoCloseable {
      */
     void setTelemetryEvents(boolean enabled);
 
-    // void setLanguageProjection(int languageProjection);
-
     // TODO: allocator
     // void createAndRegisterAllocator();
 
