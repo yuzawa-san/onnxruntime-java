@@ -30,6 +30,7 @@ final class SessionBuilderImpl implements Session.Builder {
     private Integer logVerbosityLevel;
     private String loggerId;
     private Boolean memoryPatternOptimization;
+    private Boolean cpuArena;
     private Map<String, String> config;
     private Integer interOpNumThreads;
     private Integer intraOpNumThreads;
@@ -134,6 +135,12 @@ final class SessionBuilderImpl implements Session.Builder {
         return this;
     }
 
+    @Override
+    public Session.Builder setCpuMemoryArena(boolean useMemoryArena) {
+        this.cpuArena = useMemoryArena;
+        return this;
+    }
+
     private MemoryAddress newSessionOptions(MemorySession allocator) {
         MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
 
@@ -152,6 +159,13 @@ final class SessionBuilderImpl implements Session.Builder {
                 api.checkStatus(api.EnableMemPattern.apply(sessionOptions));
             } else {
                 api.checkStatus(api.DisableMemPattern.apply(sessionOptions));
+            }
+        }
+        if (cpuArena != null) {
+            if (cpuArena) {
+                api.checkStatus(api.EnableCpuMemArena.apply(sessionOptions));
+            } else {
+                api.checkStatus(api.DisableCpuMemArena.apply(sessionOptions));
             }
         }
         if (interOpNumThreads != null) {

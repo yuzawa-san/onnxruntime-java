@@ -62,6 +62,8 @@ public interface Session extends AutoCloseable {
 
         Builder setIntraOpNumThreads(int numThreads);
 
+        Builder setCpuMemoryArena(boolean useMemoryArena);
+
         Builder setLoggerId(String loggerId);
 
         Builder setMemoryPatternOptimization(boolean memoryPatternOptimization);
