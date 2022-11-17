@@ -36,7 +36,7 @@ public class ConcurrencyTest {
         OnnxRuntime apiBase = OnnxRuntime.get();
         Api api = apiBase.getApi();
         environment = api.newEnvironment()
-                .setLogSeverityLevel(OnnxRuntimeLoggingLevel.INFO)
+                .setLogSeverityLevel(OnnxRuntimeLoggingLevel.WARNING)
                 .setGlobalDenormalAsZero(false)
                 .setGlobalInterOpNumThreads(0)
                 .setGlobalIntraOpNumThreads(0)
