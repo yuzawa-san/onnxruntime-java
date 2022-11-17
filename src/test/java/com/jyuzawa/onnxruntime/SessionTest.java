@@ -13,6 +13,8 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -729,6 +731,107 @@ public class SessionTest {
             float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
             System.out.println(output.get(0));
+        }
+    }
+
+    @Test
+    public void directByteBufferLoadTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+
+        ByteBuffer source = identityModel(type);
+        ByteBuffer direct = ByteBuffer.allocateDirect(source.remaining());
+        direct.put(source).flip();
+        try (Session session = environment.newSession().setByteBuffer(direct).build()) {
+            assertEquals(1, session.getInputs().size());
+        }
+    }
+
+    @Test
+    public void byteLoadTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+
+        ByteBuffer source = identityModel(type);
+        byte[] bytes = new byte[source.remaining()];
+        source.get(bytes);
+        try (Session session = environment.newSession().setByteArray(bytes).build()) {
+            assertEquals(1, session.getInputs().size());
+        }
+    }
+
+    @Test
+    public void fileLoadTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        ByteBuffer source = identityModel(type);
+        byte[] bytes = new byte[source.remaining()];
+        source.get(bytes);
+        Path f = Files.createTempFile("ort", ".onnx");
+        try {
+            Files.write(f, bytes);
+            try (Session session = environment.newSession().setPath(f).build()) {
+                assertEquals(1, session.getInputs().size());
+            }
+        } catch (Exception e) {
+            f.toFile().delete();
+        }
+    }
+
+    @Test
+    public void emptyLoadTest() throws IOException {
+        assertThrows(OnnxRuntimeException.class, () -> {
+            environment.newSession().setByteArray(new byte[0]).build();
+        });
+    }
+
+    @Test
+    public void missingLoadTest() throws IOException {
+        assertThrows(IllegalArgumentException.class, () -> {
+            environment.newSession().build();
+        });
+    }
+
+    @Test
+    public void sessionOptionsTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+
+        ByteBuffer source = identityModel(type);
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(source)
+                .setExecutionMode(OnnxRuntimeExecutionMode.SEQUENTIAL)
+                .setInterOpNumThreads(0)
+                .setIntraOpNumThreads(0)
+                .setLoggerId("LOGGER")
+                .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
+                .setLogVerbosityLevel(0)
+                .setMemoryPatternOptimization(true)
+                .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_ALL)
+                .setSessionConfigMap(Map.of("foo", "bar", "baz", "boom"))
+                .build()) {
+            assertEquals(1, session.getInputs().size());
         }
     }
 }
