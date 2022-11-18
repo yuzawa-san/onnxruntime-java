@@ -24,8 +24,10 @@ final class ModelMetadataImpl implements ModelMetadata {
     private final long version;
     private final Map<String, String> customMetadata;
 
-    ModelMetadataImpl(ApiImpl api, MemoryAddress metadata, MemoryAddress ortAllocator) {
+    ModelMetadataImpl(ApiImpl api, MemoryAddress session, MemoryAddress ortAllocator) {
         try (MemorySession allocator = MemorySession.openConfined()) {
+            MemoryAddress metadata = api.create(allocator, out -> api.SessionGetModelMetadata.apply(session, out));
+            allocator.addCloseAction(() -> api.ReleaseModelMetadata.apply(metadata));
             {
                 MemoryAddress pointer = api.create(
                         allocator, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));

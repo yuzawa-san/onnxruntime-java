@@ -5,76 +5,74 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
 
+import com.jyuzawa.onnxruntime.TransactionBuilderImpl.InputTuple;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 final class TransactionImpl implements Transaction {
-
-    //    private final Object cancelLock;
-    //    private MemoryAddress runOptions;
+    // private final Object cancelLock;
+    // private MemoryAddress runOptions;
 
     private final TransactionBuilderImpl builder;
 
     TransactionImpl(TransactionBuilderImpl builder) {
         this.builder = builder;
-        //        this.cancelLock = new Object();
+        // this.cancelLock = new Object();
     }
 
-    //    @Override
-    //    public void cancel() {
-    //        synchronized (cancelLock) {
-    //            if (runOptions != null) {
-    //                ApiImpl api = builder.api;
-    //                api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
-    //            }
-    //        }
-    //    }
+    // @Override
+    // public void cancel() {
+    // synchronized (cancelLock) {
+    // if (runOptions != null) {
+    // ApiImpl api = builder.api;
+    // api.checkStatus(api.RunOptionsSetTerminate.apply(runOptions));
+    // }
+    // }
+    // }
 
     @Override
     public NamedCollection<OnnxValue> run() {
         ApiImpl api = builder.api;
         MemoryAddress ortAllocator = builder.ortAllocator;
-        try (MemorySession allocator = MemorySession.openShared()) {
-            MemoryAddress memoryInfo = api.create(
-                    allocator, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            allocator.addCloseAction(() -> {
-                api.ReleaseMemoryInfo.apply(memoryInfo);
-            });
-
-            Map<String, OnnxValueImpl> inputs = builder.inputs;
+        try (MemorySession allocator = MemorySession.openConfined()) {
+            List<InputTuple> inputs = builder.inputs;
             int numInputs = inputs.size();
-            MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
-            MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
-            int idx = 0;
-            for (Map.Entry<String, OnnxValueImpl> entry : inputs.entrySet()) {
-                MemorySegment input1 = allocator.allocateUtf8String(entry.getKey());
-                inputNames.setAtIndex(C_POINTER, idx, input1);
-                MemoryAddress valueAddress = entry.getValue().toNative(api, ortAllocator, memoryInfo, allocator);
-                inputValues.setAtIndex(C_POINTER, idx, valueAddress);
-                idx++;
-            }
-
-            List<NodeInfo> outputs = builder.outputs;
+            List<NodeInfoImpl> outputs = builder.outputs;
             int numOutputs = outputs.size();
-            MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
+            long sizeOfPointer = C_POINTER.byteSize();
+            MemorySegment segment = allocator.allocateArray(C_POINTER, numInputs * 2 + numOutputs * 2 + 1);
+            long inputsBytes = numInputs * sizeOfPointer;
+            long offset = 0;
+            MemorySegment inputNames = segment.asSlice(offset, inputsBytes);
+            offset += inputsBytes;
+            MemorySegment inputValues = segment.asSlice(offset, inputsBytes);
+            offset += inputsBytes;
+            long outputsBytes = numOutputs * sizeOfPointer;
+            MemorySegment outputNames = segment.asSlice(offset, outputsBytes);
+            offset += outputsBytes;
+            MemorySegment outputValues = segment.asSlice(offset, outputsBytes);
+            offset += outputsBytes;
+            MemorySegment runOptionsSegment = segment.asSlice(offset, sizeOfPointer);
             for (int i = 0; i < numOutputs; i++) {
-                MemorySegment input1 =
-                        allocator.allocateUtf8String(outputs.get(i).getName());
-                outputNames.setAtIndex(C_POINTER, i, input1);
+                InputTuple inputTuple = inputs.get(i);
+                inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
+                MemoryAddress valueAddress =
+                        inputTuple.value().toNative(api, ortAllocator, builder.memoryInfo, allocator);
+                inputValues.setAtIndex(C_POINTER, i, valueAddress);
             }
 
-            MemorySegment output = allocator.allocate(C_POINTER);
-            MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
-            //            synchronized (cancelLock) {
-            //                this.runOptions = runOptionsAddress;
-            //            }
+            for (int i = 0; i < numOutputs; i++) {
+                outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
+            }
+
+            MemoryAddress runOptionsAddress = builder.newRunOptions(allocator, runOptionsSegment);
+            // synchronized (cancelLock) {
+            // this.runOptions = runOptionsAddress;
+            // }
             try {
                 api.checkStatus(api.Run.apply(
                         builder.session,
@@ -84,18 +82,18 @@ final class TransactionImpl implements Transaction {
                         numInputs,
                         outputNames.address(),
                         numOutputs,
-                        output.address()));
+                        outputValues.address()));
             } finally {
-                //                synchronized (cancelLock) {
+                // synchronized (cancelLock) {
                 api.ReleaseRunOptions.apply(runOptionsAddress);
-                //                    runOptions = null;
-                //                }
+                // runOptions = null;
+                // }
             }
             LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
-                MemoryAddress outputAddress = output.getAtIndex(C_POINTER, i);
+                MemoryAddress outputAddress = outputValues.getAtIndex(C_POINTER, i);
                 // TODO: get typeinfo from result
-                NodeInfo nodeInfo = outputs.get(i);
+                NodeInfoImpl nodeInfo = outputs.get(i);
                 OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
                 outputValue.fromNative(api, ortAllocator, outputAddress, allocator);
                 out.put(nodeInfo.getName(), outputValue);

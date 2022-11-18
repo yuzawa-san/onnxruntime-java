@@ -5,6 +5,8 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
 
 import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
@@ -14,10 +16,11 @@ import java.util.LinkedHashMap;
 
 final class SessionImpl extends ManagedImpl implements Session {
 
-    private final NamedCollection<NodeInfo> overridableInitializers;
-    private final NamedCollection<NodeInfo> inputs;
-    private final NamedCollection<NodeInfo> outputs;
+    private final NamedCollection<NodeInfoImpl> overridableInitializers;
+    private final NamedCollection<NodeInfoImpl> inputs;
+    private final NamedCollection<NodeInfoImpl> outputs;
     private final ModelMetadata modelMetadata;
+    private final MemoryAddress memoryInfo;
     private final MemoryAddress ortAllocator;
 
     public SessionImpl(ApiImpl api, MemorySession allocator, MemoryAddress session) {
@@ -47,9 +50,12 @@ final class SessionImpl extends ManagedImpl implements Session {
                 api.SessionGetOutputCount::apply,
                 api.SessionGetOutputName::apply,
                 api.SessionGetOutputTypeInfo::apply);
-        MemoryAddress metadata = api.create(allocator, out -> api.SessionGetModelMetadata.apply(session, out));
-        this.modelMetadata = new ModelMetadataImpl(api, metadata, ortAllocator);
-        api.ReleaseModelMetadata.apply(metadata);
+        this.modelMetadata = new ModelMetadataImpl(api, session, ortAllocator);
+        this.memoryInfo = api.create(
+                allocator, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
+        allocator.addCloseAction(() -> {
+            api.ReleaseMemoryInfo.apply(memoryInfo);
+        });
     }
 
     private interface GetCount {
@@ -64,7 +70,7 @@ final class SessionImpl extends ManagedImpl implements Session {
         Addressable apply(MemoryAddress session, long idx, MemoryAddress out);
     }
 
-    private static NamedCollection<NodeInfo> createMap(
+    private static NamedCollection<NodeInfoImpl> createMap(
             ApiImpl api,
             MemorySession allocator,
             MemoryAddress ortAllocator,
@@ -75,27 +81,29 @@ final class SessionImpl extends ManagedImpl implements Session {
         MemorySegment numInputsSegment = allocator.allocate(C_LONG);
         api.checkStatus(getCount.apply(session, numInputsSegment.address()));
         long numInputs = numInputsSegment.getAtIndex(C_LONG, 0);
-        LinkedHashMap<String, NodeInfo> inputs = new LinkedHashMap<>();
+        LinkedHashMap<String, NodeInfoImpl> inputs = new LinkedHashMap<>();
         for (long i = 0; i < numInputs; i++) {
             final long j = i;
             MemoryAddress nameSegment = api.create(allocator, out -> getName.apply(session, j, ortAllocator, out));
             String name = nameSegment.getUtf8String(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
             MemoryAddress typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
-            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, typeInfo));
+            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, ortAllocator);
+            inputs.put(name, new NodeInfoImpl(name, allocator.allocateUtf8String(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public NamedCollection<NodeInfo> getOverridableInitializers() {
-        return overridableInitializers;
+        return (NamedCollection<NodeInfo>) (NamedCollection<?>) overridableInitializers;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public NamedCollection<NodeInfo> getInputs() {
-        return inputs;
+        return (NamedCollection<NodeInfo>) (NamedCollection<?>) inputs;
     }
 
     @Override
@@ -103,13 +111,14 @@ final class SessionImpl extends ManagedImpl implements Session {
         return modelMetadata;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public NamedCollection<NodeInfo> getOutputs() {
-        return outputs;
+        return (NamedCollection<NodeInfo>) (NamedCollection<?>) outputs;
     }
 
     @Override
     public Transaction.Builder newTransaction() {
-        return new TransactionBuilderImpl(api, address, ortAllocator, inputs, outputs);
+        return new TransactionBuilderImpl(api, address, memoryInfo, ortAllocator, inputs, outputs);
     }
 }

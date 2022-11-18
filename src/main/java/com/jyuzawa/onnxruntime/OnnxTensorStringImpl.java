@@ -5,7 +5,6 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
@@ -14,14 +13,13 @@ import java.lang.foreign.MemorySession;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.stream.Stream;
 
 final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
     private final String[] buffer;
 
-    OnnxTensorStringImpl(TensorInfo tensorInfo) {
+    OnnxTensorStringImpl(TensorInfoImpl tensorInfo) {
         super(tensorInfo);
         this.buffer = new String[Math.toIntExact(tensorInfo.getElementCount())];
     }
@@ -45,15 +43,12 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         for (int i = 0; i < numOutputs; i++) {
             stringArray.setAtIndex(C_POINTER, i, allocator.allocateUtf8String(buffer[i]));
         }
-        List<Long> shape = tensorInfo.getShape();
-        int shapeSize = shape.size();
-        MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
         MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorAsOrtValue.apply(
                         ortAllocator,
-                        shapeData.address(),
-                        shapeSize,
+                        tensorInfo.shapeData.address(),
+                        tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
                         out));
         api.checkStatus(api.FillStringTensor.apply(tensor, stringArray.address(), numOutputs));

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
 
-    OnnxMapLongImpl(MapInfo mapInfo) {
+    OnnxMapLongImpl(MapInfoImpl mapInfo) {
         super(mapInfo, OnnxTensorLongImpl::new);
     }
 

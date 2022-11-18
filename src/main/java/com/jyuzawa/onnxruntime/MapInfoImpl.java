@@ -7,7 +7,7 @@ package com.jyuzawa.onnxruntime;
 final class MapInfoImpl implements MapInfo {
 
     private final OnnxTensorElementDataType keyType;
-    private final TypeInfo typeInfo;
+    private final TypeInfoImpl typeInfo;
 
     MapInfoImpl(OnnxTensorElementDataType keyType, TypeInfoImpl typeInfo) {
         this.keyType = keyType;
@@ -20,7 +20,7 @@ final class MapInfoImpl implements MapInfo {
     }
 
     @Override
-    public TypeInfo getValueType() {
+    public TypeInfoImpl getValueType() {
         return typeInfo;
     }
 

@@ -11,8 +11,8 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_SHORT;
 
+import java.lang.foreign.MemorySession;
 import java.lang.foreign.ValueLayout;
-import java.util.Collections;
 
 /**
  * A tensor type from ONNX.
@@ -44,7 +44,7 @@ public enum OnnxTensorElementDataType {
     private OnnxTensorElementDataType(int number, ValueLayout valueLayout) {
         this.number = number;
         this.valueLayout = valueLayout;
-        this.scalarInfo = new TensorInfoImpl(this, Collections.singletonList(1L), 1L);
+        this.scalarInfo = TensorInfoImpl.of(this, 1L, MemorySession.global());
     }
 
     TensorInfo getScalarInfo() {
@@ -57,7 +57,9 @@ public enum OnnxTensorElementDataType {
 
     /**
      * Get a level based off its internal number.
-     * @param number the internal number of the level
+     *
+     * @param number
+     *            the internal number of the level
      * @return the level, UNDEFINED if not found
      */
     public static final OnnxTensorElementDataType forNumber(int number) {

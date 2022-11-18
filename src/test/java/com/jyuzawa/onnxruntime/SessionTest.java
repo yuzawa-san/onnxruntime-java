@@ -163,6 +163,65 @@ public class SessionTest {
     }
 
     @Test
+    public void multiTest() throws IOException {
+        String inputName1 = "in1";
+        String inputName2 = "in2";
+        String outputName1 = "out1";
+        String outputName2 = "out2";
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        ByteBuffer byteBuffer = ModelProto.newBuilder()
+                .setIrVersion(8)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(10))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput(inputName1)
+                                .addOutput(outputName1)
+                                .setOpType("Identity"))
+                        .addInput(
+                                ValueInfoProto.newBuilder().setName(inputName1).setType(type))
+                        .addOutput(
+                                ValueInfoProto.newBuilder().setName(outputName1).setType(type))
+                        .addNode(NodeProto.newBuilder()
+                                .addInput(inputName2)
+                                .addOutput(outputName2)
+                                .setOpType("Identity"))
+                        .addInput(
+                                ValueInfoProto.newBuilder().setName(inputName2).setType(type))
+                        .addOutput(
+                                ValueInfoProto.newBuilder().setName(outputName2).setType(type)))
+                .build()
+                .toByteString()
+                .asReadOnlyByteBuffer();
+        try (Session session =
+                environment.newSession().setByteBuffer(byteBuffer).build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInput1 = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput1);
+            float[] rawInput2 = new float[] {5346, 62346, 2345};
+            txn.addInput(1).asTensor().getFloatBuffer().put(rawInput2);
+            txn.addOutput(0);
+            txn.addOutput(1);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            float[] rawOutput1 = new float[3];
+            OnnxValue outputValue1 = output.get(0);
+            OnnxTensor outputTensor1 = outputValue1.asTensor();
+            outputTensor1.getFloatBuffer().get(rawOutput1);
+            assertTrue(Arrays.equals(rawInput1, rawOutput1));
+            float[] rawOutput2 = new float[3];
+            OnnxValue outputValue2 = output.get(1);
+            OnnxTensor outputTensor2 = outputValue2.asTensor();
+            outputTensor2.getFloatBuffer().get(rawOutput2);
+            assertTrue(Arrays.equals(rawInput2, rawOutput2));
+        }
+    }
+
+    @Test
     public void floatTest() throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()

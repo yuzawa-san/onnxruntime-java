@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
 
-    OnnxTensorDoubleImpl(TensorInfo tensorInfo) {
+    OnnxTensorDoubleImpl(TensorInfoImpl tensorInfo) {
         super(tensorInfo, DoubleBuffer::allocate);
     }
 

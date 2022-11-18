@@ -20,9 +20,9 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
 
     private final List<OnnxValueImpl> data;
     private final List<OnnxValue> unmodifiableData;
-    private final TypeInfo typeInfo;
+    private final TypeInfoImpl typeInfo;
 
-    OnnxSequenceImpl(TypeInfo typeInfo) {
+    OnnxSequenceImpl(TypeInfoImpl typeInfo) {
         super(OnnxType.SEQUENCE);
         this.data = new ArrayList<>();
         this.unmodifiableData = Collections.unmodifiableList(data);

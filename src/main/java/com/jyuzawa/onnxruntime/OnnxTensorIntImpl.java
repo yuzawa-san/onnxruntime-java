@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
 
-    OnnxTensorIntImpl(TensorInfo tensorInfo) {
+    OnnxTensorIntImpl(TensorInfoImpl tensorInfo) {
         super(tensorInfo, IntBuffer::allocate);
     }
 

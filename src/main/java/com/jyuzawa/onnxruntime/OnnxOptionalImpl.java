@@ -11,9 +11,9 @@ import java.util.NoSuchElementException;
 final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
 
     private OnnxValueImpl data;
-    private final TypeInfo typeInfo;
+    private final TypeInfoImpl typeInfo;
 
-    OnnxOptionalImpl(TypeInfo typeInfo) {
+    OnnxOptionalImpl(TypeInfoImpl typeInfo) {
         super(OnnxType.OPTIONAL);
         this.typeInfo = typeInfo;
     }
@@ -23,10 +23,10 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
         return "{OnnxOptional: info=" + typeInfo + ", data=" + data + "}";
     }
 
-    //    @Override
-    //    public OnnxOptional asOptional() {
-    //        return this;
-    //    }
+    // @Override
+    // public OnnxOptional asOptional() {
+    // return this;
+    // }
 
     @Override
     public TypeInfo getInfo() {

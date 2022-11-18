@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 final class OnnxMapStringImpl extends OnnxMapImpl<String, OnnxTensorStringImpl> {
 
-    OnnxMapStringImpl(MapInfo mapInfo) {
+    OnnxMapStringImpl(MapInfoImpl mapInfo) {
         super(mapInfo, OnnxTensorStringImpl::new);
     }
 

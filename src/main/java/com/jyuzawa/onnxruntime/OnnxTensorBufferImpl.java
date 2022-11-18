@@ -4,20 +4,17 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.nio.Buffer;
-import java.util.List;
 import java.util.function.IntFunction;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
     protected final T buffer;
 
-    protected OnnxTensorBufferImpl(TensorInfo tensorInfo, IntFunction<T> factory) {
+    protected OnnxTensorBufferImpl(TensorInfoImpl tensorInfo, IntFunction<T> factory) {
         super(tensorInfo);
         this.buffer = factory.apply(Math.toIntExact(tensorInfo.getElementCount()));
     }
@@ -35,17 +32,14 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         MemorySegment inputData =
                 allocator.allocateArray(tensorInfo.getType().getValueLayout(), rawInputData.byteSize());
         inputData.copyFrom(rawInputData);
-        List<Long> shape = tensorInfo.getShape();
-        int shapeSize = shape.size();
-        MemorySegment shapeData = allocator.allocateArray(C_LONG, shape(shape));
         MemoryAddress tensor = api.create(
                 allocator,
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
                         memoryInfo,
                         inputData.address(),
                         inputData.byteSize(),
-                        shapeData.address(),
-                        shapeSize,
+                        tensorInfo.shapeData.address(),
+                        tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
                         out));
         allocator.addCloseAction(() -> {

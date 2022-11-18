@@ -11,15 +11,14 @@ import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collection;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
-    protected final TensorInfo tensorInfo;
+    protected final TensorInfoImpl tensorInfo;
 
-    protected OnnxTensorImpl(TensorInfo tensorInfo) {
+    protected OnnxTensorImpl(TensorInfoImpl tensorInfo) {
         super(OnnxType.TENSOR);
         this.tensorInfo = tensorInfo;
     }
@@ -77,16 +76,7 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
     abstract void getScalars(Stream<OnnxTensorImpl> scalars);
 
-    protected static final long[] shape(List<Long> original) {
-        int shapeSize = original.size();
-        long[] shapeArray = new long[shapeSize];
-        for (int i = 0; i < shapeSize; i++) {
-            shapeArray[i] = original.get(i);
-        }
-        return shapeArray;
-    }
-
-    static final OnnxTensorImpl fromTypeInfo(TensorInfo tensorInfo) {
+    static final OnnxTensorImpl fromTypeInfo(TensorInfoImpl tensorInfo) {
         OnnxTensorElementDataType type = tensorInfo.getType();
         switch (type) {
             case BOOL:

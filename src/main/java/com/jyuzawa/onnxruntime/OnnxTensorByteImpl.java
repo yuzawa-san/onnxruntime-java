@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
 
-    OnnxTensorByteImpl(TensorInfo tensorInfo) {
+    OnnxTensorByteImpl(TensorInfoImpl tensorInfo) {
         super(tensorInfo, ByteBuffer::allocate);
     }
 
