@@ -4,6 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+
+import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,21 +16,24 @@ final class TensorInfoImpl implements TensorInfo {
 
     // TODO: symbolic dims
     private final OnnxTensorElementDataType type;
+    final MemorySegment shapeData;
     private final List<Long> shape;
     private final long elementCount;
 
-    TensorInfoImpl(OnnxTensorElementDataType type, List<Long> shape, long elementCount) {
+    TensorInfoImpl(OnnxTensorElementDataType type, MemorySegment shapeData, int dimCount, long elementCount) {
         this.type = type;
-        this.shape = shape;
+        List<Long> shape = new ArrayList<>(dimCount);
+        for (int i = 0; i < dimCount; i++) {
+            shape.add(shapeData.getAtIndex(C_LONG, i));
+        }
+        this.shape = Collections.unmodifiableList(shape);
+        this.shapeData = shapeData;
         this.elementCount = elementCount;
     }
 
-    TensorInfoImpl(OnnxTensorElementDataType type, long elementCount) {
-        this(type, Collections.singletonList(elementCount), elementCount);
-    }
-
-    TensorInfoImpl(OnnxTensorElementDataType type) {
-        this(type, 1);
+    static TensorInfoImpl of(OnnxTensorElementDataType type, long elementCount, MemorySession scope) {
+        MemorySegment shapeData = scope.allocateArray(C_LONG, new long[] {elementCount});
+        return new TensorInfoImpl(type, shapeData, 1, elementCount);
     }
 
     @Override

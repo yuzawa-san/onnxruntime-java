@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
 
-    OnnxTensorLongImpl(TensorInfo tensorInfo) {
+    OnnxTensorLongImpl(TensorInfoImpl tensorInfo) {
         super(tensorInfo, LongBuffer::allocate);
     }
 

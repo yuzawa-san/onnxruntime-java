@@ -9,29 +9,26 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 final class TypeInfoImpl implements TypeInfo {
 
     // TODO: denotation
     private final OnnxType type;
-    private final TensorInfo tensorInfo;
-    private final MapInfo mapInfo;
-    private final TypeInfo sequenceInfo;
+    private final TensorInfoImpl tensorInfo;
+    private final MapInfoImpl mapInfo;
+    private final TypeInfoImpl sequenceInfo;
 
-    TypeInfoImpl(ApiImpl api, MemoryAddress typeInfo, MemoryAddress ortAllocator) {
+    TypeInfoImpl(ApiImpl api, MemoryAddress typeInfo, MemorySession sessionAllocator, MemoryAddress ortAllocator) {
         try (MemorySession allocator = MemorySession.openConfined()) {
             allocator.addCloseAction(() -> {
                 api.ReleaseTypeInfo.apply(typeInfo);
             });
             this.type = OnnxType.forNumber(
                     api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
-            TensorInfo tensorInfo = null;
-            MapInfo mapInfo = null;
-            TypeInfo sequenceInfo = null;
+            TensorInfoImpl tensorInfo = null;
+            MapInfoImpl mapInfo = null;
+            TypeInfoImpl sequenceInfo = null;
 
             if (type == OnnxType.TENSOR || type == OnnxType.SPARSETENSOR) {
                 MemoryAddress ortTensorInfo =
@@ -39,15 +36,11 @@ final class TypeInfoImpl implements TypeInfo {
                 OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
                         api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
                 int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = allocator.allocateArray(C_LONG, dimCount);
+                MemorySegment dims = sessionAllocator.allocateArray(C_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims.address(), dimCount));
                 long elementCount =
                         api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
-                List<Long> shape = new ArrayList<>(dimCount);
-                for (int i = 0; i < dimCount; i++) {
-                    shape.add(dims.getAtIndex(C_LONG, i));
-                }
-                tensorInfo = new TensorInfoImpl(dataType, Collections.unmodifiableList(shape), elementCount);
+                tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
             } else if (type == OnnxType.MAP) {
                 MemoryAddress ortMapInfo =
                         api.create(allocator, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
@@ -55,13 +48,14 @@ final class TypeInfoImpl implements TypeInfo {
                         api.extractInt(allocator, out -> api.GetMapKeyType.apply(ortMapInfo, out)));
                 MemoryAddress valueTypeAddress =
                         api.create(allocator, out -> api.GetMapValueType.apply(ortMapInfo, out));
-                mapInfo = new MapInfoImpl(keyType, new TypeInfoImpl(api, valueTypeAddress, ortAllocator));
+                mapInfo = new MapInfoImpl(
+                        keyType, new TypeInfoImpl(api, valueTypeAddress, sessionAllocator, ortAllocator));
             } else if (type == OnnxType.SEQUENCE) {
                 MemoryAddress ortSequenceInfo =
                         api.create(allocator, out -> api.CastTypeInfoToSequenceTypeInfo.apply(typeInfo, out));
                 MemoryAddress valueTypeAddress =
                         api.create(allocator, out -> api.GetSequenceElementType.apply(ortSequenceInfo, out));
-                sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, ortAllocator);
+                sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, sessionAllocator, ortAllocator);
             } else {
                 throw new UnsupportedOperationException("unsupported type: " + type);
             }
@@ -77,7 +71,7 @@ final class TypeInfoImpl implements TypeInfo {
     }
 
     @Override
-    public TensorInfo getTensorInfo() {
+    public TensorInfoImpl getTensorInfo() {
         if (tensorInfo == null) {
             throw new NoSuchElementException("tensor");
         }
@@ -85,7 +79,7 @@ final class TypeInfoImpl implements TypeInfo {
     }
 
     @Override
-    public MapInfo getMapInfo() {
+    public MapInfoImpl getMapInfo() {
         if (mapInfo == null) {
             throw new NoSuchElementException("map");
         }
@@ -105,7 +99,7 @@ final class TypeInfoImpl implements TypeInfo {
     }
 
     @Override
-    public TypeInfo getSequenceInfo() {
+    public TypeInfoImpl getSequenceInfo() {
         if (sequenceInfo == null) {
             throw new NoSuchElementException("sequence");
         }

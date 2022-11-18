@@ -20,12 +20,12 @@ import java.util.stream.Stream;
 
 abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl implements OnnxMap, OnnxTypedMap<K> {
 
-    private final Function<TensorInfo, T> keyVectorFactory;
+    private final Function<TensorInfoImpl, T> keyVectorFactory;
     private final Map<K, OnnxTensorImpl> data;
     private final Map<K, OnnxValue> unmodifiableData;
-    protected final MapInfo mapInfo;
+    protected final MapInfoImpl mapInfo;
 
-    protected OnnxMapImpl(MapInfo mapInfo, Function<TensorInfo, T> keyVectorFactory) {
+    protected OnnxMapImpl(MapInfoImpl mapInfo, Function<TensorInfoImpl, T> keyVectorFactory) {
         super(OnnxType.MAP);
         this.keyVectorFactory = keyVectorFactory;
         this.data = new LinkedHashMap<>();
@@ -33,7 +33,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         this.mapInfo = mapInfo;
     }
 
-    static final OnnxValueImpl fromTypeInfo(MapInfo mapInfo) {
+    static final OnnxValueImpl fromTypeInfo(MapInfoImpl mapInfo) {
         TypeInfo valueType = mapInfo.getValueType();
         if (valueType.getType() != OnnxType.TENSOR || valueType.getTensorInfo().getElementCount() != 1) {
             throw new UnsupportedOperationException("OnnxMap only supports scalar values");
@@ -49,13 +49,13 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         }
     }
 
-    private final T newKeyVector(int size) {
-        return keyVectorFactory.apply(new TensorInfoImpl(mapInfo.getKeyType(), size));
+    private final T newKeyVector(int size, MemorySession scope) {
+        return keyVectorFactory.apply(TensorInfoImpl.of(mapInfo.getKeyType(), size, scope));
     }
 
-    private final OnnxTensorImpl newValueVector(int size) {
+    private final OnnxTensorImpl newValueVector(int size, MemorySession scope) {
         return OnnxTensorImpl.fromTypeInfo(
-                new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
+                TensorInfoImpl.of(mapInfo.getValueType().getTensorInfo().getType(), size, scope));
     }
 
     protected abstract void implodeKeyVector(T keyVector, Set<K> keys);
@@ -95,10 +95,10 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
     public MemoryAddress toNative(
             ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
         int size = data.size();
-        T keyVector = newKeyVector(size);
+        T keyVector = newKeyVector(size, allocator);
         implodeKeyVector(keyVector, data.keySet());
         OnnxTensorImpl valueVector = OnnxTensorImpl.fromTypeInfo(
-                new TensorInfoImpl(mapInfo.getValueType().getTensorInfo().getType(), size));
+                TensorInfoImpl.of(mapInfo.getValueType().getTensorInfo().getType(), size, allocator));
         valueVector.putScalars(data.values());
         MemoryAddress keyAddress = keyVector.toNative(api, ortAllocator, memoryInfo, allocator);
         MemoryAddress valueAddress = valueVector.toNative(api, ortAllocator, memoryInfo, allocator);
@@ -120,8 +120,8 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         MemoryAddress keyInfo = api.create(allocator, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
         int size =
                 Math.toIntExact(api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
-        T keyVector = newKeyVector(size);
-        OnnxTensorImpl valueVector = newValueVector(size);
+        T keyVector = newKeyVector(size, allocator);
+        OnnxTensorImpl valueVector = newValueVector(size, allocator);
         keyVector.fromNative(api, ortAllocator, keyAddress, allocator);
         valueVector.fromNative(api, ortAllocator, valueAddress, allocator);
         valueVector.getScalars(explodeKeyVector(keyVector).map(this::set));

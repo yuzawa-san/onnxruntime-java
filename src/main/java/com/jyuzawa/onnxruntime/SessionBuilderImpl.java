@@ -212,7 +212,7 @@ final class SessionBuilderImpl implements Session.Builder {
     @Override
     public Session build() throws IOException {
 
-        try (MemorySession allocator = MemorySession.openShared()) {
+        try (MemorySession allocator = MemorySession.openConfined()) {
 
             final MemorySegment mappedBuf;
             if (buffer != null) {

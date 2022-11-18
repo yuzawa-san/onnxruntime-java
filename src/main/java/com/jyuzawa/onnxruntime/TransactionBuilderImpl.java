@@ -4,11 +4,13 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+
 import com.jyuzawa.onnxruntime.Transaction.Builder;
 import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +18,12 @@ final class TransactionBuilderImpl implements Transaction.Builder {
 
     final ApiImpl api;
     final MemoryAddress session;
+    final MemoryAddress memoryInfo;
     final MemoryAddress ortAllocator;
-    final Map<String, OnnxValueImpl> inputs;
-    final List<NodeInfo> outputs;
-    private final NamedCollection<NodeInfo> allInputs;
-    private final NamedCollection<NodeInfo> allOutputs;
+    final List<InputTuple> inputs;
+    final List<NodeInfoImpl> outputs;
+    private final NamedCollection<NodeInfoImpl> allInputs;
+    private final NamedCollection<NodeInfoImpl> allOutputs;
     private OnnxRuntimeLoggingLevel logSeverityLevel;
     private Integer logVerbosityLevel;
     private String runTag;
@@ -29,16 +32,18 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     public TransactionBuilderImpl(
             ApiImpl api,
             MemoryAddress session,
+            MemoryAddress memoryInfo,
             MemoryAddress ortAllocator,
-            NamedCollection<NodeInfo> allInputs,
-            NamedCollection<NodeInfo> allOutputs) {
+            NamedCollection<NodeInfoImpl> allInputs,
+            NamedCollection<NodeInfoImpl> allOutputs) {
         this.api = api;
         this.session = session;
+        this.memoryInfo = memoryInfo;
         this.ortAllocator = ortAllocator;
         this.allInputs = allInputs;
         this.allOutputs = allOutputs;
-        this.inputs = new LinkedHashMap<>();
-        this.outputs = new ArrayList<>();
+        this.inputs = new ArrayList<>(1);
+        this.outputs = new ArrayList<>(1);
     }
 
     @Override
@@ -52,9 +57,9 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         return new TransactionImpl(this);
     }
 
-    private OnnxValue addInput(NodeInfo node) {
+    private OnnxValue addInput(NodeInfoImpl node) {
         OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(node.getTypeInfo());
-        inputs.put(node.getName(), input);
+        inputs.add(new InputTuple(node, input));
         return input;
     }
 
@@ -68,7 +73,7 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         return addInput(allInputs.get(index));
     }
 
-    private Builder addOutput(NodeInfo node) {
+    private Builder addOutput(NodeInfoImpl node) {
         outputs.add(node);
         return this;
     }
@@ -107,8 +112,9 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         return this;
     }
 
-    MemoryAddress newRunOptions(MemorySession scope) {
-        MemoryAddress runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
+    MemoryAddress newRunOptions(MemorySession scope, MemorySegment memorySegment) {
+        api.checkStatus(api.CreateRunOptions.apply(memorySegment.address()));
+        MemoryAddress runOptions = memorySegment.getAtIndex(C_POINTER, 0);
         if (logSeverityLevel != null) {
             api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
         }
@@ -129,4 +135,6 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         }
         return runOptions;
     }
+
+    record InputTuple(NodeInfoImpl nodeInfo, OnnxValueImpl value) {}
 }
