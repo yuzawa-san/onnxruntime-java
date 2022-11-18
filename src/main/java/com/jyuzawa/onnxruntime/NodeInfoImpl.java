@@ -32,17 +32,4 @@ final class NodeInfoImpl implements NodeInfo {
     public String toString() {
         return "{NodeInfo: name=" + name + ", typeInfo=" + typeInfo + "}";
     }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof NodeInfoImpl) {
-            return ((NodeInfoImpl) o).name.equals(name);
-        }
-        return false;
-    }
 }
