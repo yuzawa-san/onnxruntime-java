@@ -113,6 +113,10 @@ def allArches = cpuOsArches + gpuOsArches
 allArches.each { osArch ->
 	def osArchRoot = "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
 	task "download${osArch}" (type: Exec) {
+		outputs.cacheIf { true }
+		inputs.property('ortVersion', ORT_VERSION)
+		inputs.property('osArch', osArch)
+		inputs.file('./download.sh')
 		environment('ORT_VERSION', ORT_VERSION)
 		environment('VARIANT', osArch)
 		commandLine 'sh','./download.sh'
