@@ -36,6 +36,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.EnableProfiling;
 import com.jyuzawa.onnxruntime_extern.OrtApi.EnableTelemetryEvents;
 import com.jyuzawa.onnxruntime_extern.OrtApi.FillStringTensor;
 import com.jyuzawa.onnxruntime_extern.OrtApi.GetAllocatorWithDefaultOptions;
+import com.jyuzawa.onnxruntime_extern.OrtApi.GetAvailableProviders;
 import com.jyuzawa.onnxruntime_extern.OrtApi.GetDimensions;
 import com.jyuzawa.onnxruntime_extern.OrtApi.GetDimensionsCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.GetErrorCode;
@@ -60,6 +61,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetGraphName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetProducerName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetVersion;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataLookupCustomMetadataMap;
+import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseAvailableProviders;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseEnv;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseMemoryInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseModelMetadata;
@@ -103,6 +105,9 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 final class ApiImpl implements Api {
@@ -134,6 +139,7 @@ final class ApiImpl implements Api {
     final EnableTelemetryEvents EnableTelemetryEvents;
     final FillStringTensor FillStringTensor;
     final GetAllocatorWithDefaultOptions GetAllocatorWithDefaultOptions;
+    final GetAvailableProviders GetAvailableProviders;
     final GetDimensions GetDimensions;
     final GetDimensionsCount GetDimensionsCount;
     final GetErrorCode GetErrorCode;
@@ -158,6 +164,7 @@ final class ApiImpl implements Api {
     final ModelMetadataGetProducerName ModelMetadataGetProducerName;
     final ModelMetadataGetVersion ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap;
+    final ReleaseAvailableProviders ReleaseAvailableProviders;
     final ReleaseEnv ReleaseEnv;
     final ReleaseMemoryInfo ReleaseMemoryInfo;
     final ReleaseModelMetadata ReleaseModelMetadata;
@@ -197,6 +204,8 @@ final class ApiImpl implements Api {
     final SessionGetOverridableInitializerName SessionGetOverridableInitializerName;
     final SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo;
 
+    private final Set<String> providers;
+
     ApiImpl(MemorySegment segment) {
         MemorySession scope = MemorySession.global();
         this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(segment, scope);
@@ -227,6 +236,7 @@ final class ApiImpl implements Api {
         this.EnableProfiling = OrtApi.EnableProfiling(segment, scope);
         this.FillStringTensor = OrtApi.FillStringTensor(segment, scope);
         this.GetAllocatorWithDefaultOptions = OrtApi.GetAllocatorWithDefaultOptions(segment, scope);
+        this.GetAvailableProviders = OrtApi.GetAvailableProviders(segment, scope);
         this.GetDimensions = OrtApi.GetDimensions(segment, scope);
         this.GetDimensionsCount = OrtApi.GetDimensionsCount(segment, scope);
         this.GetErrorCode = OrtApi.GetErrorCode(segment, scope);
@@ -251,6 +261,7 @@ final class ApiImpl implements Api {
         this.ModelMetadataGetProducerName = OrtApi.ModelMetadataGetProducerName(segment, scope);
         this.ModelMetadataGetVersion = OrtApi.ModelMetadataGetVersion(segment, scope);
         this.ModelMetadataLookupCustomMetadataMap = OrtApi.ModelMetadataLookupCustomMetadataMap(segment, scope);
+        this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(segment, scope);
         this.ReleaseEnv = OrtApi.ReleaseEnv(segment, scope);
         this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(segment, scope);
         this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(segment, scope);
@@ -289,11 +300,32 @@ final class ApiImpl implements Api {
         this.SessionGetOverridableInitializerCount = OrtApi.SessionGetOverridableInitializerCount(segment, scope);
         this.SessionGetOverridableInitializerName = OrtApi.SessionGetOverridableInitializerName(segment, scope);
         this.SessionGetOverridableInitializerTypeInfo = OrtApi.SessionGetOverridableInitializerTypeInfo(segment, scope);
+
+        try (MemorySession session = MemorySession.openConfined()) {
+            Set<String> providers = new LinkedHashSet<>();
+            MemorySegment pointer = scope.allocate(C_POINTER);
+            MemorySegment countPointer = scope.allocate(C_INT);
+            checkStatus(GetAvailableProviders.apply(pointer.address(), countPointer.address()));
+            int numProviders = countPointer.getAtIndex(C_INT, 0);
+            MemorySegment providersArray = MemorySegment.ofAddress(
+                    pointer.getAtIndex(C_POINTER, 0), numProviders * C_POINTER.byteSize(), session);
+            for (int i = 0; i < numProviders; i++) {
+                MemoryAddress providerAddress = providersArray.getAtIndex(C_POINTER, i);
+                providers.add(providerAddress.getUtf8String(0));
+            }
+            checkStatus(ReleaseAvailableProviders.apply(providersArray.address(), numProviders));
+            this.providers = Collections.unmodifiableSet(providers);
+        }
     }
 
     @Override
     public Environment.Builder newEnvironment() {
         return new EnvironmentBuilderImpl(this);
+    }
+
+    @Override
+    public Set<String> getAvailableProviders() {
+        return providers;
     }
 
     void checkStatus(Addressable rawAddress) {

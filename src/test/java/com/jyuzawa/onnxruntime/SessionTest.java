@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -40,12 +41,13 @@ import org.junit.Test;
 public class SessionTest {
 
     private static final Charset UTF8 = Charset.forName("utf-8");
+    private static Api api;
     private static Environment environment;
 
     @BeforeClass
     public static void setup() {
         OnnxRuntime apiBase = OnnxRuntime.get();
-        Api api = apiBase.getApi();
+        api = apiBase.getApi();
         environment = api.newEnvironment()
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogId("testing")
@@ -71,6 +73,13 @@ public class SessionTest {
                 .build()
                 .toByteString()
                 .asReadOnlyByteBuffer();
+    }
+
+    @Test
+    public void providersTest() {
+        Set<String> providers = api.getAvailableProviders();
+        assertFalse(providers.isEmpty());
+        assertTrue(providers.contains("CPUExecutionProvider"));
     }
 
     @Test
