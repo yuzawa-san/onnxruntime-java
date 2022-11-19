@@ -102,6 +102,7 @@ import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
 import java.util.function.Function;
 
 final class ApiImpl implements Api {
@@ -306,19 +307,19 @@ final class ApiImpl implements Api {
         throw new OnnxRuntimeException(code, message);
     }
 
-    MemoryAddress create(MemorySession allocator, Function<MemoryAddress, Addressable> constructor) {
+    MemoryAddress create(SegmentAllocator allocator, Function<MemoryAddress, Addressable> constructor) {
         MemorySegment pointer = allocator.allocate(C_POINTER);
         checkStatus(constructor.apply(pointer.address()));
         return pointer.getAtIndex(C_POINTER, 0);
     }
 
-    int extractInt(MemorySession allocator, Function<MemoryAddress, Addressable> method) {
+    int extractInt(SegmentAllocator allocator, Function<MemoryAddress, Addressable> method) {
         MemorySegment pointer = allocator.allocate(C_INT);
         checkStatus(method.apply(pointer.address()));
         return pointer.getAtIndex(C_INT, 0);
     }
 
-    long extractLong(MemorySession allocator, Function<MemoryAddress, Addressable> method) {
+    long extractLong(SegmentAllocator allocator, Function<MemoryAddress, Addressable> method) {
         MemorySegment pointer = allocator.allocate(C_LONG);
         checkStatus(method.apply(pointer.address()));
         return pointer.getAtIndex(C_LONG, 0);

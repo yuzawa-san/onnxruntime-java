@@ -4,12 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
-
 import com.jyuzawa.onnxruntime.Transaction.Builder;
 import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +39,8 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         this.ortAllocator = ortAllocator;
         this.allInputs = allInputs;
         this.allOutputs = allOutputs;
-        this.inputs = new ArrayList<>(1);
-        this.outputs = new ArrayList<>(1);
+        this.inputs = new ArrayList<>(allInputs.size());
+        this.outputs = new ArrayList<>(allOutputs.size());
     }
 
     @Override
@@ -112,9 +109,8 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         return this;
     }
 
-    MemoryAddress newRunOptions(MemorySession scope, MemorySegment memorySegment) {
-        api.checkStatus(api.CreateRunOptions.apply(memorySegment.address()));
-        MemoryAddress runOptions = memorySegment.getAtIndex(C_POINTER, 0);
+    MemoryAddress newRunOptions(SegmentAllocator scope) {
+        MemoryAddress runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
         if (logSeverityLevel != null) {
             api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
         }
