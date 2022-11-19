@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Set;
+
 /**
  * The top-level API of the ONNX runtime.
  *
@@ -15,4 +17,6 @@ public interface Api {
      * @return a builder
      */
     Environment.Builder newEnvironment();
+
+    Set<String> getAvailableProviders();
 }
