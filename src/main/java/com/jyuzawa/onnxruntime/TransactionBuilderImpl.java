@@ -42,8 +42,8 @@ final class TransactionBuilderImpl implements Transaction.Builder {
         this.ortAllocator = ortAllocator;
         this.allInputs = allInputs;
         this.allOutputs = allOutputs;
-        this.inputs = new ArrayList<>(1);
-        this.outputs = new ArrayList<>(1);
+        this.inputs = new ArrayList<>(allInputs.size());
+        this.outputs = new ArrayList<>(allOutputs.size());
     }
 
     @Override
