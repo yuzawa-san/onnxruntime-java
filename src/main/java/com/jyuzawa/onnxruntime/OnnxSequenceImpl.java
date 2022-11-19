@@ -9,6 +9,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,36 +58,34 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
 
     @Override
     public MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator) {
         int size = data.size();
         MemorySegment valuesArray = allocator.allocateArray(C_POINTER, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
             valuesArray.setAtIndex(C_POINTER, i, value.toNative(api, ortAllocator, memoryInfo, allocator));
         }
-        MemoryAddress value = api.create(
+        return api.create(
                 allocator,
                 out -> api.CreateValue.apply(valuesArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
-        allocator.addCloseAction(() -> {
-            api.ReleaseValue.apply(value);
-        });
-        return value;
     }
 
     @Override
-    public void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
+    public void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            SegmentAllocator allocator,
+            MemorySession session) {
         long outputs = api.extractLong(allocator, out -> api.GetValueCount.apply(address, out));
         for (int i = 0; i < outputs; i++) {
             final int index = i;
             MemoryAddress valueAddress =
                     api.create(allocator, out -> api.GetValue.apply(address, index, ortAllocator, out));
             OnnxValueImpl value = OnnxValueImpl.fromTypeInfo(typeInfo);
-            value.fromNative(api, ortAllocator, valueAddress, allocator);
+            value.fromNative(api, ortAllocator, valueAddress, allocator, session);
             data.add(value);
         }
-        allocator.addCloseAction(() -> {
-            api.ReleaseValue.apply(address);
-        });
     }
 
     @Override

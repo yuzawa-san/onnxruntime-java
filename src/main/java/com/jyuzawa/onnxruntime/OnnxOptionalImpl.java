@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
 import java.util.NoSuchElementException;
 
 final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
@@ -55,13 +56,18 @@ final class OnnxOptionalImpl extends OnnxValueImpl implements OnnxOptional {
 
     @Override
     public MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
+    public void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            SegmentAllocator allocator,
+            MemorySession session) {
         // TODO Auto-generated method stub
 
     }

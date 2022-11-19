@@ -10,6 +10,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -36,8 +37,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
     @Override
     public MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession allocator) {
-
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator) {
         int numOutputs = buffer.length;
         MemorySegment stringArray = allocator.allocateArray(C_POINTER, numOutputs);
         for (int i = 0; i < numOutputs; i++) {
@@ -52,14 +52,16 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                         tensorInfo.getType().getNumber(),
                         out));
         api.checkStatus(api.FillStringTensor.apply(tensor, stringArray.address(), numOutputs));
-        allocator.addCloseAction(() -> {
-            api.ReleaseValue.apply(tensor);
-        });
         return tensor;
     }
 
     @Override
-    public void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession allocator) {
+    public void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            SegmentAllocator allocator,
+            MemorySession session) {
         int numOutputs = buffer.length;
         for (int i = 0; i < numOutputs; i++) {
             final long index = i;
@@ -70,9 +72,6 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
             api.checkStatus(api.GetStringTensorElement.apply(address, length, index, output.address()));
             buffer[i] = output.getUtf8String(0);
         }
-        allocator.addCloseAction(() -> {
-            api.ReleaseValue.apply(address);
-        });
     }
 
     @Override

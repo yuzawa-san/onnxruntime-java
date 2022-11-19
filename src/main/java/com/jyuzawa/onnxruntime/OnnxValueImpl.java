@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
 import java.util.NoSuchElementException;
 
 abstract class OnnxValueImpl implements OnnxValue {
@@ -52,9 +53,14 @@ abstract class OnnxValueImpl implements OnnxValue {
     // }
 
     abstract MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, MemorySession scope);
+            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator);
 
-    abstract void fromNative(ApiImpl api, MemoryAddress ortAllocator, MemoryAddress address, MemorySession scope);
+    abstract void fromNative(
+            ApiImpl api,
+            MemoryAddress ortAllocator,
+            MemoryAddress address,
+            SegmentAllocator allocator,
+            MemorySession session);
 
     static final OnnxValueImpl fromTypeInfo(TypeInfoImpl typeInfo) {
         OnnxType type = typeInfo.getType();

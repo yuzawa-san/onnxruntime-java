@@ -10,6 +10,8 @@ import com.jyuzawa.onnxruntime.TransactionBuilderImpl.InputTuple;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -38,30 +40,23 @@ final class TransactionImpl implements Transaction {
     public NamedCollection<OnnxValue> run() {
         ApiImpl api = builder.api;
         MemoryAddress ortAllocator = builder.ortAllocator;
-        try (MemorySession allocator = MemorySession.openConfined()) {
+        try (MemorySession session = MemorySession.openConfined()) {
+            SegmentAllocator allocator = SegmentAllocator.newNativeArena(session);
             List<InputTuple> inputs = builder.inputs;
             int numInputs = inputs.size();
             List<NodeInfoImpl> outputs = builder.outputs;
             int numOutputs = outputs.size();
-            long sizeOfPointer = C_POINTER.byteSize();
-            MemorySegment segment = allocator.allocateArray(C_POINTER, numInputs * 2 + numOutputs * 2 + 1);
-            long inputsBytes = numInputs * sizeOfPointer;
-            long offset = 0;
-            MemorySegment inputNames = segment.asSlice(offset, inputsBytes);
-            offset += inputsBytes;
-            MemorySegment inputValues = segment.asSlice(offset, inputsBytes);
-            offset += inputsBytes;
-            long outputsBytes = numOutputs * sizeOfPointer;
-            MemorySegment outputNames = segment.asSlice(offset, outputsBytes);
-            offset += outputsBytes;
-            MemorySegment outputValues = segment.asSlice(offset, outputsBytes);
-            offset += outputsBytes;
-            MemorySegment runOptionsSegment = segment.asSlice(offset, sizeOfPointer);
-            for (int i = 0; i < numOutputs; i++) {
+            MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
+            MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
+            MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
+            MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
+            List<MemoryAddress> inputValueAddresses = new ArrayList<>(numInputs);
+            for (int i = 0; i < numInputs; i++) {
                 InputTuple inputTuple = inputs.get(i);
                 inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
                 MemoryAddress valueAddress =
                         inputTuple.value().toNative(api, ortAllocator, builder.memoryInfo, allocator);
+                inputValueAddresses.add(valueAddress);
                 inputValues.setAtIndex(C_POINTER, i, valueAddress);
             }
 
@@ -69,7 +64,7 @@ final class TransactionImpl implements Transaction {
                 outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
             }
 
-            MemoryAddress runOptionsAddress = builder.newRunOptions(allocator, runOptionsSegment);
+            MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
             // synchronized (cancelLock) {
             // this.runOptions = runOptionsAddress;
             // }
@@ -84,6 +79,9 @@ final class TransactionImpl implements Transaction {
                         numOutputs,
                         outputValues.address()));
             } finally {
+                for (int i = 0; i < numInputs; i++) {
+                    api.ReleaseValue.apply(inputValueAddresses.get(i));
+                }
                 // synchronized (cancelLock) {
                 api.ReleaseRunOptions.apply(runOptionsAddress);
                 // runOptions = null;
@@ -95,7 +93,11 @@ final class TransactionImpl implements Transaction {
                 // TODO: get typeinfo from result
                 NodeInfoImpl nodeInfo = outputs.get(i);
                 OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
-                outputValue.fromNative(api, ortAllocator, outputAddress, allocator);
+                try {
+                    outputValue.fromNative(api, ortAllocator, outputAddress, allocator, session);
+                } finally {
+                    api.ReleaseValue.apply(outputAddress);
+                }
                 out.put(nodeInfo.getName(), outputValue);
             }
 
