@@ -10,10 +10,9 @@ case ${answer:0:1} in
         exit 1;
     ;;
 esac
-git checkout master 
+git checkout master
 git pull
 sed -i '' "s/^com.jyuzawa.onnxruntime.library_version=.*/com.jyuzawa.onnxruntime.library_version=$NEW_VERSION/" gradle.properties
-./gradlew clean jextractClean jextract 
-./gradlew build
+./gradlew clean build
 git checkout -b ort/$NEW_VERSION
-git commit -am "ORT v$NEW_VERSION"
+git commit -am "Bump upstream onnxruntime library to v$NEW_VERSION"

@@ -8,7 +8,7 @@ doIt () {
   LIBRARY_SUFFIX=$5
   mkdir -p build/onnxruntime-${ORT_VERSION}
   FILENAME=onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}.${COMPRESSION}
-  cd build/onnxruntime-${ORT_VERSION}
+  cd build/onnxruntime
   rm -rf ${FILENAME} ${OS_ARCH}${GPU_SUFFIX} onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}
   curl -OL https://github.com/microsoft/onnxruntime/releases/download/v${ORT_VERSION}/${FILENAME}
   if [ "${COMPRESSION}" = "zip" ]; then

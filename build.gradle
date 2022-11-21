@@ -74,7 +74,6 @@ jacocoTestReport {
 
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
-// NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
 
 def getGitHash = { ->
@@ -111,7 +110,7 @@ def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
 def allArches = cpuOsArches + gpuOsArches
 
 allArches.each { osArch ->
-	def osArchRoot = "${project.buildDir}/onnxruntime-${ORT_VERSION}/${osArch}"
+	def osArchRoot = "${project.buildDir}/onnxruntime/${osArch}"
 	task "download${osArch}" (type: Exec) {
 		outputs.cacheIf { true }
 		inputs.property('ortVersion', ORT_VERSION)
@@ -144,22 +143,16 @@ allArches.each { osArch ->
 	}
 }
 
-// TODO: enable jextract
-task jextractClean(type: Delete) {
-	delete 'symbols.conf'
-	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
-}
-
 task jextract(type: Exec) {
-	environment('ORT_VERSION', ORT_VERSION)
-	commandLine 'sh','./jextract.sh'
 	dependsOn tasks.named("downloadlinux-x86_64-gpu")
+	inputs.dir("${project.buildDir}/onnxruntime/linux-x86_64-gpu/include")
+	inputs.file('./jextract.sh')
+	commandLine 'sh','./jextract.sh'
 	finalizedBy tasks.named('spotlessJavaApply')
-	// TODO: enable jextract
-	// outputs.dir("${project.buildDir}/generated/source/jextract")
+	outputs.cacheIf { true }
+	outputs.dir("${project.buildDir}/generated/source/jextract")
 }
-// TODO: enable jextract
-//compileJava.dependsOn(jextract)
+compileJava.dependsOn(jextract)
 
 configurations {
 	cpu {
@@ -281,8 +274,7 @@ dependencies {
 sourceSets {
 	main {
 		java {
-			// TODO: enable jextract
-			// srcDirs jextract
+			srcDirs jextract
 		}
 	}
 	test {
