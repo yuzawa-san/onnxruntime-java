@@ -18,12 +18,13 @@ doIt () {
     # https://github.com/heroku/heroku-slugs/issues/3
     tar xvzf ${FILENAME} || tar xvzf ${FILENAME}
   fi
-
-  mkdir -p ${OS_ARCH}${GPU_SUFFIX}/com/jyuzawa/onnxruntime/native/${OS_ARCH}
-  for i in $(ls onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}/lib | grep "\.${LIBRARY_SUFFIX}" | grep -v "${ORT_VERSION}"); do
-    cp onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION}/lib/$i ${OS_ARCH}${GPU_SUFFIX}/com/jyuzawa/onnxruntime/native/${OS_ARCH}
+  mv onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION} ${OS_ARCH}${GPU_SUFFIX}
+  ASSEMBLY_DIR=${OS_ARCH}${GPU_SUFFIX}/assembly/com/jyuzawa/onnxruntime/native/${OS_ARCH}
+  mkdir -p ${ASSEMBLY_DIR}
+  for i in $(ls ${OS_ARCH}${GPU_SUFFIX}/lib | grep "\.${LIBRARY_SUFFIX}" | grep -v "${ORT_VERSION}"); do
+    cp ${OS_ARCH}${GPU_SUFFIX}/lib/$i ${ASSEMBLY_DIR}
   done
-  cd ${OS_ARCH}${GPU_SUFFIX}/com/jyuzawa/onnxruntime/native/${OS_ARCH}
+  cd ${ASSEMBLY_DIR}
   ls | grep -v libraries > libraries
 }
 
