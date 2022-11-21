@@ -120,10 +120,16 @@ allArches.each { osArch ->
 		environment('ORT_VERSION', ORT_VERSION)
 		environment('VARIANT', osArch)
 		commandLine 'sh','./download.sh'
-		outputs.dir(osArchRoot)
+		outputs.dir("${osArchRoot}/include")
+		outputs.dir("${osArchRoot}/assembly")
+	}
+	task "copy${osArch}" (type: Copy) {
+		dependsOn tasks.named("download${osArch}")
+		from "${osArchRoot}/assembly"
+		into "${project.buildDir}/dst/${osArch}"
 	}
 	task "osArchJar${osArch}" (type: Jar) {
-		from tasks.named("download${osArch}")
+		from tasks.named("copy${osArch}")
 		classifier osArch
 		doFirst {
 			manifest {
@@ -282,7 +288,7 @@ sourceSets {
 	test {
 		resources {
 			cpuOsArches.each { osArch ->
-				srcDir tasks.named("download${osArch}")
+				srcDir tasks.named("copy${osArch}")
 			}
 		}
 	}
