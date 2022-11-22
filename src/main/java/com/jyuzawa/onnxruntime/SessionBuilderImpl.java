@@ -7,7 +7,6 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 
 import com.jyuzawa.onnxruntime.Session.Builder;
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.foreign.MemoryAddress;
@@ -34,8 +33,8 @@ final class SessionBuilderImpl implements Session.Builder {
     private Map<String, String> config;
     private Integer interOpNumThreads;
     private Integer intraOpNumThreads;
-    private File optimizedFilePath;
-    private File profilingOutput;
+    private Path optimizedFilePath;
+    private Path profilingOutput;
     private boolean disablePerSessionThreads;
     private OnnxRuntimeExecutionMode executionMode;
     private OnnxRuntimeOptimizationLevel optimizationLevel;
@@ -64,13 +63,13 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder enableProfiling(File filePath) {
-        this.profilingOutput = filePath;
+    public Session.Builder enableProfiling(Path outputPathPrefix) {
+        this.profilingOutput = outputPathPrefix;
         return this;
     }
 
     @Override
-    public Session.Builder setOptimizedModelFilePath(File outputPath) {
+    public Session.Builder setOptimizedModelFilePath(Path outputPath) {
         this.optimizedFilePath = outputPath;
         return this;
     }
@@ -187,14 +186,15 @@ final class SessionBuilderImpl implements Session.Builder {
             api.checkStatus(api.SetOptimizedModelFilePath.apply(
                     sessionOptions,
                     allocator
-                            .allocateUtf8String(optimizedFilePath.getAbsolutePath())
+                            .allocateUtf8String(
+                                    optimizedFilePath.toAbsolutePath().toString())
                             .address()));
         }
         if (profilingOutput != null) {
             api.checkStatus(api.EnableProfiling.apply(
                     sessionOptions,
                     allocator
-                            .allocateUtf8String(optimizedFilePath.getAbsolutePath())
+                            .allocateUtf8String(profilingOutput.toAbsolutePath().toString())
                             .address()));
         }
         if (config != null && !config.isEmpty()) {

@@ -4,7 +4,6 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
@@ -29,6 +28,10 @@ public interface Session extends AutoCloseable {
 
     NamedCollection<NodeInfo> getOverridableInitializers();
 
+    long getProfilingStartTimeInNs();
+
+    Path endProfiling();
+
     /**
      * Create a new transaction.
      * @return a builder
@@ -48,7 +51,7 @@ public interface Session extends AutoCloseable {
 
         Builder disablePerSessionThreads();
 
-        Builder enableProfiling(File filePath);
+        Builder enableProfiling(Path outputPathPrefix);
 
         Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
 
@@ -70,7 +73,7 @@ public interface Session extends AutoCloseable {
 
         Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level);
 
-        Builder setOptimizedModelFilePath(File outputPath);
+        Builder setOptimizedModelFilePath(Path outputPath);
 
         /**
          * Construct a {@link Session}.

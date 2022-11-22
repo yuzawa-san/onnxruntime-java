@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -857,7 +858,7 @@ public class SessionTest {
             try (Session session = environment.newSession().setPath(f).build()) {
                 assertEquals(1, session.getInputs().size());
             }
-        } catch (Exception e) {
+        } finally {
             f.toFile().delete();
         }
     }
@@ -896,7 +897,7 @@ public class SessionTest {
                 .setLoggerId("LOGGER")
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogVerbosityLevel(0)
-                .setCpuMemoryArena(false)
+                .setCpuMemoryArena(true)
                 .setMemoryPatternOptimization(true)
                 .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_ALL)
                 .setSessionConfigMap(Map.of("foo", "bar", "baz", "boom"))
@@ -941,6 +942,64 @@ public class SessionTest {
                 t.addInput(0);
                 t.build().run();
             });
+        }
+    }
+
+    @Test
+    public void optimizationTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        Path f = Files.createTempFile("ort", ".onnx");
+        try {
+            try (Session session = environment
+                    .newSession()
+                    .setByteBuffer(identityModel(type))
+                    .setOptimizedModelFilePath(f)
+                    .build()) {
+                assertEquals(1, session.getInputs().size());
+            }
+            assertTrue(f.toFile().length() > 0);
+        } finally {
+            f.toFile().delete();
+        }
+    }
+
+    @Test
+    public void profilingTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        Path f = Files.createTempFile("ort", ".onnx");
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(identityModel(type))
+                .enableProfiling(f)
+                .build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            float[] rawOutput = new float[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+            OnnxTensor outputTensor = outputValue.asTensor();
+            outputTensor.getFloatBuffer().get(rawOutput);
+            assertTrue(Arrays.equals(rawInput, rawOutput));
+            long startNs = session.getProfilingStartTimeInNs();
+            assertTrue(startNs > 0L);
+            File out = session.endProfiling().toFile();
+            assertTrue(out.length() > 0);
+            out.delete();
         }
     }
 }

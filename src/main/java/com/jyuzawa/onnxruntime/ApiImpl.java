@@ -77,6 +77,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogSeverityLevel;
 import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogVerbosityLevel;
 import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunTag;
 import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetTerminate;
+import com.jyuzawa.onnxruntime_extern.OrtApi.SessionEndProfiling;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputTypeInfo;
@@ -87,6 +88,7 @@ import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
+import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetProfilingStartTimeNs;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalDenormalAsZero;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalInterOpNumThreads;
 import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalIntraOpNumThreads;
@@ -193,6 +195,7 @@ final class ApiImpl implements Api {
     final SetSessionLogId SetSessionLogId;
     final SetSessionLogSeverityLevel SetSessionLogSeverityLevel;
     final SetSessionLogVerbosityLevel SetSessionLogVerbosityLevel;
+    final SessionEndProfiling SessionEndProfiling;
     final SessionGetInputCount SessionGetInputCount;
     final SessionGetInputName SessionGetInputName;
     final SessionGetInputTypeInfo SessionGetInputTypeInfo;
@@ -203,6 +206,7 @@ final class ApiImpl implements Api {
     final SessionGetOverridableInitializerCount SessionGetOverridableInitializerCount;
     final SessionGetOverridableInitializerName SessionGetOverridableInitializerName;
     final SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo;
+    final SessionGetProfilingStartTimeNs SessionGetProfilingStartTimeNs;
 
     private final Set<String> providers;
 
@@ -290,6 +294,7 @@ final class ApiImpl implements Api {
         this.SetSessionLogId = OrtApi.SetSessionLogId(segment, scope);
         this.SetSessionLogSeverityLevel = OrtApi.SetSessionLogSeverityLevel(segment, scope);
         this.SetSessionLogVerbosityLevel = OrtApi.SetSessionLogVerbosityLevel(segment, scope);
+        this.SessionEndProfiling = OrtApi.SessionEndProfiling(segment, scope);
         this.SessionGetInputCount = OrtApi.SessionGetInputCount(segment, scope);
         this.SessionGetInputName = OrtApi.SessionGetInputName(segment, scope);
         this.SessionGetInputTypeInfo = OrtApi.SessionGetInputTypeInfo(segment, scope);
@@ -300,6 +305,7 @@ final class ApiImpl implements Api {
         this.SessionGetOverridableInitializerCount = OrtApi.SessionGetOverridableInitializerCount(segment, scope);
         this.SessionGetOverridableInitializerName = OrtApi.SessionGetOverridableInitializerName(segment, scope);
         this.SessionGetOverridableInitializerTypeInfo = OrtApi.SessionGetOverridableInitializerTypeInfo(segment, scope);
+        this.SessionGetProfilingStartTimeNs = OrtApi.SessionGetProfilingStartTimeNs(segment, scope);
 
         try (MemorySession session = MemorySession.openConfined()) {
             Set<String> providers = new LinkedHashSet<>();
