@@ -104,7 +104,7 @@ final class TransactionBuilderImpl implements Transaction.Builder {
     }
 
     @Override
-    public Builder setRunConfigMap(Map<String, String> config) {
+    public Builder setConfigMap(Map<String, String> config) {
         this.config = config;
         return this;
     }

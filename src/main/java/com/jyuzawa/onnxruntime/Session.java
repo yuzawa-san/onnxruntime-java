@@ -51,13 +51,13 @@ public interface Session extends AutoCloseable {
 
         Builder disablePerSessionThreads();
 
-        Builder enableProfiling(Path outputPathPrefix);
+        Builder setProfilingOutputPath(Path prefix);
 
         Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
 
         Builder setLogVerbosityLevel(int level);
 
-        Builder setSessionConfigMap(Map<String, String> config);
+        Builder setConfigMap(Map<String, String> config);
 
         Builder setExecutionMode(OnnxRuntimeExecutionMode mode);
 
@@ -67,13 +67,13 @@ public interface Session extends AutoCloseable {
 
         Builder setCpuMemoryArena(boolean useMemoryArena);
 
-        Builder setLoggerId(String loggerId);
+        Builder setLogId(String loggerId);
 
         Builder setMemoryPatternOptimization(boolean memoryPatternOptimization);
 
         Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level);
 
-        Builder setOptimizedModelFilePath(Path outputPath);
+        Builder setOptimizationOutputPath(Path optimizedFile);
 
         /**
          * Construct a {@link Session}.

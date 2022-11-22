@@ -894,13 +894,13 @@ public class SessionTest {
                 .setExecutionMode(OnnxRuntimeExecutionMode.SEQUENTIAL)
                 .setInterOpNumThreads(0)
                 .setIntraOpNumThreads(0)
-                .setLoggerId("LOGGER")
+                .setLogId("LOGGER")
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogVerbosityLevel(0)
                 .setCpuMemoryArena(true)
                 .setMemoryPatternOptimization(true)
                 .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_ALL)
-                .setSessionConfigMap(Map.of("foo", "bar", "baz", "boom"))
+                .setConfigMap(Map.of("foo", "bar", "baz", "boom"))
                 .build()) {
             assertEquals(1, session.getInputs().size());
         }
@@ -921,7 +921,7 @@ public class SessionTest {
             txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                     .setLogVerbosityLevel(0)
                     .setRunTag("LOGGER")
-                    .setRunConfigMap(Map.of("foo", "bar", "baz", "boom"));
+                    .setConfigMap(Map.of("foo", "bar", "baz", "boom"));
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput("input").asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput("output");
@@ -959,7 +959,7 @@ public class SessionTest {
             try (Session session = environment
                     .newSession()
                     .setByteBuffer(identityModel(type))
-                    .setOptimizedModelFilePath(f)
+                    .setOptimizationOutputPath(f)
                     .build()) {
                 assertEquals(1, session.getInputs().size());
             }
@@ -982,7 +982,7 @@ public class SessionTest {
         try (Session session = environment
                 .newSession()
                 .setByteBuffer(identityModel(type))
-                .enableProfiling(f)
+                .setProfilingOutputPath(f)
                 .build()) {
             Transaction.Builder txn = session.newTransaction();
             float[] rawInput = new float[] {554354, 52345234, 143646};

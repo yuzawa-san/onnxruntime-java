@@ -77,7 +77,7 @@ public class ConcurrencyTest {
                     .disablePerSessionThreads()
                     .setMemoryPatternOptimization(false)
                     .setCpuMemoryArena(false)
-                    .setSessionConfigMap(Map.of("session.use_env_allocators", "1"))
+                    .setConfigMap(Map.of("session.use_env_allocators", "1"))
                     .build()) {
                 for (int j = 0; j < 10; j++) {
                     Transaction.Builder txn = session.newTransaction();
@@ -104,7 +104,7 @@ public class ConcurrencyTest {
                 .disablePerSessionThreads()
                 .setMemoryPatternOptimization(false)
                 .setCpuMemoryArena(false)
-                .setSessionConfigMap(Map.of("session.use_env_allocators", "1"))
+                .setConfigMap(Map.of("session.use_env_allocators", "1"))
                 .build()) {
             ExecutorService executor = Executors.newFixedThreadPool(numThreads);
             for (int i = 0; i < numThreads; i++) {

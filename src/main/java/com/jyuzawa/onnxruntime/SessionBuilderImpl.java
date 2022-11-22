@@ -63,13 +63,13 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder enableProfiling(Path outputPathPrefix) {
+    public Session.Builder setProfilingOutputPath(Path outputPathPrefix) {
         this.profilingOutput = outputPathPrefix;
         return this;
     }
 
     @Override
-    public Session.Builder setOptimizedModelFilePath(Path outputPath) {
+    public Session.Builder setOptimizationOutputPath(Path outputPath) {
         this.optimizedFilePath = outputPath;
         return this;
     }
@@ -105,7 +105,7 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder setLoggerId(String loggerId) {
+    public Session.Builder setLogId(String loggerId) {
         this.loggerId = loggerId;
         return this;
     }
@@ -117,7 +117,7 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder setSessionConfigMap(Map<String, String> config) {
+    public Session.Builder setConfigMap(Map<String, String> config) {
         this.config = config;
         return this;
     }
