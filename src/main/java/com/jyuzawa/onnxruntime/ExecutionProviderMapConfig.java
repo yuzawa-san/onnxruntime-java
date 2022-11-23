@@ -11,9 +11,9 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.util.Map;
 
-abstract class ExecutionProviderMapAppender extends ExecutionProviderAppender {
+abstract class ExecutionProviderMapConfig extends ExecutionProviderConfig {
 
-    protected ExecutionProviderMapAppender(Map<String, String> properties) {
+    protected ExecutionProviderMapConfig(Map<String, String> properties) {
         super(properties);
     }
 

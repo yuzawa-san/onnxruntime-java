@@ -7,4 +7,4 @@ package com.jyuzawa.onnxruntime;
 import java.util.Map;
 import java.util.function.Function;
 
-interface ExecutionProviderFactory extends Function<Map<String, String>, ExecutionProviderAppender> {}
+interface ExecutionProviderConfigFactory extends Function<Map<String, String>, ExecutionProviderConfig> {}

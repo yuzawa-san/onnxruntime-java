@@ -8,11 +8,11 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
 import java.util.Map;
 
-abstract class ExecutionProviderAppender {
+abstract class ExecutionProviderConfig {
 
     protected final Map<String, String> properties;
 
-    protected ExecutionProviderAppender(Map<String, String> properties) {
+    protected ExecutionProviderConfig(Map<String, String> properties) {
         this.properties = properties;
     }
 

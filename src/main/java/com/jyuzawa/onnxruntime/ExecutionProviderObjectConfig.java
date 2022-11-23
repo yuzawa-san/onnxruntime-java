@@ -9,9 +9,9 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
 import java.util.Map;
 
-abstract class ExecutionProviderObjectAppender extends ExecutionProviderMapAppender {
+abstract class ExecutionProviderObjectConfig extends ExecutionProviderMapConfig {
 
-    protected ExecutionProviderObjectAppender(Map<String, String> properties) {
+    protected ExecutionProviderObjectConfig(Map<String, String> properties) {
         super(properties);
     }
 
@@ -23,7 +23,7 @@ abstract class ExecutionProviderObjectAppender extends ExecutionProviderMapAppen
             MemoryAddress keys,
             MemoryAddress values,
             int numProperties) {
-        MemoryAddress config = api.create(memorySession, out -> creator(api, out));
+        MemoryAddress config = api.create(memorySession, out -> create(api, out));
         memorySession.addCloseAction(() -> {
             release(api, config);
         });
@@ -31,7 +31,7 @@ abstract class ExecutionProviderObjectAppender extends ExecutionProviderMapAppen
         api.checkStatus(append(api, sessionOptions, config));
     }
 
-    protected abstract Addressable creator(ApiImpl api, MemoryAddress out);
+    protected abstract Addressable create(ApiImpl api, MemoryAddress out);
 
     protected abstract void release(ApiImpl api, MemoryAddress config);
 

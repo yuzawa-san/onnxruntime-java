@@ -8,9 +8,11 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
 import java.util.Map;
 
-final class ExecutionProviderCPU extends ExecutionProviderAppender {
+final class ExecutionProviderConfigCPU extends ExecutionProviderConfig {
+	
+	private static final String USE_ARENA = "use_arena";
 
-    protected ExecutionProviderCPU(Map<String, String> properties) {
+    protected ExecutionProviderConfigCPU(Map<String, String> properties) {
         super(properties);
     }
 
@@ -18,7 +20,7 @@ final class ExecutionProviderCPU extends ExecutionProviderAppender {
     void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
         // default is true
         // https://github.com/microsoft/onnxruntime/blob/fb85b31facb9fb3fc99c76f99c93ea8f06ada39b/onnxruntime/core/providers/cpu/cpu_execution_provider.h#L14
-        String useArena = properties.getOrDefault("use_arena", "1");
+        String useArena = properties.getOrDefault(USE_ARENA, "1");
         if ("1".equals(useArena) || "true".equals(useArena)) {
             api.checkStatus(api.EnableCpuMemArena.apply(sessionOptions));
         } else {

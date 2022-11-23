@@ -38,7 +38,7 @@ final class SessionBuilderImpl implements Session.Builder {
     private boolean disablePerSessionThreads;
     private OnnxRuntimeExecutionMode executionMode;
     private OnnxRuntimeOptimizationLevel optimizationLevel;
-    private Map<ExecutionProvider, ExecutionProviderAppender> executionProviderAppenders;
+    private Map<ExecutionProvider, ExecutionProviderConfig> executionProviderAppenders;
 
     SessionBuilderImpl(ApiImpl api, MemoryAddress environment) {
         this.api = api;
@@ -138,7 +138,7 @@ final class SessionBuilderImpl implements Session.Builder {
 
     @Override
     public Session.Builder addProvider(ExecutionProvider provider, Map<String, String> properties) {
-        if (!provider.isImplemented()) {
+        if (!provider.isSupported()) {
             throw new UnsupportedOperationException("Provider " + provider + " not implemented.");
         }
         this.executionProviderAppenders.put(provider, provider.factory.apply(properties));
@@ -203,7 +203,7 @@ final class SessionBuilderImpl implements Session.Builder {
                         allocator.allocateUtf8String(entry.getValue()).address()));
             }
         }
-        for (ExecutionProviderAppender executionProviderAppender : executionProviderAppenders.values()) {
+        for (ExecutionProviderConfig executionProviderAppender : executionProviderAppenders.values()) {
             executionProviderAppender.appendToSessionOptions(allocator, api, sessionOptions);
         }
         return sessionOptions;

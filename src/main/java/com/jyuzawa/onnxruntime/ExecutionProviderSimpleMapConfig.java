@@ -8,17 +8,17 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
 import java.util.Map;
 
-final class ExecutionProviderSimpleAppender extends ExecutionProviderMapAppender {
+final class ExecutionProviderSimpleMapConfig extends ExecutionProviderMapConfig {
 
     private final String name;
 
-    private ExecutionProviderSimpleAppender(Map<String, String> properties, String name) {
+    private ExecutionProviderSimpleMapConfig(Map<String, String> properties, String name) {
         super(properties);
         this.name = name;
     }
 
-    static final ExecutionProviderFactory of(String name) {
-        return properties -> new ExecutionProviderSimpleAppender(properties, name);
+    static final ExecutionProviderConfigFactory of(String name) {
+        return properties -> new ExecutionProviderSimpleMapConfig(properties, name);
     }
 
     @Override
