@@ -33,7 +33,7 @@ final class SessionBuilderImpl implements Session.Builder {
     private static final MethodHandle CLOSE_LIBRARY = Linker.nativeLinker()
             .downcallHandle(
                     SymbolLookup.loaderLookup().lookup("dlclose").orElseGet(() -> SymbolLookup.loaderLookup()
-                            .lookup("_FreeLibrary@4")
+                            .lookup("_FreeLibrary@8")
                             .get()),
                     FunctionDescriptor.of(C_INT, C_POINTER));
 
