@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -74,6 +75,14 @@ public interface Session extends AutoCloseable {
         Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level);
 
         Builder setOptimizationOutputPath(Path optimizedFile);
+
+        Builder addProvider(ExecutionProvider provider, Map<String, String> properties);
+
+        default Builder addProvider(ExecutionProvider provider) {
+            return addProvider(provider, Collections.emptyMap());
+        }
+
+        // TODO: custom op library
 
         /**
          * Construct a {@link Session}.

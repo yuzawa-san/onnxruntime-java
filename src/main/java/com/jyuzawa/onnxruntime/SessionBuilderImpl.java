@@ -16,6 +16,7 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 final class SessionBuilderImpl implements Session.Builder {
@@ -38,10 +39,12 @@ final class SessionBuilderImpl implements Session.Builder {
     private boolean disablePerSessionThreads;
     private OnnxRuntimeExecutionMode executionMode;
     private OnnxRuntimeOptimizationLevel optimizationLevel;
+    private Map<ExecutionProvider, ExecutionProviderAppender> executionProviderAppenders;
 
     SessionBuilderImpl(ApiImpl api, MemoryAddress environment) {
         this.api = api;
         this.environment = environment;
+        this.executionProviderAppenders = new LinkedHashMap<>();
     }
 
     @Override
@@ -140,6 +143,15 @@ final class SessionBuilderImpl implements Session.Builder {
         return this;
     }
 
+    @Override
+    public Session.Builder addProvider(ExecutionProvider provider, Map<String, String> properties) {
+        if (!provider.isImplemented()) {
+            throw new UnsupportedOperationException("Provider " + provider + " not implemented.");
+        }
+        this.executionProviderAppenders.put(provider, provider.factory.apply(properties));
+        return this;
+    }
+
     private MemoryAddress newSessionOptions(MemorySession allocator) {
         MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
 
@@ -205,7 +217,9 @@ final class SessionBuilderImpl implements Session.Builder {
                         allocator.allocateUtf8String(entry.getValue()).address()));
             }
         }
-
+        for (ExecutionProviderAppender executionProviderAppender : executionProviderAppenders.values()) {
+            executionProviderAppender.appendToSessionOptions(allocator, api, sessionOptions);
+        }
         return sessionOptions;
     }
 

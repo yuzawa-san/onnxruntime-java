@@ -78,9 +78,9 @@ public class SessionTest {
 
     @Test
     public void providersTest() {
-        Set<String> providers = api.getAvailableProviders();
+        Set<ExecutionProvider> providers = api.getAvailableProviders();
         assertFalse(providers.isEmpty());
-        assertTrue(providers.contains("CPUExecutionProvider"));
+        assertTrue(providers.contains(ExecutionProvider.CPU_EXECUTION_PROVIDER));
     }
 
     @Test
