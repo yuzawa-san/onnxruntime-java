@@ -5,21 +5,37 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.foreign.Addressable;
+import java.lang.foreign.FunctionDescriptor;
+import java.lang.foreign.Linker;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SymbolLookup;
+import java.lang.invoke.MethodHandle;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 final class SessionBuilderImpl implements Session.Builder {
+
+    private static final MethodHandle CLOSE_LIBRARY = Linker.nativeLinker()
+            .downcallHandle(
+                    SymbolLookup.loaderLookup().lookup("dlclose").orElseGet(() -> SymbolLookup.loaderLookup()
+                            .lookup("FreeLibrary")
+                            .get()),
+                    FunctionDescriptor.of(C_INT, C_POINTER));
 
     private final ApiImpl api;
     private final MemoryAddress environment;
@@ -39,11 +55,13 @@ final class SessionBuilderImpl implements Session.Builder {
     private OnnxRuntimeExecutionMode executionMode;
     private OnnxRuntimeOptimizationLevel optimizationLevel;
     private Map<ExecutionProvider, ExecutionProviderConfig> executionProviderAppenders;
+    private List<Path> customOpsLibraries;
 
     SessionBuilderImpl(ApiImpl api, MemoryAddress environment) {
         this.api = api;
         this.environment = environment;
         this.executionProviderAppenders = new LinkedHashMap<>();
+        this.customOpsLibraries = new ArrayList<>();
     }
 
     @Override
@@ -145,6 +163,12 @@ final class SessionBuilderImpl implements Session.Builder {
         return this;
     }
 
+    @Override
+    public Session.Builder addCustomOpsLibrary(Path path) {
+        this.customOpsLibraries.add(path);
+        return this;
+    }
+
     private MemoryAddress newSessionOptions(MemorySession allocator) {
         MemoryAddress sessionOptions = api.create(allocator, out -> api.CreateSessionOptions.apply(out));
 
@@ -206,7 +230,29 @@ final class SessionBuilderImpl implements Session.Builder {
         for (ExecutionProviderConfig executionProviderAppender : executionProviderAppenders.values()) {
             executionProviderAppender.appendToSessionOptions(allocator, api, sessionOptions);
         }
+        for (Path customOpsLibrary : customOpsLibraries) {
+            MemoryAddress libraryHandle = api.create(
+                    allocator,
+                    out -> api.RegisterCustomOpsLibrary.apply(
+                            sessionOptions,
+                            allocator
+                                    .allocateUtf8String(
+                                            customOpsLibrary.toAbsolutePath().toString())
+                                    .address(),
+                            out));
+            allocator.addCloseAction(() -> {
+                closeLibrary(libraryHandle);
+            });
+        }
         return sessionOptions;
+    }
+
+    private static int closeLibrary(Addressable libraryHandler) {
+        try {
+            return (int) CLOSE_LIBRARY.invokeExact(libraryHandler);
+        } catch (Throwable ex) {
+            throw new AssertionError("should not reach here", ex);
+        }
     }
 
     @Override

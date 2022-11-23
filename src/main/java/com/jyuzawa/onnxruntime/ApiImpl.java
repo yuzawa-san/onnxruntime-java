@@ -8,6 +8,8 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
+import com.jyuzawa.onnxruntime_extern.OrtApi;
+import com.jyuzawa.onnxruntime_extern.OrtApi.*;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Addressable;
@@ -19,9 +21,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Function;
-
-import com.jyuzawa.onnxruntime_extern.OrtApi;
-import com.jyuzawa.onnxruntime_extern.OrtApi.*;
 
 final class ApiImpl implements Api {
 
@@ -81,6 +80,7 @@ final class ApiImpl implements Api {
     final ModelMetadataGetProducerName ModelMetadataGetProducerName;
     final ModelMetadataGetVersion ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap;
+    final RegisterCustomOpsLibrary RegisterCustomOpsLibrary;
     final ReleaseAvailableProviders ReleaseAvailableProviders;
     final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
     final ReleaseEnv ReleaseEnv;
@@ -193,6 +193,7 @@ final class ApiImpl implements Api {
         this.ModelMetadataGetProducerName = OrtApi.ModelMetadataGetProducerName(segment, scope);
         this.ModelMetadataGetVersion = OrtApi.ModelMetadataGetVersion(segment, scope);
         this.ModelMetadataLookupCustomMetadataMap = OrtApi.ModelMetadataLookupCustomMetadataMap(segment, scope);
+        this.RegisterCustomOpsLibrary = OrtApi.RegisterCustomOpsLibrary(segment, scope);
         this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(segment, scope);
         this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(segment, scope);
         this.ReleaseEnv = OrtApi.ReleaseEnv(segment, scope);
@@ -265,15 +266,16 @@ final class ApiImpl implements Api {
                 String identifier = providerAddress.getUtf8String(0);
                 ExecutionProvider provider = ExecutionProvider.of(identifier);
                 if (provider == null) {
-                    LOG.log(Level.WARNING, "Unknown available provider {}", identifier);
-                } else if(!provider.isSupported()) {
-                	LOG.log(Level.WARNING, "Provider {} is available, but not supported by this library", provider);
-                }else {
+                    LOG.log(Level.WARNING, "Unknown available provider " + identifier);
+                } else if (!provider.isSupported()) {
+                    LOG.log(Level.WARNING, "Provider " + provider + " is available, but not supported by this library");
+                } else {
                     providers.add(provider);
                 }
             }
             checkStatus(ReleaseAvailableProviders.apply(providersArray.address(), numProviders));
             this.providers = Collections.unmodifiableSet(providers);
+            LOG.log(Level.DEBUG, "Available providers: " + providers);
         }
     }
 

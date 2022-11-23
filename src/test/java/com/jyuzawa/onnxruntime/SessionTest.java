@@ -36,6 +36,7 @@ import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -1000,6 +1001,38 @@ public class SessionTest {
             File out = session.endProfiling().toFile();
             assertTrue(out.length() > 0);
             out.delete();
+        }
+    }
+
+    @Test
+    public void customOpTest() throws Exception {
+        // TODO: more OS/arches
+        Assume.assumeTrue(System.getProperty("os.name").equalsIgnoreCase("mac os x")
+                && System.getProperty("os.arch").equalsIgnoreCase("x86_64"));
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(identityModel(type))
+                .addCustomOpsLibrary(f)
+                .build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            float[] rawOutput = new float[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+            OnnxTensor outputTensor = outputValue.asTensor();
+            outputTensor.getFloatBuffer().get(rawOutput);
+            assertTrue(Arrays.equals(rawInput, rawOutput));
         }
     }
 }

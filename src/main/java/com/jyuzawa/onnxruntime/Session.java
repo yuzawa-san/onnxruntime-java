@@ -80,7 +80,7 @@ public interface Session extends AutoCloseable {
             return addProvider(provider, Collections.emptyMap());
         }
 
-        // TODO: custom op library
+        Builder addCustomOpsLibrary(Path path);
 
         /**
          * Construct a {@link Session}.

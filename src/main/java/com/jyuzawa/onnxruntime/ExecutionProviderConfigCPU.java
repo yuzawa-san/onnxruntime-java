@@ -9,8 +9,8 @@ import java.lang.foreign.MemorySession;
 import java.util.Map;
 
 final class ExecutionProviderConfigCPU extends ExecutionProviderConfig {
-	
-	private static final String USE_ARENA = "use_arena";
+
+    private static final String USE_ARENA = "use_arena";
 
     protected ExecutionProviderConfigCPU(Map<String, String> properties) {
         super(properties);

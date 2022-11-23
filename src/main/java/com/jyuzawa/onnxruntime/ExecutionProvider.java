@@ -37,7 +37,7 @@ public enum ExecutionProvider {
         this.factory = factory;
     }
 
-     boolean isSupported() {
+    boolean isSupported() {
         return factory != null;
     }
 
