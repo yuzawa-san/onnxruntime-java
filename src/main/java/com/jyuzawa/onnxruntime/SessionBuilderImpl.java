@@ -8,7 +8,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.foreign.Addressable;
@@ -28,12 +27,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jyuzawa.onnxruntime.Session.Builder;
+
 final class SessionBuilderImpl implements Session.Builder {
 
     private static final MethodHandle CLOSE_LIBRARY = Linker.nativeLinker()
             .downcallHandle(
                     SymbolLookup.loaderLookup().lookup("dlclose").orElseGet(() -> SymbolLookup.loaderLookup()
-                            .lookup("FreeLibrary")
+                            .lookup("_FreeLibrary@4")
                             .get()),
                     FunctionDescriptor.of(C_INT, C_POINTER));
 
