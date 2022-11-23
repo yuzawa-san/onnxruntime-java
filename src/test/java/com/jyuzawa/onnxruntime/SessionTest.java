@@ -897,7 +897,7 @@ public class SessionTest {
                 .setLogId("LOGGER")
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogVerbosityLevel(0)
-                .setCpuMemoryArena(true)
+                .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", "1"))
                 .setMemoryPatternOptimization(true)
                 .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_ALL)
                 .setConfigMap(Map.of("foo", "bar", "baz", "boom"))

@@ -30,7 +30,6 @@ final class SessionBuilderImpl implements Session.Builder {
     private Integer logVerbosityLevel;
     private String loggerId;
     private Boolean memoryPatternOptimization;
-    private Boolean cpuArena;
     private Map<String, String> config;
     private Integer interOpNumThreads;
     private Integer intraOpNumThreads;
@@ -138,12 +137,6 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder setCpuMemoryArena(boolean useMemoryArena) {
-        this.cpuArena = useMemoryArena;
-        return this;
-    }
-
-    @Override
     public Session.Builder addProvider(ExecutionProvider provider, Map<String, String> properties) {
         if (!provider.isImplemented()) {
             throw new UnsupportedOperationException("Provider " + provider + " not implemented.");
@@ -170,13 +163,6 @@ final class SessionBuilderImpl implements Session.Builder {
                 api.checkStatus(api.EnableMemPattern.apply(sessionOptions));
             } else {
                 api.checkStatus(api.DisableMemPattern.apply(sessionOptions));
-            }
-        }
-        if (cpuArena != null) {
-            if (cpuArena) {
-                api.checkStatus(api.EnableCpuMemArena.apply(sessionOptions));
-            } else {
-                api.checkStatus(api.DisableCpuMemArena.apply(sessionOptions));
             }
         }
         if (interOpNumThreads != null) {

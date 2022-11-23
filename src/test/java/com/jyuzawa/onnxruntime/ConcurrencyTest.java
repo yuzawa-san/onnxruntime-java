@@ -76,7 +76,7 @@ public class ConcurrencyTest {
                     .setByteArray(model)
                     .disablePerSessionThreads()
                     .setMemoryPatternOptimization(false)
-                    .setCpuMemoryArena(false)
+                    .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", "0"))
                     .setConfigMap(Map.of("session.use_env_allocators", "1"))
                     .build()) {
                 for (int j = 0; j < 10; j++) {
@@ -103,7 +103,7 @@ public class ConcurrencyTest {
                 .setByteArray(model)
                 .disablePerSessionThreads()
                 .setMemoryPatternOptimization(false)
-                .setCpuMemoryArena(false)
+                .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", "0"))
                 .setConfigMap(Map.of("session.use_env_allocators", "1"))
                 .build()) {
             ExecutorService executor = Executors.newFixedThreadPool(numThreads);
