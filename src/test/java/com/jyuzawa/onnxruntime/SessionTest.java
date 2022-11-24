@@ -964,6 +964,9 @@ public class SessionTest {
                     .build()) {
                 assertEquals(1, session.getInputs().size());
             }
+            System.out.println("OPTIM " + f + " " + f.toFile());
+            System.out.println(
+                    "OPTIMM " + f.toFile().exists() + " " + f.toFile().length());
             assertTrue(f.toFile().length() > 0);
         } finally {
             f.toFile().delete();
