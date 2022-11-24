@@ -968,7 +968,17 @@ public class SessionTest {
                     .setByteBuffer(identityModel(type))
                     .setOptimizationOutputPath(f)
                     .build()) {
-                assertEquals(1, session.getInputs().size());
+                Transaction.Builder txn = session.newTransaction();
+                float[] rawInput = new float[] {554354, 52345234, 143646};
+                txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+                txn.addOutput(0);
+                NamedCollection<OnnxValue> output = txn.build().run();
+                float[] rawOutput = new float[3];
+                OnnxValue outputValue = output.get(0);
+                assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+                OnnxTensor outputTensor = outputValue.asTensor();
+                outputTensor.getFloatBuffer().get(rawOutput);
+                assertTrue(Arrays.equals(rawInput, rawOutput));
             }
             assertTrue(file.exists());
             assertTrue(file.length() > 0);
