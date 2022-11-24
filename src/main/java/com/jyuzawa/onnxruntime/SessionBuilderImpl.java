@@ -32,9 +32,10 @@ final class SessionBuilderImpl implements Session.Builder {
 
     private static final MethodHandle CLOSE_LIBRARY = Linker.nativeLinker()
             .downcallHandle(
-                    SymbolLookup.loaderLookup().lookup("dlclose").orElseGet(() -> SymbolLookup.loaderLookup()
-                            .lookup("_FreeLibrary@8")
-                            .get()),
+                    SymbolLookup.loaderLookup().lookup("dlclose").orElseGet(() -> {
+                        System.loadLibrary("Kernel32");
+                        return SymbolLookup.loaderLookup().lookup("FreeLibrary").get();
+                    }),
                     FunctionDescriptor.of(C_INT, C_POINTER));
 
     private final ApiImpl api;
