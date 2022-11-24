@@ -12,8 +12,10 @@ import static org.junit.Assert.assertTrue;
 import com.google.protobuf.ByteString;
 import java.io.File;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -21,6 +23,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -42,7 +45,7 @@ import org.junit.Test;
 
 public class SessionTest {
 
-    private static final Charset UTF8 = Charset.forName("utf-8");
+    private static final Logger LOG = System.getLogger(SessionTest.class.getName());
     private static Api api;
     private static Environment environment;
 
@@ -260,7 +263,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> outputTensor.getLongBuffer());
             outputTensor.getFloatBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -283,7 +286,7 @@ public class SessionTest {
             double[] rawOutput = new double[3];
             output.get(0).asTensor().getDoubleBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -306,7 +309,7 @@ public class SessionTest {
             byte[] rawOutput = new byte[3];
             output.get(0).asTensor().getByteBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -329,7 +332,7 @@ public class SessionTest {
             short[] rawOutput = new short[3];
             output.get(0).asTensor().getShortBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -352,7 +355,7 @@ public class SessionTest {
             int[] rawOutput = new int[3];
             output.get(0).asTensor().getIntBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -375,7 +378,7 @@ public class SessionTest {
             long[] rawOutput = new long[3];
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -399,7 +402,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.build().run();
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -460,7 +463,7 @@ public class SessionTest {
             assertTrue(Arrays.equals(rawInput1, outputBuffer));
             outputSequence.get(1).asTensor().getFloatBuffer().get(outputBuffer);
             assertTrue(Arrays.equals(rawInput2, outputBuffer));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -537,7 +540,7 @@ public class SessionTest {
             rawOutput[1] = outputMap.get(35234L).asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get(572457L).asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -634,7 +637,7 @@ public class SessionTest {
             rawOutput[1] = outputMap.get("bazz").asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get("barss").asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -652,7 +655,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_STRING", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_STRING", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -689,7 +692,7 @@ public class SessionTest {
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             String[] orderedOut = new String[] {"ab", "xr", "fe", "fsaf", "fa3sf"};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -707,7 +710,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_INT64", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_INT64", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -745,7 +748,7 @@ public class SessionTest {
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             long[] orderedOut = new long[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -763,7 +766,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_FLOAT", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_FLOAT", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -801,7 +804,7 @@ public class SessionTest {
             output.get(0).asTensor().getFloatBuffer().get(rawOutput);
             float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -932,7 +935,7 @@ public class SessionTest {
             OnnxTensor outputTensor = outputValue.asTensor();
             outputTensor.getFloatBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
 
             assertThrows(IllegalArgumentException.class, () -> {
                 Transaction.Builder t = session.newTransaction();
@@ -955,8 +958,11 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        Path f = Files.createTempFile("ort", ".onnx");
+        Path f = Path.of(System.getProperty("java.io.tmpdir"))
+                .resolve("ort-optimized" + ThreadLocalRandom.current().nextLong() + ".onnx");
+        File file = f.toFile();
         try {
+            assertFalse(file.exists());
             try (Session session = environment
                     .newSession()
                     .setByteBuffer(identityModel(type))
@@ -964,12 +970,10 @@ public class SessionTest {
                     .build()) {
                 assertEquals(1, session.getInputs().size());
             }
-            System.out.println("OPTIM " + f + " " + f.toFile());
-            System.out.println(
-                    "OPTIMM " + f.toFile().exists() + " " + f.toFile().length());
-            assertTrue(f.toFile().length() > 0);
+            assertTrue(file.exists());
+            assertTrue(file.length() > 0);
         } finally {
-            f.toFile().delete();
+            file.delete();
         }
     }
 
