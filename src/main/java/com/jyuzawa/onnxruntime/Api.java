@@ -18,5 +18,11 @@ public interface Api {
      */
     Environment.Builder newEnvironment();
 
+    /**
+     * Determine what execution providers are available.
+     *
+     * NOTE: not all of these execution provider may be supported by this library.
+     * @return a set of execution providers.
+     */
     Set<ExecutionProvider> getAvailableProviders();
 }

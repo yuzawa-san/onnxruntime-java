@@ -26,9 +26,4 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             api.checkStatus(api.DisableTelemetryEvents.apply(address));
         }
     }
-
-    //    @Override
-    //    public void setLanguageProjection(int languageProjection) {
-    //        api.checkStatus(api.SetLanguageProjection.apply(address, languageProjection));
-    //    }
 }

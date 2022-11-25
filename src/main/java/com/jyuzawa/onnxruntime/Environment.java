@@ -55,12 +55,32 @@ public interface Environment extends AutoCloseable {
          */
         Builder setLogId(String id);
 
+        /**
+         * Set the shared thread pool's "denormal as zero" setting.
+         * @param globalDenormalAsZero whether to denormal as zero
+         * @return the builder
+         */
         Builder setGlobalDenormalAsZero(boolean globalDenormalAsZero);
 
+        /**
+         * Set the shared thread pool's "inter op" thread count.
+         * @param numThreads a number of threads to use, or 0 to have the library use a default
+         * @return the builder
+         */
         Builder setGlobalInterOpNumThreads(int numThreads);
 
+        /**
+         * Set the shared thread pool's "intra op" thread count.
+         * @param numThreads a number of threads to use, or 0 to have the library use a default
+         * @return the builder
+         */
         Builder setGlobalIntraOpNumThreads(int numThreads);
 
+        /**
+         * Set whether the shared thread pool's should spin when idle.
+         * @param globalSpinControl whether to spin or not
+         * @return the builder
+         */
         Builder setGlobalSpinControl(boolean globalSpinControl);
 
         /**
