@@ -4,10 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -29,6 +29,10 @@ public interface Session extends AutoCloseable {
 
     NamedCollection<NodeInfo> getOverridableInitializers();
 
+    long getProfilingStartTimeInNs();
+
+    Path endProfiling();
+
     /**
      * Create a new transaction.
      * @return a builder
@@ -48,13 +52,13 @@ public interface Session extends AutoCloseable {
 
         Builder disablePerSessionThreads();
 
-        Builder enableProfiling(File filePath);
+        Builder setProfilingOutputPath(Path prefix);
 
         Builder setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
 
         Builder setLogVerbosityLevel(int level);
 
-        Builder setSessionConfigMap(Map<String, String> config);
+        Builder setConfigMap(Map<String, String> config);
 
         Builder setExecutionMode(OnnxRuntimeExecutionMode mode);
 
@@ -62,15 +66,21 @@ public interface Session extends AutoCloseable {
 
         Builder setIntraOpNumThreads(int numThreads);
 
-        Builder setCpuMemoryArena(boolean useMemoryArena);
-
-        Builder setLoggerId(String loggerId);
+        Builder setLogId(String loggerId);
 
         Builder setMemoryPatternOptimization(boolean memoryPatternOptimization);
 
         Builder setOptimizationLevel(OnnxRuntimeOptimizationLevel level);
 
-        Builder setOptimizedModelFilePath(File outputPath);
+        Builder setOptimizationOutputPath(Path optimizedFile);
+
+        Builder addProvider(ExecutionProvider provider, Map<String, String> properties);
+
+        default Builder addProvider(ExecutionProvider provider) {
+            return addProvider(provider, Collections.emptyMap());
+        }
+
+        Builder addCustomOpsLibrary(Path path);
 
         /**
          * Construct a {@link Session}.

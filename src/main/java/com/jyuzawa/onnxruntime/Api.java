@@ -18,5 +18,5 @@ public interface Api {
      */
     Environment.Builder newEnvironment();
 
-    Set<String> getAvailableProviders();
+    Set<ExecutionProvider> getAvailableProviders();
 }

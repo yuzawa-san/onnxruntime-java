@@ -12,6 +12,7 @@ import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 
 final class SessionImpl extends ManagedImpl implements Session {
@@ -92,6 +93,21 @@ final class SessionImpl extends ManagedImpl implements Session {
             inputs.put(name, new NodeInfoImpl(name, allocator.allocateUtf8String(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
+    }
+
+    @Override
+    public long getProfilingStartTimeInNs() {
+        try (MemorySession session = MemorySession.openConfined()) {
+            return api.extractLong(session, out -> api.SessionGetProfilingStartTimeNs.apply(address, out));
+        }
+    }
+
+    @Override
+    public Path endProfiling() {
+        try (MemorySession session = MemorySession.openConfined()) {
+            MemoryAddress path = api.create(session, out -> api.SessionEndProfiling.apply(address, ortAllocator, out));
+            return Path.of(path.getUtf8String(0));
+        }
     }
 
     @SuppressWarnings("unchecked")

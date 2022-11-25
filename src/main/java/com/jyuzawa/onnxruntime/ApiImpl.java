@@ -9,108 +9,22 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
-import com.jyuzawa.onnxruntime_extern.OrtApi.AddRunConfigEntry;
-import com.jyuzawa.onnxruntime_extern.OrtApi.AddSessionConfigEntry;
-import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToMapTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToSequenceTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToTensorInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateCpuMemoryInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLogger;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateRunOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionFromArray;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateTensorAsOrtValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateTensorWithDataAsOrtValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateThreadingOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableCpuMemArena;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableMemPattern;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisablePerSessionThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableProfiling;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableTelemetryEvents;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableCpuMemArena;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableMemPattern;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableProfiling;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableTelemetryEvents;
-import com.jyuzawa.onnxruntime_extern.OrtApi.FillStringTensor;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetAllocatorWithDefaultOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetAvailableProviders;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetDimensions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetDimensionsCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetErrorCode;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetErrorMessage;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetMapKeyType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetMapValueType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetOnnxTypeFromTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetSequenceElementType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetStringTensorElement;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetStringTensorElementLength;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorElementType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorMutableData;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorShapeElementCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorTypeAndShape;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetValueCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetCustomMetadataMapKeys;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetDescription;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetDomain;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetGraphDescription;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetGraphName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetProducerName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetVersion;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataLookupCustomMetadataMap;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseAvailableProviders;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseEnv;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseMemoryInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseModelMetadata;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseRunOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseSession;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseSessionOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseStatus;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseThreadingOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.Run;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogSeverityLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogVerbosityLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunTag;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetTerminate;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetModelMetadata;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalDenormalAsZero;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalInterOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalIntraOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalSpinControl;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetInterOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetIntraOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetLanguageProjection;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetOptimizedModelFilePath;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionExecutionMode;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionGraphOptimizationLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogId;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogSeverityLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogVerbosityLevel;
+import com.jyuzawa.onnxruntime_extern.OrtApi.*;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Function;
 
 final class ApiImpl implements Api {
+
+    private static final Logger LOG = System.getLogger(ApiImpl.class.getName());
 
     final AddRunConfigEntry AddRunConfigEntry;
     final AddSessionConfigEntry AddSessionConfigEntry;
@@ -119,6 +33,8 @@ final class ApiImpl implements Api {
     final CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo;
     final CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo;
     final CreateCpuMemoryInfo CreateCpuMemoryInfo;
+    final CreateCUDAProviderOptions CreateCUDAProviderOptions;
+    final CreateTensorRTProviderOptions CreateTensorRTProviderOptions;
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
     final CreateRunOptions CreateRunOptions;
@@ -164,7 +80,9 @@ final class ApiImpl implements Api {
     final ModelMetadataGetProducerName ModelMetadataGetProducerName;
     final ModelMetadataGetVersion ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap;
+    final RegisterCustomOpsLibrary RegisterCustomOpsLibrary;
     final ReleaseAvailableProviders ReleaseAvailableProviders;
+    final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
     final ReleaseEnv ReleaseEnv;
     final ReleaseMemoryInfo ReleaseMemoryInfo;
     final ReleaseModelMetadata ReleaseModelMetadata;
@@ -172,6 +90,7 @@ final class ApiImpl implements Api {
     final ReleaseSession ReleaseSession;
     final ReleaseSessionOptions ReleaseSessionOptions;
     final ReleaseStatus ReleaseStatus;
+    final ReleaseTensorRTProviderOptions ReleaseTensorRTProviderOptions;
     final ReleaseThreadingOptions ReleaseThreadingOptions;
     final ReleaseTypeInfo ReleaseTypeInfo;
     final ReleaseValue ReleaseValue;
@@ -193,6 +112,7 @@ final class ApiImpl implements Api {
     final SetSessionLogId SetSessionLogId;
     final SetSessionLogSeverityLevel SetSessionLogSeverityLevel;
     final SetSessionLogVerbosityLevel SetSessionLogVerbosityLevel;
+    final SessionEndProfiling SessionEndProfiling;
     final SessionGetInputCount SessionGetInputCount;
     final SessionGetInputName SessionGetInputName;
     final SessionGetInputTypeInfo SessionGetInputTypeInfo;
@@ -203,8 +123,18 @@ final class ApiImpl implements Api {
     final SessionGetOverridableInitializerCount SessionGetOverridableInitializerCount;
     final SessionGetOverridableInitializerName SessionGetOverridableInitializerName;
     final SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo;
+    final SessionGetProfilingStartTimeNs SessionGetProfilingStartTimeNs;
+    final SessionOptionsAppendExecutionProvider SessionOptionsAppendExecutionProvider;
+    final SessionOptionsAppendExecutionProvider_CANN SessionOptionsAppendExecutionProvider_CANN;
+    final SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2;
+    final SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX;
+    final SessionOptionsAppendExecutionProvider_OpenVINO SessionOptionsAppendExecutionProvider_OpenVINO;
+    final SessionOptionsAppendExecutionProvider_ROCM SessionOptionsAppendExecutionProvider_ROCM;
+    final SessionOptionsAppendExecutionProvider_TensorRT_V2 SessionOptionsAppendExecutionProvider_TensorRT_V2;
+    final UpdateCUDAProviderOptions UpdateCUDAProviderOptions;
+    final UpdateTensorRTProviderOptions UpdateTensorRTProviderOptions;
 
-    private final Set<String> providers;
+    private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment segment) {
         MemorySession scope = MemorySession.global();
@@ -215,6 +145,8 @@ final class ApiImpl implements Api {
         this.CastTypeInfoToSequenceTypeInfo = OrtApi.CastTypeInfoToSequenceTypeInfo(segment, scope);
         this.CastTypeInfoToTensorInfo = OrtApi.CastTypeInfoToTensorInfo(segment, scope);
         this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(segment, scope);
+        this.CreateCUDAProviderOptions = OrtApi.CreateCUDAProviderOptions(segment, scope);
+        this.CreateTensorRTProviderOptions = OrtApi.CreateTensorRTProviderOptions(segment, scope);
         this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(segment, scope);
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
                 OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(segment, scope);
@@ -261,7 +193,9 @@ final class ApiImpl implements Api {
         this.ModelMetadataGetProducerName = OrtApi.ModelMetadataGetProducerName(segment, scope);
         this.ModelMetadataGetVersion = OrtApi.ModelMetadataGetVersion(segment, scope);
         this.ModelMetadataLookupCustomMetadataMap = OrtApi.ModelMetadataLookupCustomMetadataMap(segment, scope);
+        this.RegisterCustomOpsLibrary = OrtApi.RegisterCustomOpsLibrary(segment, scope);
         this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(segment, scope);
+        this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(segment, scope);
         this.ReleaseEnv = OrtApi.ReleaseEnv(segment, scope);
         this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(segment, scope);
         this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(segment, scope);
@@ -269,6 +203,7 @@ final class ApiImpl implements Api {
         this.ReleaseSession = OrtApi.ReleaseSession(segment, scope);
         this.ReleaseSessionOptions = OrtApi.ReleaseSessionOptions(segment, scope);
         this.ReleaseStatus = OrtApi.ReleaseStatus(segment, scope);
+        this.ReleaseTensorRTProviderOptions = OrtApi.ReleaseTensorRTProviderOptions(segment, scope);
         this.ReleaseThreadingOptions = OrtApi.ReleaseThreadingOptions(segment, scope);
         this.ReleaseTypeInfo = OrtApi.ReleaseTypeInfo(segment, scope);
         this.ReleaseValue = OrtApi.ReleaseValue(segment, scope);
@@ -290,6 +225,7 @@ final class ApiImpl implements Api {
         this.SetSessionLogId = OrtApi.SetSessionLogId(segment, scope);
         this.SetSessionLogSeverityLevel = OrtApi.SetSessionLogSeverityLevel(segment, scope);
         this.SetSessionLogVerbosityLevel = OrtApi.SetSessionLogVerbosityLevel(segment, scope);
+        this.SessionEndProfiling = OrtApi.SessionEndProfiling(segment, scope);
         this.SessionGetInputCount = OrtApi.SessionGetInputCount(segment, scope);
         this.SessionGetInputName = OrtApi.SessionGetInputName(segment, scope);
         this.SessionGetInputTypeInfo = OrtApi.SessionGetInputTypeInfo(segment, scope);
@@ -300,9 +236,25 @@ final class ApiImpl implements Api {
         this.SessionGetOverridableInitializerCount = OrtApi.SessionGetOverridableInitializerCount(segment, scope);
         this.SessionGetOverridableInitializerName = OrtApi.SessionGetOverridableInitializerName(segment, scope);
         this.SessionGetOverridableInitializerTypeInfo = OrtApi.SessionGetOverridableInitializerTypeInfo(segment, scope);
+        this.SessionGetProfilingStartTimeNs = OrtApi.SessionGetProfilingStartTimeNs(segment, scope);
+        this.SessionOptionsAppendExecutionProvider = OrtApi.SessionOptionsAppendExecutionProvider(segment, scope);
+        this.SessionOptionsAppendExecutionProvider_CANN =
+                OrtApi.SessionOptionsAppendExecutionProvider_CANN(segment, scope);
+        this.SessionOptionsAppendExecutionProvider_CUDA_V2 =
+                OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2(segment, scope);
+        this.SessionOptionsAppendExecutionProvider_MIGraphX =
+                OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX(segment, scope);
+        this.SessionOptionsAppendExecutionProvider_OpenVINO =
+                OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO(segment, scope);
+        this.SessionOptionsAppendExecutionProvider_ROCM =
+                OrtApi.SessionOptionsAppendExecutionProvider_ROCM(segment, scope);
+        this.SessionOptionsAppendExecutionProvider_TensorRT_V2 =
+                OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2(segment, scope);
+        this.UpdateCUDAProviderOptions = OrtApi.UpdateCUDAProviderOptions(segment, scope);
+        this.UpdateTensorRTProviderOptions = OrtApi.UpdateTensorRTProviderOptions(segment, scope);
 
         try (MemorySession session = MemorySession.openConfined()) {
-            Set<String> providers = new LinkedHashSet<>();
+            Set<ExecutionProvider> providers = EnumSet.noneOf(ExecutionProvider.class);
             MemorySegment pointer = scope.allocate(C_POINTER);
             MemorySegment countPointer = scope.allocate(C_INT);
             checkStatus(GetAvailableProviders.apply(pointer.address(), countPointer.address()));
@@ -311,10 +263,19 @@ final class ApiImpl implements Api {
                     pointer.getAtIndex(C_POINTER, 0), numProviders * C_POINTER.byteSize(), session);
             for (int i = 0; i < numProviders; i++) {
                 MemoryAddress providerAddress = providersArray.getAtIndex(C_POINTER, i);
-                providers.add(providerAddress.getUtf8String(0));
+                String identifier = providerAddress.getUtf8String(0);
+                ExecutionProvider provider = ExecutionProvider.of(identifier);
+                if (provider == null) {
+                    LOG.log(Level.WARNING, "Unknown available provider " + identifier);
+                } else if (!provider.isSupported()) {
+                    LOG.log(Level.WARNING, "Provider " + provider + " is available, but not supported by this library");
+                } else {
+                    providers.add(provider);
+                }
             }
             checkStatus(ReleaseAvailableProviders.apply(providersArray.address(), numProviders));
             this.providers = Collections.unmodifiableSet(providers);
+            LOG.log(Level.DEBUG, "Available providers: " + providers);
         }
     }
 
@@ -324,7 +285,7 @@ final class ApiImpl implements Api {
     }
 
     @Override
-    public Set<String> getAvailableProviders() {
+    public Set<ExecutionProvider> getAvailableProviders() {
         return providers;
     }
 

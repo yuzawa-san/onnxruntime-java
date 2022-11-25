@@ -10,9 +10,12 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
+import java.io.File;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -35,14 +38,23 @@ import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SessionTest {
 
-    private static final Charset UTF8 = Charset.forName("utf-8");
+    private static final Logger LOG = System.getLogger(SessionTest.class.getName());
     private static Api api;
     private static Environment environment;
+
+    private static final TypeProto FLOAT_TYPE = TypeProto.newBuilder()
+            .setTensorType(Tensor.newBuilder()
+                    .setElemType(DataType.FLOAT_VALUE)
+                    .setShape(TensorShapeProto.newBuilder()
+                            .addDim(Dimension.newBuilder().setDimValue(1))
+                            .addDim(Dimension.newBuilder().setDimValue(3))))
+            .build();
 
     @BeforeClass
     public static void setup() {
@@ -77,9 +89,9 @@ public class SessionTest {
 
     @Test
     public void providersTest() {
-        Set<String> providers = api.getAvailableProviders();
+        Set<ExecutionProvider> providers = api.getAvailableProviders();
         assertFalse(providers.isEmpty());
-        assertTrue(providers.contains("CPUExecutionProvider"));
+        assertTrue(providers.contains(ExecutionProvider.CPU_EXECUTION_PROVIDER));
     }
 
     @Test
@@ -258,7 +270,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> outputTensor.getLongBuffer());
             outputTensor.getFloatBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -281,7 +293,7 @@ public class SessionTest {
             double[] rawOutput = new double[3];
             output.get(0).asTensor().getDoubleBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -304,7 +316,7 @@ public class SessionTest {
             byte[] rawOutput = new byte[3];
             output.get(0).asTensor().getByteBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -327,7 +339,7 @@ public class SessionTest {
             short[] rawOutput = new short[3];
             output.get(0).asTensor().getShortBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -350,7 +362,7 @@ public class SessionTest {
             int[] rawOutput = new int[3];
             output.get(0).asTensor().getIntBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -373,7 +385,7 @@ public class SessionTest {
             long[] rawOutput = new long[3];
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -397,7 +409,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.build().run();
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -458,7 +470,7 @@ public class SessionTest {
             assertTrue(Arrays.equals(rawInput1, outputBuffer));
             outputSequence.get(1).asTensor().getFloatBuffer().get(outputBuffer);
             assertTrue(Arrays.equals(rawInput2, outputBuffer));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -535,7 +547,7 @@ public class SessionTest {
             rawOutput[1] = outputMap.get(35234L).asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get(572457L).asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -632,7 +644,7 @@ public class SessionTest {
             rawOutput[1] = outputMap.get("bazz").asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get("barss").asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -650,7 +662,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_STRING", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_STRING", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -687,7 +699,7 @@ public class SessionTest {
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             String[] orderedOut = new String[] {"ab", "xr", "fe", "fsaf", "fa3sf"};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -705,7 +717,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_INT64", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_INT64", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -743,7 +755,7 @@ public class SessionTest {
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             long[] orderedOut = new long[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -761,7 +773,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_FLOAT", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_FLOAT", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -799,21 +811,13 @@ public class SessionTest {
             output.get(0).asTensor().getFloatBuffer().get(rawOutput);
             float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
     @Test
     public void directByteBufferLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         ByteBuffer direct = ByteBuffer.allocateDirect(source.remaining());
         direct.put(source).flip();
         try (Session session = environment.newSession().setByteBuffer(direct).build()) {
@@ -823,15 +827,7 @@ public class SessionTest {
 
     @Test
     public void byteLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         byte[] bytes = new byte[source.remaining()];
         source.get(bytes);
         try (Session session = environment.newSession().setByteArray(bytes).build()) {
@@ -841,14 +837,7 @@ public class SessionTest {
 
     @Test
     public void fileLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         byte[] bytes = new byte[source.remaining()];
         source.get(bytes);
         Path f = Files.createTempFile("ort", ".onnx");
@@ -857,7 +846,7 @@ public class SessionTest {
             try (Session session = environment.newSession().setPath(f).build()) {
                 assertEquals(1, session.getInputs().size());
             }
-        } catch (Exception e) {
+        } finally {
             f.toFile().delete();
         }
     }
@@ -878,28 +867,20 @@ public class SessionTest {
 
     @Test
     public void sessionOptionsTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         try (Session session = environment
                 .newSession()
                 .setByteBuffer(source)
                 .setExecutionMode(OnnxRuntimeExecutionMode.SEQUENTIAL)
                 .setInterOpNumThreads(0)
                 .setIntraOpNumThreads(0)
-                .setLoggerId("LOGGER")
+                .setLogId("LOGGER")
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogVerbosityLevel(0)
-                .setCpuMemoryArena(false)
+                .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", "1"))
                 .setMemoryPatternOptimization(true)
                 .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_ALL)
-                .setSessionConfigMap(Map.of("foo", "bar", "baz", "boom"))
+                .setConfigMap(Map.of("foo", "bar", "baz", "boom"))
                 .build()) {
             assertEquals(1, session.getInputs().size());
         }
@@ -907,20 +888,15 @@ public class SessionTest {
 
     @Test
     public void runOptionsTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .build()) {
             Transaction.Builder txn = session.newTransaction();
             txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                     .setLogVerbosityLevel(0)
                     .setRunTag("LOGGER")
-                    .setRunConfigMap(Map.of("foo", "bar", "baz", "boom"));
+                    .setConfigMap(Map.of("foo", "bar", "baz", "boom"));
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput("input").asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput("output");
@@ -930,7 +906,7 @@ public class SessionTest {
             OnnxTensor outputTensor = outputValue.asTensor();
             outputTensor.getFloatBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
 
             assertThrows(IllegalArgumentException.class, () -> {
                 Transaction.Builder t = session.newTransaction();
@@ -942,5 +918,120 @@ public class SessionTest {
                 t.build().run();
             });
         }
+    }
+
+    @Test
+    public void optimizationTest() throws IOException {
+        File file = File.createTempFile("ort-optimized", ".onnx");
+        try {
+            assertEquals(0, file.length());
+            try (Session session = environment
+                    .newSession()
+                    .setByteBuffer(identityModel(FLOAT_TYPE))
+                    .setOptimizationOutputPath(file.toPath())
+                    .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_BASIC)
+                    .build()) {
+                assertEquals(1, session.getInputs().size());
+            }
+            assertTrue(file.exists());
+            assertTrue(file.length() > 0);
+        } finally {
+            file.delete();
+        }
+    }
+
+    @Test
+    public void profilingTest() throws IOException {
+        Path f = Files.createTempFile("ort", ".onnx");
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .setProfilingOutputPath(f)
+                .build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            float[] rawOutput = new float[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+            OnnxTensor outputTensor = outputValue.asTensor();
+            outputTensor.getFloatBuffer().get(rawOutput);
+            assertTrue(Arrays.equals(rawInput, rawOutput));
+            long startNs = session.getProfilingStartTimeInNs();
+            assertTrue(startNs > 0L);
+            File out = session.endProfiling().toFile();
+            assertTrue(out.length() > 0);
+            out.delete();
+        }
+    }
+
+    @Test
+    public void customOpTest() throws Exception {
+        // TODO: more OS/arches
+        Assume.assumeTrue(System.getProperty("os.name").equalsIgnoreCase("mac os x")
+                && System.getProperty("os.arch").equalsIgnoreCase("x86_64"));
+        Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .addCustomOpsLibrary(f)
+                .build()) {
+            Transaction.Builder txn = session.newTransaction();
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.build().run();
+            float[] rawOutput = new float[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+            OnnxTensor outputTensor = outputValue.asTensor();
+            outputTensor.getFloatBuffer().get(rawOutput);
+            assertTrue(Arrays.equals(rawInput, rawOutput));
+        }
+    }
+
+    private void providerTest(ExecutionProvider executionProvider, Map<String, String> config) throws Exception {
+        Session.Builder session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .addProvider(executionProvider, config);
+        assertTrue(executionProvider.isSupported());
+        if (api.getAvailableProviders().contains(executionProvider)) {
+            session.build().close();
+        } else {
+            OnnxRuntimeException e = assertThrows(OnnxRuntimeException.class, () -> session.build());
+            String message = e.getMessage();
+            LOG.log(Level.ERROR, "Provider failed with: " + message);
+            assertTrue(message.contains("not enabled in this build")
+                    || message.contains("onnxruntime::ProviderSharedLibrary")
+                    || message.contains("onnxruntime::ProviderLibrary"));
+        }
+    }
+
+    @Test
+    public void cudaTest() throws Exception {
+        providerTest(ExecutionProvider.CUDA_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void tensorRtTest() throws Exception {
+        providerTest(ExecutionProvider.TENSORRT_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void miGraphXTest() throws Exception {
+        providerTest(ExecutionProvider.MIGRAPHX_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void openVINOTest() throws Exception {
+        providerTest(ExecutionProvider.OPENVINO_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void rocmTest() throws Exception {
+        providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 }

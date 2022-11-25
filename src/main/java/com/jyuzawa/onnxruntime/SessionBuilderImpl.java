@@ -5,21 +5,52 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 
 import com.jyuzawa.onnxruntime.Session.Builder;
-import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.lang.foreign.Addressable;
+import java.lang.foreign.FunctionDescriptor;
+import java.lang.foreign.Linker;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentAllocator;
+import java.lang.foreign.SymbolLookup;
+import java.lang.invoke.MethodHandle;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 final class SessionBuilderImpl implements Session.Builder {
+
+    private static final Logger LOG = System.getLogger(SessionBuilderImpl.class.getName());
+
+    private static final boolean IS_WINDOWS =
+            System.getProperty("os.name").toLowerCase().contains("windows");
+    private static final MethodHandle CLOSE_LIBRARY;
+
+    static {
+        Addressable symbol;
+        if (IS_WINDOWS) {
+            System.loadLibrary("Kernel32");
+            symbol = SymbolLookup.loaderLookup().lookup("FreeLibrary").get();
+        } else {
+            symbol = SymbolLookup.loaderLookup().lookup("dlclose").get();
+        }
+        CLOSE_LIBRARY = Linker.nativeLinker().downcallHandle(symbol, FunctionDescriptor.of(C_INT, C_POINTER));
+    }
 
     private final ApiImpl api;
     private final MemoryAddress environment;
@@ -30,19 +61,22 @@ final class SessionBuilderImpl implements Session.Builder {
     private Integer logVerbosityLevel;
     private String loggerId;
     private Boolean memoryPatternOptimization;
-    private Boolean cpuArena;
     private Map<String, String> config;
     private Integer interOpNumThreads;
     private Integer intraOpNumThreads;
-    private File optimizedFilePath;
-    private File profilingOutput;
+    private Path optimizedFilePath;
+    private Path profilingOutput;
     private boolean disablePerSessionThreads;
     private OnnxRuntimeExecutionMode executionMode;
     private OnnxRuntimeOptimizationLevel optimizationLevel;
+    private Map<ExecutionProvider, ExecutionProviderConfig> executionProviderAppenders;
+    private List<Path> customOpsLibraries;
 
     SessionBuilderImpl(ApiImpl api, MemoryAddress environment) {
         this.api = api;
         this.environment = environment;
+        this.executionProviderAppenders = new LinkedHashMap<>();
+        this.customOpsLibraries = new ArrayList<>();
     }
 
     @Override
@@ -64,13 +98,13 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder enableProfiling(File filePath) {
-        this.profilingOutput = filePath;
+    public Session.Builder setProfilingOutputPath(Path outputPathPrefix) {
+        this.profilingOutput = outputPathPrefix;
         return this;
     }
 
     @Override
-    public Session.Builder setOptimizedModelFilePath(File outputPath) {
+    public Session.Builder setOptimizationOutputPath(Path outputPath) {
         this.optimizedFilePath = outputPath;
         return this;
     }
@@ -106,7 +140,7 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder setLoggerId(String loggerId) {
+    public Session.Builder setLogId(String loggerId) {
         this.loggerId = loggerId;
         return this;
     }
@@ -118,7 +152,7 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder setSessionConfigMap(Map<String, String> config) {
+    public Session.Builder setConfigMap(Map<String, String> config) {
         this.config = config;
         return this;
     }
@@ -136,8 +170,17 @@ final class SessionBuilderImpl implements Session.Builder {
     }
 
     @Override
-    public Session.Builder setCpuMemoryArena(boolean useMemoryArena) {
-        this.cpuArena = useMemoryArena;
+    public Session.Builder addProvider(ExecutionProvider provider, Map<String, String> properties) {
+        if (!provider.isSupported()) {
+            throw new UnsupportedOperationException("Provider " + provider + " not implemented.");
+        }
+        this.executionProviderAppenders.put(provider, provider.factory.apply(properties));
+        return this;
+    }
+
+    @Override
+    public Session.Builder addCustomOpsLibrary(Path path) {
+        this.customOpsLibraries.add(path);
         return this;
     }
 
@@ -161,13 +204,6 @@ final class SessionBuilderImpl implements Session.Builder {
                 api.checkStatus(api.DisableMemPattern.apply(sessionOptions));
             }
         }
-        if (cpuArena != null) {
-            if (cpuArena) {
-                api.checkStatus(api.EnableCpuMemArena.apply(sessionOptions));
-            } else {
-                api.checkStatus(api.DisableCpuMemArena.apply(sessionOptions));
-            }
-        }
         if (interOpNumThreads != null) {
             api.checkStatus(api.SetInterOpNumThreads.apply(sessionOptions, interOpNumThreads));
         }
@@ -184,18 +220,11 @@ final class SessionBuilderImpl implements Session.Builder {
             api.checkStatus(api.SetSessionGraphOptimizationLevel.apply(sessionOptions, optimizationLevel.getNumber()));
         }
         if (optimizedFilePath != null) {
-            api.checkStatus(api.SetOptimizedModelFilePath.apply(
-                    sessionOptions,
-                    allocator
-                            .allocateUtf8String(optimizedFilePath.getAbsolutePath())
-                            .address()));
+            api.checkStatus(
+                    api.SetOptimizedModelFilePath.apply(sessionOptions, createPath(allocator, optimizedFilePath)));
         }
         if (profilingOutput != null) {
-            api.checkStatus(api.EnableProfiling.apply(
-                    sessionOptions,
-                    allocator
-                            .allocateUtf8String(optimizedFilePath.getAbsolutePath())
-                            .address()));
+            api.checkStatus(api.EnableProfiling.apply(sessionOptions, createPath(allocator, profilingOutput)));
         }
         if (config != null && !config.isEmpty()) {
             for (Map.Entry<String, String> entry : config.entrySet()) {
@@ -206,7 +235,49 @@ final class SessionBuilderImpl implements Session.Builder {
             }
         }
 
+        LOG.log(Level.DEBUG, "Execution Providers: " + executionProviderAppenders);
+        for (ExecutionProviderConfig executionProviderAppender : executionProviderAppenders.values()) {
+            executionProviderAppender.appendToSessionOptions(allocator, api, sessionOptions);
+        }
+        for (Path customOpsLibrary : customOpsLibraries) {
+            LOG.log(Level.DEBUG, "Adding custom op library: " + customOpsLibrary);
+            MemoryAddress libraryHandle = api.create(
+                    allocator,
+                    out -> api.RegisterCustomOpsLibrary.apply(
+                            sessionOptions,
+                            allocator
+                                    .allocateUtf8String(
+                                            customOpsLibrary.toAbsolutePath().toString())
+                                    .address(),
+                            out));
+            allocator.addCloseAction(() -> {
+                closeLibrary(libraryHandle);
+            });
+        }
         return sessionOptions;
+    }
+
+    private static int closeLibrary(Addressable libraryHandler) {
+        try {
+            return (int) CLOSE_LIBRARY.invokeExact(libraryHandler);
+        } catch (Throwable ex) {
+            throw new AssertionError("should not reach here", ex);
+        }
+    }
+
+    private static final MemoryAddress createPath(SegmentAllocator allocator, Path path) {
+        String pathString = path.toAbsolutePath().toString();
+        if (IS_WINDOWS) {
+            // treat segment as wchar_t
+            byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
+            MemorySegment addr = allocator.allocate(bytes.length + 2);
+            MemorySegment heapSegment = MemorySegment.ofArray(bytes);
+            addr.copyFrom(heapSegment);
+            addr.set(JAVA_BYTE, bytes.length, (byte) 0);
+            addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
+            return addr.address();
+        }
+        return allocator.allocateUtf8String(pathString).address();
     }
 
     @Override
@@ -226,7 +297,9 @@ final class SessionBuilderImpl implements Session.Builder {
             } else if (bytes != null) {
                 mappedBuf = allocator.allocateArray(C_CHAR, bytes);
             } else if (path != null) {
-                try (RandomAccessFile file = new RandomAccessFile(path.toFile(), "r")) {
+                LOG.log(Level.DEBUG, "Loading session from " + path);
+                try (RandomAccessFile file =
+                        new RandomAccessFile(path.toAbsolutePath().toFile(), "r")) {
                     FileChannel fileChannel = file.getChannel();
                     long size = fileChannel.size();
                     MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, size);

@@ -39,7 +39,7 @@ public interface Transaction {
 
         Builder setRunTag(String runTag);
 
-        Builder setRunConfigMap(Map<String, String> config);
+        Builder setConfigMap(Map<String, String> config);
         /**
          * Construct a {@link Transaction}.
          *
