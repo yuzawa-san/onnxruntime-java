@@ -8,11 +8,11 @@ import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
 import java.util.Map;
 
-final class ExecutionProviderConfigCPU extends ExecutionProviderConfig {
+final class ExecutionProviderCPUConfig extends ExecutionProviderConfig {
 
     private static final String USE_ARENA = "use_arena";
 
-    protected ExecutionProviderConfigCPU(Map<String, String> properties) {
+    protected ExecutionProviderCPUConfig(Map<String, String> properties) {
         super(properties);
     }
 

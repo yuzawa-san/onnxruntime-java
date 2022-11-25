@@ -6,12 +6,12 @@ package com.jyuzawa.onnxruntime;
 
 public enum ExecutionProvider {
     // these match the values defined in include/onnxruntime/core/graph/constants.h
-    CPU_EXECUTION_PROVIDER("CPUExecutionProvider", ExecutionProviderConfigCPU::new),
-    CUDA_EXECUTION_PROVIDER("CUDAExecutionProvider", ExecutionProviderConfigCUDA::new),
+    CPU_EXECUTION_PROVIDER("CPUExecutionProvider", ExecutionProviderCPUConfig::new),
+    CUDA_EXECUTION_PROVIDER("CUDAExecutionProvider", ExecutionProviderCUDAConfig::new),
     DNNL_EXECUTION_PROVIDER("DnnlExecutionProvider"),
     OPENVINO_EXECUTION_PROVIDER("OpenVINOExecutionProvider", ExecutionProviderOpenVINOConfig::new),
     VITISAI_EXECUTION_PROVIDER("VitisAIExecutionProvider"),
-    TENSORRT_EXECUTION_PROVIDER("TensorrtExecutionProvider", ExecutionProviderConfigTensorRT::new),
+    TENSORRT_EXECUTION_PROVIDER("TensorrtExecutionProvider", ExecutionProviderTensorRTConfig::new),
     NNAPI_EXECUTION_PROVIDER("NnapiExecutionProvider"),
     RKNPU_EXECUTION_PROVIDER("RknpuExecutionProvider"),
     DML_EXECUTION_PROVIDER("DmlExecutionProvider"),
