@@ -11,10 +11,14 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.net.URL;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +27,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -951,34 +954,20 @@ public class SessionTest {
 
     @Test
     public void optimizationTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        Path f = Path.of(System.getProperty("java.io.tmpdir"))
-                .resolve("ort-optimized" + ThreadLocalRandom.current().nextLong() + ".onnx");
-        File file = f.toFile();
+        File model = File.createTempFile("ort-unoptimized", ".onnx");
+        try (FileOutputStream fos = new FileOutputStream(model)) {
+            URL url = new URL("https://github.com/microsoft/onnxruntime/raw/main/csharp/testdata/squeezenet.onnx");
+            ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        }
+        File file = File.createTempFile("ort-optimized", ".onnx");
         try {
-            assertFalse(file.exists());
             try (Session session = environment
                     .newSession()
-                    .setByteBuffer(identityModel(type))
-                    .setOptimizationOutputPath(f)
+                    .setPath(model.toPath())
+                    .setOptimizationOutputPath(file.toPath())
                     .build()) {
-                Transaction.Builder txn = session.newTransaction();
-                float[] rawInput = new float[] {554354, 52345234, 143646};
-                txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
-                txn.addOutput(0);
-                NamedCollection<OnnxValue> output = txn.build().run();
-                float[] rawOutput = new float[3];
-                OnnxValue outputValue = output.get(0);
-                assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
-                OnnxTensor outputTensor = outputValue.asTensor();
-                outputTensor.getFloatBuffer().get(rawOutput);
-                assertTrue(Arrays.equals(rawInput, rawOutput));
+                assertEquals(1, session.getInputs().size());
             }
             assertTrue(file.exists());
             assertTrue(file.length() > 0);
