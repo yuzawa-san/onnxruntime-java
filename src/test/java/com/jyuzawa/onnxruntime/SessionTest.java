@@ -962,10 +962,12 @@ public class SessionTest {
         }
         File file = File.createTempFile("ort-optimized", ".onnx");
         try {
+            assertEquals(0, file.length());
             try (Session session = environment
                     .newSession()
                     .setPath(model.toPath())
                     .setOptimizationOutputPath(file.toPath())
+                    .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_BASIC)
                     .build()) {
                 assertEquals(1, session.getInputs().size());
             }
