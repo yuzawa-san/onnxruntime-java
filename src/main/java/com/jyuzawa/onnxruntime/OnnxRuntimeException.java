@@ -24,7 +24,7 @@ public class OnnxRuntimeException extends RuntimeException {
     }
 
     public OnnxRuntimeException(int code, String message) {
-        super(message);
+        super(message + " (code=" + code + ")");
         this.code = code;
     }
 

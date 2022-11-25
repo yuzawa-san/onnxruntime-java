@@ -991,4 +991,44 @@ public class SessionTest {
             assertTrue(Arrays.equals(rawInput, rawOutput));
         }
     }
+
+    private void providerTest(ExecutionProvider executionProvider, Map<String, String> config) throws Exception {
+        Session.Builder session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .addProvider(executionProvider, config);
+        assertTrue(executionProvider.isSupported());
+        if (api.getAvailableProviders().contains(executionProvider)) {
+            session.build().close();
+        } else {
+            OnnxRuntimeException e = assertThrows(OnnxRuntimeException.class, () -> session.build());
+            assertTrue(e.getMessage().contains("not enabled in this build")
+                    || e.getMessage().contains("onnxruntime::ProviderSharedLibrary::Ensure"));
+        }
+    }
+
+    @Test
+    public void cudaTest() throws Exception {
+        providerTest(ExecutionProvider.CUDA_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void tensorRtTest() throws Exception {
+        providerTest(ExecutionProvider.TENSORRT_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void miGraphXTest() throws Exception {
+        providerTest(ExecutionProvider.MIGRAPHX_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void openVINOTest() throws Exception {
+        providerTest(ExecutionProvider.OPENVINO_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void rocmTest() throws Exception {
+        providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
 }
