@@ -1002,8 +1002,10 @@ public class SessionTest {
             session.build().close();
         } else {
             OnnxRuntimeException e = assertThrows(OnnxRuntimeException.class, () -> session.build());
-            assertTrue(e.getMessage().contains("not enabled in this build")
-                    || e.getMessage().contains("onnxruntime::ProviderSharedLibrary::Ensure"));
+            String message = e.getMessage();
+            LOG.log(Level.ERROR, "Provider failed with: " + message);
+            assertTrue(message.contains("not enabled in this build")
+                    || message.contains("onnxruntime::ProviderSharedLibrary::Ensure"));
         }
     }
 
