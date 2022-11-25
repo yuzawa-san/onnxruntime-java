@@ -19,11 +19,50 @@ final class TransactionImpl implements Transaction {
     // private final Object cancelLock;
     // private MemoryAddress runOptions;
 
+    private final MemorySession memorySession;
+    private final SegmentAllocator allocator;
     private final Builder builder;
+    private final List<InputTuple> inputs;
+    private final List<NodeInfoImpl> outputs;
 
     TransactionImpl(Builder builder) {
+        this.memorySession = MemorySession.openConfined();
+        this.allocator = SegmentAllocator.newNativeArena(memorySession);
         this.builder = builder;
+        this.inputs = new ArrayList<>(builder.session.inputs.size());
+        this.outputs = new ArrayList<>(builder.session.outputs.size());
         // this.cancelLock = new Object();
+    }
+
+    @Override
+    public void close() {
+        memorySession.close();
+    }
+
+    private OnnxValue addInput(NodeInfoImpl node) {
+        OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(node.getTypeInfo());
+        inputs.add(new InputTuple(node, input));
+        return input;
+    }
+
+    @Override
+    public OnnxValue addInput(String name) {
+        return addInput(builder.session.inputs.get(name));
+    }
+
+    @Override
+    public OnnxValue addInput(int index) {
+        return addInput(builder.session.inputs.get(index));
+    }
+
+    @Override
+    public void addOutput(String name) {
+        outputs.add(builder.session.outputs.get(name));
+    }
+
+    @Override
+    public void addOutput(int index) {
+        outputs.add(builder.session.outputs.get(index));
     }
 
     // @Override
@@ -38,81 +77,80 @@ final class TransactionImpl implements Transaction {
 
     @Override
     public NamedCollection<OnnxValue> run() {
+        if (inputs.isEmpty()) {
+            throw new IllegalArgumentException("No inputs specified");
+        }
+        if (outputs.isEmpty()) {
+            throw new IllegalArgumentException("No outputs specified");
+        }
         ApiImpl api = builder.api;
         SessionImpl sessionImpl = builder.session;
         EnvironmentImpl environment = sessionImpl.environment;
         MemoryAddress ortAllocator = environment.ortAllocator;
-        try (MemorySession session = MemorySession.openConfined()) {
-            SegmentAllocator allocator = SegmentAllocator.newNativeArena(session);
-            List<InputTuple> inputs = builder.inputs;
-            int numInputs = inputs.size();
-            List<NodeInfoImpl> outputs = builder.outputs;
-            int numOutputs = outputs.size();
-            MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
-            MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
-            MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
-            MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
-            List<MemoryAddress> inputValueAddresses = new ArrayList<>(numInputs);
-            for (int i = 0; i < numInputs; i++) {
-                InputTuple inputTuple = inputs.get(i);
-                inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
-                MemoryAddress valueAddress =
-                        inputTuple.value().toNative(api, ortAllocator, environment.memoryInfo, allocator);
-                inputValueAddresses.add(valueAddress);
-                inputValues.setAtIndex(C_POINTER, i, valueAddress);
-            }
-
-            for (int i = 0; i < numOutputs; i++) {
-                outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
-            }
-
-            MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
-            // synchronized (cancelLock) {
-            // this.runOptions = runOptionsAddress;
-            // }
-            try {
-                api.checkStatus(api.Run.apply(
-                        sessionImpl.address(),
-                        runOptionsAddress,
-                        inputNames.address(),
-                        inputValues.address(),
-                        numInputs,
-                        outputNames.address(),
-                        numOutputs,
-                        outputValues.address()));
-            } finally {
-                for (int i = 0; i < numInputs; i++) {
-                    api.ReleaseValue.apply(inputValueAddresses.get(i));
-                }
-                // synchronized (cancelLock) {
-                api.ReleaseRunOptions.apply(runOptionsAddress);
-                // runOptions = null;
-                // }
-            }
-            LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
-            for (int i = 0; i < outputs.size(); i++) {
-                MemoryAddress outputAddress = outputValues.getAtIndex(C_POINTER, i);
-                // TODO: get typeinfo from result
-                NodeInfoImpl nodeInfo = outputs.get(i);
-                OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
-                try {
-                    outputValue.fromNative(api, ortAllocator, outputAddress, allocator, session);
-                } finally {
-                    api.ReleaseValue.apply(outputAddress);
-                }
-                out.put(nodeInfo.getName(), outputValue);
-            }
-
-            return new NamedCollectionImpl<>(out);
+        int numInputs = inputs.size();
+        int numOutputs = outputs.size();
+        MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
+        MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
+        MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
+        MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
+        List<MemoryAddress> inputValueAddresses = new ArrayList<>(numInputs);
+        for (int i = 0; i < numInputs; i++) {
+            InputTuple inputTuple = inputs.get(i);
+            inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
+            MemoryAddress valueAddress =
+                    inputTuple.value().toNative(api, ortAllocator, environment.memoryInfo, allocator);
+            inputValueAddresses.add(valueAddress);
+            inputValues.setAtIndex(C_POINTER, i, valueAddress);
         }
+
+        for (int i = 0; i < numOutputs; i++) {
+            outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
+        }
+
+        MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
+        // synchronized (cancelLock) {
+        // this.runOptions = runOptionsAddress;
+        // }
+        try {
+            api.checkStatus(api.Run.apply(
+                    sessionImpl.address(),
+                    runOptionsAddress,
+                    inputNames.address(),
+                    inputValues.address(),
+                    numInputs,
+                    outputNames.address(),
+                    numOutputs,
+                    outputValues.address()));
+        } finally {
+            for (int i = 0; i < numInputs; i++) {
+                api.ReleaseValue.apply(inputValueAddresses.get(i));
+            }
+            // synchronized (cancelLock) {
+            api.ReleaseRunOptions.apply(runOptionsAddress);
+            // runOptions = null;
+            // }
+        }
+        LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
+        for (int i = 0; i < outputs.size(); i++) {
+            MemoryAddress outputAddress = outputValues.getAtIndex(C_POINTER, i);
+            // TODO: get typeinfo from result
+            NodeInfoImpl nodeInfo = outputs.get(i);
+            OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
+            try {
+                outputValue.fromNative(api, ortAllocator, outputAddress, allocator, memorySession);
+            } finally {
+                api.ReleaseValue.apply(outputAddress);
+            }
+            out.put(nodeInfo.getName(), outputValue);
+        }
+
+        return new NamedCollectionImpl<>(out);
     }
 
     static final class Builder implements Transaction.Builder {
 
         final ApiImpl api;
         final SessionImpl session;
-        final List<InputTuple> inputs;
-        final List<NodeInfoImpl> outputs;
         private OnnxRuntimeLoggingLevel logSeverityLevel;
         private Integer logVerbosityLevel;
         private String runTag;
@@ -121,50 +159,11 @@ final class TransactionImpl implements Transaction {
         public Builder(SessionImpl session) {
             this.api = session.api;
             this.session = session;
-            this.inputs = new ArrayList<>(session.inputs.size());
-            this.outputs = new ArrayList<>(session.outputs.size());
         }
 
         @Override
         public Transaction build() {
-            if (inputs.isEmpty()) {
-                throw new IllegalArgumentException("No inputs specified");
-            }
-            if (outputs.isEmpty()) {
-                throw new IllegalArgumentException("No outputs specified");
-            }
             return new TransactionImpl(this);
-        }
-
-        private OnnxValue addInput(NodeInfoImpl node) {
-            OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(node.getTypeInfo());
-            inputs.add(new InputTuple(node, input));
-            return input;
-        }
-
-        @Override
-        public OnnxValue addInput(String name) {
-            return addInput(session.inputs.get(name));
-        }
-
-        @Override
-        public OnnxValue addInput(int index) {
-            return addInput(session.inputs.get(index));
-        }
-
-        private Builder addOutput(NodeInfoImpl node) {
-            outputs.add(node);
-            return this;
-        }
-
-        @Override
-        public Builder addOutput(String name) {
-            return addOutput(session.outputs.get(name));
-        }
-
-        @Override
-        public Builder addOutput(int index) {
-            return addOutput(session.outputs.get(index));
         }
 
         @Override
