@@ -7,6 +7,8 @@ package com.jyuzawa.onnxruntime;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +30,7 @@ import org.junit.Test;
 
 public class ConcurrencyTest {
 
+    private static final Logger LOG = System.getLogger(ConcurrencyTest.class.getName());
     private static Environment environment;
     private static byte[] model;
 
@@ -71,12 +74,12 @@ public class ConcurrencyTest {
     @Test
     public void loadUnloadTest() throws IOException {
         for (int i = 0; i < 10; i++) {
+            LOG.log(Level.INFO, "Loading session " + i);
             try (Session session = environment
                     .newSession()
                     .setByteArray(model)
                     .disablePerSessionThreads()
                     .setMemoryPatternOptimization(false)
-                    .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", "0"))
                     .setConfigMap(Map.of("session.use_env_allocators", "1"))
                     .build()) {
                 for (int j = 0; j < 10; j++) {
