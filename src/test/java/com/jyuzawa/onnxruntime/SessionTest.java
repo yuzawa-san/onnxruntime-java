@@ -11,14 +11,10 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.net.URL;
 import java.nio.ByteBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -954,18 +950,19 @@ public class SessionTest {
 
     @Test
     public void optimizationTest() throws IOException {
-        File model = File.createTempFile("ort-unoptimized", ".onnx");
-        try (FileOutputStream fos = new FileOutputStream(model)) {
-            URL url = new URL("https://github.com/microsoft/onnxruntime/raw/main/csharp/testdata/squeezenet.onnx");
-            ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-        }
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
         File file = File.createTempFile("ort-optimized", ".onnx");
         try {
             assertEquals(0, file.length());
             try (Session session = environment
                     .newSession()
-                    .setPath(model.toPath())
+                    .setByteBuffer(identityModel(type))
                     .setOptimizationOutputPath(file.toPath())
                     .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_BASIC)
                     .build()) {
