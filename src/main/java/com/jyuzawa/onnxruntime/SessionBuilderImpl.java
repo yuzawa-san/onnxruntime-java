@@ -12,6 +12,8 @@ import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 import com.jyuzawa.onnxruntime.Session.Builder;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.foreign.Addressable;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
@@ -32,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 final class SessionBuilderImpl implements Session.Builder {
+
+    private static final Logger LOG = System.getLogger(SessionBuilderImpl.class.getName());
 
     private static final boolean IS_WINDOWS =
             System.getProperty("os.name").toLowerCase().contains("windows");
@@ -230,10 +234,13 @@ final class SessionBuilderImpl implements Session.Builder {
                         allocator.allocateUtf8String(entry.getValue()).address()));
             }
         }
+
+        LOG.log(Level.DEBUG, "Execution Providers: " + executionProviderAppenders);
         for (ExecutionProviderConfig executionProviderAppender : executionProviderAppenders.values()) {
             executionProviderAppender.appendToSessionOptions(allocator, api, sessionOptions);
         }
         for (Path customOpsLibrary : customOpsLibraries) {
+            LOG.log(Level.DEBUG, "Adding custom op library: " + customOpsLibrary);
             MemoryAddress libraryHandle = api.create(
                     allocator,
                     out -> api.RegisterCustomOpsLibrary.apply(
@@ -290,6 +297,7 @@ final class SessionBuilderImpl implements Session.Builder {
             } else if (bytes != null) {
                 mappedBuf = allocator.allocateArray(C_CHAR, bytes);
             } else if (path != null) {
+                LOG.log(Level.DEBUG, "Loading session from " + path);
                 try (RandomAccessFile file =
                         new RandomAccessFile(path.toAbsolutePath().toFile(), "r")) {
                     FileChannel fileChannel = file.getChannel();

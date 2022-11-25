@@ -20,6 +20,11 @@ abstract class ExecutionProviderConfig {
         this.properties = properties;
     }
 
+    @Override
+    public final String toString() {
+        return properties.toString();
+    }
+
     private Optional<String> get(String key) {
         return Optional.ofNullable(properties.get(key));
     }
