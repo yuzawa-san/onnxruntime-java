@@ -4,6 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * A preference for sequential or parallel execution.
+ *
+ */
 public enum OnnxRuntimeExecutionMode {
     SEQUENTIAL(0),
     PARALLEL(1);

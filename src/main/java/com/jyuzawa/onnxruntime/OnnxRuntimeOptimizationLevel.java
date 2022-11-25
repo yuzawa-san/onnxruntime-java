@@ -4,6 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+/**
+ * A level of optimization to target.
+ *
+ */
 public enum OnnxRuntimeOptimizationLevel {
     DISABLE_ALL(0),
     ENABLE_BASIC(1),
