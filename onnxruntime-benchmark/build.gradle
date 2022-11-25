@@ -11,3 +11,8 @@ application {
 	mainClass = 'com.jyuzawa.onnxruntime_benchmark.Benchmark'
 	applicationDefaultJvmArgs = ['--enable-preview', '--enable-native-access=ALL-UNNAMED']
 }
+
+task benchmark(type: Exec) {
+	commandLine "${projectDir}/benchmark.sh"
+	dependsOn installDist
+}
