@@ -48,6 +48,14 @@ public class SessionTest {
     private static Api api;
     private static Environment environment;
 
+    private static final TypeProto FLOAT_TYPE = TypeProto.newBuilder()
+            .setTensorType(Tensor.newBuilder()
+                    .setElemType(DataType.FLOAT_VALUE)
+                    .setShape(TensorShapeProto.newBuilder()
+                            .addDim(Dimension.newBuilder().setDimValue(1))
+                            .addDim(Dimension.newBuilder().setDimValue(3))))
+            .build();
+
     @BeforeClass
     public static void setup() {
         OnnxRuntime apiBase = OnnxRuntime.get();
@@ -809,15 +817,7 @@ public class SessionTest {
 
     @Test
     public void directByteBufferLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         ByteBuffer direct = ByteBuffer.allocateDirect(source.remaining());
         direct.put(source).flip();
         try (Session session = environment.newSession().setByteBuffer(direct).build()) {
@@ -827,15 +827,7 @@ public class SessionTest {
 
     @Test
     public void byteLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         byte[] bytes = new byte[source.remaining()];
         source.get(bytes);
         try (Session session = environment.newSession().setByteArray(bytes).build()) {
@@ -845,14 +837,7 @@ public class SessionTest {
 
     @Test
     public void fileLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         byte[] bytes = new byte[source.remaining()];
         source.get(bytes);
         Path f = Files.createTempFile("ort", ".onnx");
@@ -882,15 +867,7 @@ public class SessionTest {
 
     @Test
     public void sessionOptionsTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         try (Session session = environment
                 .newSession()
                 .setByteBuffer(source)
@@ -911,15 +888,10 @@ public class SessionTest {
 
     @Test
     public void runOptionsTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .build()) {
             Transaction.Builder txn = session.newTransaction();
             txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                     .setLogVerbosityLevel(0)
@@ -950,19 +922,12 @@ public class SessionTest {
 
     @Test
     public void optimizationTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
         File file = File.createTempFile("ort-optimized", ".onnx");
         try {
             assertEquals(0, file.length());
             try (Session session = environment
                     .newSession()
-                    .setByteBuffer(identityModel(type))
+                    .setByteBuffer(identityModel(FLOAT_TYPE))
                     .setOptimizationOutputPath(file.toPath())
                     .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_BASIC)
                     .build()) {
@@ -977,17 +942,10 @@ public class SessionTest {
 
     @Test
     public void profilingTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
         Path f = Files.createTempFile("ort", ".onnx");
         try (Session session = environment
                 .newSession()
-                .setByteBuffer(identityModel(type))
+                .setByteBuffer(identityModel(FLOAT_TYPE))
                 .setProfilingOutputPath(f)
                 .build()) {
             Transaction.Builder txn = session.newTransaction();
@@ -1014,17 +972,10 @@ public class SessionTest {
         // TODO: more OS/arches
         Assume.assumeTrue(System.getProperty("os.name").equalsIgnoreCase("mac os x")
                 && System.getProperty("os.arch").equalsIgnoreCase("x86_64"));
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
         Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
         try (Session session = environment
                 .newSession()
-                .setByteBuffer(identityModel(type))
+                .setByteBuffer(identityModel(FLOAT_TYPE))
                 .addCustomOpsLibrary(f)
                 .build()) {
             Transaction.Builder txn = session.newTransaction();
