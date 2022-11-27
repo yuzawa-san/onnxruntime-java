@@ -26,6 +26,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
     protected OnnxMapImpl(MapInfoImpl mapInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
         super(OnnxType.MAP, valueContext);
         this.data = new LinkedHashMap<>();
+        this.mapInfo = mapInfo;
         if (ortValueAddress != null) {
             ApiImpl api = valueContext.api();
             SegmentAllocator allocator = valueContext.segmentAllocator();
@@ -37,12 +38,12 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
             MemoryAddress keyInfo = api.create(allocator, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
             int size = Math.toIntExact(
                     api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
+            api.ReleaseTensorTypeAndShapeInfo.apply(keyInfo);
             T keyVector = newKeyVector(size, allocator, keyAddress);
             OnnxTensorImpl valueVector = newValueVector(size, allocator, valueAddress);
             valueVector.getScalars(explodeKeyVector(keyVector).map(this::set));
         }
         this.unmodifiableData = Collections.unmodifiableMap(data);
-        this.mapInfo = mapInfo;
     }
 
     private final OnnxTensorImpl newValueVector(int size, SegmentAllocator scope, MemoryAddress valueAddress) {
