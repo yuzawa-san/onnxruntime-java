@@ -90,6 +90,7 @@ final class SessionImpl extends ManagedImpl implements Session {
 
             this.overridableInitializers = createMap(
                     api,
+                    tempMemorySession,
                     memorySession,
                     ortAllocator,
                     address,
@@ -98,6 +99,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                     api.SessionGetOverridableInitializerTypeInfo::apply);
             this.inputs = createMap(
                     api,
+                    tempMemorySession,
                     memorySession,
                     ortAllocator,
                     address,
@@ -106,6 +108,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                     api.SessionGetInputTypeInfo::apply);
             this.outputs = createMap(
                     api,
+                    tempMemorySession,
                     memorySession,
                     ortAllocator,
                     address,
@@ -136,6 +139,7 @@ final class SessionImpl extends ManagedImpl implements Session {
     private static NamedCollection<NodeInfoImpl> createMap(
             ApiImpl api,
             MemorySession allocator,
+            MemorySession sessionAllocator,
             MemoryAddress ortAllocator,
             MemoryAddress session,
             GetCount getCount,
@@ -151,8 +155,8 @@ final class SessionImpl extends ManagedImpl implements Session {
             String name = nameSegment.getUtf8String(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
             MemoryAddress typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
-            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, allocator.allocateUtf8String(name), typeInfo));
+            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
+            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateUtf8String(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
