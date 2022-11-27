@@ -8,22 +8,20 @@ import java.lang.foreign.MemoryAddress;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
 
+    private static final Function<ByteBuffer, FloatBuffer> CONVERT = ByteBuffer::asFloatBuffer;
+
     OnnxTensorFloatImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
-        super(tensorInfo, valueContext, ortValueAddress);
+        super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 
     @Override
     public FloatBuffer getFloatBuffer() {
         return buffer;
-    }
-
-    @Override
-    protected FloatBuffer convert(ByteBuffer byteBuffer) {
-        return byteBuffer.asFloatBuffer();
     }
 
     @Override

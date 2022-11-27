@@ -9,14 +9,18 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.function.Function;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
-    protected final MemorySegment memorySegment;
+    private final MemorySegment memorySegment;
     protected final T buffer;
 
     protected OnnxTensorBufferImpl(
-            TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+            TensorInfoImpl tensorInfo,
+            ValueContext valueContext,
+            MemoryAddress ortValueAddress,
+            Function<ByteBuffer, T> convert) {
         super(tensorInfo, valueContext);
         SegmentAllocator segmentAllocator = valueContext.segmentAllocator();
         if (ortValueAddress == null) {
@@ -29,10 +33,8 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
             this.memorySegment =
                     MemorySegment.ofAddress(floatOutput, tensorInfo.getByteCount(), valueContext.memorySession());
         }
-        this.buffer = convert(memorySegment.asByteBuffer());
+        this.buffer = convert.apply(memorySegment.asByteBuffer());
     }
-
-    protected abstract T convert(ByteBuffer byteBuffer);
 
     @Override
     public final String toString() {

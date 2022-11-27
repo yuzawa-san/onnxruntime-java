@@ -8,22 +8,20 @@ import java.lang.foreign.MemoryAddress;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 final class OnnxTensorIntImpl extends OnnxTensorBufferImpl<IntBuffer> {
 
+    private static final Function<ByteBuffer, IntBuffer> CONVERT = ByteBuffer::asIntBuffer;
+
     OnnxTensorIntImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
-        super(tensorInfo, valueContext, ortValueAddress);
+        super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 
     @Override
     public IntBuffer getIntBuffer() {
         return buffer;
-    }
-
-    @Override
-    protected IntBuffer convert(ByteBuffer byteBuffer) {
-        return byteBuffer.asIntBuffer();
     }
 
     @Override

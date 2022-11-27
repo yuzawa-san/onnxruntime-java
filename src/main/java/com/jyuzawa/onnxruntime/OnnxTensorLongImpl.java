@@ -8,22 +8,20 @@ import java.lang.foreign.MemoryAddress;
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
 
+    private static final Function<ByteBuffer, LongBuffer> CONVERT = ByteBuffer::asLongBuffer;
+
     OnnxTensorLongImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
-        super(tensorInfo, valueContext, ortValueAddress);
+        super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 
     @Override
     public LongBuffer getLongBuffer() {
         return buffer;
-    }
-
-    @Override
-    protected LongBuffer convert(ByteBuffer byteBuffer) {
-        return byteBuffer.asLongBuffer();
     }
 
     @Override
