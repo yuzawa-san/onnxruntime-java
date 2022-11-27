@@ -4,15 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemoryAddress;
+import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
 import java.util.Collection;
 import java.util.stream.Stream;
 
 final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
 
-    OnnxTensorLongImpl(TensorInfoImpl tensorInfo) {
-        super(tensorInfo, LongBuffer::allocate);
+    OnnxTensorLongImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(tensorInfo, valueContext, ortValueAddress);
     }
 
     @Override
@@ -21,8 +22,8 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
     }
 
     @Override
-    protected MemorySegment getMemorySegment() {
-        return MemorySegment.ofArray(buffer.array());
+    protected LongBuffer convert(ByteBuffer byteBuffer) {
+        return byteBuffer.asLongBuffer();
     }
 
     @Override

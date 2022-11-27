@@ -6,19 +6,33 @@ package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.Buffer;
-import java.util.function.IntFunction;
+import java.nio.ByteBuffer;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
+    protected final MemorySegment memorySegment;
     protected final T buffer;
 
-    protected OnnxTensorBufferImpl(TensorInfoImpl tensorInfo, IntFunction<T> factory) {
-        super(tensorInfo);
-        this.buffer = factory.apply(Math.toIntExact(tensorInfo.getElementCount()));
+    protected OnnxTensorBufferImpl(
+            TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(tensorInfo, valueContext);
+        SegmentAllocator segmentAllocator = valueContext.segmentAllocator();
+        if (ortValueAddress == null) {
+            this.memorySegment =
+                    segmentAllocator.allocateArray(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
+        } else {
+            ApiImpl api = valueContext.api();
+            MemoryAddress floatOutput =
+                    api.create(segmentAllocator, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
+            this.memorySegment =
+                    MemorySegment.ofAddress(floatOutput, tensorInfo.getByteCount(), valueContext.memorySession());
+        }
+        this.buffer = convert(memorySegment.asByteBuffer());
     }
+
+    protected abstract T convert(ByteBuffer byteBuffer);
 
     @Override
     public final String toString() {
@@ -26,36 +40,17 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     }
 
     @Override
-    public final MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator) {
-        MemorySegment rawInputData = getMemorySegment();
-        // TODO: move value layout to this class?
-        MemorySegment inputData =
-                allocator.allocateArray(tensorInfo.getType().getValueLayout(), rawInputData.byteSize());
-        inputData.copyFrom(rawInputData);
+    public final MemoryAddress toNative() {
+        ApiImpl api = valueContext.api();
         return api.create(
-                allocator,
+                valueContext.segmentAllocator(),
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
-                        memoryInfo,
-                        inputData.address(),
-                        inputData.byteSize(),
+                        valueContext.memoryInfoAddress(),
+                        memorySegment.address(),
+                        memorySegment.byteSize(),
                         tensorInfo.shapeData.address(),
                         tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
                         out));
     }
-
-    @Override
-    public final void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            SegmentAllocator allocator,
-            MemorySession session) {
-        MemoryAddress floatOutput = api.create(allocator, out -> api.GetTensorMutableData.apply(address, out));
-        MemorySegment segment = MemorySegment.ofAddress(floatOutput, tensorInfo.getByteCount(), session);
-        getMemorySegment().copyFrom(segment);
-    }
-
-    protected abstract MemorySegment getMemorySegment();
 }

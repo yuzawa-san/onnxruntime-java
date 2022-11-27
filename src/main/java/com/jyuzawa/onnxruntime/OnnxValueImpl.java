@@ -5,16 +5,16 @@
 package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
-import java.lang.foreign.SegmentAllocator;
 import java.util.NoSuchElementException;
 
 abstract class OnnxValueImpl implements OnnxValue {
 
-    protected OnnxType type;
+    protected final OnnxType type;
+    protected final ValueContext valueContext;
 
-    protected OnnxValueImpl(OnnxType type) {
+    protected OnnxValueImpl(OnnxType type, ValueContext valueContext) {
         this.type = type;
+        this.valueContext = valueContext;
     }
 
     @Override
@@ -52,31 +52,5 @@ abstract class OnnxValueImpl implements OnnxValue {
     // throw new NoSuchElementException("OnnxValue is not an optional");
     // }
 
-    abstract MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator);
-
-    abstract void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            SegmentAllocator allocator,
-            MemorySession session);
-
-    static final OnnxValueImpl fromTypeInfo(TypeInfoImpl typeInfo) {
-        OnnxType type = typeInfo.getType();
-        switch (type) {
-            case TENSOR:
-                return OnnxTensorImpl.fromTypeInfo(typeInfo.getTensorInfo());
-            case SEQUENCE:
-                return new OnnxSequenceImpl(typeInfo.getSequenceInfo());
-            case MAP:
-                return OnnxMapImpl.fromTypeInfo(typeInfo.getMapInfo());
-                // case OPAQUE:
-                // return new OnnxOpaqueImpl(typeInfo.getOpaqueInfo());
-                // case OPTIONAL:
-                // return new OnnxOptionalImpl(typeInfo.getOptionalInfo());
-            default:
-                throw new UnsupportedOperationException("OnnxValue with type " + type + " is not supported");
-        }
-    }
+    abstract MemoryAddress toNative();
 }

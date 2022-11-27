@@ -105,4 +105,21 @@ final class TypeInfoImpl implements TypeInfo {
         }
         return sequenceInfo;
     }
+
+    final OnnxValueImpl newValue(ValueContext valueContext, MemoryAddress ortValueAddress) {
+        switch (type) {
+            case TENSOR:
+                return tensorInfo.newValue(valueContext, ortValueAddress);
+            case SEQUENCE:
+                return new OnnxSequenceImpl(sequenceInfo, valueContext, ortValueAddress);
+            case MAP:
+                return mapInfo.newValue(valueContext, ortValueAddress);
+                // case OPAQUE:
+                // return new OnnxOpaqueImpl(typeInfo.getOpaqueInfo());
+                // case OPTIONAL:
+                // return new OnnxOptionalImpl(typeInfo.getOptionalInfo());
+            default:
+                throw new UnsupportedOperationException("OnnxValue with type " + type + " is not supported");
+        }
+    }
 }

@@ -4,14 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemoryAddress;
+
 final class MapInfoImpl implements MapInfo {
 
     private final OnnxTensorElementDataType keyType;
-    private final TypeInfoImpl typeInfo;
+    private final TypeInfoImpl valueType;
 
-    MapInfoImpl(OnnxTensorElementDataType keyType, TypeInfoImpl typeInfo) {
+    MapInfoImpl(OnnxTensorElementDataType keyType, TypeInfoImpl valueType) {
         this.keyType = keyType;
-        this.typeInfo = typeInfo;
+        this.valueType = valueType;
     }
 
     @Override
@@ -21,11 +23,25 @@ final class MapInfoImpl implements MapInfo {
 
     @Override
     public TypeInfoImpl getValueType() {
-        return typeInfo;
+        return valueType;
     }
 
     @Override
     public String toString() {
-        return "map(" + keyType + "," + typeInfo + ")";
+        return "map(" + keyType + "," + valueType + ")";
+    }
+
+    final OnnxValueImpl newValue(ValueContext valueContext, MemoryAddress ortValueAddress) {
+        if (valueType.getType() != OnnxType.TENSOR || valueType.getTensorInfo().getElementCount() != 1) {
+            throw new UnsupportedOperationException("OnnxMap only supports scalar values");
+        }
+        switch (keyType) {
+            case INT64:
+                return new OnnxMapLongImpl(this, valueContext, ortValueAddress);
+            case STRING:
+                return new OnnxMapStringImpl(this, valueContext, ortValueAddress);
+            default:
+                throw new UnsupportedOperationException("OnnxMap does not support keys of type " + keyType);
+        }
     }
 }

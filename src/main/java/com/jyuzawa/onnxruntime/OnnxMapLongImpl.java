@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemoryAddress;
 import java.nio.LongBuffer;
 import java.util.Arrays;
 import java.util.Set;
@@ -11,8 +12,13 @@ import java.util.stream.Stream;
 
 final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
 
-    OnnxMapLongImpl(MapInfoImpl mapInfo) {
-        super(mapInfo, OnnxTensorLongImpl::new);
+    OnnxMapLongImpl(MapInfoImpl mapInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(mapInfo, valueContext, ortValueAddress);
+    }
+
+    @Override
+    protected OnnxTensorLongImpl newKeyVector(TensorInfoImpl tensorInfo, MemoryAddress keyAddress) {
+        return new OnnxTensorLongImpl(tensorInfo, valueContext, keyAddress);
     }
 
     @Override

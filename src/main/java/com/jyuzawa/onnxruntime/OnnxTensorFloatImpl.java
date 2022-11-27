@@ -4,15 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemoryAddress;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.Collection;
 import java.util.stream.Stream;
 
 final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
 
-    OnnxTensorFloatImpl(TensorInfoImpl tensorInfo) {
-        super(tensorInfo, FloatBuffer::allocate);
+    OnnxTensorFloatImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(tensorInfo, valueContext, ortValueAddress);
     }
 
     @Override
@@ -21,8 +22,8 @@ final class OnnxTensorFloatImpl extends OnnxTensorBufferImpl<FloatBuffer> {
     }
 
     @Override
-    protected MemorySegment getMemorySegment() {
-        return MemorySegment.ofArray(buffer.array());
+    protected FloatBuffer convert(ByteBuffer byteBuffer) {
+        return byteBuffer.asFloatBuffer();
     }
 
     @Override

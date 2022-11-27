@@ -24,6 +24,7 @@ final class TransactionImpl implements Transaction {
     private final Builder builder;
     private final List<InputTuple> inputs;
     private final List<NodeInfoImpl> outputs;
+    private final ValueContext valueContext;
 
     TransactionImpl(Builder builder) {
         this.memorySession = MemorySession.openConfined();
@@ -31,6 +32,12 @@ final class TransactionImpl implements Transaction {
         this.builder = builder;
         this.inputs = new ArrayList<>(builder.session.inputs.size());
         this.outputs = new ArrayList<>(builder.session.outputs.size());
+        this.valueContext = new ValueContext(
+                builder.api,
+                allocator,
+                memorySession,
+                builder.session.environment.ortAllocator,
+                builder.session.environment.memoryInfo);
         // this.cancelLock = new Object();
     }
 
@@ -40,7 +47,7 @@ final class TransactionImpl implements Transaction {
     }
 
     private OnnxValue addInput(NodeInfoImpl node) {
-        OnnxValueImpl input = OnnxValueImpl.fromTypeInfo(node.getTypeInfo());
+        OnnxValueImpl input = node.getTypeInfo().newValue(valueContext, null);
         inputs.add(new InputTuple(node, input));
         return input;
     }
@@ -93,13 +100,11 @@ final class TransactionImpl implements Transaction {
         MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
         MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
         MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
-        List<MemoryAddress> inputValueAddresses = new ArrayList<>(numInputs);
         for (int i = 0; i < numInputs; i++) {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
-            MemoryAddress valueAddress =
-                    inputTuple.value().toNative(api, ortAllocator, environment.memoryInfo, allocator);
-            inputValueAddresses.add(valueAddress);
+            MemoryAddress valueAddress = inputTuple.value().toNative();
+            memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
             inputValues.setAtIndex(C_POINTER, i, valueAddress);
         }
 
@@ -122,9 +127,6 @@ final class TransactionImpl implements Transaction {
                     numOutputs,
                     outputValues.address()));
         } finally {
-            for (int i = 0; i < numInputs; i++) {
-                api.ReleaseValue.apply(inputValueAddresses.get(i));
-            }
             // synchronized (cancelLock) {
             api.ReleaseRunOptions.apply(runOptionsAddress);
             // runOptions = null;
@@ -135,12 +137,8 @@ final class TransactionImpl implements Transaction {
             MemoryAddress outputAddress = outputValues.getAtIndex(C_POINTER, i);
             // TODO: get typeinfo from result
             NodeInfoImpl nodeInfo = outputs.get(i);
-            OnnxValueImpl outputValue = OnnxValueImpl.fromTypeInfo(nodeInfo.getTypeInfo());
-            try {
-                outputValue.fromNative(api, ortAllocator, outputAddress, allocator, memorySession);
-            } finally {
-                api.ReleaseValue.apply(outputAddress);
-            }
+            OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
+            memorySession.addCloseAction(() -> api.ReleaseValue.apply(outputAddress));
             out.put(nodeInfo.getName(), outputValue);
         }
 

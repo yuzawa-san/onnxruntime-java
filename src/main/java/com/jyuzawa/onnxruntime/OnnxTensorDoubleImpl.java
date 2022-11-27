@@ -4,15 +4,16 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemoryAddress;
+import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.util.Collection;
 import java.util.stream.Stream;
 
 final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
 
-    OnnxTensorDoubleImpl(TensorInfoImpl tensorInfo) {
-        super(tensorInfo, DoubleBuffer::allocate);
+    OnnxTensorDoubleImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(tensorInfo, valueContext, ortValueAddress);
     }
 
     @Override
@@ -21,8 +22,8 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
     }
 
     @Override
-    protected MemorySegment getMemorySegment() {
-        return MemorySegment.ofArray(buffer.array());
+    protected DoubleBuffer convert(ByteBuffer byteBuffer) {
+        return byteBuffer.asDoubleBuffer();
     }
 
     @Override
