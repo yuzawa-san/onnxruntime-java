@@ -25,9 +25,7 @@ final class TypeInfoImpl implements TypeInfo {
             MemorySession allocator,
             MemorySession sessionAllocator,
             MemoryAddress ortAllocator) {
-        allocator.addCloseAction(() -> {
-            api.ReleaseTypeInfo.apply(typeInfo);
-        });
+        allocator.addCloseAction(() -> api.ReleaseTypeInfo.apply(typeInfo));
         this.type =
                 OnnxType.forNumber(api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
         TensorInfoImpl tensorInfo = null;

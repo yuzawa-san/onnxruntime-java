@@ -84,9 +84,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                     memorySession,
                     out -> api.CreateSessionFromArray.apply(
                             environment.address(), mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
-            memorySession.addCloseAction(() -> {
-                api.ReleaseSession.apply(address);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseSession.apply(address));
 
             this.overridableInitializers = createMap(
                     api,
@@ -355,9 +353,7 @@ final class SessionImpl extends ManagedImpl implements Session {
 
         private MemoryAddress newSessionOptions(MemorySession memorySession) {
             MemoryAddress sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
-            memorySession.addCloseAction(() -> {
-                api.ReleaseSessionOptions.apply(sessionOptions);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseSessionOptions.apply(sessionOptions));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
             }

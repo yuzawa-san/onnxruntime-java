@@ -112,7 +112,7 @@ final class TransactionImpl implements Transaction {
             outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
         }
 
-        MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
+        MemoryAddress runOptionsAddress = builder.newRunOptions(memorySession);
         // synchronized (cancelLock) {
         // this.runOptions = runOptionsAddress;
         // }

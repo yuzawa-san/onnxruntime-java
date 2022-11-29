@@ -8,6 +8,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,6 +30,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
         } else {
             ApiImpl api = valueContext.api();
             SegmentAllocator allocator = valueContext.segmentAllocator();
+            MemorySession memorySession = valueContext.memorySession();
             int outputs =
                     Math.toIntExact(api.extractLong(allocator, out -> api.GetValueCount.apply(ortValueAddress, out)));
             this.data = new ArrayList<>(outputs);
@@ -37,6 +39,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
                 MemoryAddress valueAddress = api.create(
                         allocator,
                         out -> api.GetValue.apply(ortValueAddress, index, valueContext.ortAllocatorAddress(), out));
+                memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
                 OnnxValueImpl value = typeInfo.newValue(valueContext, valueAddress);
                 data.add(value);
             }
