@@ -147,6 +147,7 @@ task jextract(type: Exec) {
 	dependsOn tasks.named("downloadlinux-x86_64-gpu")
 	inputs.dir("${project.buildDir}/onnxruntime/linux-x86_64-gpu/include")
 	inputs.file('./jextract.sh')
+	inputs.file('./Dockerfile')
 	commandLine 'sh','./jextract.sh'
 	finalizedBy tasks.named('spotlessJavaApply')
 	outputs.cacheIf { true }
