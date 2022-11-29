@@ -697,6 +697,8 @@ public class SessionTest {
                                                 .setElemType(DataType.STRING_VALUE)
                                                 .setShape(TensorShapeProto.newBuilder()
                                                         .addDim(Dimension.newBuilder()
+                                                                .setDimValue(1))
+                                                        .addDim(Dimension.newBuilder()
                                                                 .setDimValue(5)))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
@@ -752,9 +754,12 @@ public class SessionTest {
                                                 .setElemType(DataType.INT64_VALUE)
                                                 .setShape(TensorShapeProto.newBuilder()
                                                         .addDim(Dimension.newBuilder()
+                                                                .setDimValue(1))
+                                                        .addDim(Dimension.newBuilder()
                                                                 .setDimValue(5)))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
+
         try (Session session = environment.newSession().setByteBuffer(model).build();
                 Transaction txn = session.newTransaction().build()) {
             float[] rawInputs = new float[] {1092, 20932, 53, 10, 902};
@@ -807,6 +812,8 @@ public class SessionTest {
                                         .setTensorType(Tensor.newBuilder()
                                                 .setElemType(DataType.FLOAT_VALUE)
                                                 .setShape(TensorShapeProto.newBuilder()
+                                                        .addDim(Dimension.newBuilder()
+                                                                .setDimValue(1))
                                                         .addDim(Dimension.newBuilder()
                                                                 .setDimValue(5)))))))
                 .build();

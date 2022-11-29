@@ -9,6 +9,7 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.function.Function;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
@@ -33,7 +34,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
             this.memorySegment =
                     MemorySegment.ofAddress(floatOutput, tensorInfo.getByteCount(), valueContext.memorySession());
         }
-        this.buffer = convert.apply(memorySegment.asByteBuffer());
+        this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
     }
 
     @Override
