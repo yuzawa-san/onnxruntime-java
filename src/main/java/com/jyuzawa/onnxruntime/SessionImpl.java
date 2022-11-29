@@ -84,12 +84,11 @@ final class SessionImpl extends ManagedImpl implements Session {
                     memorySession,
                     out -> api.CreateSessionFromArray.apply(
                             environment.address(), mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
-            memorySession.addCloseAction(() -> {
-                api.ReleaseSession.apply(address);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseSession.apply(address));
 
             this.overridableInitializers = createMap(
                     api,
+                    tempMemorySession,
                     memorySession,
                     ortAllocator,
                     address,
@@ -98,6 +97,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                     api.SessionGetOverridableInitializerTypeInfo::apply);
             this.inputs = createMap(
                     api,
+                    tempMemorySession,
                     memorySession,
                     ortAllocator,
                     address,
@@ -106,6 +106,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                     api.SessionGetInputTypeInfo::apply);
             this.outputs = createMap(
                     api,
+                    tempMemorySession,
                     memorySession,
                     ortAllocator,
                     address,
@@ -136,6 +137,7 @@ final class SessionImpl extends ManagedImpl implements Session {
     private static NamedCollection<NodeInfoImpl> createMap(
             ApiImpl api,
             MemorySession allocator,
+            MemorySession sessionAllocator,
             MemoryAddress ortAllocator,
             MemoryAddress session,
             GetCount getCount,
@@ -151,8 +153,8 @@ final class SessionImpl extends ManagedImpl implements Session {
             String name = nameSegment.getUtf8String(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
             MemoryAddress typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
-            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, allocator.allocateUtf8String(name), typeInfo));
+            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
+            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateUtf8String(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
@@ -351,9 +353,7 @@ final class SessionImpl extends ManagedImpl implements Session {
 
         private MemoryAddress newSessionOptions(MemorySession memorySession) {
             MemoryAddress sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
-            memorySession.addCloseAction(() -> {
-                api.ReleaseSessionOptions.apply(sessionOptions);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseSessionOptions.apply(sessionOptions));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
             }

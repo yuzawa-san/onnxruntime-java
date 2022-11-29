@@ -11,7 +11,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_SHORT;
 
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.ValueLayout;
 
 /**
@@ -39,16 +38,10 @@ public enum OnnxTensorElementDataType {
 
     private final int number;
     private final ValueLayout valueLayout;
-    private final TensorInfo scalarInfo;
 
     private OnnxTensorElementDataType(int number, ValueLayout valueLayout) {
         this.number = number;
         this.valueLayout = valueLayout;
-        this.scalarInfo = TensorInfoImpl.of(this, 1L, MemorySession.global());
-    }
-
-    TensorInfo getScalarInfo() {
-        return scalarInfo;
     }
 
     public int getNumber() {

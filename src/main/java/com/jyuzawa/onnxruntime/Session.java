@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * An evaluation session loaded from an ONNX file or bytes.
+ * An evaluation session loaded from an ONNX file or bytes. This class is thread safe.
  */
 public interface Session extends AutoCloseable {
 

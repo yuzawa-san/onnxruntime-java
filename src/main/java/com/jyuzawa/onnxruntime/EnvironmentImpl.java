@@ -43,15 +43,11 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                                 logName.address(),
                                 out));
             }
-            memorySession.addCloseAction(() -> {
-                api.ReleaseEnv.apply(address);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseEnv.apply(address));
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
                     memorySession, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            memorySession.addCloseAction(() -> {
-                api.ReleaseMemoryInfo.apply(memoryInfo);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseMemoryInfo.apply(memoryInfo));
             api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, MemoryAddress.NULL));
             this.ortAllocator = api.create(memorySession, out -> api.GetAllocatorWithDefaultOptions.apply(out));
         }

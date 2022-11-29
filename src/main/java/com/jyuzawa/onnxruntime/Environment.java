@@ -6,7 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 /**
  * The environment in which model evaluation sessions can be constructed. Only
- * one environment should be used in your application.
+ * one environment should be used in your application. This class is thread safe.
  */
 public interface Environment extends AutoCloseable {
 
