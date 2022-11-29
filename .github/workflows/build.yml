@@ -39,20 +39,24 @@ jobs:
       - name: Setup jextract (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          curl -OL https://download.java.net/java/early_access/jextract/2/openjdk-19-jextract+2-3_linux-x64_bin.tar.gz
-          tar xvzf openjdk-19-jextract+2-3_linux-x64_bin.tar.gz
+          cd /tmp
+          curl -o jextract.tar.gz https://download.java.net/java/early_access/jextract/2/openjdk-19-jextract+2-3_linux-x64_bin.tar.gz
+          tar xvzf jextract.tar.gz
       - name: Setup jextract (Mac)
         if: ${{ matrix.os == 'macos-latest' }}
         run: |
-          curl -OL https://download.java.net/java/early_access/jextract/2/openjdk-19-jextract+2-3_macos-x64_bin.tar.gz
-          tar xvzf openjdk-19-jextract+2-3_macos-x64_bin.tar.gz
+          cd /tmp
+          curl -o jextract.tar.gz https://download.java.net/java/early_access/jextract/2/openjdk-19-jextract+2-3_macos-x64_bin.tar.gz
+          tar xvzf jextract.tar.gz
       - name: Setup jextract (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          curl -OL https://download.java.net/java/early_access/jextract/2/openjdk-19-jextract+2-3_windows-x64_bin.tar.gz
-          tar xvzf openjdk-19-jextract+2-3_windows-x64_bin.tar.gz
+          cd /tmp
+          curl -o jextract.tar.gz https://download.java.net/java/early_access/jextract/2/openjdk-19-jextract+2-3_windows-x64_bin.tar.gz
+          tar xvzf jextract.tar.gz
       - name: Build with Gradle
         run: |
+          export PATH=$PATH:/tmp/jextract-19/bin
           ./gradlew --no-daemon -s :build
       - name: Upload coverage to Codecov
         if: ${{ matrix.java == '19' && matrix.os == 'ubuntu-latest' }}
