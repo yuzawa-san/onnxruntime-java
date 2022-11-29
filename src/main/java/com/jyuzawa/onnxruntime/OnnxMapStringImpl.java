@@ -4,14 +4,20 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemoryAddress;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 
 final class OnnxMapStringImpl extends OnnxMapImpl<String, OnnxTensorStringImpl> {
 
-    OnnxMapStringImpl(MapInfoImpl mapInfo) {
-        super(mapInfo, OnnxTensorStringImpl::new);
+    OnnxMapStringImpl(MapInfoImpl mapInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(mapInfo, valueContext, ortValueAddress);
+    }
+
+    @Override
+    protected OnnxTensorStringImpl newKeyVector(TensorInfoImpl tensorInfo, MemoryAddress keyAddress) {
+        return new OnnxTensorStringImpl(tensorInfo, valueContext, keyAddress);
     }
 
     @Override

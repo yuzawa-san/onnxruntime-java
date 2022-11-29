@@ -9,108 +9,22 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
-import com.jyuzawa.onnxruntime_extern.OrtApi.AddRunConfigEntry;
-import com.jyuzawa.onnxruntime_extern.OrtApi.AddSessionConfigEntry;
-import com.jyuzawa.onnxruntime_extern.OrtApi.AllocatorFree;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToMapTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToSequenceTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CastTypeInfoToTensorInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateCpuMemoryInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLogger;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateRunOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionFromArray;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateSessionOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateTensorAsOrtValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateTensorWithDataAsOrtValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateThreadingOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.CreateValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableCpuMemArena;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableMemPattern;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisablePerSessionThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableProfiling;
-import com.jyuzawa.onnxruntime_extern.OrtApi.DisableTelemetryEvents;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableCpuMemArena;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableMemPattern;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableProfiling;
-import com.jyuzawa.onnxruntime_extern.OrtApi.EnableTelemetryEvents;
-import com.jyuzawa.onnxruntime_extern.OrtApi.FillStringTensor;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetAllocatorWithDefaultOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetAvailableProviders;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetDimensions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetDimensionsCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetErrorCode;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetErrorMessage;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetMapKeyType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetMapValueType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetOnnxTypeFromTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetSequenceElementType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetStringTensorElement;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetStringTensorElementLength;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorElementType;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorMutableData;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorShapeElementCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetTensorTypeAndShape;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.GetValueCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetCustomMetadataMapKeys;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetDescription;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetDomain;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetGraphDescription;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetGraphName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetProducerName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataGetVersion;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ModelMetadataLookupCustomMetadataMap;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseAvailableProviders;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseEnv;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseMemoryInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseModelMetadata;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseRunOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseSession;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseSessionOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseStatus;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseThreadingOptions;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.ReleaseValue;
-import com.jyuzawa.onnxruntime_extern.OrtApi.Run;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogSeverityLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunLogVerbosityLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetRunTag;
-import com.jyuzawa.onnxruntime_extern.OrtApi.RunOptionsSetTerminate;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetInputTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetModelMetadata;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOutputTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerCount;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerName;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SessionGetOverridableInitializerTypeInfo;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalDenormalAsZero;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalInterOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalIntraOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetGlobalSpinControl;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetInterOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetIntraOpNumThreads;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetLanguageProjection;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetOptimizedModelFilePath;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionExecutionMode;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionGraphOptimizationLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogId;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogSeverityLevel;
-import com.jyuzawa.onnxruntime_extern.OrtApi.SetSessionLogVerbosityLevel;
+import com.jyuzawa.onnxruntime_extern.OrtApi.*;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Function;
 
 final class ApiImpl implements Api {
+
+    private static final Logger LOG = System.getLogger(ApiImpl.class.getName());
 
     final AddRunConfigEntry AddRunConfigEntry;
     final AddSessionConfigEntry AddSessionConfigEntry;
@@ -118,7 +32,11 @@ final class ApiImpl implements Api {
     final CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo;
     final CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo;
     final CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo;
+    final CreateAllocator CreateAllocator;
+    final CreateAndRegisterAllocator CreateAndRegisterAllocator;
     final CreateCpuMemoryInfo CreateCpuMemoryInfo;
+    final CreateCUDAProviderOptions CreateCUDAProviderOptions;
+    final CreateTensorRTProviderOptions CreateTensorRTProviderOptions;
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
     final CreateRunOptions CreateRunOptions;
@@ -164,7 +82,10 @@ final class ApiImpl implements Api {
     final ModelMetadataGetProducerName ModelMetadataGetProducerName;
     final ModelMetadataGetVersion ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap;
+    final RegisterCustomOpsLibrary RegisterCustomOpsLibrary;
+    final ReleaseAllocator ReleaseAllocator;
     final ReleaseAvailableProviders ReleaseAvailableProviders;
+    final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
     final ReleaseEnv ReleaseEnv;
     final ReleaseMemoryInfo ReleaseMemoryInfo;
     final ReleaseModelMetadata ReleaseModelMetadata;
@@ -172,6 +93,8 @@ final class ApiImpl implements Api {
     final ReleaseSession ReleaseSession;
     final ReleaseSessionOptions ReleaseSessionOptions;
     final ReleaseStatus ReleaseStatus;
+    final ReleaseTensorRTProviderOptions ReleaseTensorRTProviderOptions;
+    final ReleaseTensorTypeAndShapeInfo ReleaseTensorTypeAndShapeInfo;
     final ReleaseThreadingOptions ReleaseThreadingOptions;
     final ReleaseTypeInfo ReleaseTypeInfo;
     final ReleaseValue ReleaseValue;
@@ -193,6 +116,7 @@ final class ApiImpl implements Api {
     final SetSessionLogId SetSessionLogId;
     final SetSessionLogSeverityLevel SetSessionLogSeverityLevel;
     final SetSessionLogVerbosityLevel SetSessionLogVerbosityLevel;
+    final SessionEndProfiling SessionEndProfiling;
     final SessionGetInputCount SessionGetInputCount;
     final SessionGetInputName SessionGetInputName;
     final SessionGetInputTypeInfo SessionGetInputTypeInfo;
@@ -203,128 +127,179 @@ final class ApiImpl implements Api {
     final SessionGetOverridableInitializerCount SessionGetOverridableInitializerCount;
     final SessionGetOverridableInitializerName SessionGetOverridableInitializerName;
     final SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo;
+    final SessionGetProfilingStartTimeNs SessionGetProfilingStartTimeNs;
+    final SessionOptionsAppendExecutionProvider SessionOptionsAppendExecutionProvider;
+    final SessionOptionsAppendExecutionProvider_CANN SessionOptionsAppendExecutionProvider_CANN;
+    final SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2;
+    final SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX;
+    final SessionOptionsAppendExecutionProvider_OpenVINO SessionOptionsAppendExecutionProvider_OpenVINO;
+    final SessionOptionsAppendExecutionProvider_ROCM SessionOptionsAppendExecutionProvider_ROCM;
+    final SessionOptionsAppendExecutionProvider_TensorRT_V2 SessionOptionsAppendExecutionProvider_TensorRT_V2;
+    final UpdateCUDAProviderOptions UpdateCUDAProviderOptions;
+    final UpdateTensorRTProviderOptions UpdateTensorRTProviderOptions;
 
-    private final Set<String> providers;
+    private final Set<ExecutionProvider> providers;
 
-    ApiImpl(MemorySegment segment) {
-        MemorySession scope = MemorySession.global();
-        this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(segment, scope);
-        this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntry(segment, scope);
-        this.AllocatorFree = OrtApi.AllocatorFree(segment, scope);
-        this.CastTypeInfoToMapTypeInfo = OrtApi.CastTypeInfoToMapTypeInfo(segment, scope);
-        this.CastTypeInfoToSequenceTypeInfo = OrtApi.CastTypeInfoToSequenceTypeInfo(segment, scope);
-        this.CastTypeInfoToTensorInfo = OrtApi.CastTypeInfoToTensorInfo(segment, scope);
-        this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(segment, scope);
-        this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(segment, scope);
+    ApiImpl(MemorySegment memorySegment) {
+        MemorySession memorySession = MemorySession.global();
+        this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment, memorySession);
+        this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment, memorySession);
+        this.AllocatorFree = OrtApi.AllocatorFree(memorySegment, memorySession);
+        this.CastTypeInfoToMapTypeInfo = OrtApi.CastTypeInfoToMapTypeInfo(memorySegment, memorySession);
+        this.CastTypeInfoToSequenceTypeInfo = OrtApi.CastTypeInfoToSequenceTypeInfo(memorySegment, memorySession);
+        this.CastTypeInfoToTensorInfo = OrtApi.CastTypeInfoToTensorInfo(memorySegment, memorySession);
+        this.CreateAllocator = OrtApi.CreateAllocator(memorySegment, memorySession);
+        this.CreateAndRegisterAllocator = OrtApi.CreateAndRegisterAllocator(memorySegment, memorySession);
+        this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(memorySegment, memorySession);
+        this.CreateCUDAProviderOptions = OrtApi.CreateCUDAProviderOptions(memorySegment, memorySession);
+        this.CreateTensorRTProviderOptions = OrtApi.CreateTensorRTProviderOptions(memorySegment, memorySession);
+        this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(memorySegment, memorySession);
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
-                OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(segment, scope);
-        this.CreateRunOptions = OrtApi.CreateRunOptions(segment, scope);
-        this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(segment, scope);
-        this.CreateSessionOptions = OrtApi.CreateSessionOptions(segment, scope);
-        this.CreateTensorAsOrtValue = OrtApi.CreateTensorAsOrtValue(segment, scope);
-        this.CreateTensorWithDataAsOrtValue = OrtApi.CreateTensorWithDataAsOrtValue(segment, scope);
-        this.CreateThreadingOptions = OrtApi.CreateThreadingOptions(segment, scope);
-        this.CreateValue = OrtApi.CreateValue(segment, scope);
-        this.DisableCpuMemArena = OrtApi.DisableCpuMemArena(segment, scope);
-        this.DisableMemPattern = OrtApi.DisableMemPattern(segment, scope);
-        this.DisablePerSessionThreads = OrtApi.DisablePerSessionThreads(segment, scope);
-        this.DisableProfiling = OrtApi.DisableProfiling(segment, scope);
-        this.DisableTelemetryEvents = OrtApi.DisableTelemetryEvents(segment, scope);
-        this.EnableTelemetryEvents = OrtApi.EnableTelemetryEvents(segment, scope);
-        this.EnableCpuMemArena = OrtApi.EnableCpuMemArena(segment, scope);
-        this.EnableMemPattern = OrtApi.EnableMemPattern(segment, scope);
-        this.EnableProfiling = OrtApi.EnableProfiling(segment, scope);
-        this.FillStringTensor = OrtApi.FillStringTensor(segment, scope);
-        this.GetAllocatorWithDefaultOptions = OrtApi.GetAllocatorWithDefaultOptions(segment, scope);
-        this.GetAvailableProviders = OrtApi.GetAvailableProviders(segment, scope);
-        this.GetDimensions = OrtApi.GetDimensions(segment, scope);
-        this.GetDimensionsCount = OrtApi.GetDimensionsCount(segment, scope);
-        this.GetErrorCode = OrtApi.GetErrorCode(segment, scope);
-        this.GetErrorMessage = OrtApi.GetErrorMessage(segment, scope);
-        this.GetMapKeyType = OrtApi.GetMapKeyType(segment, scope);
-        this.GetMapValueType = OrtApi.GetMapValueType(segment, scope);
-        this.GetOnnxTypeFromTypeInfo = OrtApi.GetOnnxTypeFromTypeInfo(segment, scope);
-        this.GetSequenceElementType = OrtApi.GetSequenceElementType(segment, scope);
-        this.GetStringTensorElement = OrtApi.GetStringTensorElement(segment, scope);
-        this.GetStringTensorElementLength = OrtApi.GetStringTensorElementLength(segment, scope);
-        this.GetTensorElementType = OrtApi.GetTensorElementType(segment, scope);
-        this.GetTensorMutableData = OrtApi.GetTensorMutableData(segment, scope);
-        this.GetTensorShapeElementCount = OrtApi.GetTensorShapeElementCount(segment, scope);
-        this.GetTensorTypeAndShape = OrtApi.GetTensorTypeAndShape(segment, scope);
-        this.GetValue = OrtApi.GetValue(segment, scope);
-        this.GetValueCount = OrtApi.GetValueCount(segment, scope);
-        this.ModelMetadataGetCustomMetadataMapKeys = OrtApi.ModelMetadataGetCustomMetadataMapKeys(segment, scope);
-        this.ModelMetadataGetDescription = OrtApi.ModelMetadataGetDescription(segment, scope);
-        this.ModelMetadataGetDomain = OrtApi.ModelMetadataGetDomain(segment, scope);
-        this.ModelMetadataGetGraphDescription = OrtApi.ModelMetadataGetGraphDescription(segment, scope);
-        this.ModelMetadataGetGraphName = OrtApi.ModelMetadataGetGraphName(segment, scope);
-        this.ModelMetadataGetProducerName = OrtApi.ModelMetadataGetProducerName(segment, scope);
-        this.ModelMetadataGetVersion = OrtApi.ModelMetadataGetVersion(segment, scope);
-        this.ModelMetadataLookupCustomMetadataMap = OrtApi.ModelMetadataLookupCustomMetadataMap(segment, scope);
-        this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(segment, scope);
-        this.ReleaseEnv = OrtApi.ReleaseEnv(segment, scope);
-        this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(segment, scope);
-        this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(segment, scope);
-        this.ReleaseRunOptions = OrtApi.ReleaseRunOptions(segment, scope);
-        this.ReleaseSession = OrtApi.ReleaseSession(segment, scope);
-        this.ReleaseSessionOptions = OrtApi.ReleaseSessionOptions(segment, scope);
-        this.ReleaseStatus = OrtApi.ReleaseStatus(segment, scope);
-        this.ReleaseThreadingOptions = OrtApi.ReleaseThreadingOptions(segment, scope);
-        this.ReleaseTypeInfo = OrtApi.ReleaseTypeInfo(segment, scope);
-        this.ReleaseValue = OrtApi.ReleaseValue(segment, scope);
-        this.Run = OrtApi.Run(segment, scope);
-        this.RunOptionsSetRunLogSeverityLevel = OrtApi.RunOptionsSetRunLogSeverityLevel(segment, scope);
-        this.RunOptionsSetRunLogVerbosityLevel = OrtApi.RunOptionsSetRunLogVerbosityLevel(segment, scope);
-        this.RunOptionsSetRunTag = OrtApi.RunOptionsSetRunTag(segment, scope);
-        this.RunOptionsSetTerminate = OrtApi.RunOptionsSetTerminate(segment, scope);
-        this.SetGlobalDenormalAsZero = OrtApi.SetGlobalDenormalAsZero(segment, scope);
-        this.SetGlobalIntraOpNumThreads = OrtApi.SetGlobalIntraOpNumThreads(segment, scope);
-        this.SetGlobalInterOpNumThreads = OrtApi.SetGlobalInterOpNumThreads(segment, scope);
-        this.SetGlobalSpinControl = OrtApi.SetGlobalSpinControl(segment, scope);
-        this.SetInterOpNumThreads = OrtApi.SetInterOpNumThreads(segment, scope);
-        this.SetIntraOpNumThreads = OrtApi.SetIntraOpNumThreads(segment, scope);
-        this.SetLanguageProjection = OrtApi.SetLanguageProjection(segment, scope);
-        this.SetOptimizedModelFilePath = OrtApi.SetOptimizedModelFilePath(segment, scope);
-        this.SetSessionExecutionMode = OrtApi.SetSessionExecutionMode(segment, scope);
-        this.SetSessionGraphOptimizationLevel = OrtApi.SetSessionGraphOptimizationLevel(segment, scope);
-        this.SetSessionLogId = OrtApi.SetSessionLogId(segment, scope);
-        this.SetSessionLogSeverityLevel = OrtApi.SetSessionLogSeverityLevel(segment, scope);
-        this.SetSessionLogVerbosityLevel = OrtApi.SetSessionLogVerbosityLevel(segment, scope);
-        this.SessionGetInputCount = OrtApi.SessionGetInputCount(segment, scope);
-        this.SessionGetInputName = OrtApi.SessionGetInputName(segment, scope);
-        this.SessionGetInputTypeInfo = OrtApi.SessionGetInputTypeInfo(segment, scope);
-        this.SessionGetModelMetadata = OrtApi.SessionGetModelMetadata(segment, scope);
-        this.SessionGetOutputCount = OrtApi.SessionGetOutputCount(segment, scope);
-        this.SessionGetOutputName = OrtApi.SessionGetOutputName(segment, scope);
-        this.SessionGetOutputTypeInfo = OrtApi.SessionGetOutputTypeInfo(segment, scope);
-        this.SessionGetOverridableInitializerCount = OrtApi.SessionGetOverridableInitializerCount(segment, scope);
-        this.SessionGetOverridableInitializerName = OrtApi.SessionGetOverridableInitializerName(segment, scope);
-        this.SessionGetOverridableInitializerTypeInfo = OrtApi.SessionGetOverridableInitializerTypeInfo(segment, scope);
+                OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(memorySegment, memorySession);
+        this.CreateRunOptions = OrtApi.CreateRunOptions(memorySegment, memorySession);
+        this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(memorySegment, memorySession);
+        this.CreateSessionOptions = OrtApi.CreateSessionOptions(memorySegment, memorySession);
+        this.CreateTensorAsOrtValue = OrtApi.CreateTensorAsOrtValue(memorySegment, memorySession);
+        this.CreateTensorWithDataAsOrtValue = OrtApi.CreateTensorWithDataAsOrtValue(memorySegment, memorySession);
+        this.CreateThreadingOptions = OrtApi.CreateThreadingOptions(memorySegment, memorySession);
+        this.CreateValue = OrtApi.CreateValue(memorySegment, memorySession);
+        this.DisableCpuMemArena = OrtApi.DisableCpuMemArena(memorySegment, memorySession);
+        this.DisableMemPattern = OrtApi.DisableMemPattern(memorySegment, memorySession);
+        this.DisablePerSessionThreads = OrtApi.DisablePerSessionThreads(memorySegment, memorySession);
+        this.DisableProfiling = OrtApi.DisableProfiling(memorySegment, memorySession);
+        this.DisableTelemetryEvents = OrtApi.DisableTelemetryEvents(memorySegment, memorySession);
+        this.EnableTelemetryEvents = OrtApi.EnableTelemetryEvents(memorySegment, memorySession);
+        this.EnableCpuMemArena = OrtApi.EnableCpuMemArena(memorySegment, memorySession);
+        this.EnableMemPattern = OrtApi.EnableMemPattern(memorySegment, memorySession);
+        this.EnableProfiling = OrtApi.EnableProfiling(memorySegment, memorySession);
+        this.FillStringTensor = OrtApi.FillStringTensor(memorySegment, memorySession);
+        this.GetAllocatorWithDefaultOptions = OrtApi.GetAllocatorWithDefaultOptions(memorySegment, memorySession);
+        this.GetAvailableProviders = OrtApi.GetAvailableProviders(memorySegment, memorySession);
+        this.GetDimensions = OrtApi.GetDimensions(memorySegment, memorySession);
+        this.GetDimensionsCount = OrtApi.GetDimensionsCount(memorySegment, memorySession);
+        this.GetErrorCode = OrtApi.GetErrorCode(memorySegment, memorySession);
+        this.GetErrorMessage = OrtApi.GetErrorMessage(memorySegment, memorySession);
+        this.GetMapKeyType = OrtApi.GetMapKeyType(memorySegment, memorySession);
+        this.GetMapValueType = OrtApi.GetMapValueType(memorySegment, memorySession);
+        this.GetOnnxTypeFromTypeInfo = OrtApi.GetOnnxTypeFromTypeInfo(memorySegment, memorySession);
+        this.GetSequenceElementType = OrtApi.GetSequenceElementType(memorySegment, memorySession);
+        this.GetStringTensorElement = OrtApi.GetStringTensorElement(memorySegment, memorySession);
+        this.GetStringTensorElementLength = OrtApi.GetStringTensorElementLength(memorySegment, memorySession);
+        this.GetTensorElementType = OrtApi.GetTensorElementType(memorySegment, memorySession);
+        this.GetTensorMutableData = OrtApi.GetTensorMutableData(memorySegment, memorySession);
+        this.GetTensorShapeElementCount = OrtApi.GetTensorShapeElementCount(memorySegment, memorySession);
+        this.GetTensorTypeAndShape = OrtApi.GetTensorTypeAndShape(memorySegment, memorySession);
+        this.GetValue = OrtApi.GetValue(memorySegment, memorySession);
+        this.GetValueCount = OrtApi.GetValueCount(memorySegment, memorySession);
+        this.ModelMetadataGetCustomMetadataMapKeys =
+                OrtApi.ModelMetadataGetCustomMetadataMapKeys(memorySegment, memorySession);
+        this.ModelMetadataGetDescription = OrtApi.ModelMetadataGetDescription(memorySegment, memorySession);
+        this.ModelMetadataGetDomain = OrtApi.ModelMetadataGetDomain(memorySegment, memorySession);
+        this.ModelMetadataGetGraphDescription = OrtApi.ModelMetadataGetGraphDescription(memorySegment, memorySession);
+        this.ModelMetadataGetGraphName = OrtApi.ModelMetadataGetGraphName(memorySegment, memorySession);
+        this.ModelMetadataGetProducerName = OrtApi.ModelMetadataGetProducerName(memorySegment, memorySession);
+        this.ModelMetadataGetVersion = OrtApi.ModelMetadataGetVersion(memorySegment, memorySession);
+        this.ModelMetadataLookupCustomMetadataMap =
+                OrtApi.ModelMetadataLookupCustomMetadataMap(memorySegment, memorySession);
+        this.RegisterCustomOpsLibrary = OrtApi.RegisterCustomOpsLibrary(memorySegment, memorySession);
+        this.ReleaseAllocator = OrtApi.ReleaseAllocator(memorySegment, memorySession);
+        this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(memorySegment, memorySession);
+        this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(memorySegment, memorySession);
+        this.ReleaseEnv = OrtApi.ReleaseEnv(memorySegment, memorySession);
+        this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(memorySegment, memorySession);
+        this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(memorySegment, memorySession);
+        this.ReleaseRunOptions = OrtApi.ReleaseRunOptions(memorySegment, memorySession);
+        this.ReleaseSession = OrtApi.ReleaseSession(memorySegment, memorySession);
+        this.ReleaseSessionOptions = OrtApi.ReleaseSessionOptions(memorySegment, memorySession);
+        this.ReleaseStatus = OrtApi.ReleaseStatus(memorySegment, memorySession);
+        this.ReleaseTensorRTProviderOptions = OrtApi.ReleaseTensorRTProviderOptions(memorySegment, memorySession);
+        this.ReleaseTensorTypeAndShapeInfo = OrtApi.ReleaseTensorTypeAndShapeInfo(memorySegment, memorySession);
+        this.ReleaseThreadingOptions = OrtApi.ReleaseThreadingOptions(memorySegment, memorySession);
+        this.ReleaseTypeInfo = OrtApi.ReleaseTypeInfo(memorySegment, memorySession);
+        this.ReleaseValue = OrtApi.ReleaseValue(memorySegment, memorySession);
+        this.Run = OrtApi.Run(memorySegment, memorySession);
+        this.RunOptionsSetRunLogSeverityLevel = OrtApi.RunOptionsSetRunLogSeverityLevel(memorySegment, memorySession);
+        this.RunOptionsSetRunLogVerbosityLevel = OrtApi.RunOptionsSetRunLogVerbosityLevel(memorySegment, memorySession);
+        this.RunOptionsSetRunTag = OrtApi.RunOptionsSetRunTag(memorySegment, memorySession);
+        this.RunOptionsSetTerminate = OrtApi.RunOptionsSetTerminate(memorySegment, memorySession);
+        this.SetGlobalDenormalAsZero = OrtApi.SetGlobalDenormalAsZero(memorySegment, memorySession);
+        this.SetGlobalIntraOpNumThreads = OrtApi.SetGlobalIntraOpNumThreads(memorySegment, memorySession);
+        this.SetGlobalInterOpNumThreads = OrtApi.SetGlobalInterOpNumThreads(memorySegment, memorySession);
+        this.SetGlobalSpinControl = OrtApi.SetGlobalSpinControl(memorySegment, memorySession);
+        this.SetInterOpNumThreads = OrtApi.SetInterOpNumThreads(memorySegment, memorySession);
+        this.SetIntraOpNumThreads = OrtApi.SetIntraOpNumThreads(memorySegment, memorySession);
+        this.SetLanguageProjection = OrtApi.SetLanguageProjection(memorySegment, memorySession);
+        this.SetOptimizedModelFilePath = OrtApi.SetOptimizedModelFilePath(memorySegment, memorySession);
+        this.SetSessionExecutionMode = OrtApi.SetSessionExecutionMode(memorySegment, memorySession);
+        this.SetSessionGraphOptimizationLevel = OrtApi.SetSessionGraphOptimizationLevel(memorySegment, memorySession);
+        this.SetSessionLogId = OrtApi.SetSessionLogId(memorySegment, memorySession);
+        this.SetSessionLogSeverityLevel = OrtApi.SetSessionLogSeverityLevel(memorySegment, memorySession);
+        this.SetSessionLogVerbosityLevel = OrtApi.SetSessionLogVerbosityLevel(memorySegment, memorySession);
+        this.SessionEndProfiling = OrtApi.SessionEndProfiling(memorySegment, memorySession);
+        this.SessionGetInputCount = OrtApi.SessionGetInputCount(memorySegment, memorySession);
+        this.SessionGetInputName = OrtApi.SessionGetInputName(memorySegment, memorySession);
+        this.SessionGetInputTypeInfo = OrtApi.SessionGetInputTypeInfo(memorySegment, memorySession);
+        this.SessionGetModelMetadata = OrtApi.SessionGetModelMetadata(memorySegment, memorySession);
+        this.SessionGetOutputCount = OrtApi.SessionGetOutputCount(memorySegment, memorySession);
+        this.SessionGetOutputName = OrtApi.SessionGetOutputName(memorySegment, memorySession);
+        this.SessionGetOutputTypeInfo = OrtApi.SessionGetOutputTypeInfo(memorySegment, memorySession);
+        this.SessionGetOverridableInitializerCount =
+                OrtApi.SessionGetOverridableInitializerCount(memorySegment, memorySession);
+        this.SessionGetOverridableInitializerName =
+                OrtApi.SessionGetOverridableInitializerName(memorySegment, memorySession);
+        this.SessionGetOverridableInitializerTypeInfo =
+                OrtApi.SessionGetOverridableInitializerTypeInfo(memorySegment, memorySession);
+        this.SessionGetProfilingStartTimeNs = OrtApi.SessionGetProfilingStartTimeNs(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider =
+                OrtApi.SessionOptionsAppendExecutionProvider(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_CANN =
+                OrtApi.SessionOptionsAppendExecutionProvider_CANN(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_CUDA_V2 =
+                OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_MIGraphX =
+                OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_OpenVINO =
+                OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_ROCM =
+                OrtApi.SessionOptionsAppendExecutionProvider_ROCM(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_TensorRT_V2 =
+                OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2(memorySegment, memorySession);
+        this.UpdateCUDAProviderOptions = OrtApi.UpdateCUDAProviderOptions(memorySegment, memorySession);
+        this.UpdateTensorRTProviderOptions = OrtApi.UpdateTensorRTProviderOptions(memorySegment, memorySession);
 
         try (MemorySession session = MemorySession.openConfined()) {
-            Set<String> providers = new LinkedHashSet<>();
-            MemorySegment pointer = scope.allocate(C_POINTER);
-            MemorySegment countPointer = scope.allocate(C_INT);
+            Set<ExecutionProvider> providers = EnumSet.noneOf(ExecutionProvider.class);
+            MemorySegment pointer = memorySession.allocate(C_POINTER);
+            MemorySegment countPointer = memorySession.allocate(C_INT);
             checkStatus(GetAvailableProviders.apply(pointer.address(), countPointer.address()));
             int numProviders = countPointer.getAtIndex(C_INT, 0);
             MemorySegment providersArray = MemorySegment.ofAddress(
                     pointer.getAtIndex(C_POINTER, 0), numProviders * C_POINTER.byteSize(), session);
             for (int i = 0; i < numProviders; i++) {
                 MemoryAddress providerAddress = providersArray.getAtIndex(C_POINTER, i);
-                providers.add(providerAddress.getUtf8String(0));
+                String identifier = providerAddress.getUtf8String(0);
+                ExecutionProvider provider = ExecutionProvider.of(identifier);
+                if (provider == null) {
+                    LOG.log(Level.WARNING, "Unknown available provider " + identifier);
+                } else if (!provider.isSupported()) {
+                    LOG.log(Level.WARNING, "Provider " + provider + " is available, but not supported by this library");
+                } else {
+                    providers.add(provider);
+                }
             }
             checkStatus(ReleaseAvailableProviders.apply(providersArray.address(), numProviders));
             this.providers = Collections.unmodifiableSet(providers);
+            LOG.log(Level.DEBUG, "Available providers: " + providers);
         }
     }
 
     @Override
     public Environment.Builder newEnvironment() {
-        return new EnvironmentBuilderImpl(this);
+        return new EnvironmentImpl.Builder(this);
     }
 
     @Override
-    public Set<String> getAvailableProviders() {
+    public Set<ExecutionProvider> getAvailableProviders() {
         return providers;
     }
 

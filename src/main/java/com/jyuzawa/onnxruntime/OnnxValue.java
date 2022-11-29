@@ -12,12 +12,31 @@ import java.util.NoSuchElementException;
  */
 public interface OnnxValue {
 
+    /**
+     * Get type
+     * @return type enum value
+     */
     OnnxType getType();
 
+    /**
+     * A view as a tensor
+     * @return tensor
+     * @throws NoSuchElementException if the value is not a tensor
+     */
     OnnxTensor asTensor();
 
+    /**
+     * A view as a sequence
+     * @return sequence
+     * @throws NoSuchElementException if the value is not a sequence
+     */
     OnnxSequence asSequence();
 
+    /**
+     * A view as a map
+     * @return map
+     * @throws NoSuchElementException if the value is not a map
+     */
     OnnxMap asMap();
 
     //    OnnxOpaque asOpaque();

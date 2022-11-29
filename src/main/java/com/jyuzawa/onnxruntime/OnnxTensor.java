@@ -18,19 +18,58 @@ import java.util.NoSuchElementException;
  */
 public interface OnnxTensor {
 
+    /**
+     * Get tensor information: shape, type, etc.
+     * @return type info
+     */
     TensorInfo getInfo();
 
+    /**
+     * Get a byte view.
+     * @return buffer
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     ByteBuffer getByteBuffer();
 
+    /**
+     * Get a short view.
+     * @return buffer
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     ShortBuffer getShortBuffer();
 
+    /**
+     * Get a int view.
+     * @return buffer
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     IntBuffer getIntBuffer();
 
+    /**
+     * Get a long view.
+     * @return buffer
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     LongBuffer getLongBuffer();
 
+    /**
+     * Get a float view.
+     * @return buffer
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     FloatBuffer getFloatBuffer();
 
+    /**
+     * Get a double view.
+     * @return buffer
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     DoubleBuffer getDoubleBuffer();
 
+    /**
+     * Get a string view.
+     * @return string array
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     String[] getStringBuffer();
 }

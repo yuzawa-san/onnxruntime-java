@@ -23,9 +23,27 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     private final List<OnnxValue> unmodifiableData;
     private final TypeInfoImpl typeInfo;
 
-    OnnxSequenceImpl(TypeInfoImpl typeInfo) {
-        super(OnnxType.SEQUENCE);
-        this.data = new ArrayList<>();
+    OnnxSequenceImpl(TypeInfoImpl typeInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(OnnxType.SEQUENCE, valueContext);
+        if (ortValueAddress == null) {
+            this.data = new ArrayList<>();
+        } else {
+            ApiImpl api = valueContext.api();
+            SegmentAllocator allocator = valueContext.segmentAllocator();
+            MemorySession memorySession = valueContext.memorySession();
+            int outputs =
+                    Math.toIntExact(api.extractLong(allocator, out -> api.GetValueCount.apply(ortValueAddress, out)));
+            this.data = new ArrayList<>(outputs);
+            for (int i = 0; i < outputs; i++) {
+                final int index = i;
+                MemoryAddress valueAddress = api.create(
+                        allocator,
+                        out -> api.GetValue.apply(ortValueAddress, index, valueContext.ortAllocatorAddress(), out));
+                memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
+                OnnxValueImpl value = typeInfo.newValue(valueContext, valueAddress);
+                data.add(value);
+            }
+        }
         this.unmodifiableData = Collections.unmodifiableList(data);
         this.typeInfo = typeInfo;
     }
@@ -46,7 +64,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     private OnnxValueImpl newItem() {
-        return OnnxValueImpl.fromTypeInfo(typeInfo);
+        return typeInfo.newValue(valueContext, null);
     }
 
     @Override
@@ -57,35 +75,18 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     @Override
-    public MemoryAddress toNative(
-            ApiImpl api, MemoryAddress ortAllocator, MemoryAddress memoryInfo, SegmentAllocator allocator) {
+    public MemoryAddress toNative() {
+        ApiImpl api = valueContext.api();
+        SegmentAllocator allocator = valueContext.segmentAllocator();
         int size = data.size();
         MemorySegment valuesArray = allocator.allocateArray(C_POINTER, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
-            valuesArray.setAtIndex(C_POINTER, i, value.toNative(api, ortAllocator, memoryInfo, allocator));
+            valuesArray.setAtIndex(C_POINTER, i, value.toNative());
         }
         return api.create(
                 allocator,
                 out -> api.CreateValue.apply(valuesArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
-    }
-
-    @Override
-    public void fromNative(
-            ApiImpl api,
-            MemoryAddress ortAllocator,
-            MemoryAddress address,
-            SegmentAllocator allocator,
-            MemorySession session) {
-        long outputs = api.extractLong(allocator, out -> api.GetValueCount.apply(address, out));
-        for (int i = 0; i < outputs; i++) {
-            final int index = i;
-            MemoryAddress valueAddress =
-                    api.create(allocator, out -> api.GetValue.apply(address, index, ortAllocator, out));
-            OnnxValueImpl value = OnnxValueImpl.fromTypeInfo(typeInfo);
-            value.fromNative(api, ortAllocator, valueAddress, allocator, session);
-            data.add(value);
-        }
     }
 
     @Override

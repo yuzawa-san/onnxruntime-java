@@ -4,25 +4,24 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemorySegment;
+import java.lang.foreign.MemoryAddress;
+import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
 
-    OnnxTensorShortImpl(TensorInfoImpl tensorInfo) {
-        super(tensorInfo, ShortBuffer::allocate);
+    private static final Function<ByteBuffer, ShortBuffer> CONVERT = ByteBuffer::asShortBuffer;
+
+    OnnxTensorShortImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+        super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 
     @Override
     public ShortBuffer getShortBuffer() {
         return buffer;
-    }
-
-    @Override
-    protected MemorySegment getMemorySegment() {
-        return MemorySegment.ofArray(buffer.array());
     }
 
     @Override

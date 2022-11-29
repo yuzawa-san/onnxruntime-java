@@ -18,8 +18,8 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
     protected final TensorInfoImpl tensorInfo;
 
-    protected OnnxTensorImpl(TensorInfoImpl tensorInfo) {
-        super(OnnxType.TENSOR);
+    protected OnnxTensorImpl(TensorInfoImpl tensorInfo, ValueContext valueContext) {
+        super(OnnxType.TENSOR, valueContext);
         this.tensorInfo = tensorInfo;
     }
 
@@ -75,27 +75,4 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
     abstract void putScalars(Collection<OnnxTensorImpl> scalars);
 
     abstract void getScalars(Stream<OnnxTensorImpl> scalars);
-
-    static final OnnxTensorImpl fromTypeInfo(TensorInfoImpl tensorInfo) {
-        OnnxTensorElementDataType type = tensorInfo.getType();
-        switch (type) {
-            case BOOL:
-            case INT8:
-                return new OnnxTensorByteImpl(tensorInfo);
-            case INT16:
-                return new OnnxTensorShortImpl(tensorInfo);
-            case INT32:
-                return new OnnxTensorIntImpl(tensorInfo);
-            case INT64:
-                return new OnnxTensorLongImpl(tensorInfo);
-            case FLOAT:
-                return new OnnxTensorFloatImpl(tensorInfo);
-            case DOUBLE:
-                return new OnnxTensorDoubleImpl(tensorInfo);
-            case STRING:
-                return new OnnxTensorStringImpl(tensorInfo);
-            default:
-                throw new UnsupportedOperationException("OnnxTensor with type " + type + " is not supported");
-        }
-    }
 }

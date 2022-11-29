@@ -7,24 +7,25 @@ package com.jyuzawa.onnxruntime;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySession;
 
-class ManagedImpl {
+abstract class ManagedImpl implements AutoCloseable {
 
     protected final ApiImpl api;
-    protected final MemorySession scope;
-    protected final MemoryAddress address;
+    protected final MemorySession memorySession;
 
-    protected ManagedImpl(ApiImpl api, MemorySession scope, MemoryAddress address) {
+    protected ManagedImpl(ApiImpl api, MemorySession memorySession) {
         this.api = api;
-        this.scope = scope;
-        this.address = address;
-    }
-
-    public void close() {
-        scope.close();
+        this.memorySession = memorySession;
     }
 
     @Override
+    public final void close() {
+        memorySession.close();
+    }
+
+    abstract MemoryAddress address();
+
+    @Override
     public String toString() {
-        return "{" + getClass().getSimpleName() + ": " + address + "}";
+        return "{" + getClass().getSimpleName() + ": " + address() + "}";
     }
 }

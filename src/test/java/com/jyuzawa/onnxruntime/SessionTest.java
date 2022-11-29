@@ -10,9 +10,12 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
+import java.io.File;
 import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -35,14 +38,23 @@ import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SessionTest {
 
-    private static final Charset UTF8 = Charset.forName("utf-8");
+    private static final Logger LOG = System.getLogger(SessionTest.class.getName());
     private static Api api;
     private static Environment environment;
+
+    private static final TypeProto FLOAT_TYPE = TypeProto.newBuilder()
+            .setTensorType(Tensor.newBuilder()
+                    .setElemType(DataType.FLOAT_VALUE)
+                    .setShape(TensorShapeProto.newBuilder()
+                            .addDim(Dimension.newBuilder().setDimValue(1))
+                            .addDim(Dimension.newBuilder().setDimValue(3))))
+            .build();
 
     @BeforeClass
     public static void setup() {
@@ -77,9 +89,9 @@ public class SessionTest {
 
     @Test
     public void providersTest() {
-        Set<String> providers = api.getAvailableProviders();
+        Set<ExecutionProvider> providers = api.getAvailableProviders();
         assertFalse(providers.isEmpty());
-        assertTrue(providers.contains("CPUExecutionProvider"));
+        assertTrue(providers.contains(ExecutionProvider.CPU_EXECUTION_PROVIDER));
     }
 
     @Test
@@ -208,15 +220,15 @@ public class SessionTest {
                 .toByteString()
                 .asReadOnlyByteBuffer();
         try (Session session =
-                environment.newSession().setByteBuffer(byteBuffer).build()) {
-            Transaction.Builder txn = session.newTransaction();
+                        environment.newSession().setByteBuffer(byteBuffer).build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInput1 = new float[] {554354, 52345234, 143646};
             txn.addInput(0).asTensor().getFloatBuffer().put(rawInput1);
             float[] rawInput2 = new float[] {5346, 62346, 2345};
             txn.addInput(1).asTensor().getFloatBuffer().put(rawInput2);
             txn.addOutput(0);
             txn.addOutput(1);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput1 = new float[3];
             OnnxValue outputValue1 = output.get(0);
             OnnxTensor outputTensor1 = outputValue1.asTensor();
@@ -239,13 +251,15 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput = new float[3];
             OnnxValue outputValue = output.get(0);
             assertThrows(NoSuchElementException.class, () -> outputValue.asMap());
@@ -258,7 +272,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> outputTensor.getLongBuffer());
             outputTensor.getFloatBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -271,17 +285,19 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             double[] rawInput = new double[] {554354, 52345234, 143646};
             txn.addInput(0).asTensor().getDoubleBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             double[] rawOutput = new double[3];
             output.get(0).asTensor().getDoubleBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -294,17 +310,19 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             byte[] rawInput = new byte[] {4, 3, 2};
             txn.addInput(0).asTensor().getByteBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             byte[] rawOutput = new byte[3];
             output.get(0).asTensor().getByteBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -317,17 +335,19 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             short[] rawInput = new short[] {4, 3, 2};
             txn.addInput(0).asTensor().getShortBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             short[] rawOutput = new short[3];
             output.get(0).asTensor().getShortBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -340,17 +360,19 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             int[] rawInput = new int[] {4, 3, 2};
             txn.addInput(0).asTensor().getIntBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             int[] rawOutput = new int[3];
             output.get(0).asTensor().getIntBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -363,17 +385,19 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             long[] rawInput = new long[] {4, 3, 2};
             txn.addInput(0).asTensor().getLongBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             long[] rawOutput = new long[3];
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -386,18 +410,20 @@ public class SessionTest {
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             String[] rawInput = txn.addInput(0).asTensor().getStringBuffer();
             rawInput[0] = "foo";
             rawInput[1] = "bar";
             rawInput[2] = "boom";
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -412,16 +438,18 @@ public class SessionTest {
                                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                                 .addDim(Dimension.newBuilder().setDimValue(3))))))
                 .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInput1 = new float[] {554354, 52345234, 143646};
             float[] rawInput2 = new float[] {5234, 1436, 613};
             OnnxSequence inputSequence = txn.addInput(0).asSequence();
             inputSequence.add().asTensor().getFloatBuffer().put(rawInput1);
             inputSequence.add().asTensor().getFloatBuffer().put(rawInput2);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             float[] outputBuffer = new float[3];
             OnnxValue outputValue = output.get(0);
             assertThrows(NoSuchElementException.class, () -> outputValue.asMap());
@@ -458,7 +486,7 @@ public class SessionTest {
             assertTrue(Arrays.equals(rawInput1, outputBuffer));
             outputSequence.get(1).asTensor().getFloatBuffer().get(outputBuffer);
             assertTrue(Arrays.equals(rawInput2, outputBuffer));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -522,12 +550,12 @@ public class SessionTest {
                                                                                                                                                                                         1)))))))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
-        try (Session session = environment.newSession().setByteBuffer(model).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment.newSession().setByteBuffer(model).build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             OnnxTypedMap<Long> outputMap =
                     output.get(0).asSequence().get(0).asMap().asLongMap();
             float[] rawOutput = new float[3];
@@ -535,7 +563,7 @@ public class SessionTest {
             rawOutput[1] = outputMap.get(35234L).asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get(572457L).asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -599,12 +627,12 @@ public class SessionTest {
                                                                                                                                                                                         1)))))))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
-        try (Session session = environment.newSession().setByteBuffer(model).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment.newSession().setByteBuffer(model).build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             OnnxValue outputValue = output.get(0).asSequence().get(0);
             assertThrows(NoSuchElementException.class, () -> outputValue.asTensor());
             assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
@@ -632,7 +660,7 @@ public class SessionTest {
             rawOutput[1] = outputMap.get("bazz").asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get("barss").asTensor().getFloatBuffer().get();
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -650,7 +678,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_STRING", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_STRING", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -669,11 +697,13 @@ public class SessionTest {
                                                 .setElemType(DataType.STRING_VALUE)
                                                 .setShape(TensorShapeProto.newBuilder()
                                                         .addDim(Dimension.newBuilder()
+                                                                .setDimValue(1))
+                                                        .addDim(Dimension.newBuilder()
                                                                 .setDimValue(5)))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
-        try (Session session = environment.newSession().setByteBuffer(model).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment.newSession().setByteBuffer(model).build();
+                Transaction txn = session.newTransaction().build()) {
             String[] rawInputs = new String[] {"fsaf", "fa3sf", "fe", "ab", "xr"};
             long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
             OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
@@ -683,11 +713,11 @@ public class SessionTest {
             mapInput.set(keys[3]).asTensor().getStringBuffer()[0] = rawInputs[3];
             mapInput.set(keys[4]).asTensor().getStringBuffer()[0] = rawInputs[4];
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             String[] orderedOut = new String[] {"ab", "xr", "fe", "fsaf", "fa3sf"};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -705,7 +735,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_INT64", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_INT64", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -724,11 +754,14 @@ public class SessionTest {
                                                 .setElemType(DataType.INT64_VALUE)
                                                 .setShape(TensorShapeProto.newBuilder()
                                                         .addDim(Dimension.newBuilder()
+                                                                .setDimValue(1))
+                                                        .addDim(Dimension.newBuilder()
                                                                 .setDimValue(5)))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
-        try (Session session = environment.newSession().setByteBuffer(model).build()) {
-            Transaction.Builder txn = session.newTransaction();
+
+        try (Session session = environment.newSession().setByteBuffer(model).build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInputs = new float[] {1092, 20932, 53, 10, 902};
             long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
             OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
@@ -738,12 +771,12 @@ public class SessionTest {
             mapInput.set(keys[3]).asTensor().getFloatBuffer().put(rawInputs[3]);
             mapInput.set(keys[4]).asTensor().getFloatBuffer().put(rawInputs[4]);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             long[] rawOutput = new long[5];
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             long[] orderedOut = new long[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
@@ -761,7 +794,7 @@ public class SessionTest {
                                 .addAttribute(AttributeProto.newBuilder()
                                         .setName("cast_to")
                                         .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_FLOAT", UTF8))))
+                                        .setS(ByteString.copyFrom("TO_FLOAT", StandardCharsets.UTF_8))))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -780,11 +813,13 @@ public class SessionTest {
                                                 .setElemType(DataType.FLOAT_VALUE)
                                                 .setShape(TensorShapeProto.newBuilder()
                                                         .addDim(Dimension.newBuilder()
+                                                                .setDimValue(1))
+                                                        .addDim(Dimension.newBuilder()
                                                                 .setDimValue(5)))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
-        try (Session session = environment.newSession().setByteBuffer(model).build()) {
-            Transaction.Builder txn = session.newTransaction();
+        try (Session session = environment.newSession().setByteBuffer(model).build();
+                Transaction txn = session.newTransaction().build()) {
             float[] rawInputs = new float[] {1092, 20932, 53, 10, 902};
             long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
             OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
@@ -794,26 +829,18 @@ public class SessionTest {
             mapInput.set(keys[3]).asTensor().getFloatBuffer().put(rawInputs[3]);
             mapInput.set(keys[4]).asTensor().getFloatBuffer().put(rawInputs[4]);
             txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput = new float[5];
             output.get(0).asTensor().getFloatBuffer().get(rawOutput);
             float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
             assertTrue(Arrays.equals(orderedOut, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
         }
     }
 
     @Test
     public void directByteBufferLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         ByteBuffer direct = ByteBuffer.allocateDirect(source.remaining());
         direct.put(source).flip();
         try (Session session = environment.newSession().setByteBuffer(direct).build()) {
@@ -823,15 +850,7 @@ public class SessionTest {
 
     @Test
     public void byteLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         byte[] bytes = new byte[source.remaining()];
         source.get(bytes);
         try (Session session = environment.newSession().setByteArray(bytes).build()) {
@@ -841,14 +860,7 @@ public class SessionTest {
 
     @Test
     public void fileLoadTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         byte[] bytes = new byte[source.remaining()];
         source.get(bytes);
         Path f = Files.createTempFile("ort", ".onnx");
@@ -857,7 +869,7 @@ public class SessionTest {
             try (Session session = environment.newSession().setPath(f).build()) {
                 assertEquals(1, session.getInputs().size());
             }
-        } catch (Exception e) {
+        } finally {
             f.toFile().delete();
         }
     }
@@ -878,28 +890,20 @@ public class SessionTest {
 
     @Test
     public void sessionOptionsTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-
-        ByteBuffer source = identityModel(type);
+        ByteBuffer source = identityModel(FLOAT_TYPE);
         try (Session session = environment
                 .newSession()
                 .setByteBuffer(source)
                 .setExecutionMode(OnnxRuntimeExecutionMode.SEQUENTIAL)
                 .setInterOpNumThreads(0)
                 .setIntraOpNumThreads(0)
-                .setLoggerId("LOGGER")
+                .setLogId("LOGGER")
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogVerbosityLevel(0)
-                .setCpuMemoryArena(false)
+                .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", "1"))
                 .setMemoryPatternOptimization(true)
                 .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_ALL)
-                .setSessionConfigMap(Map.of("foo", "bar", "baz", "boom"))
+                .setConfigMap(Map.of("foo", "bar", "baz", "boom"))
                 .build()) {
             assertEquals(1, session.getInputs().size());
         }
@@ -907,40 +911,151 @@ public class SessionTest {
 
     @Test
     public void runOptionsTest() throws IOException {
-        TypeProto type = TypeProto.newBuilder()
-                .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.FLOAT_VALUE)
-                        .setShape(TensorShapeProto.newBuilder()
-                                .addDim(Dimension.newBuilder().setDimValue(1))
-                                .addDim(Dimension.newBuilder().setDimValue(3))))
-                .build();
-        try (Session session =
-                environment.newSession().setByteBuffer(identityModel(type)).build()) {
-            Transaction.Builder txn = session.newTransaction();
-            txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
-                    .setLogVerbosityLevel(0)
-                    .setRunTag("LOGGER")
-                    .setRunConfigMap(Map.of("foo", "bar", "baz", "boom"));
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(FLOAT_TYPE))
+                        .build();
+                Transaction txn = session.newTransaction()
+                        .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
+                        .setLogVerbosityLevel(0)
+                        .setRunTag("LOGGER")
+                        .setConfigMap(Map.of("foo", "bar", "baz", "boom"))
+                        .build()) {
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput("input").asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput("output");
-            NamedCollection<OnnxValue> output = txn.build().run();
+            NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput = new float[3];
             OnnxValue outputValue = output.get(0);
             OnnxTensor outputTensor = outputValue.asTensor();
             outputTensor.getFloatBuffer().get(rawOutput);
             assertTrue(Arrays.equals(rawInput, rawOutput));
-            System.out.println(output.get(0));
+            LOG.log(Level.INFO, output.get(0));
 
             assertThrows(IllegalArgumentException.class, () -> {
                 Transaction.Builder t = session.newTransaction();
                 t.build().run();
             });
             assertThrows(IllegalArgumentException.class, () -> {
-                Transaction.Builder t = session.newTransaction();
+                Transaction t = session.newTransaction().build();
                 t.addInput(0);
-                t.build().run();
+                t.run();
             });
         }
+    }
+
+    @Test
+    public void optimizationTest() throws IOException {
+        File file = File.createTempFile("ort-optimized", ".onnx");
+        try {
+            assertEquals(0, file.length());
+            try (Session session = environment
+                    .newSession()
+                    .setByteBuffer(identityModel(FLOAT_TYPE))
+                    .setOptimizationOutputPath(file.toPath())
+                    .setOptimizationLevel(OnnxRuntimeOptimizationLevel.ENABLE_BASIC)
+                    .build()) {
+                assertEquals(1, session.getInputs().size());
+            }
+            assertTrue(file.exists());
+            assertTrue(file.length() > 0);
+        } finally {
+            file.delete();
+        }
+    }
+
+    @Test
+    public void profilingTest() throws IOException {
+        Path f = Files.createTempFile("ort", ".onnx");
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(FLOAT_TYPE))
+                        .setProfilingOutputPath(f)
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            float[] rawOutput = new float[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+            OnnxTensor outputTensor = outputValue.asTensor();
+            outputTensor.getFloatBuffer().get(rawOutput);
+            assertTrue(Arrays.equals(rawInput, rawOutput));
+            long startNs = session.getProfilingStartTimeInNs();
+            assertTrue(startNs > 0L);
+            File out = session.endProfiling().toFile();
+            assertTrue(out.length() > 0);
+            out.delete();
+        }
+    }
+
+    @Test
+    public void customOpTest() throws Exception {
+        // TODO: more OS/arches
+        Assume.assumeTrue(System.getProperty("os.name").equalsIgnoreCase("mac os x")
+                && System.getProperty("os.arch").equalsIgnoreCase("x86_64"));
+        Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(FLOAT_TYPE))
+                        .addCustomOpsLibrary(f)
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            float[] rawOutput = new float[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
+            OnnxTensor outputTensor = outputValue.asTensor();
+            outputTensor.getFloatBuffer().get(rawOutput);
+            assertTrue(Arrays.equals(rawInput, rawOutput));
+        }
+    }
+
+    private void providerTest(ExecutionProvider executionProvider, Map<String, String> config) throws Exception {
+        Session.Builder session = environment
+                .newSession()
+                .setByteBuffer(identityModel(FLOAT_TYPE))
+                .addProvider(executionProvider, config);
+        assertTrue(executionProvider.isSupported());
+        if (api.getAvailableProviders().contains(executionProvider)) {
+            session.build().close();
+        } else {
+            OnnxRuntimeException e = assertThrows(OnnxRuntimeException.class, () -> session.build());
+            String message = e.getMessage();
+            LOG.log(Level.ERROR, "Provider failed with: " + message);
+            assertTrue(message.contains("not enabled in this build")
+                    || message.contains("onnxruntime::ProviderSharedLibrary")
+                    || message.contains("onnxruntime::ProviderLibrary"));
+        }
+    }
+
+    @Test
+    public void cudaTest() throws Exception {
+        providerTest(ExecutionProvider.CUDA_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void tensorRtTest() throws Exception {
+        providerTest(ExecutionProvider.TENSORRT_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void miGraphXTest() throws Exception {
+        providerTest(ExecutionProvider.MIGRAPHX_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void openVINOTest() throws Exception {
+        providerTest(ExecutionProvider.OPENVINO_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void rocmTest() throws Exception {
+        providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 }

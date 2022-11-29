@@ -10,7 +10,15 @@ package com.jyuzawa.onnxruntime;
  */
 public interface NodeInfo {
 
+    /**
+     * Get the node's name.
+     * @return name
+     */
     String getName();
 
+    /**
+     * Get the type information for this node.
+     * @return type information
+     */
     TypeInfo getTypeInfo();
 }

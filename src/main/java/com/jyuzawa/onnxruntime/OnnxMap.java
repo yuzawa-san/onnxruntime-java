@@ -13,12 +13,22 @@ import java.util.NoSuchElementException;
 public interface OnnxMap {
 
     /**
-     *
-     * @return Information about the key and value types.
+     * Get information about the key and value types.
+     * @return map's type information
      */
     MapInfo getInfo();
 
+    /**
+     * Get a type safe view with long keys
+     * @return long map view
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     OnnxTypedMap<Long> asLongMap();
 
+    /**
+     * Get a type safe view with string keys
+     * @return string map view
+     * @throws NoSuchElementException if this typed view does not exist
+     */
     OnnxTypedMap<String> asStringMap();
 }
