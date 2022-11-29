@@ -92,8 +92,6 @@ final class TransactionImpl implements Transaction {
         }
         ApiImpl api = builder.api;
         SessionImpl sessionImpl = builder.session;
-        EnvironmentImpl environment = sessionImpl.environment;
-        MemoryAddress ortAllocator = environment.ortAllocator;
         int numInputs = inputs.size();
         int numOutputs = outputs.size();
         MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
@@ -112,7 +110,7 @@ final class TransactionImpl implements Transaction {
             outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
         }
 
-        MemoryAddress runOptionsAddress = builder.newRunOptions(memorySession);
+        MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
         // synchronized (cancelLock) {
         // this.runOptions = runOptionsAddress;
         // }
