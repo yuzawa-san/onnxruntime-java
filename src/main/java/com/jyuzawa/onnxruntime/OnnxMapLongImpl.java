@@ -6,7 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemoryAddress;
 import java.nio.LongBuffer;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -37,6 +38,12 @@ final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
 
     @Override
     protected Stream<Long> explodeKeyVector(OnnxTensorLongImpl keyVector) {
-        return Arrays.stream(keyVector.buffer.array()).boxed();
+        LongBuffer buf = keyVector.buffer;
+        int count = buf.capacity();
+        List<Long> out = new ArrayList<>(count);
+        for (int i = 0; i < buf.capacity(); i++) {
+            out.add(buf.get(i));
+        }
+        return out.stream();
     }
 }
