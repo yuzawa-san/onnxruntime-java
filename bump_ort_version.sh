@@ -13,7 +13,7 @@ esac
 git checkout master 
 git pull
 sed -i '' "s/^com.jyuzawa.onnxruntime.library_version=.*/com.jyuzawa.onnxruntime.library_version=$NEW_VERSION/" gradle.properties
-./gradlew clean jextractClean jextract 
-./gradlew build
+./gradlew jextract 
+./gradlew clean build
 git checkout -b ort/$NEW_VERSION
 git commit -am "ORT v$NEW_VERSION"
