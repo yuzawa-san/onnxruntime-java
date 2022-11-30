@@ -4,7 +4,7 @@ by [@yuzawa-san](https://github.com/yuzawa-san/)
 [![build](https://github.com/yuzawa-san/onnxruntime-java/workflows/build/badge.svg)](https://github.com/yuzawa-san/onnxruntime-java/actions)
 [![codecov](https://codecov.io/gh/yuzawa-san/onnxruntime-java/branch/master/graph/badge.svg)](https://codecov.io/gh/yuzawa-san/onnxruntime-java)
 
-This is a Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime) which uses Java 19's new foreign memory API internally.
+This is a **modern** Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime) which uses Java's new Foreign Function & Memory API (a.k.a. Project Panama).
 
 This project's goals are to provide a type-safe, lightweight, and performant binding which abstracts a lot of the native and C API intricacies away behind a Java-friendly interface.
 This is loosely coupled to the upstream project and built off of the public (and stable) [C API](https://onnxruntime.ai/docs/api/c/struct_ort_api.html).
@@ -27,7 +27,7 @@ The native library (from Microsoft) will need to be provided at runtime using on
 This allows users to "bring their own" shared library.
 
 The library is currently built for Linux, Windows, MacOS and for arm64 and x86_64.
-These were chosen since the upstream projects publishes artifacts.
+These were chosen since the upstream projects publishes artifacts for these enviroments.
 
 ### In your library
 
