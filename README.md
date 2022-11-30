@@ -4,12 +4,13 @@ by [@yuzawa-san](https://github.com/yuzawa-san/)
 [![build](https://github.com/yuzawa-san/onnxruntime-java/workflows/build/badge.svg)](https://github.com/yuzawa-san/onnxruntime-java/actions)
 [![codecov](https://codecov.io/gh/yuzawa-san/onnxruntime-java/branch/master/graph/badge.svg)](https://codecov.io/gh/yuzawa-san/onnxruntime-java)
 
-This is an **experimental** Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime).
+This is a Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime) which uses Java 19's new foreign memory API internally.
+
+This project's goals are to provide a type-safe, lightweight, and performant binding which abstracts a lot of the native and C API intricacies away behind a Java-friendly interface.
+This is loosely coupled to the upstream project and built off of the public (and stable) [C API](https://onnxruntime.ai/docs/api/c/struct_ort_api.html).
 
 The minimum supported Java version is 19.
-Given the fact that the foreign function API (f/k/a Project 'Panama') is in preview, this library should be considered a proof of concept and lacks full stability guarantees at this time.
-
-This project's goals are to provide a type-safe, performant binding which abstracts a lot of the native and C API intricacies and is loosely coupled to the upstream project.
+There are [other](https://github.com/bytedeco/javacpp-presets/tree/master/onnxruntime) [fine](https://github.com/microsoft/onnxruntime/tree/main/java) bindings which use JNI and are capable of supporting lower Java versions.
 
 ## Usage
 
@@ -18,22 +19,26 @@ This project's goals are to provide a type-safe, performant binding which abstra
 
 This project is released to [Maven Central](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) and can be used in your project. There are a few artifacts published:
 
-* [`onnxruntime`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) - The binding with no native libraries. For use as a compile dependency.
+* [`onnxruntime`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) - The binding with no native libraries. For use as a implementation dependency.
 * [`onnxruntime-cpu`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-cpu) - A collection of native libraries with CPU support for a several common OS/architecture combinations. For use as an optional runtime dependency.
 * [`onnxruntime-gpu`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-gpu) - A collection of native libraries with GPU support for a several common OS/architecture combinations. For use as an optional runtime dependency.
 
-The native library (from Microsoft) will need to be provided at runtime using one of the latter two artifacts. Alternative, the Java library path (`java.library.path`) will be used if neither of those artifacts is provided.
+The native library (from Microsoft) will need to be provided at runtime using one of the latter two artifacts. Alternatively, the Java library path (`java.library.path`) will be used if neither of those artifacts is provided.
+This allows users to "bring their own" shared library.
+
+The library is currently built for Linux, Windows, MacOS and for arm64 and x86_64.
+These were chosen since the upstream projects publishes artifacts.
 
 ### In your library
 
 There is an example library in the `onnxruntime-sample-library` directory.
-The library should use the `onnxruntime` as a compile dependency.
+The library should use the `onnxruntime` as a implementation dependency.
 This puts the burden of providing a native library on your end user.
 
 ### In your application
 
 There is an example application in the `onnxruntime-sample-application` directory.
-The library should use the `onnxruntime` as a compile dependency.
+The library should use the `onnxruntime` as a implementation dependency.
 The application needs to have acccess to the native library.
 You have the option providing it via a runtime dependency using either `onnxruntime-cpu` or `onnxruntime-gpu`
 Otherwise, the Java library path will be used to load the native library.
@@ -47,4 +52,25 @@ The example application can be ran:
 #### JVM Arguments
 
 Since this uses a native library, this will require the runtime to have the `--enable-native-access` JVM option, likely `--enable-native-access=ALL-UNNAMED`.
-Since the foreign function API is in preview in Java 19, the `--enable-preview` will also be needed.
+Since the foreign function API is in preview in Java 19, the `--enable-preview` will also be needed
+
+### Execution Providers
+
+Only those which are exposed in the C API are supported.
+The `onnxruntime-gpu` artifact supports CUDA and TensorRT, since those are built off of the GPU artifacts from the upstream project.
+If you wish to use another execution provider which is present in the C API, but not in any of the artifacts from the upstream project, you can choose to bring your own onnxruntime shared library to link against.
+
+## Versioning
+
+The version of the upstream project used will be reflected in the release notes.
+Semantic versioning is used.
+Major version will be bumped when this API or the underlying C API has backward incompatible changes.
+Upstream major version changes will typically be major version changes here.
+Minor version will be bumped for smaller, but compatible changes.
+Upstream minor version changes will typically be minor version changes here.
+
+### Snapshots
+
+[![maven-snapshot](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fcontent%2Frepositories%2Fsnapshots%2Fcom%2Fjyuzawa%2Fonnxruntime%2Fmaven-metadata.xml)](https://s01.oss.sonatype.org/content/repositories/snapshots/com/jyuzawa/onnxruntime/)
+
+Snapshot releases are periodically released for testing and experimentation.
