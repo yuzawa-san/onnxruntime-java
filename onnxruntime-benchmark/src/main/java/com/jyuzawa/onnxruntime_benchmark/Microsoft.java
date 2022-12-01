@@ -4,13 +4,12 @@
  */
 package com.jyuzawa.onnxruntime_benchmark;
 
-import java.util.Map;
-
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtLoggingLevel;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
+import java.util.Map;
 
 final class Microsoft implements Wrapper {
 
