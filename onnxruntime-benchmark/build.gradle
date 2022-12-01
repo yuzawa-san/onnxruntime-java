@@ -1,0 +1,18 @@
+apply plugin: "application"
+
+dependencies {
+	implementation project(":")
+	runtimeOnly project(path: ":", configuration: 'cpu')
+	implementation "com.microsoft.onnxruntime:onnxruntime:1.13.1"
+	// implementation "org.bytedeco:onnxruntime-platform:1.13.1-1.5.8"
+}
+
+application {
+	mainClass = 'com.jyuzawa.onnxruntime_benchmark.Benchmark'
+	applicationDefaultJvmArgs = ['--enable-preview', '--enable-native-access=ALL-UNNAMED']
+}
+
+task benchmark(type: Exec) {
+	commandLine "${projectDir}/benchmark.sh"
+	dependsOn installDist
+}
