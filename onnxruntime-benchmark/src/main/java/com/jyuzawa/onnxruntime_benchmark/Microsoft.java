@@ -4,7 +4,6 @@
  */
 package com.jyuzawa.onnxruntime_benchmark;
 
-import java.nio.file.Path;
 import java.util.Map;
 
 import ai.onnxruntime.OnnxTensor;
@@ -21,8 +20,8 @@ final class Microsoft implements Wrapper {
     private final OrtSession session;
     private final String inputName;
 
-    Microsoft(Path path) throws Exception {
-        this.session = ENVIRONMENT.createSession(path.toAbsolutePath().toString());
+    Microsoft(byte[] bytes) throws Exception {
+        this.session = ENVIRONMENT.createSession(bytes);
         this.inputName = session.getInputNames().iterator().next();
     }
 
