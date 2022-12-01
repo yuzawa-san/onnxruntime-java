@@ -27,10 +27,12 @@ public final class MyOracle implements AutoCloseable {
     }
 
     public float getIdentity(float input) {
-        Transaction.Builder txn = session.newTransaction();
-        txn.addInput(0).asTensor().getFloatBuffer().put(input);
-        NamedCollection<OnnxValue> result = txn.addOutput(0).build().run();
-        return result.get(0).asTensor().getFloatBuffer().get();
+        try (Transaction txn = session.newTransaction().build()) {
+            txn.addInput(0).asTensor().getFloatBuffer().put(input);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> result = txn.run();
+            return result.get(0).asTensor().getFloatBuffer().get();
+        }
     }
 
     @Override

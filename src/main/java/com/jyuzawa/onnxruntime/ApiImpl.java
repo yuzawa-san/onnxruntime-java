@@ -4,9 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.*;
@@ -94,6 +94,7 @@ final class ApiImpl implements Api {
     final ReleaseSessionOptions ReleaseSessionOptions;
     final ReleaseStatus ReleaseStatus;
     final ReleaseTensorRTProviderOptions ReleaseTensorRTProviderOptions;
+    final ReleaseTensorTypeAndShapeInfo ReleaseTensorTypeAndShapeInfo;
     final ReleaseThreadingOptions ReleaseThreadingOptions;
     final ReleaseTypeInfo ReleaseTypeInfo;
     final ReleaseValue ReleaseValue;
@@ -212,6 +213,7 @@ final class ApiImpl implements Api {
         this.ReleaseSessionOptions = OrtApi.ReleaseSessionOptions(memorySegment, memorySession);
         this.ReleaseStatus = OrtApi.ReleaseStatus(memorySegment, memorySession);
         this.ReleaseTensorRTProviderOptions = OrtApi.ReleaseTensorRTProviderOptions(memorySegment, memorySession);
+        this.ReleaseTensorTypeAndShapeInfo = OrtApi.ReleaseTensorTypeAndShapeInfo(memorySegment, memorySession);
         this.ReleaseThreadingOptions = OrtApi.ReleaseThreadingOptions(memorySegment, memorySession);
         this.ReleaseTypeInfo = OrtApi.ReleaseTypeInfo(memorySegment, memorySession);
         this.ReleaseValue = OrtApi.ReleaseValue(memorySegment, memorySession);

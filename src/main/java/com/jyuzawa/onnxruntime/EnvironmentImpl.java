@@ -4,9 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JAVA;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.ORT_PROJECTION_JAVA;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtArenaAllocator;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtMemTypeDefault;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
@@ -43,15 +43,11 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                                 logName.address(),
                                 out));
             }
-            memorySession.addCloseAction(() -> {
-                api.ReleaseEnv.apply(address);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseEnv.apply(address));
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
                     memorySession, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            memorySession.addCloseAction(() -> {
-                api.ReleaseMemoryInfo.apply(memoryInfo);
-            });
+            memorySession.addCloseAction(() -> api.ReleaseMemoryInfo.apply(memoryInfo));
             api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, MemoryAddress.NULL));
             this.ortAllocator = api.create(memorySession, out -> api.GetAllocatorWithDefaultOptions.apply(out));
         }

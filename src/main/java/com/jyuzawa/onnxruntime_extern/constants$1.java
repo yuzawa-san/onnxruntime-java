@@ -8,7 +8,6 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.VarHandle;
 
 class constants$1 {
 
@@ -33,11 +32,4 @@ class constants$1 {
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH = RuntimeHelper.downcallHandle(
             "OrtSessionOptionsAppendExecutionProvider_MIGraphX",
             constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC);
-    static final OfAddress kOrtRunOptionsConfigEnableMemoryArenaShrinkage$LAYOUT = Constants$root.C_POINTER$LAYOUT;
-    static final VarHandle kOrtRunOptionsConfigEnableMemoryArenaShrinkage$VH =
-            constants$1.kOrtRunOptionsConfigEnableMemoryArenaShrinkage$LAYOUT.varHandle();
-    static final MemorySegment kOrtRunOptionsConfigEnableMemoryArenaShrinkage$SEGMENT =
-            RuntimeHelper.lookupGlobalVariable(
-                    "kOrtRunOptionsConfigEnableMemoryArenaShrinkage",
-                    constants$1.kOrtRunOptionsConfigEnableMemoryArenaShrinkage$LAYOUT);
 }

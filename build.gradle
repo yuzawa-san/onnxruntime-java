@@ -145,10 +145,6 @@ allArches.each { osArch ->
 }
 
 // TODO: enable jextract
-task jextractClean(type: Delete) {
-	delete 'symbols.conf'
-	delete 'src/main/java/com/jyuzawa/onnxruntime_extern'
-}
 
 task jextract(type: Exec) {
 	environment('ORT_VERSION', ORT_VERSION)

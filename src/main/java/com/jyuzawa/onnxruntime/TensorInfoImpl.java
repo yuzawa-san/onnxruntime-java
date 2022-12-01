@@ -4,8 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_LONG;
 
+import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
@@ -60,5 +61,27 @@ final class TensorInfoImpl implements TensorInfo {
     public long getByteCount() {
         // TODO: handle missing valueLayout
         return elementCount * type.getValueLayout().byteSize();
+    }
+
+    final OnnxTensorImpl newValue(ValueContext valueContext, MemoryAddress ortValueAddress) {
+        switch (type) {
+            case BOOL:
+            case INT8:
+                return new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
+            case INT16:
+                return new OnnxTensorShortImpl(this, valueContext, ortValueAddress);
+            case INT32:
+                return new OnnxTensorIntImpl(this, valueContext, ortValueAddress);
+            case INT64:
+                return new OnnxTensorLongImpl(this, valueContext, ortValueAddress);
+            case FLOAT:
+                return new OnnxTensorFloatImpl(this, valueContext, ortValueAddress);
+            case DOUBLE:
+                return new OnnxTensorDoubleImpl(this, valueContext, ortValueAddress);
+            case STRING:
+                return new OnnxTensorStringImpl(this, valueContext, ortValueAddress);
+            default:
+                throw new UnsupportedOperationException("OnnxTensor with type " + type + " is not supported");
+        }
     }
 }
