@@ -4,9 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JAVA;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.ORT_PROJECTION_JAVA;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtArenaAllocator;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtMemTypeDefault;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;

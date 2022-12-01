@@ -4,9 +4,9 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.*;
