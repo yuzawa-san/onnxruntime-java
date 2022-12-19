@@ -4,9 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.Map;
 
 abstract class ExecutionProviderObjectConfig extends ExecutionProviderMapConfig {
@@ -17,13 +16,13 @@ abstract class ExecutionProviderObjectConfig extends ExecutionProviderMapConfig 
 
     @Override
     protected final void appendToSessionOptions(
-            MemorySession memorySession,
+            Arena memorySession,
             ApiImpl api,
-            MemoryAddress sessionOptions,
-            MemoryAddress keys,
-            MemoryAddress values,
+            MemorySegment sessionOptions,
+            MemorySegment keys,
+            MemorySegment values,
             int numProperties) {
-        MemoryAddress config = api.create(memorySession, out -> create(api, out));
+    	MemorySegment config = api.create(memorySession, out -> create(api, out));
         memorySession.addCloseAction(() -> {
             release(api, config);
         });
@@ -31,12 +30,12 @@ abstract class ExecutionProviderObjectConfig extends ExecutionProviderMapConfig 
         api.checkStatus(append(api, sessionOptions, config));
     }
 
-    protected abstract Addressable create(ApiImpl api, MemoryAddress out);
+    protected abstract MemorySegment create(ApiImpl api, MemorySegment out);
 
-    protected abstract void release(ApiImpl api, MemoryAddress config);
+    protected abstract void release(ApiImpl api, MemorySegment config);
 
-    protected abstract Addressable update(
-            ApiImpl api, MemoryAddress config, MemoryAddress keys, MemoryAddress values, int numProperties);
+    protected abstract MemorySegment update(
+            ApiImpl api, MemorySegment config, MemorySegment keys, MemorySegment values, int numProperties);
 
-    protected abstract Addressable append(ApiImpl api, MemoryAddress sessionOptions, MemoryAddress config);
+    protected abstract MemorySegment append(ApiImpl api, MemorySegment sessionOptions, MemorySegment config);
 }

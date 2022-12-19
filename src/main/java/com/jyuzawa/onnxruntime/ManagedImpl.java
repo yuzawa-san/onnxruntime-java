@@ -4,25 +4,25 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 
 abstract class ManagedImpl implements AutoCloseable {
 
     protected final ApiImpl api;
-    protected final MemorySession memorySession;
+    protected final Arena memorySession;
 
-    protected ManagedImpl(ApiImpl api, MemorySession memorySession) {
+    protected ManagedImpl(ApiImpl api, Arena memorySession) {
         this.api = api;
         this.memorySession = memorySession;
     }
 
     @Override
-    public final void close() {
+    public  void close() {
         memorySession.close();
     }
 
-    abstract MemoryAddress address();
+    abstract MemorySegment address();
 
     @Override
     public String toString() {

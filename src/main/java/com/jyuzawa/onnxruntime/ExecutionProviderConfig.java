@@ -4,9 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.Map;
 import java.util.Optional;
@@ -45,10 +44,10 @@ abstract class ExecutionProviderConfig {
             String key,
             MemorySegment config,
             SegmentAllocator allocator,
-            BiConsumer<MemorySegment, MemoryAddress> consumer) {
+            BiConsumer<MemorySegment, MemorySegment> consumer) {
         get(key).ifPresent(val ->
-                consumer.accept(config, allocator.allocateUtf8String(val).address()));
+                consumer.accept(config, allocator.allocateUtf8String(val)));
     }
 
-    abstract void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions);
+    abstract void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions);
 }

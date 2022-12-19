@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 
 final class MapInfoImpl implements MapInfo {
 
@@ -31,7 +31,7 @@ final class MapInfoImpl implements MapInfo {
         return "map(" + keyType + "," + valueType + ")";
     }
 
-    final OnnxValueImpl newValue(ValueContext valueContext, MemoryAddress ortValueAddress) {
+    final OnnxValueImpl newValue(ValueContext valueContext, MemorySegment ortValueAddress) {
         if (valueType.getType() != OnnxType.TENSOR || valueType.getTensorInfo().getElementCount() != 1) {
             throw new UnsupportedOperationException("OnnxMap only supports scalar values");
         }

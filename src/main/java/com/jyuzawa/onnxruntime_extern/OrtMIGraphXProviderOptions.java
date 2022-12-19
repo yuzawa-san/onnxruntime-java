@@ -9,9 +9,18 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
 
+/**
+ * {@snippet :
+ * struct OrtMIGraphXProviderOptions {
+ *     int device_id;
+ *     int migraphx_fp16_enable;
+ *     int migraphx_int8_enable;
+ * };
+ * }
+ */
 public class OrtMIGraphXProviderOptions {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+    static final StructLayout $struct$LAYOUT = MemoryLayout.structLayout(
                     Constants$root.C_INT$LAYOUT.withName("device_id"),
                     Constants$root.C_INT$LAYOUT.withName("migraphx_fp16_enable"),
                     Constants$root.C_INT$LAYOUT.withName("migraphx_int8_enable"))
@@ -26,11 +35,21 @@ public class OrtMIGraphXProviderOptions {
     public static VarHandle device_id$VH() {
         return OrtMIGraphXProviderOptions.device_id$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int device_id;
+     * }
+     */
     public static int device_id$get(MemorySegment seg) {
         return (int) OrtMIGraphXProviderOptions.device_id$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int device_id;
+     * }
+     */
     public static void device_id$set(MemorySegment seg, int x) {
         OrtMIGraphXProviderOptions.device_id$VH.set(seg, x);
     }
@@ -49,11 +68,21 @@ public class OrtMIGraphXProviderOptions {
     public static VarHandle migraphx_fp16_enable$VH() {
         return OrtMIGraphXProviderOptions.migraphx_fp16_enable$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int migraphx_fp16_enable;
+     * }
+     */
     public static int migraphx_fp16_enable$get(MemorySegment seg) {
         return (int) OrtMIGraphXProviderOptions.migraphx_fp16_enable$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int migraphx_fp16_enable;
+     * }
+     */
     public static void migraphx_fp16_enable$set(MemorySegment seg, int x) {
         OrtMIGraphXProviderOptions.migraphx_fp16_enable$VH.set(seg, x);
     }
@@ -72,11 +101,21 @@ public class OrtMIGraphXProviderOptions {
     public static VarHandle migraphx_int8_enable$VH() {
         return OrtMIGraphXProviderOptions.migraphx_int8_enable$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int migraphx_int8_enable;
+     * }
+     */
     public static int migraphx_int8_enable$get(MemorySegment seg) {
         return (int) OrtMIGraphXProviderOptions.migraphx_int8_enable$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int migraphx_int8_enable;
+     * }
+     */
     public static void migraphx_int8_enable$set(MemorySegment seg, int x) {
         OrtMIGraphXProviderOptions.migraphx_int8_enable$VH.set(seg, x);
     }
@@ -97,11 +136,11 @@ public class OrtMIGraphXProviderOptions {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
+    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+    public static MemorySegment ofAddress(MemorySegment addr, MemorySession session) {
         return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }

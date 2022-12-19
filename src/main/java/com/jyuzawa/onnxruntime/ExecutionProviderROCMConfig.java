@@ -4,11 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import com.jyuzawa.onnxruntime_extern.OrtROCMProviderOptions;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.util.Map;
+
+import com.jyuzawa.onnxruntime_extern.OrtROCMProviderOptions;
 
 final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
 
@@ -17,7 +17,7 @@ final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    final void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
+    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         MemorySegment config = OrtROCMProviderOptions.allocate(memorySession);
         copyInteger("device_id", config, OrtROCMProviderOptions::device_id$set);
         copyInteger("miopen_conv_exhaustive_search", config, OrtROCMProviderOptions::miopen_conv_exhaustive_search$set);
@@ -27,6 +27,6 @@ final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
         copyInteger("has_user_compute_stream", config, OrtROCMProviderOptions::has_user_compute_stream$set);
         // TODO: user_compute_stream
         // TODO: default_memory_arena_cfg
-        api.checkStatus(api.SessionOptionsAppendExecutionProvider_ROCM.apply(sessionOptions, config.address()));
+        api.checkStatus(api.SessionOptionsAppendExecutionProvider_ROCM.apply(sessionOptions, config));
     }
 }

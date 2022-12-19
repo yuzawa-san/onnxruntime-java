@@ -8,20 +8,24 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 
+/**
+ * {@snippet :
+ * void (*OrtThreadWorkerFn)(void* ort_worker_fn_param);
+ * }
+ */
 public interface OrtThreadWorkerFn {
 
-    void apply(java.lang.foreign.MemoryAddress ort_worker_fn_param);
+    void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
     static MemorySegment allocate(OrtThreadWorkerFn fi, MemorySession session) {
         return RuntimeHelper.upcallStub(OrtThreadWorkerFn.class, fi, constants$0.OrtThreadWorkerFn$FUNC, session);
     }
 
-    static OrtThreadWorkerFn ofAddress(MemoryAddress addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-        return (java.lang.foreign.MemoryAddress _ort_worker_fn_param) -> {
+    static OrtThreadWorkerFn ofAddress(MemorySegment addr, MemorySession session) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
             try {
-                constants$0.OrtThreadWorkerFn$MH.invokeExact(
-                        (Addressable) symbol, (java.lang.foreign.Addressable) _ort_worker_fn_param);
+                constants$0.OrtThreadWorkerFn$MH.invokeExact(symbol, _ort_custom_thread_handle);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }

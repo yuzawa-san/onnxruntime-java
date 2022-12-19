@@ -6,9 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,20 +22,20 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     private final List<OnnxValue> unmodifiableData;
     private final TypeInfoImpl typeInfo;
 
-    OnnxSequenceImpl(TypeInfoImpl typeInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+    OnnxSequenceImpl(TypeInfoImpl typeInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
         super(OnnxType.SEQUENCE, valueContext);
         if (ortValueAddress == null) {
             this.data = new ArrayList<>();
         } else {
             ApiImpl api = valueContext.api();
             SegmentAllocator allocator = valueContext.segmentAllocator();
-            MemorySession memorySession = valueContext.memorySession();
+            Arena memorySession = valueContext.memorySession();
             int outputs =
                     Math.toIntExact(api.extractLong(allocator, out -> api.GetValueCount.apply(ortValueAddress, out)));
             this.data = new ArrayList<>(outputs);
             for (int i = 0; i < outputs; i++) {
                 final int index = i;
-                MemoryAddress valueAddress = api.create(
+                MemorySegment valueAddress = api.create(
                         allocator,
                         out -> api.GetValue.apply(ortValueAddress, index, valueContext.ortAllocatorAddress(), out));
                 memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
@@ -75,7 +74,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     @Override
-    public MemoryAddress toNative() {
+    public MemorySegment toNative() {
         ApiImpl api = valueContext.api();
         SegmentAllocator allocator = valueContext.segmentAllocator();
         int size = data.size();
@@ -86,7 +85,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
         }
         return api.create(
                 allocator,
-                out -> api.CreateValue.apply(valuesArray.address(), size, OnnxType.SEQUENCE.getNumber(), out));
+                out -> api.CreateValue.apply(valuesArray, size, OnnxType.SEQUENCE.getNumber(), out));
     }
 
     @Override

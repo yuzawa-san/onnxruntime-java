@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.function.Function;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
 
-    OnnxTensorByteImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+    OnnxTensorByteImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
         super(tensorInfo, valueContext, ortValueAddress, Function.identity());
     }
 

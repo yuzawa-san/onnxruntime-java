@@ -10,9 +10,240 @@ import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
 
+/**
+ * {@snippet :
+ * struct OrtApi {
+ *     OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
+ *     OrtErrorCode (*GetErrorCode)(const OrtStatus*);
+ *     char* (*GetErrorMessage)(const OrtStatus*);
+ *     OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
+ *     OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
+ *     OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
+ *     OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
+ *     OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
+ *     OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
+ *     OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
+ *     OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
+ *     OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
+ *     OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
+ *     OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
+ *     OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
+ *     OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
+ *     OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
+ *     OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
+ *     OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
+ *     OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
+ *     OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
+ *     OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
+ *     OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
+ *     OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
+ *     OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
+ *     OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
+ *     OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
+ *     OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
+ *     OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
+ *     OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
+ *     OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
+ *     OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
+ *     OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
+ *     OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
+ *     OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
+ *     OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
+ *     OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
+ *     OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
+ *     OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
+ *     OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
+ *     OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
+ *     OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
+ *     OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+ *     OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
+ *     OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+ *     OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+ *     OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
+ *     OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
+ *     OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+ *     OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
+ *     OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
+ *     OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
+ *     OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
+ *     OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
+ *     OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
+ *     OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
+ *     OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
+ *     OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
+ *     OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
+ *     OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
+ *     OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
+ *     OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
+ *     OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
+ *     OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
+ *     OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
+ *     OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
+ *     OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
+ *     OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
+ *     OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
+ *     OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
+ *     OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
+ *     OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
+ *     void (*ReleaseEnv)(OrtEnv*);
+ *     void (*ReleaseStatus)(OrtStatus*);
+ *     void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
+ *     void (*ReleaseSession)(OrtSession*);
+ *     void (*ReleaseValue)(OrtValue*);
+ *     void (*ReleaseRunOptions)(OrtRunOptions*);
+ *     void (*ReleaseTypeInfo)(OrtTypeInfo*);
+ *     void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
+ *     void (*ReleaseSessionOptions)(OrtSessionOptions*);
+ *     void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
+ *     OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
+ *     OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
+ *     OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
+ *     OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+ *     OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
+ *     OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
+ *     void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
+ *     void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
+ *     OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
+ *     OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
+ *     void (*ReleaseModelMetadata)(OrtModelMetadata*);
+ *     OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
+ *     OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
+ *     OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
+ *     void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
+ *     OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
+ *     OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
+ *     OrtStatusPtr (*GetAvailableProviders)(char***,int*);
+ *     OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
+ *     OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
+ *     OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
+ *     OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
+ *     OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
+ *     OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
+ *     void (*ReleaseAllocator)(OrtAllocator*);
+ *     OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
+ *     OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
+ *     void (*ReleaseIoBinding)(OrtIoBinding*);
+ *     OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
+ *     OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
+ *     OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
+ *     OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
+ *     OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
+ *     void (*ClearBoundInputs)(OrtIoBinding*);
+ *     void (*ClearBoundOutputs)(OrtIoBinding*);
+ *     OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
+ *     OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
+ *     OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
+ *     OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
+ *     OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
+ *     OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
+ *     OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
+ *     OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
+ *     OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
+ *     OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
+ *     OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
+ *     void (*ReleaseArenaCfg)(OrtArenaCfg*);
+ *     OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
+ *     OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
+ *     OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
+ *     OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
+ *     OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
+ *     OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
+ *     OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
+ *     OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
+ *     void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
+ *     OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+ *     OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
+ *     OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
+ *     OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
+ *     void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
+ *     OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
+ *     OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
+ *     OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
+ *     OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
+ *     OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
+ *     OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
+ *     OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
+ *     OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
+ *     OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
+ *     OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
+ *     OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
+ *     OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
+ *     OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
+ *     OrtStatusPtr (*HasValue)(const OrtValue*,int*);
+ *     OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
+ *     OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
+ *     OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
+ *     OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
+ *     OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
+ *     OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
+ *     OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
+ *     OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
+ *     OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
+ *     OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
+ *     OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
+ *     OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
+ *     OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
+ *     void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
+ *     OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
+ *     OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
+ *     void (*ReleaseOpAttr)(OrtOpAttr*);
+ *     OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
+ *     OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
+ *     void (*ReleaseOp)(OrtOp*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
+ *     OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
+ *     void (*ReleaseKernelInfo)(OrtKernelInfo*);
+ *     const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
+ *     OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
+ *     OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
+ *     void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
+ * };
+ * }
+ */
 public class OrtApi {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+    static final StructLayout $struct$LAYOUT = MemoryLayout.structLayout(
                     Constants$root.C_POINTER$LAYOUT.withName("CreateStatus"),
                     Constants$root.C_POINTER$LAYOUT.withName("GetErrorCode"),
                     Constants$root.C_POINTER$LAYOUT.withName("GetErrorMessage"),
@@ -247,22 +478,24 @@ public class OrtApi {
     static final FunctionDescriptor CreateStatus$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateStatus$MH = RuntimeHelper.downcallHandle(OrtApi.CreateStatus$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
+     * }
+     */
     public interface CreateStatus {
 
-        java.lang.foreign.Addressable apply(int _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(int _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateStatus fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateStatus.class, fi, OrtApi.CreateStatus$FUNC, session);
         }
 
-        static CreateStatus ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (int __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CreateStatus ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (int __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateStatus$MH.invokeExact(
-                                    (Addressable) symbol, __x0, (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateStatus$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -276,20 +509,30 @@ public class OrtApi {
     public static VarHandle CreateStatus$VH() {
         return OrtApi.CreateStatus$VH;
     }
-
-    public static MemoryAddress CreateStatus$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateStatus$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
+     * }
+     */
+    public static MemorySegment CreateStatus$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateStatus$VH.get(seg);
     }
-
-    public static void CreateStatus$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
+     * }
+     */
+    public static void CreateStatus$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateStatus$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateStatus$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateStatus$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateStatus$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateStatus$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateStatus$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateStatus$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateStatus$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -300,21 +543,24 @@ public class OrtApi {
     static final FunctionDescriptor GetErrorCode$FUNC =
             FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetErrorCode$MH = RuntimeHelper.downcallHandle(OrtApi.GetErrorCode$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus*);
+     * }
+     */
     public interface GetErrorCode {
 
-        int apply(java.lang.foreign.MemoryAddress _x0);
+        int apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetErrorCode fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetErrorCode.class, fi, OrtApi.GetErrorCode$FUNC, session);
         }
 
-        static GetErrorCode ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static GetErrorCode ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (int) OrtApi.GetErrorCode$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (int) OrtApi.GetErrorCode$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -328,20 +574,30 @@ public class OrtApi {
     public static VarHandle GetErrorCode$VH() {
         return OrtApi.GetErrorCode$VH;
     }
-
-    public static MemoryAddress GetErrorCode$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetErrorCode$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus*);
+     * }
+     */
+    public static MemorySegment GetErrorCode$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetErrorCode$VH.get(seg);
     }
-
-    public static void GetErrorCode$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus*);
+     * }
+     */
+    public static void GetErrorCode$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetErrorCode$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetErrorCode$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetErrorCode$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetErrorCode$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetErrorCode$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetErrorCode$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetErrorCode$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetErrorCode$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -352,22 +608,24 @@ public class OrtApi {
     static final FunctionDescriptor GetErrorMessage$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetErrorMessage$MH = RuntimeHelper.downcallHandle(OrtApi.GetErrorMessage$FUNC);
-
+    /**
+     * {@snippet :
+     * char* (*GetErrorMessage)(const OrtStatus*);
+     * }
+     */
     public interface GetErrorMessage {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetErrorMessage fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetErrorMessage.class, fi, OrtApi.GetErrorMessage$FUNC, session);
         }
 
-        static GetErrorMessage ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static GetErrorMessage ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetErrorMessage$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetErrorMessage$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -381,20 +639,30 @@ public class OrtApi {
     public static VarHandle GetErrorMessage$VH() {
         return OrtApi.GetErrorMessage$VH;
     }
-
-    public static MemoryAddress GetErrorMessage$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetErrorMessage$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * char* (*GetErrorMessage)(const OrtStatus*);
+     * }
+     */
+    public static MemorySegment GetErrorMessage$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetErrorMessage$VH.get(seg);
     }
-
-    public static void GetErrorMessage$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * char* (*GetErrorMessage)(const OrtStatus*);
+     * }
+     */
+    public static void GetErrorMessage$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetErrorMessage$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetErrorMessage$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetErrorMessage$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetErrorMessage$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetErrorMessage$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetErrorMessage$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetErrorMessage$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetErrorMessage$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -408,26 +676,25 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateEnv$MH = RuntimeHelper.downcallHandle(OrtApi.CreateEnv$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
+     * }
+     */
     public interface CreateEnv {
 
-        java.lang.foreign.Addressable apply(
-                int _x0, java.lang.foreign.MemoryAddress _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                int _x0, java.lang.foreign.MemorySegment _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateEnv fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateEnv.class, fi, OrtApi.CreateEnv$FUNC, session);
         }
 
-        static CreateEnv ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (int __x0, java.lang.foreign.MemoryAddress __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static CreateEnv ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (int __x0, java.lang.foreign.MemorySegment __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateEnv$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateEnv$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -440,20 +707,30 @@ public class OrtApi {
     public static VarHandle CreateEnv$VH() {
         return OrtApi.CreateEnv$VH;
     }
-
-    public static MemoryAddress CreateEnv$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateEnv$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
+     * }
+     */
+    public static MemorySegment CreateEnv$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateEnv$VH.get(seg);
     }
-
-    public static void CreateEnv$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
+     * }
+     */
+    public static void CreateEnv$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateEnv$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateEnv$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateEnv$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateEnv$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateEnv$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateEnv$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateEnv$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateEnv$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -470,37 +747,35 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateEnvWithCustomLogger$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateEnvWithCustomLogger$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
+     * }
+     */
     public interface CreateEnvWithCustomLogger {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 int _x2,
-                java.lang.foreign.MemoryAddress _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x3,
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateEnvWithCustomLogger fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateEnvWithCustomLogger.class, fi, OrtApi.CreateEnvWithCustomLogger$FUNC, session);
         }
 
-        static CreateEnvWithCustomLogger ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateEnvWithCustomLogger ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     int __x2,
-                    java.lang.foreign.MemoryAddress __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x3,
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateEnvWithCustomLogger$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateEnvWithCustomLogger$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -514,20 +789,30 @@ public class OrtApi {
     public static VarHandle CreateEnvWithCustomLogger$VH() {
         return OrtApi.CreateEnvWithCustomLogger$VH;
     }
-
-    public static MemoryAddress CreateEnvWithCustomLogger$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateEnvWithCustomLogger$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
+     * }
+     */
+    public static MemorySegment CreateEnvWithCustomLogger$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateEnvWithCustomLogger$VH.get(seg);
     }
-
-    public static void CreateEnvWithCustomLogger$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
+     * }
+     */
+    public static void CreateEnvWithCustomLogger$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateEnvWithCustomLogger$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateEnvWithCustomLogger$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateEnvWithCustomLogger$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateEnvWithCustomLogger$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateEnvWithCustomLogger$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateEnvWithCustomLogger$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateEnvWithCustomLogger$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateEnvWithCustomLogger$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -539,23 +824,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle EnableTelemetryEvents$MH =
             RuntimeHelper.downcallHandle(OrtApi.EnableTelemetryEvents$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
+     * }
+     */
     public interface EnableTelemetryEvents {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableTelemetryEvents fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     EnableTelemetryEvents.class, fi, OrtApi.EnableTelemetryEvents$FUNC, session);
         }
 
-        static EnableTelemetryEvents ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static EnableTelemetryEvents ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.EnableTelemetryEvents$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.EnableTelemetryEvents$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -569,20 +856,30 @@ public class OrtApi {
     public static VarHandle EnableTelemetryEvents$VH() {
         return OrtApi.EnableTelemetryEvents$VH;
     }
-
-    public static MemoryAddress EnableTelemetryEvents$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableTelemetryEvents$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
+     * }
+     */
+    public static MemorySegment EnableTelemetryEvents$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableTelemetryEvents$VH.get(seg);
     }
-
-    public static void EnableTelemetryEvents$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
+     * }
+     */
+    public static void EnableTelemetryEvents$set(MemorySegment seg, MemorySegment x) {
         OrtApi.EnableTelemetryEvents$VH.set(seg, x);
     }
 
-    public static MemoryAddress EnableTelemetryEvents$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableTelemetryEvents$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment EnableTelemetryEvents$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableTelemetryEvents$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void EnableTelemetryEvents$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void EnableTelemetryEvents$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.EnableTelemetryEvents$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -594,23 +891,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle DisableTelemetryEvents$MH =
             RuntimeHelper.downcallHandle(OrtApi.DisableTelemetryEvents$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
+     * }
+     */
     public interface DisableTelemetryEvents {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableTelemetryEvents fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     DisableTelemetryEvents.class, fi, OrtApi.DisableTelemetryEvents$FUNC, session);
         }
 
-        static DisableTelemetryEvents ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static DisableTelemetryEvents ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.DisableTelemetryEvents$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.DisableTelemetryEvents$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -624,20 +923,30 @@ public class OrtApi {
     public static VarHandle DisableTelemetryEvents$VH() {
         return OrtApi.DisableTelemetryEvents$VH;
     }
-
-    public static MemoryAddress DisableTelemetryEvents$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableTelemetryEvents$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
+     * }
+     */
+    public static MemorySegment DisableTelemetryEvents$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableTelemetryEvents$VH.get(seg);
     }
-
-    public static void DisableTelemetryEvents$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
+     * }
+     */
+    public static void DisableTelemetryEvents$set(MemorySegment seg, MemorySegment x) {
         OrtApi.DisableTelemetryEvents$VH.set(seg, x);
     }
 
-    public static MemoryAddress DisableTelemetryEvents$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableTelemetryEvents$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment DisableTelemetryEvents$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableTelemetryEvents$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void DisableTelemetryEvents$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void DisableTelemetryEvents$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.DisableTelemetryEvents$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -652,33 +961,32 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSession$MH = RuntimeHelper.downcallHandle(OrtApi.CreateSession$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
+     * }
+     */
     public interface CreateSession {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateSession fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateSession.class, fi, OrtApi.CreateSession$FUNC, session);
         }
 
-        static CreateSession ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static CreateSession ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateSession$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateSession$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -692,20 +1000,30 @@ public class OrtApi {
     public static VarHandle CreateSession$VH() {
         return OrtApi.CreateSession$VH;
     }
-
-    public static MemoryAddress CreateSession$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSession$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
+     * }
+     */
+    public static MemorySegment CreateSession$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSession$VH.get(seg);
     }
-
-    public static void CreateSession$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
+     * }
+     */
+    public static void CreateSession$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSession$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSession$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSession$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateSession$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSession$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateSession$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateSession$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSession$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -722,37 +1040,35 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSessionFromArray$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateSessionFromArray$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
+     * }
+     */
     public interface CreateSessionFromArray {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x3,
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateSessionFromArray fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateSessionFromArray.class, fi, OrtApi.CreateSessionFromArray$FUNC, session);
         }
 
-        static CreateSessionFromArray ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateSessionFromArray ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x3,
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionFromArray$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateSessionFromArray$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -766,20 +1082,30 @@ public class OrtApi {
     public static VarHandle CreateSessionFromArray$VH() {
         return OrtApi.CreateSessionFromArray$VH;
     }
-
-    public static MemoryAddress CreateSessionFromArray$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionFromArray$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
+     * }
+     */
+    public static MemorySegment CreateSessionFromArray$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionFromArray$VH.get(seg);
     }
-
-    public static void CreateSessionFromArray$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
+     * }
+     */
+    public static void CreateSessionFromArray$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSessionFromArray$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSessionFromArray$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionFromArray$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateSessionFromArray$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionFromArray$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateSessionFromArray$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateSessionFromArray$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSessionFromArray$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -798,44 +1124,40 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle Run$MH = RuntimeHelper.downcallHandle(OrtApi.Run$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
+     * }
+     */
     public interface Run {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3,
                 long _x4,
-                java.lang.foreign.MemoryAddress _x5,
+                java.lang.foreign.MemorySegment _x5,
                 long _x6,
-                java.lang.foreign.MemoryAddress _x7);
+                java.lang.foreign.MemorySegment _x7);
 
         static MemorySegment allocate(Run fi, MemorySession session) {
             return RuntimeHelper.upcallStub(Run.class, fi, OrtApi.Run$FUNC, session);
         }
 
-        static Run ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3,
+        static Run ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3,
                     long __x4,
-                    java.lang.foreign.MemoryAddress __x5,
+                    java.lang.foreign.MemorySegment __x5,
                     long __x6,
-                    java.lang.foreign.MemoryAddress __x7) -> {
+                    java.lang.foreign.MemorySegment __x7) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress) OrtApi.Run$MH.invokeExact(
-                            (Addressable) symbol,
-                            (java.lang.foreign.Addressable) __x0,
-                            (java.lang.foreign.Addressable) __x1,
-                            (java.lang.foreign.Addressable) __x2,
-                            (java.lang.foreign.Addressable) __x3,
-                            __x4,
-                            (java.lang.foreign.Addressable) __x5,
-                            __x6,
-                            (java.lang.foreign.Addressable) __x7);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.Run$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -848,20 +1170,30 @@ public class OrtApi {
     public static VarHandle Run$VH() {
         return OrtApi.Run$VH;
     }
-
-    public static MemoryAddress Run$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.Run$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
+     * }
+     */
+    public static MemorySegment Run$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.Run$VH.get(seg);
     }
-
-    public static void Run$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
+     * }
+     */
+    public static void Run$set(MemorySegment seg, MemorySegment x) {
         OrtApi.Run$VH.set(seg, x);
     }
 
-    public static MemoryAddress Run$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.Run$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment Run$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.Run$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void Run$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void Run$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.Run$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -872,22 +1204,24 @@ public class OrtApi {
     static final FunctionDescriptor CreateSessionOptions$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSessionOptions$MH = RuntimeHelper.downcallHandle(OrtApi.CreateSessionOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
+     * }
+     */
     public interface CreateSessionOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateSessionOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateSessionOptions.class, fi, OrtApi.CreateSessionOptions$FUNC, session);
         }
 
-        static CreateSessionOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateSessionOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -901,20 +1235,30 @@ public class OrtApi {
     public static VarHandle CreateSessionOptions$VH() {
         return OrtApi.CreateSessionOptions$VH;
     }
-
-    public static MemoryAddress CreateSessionOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
+     * }
+     */
+    public static MemorySegment CreateSessionOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionOptions$VH.get(seg);
     }
-
-    public static void CreateSessionOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
+     * }
+     */
+    public static void CreateSessionOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSessionOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSessionOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateSessionOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateSessionOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateSessionOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSessionOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -926,25 +1270,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SetOptimizedModelFilePath$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetOptimizedModelFilePath$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
+     * }
+     */
     public interface SetOptimizedModelFilePath {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetOptimizedModelFilePath fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetOptimizedModelFilePath.class, fi, OrtApi.SetOptimizedModelFilePath$FUNC, session);
         }
 
-        static SetOptimizedModelFilePath ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SetOptimizedModelFilePath ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetOptimizedModelFilePath$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetOptimizedModelFilePath$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -958,20 +1303,30 @@ public class OrtApi {
     public static VarHandle SetOptimizedModelFilePath$VH() {
         return OrtApi.SetOptimizedModelFilePath$VH;
     }
-
-    public static MemoryAddress SetOptimizedModelFilePath$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetOptimizedModelFilePath$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
+     * }
+     */
+    public static MemorySegment SetOptimizedModelFilePath$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetOptimizedModelFilePath$VH.get(seg);
     }
-
-    public static void SetOptimizedModelFilePath$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
+     * }
+     */
+    public static void SetOptimizedModelFilePath$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetOptimizedModelFilePath$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetOptimizedModelFilePath$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetOptimizedModelFilePath$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetOptimizedModelFilePath$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetOptimizedModelFilePath$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetOptimizedModelFilePath$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetOptimizedModelFilePath$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetOptimizedModelFilePath$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -982,24 +1337,25 @@ public class OrtApi {
     static final FunctionDescriptor CloneSessionOptions$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CloneSessionOptions$MH = RuntimeHelper.downcallHandle(OrtApi.CloneSessionOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
+     * }
+     */
     public interface CloneSessionOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CloneSessionOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CloneSessionOptions.class, fi, OrtApi.CloneSessionOptions$FUNC, session);
         }
 
-        static CloneSessionOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CloneSessionOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CloneSessionOptions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CloneSessionOptions$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1013,20 +1369,30 @@ public class OrtApi {
     public static VarHandle CloneSessionOptions$VH() {
         return OrtApi.CloneSessionOptions$VH;
     }
-
-    public static MemoryAddress CloneSessionOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CloneSessionOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
+     * }
+     */
+    public static MemorySegment CloneSessionOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CloneSessionOptions$VH.get(seg);
     }
-
-    public static void CloneSessionOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
+     * }
+     */
+    public static void CloneSessionOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CloneSessionOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CloneSessionOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CloneSessionOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CloneSessionOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CloneSessionOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CloneSessionOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CloneSessionOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CloneSessionOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1038,23 +1404,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetSessionExecutionMode$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetSessionExecutionMode$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
+     * }
+     */
     public interface SetSessionExecutionMode {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionExecutionMode fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetSessionExecutionMode.class, fi, OrtApi.SetSessionExecutionMode$FUNC, session);
         }
 
-        static SetSessionExecutionMode ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetSessionExecutionMode ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetSessionExecutionMode$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetSessionExecutionMode$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1068,20 +1437,30 @@ public class OrtApi {
     public static VarHandle SetSessionExecutionMode$VH() {
         return OrtApi.SetSessionExecutionMode$VH;
     }
-
-    public static MemoryAddress SetSessionExecutionMode$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionExecutionMode$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
+     * }
+     */
+    public static MemorySegment SetSessionExecutionMode$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionExecutionMode$VH.get(seg);
     }
-
-    public static void SetSessionExecutionMode$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
+     * }
+     */
+    public static void SetSessionExecutionMode$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetSessionExecutionMode$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetSessionExecutionMode$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionExecutionMode$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetSessionExecutionMode$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionExecutionMode$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetSessionExecutionMode$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetSessionExecutionMode$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetSessionExecutionMode$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1092,24 +1471,24 @@ public class OrtApi {
     static final FunctionDescriptor EnableProfiling$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle EnableProfiling$MH = RuntimeHelper.downcallHandle(OrtApi.EnableProfiling$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
+     * }
+     */
     public interface EnableProfiling {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(EnableProfiling fi, MemorySession session) {
             return RuntimeHelper.upcallStub(EnableProfiling.class, fi, OrtApi.EnableProfiling$FUNC, session);
         }
 
-        static EnableProfiling ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static EnableProfiling ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.EnableProfiling$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.EnableProfiling$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1123,20 +1502,30 @@ public class OrtApi {
     public static VarHandle EnableProfiling$VH() {
         return OrtApi.EnableProfiling$VH;
     }
-
-    public static MemoryAddress EnableProfiling$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableProfiling$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
+     * }
+     */
+    public static MemorySegment EnableProfiling$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableProfiling$VH.get(seg);
     }
-
-    public static void EnableProfiling$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
+     * }
+     */
+    public static void EnableProfiling$set(MemorySegment seg, MemorySegment x) {
         OrtApi.EnableProfiling$VH.set(seg, x);
     }
 
-    public static MemoryAddress EnableProfiling$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableProfiling$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment EnableProfiling$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableProfiling$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void EnableProfiling$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void EnableProfiling$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.EnableProfiling$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1147,22 +1536,24 @@ public class OrtApi {
     static final FunctionDescriptor DisableProfiling$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle DisableProfiling$MH = RuntimeHelper.downcallHandle(OrtApi.DisableProfiling$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
+     * }
+     */
     public interface DisableProfiling {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableProfiling fi, MemorySession session) {
             return RuntimeHelper.upcallStub(DisableProfiling.class, fi, OrtApi.DisableProfiling$FUNC, session);
         }
 
-        static DisableProfiling ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static DisableProfiling ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.DisableProfiling$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.DisableProfiling$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1176,20 +1567,30 @@ public class OrtApi {
     public static VarHandle DisableProfiling$VH() {
         return OrtApi.DisableProfiling$VH;
     }
-
-    public static MemoryAddress DisableProfiling$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableProfiling$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment DisableProfiling$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableProfiling$VH.get(seg);
     }
-
-    public static void DisableProfiling$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
+     * }
+     */
+    public static void DisableProfiling$set(MemorySegment seg, MemorySegment x) {
         OrtApi.DisableProfiling$VH.set(seg, x);
     }
 
-    public static MemoryAddress DisableProfiling$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableProfiling$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment DisableProfiling$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableProfiling$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void DisableProfiling$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void DisableProfiling$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.DisableProfiling$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1200,22 +1601,24 @@ public class OrtApi {
     static final FunctionDescriptor EnableMemPattern$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle EnableMemPattern$MH = RuntimeHelper.downcallHandle(OrtApi.EnableMemPattern$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
+     * }
+     */
     public interface EnableMemPattern {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableMemPattern fi, MemorySession session) {
             return RuntimeHelper.upcallStub(EnableMemPattern.class, fi, OrtApi.EnableMemPattern$FUNC, session);
         }
 
-        static EnableMemPattern ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static EnableMemPattern ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.EnableMemPattern$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.EnableMemPattern$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1229,20 +1632,30 @@ public class OrtApi {
     public static VarHandle EnableMemPattern$VH() {
         return OrtApi.EnableMemPattern$VH;
     }
-
-    public static MemoryAddress EnableMemPattern$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableMemPattern$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment EnableMemPattern$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableMemPattern$VH.get(seg);
     }
-
-    public static void EnableMemPattern$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
+     * }
+     */
+    public static void EnableMemPattern$set(MemorySegment seg, MemorySegment x) {
         OrtApi.EnableMemPattern$VH.set(seg, x);
     }
 
-    public static MemoryAddress EnableMemPattern$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableMemPattern$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment EnableMemPattern$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableMemPattern$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void EnableMemPattern$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void EnableMemPattern$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.EnableMemPattern$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1253,22 +1666,24 @@ public class OrtApi {
     static final FunctionDescriptor DisableMemPattern$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle DisableMemPattern$MH = RuntimeHelper.downcallHandle(OrtApi.DisableMemPattern$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
+     * }
+     */
     public interface DisableMemPattern {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableMemPattern fi, MemorySession session) {
             return RuntimeHelper.upcallStub(DisableMemPattern.class, fi, OrtApi.DisableMemPattern$FUNC, session);
         }
 
-        static DisableMemPattern ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static DisableMemPattern ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.DisableMemPattern$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.DisableMemPattern$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1282,20 +1697,30 @@ public class OrtApi {
     public static VarHandle DisableMemPattern$VH() {
         return OrtApi.DisableMemPattern$VH;
     }
-
-    public static MemoryAddress DisableMemPattern$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableMemPattern$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment DisableMemPattern$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableMemPattern$VH.get(seg);
     }
-
-    public static void DisableMemPattern$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
+     * }
+     */
+    public static void DisableMemPattern$set(MemorySegment seg, MemorySegment x) {
         OrtApi.DisableMemPattern$VH.set(seg, x);
     }
 
-    public static MemoryAddress DisableMemPattern$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableMemPattern$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment DisableMemPattern$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableMemPattern$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void DisableMemPattern$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void DisableMemPattern$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.DisableMemPattern$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1306,22 +1731,24 @@ public class OrtApi {
     static final FunctionDescriptor EnableCpuMemArena$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle EnableCpuMemArena$MH = RuntimeHelper.downcallHandle(OrtApi.EnableCpuMemArena$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
+     * }
+     */
     public interface EnableCpuMemArena {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableCpuMemArena fi, MemorySession session) {
             return RuntimeHelper.upcallStub(EnableCpuMemArena.class, fi, OrtApi.EnableCpuMemArena$FUNC, session);
         }
 
-        static EnableCpuMemArena ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static EnableCpuMemArena ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.EnableCpuMemArena$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.EnableCpuMemArena$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1335,20 +1762,30 @@ public class OrtApi {
     public static VarHandle EnableCpuMemArena$VH() {
         return OrtApi.EnableCpuMemArena$VH;
     }
-
-    public static MemoryAddress EnableCpuMemArena$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableCpuMemArena$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment EnableCpuMemArena$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableCpuMemArena$VH.get(seg);
     }
-
-    public static void EnableCpuMemArena$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
+     * }
+     */
+    public static void EnableCpuMemArena$set(MemorySegment seg, MemorySegment x) {
         OrtApi.EnableCpuMemArena$VH.set(seg, x);
     }
 
-    public static MemoryAddress EnableCpuMemArena$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableCpuMemArena$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment EnableCpuMemArena$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableCpuMemArena$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void EnableCpuMemArena$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void EnableCpuMemArena$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.EnableCpuMemArena$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1359,22 +1796,24 @@ public class OrtApi {
     static final FunctionDescriptor DisableCpuMemArena$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle DisableCpuMemArena$MH = RuntimeHelper.downcallHandle(OrtApi.DisableCpuMemArena$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
+     * }
+     */
     public interface DisableCpuMemArena {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableCpuMemArena fi, MemorySession session) {
             return RuntimeHelper.upcallStub(DisableCpuMemArena.class, fi, OrtApi.DisableCpuMemArena$FUNC, session);
         }
 
-        static DisableCpuMemArena ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static DisableCpuMemArena ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.DisableCpuMemArena$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.DisableCpuMemArena$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1388,20 +1827,30 @@ public class OrtApi {
     public static VarHandle DisableCpuMemArena$VH() {
         return OrtApi.DisableCpuMemArena$VH;
     }
-
-    public static MemoryAddress DisableCpuMemArena$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableCpuMemArena$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment DisableCpuMemArena$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableCpuMemArena$VH.get(seg);
     }
-
-    public static void DisableCpuMemArena$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
+     * }
+     */
+    public static void DisableCpuMemArena$set(MemorySegment seg, MemorySegment x) {
         OrtApi.DisableCpuMemArena$VH.set(seg, x);
     }
 
-    public static MemoryAddress DisableCpuMemArena$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisableCpuMemArena$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment DisableCpuMemArena$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisableCpuMemArena$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void DisableCpuMemArena$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void DisableCpuMemArena$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.DisableCpuMemArena$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1412,24 +1861,24 @@ public class OrtApi {
     static final FunctionDescriptor SetSessionLogId$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SetSessionLogId$MH = RuntimeHelper.downcallHandle(OrtApi.SetSessionLogId$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
+     * }
+     */
     public interface SetSessionLogId {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetSessionLogId fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SetSessionLogId.class, fi, OrtApi.SetSessionLogId$FUNC, session);
         }
 
-        static SetSessionLogId ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SetSessionLogId ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogId$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.SetSessionLogId$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1443,20 +1892,30 @@ public class OrtApi {
     public static VarHandle SetSessionLogId$VH() {
         return OrtApi.SetSessionLogId$VH;
     }
-
-    public static MemoryAddress SetSessionLogId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogId$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
+     * }
+     */
+    public static MemorySegment SetSessionLogId$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionLogId$VH.get(seg);
     }
-
-    public static void SetSessionLogId$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
+     * }
+     */
+    public static void SetSessionLogId$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetSessionLogId$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetSessionLogId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogId$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetSessionLogId$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionLogId$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetSessionLogId$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetSessionLogId$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetSessionLogId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1468,23 +1927,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetSessionLogVerbosityLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetSessionLogVerbosityLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
+     * }
+     */
     public interface SetSessionLogVerbosityLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionLogVerbosityLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetSessionLogVerbosityLevel.class, fi, OrtApi.SetSessionLogVerbosityLevel$FUNC, session);
         }
 
-        static SetSessionLogVerbosityLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetSessionLogVerbosityLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogVerbosityLevel$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetSessionLogVerbosityLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1498,21 +1960,31 @@ public class OrtApi {
     public static VarHandle SetSessionLogVerbosityLevel$VH() {
         return OrtApi.SetSessionLogVerbosityLevel$VH;
     }
-
-    public static MemoryAddress SetSessionLogVerbosityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogVerbosityLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
+     * }
+     */
+    public static MemorySegment SetSessionLogVerbosityLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionLogVerbosityLevel$VH.get(seg);
     }
-
-    public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
+     * }
+     */
+    public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetSessionLogVerbosityLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetSessionLogVerbosityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetSessionLogVerbosityLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetSessionLogVerbosityLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetSessionLogVerbosityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1525,23 +1997,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetSessionLogSeverityLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetSessionLogSeverityLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
+     * }
+     */
     public interface SetSessionLogSeverityLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionLogSeverityLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetSessionLogSeverityLevel.class, fi, OrtApi.SetSessionLogSeverityLevel$FUNC, session);
         }
 
-        static SetSessionLogSeverityLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetSessionLogSeverityLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogSeverityLevel$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetSessionLogSeverityLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1555,21 +2030,31 @@ public class OrtApi {
     public static VarHandle SetSessionLogSeverityLevel$VH() {
         return OrtApi.SetSessionLogSeverityLevel$VH;
     }
-
-    public static MemoryAddress SetSessionLogSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionLogSeverityLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
+     * }
+     */
+    public static MemorySegment SetSessionLogSeverityLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionLogSeverityLevel$VH.get(seg);
     }
-
-    public static void SetSessionLogSeverityLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
+     * }
+     */
+    public static void SetSessionLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetSessionLogSeverityLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetSessionLogSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetSessionLogSeverityLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetSessionLogSeverityLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetSessionLogSeverityLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetSessionLogSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetSessionLogSeverityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1581,23 +2066,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetSessionGraphOptimizationLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetSessionGraphOptimizationLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
+     * }
+     */
     public interface SetSessionGraphOptimizationLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionGraphOptimizationLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetSessionGraphOptimizationLevel.class, fi, OrtApi.SetSessionGraphOptimizationLevel$FUNC, session);
         }
 
-        static SetSessionGraphOptimizationLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetSessionGraphOptimizationLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetSessionGraphOptimizationLevel$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetSessionGraphOptimizationLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1611,21 +2099,31 @@ public class OrtApi {
     public static VarHandle SetSessionGraphOptimizationLevel$VH() {
         return OrtApi.SetSessionGraphOptimizationLevel$VH;
     }
-
-    public static MemoryAddress SetSessionGraphOptimizationLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetSessionGraphOptimizationLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
+     * }
+     */
+    public static MemorySegment SetSessionGraphOptimizationLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetSessionGraphOptimizationLevel$VH.get(seg);
     }
-
-    public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
+     * }
+     */
+    public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetSessionGraphOptimizationLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetSessionGraphOptimizationLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetSessionGraphOptimizationLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetSessionGraphOptimizationLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetSessionGraphOptimizationLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1637,22 +2135,25 @@ public class OrtApi {
     static final FunctionDescriptor SetIntraOpNumThreads$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetIntraOpNumThreads$MH = RuntimeHelper.downcallHandle(OrtApi.SetIntraOpNumThreads$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
+     * }
+     */
     public interface SetIntraOpNumThreads {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetIntraOpNumThreads fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SetIntraOpNumThreads.class, fi, OrtApi.SetIntraOpNumThreads$FUNC, session);
         }
 
-        static SetIntraOpNumThreads ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetIntraOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetIntraOpNumThreads$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetIntraOpNumThreads$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1666,20 +2167,30 @@ public class OrtApi {
     public static VarHandle SetIntraOpNumThreads$VH() {
         return OrtApi.SetIntraOpNumThreads$VH;
     }
-
-    public static MemoryAddress SetIntraOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetIntraOpNumThreads$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
+     * }
+     */
+    public static MemorySegment SetIntraOpNumThreads$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetIntraOpNumThreads$VH.get(seg);
     }
-
-    public static void SetIntraOpNumThreads$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
+     * }
+     */
+    public static void SetIntraOpNumThreads$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetIntraOpNumThreads$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetIntraOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetIntraOpNumThreads$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetIntraOpNumThreads$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetIntraOpNumThreads$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetIntraOpNumThreads$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetIntraOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetIntraOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1690,22 +2201,25 @@ public class OrtApi {
     static final FunctionDescriptor SetInterOpNumThreads$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetInterOpNumThreads$MH = RuntimeHelper.downcallHandle(OrtApi.SetInterOpNumThreads$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
+     * }
+     */
     public interface SetInterOpNumThreads {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetInterOpNumThreads fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SetInterOpNumThreads.class, fi, OrtApi.SetInterOpNumThreads$FUNC, session);
         }
 
-        static SetInterOpNumThreads ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetInterOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetInterOpNumThreads$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetInterOpNumThreads$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1719,20 +2233,30 @@ public class OrtApi {
     public static VarHandle SetInterOpNumThreads$VH() {
         return OrtApi.SetInterOpNumThreads$VH;
     }
-
-    public static MemoryAddress SetInterOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetInterOpNumThreads$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
+     * }
+     */
+    public static MemorySegment SetInterOpNumThreads$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetInterOpNumThreads$VH.get(seg);
     }
-
-    public static void SetInterOpNumThreads$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
+     * }
+     */
+    public static void SetInterOpNumThreads$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetInterOpNumThreads$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetInterOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetInterOpNumThreads$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetInterOpNumThreads$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetInterOpNumThreads$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetInterOpNumThreads$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetInterOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetInterOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1743,24 +2267,25 @@ public class OrtApi {
     static final FunctionDescriptor CreateCustomOpDomain$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateCustomOpDomain$MH = RuntimeHelper.downcallHandle(OrtApi.CreateCustomOpDomain$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
+     * }
+     */
     public interface CreateCustomOpDomain {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateCustomOpDomain fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateCustomOpDomain.class, fi, OrtApi.CreateCustomOpDomain$FUNC, session);
         }
 
-        static CreateCustomOpDomain ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CreateCustomOpDomain ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateCustomOpDomain$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateCustomOpDomain$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1774,20 +2299,30 @@ public class OrtApi {
     public static VarHandle CreateCustomOpDomain$VH() {
         return OrtApi.CreateCustomOpDomain$VH;
     }
-
-    public static MemoryAddress CreateCustomOpDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCustomOpDomain$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
+     * }
+     */
+    public static MemorySegment CreateCustomOpDomain$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCustomOpDomain$VH.get(seg);
     }
-
-    public static void CreateCustomOpDomain$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
+     * }
+     */
+    public static void CreateCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateCustomOpDomain$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateCustomOpDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCustomOpDomain$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateCustomOpDomain$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCustomOpDomain$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateCustomOpDomain$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateCustomOpDomain$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateCustomOpDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1798,24 +2333,25 @@ public class OrtApi {
     static final FunctionDescriptor CustomOpDomain_Add$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CustomOpDomain_Add$MH = RuntimeHelper.downcallHandle(OrtApi.CustomOpDomain_Add$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
+     * }
+     */
     public interface CustomOpDomain_Add {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CustomOpDomain_Add fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CustomOpDomain_Add.class, fi, OrtApi.CustomOpDomain_Add$FUNC, session);
         }
 
-        static CustomOpDomain_Add ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CustomOpDomain_Add ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CustomOpDomain_Add$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CustomOpDomain_Add$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1829,20 +2365,30 @@ public class OrtApi {
     public static VarHandle CustomOpDomain_Add$VH() {
         return OrtApi.CustomOpDomain_Add$VH;
     }
-
-    public static MemoryAddress CustomOpDomain_Add$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CustomOpDomain_Add$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
+     * }
+     */
+    public static MemorySegment CustomOpDomain_Add$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CustomOpDomain_Add$VH.get(seg);
     }
-
-    public static void CustomOpDomain_Add$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
+     * }
+     */
+    public static void CustomOpDomain_Add$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CustomOpDomain_Add$VH.set(seg, x);
     }
 
-    public static MemoryAddress CustomOpDomain_Add$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CustomOpDomain_Add$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CustomOpDomain_Add$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CustomOpDomain_Add$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CustomOpDomain_Add$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CustomOpDomain_Add$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CustomOpDomain_Add$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1853,24 +2399,25 @@ public class OrtApi {
     static final FunctionDescriptor AddCustomOpDomain$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AddCustomOpDomain$MH = RuntimeHelper.downcallHandle(OrtApi.AddCustomOpDomain$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
+     * }
+     */
     public interface AddCustomOpDomain {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AddCustomOpDomain fi, MemorySession session) {
             return RuntimeHelper.upcallStub(AddCustomOpDomain.class, fi, OrtApi.AddCustomOpDomain$FUNC, session);
         }
 
-        static AddCustomOpDomain ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static AddCustomOpDomain ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddCustomOpDomain$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddCustomOpDomain$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1884,20 +2431,30 @@ public class OrtApi {
     public static VarHandle AddCustomOpDomain$VH() {
         return OrtApi.AddCustomOpDomain$VH;
     }
-
-    public static MemoryAddress AddCustomOpDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddCustomOpDomain$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
+     * }
+     */
+    public static MemorySegment AddCustomOpDomain$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddCustomOpDomain$VH.get(seg);
     }
-
-    public static void AddCustomOpDomain$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
+     * }
+     */
+    public static void AddCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddCustomOpDomain$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddCustomOpDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddCustomOpDomain$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AddCustomOpDomain$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddCustomOpDomain$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddCustomOpDomain$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddCustomOpDomain$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddCustomOpDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1912,31 +2469,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RegisterCustomOpsLibrary$MH =
             RuntimeHelper.downcallHandle(OrtApi.RegisterCustomOpsLibrary$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
+     * }
+     */
     public interface RegisterCustomOpsLibrary {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(RegisterCustomOpsLibrary fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     RegisterCustomOpsLibrary.class, fi, OrtApi.RegisterCustomOpsLibrary$FUNC, session);
         }
 
-        static RegisterCustomOpsLibrary ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static RegisterCustomOpsLibrary ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RegisterCustomOpsLibrary$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RegisterCustomOpsLibrary$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1950,20 +2507,30 @@ public class OrtApi {
     public static VarHandle RegisterCustomOpsLibrary$VH() {
         return OrtApi.RegisterCustomOpsLibrary$VH;
     }
-
-    public static MemoryAddress RegisterCustomOpsLibrary$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RegisterCustomOpsLibrary$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
+     * }
+     */
+    public static MemorySegment RegisterCustomOpsLibrary$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RegisterCustomOpsLibrary$VH.get(seg);
     }
-
-    public static void RegisterCustomOpsLibrary$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
+     * }
+     */
+    public static void RegisterCustomOpsLibrary$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RegisterCustomOpsLibrary$VH.set(seg, x);
     }
 
-    public static MemoryAddress RegisterCustomOpsLibrary$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RegisterCustomOpsLibrary$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RegisterCustomOpsLibrary$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RegisterCustomOpsLibrary$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RegisterCustomOpsLibrary$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RegisterCustomOpsLibrary$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RegisterCustomOpsLibrary$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -1974,24 +2541,25 @@ public class OrtApi {
     static final FunctionDescriptor SessionGetInputCount$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetInputCount$MH = RuntimeHelper.downcallHandle(OrtApi.SessionGetInputCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
+     * }
+     */
     public interface SessionGetInputCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetInputCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SessionGetInputCount.class, fi, OrtApi.SessionGetInputCount$FUNC, session);
         }
 
-        static SessionGetInputCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionGetInputCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetInputCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2005,20 +2573,30 @@ public class OrtApi {
     public static VarHandle SessionGetInputCount$VH() {
         return OrtApi.SessionGetInputCount$VH;
     }
-
-    public static MemoryAddress SessionGetInputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
+     * }
+     */
+    public static MemorySegment SessionGetInputCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetInputCount$VH.get(seg);
     }
-
-    public static void SessionGetInputCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
+     * }
+     */
+    public static void SessionGetInputCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetInputCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetInputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputCount$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetInputCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetInputCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetInputCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetInputCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetInputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2030,25 +2608,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetOutputCount$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetOutputCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
+     * }
+     */
     public interface SessionGetOutputCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetOutputCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SessionGetOutputCount.class, fi, OrtApi.SessionGetOutputCount$FUNC, session);
         }
 
-        static SessionGetOutputCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionGetOutputCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetOutputCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2062,20 +2641,30 @@ public class OrtApi {
     public static VarHandle SessionGetOutputCount$VH() {
         return OrtApi.SessionGetOutputCount$VH;
     }
-
-    public static MemoryAddress SessionGetOutputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
+     * }
+     */
+    public static MemorySegment SessionGetOutputCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOutputCount$VH.get(seg);
     }
-
-    public static void SessionGetOutputCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
+     * }
+     */
+    public static void SessionGetOutputCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetOutputCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetOutputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputCount$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetOutputCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOutputCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetOutputCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetOutputCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetOutputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2087,10 +2676,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetOverridableInitializerCount$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetOverridableInitializerCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
+     * }
+     */
     public interface SessionGetOverridableInitializerCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetOverridableInitializerCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -2100,15 +2693,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionGetOverridableInitializerCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionGetOverridableInitializerCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionGetOverridableInitializerCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetOverridableInitializerCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2122,21 +2712,31 @@ public class OrtApi {
     public static VarHandle SessionGetOverridableInitializerCount$VH() {
         return OrtApi.SessionGetOverridableInitializerCount$VH;
     }
-
-    public static MemoryAddress SessionGetOverridableInitializerCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOverridableInitializerCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
+     * }
+     */
+    public static MemorySegment SessionGetOverridableInitializerCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOverridableInitializerCount$VH.get(seg);
     }
-
-    public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
+     * }
+     */
+    public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetOverridableInitializerCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetOverridableInitializerCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionGetOverridableInitializerCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionGetOverridableInitializerCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetOverridableInitializerCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2153,27 +2753,27 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetInputTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetInputTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
     public interface SessionGetInputTypeInfo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionGetInputTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SessionGetInputTypeInfo.class, fi, OrtApi.SessionGetInputTypeInfo$FUNC, session);
         }
 
-        static SessionGetInputTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static SessionGetInputTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetInputTypeInfo$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2187,20 +2787,30 @@ public class OrtApi {
     public static VarHandle SessionGetInputTypeInfo$VH() {
         return OrtApi.SessionGetInputTypeInfo$VH;
     }
-
-    public static MemoryAddress SessionGetInputTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
+    public static MemorySegment SessionGetInputTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetInputTypeInfo$VH.get(seg);
     }
-
-    public static void SessionGetInputTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
+    public static void SessionGetInputTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetInputTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetInputTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetInputTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetInputTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetInputTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetInputTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetInputTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2215,27 +2825,27 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetOutputTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetOutputTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
     public interface SessionGetOutputTypeInfo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionGetOutputTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SessionGetOutputTypeInfo.class, fi, OrtApi.SessionGetOutputTypeInfo$FUNC, session);
         }
 
-        static SessionGetOutputTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static SessionGetOutputTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetOutputTypeInfo$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2249,20 +2859,30 @@ public class OrtApi {
     public static VarHandle SessionGetOutputTypeInfo$VH() {
         return OrtApi.SessionGetOutputTypeInfo$VH;
     }
-
-    public static MemoryAddress SessionGetOutputTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
+    public static MemorySegment SessionGetOutputTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOutputTypeInfo$VH.get(seg);
     }
-
-    public static void SessionGetOutputTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
+    public static void SessionGetOutputTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetOutputTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetOutputTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetOutputTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOutputTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetOutputTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetOutputTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetOutputTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2277,11 +2897,15 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetOverridableInitializerTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetOverridableInitializerTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
     public interface SessionGetOverridableInitializerTypeInfo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionGetOverridableInitializerTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -2291,16 +2915,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionGetOverridableInitializerTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static SessionGetOverridableInitializerTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionGetOverridableInitializerTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetOverridableInitializerTypeInfo$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2314,21 +2934,31 @@ public class OrtApi {
     public static VarHandle SessionGetOverridableInitializerTypeInfo$VH() {
         return OrtApi.SessionGetOverridableInitializerTypeInfo$VH;
     }
-
-    public static MemoryAddress SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOverridableInitializerTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
+    public static MemorySegment SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOverridableInitializerTypeInfo$VH.get(seg);
     }
-
-    public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+     * }
+     */
+    public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetOverridableInitializerTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionGetOverridableInitializerTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetOverridableInitializerTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2345,33 +2975,32 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetInputName$MH = RuntimeHelper.downcallHandle(OrtApi.SessionGetInputName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
     public interface SessionGetInputName {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
                 long _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(SessionGetInputName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SessionGetInputName.class, fi, OrtApi.SessionGetInputName$FUNC, session);
         }
 
-        static SessionGetInputName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static SessionGetInputName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetInputName$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2385,20 +3014,30 @@ public class OrtApi {
     public static VarHandle SessionGetInputName$VH() {
         return OrtApi.SessionGetInputName$VH;
     }
-
-    public static MemoryAddress SessionGetInputName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment SessionGetInputName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetInputName$VH.get(seg);
     }
-
-    public static void SessionGetInputName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
+    public static void SessionGetInputName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetInputName$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetInputName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetInputName$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetInputName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetInputName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetInputName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetInputName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetInputName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2413,33 +3052,32 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetOutputName$MH = RuntimeHelper.downcallHandle(OrtApi.SessionGetOutputName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
     public interface SessionGetOutputName {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
                 long _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(SessionGetOutputName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SessionGetOutputName.class, fi, OrtApi.SessionGetOutputName$FUNC, session);
         }
 
-        static SessionGetOutputName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static SessionGetOutputName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetOutputName$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2453,20 +3091,30 @@ public class OrtApi {
     public static VarHandle SessionGetOutputName$VH() {
         return OrtApi.SessionGetOutputName$VH;
     }
-
-    public static MemoryAddress SessionGetOutputName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment SessionGetOutputName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOutputName$VH.get(seg);
     }
-
-    public static void SessionGetOutputName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
+    public static void SessionGetOutputName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetOutputName$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetOutputName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOutputName$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetOutputName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOutputName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetOutputName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetOutputName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetOutputName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2482,14 +3130,18 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetOverridableInitializerName$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetOverridableInitializerName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
     public interface SessionGetOverridableInitializerName {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
                 long _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(SessionGetOverridableInitializerName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -2499,20 +3151,15 @@ public class OrtApi {
                     session);
         }
 
-        static SessionGetOverridableInitializerName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static SessionGetOverridableInitializerName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionGetOverridableInitializerName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetOverridableInitializerName$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2526,21 +3173,31 @@ public class OrtApi {
     public static VarHandle SessionGetOverridableInitializerName$VH() {
         return OrtApi.SessionGetOverridableInitializerName$VH;
     }
-
-    public static MemoryAddress SessionGetOverridableInitializerName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetOverridableInitializerName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment SessionGetOverridableInitializerName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetOverridableInitializerName$VH.get(seg);
     }
-
-    public static void SessionGetOverridableInitializerName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
+     * }
+     */
+    public static void SessionGetOverridableInitializerName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetOverridableInitializerName$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetOverridableInitializerName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionGetOverridableInitializerName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionGetOverridableInitializerName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetOverridableInitializerName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetOverridableInitializerName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetOverridableInitializerName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2553,22 +3210,24 @@ public class OrtApi {
     static final FunctionDescriptor CreateRunOptions$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateRunOptions$MH = RuntimeHelper.downcallHandle(OrtApi.CreateRunOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
+     * }
+     */
     public interface CreateRunOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateRunOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateRunOptions.class, fi, OrtApi.CreateRunOptions$FUNC, session);
         }
 
-        static CreateRunOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateRunOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateRunOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateRunOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2582,20 +3241,30 @@ public class OrtApi {
     public static VarHandle CreateRunOptions$VH() {
         return OrtApi.CreateRunOptions$VH;
     }
-
-    public static MemoryAddress CreateRunOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateRunOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
+     * }
+     */
+    public static MemorySegment CreateRunOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateRunOptions$VH.get(seg);
     }
-
-    public static void CreateRunOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
+     * }
+     */
+    public static void CreateRunOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateRunOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateRunOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateRunOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateRunOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateRunOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateRunOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateRunOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateRunOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2607,10 +3276,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle RunOptionsSetRunLogVerbosityLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.RunOptionsSetRunLogVerbosityLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
+     * }
+     */
     public interface RunOptionsSetRunLogVerbosityLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(RunOptionsSetRunLogVerbosityLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -2620,13 +3293,12 @@ public class OrtApi {
                     session);
         }
 
-        static RunOptionsSetRunLogVerbosityLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static RunOptionsSetRunLogVerbosityLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunLogVerbosityLevel$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsSetRunLogVerbosityLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2640,21 +3312,31 @@ public class OrtApi {
     public static VarHandle RunOptionsSetRunLogVerbosityLevel$VH() {
         return OrtApi.RunOptionsSetRunLogVerbosityLevel$VH;
     }
-
-    public static MemoryAddress RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunLogVerbosityLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
+     * }
+     */
+    public static MemorySegment RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetRunLogVerbosityLevel$VH.get(seg);
     }
-
-    public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
+     * }
+     */
+    public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsSetRunLogVerbosityLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.RunOptionsSetRunLogVerbosityLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsSetRunLogVerbosityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2667,23 +3349,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle RunOptionsSetRunLogSeverityLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.RunOptionsSetRunLogSeverityLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
+     * }
+     */
     public interface RunOptionsSetRunLogSeverityLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(RunOptionsSetRunLogSeverityLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     RunOptionsSetRunLogSeverityLevel.class, fi, OrtApi.RunOptionsSetRunLogSeverityLevel$FUNC, session);
         }
 
-        static RunOptionsSetRunLogSeverityLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static RunOptionsSetRunLogSeverityLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunLogSeverityLevel$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsSetRunLogSeverityLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2697,21 +3382,31 @@ public class OrtApi {
     public static VarHandle RunOptionsSetRunLogSeverityLevel$VH() {
         return OrtApi.RunOptionsSetRunLogSeverityLevel$VH;
     }
-
-    public static MemoryAddress RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunLogSeverityLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
+     * }
+     */
+    public static MemorySegment RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetRunLogSeverityLevel$VH.get(seg);
     }
-
-    public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
+     * }
+     */
+    public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsSetRunLogSeverityLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.RunOptionsSetRunLogSeverityLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsSetRunLogSeverityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2723,24 +3418,25 @@ public class OrtApi {
     static final FunctionDescriptor RunOptionsSetRunTag$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunOptionsSetRunTag$MH = RuntimeHelper.downcallHandle(OrtApi.RunOptionsSetRunTag$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
+     * }
+     */
     public interface RunOptionsSetRunTag {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsSetRunTag fi, MemorySession session) {
             return RuntimeHelper.upcallStub(RunOptionsSetRunTag.class, fi, OrtApi.RunOptionsSetRunTag$FUNC, session);
         }
 
-        static RunOptionsSetRunTag ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static RunOptionsSetRunTag ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunTag$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsSetRunTag$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2754,20 +3450,30 @@ public class OrtApi {
     public static VarHandle RunOptionsSetRunTag$VH() {
         return OrtApi.RunOptionsSetRunTag$VH;
     }
-
-    public static MemoryAddress RunOptionsSetRunTag$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunTag$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
+     * }
+     */
+    public static MemorySegment RunOptionsSetRunTag$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetRunTag$VH.get(seg);
     }
-
-    public static void RunOptionsSetRunTag$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
+     * }
+     */
+    public static void RunOptionsSetRunTag$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsSetRunTag$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsSetRunTag$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetRunTag$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RunOptionsSetRunTag$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetRunTag$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsSetRunTag$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsSetRunTag$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsSetRunTag$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2779,10 +3485,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunOptionsGetRunLogVerbosityLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.RunOptionsGetRunLogVerbosityLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
+     * }
+     */
     public interface RunOptionsGetRunLogVerbosityLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunLogVerbosityLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -2792,15 +3502,12 @@ public class OrtApi {
                     session);
         }
 
-        static RunOptionsGetRunLogVerbosityLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static RunOptionsGetRunLogVerbosityLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunLogVerbosityLevel$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsGetRunLogVerbosityLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2814,21 +3521,31 @@ public class OrtApi {
     public static VarHandle RunOptionsGetRunLogVerbosityLevel$VH() {
         return OrtApi.RunOptionsGetRunLogVerbosityLevel$VH;
     }
-
-    public static MemoryAddress RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunLogVerbosityLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
+     * }
+     */
+    public static MemorySegment RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsGetRunLogVerbosityLevel$VH.get(seg);
     }
-
-    public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
+     * }
+     */
+    public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsGetRunLogVerbosityLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.RunOptionsGetRunLogVerbosityLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsGetRunLogVerbosityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2841,25 +3558,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunOptionsGetRunLogSeverityLevel$MH =
             RuntimeHelper.downcallHandle(OrtApi.RunOptionsGetRunLogSeverityLevel$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
+     * }
+     */
     public interface RunOptionsGetRunLogSeverityLevel {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunLogSeverityLevel fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     RunOptionsGetRunLogSeverityLevel.class, fi, OrtApi.RunOptionsGetRunLogSeverityLevel$FUNC, session);
         }
 
-        static RunOptionsGetRunLogSeverityLevel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static RunOptionsGetRunLogSeverityLevel ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunLogSeverityLevel$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsGetRunLogSeverityLevel$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2873,21 +3591,31 @@ public class OrtApi {
     public static VarHandle RunOptionsGetRunLogSeverityLevel$VH() {
         return OrtApi.RunOptionsGetRunLogSeverityLevel$VH;
     }
-
-    public static MemoryAddress RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunLogSeverityLevel$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
+     * }
+     */
+    public static MemorySegment RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsGetRunLogSeverityLevel$VH.get(seg);
     }
-
-    public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
+     * }
+     */
+    public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsGetRunLogSeverityLevel$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.RunOptionsGetRunLogSeverityLevel$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsGetRunLogSeverityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2899,24 +3627,25 @@ public class OrtApi {
     static final FunctionDescriptor RunOptionsGetRunTag$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunOptionsGetRunTag$MH = RuntimeHelper.downcallHandle(OrtApi.RunOptionsGetRunTag$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
+     * }
+     */
     public interface RunOptionsGetRunTag {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunTag fi, MemorySession session) {
             return RuntimeHelper.upcallStub(RunOptionsGetRunTag.class, fi, OrtApi.RunOptionsGetRunTag$FUNC, session);
         }
 
-        static RunOptionsGetRunTag ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static RunOptionsGetRunTag ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunTag$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsGetRunTag$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2930,20 +3659,30 @@ public class OrtApi {
     public static VarHandle RunOptionsGetRunTag$VH() {
         return OrtApi.RunOptionsGetRunTag$VH;
     }
-
-    public static MemoryAddress RunOptionsGetRunTag$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunTag$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
+     * }
+     */
+    public static MemorySegment RunOptionsGetRunTag$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsGetRunTag$VH.get(seg);
     }
-
-    public static void RunOptionsGetRunTag$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
+     * }
+     */
+    public static void RunOptionsGetRunTag$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsGetRunTag$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsGetRunTag$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsGetRunTag$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RunOptionsGetRunTag$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsGetRunTag$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsGetRunTag$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsGetRunTag$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsGetRunTag$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -2955,23 +3694,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunOptionsSetTerminate$MH =
             RuntimeHelper.downcallHandle(OrtApi.RunOptionsSetTerminate$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
+     * }
+     */
     public interface RunOptionsSetTerminate {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(RunOptionsSetTerminate fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     RunOptionsSetTerminate.class, fi, OrtApi.RunOptionsSetTerminate$FUNC, session);
         }
 
-        static RunOptionsSetTerminate ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static RunOptionsSetTerminate ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetTerminate$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetTerminate$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2985,20 +3726,30 @@ public class OrtApi {
     public static VarHandle RunOptionsSetTerminate$VH() {
         return OrtApi.RunOptionsSetTerminate$VH;
     }
-
-    public static MemoryAddress RunOptionsSetTerminate$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetTerminate$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
+     * }
+     */
+    public static MemorySegment RunOptionsSetTerminate$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetTerminate$VH.get(seg);
     }
-
-    public static void RunOptionsSetTerminate$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
+     * }
+     */
+    public static void RunOptionsSetTerminate$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsSetTerminate$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsSetTerminate$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsSetTerminate$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RunOptionsSetTerminate$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetTerminate$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsSetTerminate$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsSetTerminate$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsSetTerminate$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3010,23 +3761,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunOptionsUnsetTerminate$MH =
             RuntimeHelper.downcallHandle(OrtApi.RunOptionsUnsetTerminate$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
+     * }
+     */
     public interface RunOptionsUnsetTerminate {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(RunOptionsUnsetTerminate fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     RunOptionsUnsetTerminate.class, fi, OrtApi.RunOptionsUnsetTerminate$FUNC, session);
         }
 
-        static RunOptionsUnsetTerminate ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static RunOptionsUnsetTerminate ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsUnsetTerminate$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunOptionsUnsetTerminate$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3040,20 +3794,30 @@ public class OrtApi {
     public static VarHandle RunOptionsUnsetTerminate$VH() {
         return OrtApi.RunOptionsUnsetTerminate$VH;
     }
-
-    public static MemoryAddress RunOptionsUnsetTerminate$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsUnsetTerminate$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
+     * }
+     */
+    public static MemorySegment RunOptionsUnsetTerminate$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsUnsetTerminate$VH.get(seg);
     }
-
-    public static void RunOptionsUnsetTerminate$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
+     * }
+     */
+    public static void RunOptionsUnsetTerminate$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunOptionsUnsetTerminate$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunOptionsUnsetTerminate$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunOptionsUnsetTerminate$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RunOptionsUnsetTerminate$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsUnsetTerminate$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunOptionsUnsetTerminate$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunOptionsUnsetTerminate$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunOptionsUnsetTerminate$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3070,37 +3834,35 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateTensorAsOrtValue$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateTensorAsOrtValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
     public interface CreateTensorAsOrtValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
                 int _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateTensorAsOrtValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateTensorAsOrtValue.class, fi, OrtApi.CreateTensorAsOrtValue$FUNC, session);
         }
 
-        static CreateTensorAsOrtValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateTensorAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
                     int __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorAsOrtValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateTensorAsOrtValue$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3114,20 +3876,30 @@ public class OrtApi {
     public static VarHandle CreateTensorAsOrtValue$VH() {
         return OrtApi.CreateTensorAsOrtValue$VH;
     }
-
-    public static MemoryAddress CreateTensorAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorAsOrtValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static MemorySegment CreateTensorAsOrtValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateTensorAsOrtValue$VH.get(seg);
     }
-
-    public static void CreateTensorAsOrtValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static void CreateTensorAsOrtValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateTensorAsOrtValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateTensorAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorAsOrtValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateTensorAsOrtValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateTensorAsOrtValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateTensorAsOrtValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateTensorAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateTensorAsOrtValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3146,43 +3918,39 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateTensorWithDataAsOrtValue$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateTensorWithDataAsOrtValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
     public interface CreateTensorWithDataAsOrtValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3,
+                java.lang.foreign.MemorySegment _x3,
                 long _x4,
                 int _x5,
-                java.lang.foreign.MemoryAddress _x6);
+                java.lang.foreign.MemorySegment _x6);
 
         static MemorySegment allocate(CreateTensorWithDataAsOrtValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateTensorWithDataAsOrtValue.class, fi, OrtApi.CreateTensorWithDataAsOrtValue$FUNC, session);
         }
 
-        static CreateTensorWithDataAsOrtValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateTensorWithDataAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3,
+                    java.lang.foreign.MemorySegment __x3,
                     long __x4,
                     int __x5,
-                    java.lang.foreign.MemoryAddress __x6) -> {
+                    java.lang.foreign.MemorySegment __x6) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorWithDataAsOrtValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    __x4,
-                                    __x5,
-                                    (java.lang.foreign.Addressable) __x6);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateTensorWithDataAsOrtValue$MH.invokeExact(
+                            symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3196,21 +3964,31 @@ public class OrtApi {
     public static VarHandle CreateTensorWithDataAsOrtValue$VH() {
         return OrtApi.CreateTensorWithDataAsOrtValue$VH;
     }
-
-    public static MemoryAddress CreateTensorWithDataAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorWithDataAsOrtValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static MemorySegment CreateTensorWithDataAsOrtValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateTensorWithDataAsOrtValue$VH.get(seg);
     }
-
-    public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateTensorWithDataAsOrtValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateTensorWithDataAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateTensorWithDataAsOrtValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateTensorWithDataAsOrtValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateTensorWithDataAsOrtValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3222,24 +4000,24 @@ public class OrtApi {
     static final FunctionDescriptor IsTensor$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle IsTensor$MH = RuntimeHelper.downcallHandle(OrtApi.IsTensor$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
+     * }
+     */
     public interface IsTensor {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(IsTensor fi, MemorySession session) {
             return RuntimeHelper.upcallStub(IsTensor.class, fi, OrtApi.IsTensor$FUNC, session);
         }
 
-        static IsTensor ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static IsTensor ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.IsTensor$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.IsTensor$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3252,20 +4030,30 @@ public class OrtApi {
     public static VarHandle IsTensor$VH() {
         return OrtApi.IsTensor$VH;
     }
-
-    public static MemoryAddress IsTensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.IsTensor$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
+     * }
+     */
+    public static MemorySegment IsTensor$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.IsTensor$VH.get(seg);
     }
-
-    public static void IsTensor$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
+     * }
+     */
+    public static void IsTensor$set(MemorySegment seg, MemorySegment x) {
         OrtApi.IsTensor$VH.set(seg, x);
     }
 
-    public static MemoryAddress IsTensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.IsTensor$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment IsTensor$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.IsTensor$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void IsTensor$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void IsTensor$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.IsTensor$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3276,24 +4064,25 @@ public class OrtApi {
     static final FunctionDescriptor GetTensorMutableData$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTensorMutableData$MH = RuntimeHelper.downcallHandle(OrtApi.GetTensorMutableData$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
+     * }
+     */
     public interface GetTensorMutableData {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorMutableData fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetTensorMutableData.class, fi, OrtApi.GetTensorMutableData$FUNC, session);
         }
 
-        static GetTensorMutableData ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetTensorMutableData ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTensorMutableData$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetTensorMutableData$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3307,20 +4096,30 @@ public class OrtApi {
     public static VarHandle GetTensorMutableData$VH() {
         return OrtApi.GetTensorMutableData$VH;
     }
-
-    public static MemoryAddress GetTensorMutableData$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorMutableData$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
+     * }
+     */
+    public static MemorySegment GetTensorMutableData$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorMutableData$VH.get(seg);
     }
-
-    public static void GetTensorMutableData$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
+     * }
+     */
+    public static void GetTensorMutableData$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTensorMutableData$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTensorMutableData$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorMutableData$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetTensorMutableData$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorMutableData$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTensorMutableData$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTensorMutableData$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTensorMutableData$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3334,26 +4133,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle FillStringTensor$MH = RuntimeHelper.downcallHandle(OrtApi.FillStringTensor$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
+     * }
+     */
     public interface FillStringTensor {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(FillStringTensor fi, MemorySession session) {
             return RuntimeHelper.upcallStub(FillStringTensor.class, fi, OrtApi.FillStringTensor$FUNC, session);
         }
 
-        static FillStringTensor ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static FillStringTensor ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.FillStringTensor$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.FillStringTensor$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3367,20 +4166,30 @@ public class OrtApi {
     public static VarHandle FillStringTensor$VH() {
         return OrtApi.FillStringTensor$VH;
     }
-
-    public static MemoryAddress FillStringTensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillStringTensor$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
+     * }
+     */
+    public static MemorySegment FillStringTensor$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillStringTensor$VH.get(seg);
     }
-
-    public static void FillStringTensor$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
+     * }
+     */
+    public static void FillStringTensor$set(MemorySegment seg, MemorySegment x) {
         OrtApi.FillStringTensor$VH.set(seg, x);
     }
 
-    public static MemoryAddress FillStringTensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillStringTensor$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment FillStringTensor$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillStringTensor$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void FillStringTensor$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void FillStringTensor$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.FillStringTensor$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3392,25 +4201,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetStringTensorDataLength$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetStringTensorDataLength$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
+     * }
+     */
     public interface GetStringTensorDataLength {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetStringTensorDataLength fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetStringTensorDataLength.class, fi, OrtApi.GetStringTensorDataLength$FUNC, session);
         }
 
-        static GetStringTensorDataLength ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetStringTensorDataLength ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorDataLength$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetStringTensorDataLength$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3424,20 +4234,30 @@ public class OrtApi {
     public static VarHandle GetStringTensorDataLength$VH() {
         return OrtApi.GetStringTensorDataLength$VH;
     }
-
-    public static MemoryAddress GetStringTensorDataLength$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorDataLength$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
+     * }
+     */
+    public static MemorySegment GetStringTensorDataLength$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorDataLength$VH.get(seg);
     }
-
-    public static void GetStringTensorDataLength$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
+     * }
+     */
+    public static void GetStringTensorDataLength$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetStringTensorDataLength$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetStringTensorDataLength$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorDataLength$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetStringTensorDataLength$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorDataLength$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetStringTensorDataLength$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetStringTensorDataLength$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetStringTensorDataLength$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3454,14 +4274,18 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle GetStringTensorContent$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetStringTensorContent$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
+     * }
+     */
     public interface GetStringTensorContent {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3,
+                java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
         static MemorySegment allocate(GetStringTensorContent fi, MemorySession session) {
@@ -3469,22 +4293,16 @@ public class OrtApi {
                     GetStringTensorContent.class, fi, OrtApi.GetStringTensorContent$FUNC, session);
         }
 
-        static GetStringTensorContent ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static GetStringTensorContent ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3,
+                    java.lang.foreign.MemorySegment __x3,
                     long __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorContent$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetStringTensorContent$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3498,20 +4316,30 @@ public class OrtApi {
     public static VarHandle GetStringTensorContent$VH() {
         return OrtApi.GetStringTensorContent$VH;
     }
-
-    public static MemoryAddress GetStringTensorContent$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorContent$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
+     * }
+     */
+    public static MemorySegment GetStringTensorContent$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorContent$VH.get(seg);
     }
-
-    public static void GetStringTensorContent$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
+     * }
+     */
+    public static void GetStringTensorContent$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetStringTensorContent$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetStringTensorContent$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorContent$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetStringTensorContent$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorContent$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetStringTensorContent$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetStringTensorContent$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetStringTensorContent$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3523,25 +4351,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CastTypeInfoToTensorInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.CastTypeInfoToTensorInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
+     * }
+     */
     public interface CastTypeInfoToTensorInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToTensorInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CastTypeInfoToTensorInfo.class, fi, OrtApi.CastTypeInfoToTensorInfo$FUNC, session);
         }
 
-        static CastTypeInfoToTensorInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CastTypeInfoToTensorInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToTensorInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CastTypeInfoToTensorInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3555,20 +4384,30 @@ public class OrtApi {
     public static VarHandle CastTypeInfoToTensorInfo$VH() {
         return OrtApi.CastTypeInfoToTensorInfo$VH;
     }
-
-    public static MemoryAddress CastTypeInfoToTensorInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToTensorInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static MemorySegment CastTypeInfoToTensorInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CastTypeInfoToTensorInfo$VH.get(seg);
     }
-
-    public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CastTypeInfoToTensorInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CastTypeInfoToTensorInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToTensorInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CastTypeInfoToTensorInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CastTypeInfoToTensorInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CastTypeInfoToTensorInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3580,25 +4419,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetOnnxTypeFromTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetOnnxTypeFromTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
+     * }
+     */
     public interface GetOnnxTypeFromTypeInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetOnnxTypeFromTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetOnnxTypeFromTypeInfo.class, fi, OrtApi.GetOnnxTypeFromTypeInfo$FUNC, session);
         }
 
-        static GetOnnxTypeFromTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetOnnxTypeFromTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetOnnxTypeFromTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetOnnxTypeFromTypeInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3612,20 +4452,30 @@ public class OrtApi {
     public static VarHandle GetOnnxTypeFromTypeInfo$VH() {
         return OrtApi.GetOnnxTypeFromTypeInfo$VH;
     }
-
-    public static MemoryAddress GetOnnxTypeFromTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetOnnxTypeFromTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
+     * }
+     */
+    public static MemorySegment GetOnnxTypeFromTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetOnnxTypeFromTypeInfo$VH.get(seg);
     }
-
-    public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
+     * }
+     */
+    public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetOnnxTypeFromTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetOnnxTypeFromTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetOnnxTypeFromTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetOnnxTypeFromTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetOnnxTypeFromTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetOnnxTypeFromTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3637,23 +4487,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateTensorTypeAndShapeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateTensorTypeAndShapeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
+     * }
+     */
     public interface CreateTensorTypeAndShapeInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateTensorTypeAndShapeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateTensorTypeAndShapeInfo.class, fi, OrtApi.CreateTensorTypeAndShapeInfo$FUNC, session);
         }
 
-        static CreateTensorTypeAndShapeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateTensorTypeAndShapeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorTypeAndShapeInfo$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateTensorTypeAndShapeInfo$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3667,21 +4520,31 @@ public class OrtApi {
     public static VarHandle CreateTensorTypeAndShapeInfo$VH() {
         return OrtApi.CreateTensorTypeAndShapeInfo$VH;
     }
-
-    public static MemoryAddress CreateTensorTypeAndShapeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorTypeAndShapeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static MemorySegment CreateTensorTypeAndShapeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateTensorTypeAndShapeInfo$VH.get(seg);
     }
-
-    public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateTensorTypeAndShapeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateTensorTypeAndShapeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateTensorTypeAndShapeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateTensorTypeAndShapeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateTensorTypeAndShapeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3693,22 +4556,25 @@ public class OrtApi {
     static final FunctionDescriptor SetTensorElementType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetTensorElementType$MH = RuntimeHelper.downcallHandle(OrtApi.SetTensorElementType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+     * }
+     */
     public interface SetTensorElementType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetTensorElementType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SetTensorElementType.class, fi, OrtApi.SetTensorElementType$FUNC, session);
         }
 
-        static SetTensorElementType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetTensorElementType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetTensorElementType$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetTensorElementType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3722,20 +4588,30 @@ public class OrtApi {
     public static VarHandle SetTensorElementType$VH() {
         return OrtApi.SetTensorElementType$VH;
     }
-
-    public static MemoryAddress SetTensorElementType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetTensorElementType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+     * }
+     */
+    public static MemorySegment SetTensorElementType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetTensorElementType$VH.get(seg);
     }
-
-    public static void SetTensorElementType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+     * }
+     */
+    public static void SetTensorElementType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetTensorElementType$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetTensorElementType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetTensorElementType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetTensorElementType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetTensorElementType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetTensorElementType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetTensorElementType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetTensorElementType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3749,26 +4625,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle SetDimensions$MH = RuntimeHelper.downcallHandle(OrtApi.SetDimensions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
+     * }
+     */
     public interface SetDimensions {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(SetDimensions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SetDimensions.class, fi, OrtApi.SetDimensions$FUNC, session);
         }
 
-        static SetDimensions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static SetDimensions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetDimensions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetDimensions$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3782,20 +4658,30 @@ public class OrtApi {
     public static VarHandle SetDimensions$VH() {
         return OrtApi.SetDimensions$VH;
     }
-
-    public static MemoryAddress SetDimensions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetDimensions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
+     * }
+     */
+    public static MemorySegment SetDimensions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetDimensions$VH.get(seg);
     }
-
-    public static void SetDimensions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
+     * }
+     */
+    public static void SetDimensions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetDimensions$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetDimensions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetDimensions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetDimensions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetDimensions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetDimensions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetDimensions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetDimensions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3806,24 +4692,25 @@ public class OrtApi {
     static final FunctionDescriptor GetTensorElementType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTensorElementType$MH = RuntimeHelper.downcallHandle(OrtApi.GetTensorElementType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+     * }
+     */
     public interface GetTensorElementType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorElementType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetTensorElementType.class, fi, OrtApi.GetTensorElementType$FUNC, session);
         }
 
-        static GetTensorElementType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetTensorElementType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTensorElementType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetTensorElementType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3837,20 +4724,30 @@ public class OrtApi {
     public static VarHandle GetTensorElementType$VH() {
         return OrtApi.GetTensorElementType$VH;
     }
-
-    public static MemoryAddress GetTensorElementType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorElementType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+     * }
+     */
+    public static MemorySegment GetTensorElementType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorElementType$VH.get(seg);
     }
-
-    public static void GetTensorElementType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+     * }
+     */
+    public static void GetTensorElementType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTensorElementType$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTensorElementType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorElementType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetTensorElementType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorElementType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTensorElementType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTensorElementType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTensorElementType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3861,24 +4758,25 @@ public class OrtApi {
     static final FunctionDescriptor GetDimensionsCount$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetDimensionsCount$MH = RuntimeHelper.downcallHandle(OrtApi.GetDimensionsCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+     * }
+     */
     public interface GetDimensionsCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetDimensionsCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetDimensionsCount.class, fi, OrtApi.GetDimensionsCount$FUNC, session);
         }
 
-        static GetDimensionsCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetDimensionsCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetDimensionsCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetDimensionsCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3892,20 +4790,30 @@ public class OrtApi {
     public static VarHandle GetDimensionsCount$VH() {
         return OrtApi.GetDimensionsCount$VH;
     }
-
-    public static MemoryAddress GetDimensionsCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetDimensionsCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+     * }
+     */
+    public static MemorySegment GetDimensionsCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetDimensionsCount$VH.get(seg);
     }
-
-    public static void GetDimensionsCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+     * }
+     */
+    public static void GetDimensionsCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetDimensionsCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetDimensionsCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetDimensionsCount$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetDimensionsCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetDimensionsCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetDimensionsCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetDimensionsCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetDimensionsCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3919,26 +4827,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle GetDimensions$MH = RuntimeHelper.downcallHandle(OrtApi.GetDimensions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
+     * }
+     */
     public interface GetDimensions {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(GetDimensions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetDimensions.class, fi, OrtApi.GetDimensions$FUNC, session);
         }
 
-        static GetDimensions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static GetDimensions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetDimensions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetDimensions$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3952,20 +4860,30 @@ public class OrtApi {
     public static VarHandle GetDimensions$VH() {
         return OrtApi.GetDimensions$VH;
     }
-
-    public static MemoryAddress GetDimensions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetDimensions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
+     * }
+     */
+    public static MemorySegment GetDimensions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetDimensions$VH.get(seg);
     }
-
-    public static void GetDimensions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
+     * }
+     */
+    public static void GetDimensions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetDimensions$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetDimensions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetDimensions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetDimensions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetDimensions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetDimensions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetDimensions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetDimensions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -3980,27 +4898,27 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle GetSymbolicDimensions$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSymbolicDimensions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
+     * }
+     */
     public interface GetSymbolicDimensions {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(GetSymbolicDimensions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetSymbolicDimensions.class, fi, OrtApi.GetSymbolicDimensions$FUNC, session);
         }
 
-        static GetSymbolicDimensions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static GetSymbolicDimensions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSymbolicDimensions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSymbolicDimensions$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4014,20 +4932,30 @@ public class OrtApi {
     public static VarHandle GetSymbolicDimensions$VH() {
         return OrtApi.GetSymbolicDimensions$VH;
     }
-
-    public static MemoryAddress GetSymbolicDimensions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSymbolicDimensions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
+     * }
+     */
+    public static MemorySegment GetSymbolicDimensions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSymbolicDimensions$VH.get(seg);
     }
-
-    public static void GetSymbolicDimensions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
+     * }
+     */
+    public static void GetSymbolicDimensions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSymbolicDimensions$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSymbolicDimensions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSymbolicDimensions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetSymbolicDimensions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSymbolicDimensions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSymbolicDimensions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSymbolicDimensions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSymbolicDimensions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4039,25 +4967,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTensorShapeElementCount$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetTensorShapeElementCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+     * }
+     */
     public interface GetTensorShapeElementCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorShapeElementCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetTensorShapeElementCount.class, fi, OrtApi.GetTensorShapeElementCount$FUNC, session);
         }
 
-        static GetTensorShapeElementCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetTensorShapeElementCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTensorShapeElementCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetTensorShapeElementCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4071,21 +5000,31 @@ public class OrtApi {
     public static VarHandle GetTensorShapeElementCount$VH() {
         return OrtApi.GetTensorShapeElementCount$VH;
     }
-
-    public static MemoryAddress GetTensorShapeElementCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorShapeElementCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+     * }
+     */
+    public static MemorySegment GetTensorShapeElementCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorShapeElementCount$VH.get(seg);
     }
-
-    public static void GetTensorShapeElementCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+     * }
+     */
+    public static void GetTensorShapeElementCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTensorShapeElementCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTensorShapeElementCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetTensorShapeElementCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetTensorShapeElementCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTensorShapeElementCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTensorShapeElementCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTensorShapeElementCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4097,25 +5036,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTensorTypeAndShape$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetTensorTypeAndShape$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
     public interface GetTensorTypeAndShape {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorTypeAndShape fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetTensorTypeAndShape.class, fi, OrtApi.GetTensorTypeAndShape$FUNC, session);
         }
 
-        static GetTensorTypeAndShape ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetTensorTypeAndShape ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTensorTypeAndShape$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetTensorTypeAndShape$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4129,20 +5069,30 @@ public class OrtApi {
     public static VarHandle GetTensorTypeAndShape$VH() {
         return OrtApi.GetTensorTypeAndShape$VH;
     }
-
-    public static MemoryAddress GetTensorTypeAndShape$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorTypeAndShape$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static MemorySegment GetTensorTypeAndShape$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorTypeAndShape$VH.get(seg);
     }
-
-    public static void GetTensorTypeAndShape$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static void GetTensorTypeAndShape$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTensorTypeAndShape$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTensorTypeAndShape$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorTypeAndShape$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetTensorTypeAndShape$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorTypeAndShape$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTensorTypeAndShape$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTensorTypeAndShape$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTensorTypeAndShape$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4153,24 +5103,24 @@ public class OrtApi {
     static final FunctionDescriptor GetTypeInfo$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTypeInfo$MH = RuntimeHelper.downcallHandle(OrtApi.GetTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
+     * }
+     */
     public interface GetTypeInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetTypeInfo.class, fi, OrtApi.GetTypeInfo$FUNC, session);
         }
 
-        static GetTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetTypeInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4184,20 +5134,30 @@ public class OrtApi {
     public static VarHandle GetTypeInfo$VH() {
         return OrtApi.GetTypeInfo$VH;
     }
-
-    public static MemoryAddress GetTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
+     * }
+     */
+    public static MemorySegment GetTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTypeInfo$VH.get(seg);
     }
-
-    public static void GetTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
+     * }
+     */
+    public static void GetTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4208,24 +5168,24 @@ public class OrtApi {
     static final FunctionDescriptor GetValueType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetValueType$MH = RuntimeHelper.downcallHandle(OrtApi.GetValueType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
+     * }
+     */
     public interface GetValueType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetValueType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetValueType.class, fi, OrtApi.GetValueType$FUNC, session);
         }
 
-        static GetValueType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetValueType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetValueType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetValueType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4239,20 +5199,30 @@ public class OrtApi {
     public static VarHandle GetValueType$VH() {
         return OrtApi.GetValueType$VH;
     }
-
-    public static MemoryAddress GetValueType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetValueType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
+     * }
+     */
+    public static MemorySegment GetValueType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetValueType$VH.get(seg);
     }
-
-    public static void GetValueType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
+     * }
+     */
+    public static void GetValueType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetValueType$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetValueType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetValueType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetValueType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetValueType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetValueType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetValueType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetValueType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4268,32 +5238,30 @@ public class OrtApi {
             Constants$root.C_INT$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateMemoryInfo$MH = RuntimeHelper.downcallHandle(OrtApi.CreateMemoryInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
+     * }
+     */
     public interface CreateMemoryInfo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemoryAddress _x4);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateMemoryInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateMemoryInfo.class, fi, OrtApi.CreateMemoryInfo$FUNC, session);
         }
 
-        static CreateMemoryInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static CreateMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     int __x1,
                     int __x2,
                     int __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateMemoryInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateMemoryInfo$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4307,20 +5275,30 @@ public class OrtApi {
     public static VarHandle CreateMemoryInfo$VH() {
         return OrtApi.CreateMemoryInfo$VH;
     }
-
-    public static MemoryAddress CreateMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateMemoryInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
+     * }
+     */
+    public static MemorySegment CreateMemoryInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateMemoryInfo$VH.get(seg);
     }
-
-    public static void CreateMemoryInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
+     * }
+     */
+    public static void CreateMemoryInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateMemoryInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateMemoryInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateMemoryInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4334,22 +5312,25 @@ public class OrtApi {
             Constants$root.C_INT$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateCpuMemoryInfo$MH = RuntimeHelper.downcallHandle(OrtApi.CreateCpuMemoryInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
+     * }
+     */
     public interface CreateCpuMemoryInfo {
 
-        java.lang.foreign.Addressable apply(int _x0, int _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(int _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateCpuMemoryInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateCpuMemoryInfo.class, fi, OrtApi.CreateCpuMemoryInfo$FUNC, session);
         }
 
-        static CreateCpuMemoryInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (int __x0, int __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static CreateCpuMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (int __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateCpuMemoryInfo$MH.invokeExact(
-                                    (Addressable) symbol, __x0, __x1, (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateCpuMemoryInfo$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4363,20 +5344,30 @@ public class OrtApi {
     public static VarHandle CreateCpuMemoryInfo$VH() {
         return OrtApi.CreateCpuMemoryInfo$VH;
     }
-
-    public static MemoryAddress CreateCpuMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCpuMemoryInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
+     * }
+     */
+    public static MemorySegment CreateCpuMemoryInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCpuMemoryInfo$VH.get(seg);
     }
-
-    public static void CreateCpuMemoryInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
+     * }
+     */
+    public static void CreateCpuMemoryInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateCpuMemoryInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateCpuMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCpuMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateCpuMemoryInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCpuMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateCpuMemoryInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateCpuMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateCpuMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4390,30 +5381,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CompareMemoryInfo$MH = RuntimeHelper.downcallHandle(OrtApi.CompareMemoryInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
+     * }
+     */
     public interface CompareMemoryInfo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CompareMemoryInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CompareMemoryInfo.class, fi, OrtApi.CompareMemoryInfo$FUNC, session);
         }
 
-        static CompareMemoryInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static CompareMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CompareMemoryInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CompareMemoryInfo$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4427,20 +5418,30 @@ public class OrtApi {
     public static VarHandle CompareMemoryInfo$VH() {
         return OrtApi.CompareMemoryInfo$VH;
     }
-
-    public static MemoryAddress CompareMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CompareMemoryInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
+     * }
+     */
+    public static MemorySegment CompareMemoryInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CompareMemoryInfo$VH.get(seg);
     }
-
-    public static void CompareMemoryInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
+     * }
+     */
+    public static void CompareMemoryInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CompareMemoryInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CompareMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CompareMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CompareMemoryInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CompareMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CompareMemoryInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CompareMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CompareMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4451,24 +5452,25 @@ public class OrtApi {
     static final FunctionDescriptor MemoryInfoGetName$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle MemoryInfoGetName$MH = RuntimeHelper.downcallHandle(OrtApi.MemoryInfoGetName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
+     * }
+     */
     public interface MemoryInfoGetName {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(MemoryInfoGetName.class, fi, OrtApi.MemoryInfoGetName$FUNC, session);
         }
 
-        static MemoryInfoGetName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static MemoryInfoGetName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.MemoryInfoGetName$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4482,20 +5484,30 @@ public class OrtApi {
     public static VarHandle MemoryInfoGetName$VH() {
         return OrtApi.MemoryInfoGetName$VH;
     }
-
-    public static MemoryAddress MemoryInfoGetName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
+     * }
+     */
+    public static MemorySegment MemoryInfoGetName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetName$VH.get(seg);
     }
-
-    public static void MemoryInfoGetName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
+     * }
+     */
+    public static void MemoryInfoGetName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.MemoryInfoGetName$VH.set(seg, x);
     }
 
-    public static MemoryAddress MemoryInfoGetName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetName$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment MemoryInfoGetName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void MemoryInfoGetName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void MemoryInfoGetName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.MemoryInfoGetName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4506,24 +5518,24 @@ public class OrtApi {
     static final FunctionDescriptor MemoryInfoGetId$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle MemoryInfoGetId$MH = RuntimeHelper.downcallHandle(OrtApi.MemoryInfoGetId$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
+     * }
+     */
     public interface MemoryInfoGetId {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetId fi, MemorySession session) {
             return RuntimeHelper.upcallStub(MemoryInfoGetId.class, fi, OrtApi.MemoryInfoGetId$FUNC, session);
         }
 
-        static MemoryInfoGetId ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static MemoryInfoGetId ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetId$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetId$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4537,20 +5549,30 @@ public class OrtApi {
     public static VarHandle MemoryInfoGetId$VH() {
         return OrtApi.MemoryInfoGetId$VH;
     }
-
-    public static MemoryAddress MemoryInfoGetId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetId$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
+     * }
+     */
+    public static MemorySegment MemoryInfoGetId$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetId$VH.get(seg);
     }
-
-    public static void MemoryInfoGetId$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
+     * }
+     */
+    public static void MemoryInfoGetId$set(MemorySegment seg, MemorySegment x) {
         OrtApi.MemoryInfoGetId$VH.set(seg, x);
     }
 
-    public static MemoryAddress MemoryInfoGetId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetId$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment MemoryInfoGetId$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetId$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void MemoryInfoGetId$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void MemoryInfoGetId$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.MemoryInfoGetId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4561,24 +5583,25 @@ public class OrtApi {
     static final FunctionDescriptor MemoryInfoGetMemType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle MemoryInfoGetMemType$MH = RuntimeHelper.downcallHandle(OrtApi.MemoryInfoGetMemType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
+     * }
+     */
     public interface MemoryInfoGetMemType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetMemType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(MemoryInfoGetMemType.class, fi, OrtApi.MemoryInfoGetMemType$FUNC, session);
         }
 
-        static MemoryInfoGetMemType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static MemoryInfoGetMemType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetMemType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.MemoryInfoGetMemType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4592,20 +5615,30 @@ public class OrtApi {
     public static VarHandle MemoryInfoGetMemType$VH() {
         return OrtApi.MemoryInfoGetMemType$VH;
     }
-
-    public static MemoryAddress MemoryInfoGetMemType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetMemType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
+     * }
+     */
+    public static MemorySegment MemoryInfoGetMemType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetMemType$VH.get(seg);
     }
-
-    public static void MemoryInfoGetMemType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
+     * }
+     */
+    public static void MemoryInfoGetMemType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.MemoryInfoGetMemType$VH.set(seg, x);
     }
 
-    public static MemoryAddress MemoryInfoGetMemType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetMemType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment MemoryInfoGetMemType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetMemType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void MemoryInfoGetMemType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void MemoryInfoGetMemType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.MemoryInfoGetMemType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4616,24 +5649,25 @@ public class OrtApi {
     static final FunctionDescriptor MemoryInfoGetType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle MemoryInfoGetType$MH = RuntimeHelper.downcallHandle(OrtApi.MemoryInfoGetType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
+     * }
+     */
     public interface MemoryInfoGetType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(MemoryInfoGetType.class, fi, OrtApi.MemoryInfoGetType$FUNC, session);
         }
 
-        static MemoryInfoGetType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static MemoryInfoGetType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.MemoryInfoGetType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4647,20 +5681,30 @@ public class OrtApi {
     public static VarHandle MemoryInfoGetType$VH() {
         return OrtApi.MemoryInfoGetType$VH;
     }
-
-    public static MemoryAddress MemoryInfoGetType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
+     * }
+     */
+    public static MemorySegment MemoryInfoGetType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetType$VH.get(seg);
     }
-
-    public static void MemoryInfoGetType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
+     * }
+     */
+    public static void MemoryInfoGetType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.MemoryInfoGetType$VH.set(seg, x);
     }
 
-    public static MemoryAddress MemoryInfoGetType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.MemoryInfoGetType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment MemoryInfoGetType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void MemoryInfoGetType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void MemoryInfoGetType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.MemoryInfoGetType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4674,26 +5718,26 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AllocatorAlloc$MH = RuntimeHelper.downcallHandle(OrtApi.AllocatorAlloc$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
+     * }
+     */
     public interface AllocatorAlloc {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AllocatorAlloc fi, MemorySession session) {
             return RuntimeHelper.upcallStub(AllocatorAlloc.class, fi, OrtApi.AllocatorAlloc$FUNC, session);
         }
 
-        static AllocatorAlloc ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static AllocatorAlloc ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AllocatorAlloc$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AllocatorAlloc$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4707,20 +5751,30 @@ public class OrtApi {
     public static VarHandle AllocatorAlloc$VH() {
         return OrtApi.AllocatorAlloc$VH;
     }
-
-    public static MemoryAddress AllocatorAlloc$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AllocatorAlloc$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
+     * }
+     */
+    public static MemorySegment AllocatorAlloc$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AllocatorAlloc$VH.get(seg);
     }
-
-    public static void AllocatorAlloc$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
+     * }
+     */
+    public static void AllocatorAlloc$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AllocatorAlloc$VH.set(seg, x);
     }
 
-    public static MemoryAddress AllocatorAlloc$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AllocatorAlloc$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AllocatorAlloc$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AllocatorAlloc$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AllocatorAlloc$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AllocatorAlloc$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AllocatorAlloc$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4731,24 +5785,24 @@ public class OrtApi {
     static final FunctionDescriptor AllocatorFree$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AllocatorFree$MH = RuntimeHelper.downcallHandle(OrtApi.AllocatorFree$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
+     * }
+     */
     public interface AllocatorFree {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AllocatorFree fi, MemorySession session) {
             return RuntimeHelper.upcallStub(AllocatorFree.class, fi, OrtApi.AllocatorFree$FUNC, session);
         }
 
-        static AllocatorFree ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static AllocatorFree ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AllocatorFree$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.AllocatorFree$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4762,20 +5816,30 @@ public class OrtApi {
     public static VarHandle AllocatorFree$VH() {
         return OrtApi.AllocatorFree$VH;
     }
-
-    public static MemoryAddress AllocatorFree$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AllocatorFree$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
+     * }
+     */
+    public static MemorySegment AllocatorFree$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AllocatorFree$VH.get(seg);
     }
-
-    public static void AllocatorFree$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
+     * }
+     */
+    public static void AllocatorFree$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AllocatorFree$VH.set(seg, x);
     }
 
-    public static MemoryAddress AllocatorFree$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AllocatorFree$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AllocatorFree$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AllocatorFree$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AllocatorFree$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AllocatorFree$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AllocatorFree$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4786,24 +5850,24 @@ public class OrtApi {
     static final FunctionDescriptor AllocatorGetInfo$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AllocatorGetInfo$MH = RuntimeHelper.downcallHandle(OrtApi.AllocatorGetInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
+     * }
+     */
     public interface AllocatorGetInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AllocatorGetInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(AllocatorGetInfo.class, fi, OrtApi.AllocatorGetInfo$FUNC, session);
         }
 
-        static AllocatorGetInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static AllocatorGetInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AllocatorGetInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.AllocatorGetInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4817,20 +5881,30 @@ public class OrtApi {
     public static VarHandle AllocatorGetInfo$VH() {
         return OrtApi.AllocatorGetInfo$VH;
     }
-
-    public static MemoryAddress AllocatorGetInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AllocatorGetInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
+     * }
+     */
+    public static MemorySegment AllocatorGetInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AllocatorGetInfo$VH.get(seg);
     }
-
-    public static void AllocatorGetInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
+     * }
+     */
+    public static void AllocatorGetInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AllocatorGetInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress AllocatorGetInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AllocatorGetInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AllocatorGetInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AllocatorGetInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AllocatorGetInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AllocatorGetInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AllocatorGetInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4842,23 +5916,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetAllocatorWithDefaultOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetAllocatorWithDefaultOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
+     * }
+     */
     public interface GetAllocatorWithDefaultOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetAllocatorWithDefaultOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetAllocatorWithDefaultOptions.class, fi, OrtApi.GetAllocatorWithDefaultOptions$FUNC, session);
         }
 
-        static GetAllocatorWithDefaultOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static GetAllocatorWithDefaultOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetAllocatorWithDefaultOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetAllocatorWithDefaultOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4872,21 +5949,31 @@ public class OrtApi {
     public static VarHandle GetAllocatorWithDefaultOptions$VH() {
         return OrtApi.GetAllocatorWithDefaultOptions$VH;
     }
-
-    public static MemoryAddress GetAllocatorWithDefaultOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetAllocatorWithDefaultOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
+     * }
+     */
+    public static MemorySegment GetAllocatorWithDefaultOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetAllocatorWithDefaultOptions$VH.get(seg);
     }
-
-    public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
+     * }
+     */
+    public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetAllocatorWithDefaultOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetAllocatorWithDefaultOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetAllocatorWithDefaultOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetAllocatorWithDefaultOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetAllocatorWithDefaultOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4902,27 +5989,27 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle AddFreeDimensionOverride$MH =
             RuntimeHelper.downcallHandle(OrtApi.AddFreeDimensionOverride$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
+     * }
+     */
     public interface AddFreeDimensionOverride {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(AddFreeDimensionOverride fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     AddFreeDimensionOverride.class, fi, OrtApi.AddFreeDimensionOverride$FUNC, session);
         }
 
-        static AddFreeDimensionOverride ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static AddFreeDimensionOverride ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddFreeDimensionOverride$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddFreeDimensionOverride$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4936,20 +6023,30 @@ public class OrtApi {
     public static VarHandle AddFreeDimensionOverride$VH() {
         return OrtApi.AddFreeDimensionOverride$VH;
     }
-
-    public static MemoryAddress AddFreeDimensionOverride$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddFreeDimensionOverride$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
+     * }
+     */
+    public static MemorySegment AddFreeDimensionOverride$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddFreeDimensionOverride$VH.get(seg);
     }
-
-    public static void AddFreeDimensionOverride$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
+     * }
+     */
+    public static void AddFreeDimensionOverride$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddFreeDimensionOverride$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddFreeDimensionOverride$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddFreeDimensionOverride$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AddFreeDimensionOverride$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddFreeDimensionOverride$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddFreeDimensionOverride$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddFreeDimensionOverride$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddFreeDimensionOverride$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -4964,33 +6061,32 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetValue$MH = RuntimeHelper.downcallHandle(OrtApi.GetValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
+     * }
+     */
     public interface GetValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
                 int _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetValue.class, fi, OrtApi.GetValue$FUNC, session);
         }
 
-        static GetValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static GetValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     int __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetValue$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5003,20 +6099,30 @@ public class OrtApi {
     public static VarHandle GetValue$VH() {
         return OrtApi.GetValue$VH;
     }
-
-    public static MemoryAddress GetValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
+     * }
+     */
+    public static MemorySegment GetValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetValue$VH.get(seg);
     }
-
-    public static void GetValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
+     * }
+     */
+    public static void GetValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5027,24 +6133,24 @@ public class OrtApi {
     static final FunctionDescriptor GetValueCount$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetValueCount$MH = RuntimeHelper.downcallHandle(OrtApi.GetValueCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
+     * }
+     */
     public interface GetValueCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetValueCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetValueCount.class, fi, OrtApi.GetValueCount$FUNC, session);
         }
 
-        static GetValueCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetValueCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetValueCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetValueCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5058,20 +6164,30 @@ public class OrtApi {
     public static VarHandle GetValueCount$VH() {
         return OrtApi.GetValueCount$VH;
     }
-
-    public static MemoryAddress GetValueCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetValueCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
+     * }
+     */
+    public static MemorySegment GetValueCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetValueCount$VH.get(seg);
     }
-
-    public static void GetValueCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
+     * }
+     */
+    public static void GetValueCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetValueCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetValueCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetValueCount$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetValueCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetValueCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetValueCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetValueCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetValueCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5086,30 +6202,29 @@ public class OrtApi {
             Constants$root.C_INT$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateValue$MH = RuntimeHelper.downcallHandle(OrtApi.CreateValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
+     * }
+     */
     public interface CreateValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, int _x2, java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, int _x2, java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateValue.class, fi, OrtApi.CreateValue$FUNC, session);
         }
 
-        static CreateValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static CreateValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     int __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateValue$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5123,20 +6238,30 @@ public class OrtApi {
     public static VarHandle CreateValue$VH() {
         return OrtApi.CreateValue$VH;
     }
-
-    public static MemoryAddress CreateValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
+     * }
+     */
+    public static MemorySegment CreateValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateValue$VH.get(seg);
     }
-
-    public static void CreateValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
+     * }
+     */
+    public static void CreateValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5152,36 +6277,34 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateOpaqueValue$MH = RuntimeHelper.downcallHandle(OrtApi.CreateOpaqueValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
+     * }
+     */
     public interface CreateOpaqueValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateOpaqueValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateOpaqueValue.class, fi, OrtApi.CreateOpaqueValue$FUNC, session);
         }
 
-        static CreateOpaqueValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static CreateOpaqueValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateOpaqueValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateOpaqueValue$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5195,20 +6318,30 @@ public class OrtApi {
     public static VarHandle CreateOpaqueValue$VH() {
         return OrtApi.CreateOpaqueValue$VH;
     }
-
-    public static MemoryAddress CreateOpaqueValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateOpaqueValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
+     * }
+     */
+    public static MemorySegment CreateOpaqueValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateOpaqueValue$VH.get(seg);
     }
-
-    public static void CreateOpaqueValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
+     * }
+     */
+    public static void CreateOpaqueValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateOpaqueValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateOpaqueValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateOpaqueValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateOpaqueValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateOpaqueValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateOpaqueValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateOpaqueValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateOpaqueValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5224,36 +6357,34 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle GetOpaqueValue$MH = RuntimeHelper.downcallHandle(OrtApi.GetOpaqueValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
+     * }
+     */
     public interface GetOpaqueValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
         static MemorySegment allocate(GetOpaqueValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetOpaqueValue.class, fi, OrtApi.GetOpaqueValue$FUNC, session);
         }
 
-        static GetOpaqueValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3,
+        static GetOpaqueValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3,
                     long __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetOpaqueValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetOpaqueValue$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5267,20 +6398,30 @@ public class OrtApi {
     public static VarHandle GetOpaqueValue$VH() {
         return OrtApi.GetOpaqueValue$VH;
     }
-
-    public static MemoryAddress GetOpaqueValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetOpaqueValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
+     * }
+     */
+    public static MemorySegment GetOpaqueValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetOpaqueValue$VH.get(seg);
     }
-
-    public static void GetOpaqueValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
+     * }
+     */
+    public static void GetOpaqueValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetOpaqueValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetOpaqueValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetOpaqueValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetOpaqueValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetOpaqueValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetOpaqueValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetOpaqueValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetOpaqueValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5295,31 +6436,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelInfoGetAttribute_float$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelInfoGetAttribute_float$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
+     * }
+     */
     public interface KernelInfoGetAttribute_float {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfoGetAttribute_float fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelInfoGetAttribute_float.class, fi, OrtApi.KernelInfoGetAttribute_float$FUNC, session);
         }
 
-        static KernelInfoGetAttribute_float ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static KernelInfoGetAttribute_float ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttribute_float$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelInfoGetAttribute_float$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5333,21 +6474,31 @@ public class OrtApi {
     public static VarHandle KernelInfoGetAttribute_float$VH() {
         return OrtApi.KernelInfoGetAttribute_float$VH;
     }
-
-    public static MemoryAddress KernelInfoGetAttribute_float$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttribute_float$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
+     * }
+     */
+    public static MemorySegment KernelInfoGetAttribute_float$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelInfoGetAttribute_float$VH.get(seg);
     }
-
-    public static void KernelInfoGetAttribute_float$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
+     * }
+     */
+    public static void KernelInfoGetAttribute_float$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelInfoGetAttribute_float$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelInfoGetAttribute_float$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelInfoGetAttribute_float$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelInfoGetAttribute_float$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelInfoGetAttribute_float$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelInfoGetAttribute_float$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelInfoGetAttribute_float$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5363,31 +6514,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelInfoGetAttribute_int64$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelInfoGetAttribute_int64$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
+     * }
+     */
     public interface KernelInfoGetAttribute_int64 {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfoGetAttribute_int64 fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelInfoGetAttribute_int64.class, fi, OrtApi.KernelInfoGetAttribute_int64$FUNC, session);
         }
 
-        static KernelInfoGetAttribute_int64 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static KernelInfoGetAttribute_int64 ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttribute_int64$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelInfoGetAttribute_int64$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5401,21 +6552,31 @@ public class OrtApi {
     public static VarHandle KernelInfoGetAttribute_int64$VH() {
         return OrtApi.KernelInfoGetAttribute_int64$VH;
     }
-
-    public static MemoryAddress KernelInfoGetAttribute_int64$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttribute_int64$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
+     * }
+     */
+    public static MemorySegment KernelInfoGetAttribute_int64$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelInfoGetAttribute_int64$VH.get(seg);
     }
-
-    public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
+     * }
+     */
+    public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelInfoGetAttribute_int64$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelInfoGetAttribute_int64$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelInfoGetAttribute_int64$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelInfoGetAttribute_int64$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelInfoGetAttribute_int64$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5432,34 +6593,33 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelInfoGetAttribute_string$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelInfoGetAttribute_string$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
+     * }
+     */
     public interface KernelInfoGetAttribute_string {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttribute_string fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelInfoGetAttribute_string.class, fi, OrtApi.KernelInfoGetAttribute_string$FUNC, session);
         }
 
-        static KernelInfoGetAttribute_string ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static KernelInfoGetAttribute_string ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttribute_string$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelInfoGetAttribute_string$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5473,21 +6633,31 @@ public class OrtApi {
     public static VarHandle KernelInfoGetAttribute_string$VH() {
         return OrtApi.KernelInfoGetAttribute_string$VH;
     }
-
-    public static MemoryAddress KernelInfoGetAttribute_string$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttribute_string$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
+     * }
+     */
+    public static MemorySegment KernelInfoGetAttribute_string$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelInfoGetAttribute_string$VH.get(seg);
     }
-
-    public static void KernelInfoGetAttribute_string$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
+     * }
+     */
+    public static void KernelInfoGetAttribute_string$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelInfoGetAttribute_string$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelInfoGetAttribute_string$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelInfoGetAttribute_string$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelInfoGetAttribute_string$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelInfoGetAttribute_string$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelInfoGetAttribute_string$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelInfoGetAttribute_string$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5500,25 +6670,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelContext_GetInputCount$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelContext_GetInputCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
+     * }
+     */
     public interface KernelContext_GetInputCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetInputCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelContext_GetInputCount.class, fi, OrtApi.KernelContext_GetInputCount$FUNC, session);
         }
 
-        static KernelContext_GetInputCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static KernelContext_GetInputCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetInputCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelContext_GetInputCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5532,21 +6703,31 @@ public class OrtApi {
     public static VarHandle KernelContext_GetInputCount$VH() {
         return OrtApi.KernelContext_GetInputCount$VH;
     }
-
-    public static MemoryAddress KernelContext_GetInputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetInputCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
+     * }
+     */
+    public static MemorySegment KernelContext_GetInputCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetInputCount$VH.get(seg);
     }
-
-    public static void KernelContext_GetInputCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
+     * }
+     */
+    public static void KernelContext_GetInputCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelContext_GetInputCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelContext_GetInputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelContext_GetInputCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelContext_GetInputCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelContext_GetInputCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelContext_GetInputCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelContext_GetInputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5559,25 +6740,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelContext_GetOutputCount$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelContext_GetOutputCount$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
+     * }
+     */
     public interface KernelContext_GetOutputCount {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetOutputCount fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelContext_GetOutputCount.class, fi, OrtApi.KernelContext_GetOutputCount$FUNC, session);
         }
 
-        static KernelContext_GetOutputCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static KernelContext_GetOutputCount ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetOutputCount$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelContext_GetOutputCount$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5591,21 +6773,31 @@ public class OrtApi {
     public static VarHandle KernelContext_GetOutputCount$VH() {
         return OrtApi.KernelContext_GetOutputCount$VH;
     }
-
-    public static MemoryAddress KernelContext_GetOutputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetOutputCount$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
+     * }
+     */
+    public static MemorySegment KernelContext_GetOutputCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetOutputCount$VH.get(seg);
     }
-
-    public static void KernelContext_GetOutputCount$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
+     * }
+     */
+    public static void KernelContext_GetOutputCount$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelContext_GetOutputCount$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelContext_GetOutputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelContext_GetOutputCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelContext_GetOutputCount$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelContext_GetOutputCount$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelContext_GetOutputCount$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelContext_GetOutputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5621,27 +6813,27 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelContext_GetInput$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelContext_GetInput$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
+     * }
+     */
     public interface KernelContext_GetInput {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelContext_GetInput fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelContext_GetInput.class, fi, OrtApi.KernelContext_GetInput$FUNC, session);
         }
 
-        static KernelContext_GetInput ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static KernelContext_GetInput ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetInput$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelContext_GetInput$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5655,20 +6847,30 @@ public class OrtApi {
     public static VarHandle KernelContext_GetInput$VH() {
         return OrtApi.KernelContext_GetInput$VH;
     }
-
-    public static MemoryAddress KernelContext_GetInput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetInput$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
+     * }
+     */
+    public static MemorySegment KernelContext_GetInput$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetInput$VH.get(seg);
     }
-
-    public static void KernelContext_GetInput$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
+     * }
+     */
+    public static void KernelContext_GetInput$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelContext_GetInput$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelContext_GetInput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetInput$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment KernelContext_GetInput$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetInput$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelContext_GetInput$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelContext_GetInput$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelContext_GetInput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5685,37 +6887,35 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelContext_GetOutput$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelContext_GetOutput$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
+     * }
+     */
     public interface KernelContext_GetOutput {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
                 long _x1,
-                java.lang.foreign.MemoryAddress _x2,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(KernelContext_GetOutput fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     KernelContext_GetOutput.class, fi, OrtApi.KernelContext_GetOutput$FUNC, session);
         }
 
-        static KernelContext_GetOutput ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static KernelContext_GetOutput ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetOutput$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelContext_GetOutput$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5729,20 +6929,30 @@ public class OrtApi {
     public static VarHandle KernelContext_GetOutput$VH() {
         return OrtApi.KernelContext_GetOutput$VH;
     }
-
-    public static MemoryAddress KernelContext_GetOutput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetOutput$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
+     * }
+     */
+    public static MemorySegment KernelContext_GetOutput$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetOutput$VH.get(seg);
     }
-
-    public static void KernelContext_GetOutput$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
+     * }
+     */
+    public static void KernelContext_GetOutput$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelContext_GetOutput$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelContext_GetOutput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetOutput$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment KernelContext_GetOutput$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetOutput$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelContext_GetOutput$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelContext_GetOutput$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelContext_GetOutput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5752,20 +6962,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseEnv$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseEnv$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseEnv$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseEnv)(OrtEnv*);
+     * }
+     */
     public interface ReleaseEnv {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseEnv fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseEnv.class, fi, OrtApi.ReleaseEnv$FUNC, session);
         }
 
-        static ReleaseEnv ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseEnv ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseEnv$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseEnv$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5779,20 +6993,30 @@ public class OrtApi {
     public static VarHandle ReleaseEnv$VH() {
         return OrtApi.ReleaseEnv$VH;
     }
-
-    public static MemoryAddress ReleaseEnv$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseEnv$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseEnv)(OrtEnv*);
+     * }
+     */
+    public static MemorySegment ReleaseEnv$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseEnv$VH.get(seg);
     }
-
-    public static void ReleaseEnv$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseEnv)(OrtEnv*);
+     * }
+     */
+    public static void ReleaseEnv$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseEnv$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseEnv$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseEnv$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseEnv$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseEnv$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseEnv$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseEnv$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseEnv$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5802,20 +7026,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseStatus$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseStatus$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseStatus$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseStatus)(OrtStatus*);
+     * }
+     */
     public interface ReleaseStatus {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseStatus fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseStatus.class, fi, OrtApi.ReleaseStatus$FUNC, session);
         }
 
-        static ReleaseStatus ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseStatus ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseStatus$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseStatus$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5829,20 +7057,30 @@ public class OrtApi {
     public static VarHandle ReleaseStatus$VH() {
         return OrtApi.ReleaseStatus$VH;
     }
-
-    public static MemoryAddress ReleaseStatus$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseStatus$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseStatus)(OrtStatus*);
+     * }
+     */
+    public static MemorySegment ReleaseStatus$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseStatus$VH.get(seg);
     }
-
-    public static void ReleaseStatus$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseStatus)(OrtStatus*);
+     * }
+     */
+    public static void ReleaseStatus$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseStatus$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseStatus$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseStatus$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseStatus$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseStatus$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseStatus$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseStatus$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseStatus$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5852,20 +7090,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseMemoryInfo$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseMemoryInfo$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseMemoryInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
+     * }
+     */
     public interface ReleaseMemoryInfo {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseMemoryInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseMemoryInfo.class, fi, OrtApi.ReleaseMemoryInfo$FUNC, session);
         }
 
-        static ReleaseMemoryInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseMemoryInfo$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseMemoryInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5879,20 +7121,30 @@ public class OrtApi {
     public static VarHandle ReleaseMemoryInfo$VH() {
         return OrtApi.ReleaseMemoryInfo$VH;
     }
-
-    public static MemoryAddress ReleaseMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseMemoryInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
+     * }
+     */
+    public static MemorySegment ReleaseMemoryInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseMemoryInfo$VH.get(seg);
     }
-
-    public static void ReleaseMemoryInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
+     * }
+     */
+    public static void ReleaseMemoryInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseMemoryInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseMemoryInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseMemoryInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5902,20 +7154,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseSession$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseSession$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseSession$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseSession)(OrtSession*);
+     * }
+     */
     public interface ReleaseSession {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseSession fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseSession.class, fi, OrtApi.ReleaseSession$FUNC, session);
         }
 
-        static ReleaseSession ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseSession ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseSession$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseSession$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5929,20 +7185,30 @@ public class OrtApi {
     public static VarHandle ReleaseSession$VH() {
         return OrtApi.ReleaseSession$VH;
     }
-
-    public static MemoryAddress ReleaseSession$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseSession$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseSession)(OrtSession*);
+     * }
+     */
+    public static MemorySegment ReleaseSession$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseSession$VH.get(seg);
     }
-
-    public static void ReleaseSession$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseSession)(OrtSession*);
+     * }
+     */
+    public static void ReleaseSession$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseSession$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseSession$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseSession$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseSession$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseSession$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseSession$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseSession$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseSession$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -5952,20 +7218,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseValue$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseValue$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseValue$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseValue)(OrtValue*);
+     * }
+     */
     public interface ReleaseValue {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseValue.class, fi, OrtApi.ReleaseValue$FUNC, session);
         }
 
-        static ReleaseValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseValue$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseValue$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5979,20 +7249,30 @@ public class OrtApi {
     public static VarHandle ReleaseValue$VH() {
         return OrtApi.ReleaseValue$VH;
     }
-
-    public static MemoryAddress ReleaseValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseValue)(OrtValue*);
+     * }
+     */
+    public static MemorySegment ReleaseValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseValue$VH.get(seg);
     }
-
-    public static void ReleaseValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseValue)(OrtValue*);
+     * }
+     */
+    public static void ReleaseValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6002,20 +7282,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseRunOptions$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseRunOptions$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseRunOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseRunOptions)(OrtRunOptions*);
+     * }
+     */
     public interface ReleaseRunOptions {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseRunOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseRunOptions.class, fi, OrtApi.ReleaseRunOptions$FUNC, session);
         }
 
-        static ReleaseRunOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseRunOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseRunOptions$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseRunOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6029,20 +7313,30 @@ public class OrtApi {
     public static VarHandle ReleaseRunOptions$VH() {
         return OrtApi.ReleaseRunOptions$VH;
     }
-
-    public static MemoryAddress ReleaseRunOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseRunOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseRunOptions)(OrtRunOptions*);
+     * }
+     */
+    public static MemorySegment ReleaseRunOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseRunOptions$VH.get(seg);
     }
-
-    public static void ReleaseRunOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseRunOptions)(OrtRunOptions*);
+     * }
+     */
+    public static void ReleaseRunOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseRunOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseRunOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseRunOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseRunOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseRunOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseRunOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseRunOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseRunOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6052,20 +7346,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseTypeInfo$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseTypeInfo$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseTypeInfo)(OrtTypeInfo*);
+     * }
+     */
     public interface ReleaseTypeInfo {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseTypeInfo.class, fi, OrtApi.ReleaseTypeInfo$FUNC, session);
         }
 
-        static ReleaseTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseTypeInfo$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseTypeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6079,20 +7377,30 @@ public class OrtApi {
     public static VarHandle ReleaseTypeInfo$VH() {
         return OrtApi.ReleaseTypeInfo$VH;
     }
-
-    public static MemoryAddress ReleaseTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseTypeInfo)(OrtTypeInfo*);
+     * }
+     */
+    public static MemorySegment ReleaseTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseTypeInfo$VH.get(seg);
     }
-
-    public static void ReleaseTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseTypeInfo)(OrtTypeInfo*);
+     * }
+     */
+    public static void ReleaseTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6104,22 +7412,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseTensorTypeAndShapeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseTensorTypeAndShapeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
+     * }
+     */
     public interface ReleaseTensorTypeAndShapeInfo {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseTensorTypeAndShapeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseTensorTypeAndShapeInfo.class, fi, OrtApi.ReleaseTensorTypeAndShapeInfo$FUNC, session);
         }
 
-        static ReleaseTensorTypeAndShapeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseTensorTypeAndShapeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseTensorTypeAndShapeInfo$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseTensorTypeAndShapeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6133,21 +7444,31 @@ public class OrtApi {
     public static VarHandle ReleaseTensorTypeAndShapeInfo$VH() {
         return OrtApi.ReleaseTensorTypeAndShapeInfo$VH;
     }
-
-    public static MemoryAddress ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseTensorTypeAndShapeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
+     * }
+     */
+    public static MemorySegment ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseTensorTypeAndShapeInfo$VH.get(seg);
     }
-
-    public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
+     * }
+     */
+    public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseTensorTypeAndShapeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ReleaseTensorTypeAndShapeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseTensorTypeAndShapeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6160,22 +7481,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseSessionOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseSessionOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseSessionOptions)(OrtSessionOptions*);
+     * }
+     */
     public interface ReleaseSessionOptions {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseSessionOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseSessionOptions.class, fi, OrtApi.ReleaseSessionOptions$FUNC, session);
         }
 
-        static ReleaseSessionOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseSessionOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseSessionOptions$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseSessionOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6189,20 +7513,30 @@ public class OrtApi {
     public static VarHandle ReleaseSessionOptions$VH() {
         return OrtApi.ReleaseSessionOptions$VH;
     }
-
-    public static MemoryAddress ReleaseSessionOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseSessionOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseSessionOptions)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment ReleaseSessionOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseSessionOptions$VH.get(seg);
     }
-
-    public static void ReleaseSessionOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseSessionOptions)(OrtSessionOptions*);
+     * }
+     */
+    public static void ReleaseSessionOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseSessionOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseSessionOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseSessionOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseSessionOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseSessionOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseSessionOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseSessionOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseSessionOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6214,22 +7548,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseCustomOpDomain$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseCustomOpDomain$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
+     * }
+     */
     public interface ReleaseCustomOpDomain {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseCustomOpDomain fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseCustomOpDomain.class, fi, OrtApi.ReleaseCustomOpDomain$FUNC, session);
         }
 
-        static ReleaseCustomOpDomain ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseCustomOpDomain ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseCustomOpDomain$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseCustomOpDomain$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6243,20 +7580,30 @@ public class OrtApi {
     public static VarHandle ReleaseCustomOpDomain$VH() {
         return OrtApi.ReleaseCustomOpDomain$VH;
     }
-
-    public static MemoryAddress ReleaseCustomOpDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseCustomOpDomain$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
+     * }
+     */
+    public static MemorySegment ReleaseCustomOpDomain$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseCustomOpDomain$VH.get(seg);
     }
-
-    public static void ReleaseCustomOpDomain$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
+     * }
+     */
+    public static void ReleaseCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseCustomOpDomain$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseCustomOpDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseCustomOpDomain$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseCustomOpDomain$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseCustomOpDomain$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseCustomOpDomain$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseCustomOpDomain$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseCustomOpDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6271,31 +7618,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetDenotationFromTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetDenotationFromTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
+     * }
+     */
     public interface GetDenotationFromTypeInfo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetDenotationFromTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetDenotationFromTypeInfo.class, fi, OrtApi.GetDenotationFromTypeInfo$FUNC, session);
         }
 
-        static GetDenotationFromTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static GetDenotationFromTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetDenotationFromTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetDenotationFromTypeInfo$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6309,20 +7656,30 @@ public class OrtApi {
     public static VarHandle GetDenotationFromTypeInfo$VH() {
         return OrtApi.GetDenotationFromTypeInfo$VH;
     }
-
-    public static MemoryAddress GetDenotationFromTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetDenotationFromTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
+     * }
+     */
+    public static MemorySegment GetDenotationFromTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetDenotationFromTypeInfo$VH.get(seg);
     }
-
-    public static void GetDenotationFromTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
+     * }
+     */
+    public static void GetDenotationFromTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetDenotationFromTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetDenotationFromTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetDenotationFromTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetDenotationFromTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetDenotationFromTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetDenotationFromTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetDenotationFromTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetDenotationFromTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6334,25 +7691,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CastTypeInfoToMapTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.CastTypeInfoToMapTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
+     * }
+     */
     public interface CastTypeInfoToMapTypeInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToMapTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CastTypeInfoToMapTypeInfo.class, fi, OrtApi.CastTypeInfoToMapTypeInfo$FUNC, session);
         }
 
-        static CastTypeInfoToMapTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CastTypeInfoToMapTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToMapTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CastTypeInfoToMapTypeInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6366,20 +7724,30 @@ public class OrtApi {
     public static VarHandle CastTypeInfoToMapTypeInfo$VH() {
         return OrtApi.CastTypeInfoToMapTypeInfo$VH;
     }
-
-    public static MemoryAddress CastTypeInfoToMapTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToMapTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
+     * }
+     */
+    public static MemorySegment CastTypeInfoToMapTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CastTypeInfoToMapTypeInfo$VH.get(seg);
     }
-
-    public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
+     * }
+     */
+    public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CastTypeInfoToMapTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CastTypeInfoToMapTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToMapTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CastTypeInfoToMapTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CastTypeInfoToMapTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CastTypeInfoToMapTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6391,25 +7759,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CastTypeInfoToSequenceTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.CastTypeInfoToSequenceTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
+     * }
+     */
     public interface CastTypeInfoToSequenceTypeInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToSequenceTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CastTypeInfoToSequenceTypeInfo.class, fi, OrtApi.CastTypeInfoToSequenceTypeInfo$FUNC, session);
         }
 
-        static CastTypeInfoToSequenceTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CastTypeInfoToSequenceTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToSequenceTypeInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CastTypeInfoToSequenceTypeInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6423,21 +7792,31 @@ public class OrtApi {
     public static VarHandle CastTypeInfoToSequenceTypeInfo$VH() {
         return OrtApi.CastTypeInfoToSequenceTypeInfo$VH;
     }
-
-    public static MemoryAddress CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CastTypeInfoToSequenceTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
+     * }
+     */
+    public static MemorySegment CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CastTypeInfoToSequenceTypeInfo$VH.get(seg);
     }
-
-    public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
+     * }
+     */
+    public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CastTypeInfoToSequenceTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CastTypeInfoToSequenceTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CastTypeInfoToSequenceTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6449,24 +7828,24 @@ public class OrtApi {
     static final FunctionDescriptor GetMapKeyType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetMapKeyType$MH = RuntimeHelper.downcallHandle(OrtApi.GetMapKeyType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+     * }
+     */
     public interface GetMapKeyType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetMapKeyType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetMapKeyType.class, fi, OrtApi.GetMapKeyType$FUNC, session);
         }
 
-        static GetMapKeyType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetMapKeyType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetMapKeyType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetMapKeyType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6480,20 +7859,30 @@ public class OrtApi {
     public static VarHandle GetMapKeyType$VH() {
         return OrtApi.GetMapKeyType$VH;
     }
-
-    public static MemoryAddress GetMapKeyType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetMapKeyType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+     * }
+     */
+    public static MemorySegment GetMapKeyType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetMapKeyType$VH.get(seg);
     }
-
-    public static void GetMapKeyType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+     * }
+     */
+    public static void GetMapKeyType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetMapKeyType$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetMapKeyType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetMapKeyType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetMapKeyType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetMapKeyType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetMapKeyType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetMapKeyType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetMapKeyType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6504,24 +7893,24 @@ public class OrtApi {
     static final FunctionDescriptor GetMapValueType$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetMapValueType$MH = RuntimeHelper.downcallHandle(OrtApi.GetMapValueType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
+     * }
+     */
     public interface GetMapValueType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetMapValueType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetMapValueType.class, fi, OrtApi.GetMapValueType$FUNC, session);
         }
 
-        static GetMapValueType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetMapValueType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetMapValueType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetMapValueType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6535,20 +7924,30 @@ public class OrtApi {
     public static VarHandle GetMapValueType$VH() {
         return OrtApi.GetMapValueType$VH;
     }
-
-    public static MemoryAddress GetMapValueType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetMapValueType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
+     * }
+     */
+    public static MemorySegment GetMapValueType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetMapValueType$VH.get(seg);
     }
-
-    public static void GetMapValueType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
+     * }
+     */
+    public static void GetMapValueType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetMapValueType$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetMapValueType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetMapValueType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetMapValueType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetMapValueType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetMapValueType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetMapValueType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetMapValueType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6560,25 +7959,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetSequenceElementType$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSequenceElementType$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
+     * }
+     */
     public interface GetSequenceElementType {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSequenceElementType fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetSequenceElementType.class, fi, OrtApi.GetSequenceElementType$FUNC, session);
         }
 
-        static GetSequenceElementType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetSequenceElementType ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSequenceElementType$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSequenceElementType$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6592,20 +7992,30 @@ public class OrtApi {
     public static VarHandle GetSequenceElementType$VH() {
         return OrtApi.GetSequenceElementType$VH;
     }
-
-    public static MemoryAddress GetSequenceElementType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSequenceElementType$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
+     * }
+     */
+    public static MemorySegment GetSequenceElementType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSequenceElementType$VH.get(seg);
     }
-
-    public static void GetSequenceElementType$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
+     * }
+     */
+    public static void GetSequenceElementType$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSequenceElementType$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSequenceElementType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSequenceElementType$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetSequenceElementType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSequenceElementType$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSequenceElementType$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSequenceElementType$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSequenceElementType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6616,21 +8026,24 @@ public class OrtApi {
     static final FunctionDescriptor ReleaseMapTypeInfo$FUNC =
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseMapTypeInfo$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseMapTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
+     * }
+     */
     public interface ReleaseMapTypeInfo {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseMapTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseMapTypeInfo.class, fi, OrtApi.ReleaseMapTypeInfo$FUNC, session);
         }
 
-        static ReleaseMapTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseMapTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseMapTypeInfo$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseMapTypeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6644,20 +8057,30 @@ public class OrtApi {
     public static VarHandle ReleaseMapTypeInfo$VH() {
         return OrtApi.ReleaseMapTypeInfo$VH;
     }
-
-    public static MemoryAddress ReleaseMapTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseMapTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
+     * }
+     */
+    public static MemorySegment ReleaseMapTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseMapTypeInfo$VH.get(seg);
     }
-
-    public static void ReleaseMapTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
+     * }
+     */
+    public static void ReleaseMapTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseMapTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseMapTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseMapTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseMapTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseMapTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseMapTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseMapTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseMapTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6669,22 +8092,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseSequenceTypeInfo$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseSequenceTypeInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
+     * }
+     */
     public interface ReleaseSequenceTypeInfo {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseSequenceTypeInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseSequenceTypeInfo.class, fi, OrtApi.ReleaseSequenceTypeInfo$FUNC, session);
         }
 
-        static ReleaseSequenceTypeInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseSequenceTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseSequenceTypeInfo$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseSequenceTypeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6698,20 +8124,30 @@ public class OrtApi {
     public static VarHandle ReleaseSequenceTypeInfo$VH() {
         return OrtApi.ReleaseSequenceTypeInfo$VH;
     }
-
-    public static MemoryAddress ReleaseSequenceTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseSequenceTypeInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
+     * }
+     */
+    public static MemorySegment ReleaseSequenceTypeInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseSequenceTypeInfo$VH.get(seg);
     }
-
-    public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
+     * }
+     */
+    public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseSequenceTypeInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseSequenceTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseSequenceTypeInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseSequenceTypeInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseSequenceTypeInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseSequenceTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6725,30 +8161,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionEndProfiling$MH = RuntimeHelper.downcallHandle(OrtApi.SessionEndProfiling$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
+     * }
+     */
     public interface SessionEndProfiling {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionEndProfiling fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SessionEndProfiling.class, fi, OrtApi.SessionEndProfiling$FUNC, session);
         }
 
-        static SessionEndProfiling ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static SessionEndProfiling ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionEndProfiling$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionEndProfiling$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6762,20 +8198,30 @@ public class OrtApi {
     public static VarHandle SessionEndProfiling$VH() {
         return OrtApi.SessionEndProfiling$VH;
     }
-
-    public static MemoryAddress SessionEndProfiling$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionEndProfiling$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment SessionEndProfiling$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionEndProfiling$VH.get(seg);
     }
-
-    public static void SessionEndProfiling$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
+     * }
+     */
+    public static void SessionEndProfiling$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionEndProfiling$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionEndProfiling$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionEndProfiling$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionEndProfiling$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionEndProfiling$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionEndProfiling$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionEndProfiling$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionEndProfiling$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6787,25 +8233,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetModelMetadata$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetModelMetadata$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
+     * }
+     */
     public interface SessionGetModelMetadata {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetModelMetadata fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SessionGetModelMetadata.class, fi, OrtApi.SessionGetModelMetadata$FUNC, session);
         }
 
-        static SessionGetModelMetadata ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionGetModelMetadata ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetModelMetadata$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetModelMetadata$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6819,20 +8266,30 @@ public class OrtApi {
     public static VarHandle SessionGetModelMetadata$VH() {
         return OrtApi.SessionGetModelMetadata$VH;
     }
-
-    public static MemoryAddress SessionGetModelMetadata$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetModelMetadata$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
+     * }
+     */
+    public static MemorySegment SessionGetModelMetadata$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetModelMetadata$VH.get(seg);
     }
-
-    public static void SessionGetModelMetadata$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
+     * }
+     */
+    public static void SessionGetModelMetadata$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetModelMetadata$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetModelMetadata$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetModelMetadata$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SessionGetModelMetadata$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetModelMetadata$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetModelMetadata$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetModelMetadata$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetModelMetadata$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6847,31 +8304,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetProducerName$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetProducerName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
     public interface ModelMetadataGetProducerName {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetProducerName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetProducerName.class, fi, OrtApi.ModelMetadataGetProducerName$FUNC, session);
         }
 
-        static ModelMetadataGetProducerName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static ModelMetadataGetProducerName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetProducerName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetProducerName$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6885,21 +8342,31 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetProducerName$VH() {
         return OrtApi.ModelMetadataGetProducerName$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetProducerName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetProducerName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetProducerName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetProducerName$VH.get(seg);
     }
-
-    public static void ModelMetadataGetProducerName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static void ModelMetadataGetProducerName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetProducerName$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetProducerName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ModelMetadataGetProducerName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ModelMetadataGetProducerName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetProducerName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetProducerName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetProducerName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6915,31 +8382,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetGraphName$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetGraphName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
     public interface ModelMetadataGetGraphName {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetGraphName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetGraphName.class, fi, OrtApi.ModelMetadataGetGraphName$FUNC, session);
         }
 
-        static ModelMetadataGetGraphName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static ModelMetadataGetGraphName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetGraphName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetGraphName$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6953,20 +8420,30 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetGraphName$VH() {
         return OrtApi.ModelMetadataGetGraphName$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetGraphName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetGraphName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetGraphName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetGraphName$VH.get(seg);
     }
-
-    public static void ModelMetadataGetGraphName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static void ModelMetadataGetGraphName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetGraphName$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetGraphName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetGraphName$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ModelMetadataGetGraphName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetGraphName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetGraphName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetGraphName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetGraphName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -6981,31 +8458,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetDomain$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetDomain$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
     public interface ModelMetadataGetDomain {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetDomain fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetDomain.class, fi, OrtApi.ModelMetadataGetDomain$FUNC, session);
         }
 
-        static ModelMetadataGetDomain ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static ModelMetadataGetDomain ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetDomain$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetDomain$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7019,20 +8496,30 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetDomain$VH() {
         return OrtApi.ModelMetadataGetDomain$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetDomain$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetDomain$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetDomain$VH.get(seg);
     }
-
-    public static void ModelMetadataGetDomain$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static void ModelMetadataGetDomain$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetDomain$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetDomain$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ModelMetadataGetDomain$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetDomain$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetDomain$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetDomain$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7047,31 +8534,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetDescription$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetDescription$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
     public interface ModelMetadataGetDescription {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetDescription fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetDescription.class, fi, OrtApi.ModelMetadataGetDescription$FUNC, session);
         }
 
-        static ModelMetadataGetDescription ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static ModelMetadataGetDescription ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetDescription$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetDescription$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7085,21 +8572,31 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetDescription$VH() {
         return OrtApi.ModelMetadataGetDescription$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetDescription$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetDescription$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetDescription$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetDescription$VH.get(seg);
     }
-
-    public static void ModelMetadataGetDescription$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static void ModelMetadataGetDescription$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetDescription$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetDescription$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ModelMetadataGetDescription$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ModelMetadataGetDescription$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetDescription$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetDescription$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetDescription$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7116,14 +8613,18 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataLookupCustomMetadataMap$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataLookupCustomMetadataMap$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
+     * }
+     */
     public interface ModelMetadataLookupCustomMetadataMap {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(ModelMetadataLookupCustomMetadataMap fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -7133,20 +8634,15 @@ public class OrtApi {
                     session);
         }
 
-        static ModelMetadataLookupCustomMetadataMap ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static ModelMetadataLookupCustomMetadataMap ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.ModelMetadataLookupCustomMetadataMap$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataLookupCustomMetadataMap$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7160,21 +8656,31 @@ public class OrtApi {
     public static VarHandle ModelMetadataLookupCustomMetadataMap$VH() {
         return OrtApi.ModelMetadataLookupCustomMetadataMap$VH;
     }
-
-    public static MemoryAddress ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataLookupCustomMetadataMap$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
+     * }
+     */
+    public static MemorySegment ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataLookupCustomMetadataMap$VH.get(seg);
     }
-
-    public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
+     * }
+     */
+    public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataLookupCustomMetadataMap$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ModelMetadataLookupCustomMetadataMap$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataLookupCustomMetadataMap$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7188,25 +8694,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetVersion$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetVersion$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
+     * }
+     */
     public interface ModelMetadataGetVersion {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(ModelMetadataGetVersion fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetVersion.class, fi, OrtApi.ModelMetadataGetVersion$FUNC, session);
         }
 
-        static ModelMetadataGetVersion ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static ModelMetadataGetVersion ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetVersion$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetVersion$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7220,20 +8727,30 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetVersion$VH() {
         return OrtApi.ModelMetadataGetVersion$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetVersion$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetVersion$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetVersion$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetVersion$VH.get(seg);
     }
-
-    public static void ModelMetadataGetVersion$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
+     * }
+     */
+    public static void ModelMetadataGetVersion$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetVersion$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetVersion$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetVersion$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ModelMetadataGetVersion$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetVersion$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetVersion$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetVersion$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetVersion$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7244,21 +8761,24 @@ public class OrtApi {
     static final FunctionDescriptor ReleaseModelMetadata$FUNC =
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseModelMetadata$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseModelMetadata$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseModelMetadata)(OrtModelMetadata*);
+     * }
+     */
     public interface ReleaseModelMetadata {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseModelMetadata fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseModelMetadata.class, fi, OrtApi.ReleaseModelMetadata$FUNC, session);
         }
 
-        static ReleaseModelMetadata ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseModelMetadata ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseModelMetadata$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseModelMetadata$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7272,20 +8792,30 @@ public class OrtApi {
     public static VarHandle ReleaseModelMetadata$VH() {
         return OrtApi.ReleaseModelMetadata$VH;
     }
-
-    public static MemoryAddress ReleaseModelMetadata$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseModelMetadata$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseModelMetadata)(OrtModelMetadata*);
+     * }
+     */
+    public static MemorySegment ReleaseModelMetadata$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseModelMetadata$VH.get(seg);
     }
-
-    public static void ReleaseModelMetadata$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseModelMetadata)(OrtModelMetadata*);
+     * }
+     */
+    public static void ReleaseModelMetadata$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseModelMetadata$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseModelMetadata$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseModelMetadata$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseModelMetadata$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseModelMetadata$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseModelMetadata$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseModelMetadata$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseModelMetadata$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7301,34 +8831,33 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateEnvWithGlobalThreadPools$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateEnvWithGlobalThreadPools$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
+     * }
+     */
     public interface CreateEnvWithGlobalThreadPools {
 
-        java.lang.foreign.Addressable apply(
+        java.lang.foreign.MemorySegment apply(
                 int _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateEnvWithGlobalThreadPools fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateEnvWithGlobalThreadPools.class, fi, OrtApi.CreateEnvWithGlobalThreadPools$FUNC, session);
         }
 
-        static CreateEnvWithGlobalThreadPools ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+        static CreateEnvWithGlobalThreadPools ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
             return (int __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateEnvWithGlobalThreadPools$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateEnvWithGlobalThreadPools$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7342,21 +8871,31 @@ public class OrtApi {
     public static VarHandle CreateEnvWithGlobalThreadPools$VH() {
         return OrtApi.CreateEnvWithGlobalThreadPools$VH;
     }
-
-    public static MemoryAddress CreateEnvWithGlobalThreadPools$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateEnvWithGlobalThreadPools$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
+     * }
+     */
+    public static MemorySegment CreateEnvWithGlobalThreadPools$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateEnvWithGlobalThreadPools$VH.get(seg);
     }
-
-    public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
+     * }
+     */
+    public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateEnvWithGlobalThreadPools$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateEnvWithGlobalThreadPools$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateEnvWithGlobalThreadPools$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateEnvWithGlobalThreadPools$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateEnvWithGlobalThreadPools$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7369,23 +8908,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle DisablePerSessionThreads$MH =
             RuntimeHelper.downcallHandle(OrtApi.DisablePerSessionThreads$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
+     * }
+     */
     public interface DisablePerSessionThreads {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisablePerSessionThreads fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     DisablePerSessionThreads.class, fi, OrtApi.DisablePerSessionThreads$FUNC, session);
         }
 
-        static DisablePerSessionThreads ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static DisablePerSessionThreads ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.DisablePerSessionThreads$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.DisablePerSessionThreads$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7399,20 +8941,30 @@ public class OrtApi {
     public static VarHandle DisablePerSessionThreads$VH() {
         return OrtApi.DisablePerSessionThreads$VH;
     }
-
-    public static MemoryAddress DisablePerSessionThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisablePerSessionThreads$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment DisablePerSessionThreads$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisablePerSessionThreads$VH.get(seg);
     }
-
-    public static void DisablePerSessionThreads$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
+     * }
+     */
+    public static void DisablePerSessionThreads$set(MemorySegment seg, MemorySegment x) {
         OrtApi.DisablePerSessionThreads$VH.set(seg, x);
     }
 
-    public static MemoryAddress DisablePerSessionThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.DisablePerSessionThreads$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment DisablePerSessionThreads$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.DisablePerSessionThreads$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void DisablePerSessionThreads$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void DisablePerSessionThreads$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.DisablePerSessionThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7424,23 +8976,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateThreadingOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateThreadingOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
+     * }
+     */
     public interface CreateThreadingOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateThreadingOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateThreadingOptions.class, fi, OrtApi.CreateThreadingOptions$FUNC, session);
         }
 
-        static CreateThreadingOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateThreadingOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateThreadingOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateThreadingOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7454,20 +9008,30 @@ public class OrtApi {
     public static VarHandle CreateThreadingOptions$VH() {
         return OrtApi.CreateThreadingOptions$VH;
     }
-
-    public static MemoryAddress CreateThreadingOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateThreadingOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
+     * }
+     */
+    public static MemorySegment CreateThreadingOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateThreadingOptions$VH.get(seg);
     }
-
-    public static void CreateThreadingOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
+     * }
+     */
+    public static void CreateThreadingOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateThreadingOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateThreadingOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateThreadingOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateThreadingOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateThreadingOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateThreadingOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateThreadingOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateThreadingOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7479,22 +9043,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseThreadingOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseThreadingOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
+     * }
+     */
     public interface ReleaseThreadingOptions {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseThreadingOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseThreadingOptions.class, fi, OrtApi.ReleaseThreadingOptions$FUNC, session);
         }
 
-        static ReleaseThreadingOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseThreadingOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseThreadingOptions$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseThreadingOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7508,20 +9075,30 @@ public class OrtApi {
     public static VarHandle ReleaseThreadingOptions$VH() {
         return OrtApi.ReleaseThreadingOptions$VH;
     }
-
-    public static MemoryAddress ReleaseThreadingOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseThreadingOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
+     * }
+     */
+    public static MemorySegment ReleaseThreadingOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseThreadingOptions$VH.get(seg);
     }
-
-    public static void ReleaseThreadingOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
+     * }
+     */
+    public static void ReleaseThreadingOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseThreadingOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseThreadingOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseThreadingOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseThreadingOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseThreadingOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseThreadingOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseThreadingOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseThreadingOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7537,14 +9114,18 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetCustomMetadataMapKeys$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetCustomMetadataMapKeys$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
+     * }
+     */
     public interface ModelMetadataGetCustomMetadataMapKeys {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(ModelMetadataGetCustomMetadataMapKeys fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -7554,20 +9135,15 @@ public class OrtApi {
                     session);
         }
 
-        static ModelMetadataGetCustomMetadataMapKeys ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static ModelMetadataGetCustomMetadataMapKeys ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.ModelMetadataGetCustomMetadataMapKeys$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetCustomMetadataMapKeys$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7581,21 +9157,31 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetCustomMetadataMapKeys$VH() {
         return OrtApi.ModelMetadataGetCustomMetadataMapKeys$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetCustomMetadataMapKeys$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetCustomMetadataMapKeys$VH.get(seg);
     }
-
-    public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
+     * }
+     */
+    public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetCustomMetadataMapKeys$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ModelMetadataGetCustomMetadataMapKeys$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetCustomMetadataMapKeys$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7612,27 +9198,27 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle AddFreeDimensionOverrideByName$MH =
             RuntimeHelper.downcallHandle(OrtApi.AddFreeDimensionOverrideByName$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
+     * }
+     */
     public interface AddFreeDimensionOverrideByName {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(AddFreeDimensionOverrideByName fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     AddFreeDimensionOverrideByName.class, fi, OrtApi.AddFreeDimensionOverrideByName$FUNC, session);
         }
 
-        static AddFreeDimensionOverrideByName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static AddFreeDimensionOverrideByName ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddFreeDimensionOverrideByName$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddFreeDimensionOverrideByName$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7646,21 +9232,31 @@ public class OrtApi {
     public static VarHandle AddFreeDimensionOverrideByName$VH() {
         return OrtApi.AddFreeDimensionOverrideByName$VH;
     }
-
-    public static MemoryAddress AddFreeDimensionOverrideByName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddFreeDimensionOverrideByName$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
+     * }
+     */
+    public static MemorySegment AddFreeDimensionOverrideByName$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddFreeDimensionOverrideByName$VH.get(seg);
     }
-
-    public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
+     * }
+     */
+    public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddFreeDimensionOverrideByName$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddFreeDimensionOverrideByName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment AddFreeDimensionOverrideByName$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.AddFreeDimensionOverrideByName$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddFreeDimensionOverrideByName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7673,25 +9269,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetAvailableProviders$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetAvailableProviders$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetAvailableProviders)(char***,int*);
+     * }
+     */
     public interface GetAvailableProviders {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetAvailableProviders fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetAvailableProviders.class, fi, OrtApi.GetAvailableProviders$FUNC, session);
         }
 
-        static GetAvailableProviders ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetAvailableProviders ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetAvailableProviders$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetAvailableProviders$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7705,20 +9302,30 @@ public class OrtApi {
     public static VarHandle GetAvailableProviders$VH() {
         return OrtApi.GetAvailableProviders$VH;
     }
-
-    public static MemoryAddress GetAvailableProviders$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetAvailableProviders$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetAvailableProviders)(char***,int*);
+     * }
+     */
+    public static MemorySegment GetAvailableProviders$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetAvailableProviders$VH.get(seg);
     }
-
-    public static void GetAvailableProviders$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetAvailableProviders)(char***,int*);
+     * }
+     */
+    public static void GetAvailableProviders$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetAvailableProviders$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetAvailableProviders$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetAvailableProviders$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetAvailableProviders$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetAvailableProviders$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetAvailableProviders$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetAvailableProviders$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetAvailableProviders$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7730,23 +9337,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle ReleaseAvailableProviders$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseAvailableProviders$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
+     * }
+     */
     public interface ReleaseAvailableProviders {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(ReleaseAvailableProviders fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseAvailableProviders.class, fi, OrtApi.ReleaseAvailableProviders$FUNC, session);
         }
 
-        static ReleaseAvailableProviders ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static ReleaseAvailableProviders ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ReleaseAvailableProviders$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ReleaseAvailableProviders$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7760,20 +9370,30 @@ public class OrtApi {
     public static VarHandle ReleaseAvailableProviders$VH() {
         return OrtApi.ReleaseAvailableProviders$VH;
     }
-
-    public static MemoryAddress ReleaseAvailableProviders$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseAvailableProviders$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
+     * }
+     */
+    public static MemorySegment ReleaseAvailableProviders$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseAvailableProviders$VH.get(seg);
     }
-
-    public static void ReleaseAvailableProviders$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
+     * }
+     */
+    public static void ReleaseAvailableProviders$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseAvailableProviders$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseAvailableProviders$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseAvailableProviders$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseAvailableProviders$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseAvailableProviders$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseAvailableProviders$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseAvailableProviders$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseAvailableProviders$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7788,27 +9408,27 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetStringTensorElementLength$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetStringTensorElementLength$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
+     * }
+     */
     public interface GetStringTensorElementLength {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetStringTensorElementLength fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetStringTensorElementLength.class, fi, OrtApi.GetStringTensorElementLength$FUNC, session);
         }
 
-        static GetStringTensorElementLength ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static GetStringTensorElementLength ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorElementLength$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetStringTensorElementLength$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7822,21 +9442,31 @@ public class OrtApi {
     public static VarHandle GetStringTensorElementLength$VH() {
         return OrtApi.GetStringTensorElementLength$VH;
     }
-
-    public static MemoryAddress GetStringTensorElementLength$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorElementLength$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
+     * }
+     */
+    public static MemorySegment GetStringTensorElementLength$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorElementLength$VH.get(seg);
     }
-
-    public static void GetStringTensorElementLength$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
+     * }
+     */
+    public static void GetStringTensorElementLength$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetStringTensorElementLength$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetStringTensorElementLength$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetStringTensorElementLength$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetStringTensorElementLength$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetStringTensorElementLength$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetStringTensorElementLength$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetStringTensorElementLength$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7853,31 +9483,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetStringTensorElement$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetStringTensorElement$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
+     * }
+     */
     public interface GetStringTensorElement {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, long _x1, long _x2, java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, long _x2, java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetStringTensorElement fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetStringTensorElement.class, fi, OrtApi.GetStringTensorElement$FUNC, session);
         }
 
-        static GetStringTensorElement ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static GetStringTensorElement ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorElement$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetStringTensorElement$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7891,20 +9520,30 @@ public class OrtApi {
     public static VarHandle GetStringTensorElement$VH() {
         return OrtApi.GetStringTensorElement$VH;
     }
-
-    public static MemoryAddress GetStringTensorElement$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorElement$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
+     * }
+     */
+    public static MemorySegment GetStringTensorElement$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorElement$VH.get(seg);
     }
-
-    public static void GetStringTensorElement$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
+     * }
+     */
+    public static void GetStringTensorElement$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetStringTensorElement$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetStringTensorElement$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetStringTensorElement$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetStringTensorElement$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetStringTensorElement$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetStringTensorElement$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetStringTensorElement$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetStringTensorElement$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7919,27 +9558,27 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle FillStringTensorElement$MH =
             RuntimeHelper.downcallHandle(OrtApi.FillStringTensorElement$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
+     * }
+     */
     public interface FillStringTensorElement {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(FillStringTensorElement fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     FillStringTensorElement.class, fi, OrtApi.FillStringTensorElement$FUNC, session);
         }
 
-        static FillStringTensorElement ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static FillStringTensorElement ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.FillStringTensorElement$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.FillStringTensorElement$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7953,20 +9592,30 @@ public class OrtApi {
     public static VarHandle FillStringTensorElement$VH() {
         return OrtApi.FillStringTensorElement$VH;
     }
-
-    public static MemoryAddress FillStringTensorElement$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillStringTensorElement$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
+     * }
+     */
+    public static MemorySegment FillStringTensorElement$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillStringTensorElement$VH.get(seg);
     }
-
-    public static void FillStringTensorElement$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
+     * }
+     */
+    public static void FillStringTensorElement$set(MemorySegment seg, MemorySegment x) {
         OrtApi.FillStringTensorElement$VH.set(seg, x);
     }
 
-    public static MemoryAddress FillStringTensorElement$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillStringTensorElement$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment FillStringTensorElement$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillStringTensorElement$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void FillStringTensorElement$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void FillStringTensorElement$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.FillStringTensorElement$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -7981,31 +9630,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AddSessionConfigEntry$MH =
             RuntimeHelper.downcallHandle(OrtApi.AddSessionConfigEntry$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
+     * }
+     */
     public interface AddSessionConfigEntry {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddSessionConfigEntry fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     AddSessionConfigEntry.class, fi, OrtApi.AddSessionConfigEntry$FUNC, session);
         }
 
-        static AddSessionConfigEntry ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static AddSessionConfigEntry ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddSessionConfigEntry$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddSessionConfigEntry$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8019,20 +9668,30 @@ public class OrtApi {
     public static VarHandle AddSessionConfigEntry$VH() {
         return OrtApi.AddSessionConfigEntry$VH;
     }
-
-    public static MemoryAddress AddSessionConfigEntry$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddSessionConfigEntry$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
+     * }
+     */
+    public static MemorySegment AddSessionConfigEntry$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddSessionConfigEntry$VH.get(seg);
     }
-
-    public static void AddSessionConfigEntry$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
+     * }
+     */
+    public static void AddSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddSessionConfigEntry$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddSessionConfigEntry$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddSessionConfigEntry$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AddSessionConfigEntry$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddSessionConfigEntry$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddSessionConfigEntry$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddSessionConfigEntry$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddSessionConfigEntry$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8046,30 +9705,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateAllocator$MH = RuntimeHelper.downcallHandle(OrtApi.CreateAllocator$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
+     * }
+     */
     public interface CreateAllocator {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateAllocator fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateAllocator.class, fi, OrtApi.CreateAllocator$FUNC, session);
         }
 
-        static CreateAllocator ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static CreateAllocator ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateAllocator$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateAllocator$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8083,20 +9742,30 @@ public class OrtApi {
     public static VarHandle CreateAllocator$VH() {
         return OrtApi.CreateAllocator$VH;
     }
-
-    public static MemoryAddress CreateAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateAllocator$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
+     * }
+     */
+    public static MemorySegment CreateAllocator$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateAllocator$VH.get(seg);
     }
-
-    public static void CreateAllocator$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
+     * }
+     */
+    public static void CreateAllocator$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateAllocator$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateAllocator$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateAllocator$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateAllocator$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateAllocator$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateAllocator$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8106,20 +9775,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseAllocator$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseAllocator$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseAllocator$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseAllocator)(OrtAllocator*);
+     * }
+     */
     public interface ReleaseAllocator {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseAllocator fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseAllocator.class, fi, OrtApi.ReleaseAllocator$FUNC, session);
         }
 
-        static ReleaseAllocator ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseAllocator ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseAllocator$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseAllocator$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8133,20 +9806,30 @@ public class OrtApi {
     public static VarHandle ReleaseAllocator$VH() {
         return OrtApi.ReleaseAllocator$VH;
     }
-
-    public static MemoryAddress ReleaseAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseAllocator$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseAllocator)(OrtAllocator*);
+     * }
+     */
+    public static MemorySegment ReleaseAllocator$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseAllocator$VH.get(seg);
     }
-
-    public static void ReleaseAllocator$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseAllocator)(OrtAllocator*);
+     * }
+     */
+    public static void ReleaseAllocator$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseAllocator$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseAllocator$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseAllocator$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseAllocator$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseAllocator$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseAllocator$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8160,30 +9843,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RunWithBinding$MH = RuntimeHelper.downcallHandle(OrtApi.RunWithBinding$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
+     * }
+     */
     public interface RunWithBinding {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(RunWithBinding fi, MemorySession session) {
             return RuntimeHelper.upcallStub(RunWithBinding.class, fi, OrtApi.RunWithBinding$FUNC, session);
         }
 
-        static RunWithBinding ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static RunWithBinding ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RunWithBinding$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RunWithBinding$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8197,20 +9880,30 @@ public class OrtApi {
     public static VarHandle RunWithBinding$VH() {
         return OrtApi.RunWithBinding$VH;
     }
-
-    public static MemoryAddress RunWithBinding$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunWithBinding$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
+     * }
+     */
+    public static MemorySegment RunWithBinding$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunWithBinding$VH.get(seg);
     }
-
-    public static void RunWithBinding$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
+     * }
+     */
+    public static void RunWithBinding$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RunWithBinding$VH.set(seg, x);
     }
 
-    public static MemoryAddress RunWithBinding$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RunWithBinding$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RunWithBinding$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RunWithBinding$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RunWithBinding$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RunWithBinding$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RunWithBinding$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8221,24 +9914,24 @@ public class OrtApi {
     static final FunctionDescriptor CreateIoBinding$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateIoBinding$MH = RuntimeHelper.downcallHandle(OrtApi.CreateIoBinding$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
+     * }
+     */
     public interface CreateIoBinding {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateIoBinding fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateIoBinding.class, fi, OrtApi.CreateIoBinding$FUNC, session);
         }
 
-        static CreateIoBinding ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CreateIoBinding ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateIoBinding$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateIoBinding$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8252,20 +9945,30 @@ public class OrtApi {
     public static VarHandle CreateIoBinding$VH() {
         return OrtApi.CreateIoBinding$VH;
     }
-
-    public static MemoryAddress CreateIoBinding$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateIoBinding$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
+     * }
+     */
+    public static MemorySegment CreateIoBinding$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateIoBinding$VH.get(seg);
     }
-
-    public static void CreateIoBinding$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
+     * }
+     */
+    public static void CreateIoBinding$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateIoBinding$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateIoBinding$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateIoBinding$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateIoBinding$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateIoBinding$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateIoBinding$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateIoBinding$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateIoBinding$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8275,20 +9978,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseIoBinding$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseIoBinding$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseIoBinding$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseIoBinding)(OrtIoBinding*);
+     * }
+     */
     public interface ReleaseIoBinding {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseIoBinding fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseIoBinding.class, fi, OrtApi.ReleaseIoBinding$FUNC, session);
         }
 
-        static ReleaseIoBinding ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseIoBinding ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseIoBinding$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseIoBinding$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8302,20 +10009,30 @@ public class OrtApi {
     public static VarHandle ReleaseIoBinding$VH() {
         return OrtApi.ReleaseIoBinding$VH;
     }
-
-    public static MemoryAddress ReleaseIoBinding$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseIoBinding$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseIoBinding)(OrtIoBinding*);
+     * }
+     */
+    public static MemorySegment ReleaseIoBinding$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseIoBinding$VH.get(seg);
     }
-
-    public static void ReleaseIoBinding$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseIoBinding)(OrtIoBinding*);
+     * }
+     */
+    public static void ReleaseIoBinding$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseIoBinding$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseIoBinding$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseIoBinding$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseIoBinding$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseIoBinding$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseIoBinding$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseIoBinding$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseIoBinding$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8329,30 +10046,29 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle BindInput$MH = RuntimeHelper.downcallHandle(OrtApi.BindInput$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
+     * }
+     */
     public interface BindInput {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindInput fi, MemorySession session) {
             return RuntimeHelper.upcallStub(BindInput.class, fi, OrtApi.BindInput$FUNC, session);
         }
 
-        static BindInput ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static BindInput ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.BindInput$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment) OrtApi.BindInput$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8365,20 +10081,30 @@ public class OrtApi {
     public static VarHandle BindInput$VH() {
         return OrtApi.BindInput$VH;
     }
-
-    public static MemoryAddress BindInput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.BindInput$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
+     * }
+     */
+    public static MemorySegment BindInput$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.BindInput$VH.get(seg);
     }
-
-    public static void BindInput$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
+     * }
+     */
+    public static void BindInput$set(MemorySegment seg, MemorySegment x) {
         OrtApi.BindInput$VH.set(seg, x);
     }
 
-    public static MemoryAddress BindInput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.BindInput$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment BindInput$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.BindInput$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void BindInput$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void BindInput$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.BindInput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8392,30 +10118,29 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle BindOutput$MH = RuntimeHelper.downcallHandle(OrtApi.BindOutput$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
+     * }
+     */
     public interface BindOutput {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindOutput fi, MemorySession session) {
             return RuntimeHelper.upcallStub(BindOutput.class, fi, OrtApi.BindOutput$FUNC, session);
         }
 
-        static BindOutput ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static BindOutput ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.BindOutput$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment) OrtApi.BindOutput$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8429,20 +10154,30 @@ public class OrtApi {
     public static VarHandle BindOutput$VH() {
         return OrtApi.BindOutput$VH;
     }
-
-    public static MemoryAddress BindOutput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.BindOutput$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
+     * }
+     */
+    public static MemorySegment BindOutput$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.BindOutput$VH.get(seg);
     }
-
-    public static void BindOutput$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
+     * }
+     */
+    public static void BindOutput$set(MemorySegment seg, MemorySegment x) {
         OrtApi.BindOutput$VH.set(seg, x);
     }
 
-    public static MemoryAddress BindOutput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.BindOutput$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment BindOutput$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.BindOutput$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void BindOutput$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void BindOutput$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.BindOutput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8456,30 +10191,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle BindOutputToDevice$MH = RuntimeHelper.downcallHandle(OrtApi.BindOutputToDevice$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
+     * }
+     */
     public interface BindOutputToDevice {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindOutputToDevice fi, MemorySession session) {
             return RuntimeHelper.upcallStub(BindOutputToDevice.class, fi, OrtApi.BindOutputToDevice$FUNC, session);
         }
 
-        static BindOutputToDevice ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static BindOutputToDevice ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.BindOutputToDevice$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.BindOutputToDevice$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8493,20 +10228,30 @@ public class OrtApi {
     public static VarHandle BindOutputToDevice$VH() {
         return OrtApi.BindOutputToDevice$VH;
     }
-
-    public static MemoryAddress BindOutputToDevice$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.BindOutputToDevice$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
+     * }
+     */
+    public static MemorySegment BindOutputToDevice$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.BindOutputToDevice$VH.get(seg);
     }
-
-    public static void BindOutputToDevice$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
+     * }
+     */
+    public static void BindOutputToDevice$set(MemorySegment seg, MemorySegment x) {
         OrtApi.BindOutputToDevice$VH.set(seg, x);
     }
 
-    public static MemoryAddress BindOutputToDevice$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.BindOutputToDevice$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment BindOutputToDevice$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.BindOutputToDevice$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void BindOutputToDevice$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void BindOutputToDevice$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.BindOutputToDevice$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8522,36 +10267,34 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetBoundOutputNames$MH = RuntimeHelper.downcallHandle(OrtApi.GetBoundOutputNames$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
+     * }
+     */
     public interface GetBoundOutputNames {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3,
-                java.lang.foreign.MemoryAddress _x4);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3,
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(GetBoundOutputNames fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetBoundOutputNames.class, fi, OrtApi.GetBoundOutputNames$FUNC, session);
         }
 
-        static GetBoundOutputNames ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+        static GetBoundOutputNames ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3,
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetBoundOutputNames$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetBoundOutputNames$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8565,20 +10308,30 @@ public class OrtApi {
     public static VarHandle GetBoundOutputNames$VH() {
         return OrtApi.GetBoundOutputNames$VH;
     }
-
-    public static MemoryAddress GetBoundOutputNames$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetBoundOutputNames$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
+     * }
+     */
+    public static MemorySegment GetBoundOutputNames$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetBoundOutputNames$VH.get(seg);
     }
-
-    public static void GetBoundOutputNames$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
+     * }
+     */
+    public static void GetBoundOutputNames$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetBoundOutputNames$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetBoundOutputNames$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetBoundOutputNames$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetBoundOutputNames$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetBoundOutputNames$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetBoundOutputNames$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetBoundOutputNames$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetBoundOutputNames$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8593,33 +10346,32 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetBoundOutputValues$MH = RuntimeHelper.downcallHandle(OrtApi.GetBoundOutputValues$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
+     * }
+     */
     public interface GetBoundOutputValues {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetBoundOutputValues fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetBoundOutputValues.class, fi, OrtApi.GetBoundOutputValues$FUNC, session);
         }
 
-        static GetBoundOutputValues ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static GetBoundOutputValues ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetBoundOutputValues$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetBoundOutputValues$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8633,20 +10385,30 @@ public class OrtApi {
     public static VarHandle GetBoundOutputValues$VH() {
         return OrtApi.GetBoundOutputValues$VH;
     }
-
-    public static MemoryAddress GetBoundOutputValues$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetBoundOutputValues$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
+     * }
+     */
+    public static MemorySegment GetBoundOutputValues$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetBoundOutputValues$VH.get(seg);
     }
-
-    public static void GetBoundOutputValues$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
+     * }
+     */
+    public static void GetBoundOutputValues$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetBoundOutputValues$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetBoundOutputValues$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetBoundOutputValues$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetBoundOutputValues$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetBoundOutputValues$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetBoundOutputValues$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetBoundOutputValues$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetBoundOutputValues$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8656,20 +10418,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ClearBoundInputs$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ClearBoundInputs$MH = RuntimeHelper.downcallHandle(OrtApi.ClearBoundInputs$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ClearBoundInputs)(OrtIoBinding*);
+     * }
+     */
     public interface ClearBoundInputs {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ClearBoundInputs fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ClearBoundInputs.class, fi, OrtApi.ClearBoundInputs$FUNC, session);
         }
 
-        static ClearBoundInputs ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ClearBoundInputs ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ClearBoundInputs$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ClearBoundInputs$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8683,20 +10449,30 @@ public class OrtApi {
     public static VarHandle ClearBoundInputs$VH() {
         return OrtApi.ClearBoundInputs$VH;
     }
-
-    public static MemoryAddress ClearBoundInputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ClearBoundInputs$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ClearBoundInputs)(OrtIoBinding*);
+     * }
+     */
+    public static MemorySegment ClearBoundInputs$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ClearBoundInputs$VH.get(seg);
     }
-
-    public static void ClearBoundInputs$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ClearBoundInputs)(OrtIoBinding*);
+     * }
+     */
+    public static void ClearBoundInputs$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ClearBoundInputs$VH.set(seg, x);
     }
 
-    public static MemoryAddress ClearBoundInputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ClearBoundInputs$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ClearBoundInputs$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ClearBoundInputs$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ClearBoundInputs$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ClearBoundInputs$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ClearBoundInputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8706,20 +10482,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ClearBoundOutputs$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ClearBoundOutputs$MH = RuntimeHelper.downcallHandle(OrtApi.ClearBoundOutputs$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ClearBoundOutputs)(OrtIoBinding*);
+     * }
+     */
     public interface ClearBoundOutputs {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ClearBoundOutputs fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ClearBoundOutputs.class, fi, OrtApi.ClearBoundOutputs$FUNC, session);
         }
 
-        static ClearBoundOutputs ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ClearBoundOutputs ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ClearBoundOutputs$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ClearBoundOutputs$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8733,20 +10513,30 @@ public class OrtApi {
     public static VarHandle ClearBoundOutputs$VH() {
         return OrtApi.ClearBoundOutputs$VH;
     }
-
-    public static MemoryAddress ClearBoundOutputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ClearBoundOutputs$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ClearBoundOutputs)(OrtIoBinding*);
+     * }
+     */
+    public static MemorySegment ClearBoundOutputs$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ClearBoundOutputs$VH.get(seg);
     }
-
-    public static void ClearBoundOutputs$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ClearBoundOutputs)(OrtIoBinding*);
+     * }
+     */
+    public static void ClearBoundOutputs$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ClearBoundOutputs$VH.set(seg, x);
     }
 
-    public static MemoryAddress ClearBoundOutputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ClearBoundOutputs$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ClearBoundOutputs$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ClearBoundOutputs$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ClearBoundOutputs$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ClearBoundOutputs$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ClearBoundOutputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8761,33 +10551,32 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle TensorAt$MH = RuntimeHelper.downcallHandle(OrtApi.TensorAt$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
+     * }
+     */
     public interface TensorAt {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(TensorAt fi, MemorySession session) {
             return RuntimeHelper.upcallStub(TensorAt.class, fi, OrtApi.TensorAt$FUNC, session);
         }
 
-        static TensorAt ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static TensorAt ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.TensorAt$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.TensorAt$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8800,20 +10589,30 @@ public class OrtApi {
     public static VarHandle TensorAt$VH() {
         return OrtApi.TensorAt$VH;
     }
-
-    public static MemoryAddress TensorAt$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.TensorAt$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
+     * }
+     */
+    public static MemorySegment TensorAt$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.TensorAt$VH.get(seg);
     }
-
-    public static void TensorAt$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
+     * }
+     */
+    public static void TensorAt$set(MemorySegment seg, MemorySegment x) {
         OrtApi.TensorAt$VH.set(seg, x);
     }
 
-    public static MemoryAddress TensorAt$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.TensorAt$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment TensorAt$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.TensorAt$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void TensorAt$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void TensorAt$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.TensorAt$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8828,31 +10627,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateAndRegisterAllocator$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateAndRegisterAllocator$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
+     * }
+     */
     public interface CreateAndRegisterAllocator {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateAndRegisterAllocator fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateAndRegisterAllocator.class, fi, OrtApi.CreateAndRegisterAllocator$FUNC, session);
         }
 
-        static CreateAndRegisterAllocator ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static CreateAndRegisterAllocator ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateAndRegisterAllocator$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateAndRegisterAllocator$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8866,21 +10665,31 @@ public class OrtApi {
     public static VarHandle CreateAndRegisterAllocator$VH() {
         return OrtApi.CreateAndRegisterAllocator$VH;
     }
-
-    public static MemoryAddress CreateAndRegisterAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateAndRegisterAllocator$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
+     * }
+     */
+    public static MemorySegment CreateAndRegisterAllocator$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateAndRegisterAllocator$VH.get(seg);
     }
-
-    public static void CreateAndRegisterAllocator$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
+     * }
+     */
+    public static void CreateAndRegisterAllocator$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateAndRegisterAllocator$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateAndRegisterAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateAndRegisterAllocator$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateAndRegisterAllocator$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateAndRegisterAllocator$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateAndRegisterAllocator$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateAndRegisterAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8892,23 +10701,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetLanguageProjection$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetLanguageProjection$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
+     * }
+     */
     public interface SetLanguageProjection {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetLanguageProjection fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetLanguageProjection.class, fi, OrtApi.SetLanguageProjection$FUNC, session);
         }
 
-        static SetLanguageProjection ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetLanguageProjection ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetLanguageProjection$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetLanguageProjection$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8922,20 +10734,30 @@ public class OrtApi {
     public static VarHandle SetLanguageProjection$VH() {
         return OrtApi.SetLanguageProjection$VH;
     }
-
-    public static MemoryAddress SetLanguageProjection$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetLanguageProjection$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
+     * }
+     */
+    public static MemorySegment SetLanguageProjection$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetLanguageProjection$VH.get(seg);
     }
-
-    public static void SetLanguageProjection$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
+     * }
+     */
+    public static void SetLanguageProjection$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetLanguageProjection$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetLanguageProjection$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetLanguageProjection$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetLanguageProjection$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetLanguageProjection$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetLanguageProjection$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetLanguageProjection$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetLanguageProjection$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -8947,25 +10769,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionGetProfilingStartTimeNs$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionGetProfilingStartTimeNs$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
+     * }
+     */
     public interface SessionGetProfilingStartTimeNs {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetProfilingStartTimeNs fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SessionGetProfilingStartTimeNs.class, fi, OrtApi.SessionGetProfilingStartTimeNs$FUNC, session);
         }
 
-        static SessionGetProfilingStartTimeNs ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionGetProfilingStartTimeNs ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionGetProfilingStartTimeNs$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionGetProfilingStartTimeNs$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8979,21 +10802,31 @@ public class OrtApi {
     public static VarHandle SessionGetProfilingStartTimeNs$VH() {
         return OrtApi.SessionGetProfilingStartTimeNs$VH;
     }
-
-    public static MemoryAddress SessionGetProfilingStartTimeNs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionGetProfilingStartTimeNs$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
+     * }
+     */
+    public static MemorySegment SessionGetProfilingStartTimeNs$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionGetProfilingStartTimeNs$VH.get(seg);
     }
-
-    public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
+     * }
+     */
+    public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionGetProfilingStartTimeNs$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionGetProfilingStartTimeNs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionGetProfilingStartTimeNs$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionGetProfilingStartTimeNs$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionGetProfilingStartTimeNs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9006,23 +10839,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetGlobalIntraOpNumThreads$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetGlobalIntraOpNumThreads$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
+     * }
+     */
     public interface SetGlobalIntraOpNumThreads {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetGlobalIntraOpNumThreads fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetGlobalIntraOpNumThreads.class, fi, OrtApi.SetGlobalIntraOpNumThreads$FUNC, session);
         }
 
-        static SetGlobalIntraOpNumThreads ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetGlobalIntraOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalIntraOpNumThreads$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalIntraOpNumThreads$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9036,21 +10872,31 @@ public class OrtApi {
     public static VarHandle SetGlobalIntraOpNumThreads$VH() {
         return OrtApi.SetGlobalIntraOpNumThreads$VH;
     }
-
-    public static MemoryAddress SetGlobalIntraOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalIntraOpNumThreads$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
+     * }
+     */
+    public static MemorySegment SetGlobalIntraOpNumThreads$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalIntraOpNumThreads$VH.get(seg);
     }
-
-    public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
+     * }
+     */
+    public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalIntraOpNumThreads$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalIntraOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetGlobalIntraOpNumThreads$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetGlobalIntraOpNumThreads$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalIntraOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9062,23 +10908,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetGlobalInterOpNumThreads$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetGlobalInterOpNumThreads$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
+     * }
+     */
     public interface SetGlobalInterOpNumThreads {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetGlobalInterOpNumThreads fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetGlobalInterOpNumThreads.class, fi, OrtApi.SetGlobalInterOpNumThreads$FUNC, session);
         }
 
-        static SetGlobalInterOpNumThreads ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetGlobalInterOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalInterOpNumThreads$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalInterOpNumThreads$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9092,21 +10941,31 @@ public class OrtApi {
     public static VarHandle SetGlobalInterOpNumThreads$VH() {
         return OrtApi.SetGlobalInterOpNumThreads$VH;
     }
-
-    public static MemoryAddress SetGlobalInterOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalInterOpNumThreads$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
+     * }
+     */
+    public static MemorySegment SetGlobalInterOpNumThreads$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalInterOpNumThreads$VH.get(seg);
     }
-
-    public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
+     * }
+     */
+    public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalInterOpNumThreads$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalInterOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetGlobalInterOpNumThreads$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetGlobalInterOpNumThreads$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalInterOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9117,22 +10976,25 @@ public class OrtApi {
     static final FunctionDescriptor SetGlobalSpinControl$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetGlobalSpinControl$MH = RuntimeHelper.downcallHandle(OrtApi.SetGlobalSpinControl$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
+     * }
+     */
     public interface SetGlobalSpinControl {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, int _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetGlobalSpinControl fi, MemorySession session) {
             return RuntimeHelper.upcallStub(SetGlobalSpinControl.class, fi, OrtApi.SetGlobalSpinControl$FUNC, session);
         }
 
-        static SetGlobalSpinControl ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1) -> {
+        static SetGlobalSpinControl ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalSpinControl$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalSpinControl$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9146,20 +11008,30 @@ public class OrtApi {
     public static VarHandle SetGlobalSpinControl$VH() {
         return OrtApi.SetGlobalSpinControl$VH;
     }
-
-    public static MemoryAddress SetGlobalSpinControl$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalSpinControl$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
+     * }
+     */
+    public static MemorySegment SetGlobalSpinControl$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalSpinControl$VH.get(seg);
     }
-
-    public static void SetGlobalSpinControl$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
+     * }
+     */
+    public static void SetGlobalSpinControl$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalSpinControl$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalSpinControl$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalSpinControl$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetGlobalSpinControl$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalSpinControl$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalSpinControl$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalSpinControl$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalSpinControl$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9173,30 +11045,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AddInitializer$MH = RuntimeHelper.downcallHandle(OrtApi.AddInitializer$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
+     * }
+     */
     public interface AddInitializer {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddInitializer fi, MemorySession session) {
             return RuntimeHelper.upcallStub(AddInitializer.class, fi, OrtApi.AddInitializer$FUNC, session);
         }
 
-        static AddInitializer ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static AddInitializer ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddInitializer$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddInitializer$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9210,20 +11082,30 @@ public class OrtApi {
     public static VarHandle AddInitializer$VH() {
         return OrtApi.AddInitializer$VH;
     }
-
-    public static MemoryAddress AddInitializer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddInitializer$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
+     * }
+     */
+    public static MemorySegment AddInitializer$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddInitializer$VH.get(seg);
     }
-
-    public static void AddInitializer$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
+     * }
+     */
+    public static void AddInitializer$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddInitializer$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddInitializer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddInitializer$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AddInitializer$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddInitializer$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddInitializer$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddInitializer$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddInitializer$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9241,16 +11123,20 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateEnvWithCustomLoggerAndGlobalThreadPools$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
+     * }
+     */
     public interface CreateEnvWithCustomLoggerAndGlobalThreadPools {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 int _x2,
-                java.lang.foreign.MemoryAddress _x3,
-                java.lang.foreign.MemoryAddress _x4,
-                java.lang.foreign.MemoryAddress _x5);
+                java.lang.foreign.MemorySegment _x3,
+                java.lang.foreign.MemorySegment _x4,
+                java.lang.foreign.MemorySegment _x5);
 
         static MemorySegment allocate(CreateEnvWithCustomLoggerAndGlobalThreadPools fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -9260,24 +11146,18 @@ public class OrtApi {
                     session);
         }
 
-        static CreateEnvWithCustomLoggerAndGlobalThreadPools ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateEnvWithCustomLoggerAndGlobalThreadPools ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     int __x2,
-                    java.lang.foreign.MemoryAddress __x3,
-                    java.lang.foreign.MemoryAddress __x4,
-                    java.lang.foreign.MemoryAddress __x5) -> {
+                    java.lang.foreign.MemorySegment __x3,
+                    java.lang.foreign.MemorySegment __x4,
+                    java.lang.foreign.MemorySegment __x5) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                    return (java.lang.foreign.MemorySegment)
                             OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    (java.lang.foreign.Addressable) __x5);
+                                    symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9291,22 +11171,32 @@ public class OrtApi {
     public static VarHandle CreateEnvWithCustomLoggerAndGlobalThreadPools$VH() {
         return OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$VH;
     }
-
-    public static MemoryAddress CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
+     * }
+     */
+    public static MemorySegment CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$VH.get(seg);
     }
-
-    public static void CreateEnvWithCustomLoggerAndGlobalThreadPools$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
+     * }
+     */
+    public static void CreateEnvWithCustomLoggerAndGlobalThreadPools$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void CreateEnvWithCustomLoggerAndGlobalThreadPools$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9320,10 +11210,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_CUDA$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_CUDA$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_CUDA {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -9333,15 +11227,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_CUDA ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_CUDA ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_CUDA$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_CUDA$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9355,21 +11246,31 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_CUDA$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_CUDA$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_CUDA$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_CUDA$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_CUDA$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_CUDA$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_CUDA$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9383,10 +11284,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_ROCM$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_ROCM$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_ROCM {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_ROCM fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -9396,15 +11301,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_ROCM ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_ROCM ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_ROCM$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_ROCM$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9418,21 +11320,31 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_ROCM$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_ROCM$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_ROCM$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_ROCM$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_ROCM$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_ROCM$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_ROCM$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9446,10 +11358,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_OpenVINO$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_OpenVINO {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_OpenVINO fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -9459,15 +11375,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_OpenVINO ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_OpenVINO ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9481,22 +11394,32 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_OpenVINO$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_OpenVINO$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_OpenVINO$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void SessionOptionsAppendExecutionProvider_OpenVINO$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9510,23 +11433,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SetGlobalDenormalAsZero$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetGlobalDenormalAsZero$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
+     * }
+     */
     public interface SetGlobalDenormalAsZero {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(SetGlobalDenormalAsZero fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetGlobalDenormalAsZero.class, fi, OrtApi.SetGlobalDenormalAsZero$FUNC, session);
         }
 
-        static SetGlobalDenormalAsZero ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static SetGlobalDenormalAsZero ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalDenormalAsZero$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalDenormalAsZero$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9540,20 +11466,30 @@ public class OrtApi {
     public static VarHandle SetGlobalDenormalAsZero$VH() {
         return OrtApi.SetGlobalDenormalAsZero$VH;
     }
-
-    public static MemoryAddress SetGlobalDenormalAsZero$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalDenormalAsZero$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
+     * }
+     */
+    public static MemorySegment SetGlobalDenormalAsZero$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalDenormalAsZero$VH.get(seg);
     }
-
-    public static void SetGlobalDenormalAsZero$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
+     * }
+     */
+    public static void SetGlobalDenormalAsZero$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalDenormalAsZero$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalDenormalAsZero$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalDenormalAsZero$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetGlobalDenormalAsZero$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalDenormalAsZero$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalDenormalAsZero$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalDenormalAsZero$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalDenormalAsZero$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9569,22 +11505,25 @@ public class OrtApi {
             Constants$root.C_INT$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateArenaCfg$MH = RuntimeHelper.downcallHandle(OrtApi.CreateArenaCfg$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
+     * }
+     */
     public interface CreateArenaCfg {
 
-        java.lang.foreign.Addressable apply(long _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemoryAddress _x4);
+        java.lang.foreign.MemorySegment apply(long _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateArenaCfg fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateArenaCfg.class, fi, OrtApi.CreateArenaCfg$FUNC, session);
         }
 
-        static CreateArenaCfg ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (long __x0, int __x1, int __x2, int __x3, java.lang.foreign.MemoryAddress __x4) -> {
+        static CreateArenaCfg ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (long __x0, int __x1, int __x2, int __x3, java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateArenaCfg$MH.invokeExact(
-                                    (Addressable) symbol, __x0, __x1, __x2, __x3, (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateArenaCfg$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9598,20 +11537,30 @@ public class OrtApi {
     public static VarHandle CreateArenaCfg$VH() {
         return OrtApi.CreateArenaCfg$VH;
     }
-
-    public static MemoryAddress CreateArenaCfg$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateArenaCfg$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
+     * }
+     */
+    public static MemorySegment CreateArenaCfg$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateArenaCfg$VH.get(seg);
     }
-
-    public static void CreateArenaCfg$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
+     * }
+     */
+    public static void CreateArenaCfg$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateArenaCfg$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateArenaCfg$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateArenaCfg$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateArenaCfg$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateArenaCfg$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateArenaCfg$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateArenaCfg$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateArenaCfg$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9621,20 +11570,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseArenaCfg$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseArenaCfg$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseArenaCfg$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseArenaCfg)(OrtArenaCfg*);
+     * }
+     */
     public interface ReleaseArenaCfg {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseArenaCfg fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseArenaCfg.class, fi, OrtApi.ReleaseArenaCfg$FUNC, session);
         }
 
-        static ReleaseArenaCfg ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseArenaCfg ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseArenaCfg$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseArenaCfg$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9648,20 +11601,30 @@ public class OrtApi {
     public static VarHandle ReleaseArenaCfg$VH() {
         return OrtApi.ReleaseArenaCfg$VH;
     }
-
-    public static MemoryAddress ReleaseArenaCfg$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseArenaCfg$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseArenaCfg)(OrtArenaCfg*);
+     * }
+     */
+    public static MemorySegment ReleaseArenaCfg$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseArenaCfg$VH.get(seg);
     }
-
-    public static void ReleaseArenaCfg$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseArenaCfg)(OrtArenaCfg*);
+     * }
+     */
+    public static void ReleaseArenaCfg$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseArenaCfg$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseArenaCfg$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseArenaCfg$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseArenaCfg$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseArenaCfg$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseArenaCfg$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseArenaCfg$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseArenaCfg$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9676,31 +11639,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ModelMetadataGetGraphDescription$MH =
             RuntimeHelper.downcallHandle(OrtApi.ModelMetadataGetGraphDescription$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
     public interface ModelMetadataGetGraphDescription {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetGraphDescription fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetGraphDescription.class, fi, OrtApi.ModelMetadataGetGraphDescription$FUNC, session);
         }
 
-        static ModelMetadataGetGraphDescription ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static ModelMetadataGetGraphDescription ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetGraphDescription$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.ModelMetadataGetGraphDescription$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9714,21 +11677,31 @@ public class OrtApi {
     public static VarHandle ModelMetadataGetGraphDescription$VH() {
         return OrtApi.ModelMetadataGetGraphDescription$VH;
     }
-
-    public static MemoryAddress ModelMetadataGetGraphDescription$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ModelMetadataGetGraphDescription$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment ModelMetadataGetGraphDescription$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ModelMetadataGetGraphDescription$VH.get(seg);
     }
-
-    public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+     * }
+     */
+    public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ModelMetadataGetGraphDescription$VH.set(seg, x);
     }
 
-    public static MemoryAddress ModelMetadataGetGraphDescription$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ModelMetadataGetGraphDescription$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ModelMetadataGetGraphDescription$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ModelMetadataGetGraphDescription$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9741,10 +11714,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_TensorRT$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_TensorRT {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -9754,15 +11731,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_TensorRT ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_TensorRT ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9776,22 +11750,32 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_TensorRT$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_TensorRT$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_TensorRT$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void SessionOptionsAppendExecutionProvider_TensorRT$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9805,22 +11789,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle SetCurrentGpuDeviceId$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetCurrentGpuDeviceId$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
+     * }
+     */
     public interface SetCurrentGpuDeviceId {
 
-        java.lang.foreign.Addressable apply(int _x0);
+        java.lang.foreign.MemorySegment apply(int _x0);
 
         static MemorySegment allocate(SetCurrentGpuDeviceId fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetCurrentGpuDeviceId.class, fi, OrtApi.SetCurrentGpuDeviceId$FUNC, session);
         }
 
-        static SetCurrentGpuDeviceId ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+        static SetCurrentGpuDeviceId ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
             return (int __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SetCurrentGpuDeviceId$MH.invokeExact((Addressable) symbol, __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.SetCurrentGpuDeviceId$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9834,20 +11821,30 @@ public class OrtApi {
     public static VarHandle SetCurrentGpuDeviceId$VH() {
         return OrtApi.SetCurrentGpuDeviceId$VH;
     }
-
-    public static MemoryAddress SetCurrentGpuDeviceId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetCurrentGpuDeviceId$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
+     * }
+     */
+    public static MemorySegment SetCurrentGpuDeviceId$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetCurrentGpuDeviceId$VH.get(seg);
     }
-
-    public static void SetCurrentGpuDeviceId$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
+     * }
+     */
+    public static void SetCurrentGpuDeviceId$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetCurrentGpuDeviceId$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetCurrentGpuDeviceId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetCurrentGpuDeviceId$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SetCurrentGpuDeviceId$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetCurrentGpuDeviceId$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetCurrentGpuDeviceId$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetCurrentGpuDeviceId$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetCurrentGpuDeviceId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9859,23 +11856,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetCurrentGpuDeviceId$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetCurrentGpuDeviceId$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
+     * }
+     */
     public interface GetCurrentGpuDeviceId {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetCurrentGpuDeviceId fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetCurrentGpuDeviceId.class, fi, OrtApi.GetCurrentGpuDeviceId$FUNC, session);
         }
 
-        static GetCurrentGpuDeviceId ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static GetCurrentGpuDeviceId ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetCurrentGpuDeviceId$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetCurrentGpuDeviceId$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9889,20 +11888,30 @@ public class OrtApi {
     public static VarHandle GetCurrentGpuDeviceId$VH() {
         return OrtApi.GetCurrentGpuDeviceId$VH;
     }
-
-    public static MemoryAddress GetCurrentGpuDeviceId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetCurrentGpuDeviceId$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
+     * }
+     */
+    public static MemorySegment GetCurrentGpuDeviceId$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetCurrentGpuDeviceId$VH.get(seg);
     }
-
-    public static void GetCurrentGpuDeviceId$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
+     * }
+     */
+    public static void GetCurrentGpuDeviceId$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetCurrentGpuDeviceId$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetCurrentGpuDeviceId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetCurrentGpuDeviceId$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetCurrentGpuDeviceId$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetCurrentGpuDeviceId$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetCurrentGpuDeviceId$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetCurrentGpuDeviceId$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetCurrentGpuDeviceId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9918,14 +11927,18 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelInfoGetAttributeArray_float$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelInfoGetAttributeArray_float$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
+     * }
+     */
     public interface KernelInfoGetAttributeArray_float {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttributeArray_float fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -9935,20 +11948,15 @@ public class OrtApi {
                     session);
         }
 
-        static KernelInfoGetAttributeArray_float ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static KernelInfoGetAttributeArray_float ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttributeArray_float$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelInfoGetAttributeArray_float$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9962,21 +11970,31 @@ public class OrtApi {
     public static VarHandle KernelInfoGetAttributeArray_float$VH() {
         return OrtApi.KernelInfoGetAttributeArray_float$VH;
     }
-
-    public static MemoryAddress KernelInfoGetAttributeArray_float$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttributeArray_float$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
+     * }
+     */
+    public static MemorySegment KernelInfoGetAttributeArray_float$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelInfoGetAttributeArray_float$VH.get(seg);
     }
-
-    public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
+     * }
+     */
+    public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelInfoGetAttributeArray_float$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelInfoGetAttributeArray_float$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelInfoGetAttributeArray_float$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelInfoGetAttributeArray_float$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelInfoGetAttributeArray_float$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -9993,14 +12011,18 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelInfoGetAttributeArray_int64$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelInfoGetAttributeArray_int64$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
+     * }
+     */
     public interface KernelInfoGetAttributeArray_int64 {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttributeArray_int64 fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -10010,20 +12032,15 @@ public class OrtApi {
                     session);
         }
 
-        static KernelInfoGetAttributeArray_int64 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+        static KernelInfoGetAttributeArray_int64 ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttributeArray_int64$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelInfoGetAttributeArray_int64$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10037,21 +12054,31 @@ public class OrtApi {
     public static VarHandle KernelInfoGetAttributeArray_int64$VH() {
         return OrtApi.KernelInfoGetAttributeArray_int64$VH;
     }
-
-    public static MemoryAddress KernelInfoGetAttributeArray_int64$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelInfoGetAttributeArray_int64$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
+     * }
+     */
+    public static MemorySegment KernelInfoGetAttributeArray_int64$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelInfoGetAttributeArray_int64$VH.get(seg);
     }
-
-    public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
+     * }
+     */
+    public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelInfoGetAttributeArray_int64$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelInfoGetAttributeArray_int64$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelInfoGetAttributeArray_int64$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelInfoGetAttributeArray_int64$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelInfoGetAttributeArray_int64$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10067,33 +12094,32 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateArenaCfgV2$MH = RuntimeHelper.downcallHandle(OrtApi.CreateArenaCfgV2$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
+     * }
+     */
     public interface CreateArenaCfgV2 {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateArenaCfgV2 fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateArenaCfgV2.class, fi, OrtApi.CreateArenaCfgV2$FUNC, session);
         }
 
-        static CreateArenaCfgV2 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateArenaCfgV2 ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateArenaCfgV2$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateArenaCfgV2$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10107,20 +12133,30 @@ public class OrtApi {
     public static VarHandle CreateArenaCfgV2$VH() {
         return OrtApi.CreateArenaCfgV2$VH;
     }
-
-    public static MemoryAddress CreateArenaCfgV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateArenaCfgV2$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
+     * }
+     */
+    public static MemorySegment CreateArenaCfgV2$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateArenaCfgV2$VH.get(seg);
     }
-
-    public static void CreateArenaCfgV2$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
+     * }
+     */
+    public static void CreateArenaCfgV2$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateArenaCfgV2$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateArenaCfgV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateArenaCfgV2$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateArenaCfgV2$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateArenaCfgV2$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateArenaCfgV2$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateArenaCfgV2$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateArenaCfgV2$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10134,30 +12170,30 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle AddRunConfigEntry$MH = RuntimeHelper.downcallHandle(OrtApi.AddRunConfigEntry$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
+     * }
+     */
     public interface AddRunConfigEntry {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddRunConfigEntry fi, MemorySession session) {
             return RuntimeHelper.upcallStub(AddRunConfigEntry.class, fi, OrtApi.AddRunConfigEntry$FUNC, session);
         }
 
-        static AddRunConfigEntry ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static AddRunConfigEntry ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddRunConfigEntry$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddRunConfigEntry$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10171,20 +12207,30 @@ public class OrtApi {
     public static VarHandle AddRunConfigEntry$VH() {
         return OrtApi.AddRunConfigEntry$VH;
     }
-
-    public static MemoryAddress AddRunConfigEntry$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddRunConfigEntry$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
+     * }
+     */
+    public static MemorySegment AddRunConfigEntry$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddRunConfigEntry$VH.get(seg);
     }
-
-    public static void AddRunConfigEntry$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
+     * }
+     */
+    public static void AddRunConfigEntry$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddRunConfigEntry$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddRunConfigEntry$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddRunConfigEntry$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AddRunConfigEntry$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddRunConfigEntry$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddRunConfigEntry$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddRunConfigEntry$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddRunConfigEntry$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10196,23 +12242,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreatePrepackedWeightsContainer$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreatePrepackedWeightsContainer$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
+     * }
+     */
     public interface CreatePrepackedWeightsContainer {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreatePrepackedWeightsContainer fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreatePrepackedWeightsContainer.class, fi, OrtApi.CreatePrepackedWeightsContainer$FUNC, session);
         }
 
-        static CreatePrepackedWeightsContainer ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreatePrepackedWeightsContainer ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreatePrepackedWeightsContainer$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreatePrepackedWeightsContainer$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10226,21 +12275,31 @@ public class OrtApi {
     public static VarHandle CreatePrepackedWeightsContainer$VH() {
         return OrtApi.CreatePrepackedWeightsContainer$VH;
     }
-
-    public static MemoryAddress CreatePrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreatePrepackedWeightsContainer$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
+     * }
+     */
+    public static MemorySegment CreatePrepackedWeightsContainer$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreatePrepackedWeightsContainer$VH.get(seg);
     }
-
-    public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
+     * }
+     */
+    public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreatePrepackedWeightsContainer$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreatePrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreatePrepackedWeightsContainer$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreatePrepackedWeightsContainer$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreatePrepackedWeightsContainer$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10253,22 +12312,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleasePrepackedWeightsContainer$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleasePrepackedWeightsContainer$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
+     * }
+     */
     public interface ReleasePrepackedWeightsContainer {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleasePrepackedWeightsContainer fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleasePrepackedWeightsContainer.class, fi, OrtApi.ReleasePrepackedWeightsContainer$FUNC, session);
         }
 
-        static ReleasePrepackedWeightsContainer ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleasePrepackedWeightsContainer ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleasePrepackedWeightsContainer$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleasePrepackedWeightsContainer$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10282,21 +12344,31 @@ public class OrtApi {
     public static VarHandle ReleasePrepackedWeightsContainer$VH() {
         return OrtApi.ReleasePrepackedWeightsContainer$VH;
     }
-
-    public static MemoryAddress ReleasePrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleasePrepackedWeightsContainer$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
+     * }
+     */
+    public static MemorySegment ReleasePrepackedWeightsContainer$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleasePrepackedWeightsContainer$VH.get(seg);
     }
-
-    public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
+     * }
+     */
+    public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleasePrepackedWeightsContainer$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleasePrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ReleasePrepackedWeightsContainer$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ReleasePrepackedWeightsContainer$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleasePrepackedWeightsContainer$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10314,15 +12386,19 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSessionWithPrepackedWeightsContainer$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateSessionWithPrepackedWeightsContainer$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+     * }
+     */
     public interface CreateSessionWithPrepackedWeightsContainer {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3,
-                java.lang.foreign.MemoryAddress _x4);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3,
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateSessionWithPrepackedWeightsContainer fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -10332,22 +12408,17 @@ public class OrtApi {
                     session);
         }
 
-        static CreateSessionWithPrepackedWeightsContainer ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+        static CreateSessionWithPrepackedWeightsContainer ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3,
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                    return (java.lang.foreign.MemorySegment)
                             OrtApi.CreateSessionWithPrepackedWeightsContainer$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                                    symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10361,21 +12432,31 @@ public class OrtApi {
     public static VarHandle CreateSessionWithPrepackedWeightsContainer$VH() {
         return OrtApi.CreateSessionWithPrepackedWeightsContainer$VH;
     }
-
-    public static MemoryAddress CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionWithPrepackedWeightsContainer$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+     * }
+     */
+    public static MemorySegment CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionWithPrepackedWeightsContainer$VH.get(seg);
     }
-
-    public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+     * }
+     */
+    public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSessionWithPrepackedWeightsContainer$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateSessionWithPrepackedWeightsContainer$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSessionWithPrepackedWeightsContainer$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10395,16 +12476,20 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSessionFromArrayWithPrepackedWeightsContainer$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+     * }
+     */
     public interface CreateSessionFromArrayWithPrepackedWeightsContainer {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3,
-                java.lang.foreign.MemoryAddress _x4,
-                java.lang.foreign.MemoryAddress _x5);
+                java.lang.foreign.MemorySegment _x3,
+                java.lang.foreign.MemorySegment _x4,
+                java.lang.foreign.MemorySegment _x5);
 
         static MemorySegment allocate(CreateSessionFromArrayWithPrepackedWeightsContainer fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -10415,24 +12500,18 @@ public class OrtApi {
         }
 
         static CreateSessionFromArrayWithPrepackedWeightsContainer ofAddress(
-                MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+                MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3,
-                    java.lang.foreign.MemoryAddress __x4,
-                    java.lang.foreign.MemoryAddress __x5) -> {
+                    java.lang.foreign.MemorySegment __x3,
+                    java.lang.foreign.MemorySegment __x4,
+                    java.lang.foreign.MemorySegment __x5) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                    return (java.lang.foreign.MemorySegment)
                             OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    (java.lang.foreign.Addressable) __x5);
+                                    symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10446,22 +12525,32 @@ public class OrtApi {
     public static VarHandle CreateSessionFromArrayWithPrepackedWeightsContainer$VH() {
         return OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$VH;
     }
-
-    public static MemoryAddress CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+     * }
+     */
+    public static MemorySegment CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$VH.get(seg);
     }
-
-    public static void CreateSessionFromArrayWithPrepackedWeightsContainer$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+     * }
+     */
+    public static void CreateSessionFromArrayWithPrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void CreateSessionFromArrayWithPrepackedWeightsContainer$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10475,10 +12564,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_TensorRT_V2$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_TensorRT_V2 {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT_V2 fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -10488,15 +12581,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_TensorRT_V2 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_TensorRT_V2 ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10510,22 +12600,32 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_TensorRT_V2$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_TensorRT_V2$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_TensorRT_V2$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void SessionOptionsAppendExecutionProvider_TensorRT_V2$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10539,23 +12639,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateTensorRTProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateTensorRTProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
+     * }
+     */
     public interface CreateTensorRTProviderOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateTensorRTProviderOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateTensorRTProviderOptions.class, fi, OrtApi.CreateTensorRTProviderOptions$FUNC, session);
         }
 
-        static CreateTensorRTProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateTensorRTProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorRTProviderOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateTensorRTProviderOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10569,21 +12672,31 @@ public class OrtApi {
     public static VarHandle CreateTensorRTProviderOptions$VH() {
         return OrtApi.CreateTensorRTProviderOptions$VH;
     }
-
-    public static MemoryAddress CreateTensorRTProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateTensorRTProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
+     * }
+     */
+    public static MemorySegment CreateTensorRTProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateTensorRTProviderOptions$VH.get(seg);
     }
-
-    public static void CreateTensorRTProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
+     * }
+     */
+    public static void CreateTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateTensorRTProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateTensorRTProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateTensorRTProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateTensorRTProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateTensorRTProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateTensorRTProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateTensorRTProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10600,13 +12713,17 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle UpdateTensorRTProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.UpdateTensorRTProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
+     * }
+     */
     public interface UpdateTensorRTProviderOptions {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
         static MemorySegment allocate(UpdateTensorRTProviderOptions fi, MemorySession session) {
@@ -10614,20 +12731,15 @@ public class OrtApi {
                     UpdateTensorRTProviderOptions.class, fi, OrtApi.UpdateTensorRTProviderOptions$FUNC, session);
         }
 
-        static UpdateTensorRTProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static UpdateTensorRTProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UpdateTensorRTProviderOptions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UpdateTensorRTProviderOptions$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10641,21 +12753,31 @@ public class OrtApi {
     public static VarHandle UpdateTensorRTProviderOptions$VH() {
         return OrtApi.UpdateTensorRTProviderOptions$VH;
     }
-
-    public static MemoryAddress UpdateTensorRTProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateTensorRTProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
+     * }
+     */
+    public static MemorySegment UpdateTensorRTProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UpdateTensorRTProviderOptions$VH.get(seg);
     }
-
-    public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
+     * }
+     */
+    public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UpdateTensorRTProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress UpdateTensorRTProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment UpdateTensorRTProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.UpdateTensorRTProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UpdateTensorRTProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10671,13 +12793,17 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTensorRTProviderOptionsAsString$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetTensorRTProviderOptionsAsString$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
+     * }
+     */
     public interface GetTensorRTProviderOptionsAsString {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetTensorRTProviderOptionsAsString fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -10687,18 +12813,14 @@ public class OrtApi {
                     session);
         }
 
-        static GetTensorRTProviderOptionsAsString ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static GetTensorRTProviderOptionsAsString ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTensorRTProviderOptionsAsString$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetTensorRTProviderOptionsAsString$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10712,21 +12834,31 @@ public class OrtApi {
     public static VarHandle GetTensorRTProviderOptionsAsString$VH() {
         return OrtApi.GetTensorRTProviderOptionsAsString$VH;
     }
-
-    public static MemoryAddress GetTensorRTProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorRTProviderOptionsAsString$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment GetTensorRTProviderOptionsAsString$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorRTProviderOptionsAsString$VH.get(seg);
     }
-
-    public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
+     * }
+     */
+    public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTensorRTProviderOptionsAsString$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTensorRTProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetTensorRTProviderOptionsAsString$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetTensorRTProviderOptionsAsString$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTensorRTProviderOptionsAsString$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10739,22 +12871,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseTensorRTProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseTensorRTProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
+     * }
+     */
     public interface ReleaseTensorRTProviderOptions {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseTensorRTProviderOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseTensorRTProviderOptions.class, fi, OrtApi.ReleaseTensorRTProviderOptions$FUNC, session);
         }
 
-        static ReleaseTensorRTProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseTensorRTProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseTensorRTProviderOptions$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseTensorRTProviderOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10768,21 +12903,31 @@ public class OrtApi {
     public static VarHandle ReleaseTensorRTProviderOptions$VH() {
         return OrtApi.ReleaseTensorRTProviderOptions$VH;
     }
-
-    public static MemoryAddress ReleaseTensorRTProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseTensorRTProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
+     * }
+     */
+    public static MemorySegment ReleaseTensorRTProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseTensorRTProviderOptions$VH.get(seg);
     }
-
-    public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
+     * }
+     */
+    public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseTensorRTProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseTensorRTProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ReleaseTensorRTProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ReleaseTensorRTProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseTensorRTProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10794,22 +12939,24 @@ public class OrtApi {
     static final FunctionDescriptor EnableOrtCustomOps$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle EnableOrtCustomOps$MH = RuntimeHelper.downcallHandle(OrtApi.EnableOrtCustomOps$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
+     * }
+     */
     public interface EnableOrtCustomOps {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableOrtCustomOps fi, MemorySession session) {
             return RuntimeHelper.upcallStub(EnableOrtCustomOps.class, fi, OrtApi.EnableOrtCustomOps$FUNC, session);
         }
 
-        static EnableOrtCustomOps ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static EnableOrtCustomOps ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.EnableOrtCustomOps$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.EnableOrtCustomOps$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10823,20 +12970,30 @@ public class OrtApi {
     public static VarHandle EnableOrtCustomOps$VH() {
         return OrtApi.EnableOrtCustomOps$VH;
     }
-
-    public static MemoryAddress EnableOrtCustomOps$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableOrtCustomOps$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
+     * }
+     */
+    public static MemorySegment EnableOrtCustomOps$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableOrtCustomOps$VH.get(seg);
     }
-
-    public static void EnableOrtCustomOps$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
+     * }
+     */
+    public static void EnableOrtCustomOps$set(MemorySegment seg, MemorySegment x) {
         OrtApi.EnableOrtCustomOps$VH.set(seg, x);
     }
 
-    public static MemoryAddress EnableOrtCustomOps$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.EnableOrtCustomOps$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment EnableOrtCustomOps$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.EnableOrtCustomOps$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void EnableOrtCustomOps$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void EnableOrtCustomOps$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.EnableOrtCustomOps$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10847,24 +13004,25 @@ public class OrtApi {
     static final FunctionDescriptor RegisterAllocator$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RegisterAllocator$MH = RuntimeHelper.downcallHandle(OrtApi.RegisterAllocator$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
+     * }
+     */
     public interface RegisterAllocator {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterAllocator fi, MemorySession session) {
             return RuntimeHelper.upcallStub(RegisterAllocator.class, fi, OrtApi.RegisterAllocator$FUNC, session);
         }
 
-        static RegisterAllocator ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static RegisterAllocator ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.RegisterAllocator$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.RegisterAllocator$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10878,20 +13036,30 @@ public class OrtApi {
     public static VarHandle RegisterAllocator$VH() {
         return OrtApi.RegisterAllocator$VH;
     }
-
-    public static MemoryAddress RegisterAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RegisterAllocator$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
+     * }
+     */
+    public static MemorySegment RegisterAllocator$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RegisterAllocator$VH.get(seg);
     }
-
-    public static void RegisterAllocator$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
+     * }
+     */
+    public static void RegisterAllocator$set(MemorySegment seg, MemorySegment x) {
         OrtApi.RegisterAllocator$VH.set(seg, x);
     }
 
-    public static MemoryAddress RegisterAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.RegisterAllocator$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment RegisterAllocator$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.RegisterAllocator$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void RegisterAllocator$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void RegisterAllocator$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.RegisterAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10902,24 +13070,25 @@ public class OrtApi {
     static final FunctionDescriptor UnregisterAllocator$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle UnregisterAllocator$MH = RuntimeHelper.downcallHandle(OrtApi.UnregisterAllocator$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
+     * }
+     */
     public interface UnregisterAllocator {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(UnregisterAllocator fi, MemorySession session) {
             return RuntimeHelper.upcallStub(UnregisterAllocator.class, fi, OrtApi.UnregisterAllocator$FUNC, session);
         }
 
-        static UnregisterAllocator ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static UnregisterAllocator ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UnregisterAllocator$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UnregisterAllocator$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10933,20 +13102,30 @@ public class OrtApi {
     public static VarHandle UnregisterAllocator$VH() {
         return OrtApi.UnregisterAllocator$VH;
     }
-
-    public static MemoryAddress UnregisterAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UnregisterAllocator$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
+     * }
+     */
+    public static MemorySegment UnregisterAllocator$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UnregisterAllocator$VH.get(seg);
     }
-
-    public static void UnregisterAllocator$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
+     * }
+     */
+    public static void UnregisterAllocator$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UnregisterAllocator$VH.set(seg, x);
     }
 
-    public static MemoryAddress UnregisterAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UnregisterAllocator$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment UnregisterAllocator$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UnregisterAllocator$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UnregisterAllocator$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UnregisterAllocator$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UnregisterAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -10957,24 +13136,24 @@ public class OrtApi {
     static final FunctionDescriptor IsSparseTensor$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle IsSparseTensor$MH = RuntimeHelper.downcallHandle(OrtApi.IsSparseTensor$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
+     * }
+     */
     public interface IsSparseTensor {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(IsSparseTensor fi, MemorySession session) {
             return RuntimeHelper.upcallStub(IsSparseTensor.class, fi, OrtApi.IsSparseTensor$FUNC, session);
         }
 
-        static IsSparseTensor ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static IsSparseTensor ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.IsSparseTensor$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.IsSparseTensor$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10988,20 +13167,30 @@ public class OrtApi {
     public static VarHandle IsSparseTensor$VH() {
         return OrtApi.IsSparseTensor$VH;
     }
-
-    public static MemoryAddress IsSparseTensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.IsSparseTensor$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
+     * }
+     */
+    public static MemorySegment IsSparseTensor$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.IsSparseTensor$VH.get(seg);
     }
-
-    public static void IsSparseTensor$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
+     * }
+     */
+    public static void IsSparseTensor$set(MemorySegment seg, MemorySegment x) {
         OrtApi.IsSparseTensor$VH.set(seg, x);
     }
 
-    public static MemoryAddress IsSparseTensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.IsSparseTensor$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment IsSparseTensor$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.IsSparseTensor$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void IsSparseTensor$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void IsSparseTensor$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.IsSparseTensor$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11018,37 +13207,35 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSparseTensorAsOrtValue$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateSparseTensorAsOrtValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
     public interface CreateSparseTensorAsOrtValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
                 int _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateSparseTensorAsOrtValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateSparseTensorAsOrtValue.class, fi, OrtApi.CreateSparseTensorAsOrtValue$FUNC, session);
         }
 
-        static CreateSparseTensorAsOrtValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateSparseTensorAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
                     int __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateSparseTensorAsOrtValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateSparseTensorAsOrtValue$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11062,21 +13249,31 @@ public class OrtApi {
     public static VarHandle CreateSparseTensorAsOrtValue$VH() {
         return OrtApi.CreateSparseTensorAsOrtValue$VH;
     }
-
-    public static MemoryAddress CreateSparseTensorAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSparseTensorAsOrtValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static MemorySegment CreateSparseTensorAsOrtValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSparseTensorAsOrtValue$VH.get(seg);
     }
-
-    public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSparseTensorAsOrtValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSparseTensorAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateSparseTensorAsOrtValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateSparseTensorAsOrtValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSparseTensorAsOrtValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11095,42 +13292,38 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle FillSparseTensorCoo$MH = RuntimeHelper.downcallHandle(OrtApi.FillSparseTensorCoo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
+     * }
+     */
     public interface FillSparseTensorCoo {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3,
-                java.lang.foreign.MemoryAddress _x4,
-                java.lang.foreign.MemoryAddress _x5,
+                java.lang.foreign.MemorySegment _x4,
+                java.lang.foreign.MemorySegment _x5,
                 long _x6);
 
         static MemorySegment allocate(FillSparseTensorCoo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(FillSparseTensorCoo.class, fi, OrtApi.FillSparseTensorCoo$FUNC, session);
         }
 
-        static FillSparseTensorCoo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static FillSparseTensorCoo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3,
-                    java.lang.foreign.MemoryAddress __x4,
-                    java.lang.foreign.MemoryAddress __x5,
+                    java.lang.foreign.MemorySegment __x4,
+                    java.lang.foreign.MemorySegment __x5,
                     long __x6) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorCoo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    (java.lang.foreign.Addressable) __x5,
-                                    __x6);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.FillSparseTensorCoo$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11144,20 +13337,30 @@ public class OrtApi {
     public static VarHandle FillSparseTensorCoo$VH() {
         return OrtApi.FillSparseTensorCoo$VH;
     }
-
-    public static MemoryAddress FillSparseTensorCoo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorCoo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
+     * }
+     */
+    public static MemorySegment FillSparseTensorCoo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorCoo$VH.get(seg);
     }
-
-    public static void FillSparseTensorCoo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
+     * }
+     */
+    public static void FillSparseTensorCoo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.FillSparseTensorCoo$VH.set(seg, x);
     }
 
-    public static MemoryAddress FillSparseTensorCoo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorCoo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment FillSparseTensorCoo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorCoo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void FillSparseTensorCoo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void FillSparseTensorCoo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.FillSparseTensorCoo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11177,48 +13380,42 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle FillSparseTensorCsr$MH = RuntimeHelper.downcallHandle(OrtApi.FillSparseTensorCsr$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
+     * }
+     */
     public interface FillSparseTensorCsr {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3,
-                java.lang.foreign.MemoryAddress _x4,
-                java.lang.foreign.MemoryAddress _x5,
+                java.lang.foreign.MemorySegment _x4,
+                java.lang.foreign.MemorySegment _x5,
                 long _x6,
-                java.lang.foreign.MemoryAddress _x7,
+                java.lang.foreign.MemorySegment _x7,
                 long _x8);
 
         static MemorySegment allocate(FillSparseTensorCsr fi, MemorySession session) {
             return RuntimeHelper.upcallStub(FillSparseTensorCsr.class, fi, OrtApi.FillSparseTensorCsr$FUNC, session);
         }
 
-        static FillSparseTensorCsr ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static FillSparseTensorCsr ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3,
-                    java.lang.foreign.MemoryAddress __x4,
-                    java.lang.foreign.MemoryAddress __x5,
+                    java.lang.foreign.MemorySegment __x4,
+                    java.lang.foreign.MemorySegment __x5,
                     long __x6,
-                    java.lang.foreign.MemoryAddress __x7,
+                    java.lang.foreign.MemorySegment __x7,
                     long __x8) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorCsr$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    (java.lang.foreign.Addressable) __x5,
-                                    __x6,
-                                    (java.lang.foreign.Addressable) __x7,
-                                    __x8);
+                    return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorCsr$MH.invokeExact(
+                            symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7, __x8);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11232,20 +13429,30 @@ public class OrtApi {
     public static VarHandle FillSparseTensorCsr$VH() {
         return OrtApi.FillSparseTensorCsr$VH;
     }
-
-    public static MemoryAddress FillSparseTensorCsr$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorCsr$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
+     * }
+     */
+    public static MemorySegment FillSparseTensorCsr$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorCsr$VH.get(seg);
     }
-
-    public static void FillSparseTensorCsr$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
+     * }
+     */
+    public static void FillSparseTensorCsr$set(MemorySegment seg, MemorySegment x) {
         OrtApi.FillSparseTensorCsr$VH.set(seg, x);
     }
 
-    public static MemoryAddress FillSparseTensorCsr$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorCsr$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment FillSparseTensorCsr$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorCsr$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void FillSparseTensorCsr$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void FillSparseTensorCsr$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.FillSparseTensorCsr$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11265,46 +13472,41 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle FillSparseTensorBlockSparse$MH =
             RuntimeHelper.downcallHandle(OrtApi.FillSparseTensorBlockSparse$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
+     * }
+     */
     public interface FillSparseTensorBlockSparse {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3,
-                java.lang.foreign.MemoryAddress _x4,
-                java.lang.foreign.MemoryAddress _x5,
+                java.lang.foreign.MemorySegment _x4,
+                java.lang.foreign.MemorySegment _x5,
                 long _x6,
-                java.lang.foreign.MemoryAddress _x7);
+                java.lang.foreign.MemorySegment _x7);
 
         static MemorySegment allocate(FillSparseTensorBlockSparse fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     FillSparseTensorBlockSparse.class, fi, OrtApi.FillSparseTensorBlockSparse$FUNC, session);
         }
 
-        static FillSparseTensorBlockSparse ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static FillSparseTensorBlockSparse ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3,
-                    java.lang.foreign.MemoryAddress __x4,
-                    java.lang.foreign.MemoryAddress __x5,
+                    java.lang.foreign.MemorySegment __x4,
+                    java.lang.foreign.MemorySegment __x5,
                     long __x6,
-                    java.lang.foreign.MemoryAddress __x7) -> {
+                    java.lang.foreign.MemorySegment __x7) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorBlockSparse$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    (java.lang.foreign.Addressable) __x5,
-                                    __x6,
-                                    (java.lang.foreign.Addressable) __x7);
+                    return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorBlockSparse$MH.invokeExact(
+                            symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11318,21 +13520,31 @@ public class OrtApi {
     public static VarHandle FillSparseTensorBlockSparse$VH() {
         return OrtApi.FillSparseTensorBlockSparse$VH;
     }
-
-    public static MemoryAddress FillSparseTensorBlockSparse$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.FillSparseTensorBlockSparse$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
+     * }
+     */
+    public static MemorySegment FillSparseTensorBlockSparse$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.FillSparseTensorBlockSparse$VH.get(seg);
     }
-
-    public static void FillSparseTensorBlockSparse$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
+     * }
+     */
+    public static void FillSparseTensorBlockSparse$set(MemorySegment seg, MemorySegment x) {
         OrtApi.FillSparseTensorBlockSparse$VH.set(seg, x);
     }
 
-    public static MemoryAddress FillSparseTensorBlockSparse$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment FillSparseTensorBlockSparse$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.FillSparseTensorBlockSparse$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void FillSparseTensorBlockSparse$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void FillSparseTensorBlockSparse$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.FillSparseTensorBlockSparse$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11353,18 +13565,22 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateSparseTensorWithValuesAsOrtValue$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateSparseTensorWithValuesAsOrtValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
     public interface CreateSparseTensorWithValuesAsOrtValue {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3,
-                java.lang.foreign.MemoryAddress _x4,
+                java.lang.foreign.MemorySegment _x4,
                 long _x5,
                 int _x6,
-                java.lang.foreign.MemoryAddress _x7);
+                java.lang.foreign.MemorySegment _x7);
 
         static MemorySegment allocate(CreateSparseTensorWithValuesAsOrtValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -11374,28 +13590,20 @@ public class OrtApi {
                     session);
         }
 
-        static CreateSparseTensorWithValuesAsOrtValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static CreateSparseTensorWithValuesAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3,
-                    java.lang.foreign.MemoryAddress __x4,
+                    java.lang.foreign.MemorySegment __x4,
                     long __x5,
                     int __x6,
-                    java.lang.foreign.MemoryAddress __x7) -> {
+                    java.lang.foreign.MemorySegment __x7) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                    return (java.lang.foreign.MemorySegment)
                             OrtApi.CreateSparseTensorWithValuesAsOrtValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    __x5,
-                                    __x6,
-                                    (java.lang.foreign.Addressable) __x7);
+                                    symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11409,21 +13617,31 @@ public class OrtApi {
     public static VarHandle CreateSparseTensorWithValuesAsOrtValue$VH() {
         return OrtApi.CreateSparseTensorWithValuesAsOrtValue$VH;
     }
-
-    public static MemoryAddress CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateSparseTensorWithValuesAsOrtValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static MemorySegment CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateSparseTensorWithValuesAsOrtValue$VH.get(seg);
     }
-
-    public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+     * }
+     */
+    public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateSparseTensorWithValuesAsOrtValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.CreateSparseTensorWithValuesAsOrtValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateSparseTensorWithValuesAsOrtValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11439,26 +13657,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle UseCooIndices$MH = RuntimeHelper.downcallHandle(OrtApi.UseCooIndices$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
+     * }
+     */
     public interface UseCooIndices {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1, long _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(UseCooIndices fi, MemorySession session) {
             return RuntimeHelper.upcallStub(UseCooIndices.class, fi, OrtApi.UseCooIndices$FUNC, session);
         }
 
-        static UseCooIndices ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1, long __x2) -> {
+        static UseCooIndices ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UseCooIndices$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UseCooIndices$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11472,20 +13690,30 @@ public class OrtApi {
     public static VarHandle UseCooIndices$VH() {
         return OrtApi.UseCooIndices$VH;
     }
-
-    public static MemoryAddress UseCooIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UseCooIndices$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
+     * }
+     */
+    public static MemorySegment UseCooIndices$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UseCooIndices$VH.get(seg);
     }
-
-    public static void UseCooIndices$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
+     * }
+     */
+    public static void UseCooIndices$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UseCooIndices$VH.set(seg, x);
     }
 
-    public static MemoryAddress UseCooIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UseCooIndices$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment UseCooIndices$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UseCooIndices$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UseCooIndices$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UseCooIndices$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UseCooIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11501,36 +13729,34 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle UseCsrIndices$MH = RuntimeHelper.downcallHandle(OrtApi.UseCsrIndices$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
+     * }
+     */
     public interface UseCsrIndices {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3,
+                java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
         static MemorySegment allocate(UseCsrIndices fi, MemorySession session) {
             return RuntimeHelper.upcallStub(UseCsrIndices.class, fi, OrtApi.UseCsrIndices$FUNC, session);
         }
 
-        static UseCsrIndices ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static UseCsrIndices ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3,
+                    java.lang.foreign.MemorySegment __x3,
                     long __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UseCsrIndices$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UseCsrIndices$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11544,20 +13770,30 @@ public class OrtApi {
     public static VarHandle UseCsrIndices$VH() {
         return OrtApi.UseCsrIndices$VH;
     }
-
-    public static MemoryAddress UseCsrIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UseCsrIndices$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
+     * }
+     */
+    public static MemorySegment UseCsrIndices$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UseCsrIndices$VH.get(seg);
     }
-
-    public static void UseCsrIndices$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
+     * }
+     */
+    public static void UseCsrIndices$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UseCsrIndices$VH.set(seg, x);
     }
 
-    public static MemoryAddress UseCsrIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UseCsrIndices$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment UseCsrIndices$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UseCsrIndices$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UseCsrIndices$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UseCsrIndices$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UseCsrIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11573,34 +13809,33 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle UseBlockSparseIndices$MH =
             RuntimeHelper.downcallHandle(OrtApi.UseBlockSparseIndices$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
+     * }
+     */
     public interface UseBlockSparseIndices {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 long _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(UseBlockSparseIndices fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     UseBlockSparseIndices.class, fi, OrtApi.UseBlockSparseIndices$FUNC, session);
         }
 
-        static UseBlockSparseIndices ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static UseBlockSparseIndices ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     long __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UseBlockSparseIndices$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UseBlockSparseIndices$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11614,20 +13849,30 @@ public class OrtApi {
     public static VarHandle UseBlockSparseIndices$VH() {
         return OrtApi.UseBlockSparseIndices$VH;
     }
-
-    public static MemoryAddress UseBlockSparseIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UseBlockSparseIndices$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
+     * }
+     */
+    public static MemorySegment UseBlockSparseIndices$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UseBlockSparseIndices$VH.get(seg);
     }
-
-    public static void UseBlockSparseIndices$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
+     * }
+     */
+    public static void UseBlockSparseIndices$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UseBlockSparseIndices$VH.set(seg, x);
     }
 
-    public static MemoryAddress UseBlockSparseIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UseBlockSparseIndices$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment UseBlockSparseIndices$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UseBlockSparseIndices$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UseBlockSparseIndices$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UseBlockSparseIndices$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UseBlockSparseIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11639,25 +13884,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetSparseTensorFormat$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSparseTensorFormat$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
+     * }
+     */
     public interface GetSparseTensorFormat {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorFormat fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetSparseTensorFormat.class, fi, OrtApi.GetSparseTensorFormat$FUNC, session);
         }
 
-        static GetSparseTensorFormat ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetSparseTensorFormat ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorFormat$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSparseTensorFormat$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11671,20 +13917,30 @@ public class OrtApi {
     public static VarHandle GetSparseTensorFormat$VH() {
         return OrtApi.GetSparseTensorFormat$VH;
     }
-
-    public static MemoryAddress GetSparseTensorFormat$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorFormat$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
+     * }
+     */
+    public static MemorySegment GetSparseTensorFormat$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorFormat$VH.get(seg);
     }
-
-    public static void GetSparseTensorFormat$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
+     * }
+     */
+    public static void GetSparseTensorFormat$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSparseTensorFormat$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSparseTensorFormat$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorFormat$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetSparseTensorFormat$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorFormat$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSparseTensorFormat$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSparseTensorFormat$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSparseTensorFormat$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11696,10 +13952,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetSparseTensorValuesTypeAndShape$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSparseTensorValuesTypeAndShape$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
     public interface GetSparseTensorValuesTypeAndShape {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorValuesTypeAndShape fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -11709,15 +13969,12 @@ public class OrtApi {
                     session);
         }
 
-        static GetSparseTensorValuesTypeAndShape ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetSparseTensorValuesTypeAndShape ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorValuesTypeAndShape$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSparseTensorValuesTypeAndShape$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11731,21 +13988,31 @@ public class OrtApi {
     public static VarHandle GetSparseTensorValuesTypeAndShape$VH() {
         return OrtApi.GetSparseTensorValuesTypeAndShape$VH;
     }
-
-    public static MemoryAddress GetSparseTensorValuesTypeAndShape$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorValuesTypeAndShape$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static MemorySegment GetSparseTensorValuesTypeAndShape$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorValuesTypeAndShape$VH.get(seg);
     }
-
-    public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSparseTensorValuesTypeAndShape$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSparseTensorValuesTypeAndShape$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetSparseTensorValuesTypeAndShape$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetSparseTensorValuesTypeAndShape$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSparseTensorValuesTypeAndShape$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11758,25 +14025,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetSparseTensorValues$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSparseTensorValues$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
+     * }
+     */
     public interface GetSparseTensorValues {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorValues fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetSparseTensorValues.class, fi, OrtApi.GetSparseTensorValues$FUNC, session);
         }
 
-        static GetSparseTensorValues ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetSparseTensorValues ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorValues$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSparseTensorValues$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11790,20 +14058,30 @@ public class OrtApi {
     public static VarHandle GetSparseTensorValues$VH() {
         return OrtApi.GetSparseTensorValues$VH;
     }
-
-    public static MemoryAddress GetSparseTensorValues$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorValues$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
+     * }
+     */
+    public static MemorySegment GetSparseTensorValues$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorValues$VH.get(seg);
     }
-
-    public static void GetSparseTensorValues$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
+     * }
+     */
+    public static void GetSparseTensorValues$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSparseTensorValues$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSparseTensorValues$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorValues$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetSparseTensorValues$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorValues$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSparseTensorValues$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSparseTensorValues$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSparseTensorValues$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11818,27 +14096,27 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetSparseTensorIndicesTypeShape$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSparseTensorIndicesTypeShape$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
     public interface GetSparseTensorIndicesTypeShape {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, int _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetSparseTensorIndicesTypeShape fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetSparseTensorIndicesTypeShape.class, fi, OrtApi.GetSparseTensorIndicesTypeShape$FUNC, session);
         }
 
-        static GetSparseTensorIndicesTypeShape ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static GetSparseTensorIndicesTypeShape ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorIndicesTypeShape$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSparseTensorIndicesTypeShape$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11852,21 +14130,31 @@ public class OrtApi {
     public static VarHandle GetSparseTensorIndicesTypeShape$VH() {
         return OrtApi.GetSparseTensorIndicesTypeShape$VH;
     }
-
-    public static MemoryAddress GetSparseTensorIndicesTypeShape$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorIndicesTypeShape$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static MemorySegment GetSparseTensorIndicesTypeShape$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorIndicesTypeShape$VH.get(seg);
     }
-
-    public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSparseTensorIndicesTypeShape$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSparseTensorIndicesTypeShape$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetSparseTensorIndicesTypeShape$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetSparseTensorIndicesTypeShape$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSparseTensorIndicesTypeShape$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11883,34 +14171,33 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetSparseTensorIndices$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetSparseTensorIndices$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
+     * }
+     */
     public interface GetSparseTensorIndices {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
                 int _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetSparseTensorIndices fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetSparseTensorIndices.class, fi, OrtApi.GetSparseTensorIndices$FUNC, session);
         }
 
-        static GetSparseTensorIndices ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
+        static GetSparseTensorIndices ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
                     int __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorIndices$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetSparseTensorIndices$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11924,20 +14211,30 @@ public class OrtApi {
     public static VarHandle GetSparseTensorIndices$VH() {
         return OrtApi.GetSparseTensorIndices$VH;
     }
-
-    public static MemoryAddress GetSparseTensorIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorIndices$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
+     * }
+     */
+    public static MemorySegment GetSparseTensorIndices$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorIndices$VH.get(seg);
     }
-
-    public static void GetSparseTensorIndices$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
+     * }
+     */
+    public static void GetSparseTensorIndices$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetSparseTensorIndices$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetSparseTensorIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetSparseTensorIndices$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetSparseTensorIndices$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetSparseTensorIndices$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetSparseTensorIndices$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetSparseTensorIndices$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetSparseTensorIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -11948,24 +14245,24 @@ public class OrtApi {
     static final FunctionDescriptor HasValue$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle HasValue$MH = RuntimeHelper.downcallHandle(OrtApi.HasValue$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*HasValue)(const OrtValue*,int*);
+     * }
+     */
     public interface HasValue {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(HasValue fi, MemorySession session) {
             return RuntimeHelper.upcallStub(HasValue.class, fi, OrtApi.HasValue$FUNC, session);
         }
 
-        static HasValue ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static HasValue ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.HasValue$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.HasValue$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11978,20 +14275,30 @@ public class OrtApi {
     public static VarHandle HasValue$VH() {
         return OrtApi.HasValue$VH;
     }
-
-    public static MemoryAddress HasValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.HasValue$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*HasValue)(const OrtValue*,int*);
+     * }
+     */
+    public static MemorySegment HasValue$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.HasValue$VH.get(seg);
     }
-
-    public static void HasValue$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*HasValue)(const OrtValue*,int*);
+     * }
+     */
+    public static void HasValue$set(MemorySegment seg, MemorySegment x) {
         OrtApi.HasValue$VH.set(seg, x);
     }
 
-    public static MemoryAddress HasValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.HasValue$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment HasValue$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.HasValue$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void HasValue$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void HasValue$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.HasValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12003,10 +14310,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle KernelContext_GetGPUComputeStream$MH =
             RuntimeHelper.downcallHandle(OrtApi.KernelContext_GetGPUComputeStream$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
+     * }
+     */
     public interface KernelContext_GetGPUComputeStream {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetGPUComputeStream fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12016,15 +14327,12 @@ public class OrtApi {
                     session);
         }
 
-        static KernelContext_GetGPUComputeStream ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static KernelContext_GetGPUComputeStream ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetGPUComputeStream$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.KernelContext_GetGPUComputeStream$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12038,21 +14346,31 @@ public class OrtApi {
     public static VarHandle KernelContext_GetGPUComputeStream$VH() {
         return OrtApi.KernelContext_GetGPUComputeStream$VH;
     }
-
-    public static MemoryAddress KernelContext_GetGPUComputeStream$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.KernelContext_GetGPUComputeStream$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
+     * }
+     */
+    public static MemorySegment KernelContext_GetGPUComputeStream$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.KernelContext_GetGPUComputeStream$VH.get(seg);
     }
-
-    public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
+     * }
+     */
+    public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, MemorySegment x) {
         OrtApi.KernelContext_GetGPUComputeStream$VH.set(seg, x);
     }
 
-    public static MemoryAddress KernelContext_GetGPUComputeStream$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment KernelContext_GetGPUComputeStream$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.KernelContext_GetGPUComputeStream$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.KernelContext_GetGPUComputeStream$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12064,24 +14382,25 @@ public class OrtApi {
     static final FunctionDescriptor GetTensorMemoryInfo$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetTensorMemoryInfo$MH = RuntimeHelper.downcallHandle(OrtApi.GetTensorMemoryInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
+     * }
+     */
     public interface GetTensorMemoryInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorMemoryInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetTensorMemoryInfo.class, fi, OrtApi.GetTensorMemoryInfo$FUNC, session);
         }
 
-        static GetTensorMemoryInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static GetTensorMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetTensorMemoryInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetTensorMemoryInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12095,20 +14414,30 @@ public class OrtApi {
     public static VarHandle GetTensorMemoryInfo$VH() {
         return OrtApi.GetTensorMemoryInfo$VH;
     }
-
-    public static MemoryAddress GetTensorMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorMemoryInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
+     * }
+     */
+    public static MemorySegment GetTensorMemoryInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorMemoryInfo$VH.get(seg);
     }
-
-    public static void GetTensorMemoryInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
+     * }
+     */
+    public static void GetTensorMemoryInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTensorMemoryInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTensorMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTensorMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetTensorMemoryInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTensorMemoryInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTensorMemoryInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTensorMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTensorMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12123,27 +14452,27 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetExecutionProviderApi$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetExecutionProviderApi$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
+     * }
+     */
     public interface GetExecutionProviderApi {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0, int _x1, java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetExecutionProviderApi fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetExecutionProviderApi.class, fi, OrtApi.GetExecutionProviderApi$FUNC, session);
         }
 
-        static GetExecutionProviderApi ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, int __x1, java.lang.foreign.MemoryAddress __x2) -> {
+        static GetExecutionProviderApi ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetExecutionProviderApi$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetExecutionProviderApi$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12157,20 +14486,30 @@ public class OrtApi {
     public static VarHandle GetExecutionProviderApi$VH() {
         return OrtApi.GetExecutionProviderApi$VH;
     }
-
-    public static MemoryAddress GetExecutionProviderApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetExecutionProviderApi$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
+     * }
+     */
+    public static MemorySegment GetExecutionProviderApi$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetExecutionProviderApi$VH.get(seg);
     }
-
-    public static void GetExecutionProviderApi$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
+     * }
+     */
+    public static void GetExecutionProviderApi$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetExecutionProviderApi$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetExecutionProviderApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetExecutionProviderApi$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetExecutionProviderApi$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetExecutionProviderApi$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetExecutionProviderApi$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetExecutionProviderApi$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetExecutionProviderApi$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12182,10 +14521,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsSetCustomCreateThreadFn$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsSetCustomCreateThreadFn$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
+     * }
+     */
     public interface SessionOptionsSetCustomCreateThreadFn {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomCreateThreadFn fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12195,15 +14538,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsSetCustomCreateThreadFn ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsSetCustomCreateThreadFn ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsSetCustomCreateThreadFn$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsSetCustomCreateThreadFn$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12217,21 +14557,31 @@ public class OrtApi {
     public static VarHandle SessionOptionsSetCustomCreateThreadFn$VH() {
         return OrtApi.SessionOptionsSetCustomCreateThreadFn$VH;
     }
-
-    public static MemoryAddress SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsSetCustomCreateThreadFn$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
+     * }
+     */
+    public static MemorySegment SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsSetCustomCreateThreadFn$VH.get(seg);
     }
-
-    public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
+     * }
+     */
+    public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsSetCustomCreateThreadFn$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsSetCustomCreateThreadFn$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsSetCustomCreateThreadFn$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12245,10 +14595,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsSetCustomThreadCreationOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsSetCustomThreadCreationOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
+     * }
+     */
     public interface SessionOptionsSetCustomThreadCreationOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomThreadCreationOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12258,15 +14612,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsSetCustomThreadCreationOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsSetCustomThreadCreationOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsSetCustomThreadCreationOptions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsSetCustomThreadCreationOptions$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12280,22 +14631,32 @@ public class OrtApi {
     public static VarHandle SessionOptionsSetCustomThreadCreationOptions$VH() {
         return OrtApi.SessionOptionsSetCustomThreadCreationOptions$VH;
     }
-
-    public static MemoryAddress SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsSetCustomThreadCreationOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
+     * }
+     */
+    public static MemorySegment SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsSetCustomThreadCreationOptions$VH.get(seg);
     }
-
-    public static void SessionOptionsSetCustomThreadCreationOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
+     * }
+     */
+    public static void SessionOptionsSetCustomThreadCreationOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsSetCustomThreadCreationOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsSetCustomThreadCreationOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void SessionOptionsSetCustomThreadCreationOptions$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsSetCustomThreadCreationOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12309,10 +14670,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsSetCustomJoinThreadFn$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsSetCustomJoinThreadFn$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
+     * }
+     */
     public interface SessionOptionsSetCustomJoinThreadFn {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomJoinThreadFn fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12322,15 +14687,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsSetCustomJoinThreadFn ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsSetCustomJoinThreadFn ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsSetCustomJoinThreadFn$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsSetCustomJoinThreadFn$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12344,21 +14706,31 @@ public class OrtApi {
     public static VarHandle SessionOptionsSetCustomJoinThreadFn$VH() {
         return OrtApi.SessionOptionsSetCustomJoinThreadFn$VH;
     }
-
-    public static MemoryAddress SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsSetCustomJoinThreadFn$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
+     * }
+     */
+    public static MemorySegment SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsSetCustomJoinThreadFn$VH.get(seg);
     }
-
-    public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
+     * }
+     */
+    public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsSetCustomJoinThreadFn$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsSetCustomJoinThreadFn$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsSetCustomJoinThreadFn$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12371,25 +14743,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SetGlobalCustomCreateThreadFn$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetGlobalCustomCreateThreadFn$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
+     * }
+     */
     public interface SetGlobalCustomCreateThreadFn {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomCreateThreadFn fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetGlobalCustomCreateThreadFn.class, fi, OrtApi.SetGlobalCustomCreateThreadFn$FUNC, session);
         }
 
-        static SetGlobalCustomCreateThreadFn ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SetGlobalCustomCreateThreadFn ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalCustomCreateThreadFn$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalCustomCreateThreadFn$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12403,21 +14776,31 @@ public class OrtApi {
     public static VarHandle SetGlobalCustomCreateThreadFn$VH() {
         return OrtApi.SetGlobalCustomCreateThreadFn$VH;
     }
-
-    public static MemoryAddress SetGlobalCustomCreateThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalCustomCreateThreadFn$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
+     * }
+     */
+    public static MemorySegment SetGlobalCustomCreateThreadFn$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalCustomCreateThreadFn$VH.get(seg);
     }
-
-    public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
+     * }
+     */
+    public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalCustomCreateThreadFn$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalCustomCreateThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetGlobalCustomCreateThreadFn$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetGlobalCustomCreateThreadFn$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalCustomCreateThreadFn$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12430,10 +14813,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SetGlobalCustomThreadCreationOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetGlobalCustomThreadCreationOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
+     * }
+     */
     public interface SetGlobalCustomThreadCreationOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomThreadCreationOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12443,15 +14830,12 @@ public class OrtApi {
                     session);
         }
 
-        static SetGlobalCustomThreadCreationOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SetGlobalCustomThreadCreationOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SetGlobalCustomThreadCreationOptions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalCustomThreadCreationOptions$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12465,21 +14849,31 @@ public class OrtApi {
     public static VarHandle SetGlobalCustomThreadCreationOptions$VH() {
         return OrtApi.SetGlobalCustomThreadCreationOptions$VH;
     }
-
-    public static MemoryAddress SetGlobalCustomThreadCreationOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalCustomThreadCreationOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
+     * }
+     */
+    public static MemorySegment SetGlobalCustomThreadCreationOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalCustomThreadCreationOptions$VH.get(seg);
     }
-
-    public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
+     * }
+     */
+    public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalCustomThreadCreationOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalCustomThreadCreationOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetGlobalCustomThreadCreationOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetGlobalCustomThreadCreationOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalCustomThreadCreationOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12493,25 +14887,26 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SetGlobalCustomJoinThreadFn$MH =
             RuntimeHelper.downcallHandle(OrtApi.SetGlobalCustomJoinThreadFn$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
+     * }
+     */
     public interface SetGlobalCustomJoinThreadFn {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomJoinThreadFn fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SetGlobalCustomJoinThreadFn.class, fi, OrtApi.SetGlobalCustomJoinThreadFn$FUNC, session);
         }
 
-        static SetGlobalCustomJoinThreadFn ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SetGlobalCustomJoinThreadFn ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalCustomJoinThreadFn$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SetGlobalCustomJoinThreadFn$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12525,21 +14920,31 @@ public class OrtApi {
     public static VarHandle SetGlobalCustomJoinThreadFn$VH() {
         return OrtApi.SetGlobalCustomJoinThreadFn$VH;
     }
-
-    public static MemoryAddress SetGlobalCustomJoinThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SetGlobalCustomJoinThreadFn$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
+     * }
+     */
+    public static MemorySegment SetGlobalCustomJoinThreadFn$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SetGlobalCustomJoinThreadFn$VH.get(seg);
     }
-
-    public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
+     * }
+     */
+    public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SetGlobalCustomJoinThreadFn$VH.set(seg, x);
     }
 
-    public static MemoryAddress SetGlobalCustomJoinThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SetGlobalCustomJoinThreadFn$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SetGlobalCustomJoinThreadFn$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SetGlobalCustomJoinThreadFn$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12552,23 +14957,25 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SynchronizeBoundInputs$MH =
             RuntimeHelper.downcallHandle(OrtApi.SynchronizeBoundInputs$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
+     * }
+     */
     public interface SynchronizeBoundInputs {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(SynchronizeBoundInputs fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SynchronizeBoundInputs.class, fi, OrtApi.SynchronizeBoundInputs$FUNC, session);
         }
 
-        static SynchronizeBoundInputs ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static SynchronizeBoundInputs ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SynchronizeBoundInputs$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.SynchronizeBoundInputs$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12582,20 +14989,30 @@ public class OrtApi {
     public static VarHandle SynchronizeBoundInputs$VH() {
         return OrtApi.SynchronizeBoundInputs$VH;
     }
-
-    public static MemoryAddress SynchronizeBoundInputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SynchronizeBoundInputs$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
+     * }
+     */
+    public static MemorySegment SynchronizeBoundInputs$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SynchronizeBoundInputs$VH.get(seg);
     }
-
-    public static void SynchronizeBoundInputs$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
+     * }
+     */
+    public static void SynchronizeBoundInputs$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SynchronizeBoundInputs$VH.set(seg, x);
     }
 
-    public static MemoryAddress SynchronizeBoundInputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SynchronizeBoundInputs$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SynchronizeBoundInputs$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SynchronizeBoundInputs$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SynchronizeBoundInputs$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SynchronizeBoundInputs$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SynchronizeBoundInputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12607,23 +15024,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SynchronizeBoundOutputs$MH =
             RuntimeHelper.downcallHandle(OrtApi.SynchronizeBoundOutputs$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
+     * }
+     */
     public interface SynchronizeBoundOutputs {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(SynchronizeBoundOutputs fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     SynchronizeBoundOutputs.class, fi, OrtApi.SynchronizeBoundOutputs$FUNC, session);
         }
 
-        static SynchronizeBoundOutputs ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static SynchronizeBoundOutputs ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.SynchronizeBoundOutputs$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SynchronizeBoundOutputs$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12637,20 +15057,30 @@ public class OrtApi {
     public static VarHandle SynchronizeBoundOutputs$VH() {
         return OrtApi.SynchronizeBoundOutputs$VH;
     }
-
-    public static MemoryAddress SynchronizeBoundOutputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SynchronizeBoundOutputs$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
+     * }
+     */
+    public static MemorySegment SynchronizeBoundOutputs$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SynchronizeBoundOutputs$VH.get(seg);
     }
-
-    public static void SynchronizeBoundOutputs$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
+     * }
+     */
+    public static void SynchronizeBoundOutputs$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SynchronizeBoundOutputs$VH.set(seg, x);
     }
 
-    public static MemoryAddress SynchronizeBoundOutputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SynchronizeBoundOutputs$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment SynchronizeBoundOutputs$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SynchronizeBoundOutputs$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SynchronizeBoundOutputs$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SynchronizeBoundOutputs$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SynchronizeBoundOutputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12662,10 +15092,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_CUDA_V2$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_CUDA_V2 {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12675,15 +15109,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12697,22 +15128,32 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_CUDA_V2$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12726,23 +15167,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateCUDAProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateCUDAProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
+     * }
+     */
     public interface CreateCUDAProviderOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateCUDAProviderOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateCUDAProviderOptions.class, fi, OrtApi.CreateCUDAProviderOptions$FUNC, session);
         }
 
-        static CreateCUDAProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateCUDAProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateCUDAProviderOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateCUDAProviderOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12756,20 +15200,30 @@ public class OrtApi {
     public static VarHandle CreateCUDAProviderOptions$VH() {
         return OrtApi.CreateCUDAProviderOptions$VH;
     }
-
-    public static MemoryAddress CreateCUDAProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCUDAProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
+     * }
+     */
+    public static MemorySegment CreateCUDAProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCUDAProviderOptions$VH.get(seg);
     }
-
-    public static void CreateCUDAProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
+     * }
+     */
+    public static void CreateCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateCUDAProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateCUDAProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateCUDAProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateCUDAProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateCUDAProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12785,13 +15239,17 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle UpdateCUDAProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.UpdateCUDAProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
+     * }
+     */
     public interface UpdateCUDAProviderOptions {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
         static MemorySegment allocate(UpdateCUDAProviderOptions fi, MemorySession session) {
@@ -12799,20 +15257,15 @@ public class OrtApi {
                     UpdateCUDAProviderOptions.class, fi, OrtApi.UpdateCUDAProviderOptions$FUNC, session);
         }
 
-        static UpdateCUDAProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static UpdateCUDAProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UpdateCUDAProviderOptions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UpdateCUDAProviderOptions$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12826,20 +15279,30 @@ public class OrtApi {
     public static VarHandle UpdateCUDAProviderOptions$VH() {
         return OrtApi.UpdateCUDAProviderOptions$VH;
     }
-
-    public static MemoryAddress UpdateCUDAProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateCUDAProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
+     * }
+     */
+    public static MemorySegment UpdateCUDAProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UpdateCUDAProviderOptions$VH.get(seg);
     }
-
-    public static void UpdateCUDAProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
+     * }
+     */
+    public static void UpdateCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UpdateCUDAProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress UpdateCUDAProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment UpdateCUDAProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UpdateCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UpdateCUDAProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UpdateCUDAProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UpdateCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12854,31 +15317,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetCUDAProviderOptionsAsString$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetCUDAProviderOptionsAsString$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
+     * }
+     */
     public interface GetCUDAProviderOptionsAsString {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCUDAProviderOptionsAsString fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetCUDAProviderOptionsAsString.class, fi, OrtApi.GetCUDAProviderOptionsAsString$FUNC, session);
         }
 
-        static GetCUDAProviderOptionsAsString ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static GetCUDAProviderOptionsAsString ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetCUDAProviderOptionsAsString$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetCUDAProviderOptionsAsString$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12892,21 +15355,31 @@ public class OrtApi {
     public static VarHandle GetCUDAProviderOptionsAsString$VH() {
         return OrtApi.GetCUDAProviderOptionsAsString$VH;
     }
-
-    public static MemoryAddress GetCUDAProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetCUDAProviderOptionsAsString$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment GetCUDAProviderOptionsAsString$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetCUDAProviderOptionsAsString$VH.get(seg);
     }
-
-    public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
+     * }
+     */
+    public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetCUDAProviderOptionsAsString$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetCUDAProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetCUDAProviderOptionsAsString$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetCUDAProviderOptionsAsString$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetCUDAProviderOptionsAsString$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12919,22 +15392,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseCUDAProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseCUDAProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
+     * }
+     */
     public interface ReleaseCUDAProviderOptions {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseCUDAProviderOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseCUDAProviderOptions.class, fi, OrtApi.ReleaseCUDAProviderOptions$FUNC, session);
         }
 
-        static ReleaseCUDAProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseCUDAProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseCUDAProviderOptions$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseCUDAProviderOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12948,21 +15424,31 @@ public class OrtApi {
     public static VarHandle ReleaseCUDAProviderOptions$VH() {
         return OrtApi.ReleaseCUDAProviderOptions$VH;
     }
-
-    public static MemoryAddress ReleaseCUDAProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseCUDAProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
+     * }
+     */
+    public static MemorySegment ReleaseCUDAProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseCUDAProviderOptions$VH.get(seg);
     }
-
-    public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
+     * }
+     */
+    public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseCUDAProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseCUDAProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ReleaseCUDAProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ReleaseCUDAProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -12974,10 +15460,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_MIGraphX$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_MIGraphX {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -12987,15 +15477,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13009,22 +15496,32 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_MIGraphX$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.get(seg.asSlice(index * sizeof()));
     }
 
     public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(
-            MemorySegment seg, long index, MemoryAddress x) {
+            MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13042,13 +15539,17 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle AddExternalInitializers$MH =
             RuntimeHelper.downcallHandle(OrtApi.AddExternalInitializers$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
+     * }
+     */
     public interface AddExternalInitializers {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
         static MemorySegment allocate(AddExternalInitializers fi, MemorySession session) {
@@ -13056,20 +15557,15 @@ public class OrtApi {
                     AddExternalInitializers.class, fi, OrtApi.AddExternalInitializers$FUNC, session);
         }
 
-        static AddExternalInitializers ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static AddExternalInitializers ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.AddExternalInitializers$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.AddExternalInitializers$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13083,20 +15579,30 @@ public class OrtApi {
     public static VarHandle AddExternalInitializers$VH() {
         return OrtApi.AddExternalInitializers$VH;
     }
-
-    public static MemoryAddress AddExternalInitializers$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddExternalInitializers$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
+     * }
+     */
+    public static MemorySegment AddExternalInitializers$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddExternalInitializers$VH.get(seg);
     }
-
-    public static void AddExternalInitializers$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
+     * }
+     */
+    public static void AddExternalInitializers$set(MemorySegment seg, MemorySegment x) {
         OrtApi.AddExternalInitializers$VH.set(seg, x);
     }
 
-    public static MemoryAddress AddExternalInitializers$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.AddExternalInitializers$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment AddExternalInitializers$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.AddExternalInitializers$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void AddExternalInitializers$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void AddExternalInitializers$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.AddExternalInitializers$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13112,36 +15618,34 @@ public class OrtApi {
             Constants$root.C_INT$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateOpAttr$MH = RuntimeHelper.downcallHandle(OrtApi.CreateOpAttr$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
+     * }
+     */
     public interface CreateOpAttr {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
                 int _x2,
                 int _x3,
-                java.lang.foreign.MemoryAddress _x4);
+                java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateOpAttr fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateOpAttr.class, fi, OrtApi.CreateOpAttr$FUNC, session);
         }
 
-        static CreateOpAttr ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
+        static CreateOpAttr ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
                     int __x2,
                     int __x3,
-                    java.lang.foreign.MemoryAddress __x4) -> {
+                    java.lang.foreign.MemorySegment __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateOpAttr$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateOpAttr$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13155,20 +15659,30 @@ public class OrtApi {
     public static VarHandle CreateOpAttr$VH() {
         return OrtApi.CreateOpAttr$VH;
     }
-
-    public static MemoryAddress CreateOpAttr$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateOpAttr$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
+     * }
+     */
+    public static MemorySegment CreateOpAttr$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateOpAttr$VH.get(seg);
     }
-
-    public static void CreateOpAttr$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
+     * }
+     */
+    public static void CreateOpAttr$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateOpAttr$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateOpAttr$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateOpAttr$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateOpAttr$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateOpAttr$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateOpAttr$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateOpAttr$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateOpAttr$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13178,20 +15692,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseOpAttr$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseOpAttr$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseOpAttr$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseOpAttr)(OrtOpAttr*);
+     * }
+     */
     public interface ReleaseOpAttr {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseOpAttr fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseOpAttr.class, fi, OrtApi.ReleaseOpAttr$FUNC, session);
         }
 
-        static ReleaseOpAttr ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseOpAttr ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseOpAttr$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseOpAttr$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13205,20 +15723,30 @@ public class OrtApi {
     public static VarHandle ReleaseOpAttr$VH() {
         return OrtApi.ReleaseOpAttr$VH;
     }
-
-    public static MemoryAddress ReleaseOpAttr$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseOpAttr$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseOpAttr)(OrtOpAttr*);
+     * }
+     */
+    public static MemorySegment ReleaseOpAttr$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseOpAttr$VH.get(seg);
     }
-
-    public static void ReleaseOpAttr$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseOpAttr)(OrtOpAttr*);
+     * }
+     */
+    public static void ReleaseOpAttr$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseOpAttr$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseOpAttr$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseOpAttr$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseOpAttr$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseOpAttr$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseOpAttr$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseOpAttr$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseOpAttr$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13241,57 +15769,48 @@ public class OrtApi {
             Constants$root.C_INT$LAYOUT,
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateOp$MH = RuntimeHelper.downcallHandle(OrtApi.CreateOp$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
+     * }
+     */
     public interface CreateOp {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 int _x3,
-                java.lang.foreign.MemoryAddress _x4,
-                java.lang.foreign.MemoryAddress _x5,
+                java.lang.foreign.MemorySegment _x4,
+                java.lang.foreign.MemorySegment _x5,
                 int _x6,
-                java.lang.foreign.MemoryAddress _x7,
+                java.lang.foreign.MemorySegment _x7,
                 int _x8,
                 int _x9,
                 int _x10,
-                java.lang.foreign.MemoryAddress _x11);
+                java.lang.foreign.MemorySegment _x11);
 
         static MemorySegment allocate(CreateOp fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CreateOp.class, fi, OrtApi.CreateOp$FUNC, session);
         }
 
-        static CreateOp ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static CreateOp ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     int __x3,
-                    java.lang.foreign.MemoryAddress __x4,
-                    java.lang.foreign.MemoryAddress __x5,
+                    java.lang.foreign.MemorySegment __x4,
+                    java.lang.foreign.MemorySegment __x5,
                     int __x6,
-                    java.lang.foreign.MemoryAddress __x7,
+                    java.lang.foreign.MemorySegment __x7,
                     int __x8,
                     int __x9,
                     int __x10,
-                    java.lang.foreign.MemoryAddress __x11) -> {
+                    java.lang.foreign.MemorySegment __x11) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateOp$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    (java.lang.foreign.Addressable) __x5,
-                                    __x6,
-                                    (java.lang.foreign.Addressable) __x7,
-                                    __x8,
-                                    __x9,
-                                    __x10,
-                                    (java.lang.foreign.Addressable) __x11);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CreateOp$MH.invokeExact(
+                            symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7, __x8, __x9, __x10, __x11);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13304,20 +15823,30 @@ public class OrtApi {
     public static VarHandle CreateOp$VH() {
         return OrtApi.CreateOp$VH;
     }
-
-    public static MemoryAddress CreateOp$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateOp$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
+     * }
+     */
+    public static MemorySegment CreateOp$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateOp$VH.get(seg);
     }
-
-    public static void CreateOp$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
+     * }
+     */
+    public static void CreateOp$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateOp$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateOp$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateOp$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateOp$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateOp$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateOp$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateOp$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateOp$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13334,39 +15863,36 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT,
             Constants$root.C_INT$LAYOUT);
     static final MethodHandle InvokeOp$MH = RuntimeHelper.downcallHandle(OrtApi.InvokeOp$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
+     * }
+     */
     public interface InvokeOp {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 int _x3,
-                java.lang.foreign.MemoryAddress _x4,
+                java.lang.foreign.MemorySegment _x4,
                 int _x5);
 
         static MemorySegment allocate(InvokeOp fi, MemorySession session) {
             return RuntimeHelper.upcallStub(InvokeOp.class, fi, OrtApi.InvokeOp$FUNC, session);
         }
 
-        static InvokeOp ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static InvokeOp ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     int __x3,
-                    java.lang.foreign.MemoryAddress __x4,
+                    java.lang.foreign.MemorySegment __x4,
                     int __x5) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.InvokeOp$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3,
-                                    (java.lang.foreign.Addressable) __x4,
-                                    __x5);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.InvokeOp$MH.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13379,20 +15905,30 @@ public class OrtApi {
     public static VarHandle InvokeOp$VH() {
         return OrtApi.InvokeOp$VH;
     }
-
-    public static MemoryAddress InvokeOp$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.InvokeOp$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
+     * }
+     */
+    public static MemorySegment InvokeOp$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.InvokeOp$VH.get(seg);
     }
-
-    public static void InvokeOp$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
+     * }
+     */
+    public static void InvokeOp$set(MemorySegment seg, MemorySegment x) {
         OrtApi.InvokeOp$VH.set(seg, x);
     }
 
-    public static MemoryAddress InvokeOp$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.InvokeOp$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment InvokeOp$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.InvokeOp$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void InvokeOp$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void InvokeOp$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.InvokeOp$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13402,20 +15938,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseOp$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseOp$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseOp$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseOp)(OrtOp*);
+     * }
+     */
     public interface ReleaseOp {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseOp fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseOp.class, fi, OrtApi.ReleaseOp$FUNC, session);
         }
 
-        static ReleaseOp ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseOp ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseOp$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseOp$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13428,20 +15968,30 @@ public class OrtApi {
     public static VarHandle ReleaseOp$VH() {
         return OrtApi.ReleaseOp$VH;
     }
-
-    public static MemoryAddress ReleaseOp$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseOp$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseOp)(OrtOp*);
+     * }
+     */
+    public static MemorySegment ReleaseOp$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseOp$VH.get(seg);
     }
-
-    public static void ReleaseOp$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseOp)(OrtOp*);
+     * }
+     */
+    public static void ReleaseOp$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseOp$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseOp$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseOp$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseOp$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseOp$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseOp$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseOp$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseOp$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13458,14 +16008,18 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider fi, MemorySession session) {
@@ -13476,22 +16030,17 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3,
+        static SessionOptionsAppendExecutionProvider ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    java.lang.foreign.MemorySegment __x3,
                     long __x4) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
+                    return (java.lang.foreign.MemorySegment)
                             OrtApi.SessionOptionsAppendExecutionProvider$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3,
-                                    __x4);
+                                    symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13505,21 +16054,31 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13532,24 +16091,24 @@ public class OrtApi {
     static final FunctionDescriptor CopyKernelInfo$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CopyKernelInfo$MH = RuntimeHelper.downcallHandle(OrtApi.CopyKernelInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
+     * }
+     */
     public interface CopyKernelInfo {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CopyKernelInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(CopyKernelInfo.class, fi, OrtApi.CopyKernelInfo$FUNC, session);
         }
 
-        static CopyKernelInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static CopyKernelInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CopyKernelInfo$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment) OrtApi.CopyKernelInfo$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13563,20 +16122,30 @@ public class OrtApi {
     public static VarHandle CopyKernelInfo$VH() {
         return OrtApi.CopyKernelInfo$VH;
     }
-
-    public static MemoryAddress CopyKernelInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CopyKernelInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
+     * }
+     */
+    public static MemorySegment CopyKernelInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CopyKernelInfo$VH.get(seg);
     }
-
-    public static void CopyKernelInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
+     * }
+     */
+    public static void CopyKernelInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CopyKernelInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress CopyKernelInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CopyKernelInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CopyKernelInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CopyKernelInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CopyKernelInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CopyKernelInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CopyKernelInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13586,20 +16155,24 @@ public class OrtApi {
 
     static final FunctionDescriptor ReleaseKernelInfo$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseKernelInfo$MH = RuntimeHelper.downcallHandle(OrtApi.ReleaseKernelInfo$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseKernelInfo)(OrtKernelInfo*);
+     * }
+     */
     public interface ReleaseKernelInfo {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseKernelInfo fi, MemorySession session) {
             return RuntimeHelper.upcallStub(ReleaseKernelInfo.class, fi, OrtApi.ReleaseKernelInfo$FUNC, session);
         }
 
-        static ReleaseKernelInfo ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseKernelInfo ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseKernelInfo$MH.invokeExact((Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseKernelInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13613,20 +16186,30 @@ public class OrtApi {
     public static VarHandle ReleaseKernelInfo$VH() {
         return OrtApi.ReleaseKernelInfo$VH;
     }
-
-    public static MemoryAddress ReleaseKernelInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseKernelInfo$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseKernelInfo)(OrtKernelInfo*);
+     * }
+     */
+    public static MemorySegment ReleaseKernelInfo$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseKernelInfo$VH.get(seg);
     }
-
-    public static void ReleaseKernelInfo$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseKernelInfo)(OrtKernelInfo*);
+     * }
+     */
+    public static void ReleaseKernelInfo$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseKernelInfo$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseKernelInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseKernelInfo$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment ReleaseKernelInfo$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseKernelInfo$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseKernelInfo$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseKernelInfo$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseKernelInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13637,21 +16220,24 @@ public class OrtApi {
     static final FunctionDescriptor GetTrainingApi$FUNC =
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle GetTrainingApi$MH = RuntimeHelper.downcallHandle(OrtApi.GetTrainingApi$FUNC);
-
+    /**
+     * {@snippet :
+     * const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
+     * }
+     */
     public interface GetTrainingApi {
 
-        java.lang.foreign.Addressable apply(int _x0);
+        java.lang.foreign.MemorySegment apply(int _x0);
 
         static MemorySegment allocate(GetTrainingApi fi, MemorySession session) {
             return RuntimeHelper.upcallStub(GetTrainingApi.class, fi, OrtApi.GetTrainingApi$FUNC, session);
         }
 
-        static GetTrainingApi ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+        static GetTrainingApi ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
             return (int __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.GetTrainingApi$MH.invokeExact((Addressable) symbol, __x0);
+                    return (java.lang.foreign.MemorySegment) OrtApi.GetTrainingApi$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13665,20 +16251,30 @@ public class OrtApi {
     public static VarHandle GetTrainingApi$VH() {
         return OrtApi.GetTrainingApi$VH;
     }
-
-    public static MemoryAddress GetTrainingApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTrainingApi$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
+     * }
+     */
+    public static MemorySegment GetTrainingApi$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTrainingApi$VH.get(seg);
     }
-
-    public static void GetTrainingApi$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
+     * }
+     */
+    public static void GetTrainingApi$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetTrainingApi$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetTrainingApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetTrainingApi$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment GetTrainingApi$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetTrainingApi$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetTrainingApi$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetTrainingApi$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetTrainingApi$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13690,10 +16286,14 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle SessionOptionsAppendExecutionProvider_CANN$MH =
             RuntimeHelper.downcallHandle(OrtApi.SessionOptionsAppendExecutionProvider_CANN$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
+     * }
+     */
     public interface SessionOptionsAppendExecutionProvider_CANN {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CANN fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
@@ -13703,15 +16303,12 @@ public class OrtApi {
                     session);
         }
 
-        static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApi.SessionOptionsAppendExecutionProvider_CANN$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.SessionOptionsAppendExecutionProvider_CANN$MH.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13725,21 +16322,31 @@ public class OrtApi {
     public static VarHandle SessionOptionsAppendExecutionProvider_CANN$VH() {
         return OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH;
     }
-
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.get(seg);
     }
-
-    public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.set(seg, x);
     }
 
-    public static MemoryAddress SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.SessionOptionsAppendExecutionProvider_CANN$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13753,23 +16360,26 @@ public class OrtApi {
             FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle CreateCANNProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.CreateCANNProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
+     * }
+     */
     public interface CreateCANNProviderOptions {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateCANNProviderOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     CreateCANNProviderOptions.class, fi, OrtApi.CreateCANNProviderOptions$FUNC, session);
         }
 
-        static CreateCANNProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static CreateCANNProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.CreateCANNProviderOptions$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.CreateCANNProviderOptions$MH.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13783,20 +16393,30 @@ public class OrtApi {
     public static VarHandle CreateCANNProviderOptions$VH() {
         return OrtApi.CreateCANNProviderOptions$VH;
     }
-
-    public static MemoryAddress CreateCANNProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCANNProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
+     * }
+     */
+    public static MemorySegment CreateCANNProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCANNProviderOptions$VH.get(seg);
     }
-
-    public static void CreateCANNProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
+     * }
+     */
+    public static void CreateCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.CreateCANNProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress CreateCANNProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.CreateCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment CreateCANNProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.CreateCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void CreateCANNProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void CreateCANNProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.CreateCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13812,13 +16432,17 @@ public class OrtApi {
             Constants$root.C_LONG_LONG$LAYOUT);
     static final MethodHandle UpdateCANNProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.UpdateCANNProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
+     * }
+     */
     public interface UpdateCANNProviderOptions {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
         static MemorySegment allocate(UpdateCANNProviderOptions fi, MemorySession session) {
@@ -13826,20 +16450,15 @@ public class OrtApi {
                     UpdateCANNProviderOptions.class, fi, OrtApi.UpdateCANNProviderOptions$FUNC, session);
         }
 
-        static UpdateCANNProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
+        static UpdateCANNProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
                     long __x3) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.UpdateCANNProviderOptions$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    __x3);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.UpdateCANNProviderOptions$MH.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13853,20 +16472,30 @@ public class OrtApi {
     public static VarHandle UpdateCANNProviderOptions$VH() {
         return OrtApi.UpdateCANNProviderOptions$VH;
     }
-
-    public static MemoryAddress UpdateCANNProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateCANNProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
+     * }
+     */
+    public static MemorySegment UpdateCANNProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UpdateCANNProviderOptions$VH.get(seg);
     }
-
-    public static void UpdateCANNProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
+     * }
+     */
+    public static void UpdateCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.UpdateCANNProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress UpdateCANNProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.UpdateCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
+    public static MemorySegment UpdateCANNProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) OrtApi.UpdateCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void UpdateCANNProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void UpdateCANNProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.UpdateCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13881,31 +16510,31 @@ public class OrtApi {
             Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle GetCANNProviderOptionsAsString$MH =
             RuntimeHelper.downcallHandle(OrtApi.GetCANNProviderOptionsAsString$FUNC);
-
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
+     * }
+     */
     public interface GetCANNProviderOptionsAsString {
 
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCANNProviderOptionsAsString fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     GetCANNProviderOptionsAsString.class, fi, OrtApi.GetCANNProviderOptionsAsString$FUNC, session);
         }
 
-        static GetCANNProviderOptionsAsString ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
+        static GetCANNProviderOptionsAsString ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtApi.GetCANNProviderOptionsAsString$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
+                    return (java.lang.foreign.MemorySegment)
+                            OrtApi.GetCANNProviderOptionsAsString$MH.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13919,21 +16548,31 @@ public class OrtApi {
     public static VarHandle GetCANNProviderOptionsAsString$VH() {
         return OrtApi.GetCANNProviderOptionsAsString$VH;
     }
-
-    public static MemoryAddress GetCANNProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.GetCANNProviderOptionsAsString$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
+     * }
+     */
+    public static MemorySegment GetCANNProviderOptionsAsString$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.GetCANNProviderOptionsAsString$VH.get(seg);
     }
-
-    public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
+     * }
+     */
+    public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
         OrtApi.GetCANNProviderOptionsAsString$VH.set(seg, x);
     }
 
-    public static MemoryAddress GetCANNProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment GetCANNProviderOptionsAsString$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.GetCANNProviderOptionsAsString$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.GetCANNProviderOptionsAsString$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -13946,22 +16585,25 @@ public class OrtApi {
             FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle ReleaseCANNProviderOptions$MH =
             RuntimeHelper.downcallHandle(OrtApi.ReleaseCANNProviderOptions$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
+     * }
+     */
     public interface ReleaseCANNProviderOptions {
 
-        void apply(java.lang.foreign.MemoryAddress _x0);
+        void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseCANNProviderOptions fi, MemorySession session) {
             return RuntimeHelper.upcallStub(
                     ReleaseCANNProviderOptions.class, fi, OrtApi.ReleaseCANNProviderOptions$FUNC, session);
         }
 
-        static ReleaseCANNProviderOptions ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static ReleaseCANNProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+            return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    OrtApi.ReleaseCANNProviderOptions$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    OrtApi.ReleaseCANNProviderOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13975,21 +16617,31 @@ public class OrtApi {
     public static VarHandle ReleaseCANNProviderOptions$VH() {
         return OrtApi.ReleaseCANNProviderOptions$VH;
     }
-
-    public static MemoryAddress ReleaseCANNProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApi.ReleaseCANNProviderOptions$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
+     * }
+     */
+    public static MemorySegment ReleaseCANNProviderOptions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtApi.ReleaseCANNProviderOptions$VH.get(seg);
     }
-
-    public static void ReleaseCANNProviderOptions$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
+     * }
+     */
+    public static void ReleaseCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
         OrtApi.ReleaseCANNProviderOptions$VH.set(seg, x);
     }
 
-    public static MemoryAddress ReleaseCANNProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment ReleaseCANNProviderOptions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtApi.ReleaseCANNProviderOptions$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void ReleaseCANNProviderOptions$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void ReleaseCANNProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
         OrtApi.ReleaseCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -14005,11 +16657,11 @@ public class OrtApi {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
+    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+    public static MemorySegment ofAddress(MemorySegment addr, MemorySession session) {
         return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }

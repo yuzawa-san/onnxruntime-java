@@ -6,9 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -19,7 +18,7 @@ final class TransactionImpl implements Transaction {
     // private final Object cancelLock;
     // private MemoryAddress runOptions;
 
-    private final MemorySession memorySession;
+    private final Arena memorySession;
     private final SegmentAllocator allocator;
     private final Builder builder;
     private final List<InputTuple> inputs;
@@ -27,8 +26,8 @@ final class TransactionImpl implements Transaction {
     private final ValueContext valueContext;
 
     TransactionImpl(Builder builder) {
-        this.memorySession = MemorySession.openConfined();
-        this.allocator = SegmentAllocator.newNativeArena(memorySession);
+        this.memorySession = Arena.openConfined();
+        this.allocator = memorySession;
         this.builder = builder;
         this.inputs = new ArrayList<>(builder.session.inputs.size());
         this.outputs = new ArrayList<>(builder.session.outputs.size());
@@ -101,7 +100,7 @@ final class TransactionImpl implements Transaction {
         for (int i = 0; i < numInputs; i++) {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
-            MemoryAddress valueAddress = inputTuple.value().toNative();
+            MemorySegment valueAddress = inputTuple.value().toNative();
             memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
             inputValues.setAtIndex(C_POINTER, i, valueAddress);
         }
@@ -110,7 +109,7 @@ final class TransactionImpl implements Transaction {
             outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
         }
 
-        MemoryAddress runOptionsAddress = builder.newRunOptions(allocator);
+        MemorySegment runOptionsAddress = builder.newRunOptions(allocator);
         // synchronized (cancelLock) {
         // this.runOptions = runOptionsAddress;
         // }
@@ -118,12 +117,12 @@ final class TransactionImpl implements Transaction {
             api.checkStatus(api.Run.apply(
                     sessionImpl.address(),
                     runOptionsAddress,
-                    inputNames.address(),
-                    inputValues.address(),
+                    inputNames,
+                    inputValues,
                     numInputs,
-                    outputNames.address(),
+                    outputNames,
                     numOutputs,
-                    outputValues.address()));
+                    outputValues));
         } finally {
             // synchronized (cancelLock) {
             api.ReleaseRunOptions.apply(runOptionsAddress);
@@ -132,7 +131,7 @@ final class TransactionImpl implements Transaction {
         }
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
-            MemoryAddress outputAddress = outputValues.getAtIndex(C_POINTER, i);
+        	MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
             // TODO: get typeinfo from result
             NodeInfoImpl nodeInfo = outputs.get(i);
             OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
@@ -186,8 +185,8 @@ final class TransactionImpl implements Transaction {
             return this;
         }
 
-        private MemoryAddress newRunOptions(SegmentAllocator scope) {
-            MemoryAddress runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
+        private MemorySegment newRunOptions(SegmentAllocator scope) {
+        	MemorySegment runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
             }
@@ -196,14 +195,14 @@ final class TransactionImpl implements Transaction {
             }
             if (runTag != null) {
                 api.checkStatus(api.RunOptionsSetRunTag.apply(
-                        runOptions, scope.allocateUtf8String(runTag).address()));
+                        runOptions, scope.allocateUtf8String(runTag)));
             }
             if (config != null && !config.isEmpty()) {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddRunConfigEntry.apply(
                             runOptions,
-                            scope.allocateUtf8String(entry.getKey()).address(),
-                            scope.allocateUtf8String(entry.getValue()).address()));
+                            scope.allocateUtf8String(entry.getKey()),
+                            scope.allocateUtf8String(entry.getValue())));
                 }
             }
             return runOptions;

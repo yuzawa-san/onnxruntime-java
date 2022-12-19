@@ -4,11 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import com.jyuzawa.onnxruntime_extern.OrtMIGraphXProviderOptions;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.util.Map;
+
+import com.jyuzawa.onnxruntime_extern.OrtMIGraphXProviderOptions;
 
 final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
 
@@ -17,11 +17,11 @@ final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    final void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
+    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         MemorySegment config = OrtMIGraphXProviderOptions.allocate(memorySession);
         copyInteger("device_id", config, OrtMIGraphXProviderOptions::device_id$set);
         copyInteger("migraphx_fp16_enable", config, OrtMIGraphXProviderOptions::migraphx_fp16_enable$set);
         copyInteger("migraphx_int8_enable", config, OrtMIGraphXProviderOptions::migraphx_int8_enable$set);
-        api.checkStatus(api.SessionOptionsAppendExecutionProvider_MIGraphX.apply(sessionOptions, config.address()));
+        api.checkStatus(api.SessionOptionsAppendExecutionProvider_MIGraphX.apply(sessionOptions, config));
     }
 }

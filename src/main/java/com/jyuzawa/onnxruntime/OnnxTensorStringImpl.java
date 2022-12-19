@@ -7,7 +7,6 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_CHAR;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
 
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.util.Arrays;
@@ -19,7 +18,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
     private final String[] buffer;
 
-    OnnxTensorStringImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+    OnnxTensorStringImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
         super(tensorInfo, valueContext);
         this.buffer = new String[Math.toIntExact(tensorInfo.getElementCount())];
         if (ortValueAddress != null) {
@@ -32,7 +31,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                         segmentAllocator, out -> api.GetStringTensorElementLength.apply(ortValueAddress, index, out));
                 // add a byte for the null termination
                 MemorySegment output = segmentAllocator.allocateArray(C_CHAR, length + 1);
-                api.checkStatus(api.GetStringTensorElement.apply(ortValueAddress, length, index, output.address()));
+                api.checkStatus(api.GetStringTensorElement.apply(ortValueAddress, length, index, output));
                 buffer[i] = output.getUtf8String(0);
             }
         }
@@ -49,7 +48,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    public MemoryAddress toNative() {
+    public MemorySegment toNative() {
         int numOutputs = buffer.length;
         ApiImpl api = valueContext.api();
         SegmentAllocator allocator = valueContext.segmentAllocator();
@@ -57,15 +56,15 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         for (int i = 0; i < numOutputs; i++) {
             stringArray.setAtIndex(C_POINTER, i, allocator.allocateUtf8String(buffer[i]));
         }
-        MemoryAddress tensor = api.create(
+        MemorySegment tensor = api.create(
                 allocator,
                 out -> api.CreateTensorAsOrtValue.apply(
                         valueContext.ortAllocatorAddress(),
-                        tensorInfo.shapeData.address(),
+                        tensorInfo.shapeData,
                         tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
                         out));
-        api.checkStatus(api.FillStringTensor.apply(tensor, stringArray.address(), numOutputs));
+        api.checkStatus(api.FillStringTensor.apply(tensor, stringArray, numOutputs));
         return tensor;
     }
 

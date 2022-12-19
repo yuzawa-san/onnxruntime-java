@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.util.NoSuchElementException;
 
 abstract class OnnxValueImpl implements OnnxValue {
@@ -52,5 +52,5 @@ abstract class OnnxValueImpl implements OnnxValue {
     // throw new NoSuchElementException("OnnxValue is not an optional");
     // }
 
-    abstract MemoryAddress toNative();
+    abstract MemorySegment toNative();
 }

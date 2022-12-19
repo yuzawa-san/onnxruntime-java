@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.nio.LongBuffer;
 import java.util.Collection;
@@ -15,7 +15,7 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
 
     private static final Function<ByteBuffer, LongBuffer> CONVERT = ByteBuffer::asLongBuffer;
 
-    OnnxTensorLongImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+    OnnxTensorLongImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
         super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 

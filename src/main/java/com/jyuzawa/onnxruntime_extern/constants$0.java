@@ -9,7 +9,10 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 
-class constants$0 {
+final class constants$0 {
+
+    // Suppresses default constructor, ensuring non-instantiability.
+    private constants$0() {}
 
     static final FunctionDescriptor OrtLoggingFunction$FUNC = FunctionDescriptor.ofVoid(
             Constants$root.C_POINTER$LAYOUT,

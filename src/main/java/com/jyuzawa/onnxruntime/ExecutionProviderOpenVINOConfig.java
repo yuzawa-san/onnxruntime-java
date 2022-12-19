@@ -4,11 +4,11 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import com.jyuzawa.onnxruntime_extern.OrtOpenVINOProviderOptions;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.util.Map;
+
+import com.jyuzawa.onnxruntime_extern.OrtOpenVINOProviderOptions;
 
 final class ExecutionProviderOpenVINOConfig extends ExecutionProviderConfig {
 
@@ -17,7 +17,7 @@ final class ExecutionProviderOpenVINOConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    final void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
+    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         MemorySegment config = OrtOpenVINOProviderOptions.allocate(memorySession);
         copyString("device_type", config, memorySession, OrtOpenVINOProviderOptions::device_type$set);
         copyByte("enable_vpu_fast_compile", config, OrtOpenVINOProviderOptions::enable_vpu_fast_compile$set);
@@ -28,6 +28,6 @@ final class ExecutionProviderOpenVINOConfig extends ExecutionProviderConfig {
         // TODO: context
         copyByte("enable_opencl_throttling", config, OrtOpenVINOProviderOptions::enable_opencl_throttling$set);
         copyByte("enable_dynamic_shapes", config, OrtOpenVINOProviderOptions::enable_dynamic_shapes$set);
-        api.checkStatus(api.SessionOptionsAppendExecutionProvider_OpenVINO.apply(sessionOptions, config.address()));
+        api.checkStatus(api.SessionOptionsAppendExecutionProvider_OpenVINO.apply(sessionOptions, config));
     }
 }

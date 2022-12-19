@@ -8,11 +8,9 @@ package com.jyuzawa.onnxruntime_extern;
 import static java.lang.foreign.Linker.*;
 import static java.lang.foreign.ValueLayout.*;
 
-import java.lang.foreign.Addressable;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.GroupLayout;
 import java.lang.foreign.Linker;
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemoryLayout;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
@@ -25,21 +23,25 @@ import java.lang.invoke.MethodType;
 
 final class RuntimeHelper {
 
-    private RuntimeHelper() {}
-
     private static final Linker LINKER = Linker.nativeLinker();
     private static final ClassLoader LOADER = RuntimeHelper.class.getClassLoader();
     private static final MethodHandles.Lookup MH_LOOKUP = MethodHandles.lookup();
     private static final SymbolLookup SYMBOL_LOOKUP;
+    private static final SegmentAllocator THROWING_ALLOCATOR = (x, y) -> {
+        throw new AssertionError("should not reach here");
+    };
 
     static final SegmentAllocator CONSTANT_ALLOCATOR =
-            (size, align) -> MemorySegment.allocateNative(size, align, MemorySession.openImplicit());
+            (size, align) -> MemorySegment.allocateNative(size, align, MemorySession.implicit());
 
     static {
         SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
-        SYMBOL_LOOKUP = name ->
-                loaderLookup.lookup(name).or(() -> LINKER.defaultLookup().lookup(name));
+        SYMBOL_LOOKUP =
+                name -> loaderLookup.find(name).or(() -> LINKER.defaultLookup().find(name));
     }
+
+    // Suppresses default constructor, ensuring non-instantiability.
+    private RuntimeHelper() {}
 
     static <T> T requireNonNull(T obj, String symbolName) {
         if (obj == null) {
@@ -48,38 +50,34 @@ final class RuntimeHelper {
         return obj;
     }
 
-    private static final SegmentAllocator THROWING_ALLOCATOR = (x, y) -> {
-        throw new AssertionError("should not reach here");
-    };
-
-    static final MemorySegment lookupGlobalVariable(String name, MemoryLayout layout) {
+    static MemorySegment lookupGlobalVariable(String name, MemoryLayout layout) {
         return SYMBOL_LOOKUP
-                .lookup(name)
-                .map(symbol -> MemorySegment.ofAddress(symbol.address(), layout.byteSize(), MemorySession.openShared()))
+                .find(name)
+                .map(symbol -> MemorySegment.ofAddress(symbol.address(), layout.byteSize(), symbol.session()))
                 .orElse(null);
     }
 
-    static final MethodHandle downcallHandle(String name, FunctionDescriptor fdesc) {
+    static MethodHandle downcallHandle(String name, FunctionDescriptor fdesc) {
         return SYMBOL_LOOKUP
-                .lookup(name)
+                .find(name)
                 .map(addr -> LINKER.downcallHandle(addr, fdesc))
                 .orElse(null);
     }
 
-    static final MethodHandle downcallHandle(FunctionDescriptor fdesc) {
+    static MethodHandle downcallHandle(FunctionDescriptor fdesc) {
         return LINKER.downcallHandle(fdesc);
     }
 
-    static final MethodHandle downcallHandleVariadic(String name, FunctionDescriptor fdesc) {
+    static MethodHandle downcallHandleVariadic(String name, FunctionDescriptor fdesc) {
         return SYMBOL_LOOKUP
-                .lookup(name)
+                .find(name)
                 .map(addr -> VarargsInvoker.make(addr, fdesc))
                 .orElse(null);
     }
 
-    static final <Z> MemorySegment upcallStub(Class<Z> fi, Z z, FunctionDescriptor fdesc, MemorySession session) {
+    static <Z> MemorySegment upcallStub(Class<Z> fi, Z z, FunctionDescriptor fdesc, MemorySession session) {
         try {
-            MethodHandle handle = MH_LOOKUP.findVirtual(fi, "apply", Linker.upcallType(fdesc));
+            MethodHandle handle = MH_LOOKUP.findVirtual(fi, "apply", fdesc.toMethodType());
             handle = handle.bindTo(z);
             return LINKER.upcallStub(handle, fdesc, session);
         } catch (Throwable ex) {
@@ -87,13 +85,13 @@ final class RuntimeHelper {
         }
     }
 
-    static MemorySegment asArray(MemoryAddress addr, MemoryLayout layout, int numElements, MemorySession session) {
-        return MemorySegment.ofAddress(addr, numElements * layout.byteSize(), session);
+    static MemorySegment asArray(MemorySegment addr, MemoryLayout layout, int numElements, MemorySession session) {
+        return MemorySegment.ofAddress(addr.address(), numElements * layout.byteSize(), session);
     }
 
     // Internals only below this point
 
-    private static class VarargsInvoker {
+    private static final class VarargsInvoker {
         private static final MethodHandle INVOKE_MH;
         private final MemorySegment symbol;
         private final FunctionDescriptor function;
@@ -128,7 +126,9 @@ final class RuntimeHelper {
                 mtype = mtype.appendParameterTypes(carrier(layout, false));
             }
             mtype = mtype.appendParameterTypes(Object[].class);
-            if (mtype.returnType().equals(MemorySegment.class)) {
+            boolean needsAllocator = function.returnLayout().isPresent()
+                    && function.returnLayout().get() instanceof GroupLayout;
+            if (needsAllocator) {
                 mtype = mtype.insertParameterTypes(0, SegmentAllocator.class);
             } else {
                 handle = MethodHandles.insertArguments(handle, 0, THROWING_ALLOCATOR);
@@ -138,9 +138,7 @@ final class RuntimeHelper {
 
         static Class<?> carrier(MemoryLayout layout, boolean ret) {
             if (layout instanceof ValueLayout valueLayout) {
-                return (ret || valueLayout.carrier() != MemoryAddress.class)
-                        ? valueLayout.carrier()
-                        : Addressable.class;
+                return valueLayout.carrier();
             } else if (layout instanceof GroupLayout) {
                 return MemorySegment.class;
             } else {
@@ -175,7 +173,9 @@ final class RuntimeHelper {
                     ? FunctionDescriptor.ofVoid(argLayouts)
                     : FunctionDescriptor.of(function.returnLayout().get(), argLayouts);
             MethodHandle mh = LINKER.downcallHandle(symbol, f);
-            if (mh.type().returnType() == MemorySegment.class) {
+            boolean needsAllocator = function.returnLayout().isPresent()
+                    && function.returnLayout().get() instanceof GroupLayout;
+            if (needsAllocator) {
                 mh = mh.bindTo(allocator);
             }
             // flatten argument list so that it can be passed to an asSpreader MH
@@ -225,10 +225,7 @@ final class RuntimeHelper {
             if (c.isPrimitive()) {
                 return promote(c);
             }
-            if (MemoryAddress.class.isAssignableFrom(c)) {
-                return MemoryAddress.class;
-            }
-            if (MemorySegment.class.isAssignableFrom(c)) {
+            if (c == MemorySegment.class) {
                 return MemorySegment.class;
             }
             throw new IllegalArgumentException("Invalid type for ABI: " + c.getTypeName());
@@ -239,7 +236,7 @@ final class RuntimeHelper {
                 return JAVA_LONG;
             } else if (c == double.class) {
                 return JAVA_DOUBLE;
-            } else if (MemoryAddress.class.isAssignableFrom(c)) {
+            } else if (c == MemorySegment.class) {
                 return ADDRESS;
             } else {
                 throw new IllegalArgumentException("Unhandled variadic argument class: " + c);

@@ -9,7 +9,10 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 
-class constants$1 {
+final class constants$1 {
+
+    // Suppresses default constructor, ensuring non-instantiability.
+    private constants$1() {}
 
     static final FunctionDescriptor OrtCustomCreateThreadFn$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT,

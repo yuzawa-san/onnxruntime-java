@@ -9,9 +9,23 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
 
+/**
+ * {@snippet :
+ * struct OrtCUDAProviderOptions {
+ *     int device_id;
+ *     OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
+ *     size_t gpu_mem_limit;
+ *     int arena_extend_strategy;
+ *     int do_copy_in_default_stream;
+ *     int has_user_compute_stream;
+ *     void* user_compute_stream;
+ *     OrtArenaCfg* default_memory_arena_cfg;
+ * };
+ * }
+ */
 public class OrtCUDAProviderOptions {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+    static final StructLayout $struct$LAYOUT = MemoryLayout.structLayout(
                     Constants$root.C_INT$LAYOUT.withName("device_id"),
                     Constants$root.C_INT$LAYOUT.withName("cudnn_conv_algo_search"),
                     Constants$root.C_LONG_LONG$LAYOUT.withName("gpu_mem_limit"),
@@ -32,11 +46,21 @@ public class OrtCUDAProviderOptions {
     public static VarHandle device_id$VH() {
         return OrtCUDAProviderOptions.device_id$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int device_id;
+     * }
+     */
     public static int device_id$get(MemorySegment seg) {
         return (int) OrtCUDAProviderOptions.device_id$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int device_id;
+     * }
+     */
     public static void device_id$set(MemorySegment seg, int x) {
         OrtCUDAProviderOptions.device_id$VH.set(seg, x);
     }
@@ -55,11 +79,21 @@ public class OrtCUDAProviderOptions {
     public static VarHandle cudnn_conv_algo_search$VH() {
         return OrtCUDAProviderOptions.cudnn_conv_algo_search$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
+     * }
+     */
     public static int cudnn_conv_algo_search$get(MemorySegment seg) {
         return (int) OrtCUDAProviderOptions.cudnn_conv_algo_search$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
+     * }
+     */
     public static void cudnn_conv_algo_search$set(MemorySegment seg, int x) {
         OrtCUDAProviderOptions.cudnn_conv_algo_search$VH.set(seg, x);
     }
@@ -78,11 +112,21 @@ public class OrtCUDAProviderOptions {
     public static VarHandle gpu_mem_limit$VH() {
         return OrtCUDAProviderOptions.gpu_mem_limit$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * size_t gpu_mem_limit;
+     * }
+     */
     public static long gpu_mem_limit$get(MemorySegment seg) {
         return (long) OrtCUDAProviderOptions.gpu_mem_limit$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * size_t gpu_mem_limit;
+     * }
+     */
     public static void gpu_mem_limit$set(MemorySegment seg, long x) {
         OrtCUDAProviderOptions.gpu_mem_limit$VH.set(seg, x);
     }
@@ -101,11 +145,21 @@ public class OrtCUDAProviderOptions {
     public static VarHandle arena_extend_strategy$VH() {
         return OrtCUDAProviderOptions.arena_extend_strategy$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int arena_extend_strategy;
+     * }
+     */
     public static int arena_extend_strategy$get(MemorySegment seg) {
         return (int) OrtCUDAProviderOptions.arena_extend_strategy$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int arena_extend_strategy;
+     * }
+     */
     public static void arena_extend_strategy$set(MemorySegment seg, int x) {
         OrtCUDAProviderOptions.arena_extend_strategy$VH.set(seg, x);
     }
@@ -124,11 +178,21 @@ public class OrtCUDAProviderOptions {
     public static VarHandle do_copy_in_default_stream$VH() {
         return OrtCUDAProviderOptions.do_copy_in_default_stream$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int do_copy_in_default_stream;
+     * }
+     */
     public static int do_copy_in_default_stream$get(MemorySegment seg) {
         return (int) OrtCUDAProviderOptions.do_copy_in_default_stream$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int do_copy_in_default_stream;
+     * }
+     */
     public static void do_copy_in_default_stream$set(MemorySegment seg, int x) {
         OrtCUDAProviderOptions.do_copy_in_default_stream$VH.set(seg, x);
     }
@@ -147,11 +211,21 @@ public class OrtCUDAProviderOptions {
     public static VarHandle has_user_compute_stream$VH() {
         return OrtCUDAProviderOptions.has_user_compute_stream$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int has_user_compute_stream;
+     * }
+     */
     public static int has_user_compute_stream$get(MemorySegment seg) {
         return (int) OrtCUDAProviderOptions.has_user_compute_stream$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int has_user_compute_stream;
+     * }
+     */
     public static void has_user_compute_stream$set(MemorySegment seg, int x) {
         OrtCUDAProviderOptions.has_user_compute_stream$VH.set(seg, x);
     }
@@ -170,21 +244,31 @@ public class OrtCUDAProviderOptions {
     public static VarHandle user_compute_stream$VH() {
         return OrtCUDAProviderOptions.user_compute_stream$VH;
     }
-
-    public static MemoryAddress user_compute_stream$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCUDAProviderOptions.user_compute_stream$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void* user_compute_stream;
+     * }
+     */
+    public static MemorySegment user_compute_stream$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtCUDAProviderOptions.user_compute_stream$VH.get(seg);
     }
-
-    public static void user_compute_stream$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void* user_compute_stream;
+     * }
+     */
+    public static void user_compute_stream$set(MemorySegment seg, MemorySegment x) {
         OrtCUDAProviderOptions.user_compute_stream$VH.set(seg, x);
     }
 
-    public static MemoryAddress user_compute_stream$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment user_compute_stream$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtCUDAProviderOptions.user_compute_stream$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void user_compute_stream$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void user_compute_stream$set(MemorySegment seg, long index, MemorySegment x) {
         OrtCUDAProviderOptions.user_compute_stream$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -194,21 +278,31 @@ public class OrtCUDAProviderOptions {
     public static VarHandle default_memory_arena_cfg$VH() {
         return OrtCUDAProviderOptions.default_memory_arena_cfg$VH;
     }
-
-    public static MemoryAddress default_memory_arena_cfg$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCUDAProviderOptions.default_memory_arena_cfg$VH.get(seg);
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtArenaCfg* default_memory_arena_cfg;
+     * }
+     */
+    public static MemorySegment default_memory_arena_cfg$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) OrtCUDAProviderOptions.default_memory_arena_cfg$VH.get(seg);
     }
-
-    public static void default_memory_arena_cfg$set(MemorySegment seg, MemoryAddress x) {
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtArenaCfg* default_memory_arena_cfg;
+     * }
+     */
+    public static void default_memory_arena_cfg$set(MemorySegment seg, MemorySegment x) {
         OrtCUDAProviderOptions.default_memory_arena_cfg$VH.set(seg, x);
     }
 
-    public static MemoryAddress default_memory_arena_cfg$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
+    public static MemorySegment default_memory_arena_cfg$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment)
                 OrtCUDAProviderOptions.default_memory_arena_cfg$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void default_memory_arena_cfg$set(MemorySegment seg, long index, MemoryAddress x) {
+    public static void default_memory_arena_cfg$set(MemorySegment seg, long index, MemorySegment x) {
         OrtCUDAProviderOptions.default_memory_arena_cfg$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
@@ -220,11 +314,11 @@ public class OrtCUDAProviderOptions {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
+    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
+    public static MemorySegment ofAddress(MemorySegment addr, MemorySession session) {
         return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
     }
 }
