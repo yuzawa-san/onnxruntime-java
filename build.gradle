@@ -6,7 +6,6 @@ plugins {
 	id 'eclipse'
 	id 'idea'
 	id 'jacoco'
-	id "com.google.protobuf" version "0.9.1"
 	id "com.github.jakemarsden.git-hooks" version "0.0.2"
 	id 'net.researchgate.release' version '3.0.2'
 }
@@ -269,7 +268,7 @@ signing {
 
 dependencies {
 	testImplementation "junit:junit:4.13.2"
-	testImplementation 'com.google.protobuf:protobuf-java:3.21.12'
+	testImplementation project(':onnx')
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.19.0'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.19.0'
 }
@@ -326,13 +325,4 @@ tasks.named('compileJava') {
 test {
 	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
 	finalizedBy jacocoTestReport
-}
-
-protobuf {
-	protoc {
-		artifact = "com.google.protobuf:protoc:3.21.12"
-	}
-	generateProtoTasks {
-		ofSourceSet('test').each { task -> sourceSets.test.java.srcDirs files("${protobuf.generatedFilesBaseDir}/test/java").builtBy(task) }
-	}
 }

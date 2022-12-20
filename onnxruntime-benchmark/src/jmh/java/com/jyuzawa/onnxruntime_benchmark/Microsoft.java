@@ -4,12 +4,13 @@
  */
 package com.jyuzawa.onnxruntime_benchmark;
 
+import java.util.Map;
+
 import ai.onnxruntime.OnnxTensor;
 import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtLoggingLevel;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
-import java.util.Map;
 
 final class Microsoft implements Wrapper {
 
@@ -31,6 +32,7 @@ final class Microsoft implements Wrapper {
 
     @Override
     public long[] evaluate(long[] input) throws Exception {
+    	
         try (OnnxTensor tensor = OnnxTensor.createTensor(ENVIRONMENT, new long[][] {input});
                 Result result = session.run(Map.of(inputName, tensor))) {
             return ((long[][]) result.get(0).getValue())[0];

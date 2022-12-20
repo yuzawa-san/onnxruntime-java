@@ -1,10 +1,17 @@
+plugins {
+	id "me.champeau.jmh" version "0.6.8"
+}
 apply plugin: "application"
 
+
 dependencies {
-	implementation project(":")
-	runtimeOnly project(path: ":", configuration: 'cpu')
-	implementation "com.microsoft.onnxruntime:onnxruntime:1.13.1"
-	// implementation "org.bytedeco:onnxruntime-platform:1.13.1-1.5.8"
+	jmh project(":")
+	jmh project(path: ":", configuration: 'cpu')
+	jmh project(':onnx')
+	jmh "com.microsoft.onnxruntime:onnxruntime:1.13.1"
+	// jmh "org.bytedeco:onnxruntime-platform:1.13.1-1.5.8"
+	jmh 'org.openjdk.jmh:jmh-core:1.36'
+	jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
 }
 
 application {
