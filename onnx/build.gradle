@@ -1,5 +1,5 @@
 plugins {
-	id "com.google.protobuf" version "0.9.1"
+	id "com.google.protobuf" version "0.9.2"
 }
 apply plugin: "java-library"
 
@@ -9,9 +9,9 @@ dependencies {
 
 protobuf {
 	protoc {
-		artifact = "com.google.protobuf:protoc:3.21.12"
+		artifact = "com.google.protobuf:protoc:3.22.0"
 	}
 	generateProtoTasks {
-		ofSourceSet('main').each { task -> sourceSets.main.java.srcDirs files("${protobuf.generatedFilesBaseDir}/main/java").builtBy(task) }
+		ofSourceSet('main')
 	}
 }
