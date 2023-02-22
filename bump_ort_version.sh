@@ -18,5 +18,6 @@ git checkout -b ort/$NEW_VERSION && \
 sed -i '' "s/^com.jyuzawa.onnxruntime.library_version=.*/com.jyuzawa.onnxruntime.library_version=$NEW_VERSION/" gradle.properties && \
 git commit -am "ORT v$NEW_VERSION bump" && \
 ./gradlew jextract && \
+git add src/main/java/com/jyuzawa/onnxruntime_extern && \
 git commit -am "ORT v$NEW_VERSION jextract"
 ./gradlew clean build
