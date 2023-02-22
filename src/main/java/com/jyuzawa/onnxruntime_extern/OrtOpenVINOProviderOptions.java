@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -17,9 +17,7 @@ public class OrtOpenVINOProviderOptions {
                     MemoryLayout.paddingLayout(56),
                     Constants$root.C_POINTER$LAYOUT.withName("device_id"),
                     Constants$root.C_LONG_LONG$LAYOUT.withName("num_of_threads"),
-                    Constants$root.C_CHAR$LAYOUT.withName("use_compiled_network"),
-                    MemoryLayout.paddingLayout(56),
-                    Constants$root.C_POINTER$LAYOUT.withName("blob_dump_path"),
+                    Constants$root.C_POINTER$LAYOUT.withName("cache_dir"),
                     Constants$root.C_POINTER$LAYOUT.withName("context"),
                     Constants$root.C_CHAR$LAYOUT.withName("enable_opencl_throttling"),
                     Constants$root.C_CHAR$LAYOUT.withName("enable_dynamic_shapes"),
@@ -123,51 +121,27 @@ public class OrtOpenVINOProviderOptions {
         OrtOpenVINOProviderOptions.num_of_threads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle use_compiled_network$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("use_compiled_network"));
+    static final VarHandle cache_dir$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("cache_dir"));
 
-    public static VarHandle use_compiled_network$VH() {
-        return OrtOpenVINOProviderOptions.use_compiled_network$VH;
+    public static VarHandle cache_dir$VH() {
+        return OrtOpenVINOProviderOptions.cache_dir$VH;
     }
 
-    public static byte use_compiled_network$get(MemorySegment seg) {
-        return (byte) OrtOpenVINOProviderOptions.use_compiled_network$VH.get(seg);
+    public static MemoryAddress cache_dir$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtOpenVINOProviderOptions.cache_dir$VH.get(seg);
     }
 
-    public static void use_compiled_network$set(MemorySegment seg, byte x) {
-        OrtOpenVINOProviderOptions.use_compiled_network$VH.set(seg, x);
+    public static void cache_dir$set(MemorySegment seg, MemoryAddress x) {
+        OrtOpenVINOProviderOptions.cache_dir$VH.set(seg, x);
     }
 
-    public static byte use_compiled_network$get(MemorySegment seg, long index) {
-        return (byte) OrtOpenVINOProviderOptions.use_compiled_network$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void use_compiled_network$set(MemorySegment seg, long index, byte x) {
-        OrtOpenVINOProviderOptions.use_compiled_network$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    static final VarHandle blob_dump_path$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("blob_dump_path"));
-
-    public static VarHandle blob_dump_path$VH() {
-        return OrtOpenVINOProviderOptions.blob_dump_path$VH;
-    }
-
-    public static MemoryAddress blob_dump_path$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtOpenVINOProviderOptions.blob_dump_path$VH.get(seg);
-    }
-
-    public static void blob_dump_path$set(MemorySegment seg, MemoryAddress x) {
-        OrtOpenVINOProviderOptions.blob_dump_path$VH.set(seg, x);
-    }
-
-    public static MemoryAddress blob_dump_path$get(MemorySegment seg, long index) {
+    public static MemoryAddress cache_dir$get(MemorySegment seg, long index) {
         return (java.lang.foreign.MemoryAddress)
-                OrtOpenVINOProviderOptions.blob_dump_path$VH.get(seg.asSlice(index * sizeof()));
+                OrtOpenVINOProviderOptions.cache_dir$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void blob_dump_path$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtOpenVINOProviderOptions.blob_dump_path$VH.set(seg.asSlice(index * sizeof()), x);
+    public static void cache_dir$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtOpenVINOProviderOptions.cache_dir$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     static final VarHandle context$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("context"));

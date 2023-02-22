@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -23,7 +23,7 @@ public class onnxruntime_c_api_h {
     public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
 
     public static int ORT_API_VERSION() {
-        return (int) 13L;
+        return (int) 14L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
@@ -332,6 +332,18 @@ public class onnxruntime_c_api_h {
         return (int) 0L;
     }
 
+    public static int OrtMemoryInfoDeviceType_CPU() {
+        return (int) 0L;
+    }
+
+    public static int OrtMemoryInfoDeviceType_GPU() {
+        return (int) 1L;
+    }
+
+    public static int OrtMemoryInfoDeviceType_FPGA() {
+        return (int) 2L;
+    }
+
     public static int OrtCudnnConvAlgoSearchExhaustive() {
         return (int) 0L;
     }
@@ -367,6 +379,10 @@ public class onnxruntime_c_api_h {
         return (int) 1L;
     }
 
+    public static int INPUT_OUTPUT_VARIADIC() {
+        return (int) 2L;
+    }
+
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH() {
         return RuntimeHelper.requireNonNull(
                 constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$MH,
@@ -384,7 +400,7 @@ public class onnxruntime_c_api_h {
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH() {
         return RuntimeHelper.requireNonNull(
-                constants$1.OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH,
+                constants$2.OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH,
                 "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
     }
 
