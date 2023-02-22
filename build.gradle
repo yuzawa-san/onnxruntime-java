@@ -129,7 +129,7 @@ allArches.each { osArch ->
 	}
 	task "osArchJar${osArch}" (type: Jar) {
 		from tasks.named("copy${osArch}")
-		classifier osArch
+		archiveClassifier = osArch
 		doFirst {
 			manifest {
 				attributes(jarAttributes)
