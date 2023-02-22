@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -20,7 +20,9 @@ public class OrtCUDAProviderOptions {
                     Constants$root.C_INT$LAYOUT.withName("has_user_compute_stream"),
                     MemoryLayout.paddingLayout(32),
                     Constants$root.C_POINTER$LAYOUT.withName("user_compute_stream"),
-                    Constants$root.C_POINTER$LAYOUT.withName("default_memory_arena_cfg"))
+                    Constants$root.C_POINTER$LAYOUT.withName("default_memory_arena_cfg"),
+                    Constants$root.C_INT$LAYOUT.withName("tunable_op_enabled"),
+                    MemoryLayout.paddingLayout(32))
             .withName("OrtCUDAProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
@@ -210,6 +212,29 @@ public class OrtCUDAProviderOptions {
 
     public static void default_memory_arena_cfg$set(MemorySegment seg, long index, MemoryAddress x) {
         OrtCUDAProviderOptions.default_memory_arena_cfg$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle tunable_op_enabled$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("tunable_op_enabled"));
+
+    public static VarHandle tunable_op_enabled$VH() {
+        return OrtCUDAProviderOptions.tunable_op_enabled$VH;
+    }
+
+    public static int tunable_op_enabled$get(MemorySegment seg) {
+        return (int) OrtCUDAProviderOptions.tunable_op_enabled$VH.get(seg);
+    }
+
+    public static void tunable_op_enabled$set(MemorySegment seg, int x) {
+        OrtCUDAProviderOptions.tunable_op_enabled$VH.set(seg, x);
+    }
+
+    public static int tunable_op_enabled$get(MemorySegment seg, long index) {
+        return (int) OrtCUDAProviderOptions.tunable_op_enabled$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void tunable_op_enabled$set(MemorySegment seg, long index, int x) {
+        OrtCUDAProviderOptions.tunable_op_enabled$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {
