@@ -10,11 +10,13 @@ case ${answer:0:1} in
         exit 1;
     ;;
 esac
-git reset HEAD --hard && \
+git checkout ort/$NEW_VERSION && echo "please delete existing branch ort/$NEW_VERSION" && exit 1
+
 git checkout master && \
 git pull && \
-sed -i '' "s/^com.jyuzawa.onnxruntime.library_version=.*/com.jyuzawa.onnxruntime.library_version=$NEW_VERSION/" gradle.properties && \
-./gradlew jextract && \
-./gradlew clean build && \
 git checkout -b ort/$NEW_VERSION && \
-git commit -am "ORT v$NEW_VERSION"
+sed -i '' "s/^com.jyuzawa.onnxruntime.library_version=.*/com.jyuzawa.onnxruntime.library_version=$NEW_VERSION/" gradle.properties && \
+git commit -am "ORT v$NEW_VERSION bump" && \
+./gradlew jextract && \
+git commit -am "ORT v$NEW_VERSION jextract"
+./gradlew clean build
