@@ -23,8 +23,7 @@ final class ExecutionProviderOpenVINOConfig extends ExecutionProviderConfig {
         copyByte("enable_vpu_fast_compile", config, OrtOpenVINOProviderOptions::enable_vpu_fast_compile$set);
         copyString("device_id", config, memorySession, OrtOpenVINOProviderOptions::device_id$set);
         copyLong("num_of_threads", config, OrtOpenVINOProviderOptions::num_of_threads$set);
-        copyByte("use_compiled_network", config, OrtOpenVINOProviderOptions::use_compiled_network$set);
-        copyString("blob_dump_path", config, memorySession, OrtOpenVINOProviderOptions::blob_dump_path$set);
+        copyString("cache_dir", config, memorySession, OrtOpenVINOProviderOptions::cache_dir$set);
         // TODO: context
         copyByte("enable_opencl_throttling", config, OrtOpenVINOProviderOptions::enable_opencl_throttling$set);
         copyByte("enable_dynamic_shapes", config, OrtOpenVINOProviderOptions::enable_dynamic_shapes$set);
