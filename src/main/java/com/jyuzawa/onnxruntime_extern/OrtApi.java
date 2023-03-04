@@ -515,12 +515,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(int _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CreateStatus fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateStatus.class, fi, OrtApi.CreateStatus$FUNC, session);
+        static MemorySegment allocate(CreateStatus fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateStatus.class, fi, OrtApi.CreateStatus$FUNC, scope);
         }
 
-        static CreateStatus ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateStatus ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CreateStatus$MH.invokeExact(symbol, __x0, __x1);
@@ -564,8 +564,8 @@ public class OrtApi {
         OrtApi.CreateStatus$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateStatus CreateStatus(MemorySegment segment, MemorySession session) {
-        return CreateStatus.ofAddress(CreateStatus$get(segment), session);
+    public static CreateStatus CreateStatus(MemorySegment segment, SegmentScope scope) {
+        return CreateStatus.ofAddress(CreateStatus$get(segment), scope);
     }
 
     static final FunctionDescriptor GetErrorCode$FUNC =
@@ -580,12 +580,12 @@ public class OrtApi {
 
         int apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(GetErrorCode fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetErrorCode.class, fi, OrtApi.GetErrorCode$FUNC, session);
+        static MemorySegment allocate(GetErrorCode fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetErrorCode.class, fi, OrtApi.GetErrorCode$FUNC, scope);
         }
 
-        static GetErrorCode ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetErrorCode ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (int) OrtApi.GetErrorCode$MH.invokeExact(symbol, __x0);
@@ -629,8 +629,8 @@ public class OrtApi {
         OrtApi.GetErrorCode$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetErrorCode GetErrorCode(MemorySegment segment, MemorySession session) {
-        return GetErrorCode.ofAddress(GetErrorCode$get(segment), session);
+    public static GetErrorCode GetErrorCode(MemorySegment segment, SegmentScope scope) {
+        return GetErrorCode.ofAddress(GetErrorCode$get(segment), scope);
     }
 
     static final FunctionDescriptor GetErrorMessage$FUNC =
@@ -645,12 +645,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(GetErrorMessage fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetErrorMessage.class, fi, OrtApi.GetErrorMessage$FUNC, session);
+        static MemorySegment allocate(GetErrorMessage fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetErrorMessage.class, fi, OrtApi.GetErrorMessage$FUNC, scope);
         }
 
-        static GetErrorMessage ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetErrorMessage ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetErrorMessage$MH.invokeExact(symbol, __x0);
@@ -694,8 +694,8 @@ public class OrtApi {
         OrtApi.GetErrorMessage$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetErrorMessage GetErrorMessage(MemorySegment segment, MemorySession session) {
-        return GetErrorMessage.ofAddress(GetErrorMessage$get(segment), session);
+    public static GetErrorMessage GetErrorMessage(MemorySegment segment, SegmentScope scope) {
+        return GetErrorMessage.ofAddress(GetErrorMessage$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateEnv$FUNC = FunctionDescriptor.of(
@@ -714,12 +714,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 int _x0, java.lang.foreign.MemorySegment _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(CreateEnv fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateEnv.class, fi, OrtApi.CreateEnv$FUNC, session);
+        static MemorySegment allocate(CreateEnv fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateEnv.class, fi, OrtApi.CreateEnv$FUNC, scope);
         }
 
-        static CreateEnv ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateEnv ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0, java.lang.foreign.MemorySegment __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CreateEnv$MH.invokeExact(symbol, __x0, __x1, __x2);
@@ -762,8 +762,8 @@ public class OrtApi {
         OrtApi.CreateEnv$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateEnv CreateEnv(MemorySegment segment, MemorySession session) {
-        return CreateEnv.ofAddress(CreateEnv$get(segment), session);
+    public static CreateEnv CreateEnv(MemorySegment segment, SegmentScope scope) {
+        return CreateEnv.ofAddress(CreateEnv$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateEnvWithCustomLogger$FUNC = FunctionDescriptor.of(
@@ -789,13 +789,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateEnvWithCustomLogger fi, MemorySession session) {
+        static MemorySegment allocate(CreateEnvWithCustomLogger fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateEnvWithCustomLogger.class, fi, OrtApi.CreateEnvWithCustomLogger$FUNC, session);
+                    CreateEnvWithCustomLogger.class, fi, OrtApi.CreateEnvWithCustomLogger$FUNC, scope);
         }
 
-        static CreateEnvWithCustomLogger ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateEnvWithCustomLogger ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     int __x2,
@@ -844,8 +844,8 @@ public class OrtApi {
         OrtApi.CreateEnvWithCustomLogger$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateEnvWithCustomLogger CreateEnvWithCustomLogger(MemorySegment segment, MemorySession session) {
-        return CreateEnvWithCustomLogger.ofAddress(CreateEnvWithCustomLogger$get(segment), session);
+    public static CreateEnvWithCustomLogger CreateEnvWithCustomLogger(MemorySegment segment, SegmentScope scope) {
+        return CreateEnvWithCustomLogger.ofAddress(CreateEnvWithCustomLogger$get(segment), scope);
     }
 
     static final FunctionDescriptor EnableTelemetryEvents$FUNC =
@@ -861,13 +861,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(EnableTelemetryEvents fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    EnableTelemetryEvents.class, fi, OrtApi.EnableTelemetryEvents$FUNC, session);
+        static MemorySegment allocate(EnableTelemetryEvents fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(EnableTelemetryEvents.class, fi, OrtApi.EnableTelemetryEvents$FUNC, scope);
         }
 
-        static EnableTelemetryEvents ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static EnableTelemetryEvents ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.EnableTelemetryEvents$MH.invokeExact(symbol, __x0);
@@ -911,8 +910,8 @@ public class OrtApi {
         OrtApi.EnableTelemetryEvents$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static EnableTelemetryEvents EnableTelemetryEvents(MemorySegment segment, MemorySession session) {
-        return EnableTelemetryEvents.ofAddress(EnableTelemetryEvents$get(segment), session);
+    public static EnableTelemetryEvents EnableTelemetryEvents(MemorySegment segment, SegmentScope scope) {
+        return EnableTelemetryEvents.ofAddress(EnableTelemetryEvents$get(segment), scope);
     }
 
     static final FunctionDescriptor DisableTelemetryEvents$FUNC =
@@ -928,13 +927,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(DisableTelemetryEvents fi, MemorySession session) {
+        static MemorySegment allocate(DisableTelemetryEvents fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    DisableTelemetryEvents.class, fi, OrtApi.DisableTelemetryEvents$FUNC, session);
+                    DisableTelemetryEvents.class, fi, OrtApi.DisableTelemetryEvents$FUNC, scope);
         }
 
-        static DisableTelemetryEvents ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static DisableTelemetryEvents ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.DisableTelemetryEvents$MH.invokeExact(symbol, __x0);
@@ -978,8 +977,8 @@ public class OrtApi {
         OrtApi.DisableTelemetryEvents$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static DisableTelemetryEvents DisableTelemetryEvents(MemorySegment segment, MemorySession session) {
-        return DisableTelemetryEvents.ofAddress(DisableTelemetryEvents$get(segment), session);
+    public static DisableTelemetryEvents DisableTelemetryEvents(MemorySegment segment, SegmentScope scope) {
+        return DisableTelemetryEvents.ofAddress(DisableTelemetryEvents$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSession$FUNC = FunctionDescriptor.of(
@@ -1002,12 +1001,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(CreateSession fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateSession.class, fi, OrtApi.CreateSession$FUNC, session);
+        static MemorySegment allocate(CreateSession fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateSession.class, fi, OrtApi.CreateSession$FUNC, scope);
         }
 
-        static CreateSession ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSession ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -1055,8 +1054,8 @@ public class OrtApi {
         OrtApi.CreateSession$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateSession CreateSession(MemorySegment segment, MemorySession session) {
-        return CreateSession.ofAddress(CreateSession$get(segment), session);
+    public static CreateSession CreateSession(MemorySegment segment, SegmentScope scope) {
+        return CreateSession.ofAddress(CreateSession$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSessionFromArray$FUNC = FunctionDescriptor.of(
@@ -1082,13 +1081,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateSessionFromArray fi, MemorySession session) {
+        static MemorySegment allocate(CreateSessionFromArray fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateSessionFromArray.class, fi, OrtApi.CreateSessionFromArray$FUNC, session);
+                    CreateSessionFromArray.class, fi, OrtApi.CreateSessionFromArray$FUNC, scope);
         }
 
-        static CreateSessionFromArray ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSessionFromArray ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -1137,8 +1136,8 @@ public class OrtApi {
         OrtApi.CreateSessionFromArray$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateSessionFromArray CreateSessionFromArray(MemorySegment segment, MemorySession session) {
-        return CreateSessionFromArray.ofAddress(CreateSessionFromArray$get(segment), session);
+    public static CreateSessionFromArray CreateSessionFromArray(MemorySegment segment, SegmentScope scope) {
+        return CreateSessionFromArray.ofAddress(CreateSessionFromArray$get(segment), scope);
     }
 
     static final FunctionDescriptor Run$FUNC = FunctionDescriptor.of(
@@ -1169,12 +1168,12 @@ public class OrtApi {
                 long _x6,
                 java.lang.foreign.MemorySegment _x7);
 
-        static MemorySegment allocate(Run fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Run.class, fi, OrtApi.Run$FUNC, session);
+        static MemorySegment allocate(Run fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(Run.class, fi, OrtApi.Run$FUNC, scope);
         }
 
-        static Run ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static Run ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -1225,8 +1224,8 @@ public class OrtApi {
         OrtApi.Run$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static Run Run(MemorySegment segment, MemorySession session) {
-        return Run.ofAddress(Run$get(segment), session);
+    public static Run Run(MemorySegment segment, SegmentScope scope) {
+        return Run.ofAddress(Run$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSessionOptions$FUNC =
@@ -1241,12 +1240,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateSessionOptions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateSessionOptions.class, fi, OrtApi.CreateSessionOptions$FUNC, session);
+        static MemorySegment allocate(CreateSessionOptions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateSessionOptions.class, fi, OrtApi.CreateSessionOptions$FUNC, scope);
         }
 
-        static CreateSessionOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSessionOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CreateSessionOptions$MH.invokeExact(symbol, __x0);
@@ -1290,8 +1289,8 @@ public class OrtApi {
         OrtApi.CreateSessionOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateSessionOptions CreateSessionOptions(MemorySegment segment, MemorySession session) {
-        return CreateSessionOptions.ofAddress(CreateSessionOptions$get(segment), session);
+    public static CreateSessionOptions CreateSessionOptions(MemorySegment segment, SegmentScope scope) {
+        return CreateSessionOptions.ofAddress(CreateSessionOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor SetOptimizedModelFilePath$FUNC = FunctionDescriptor.of(
@@ -1307,13 +1306,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SetOptimizedModelFilePath fi, MemorySession session) {
+        static MemorySegment allocate(SetOptimizedModelFilePath fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetOptimizedModelFilePath.class, fi, OrtApi.SetOptimizedModelFilePath$FUNC, session);
+                    SetOptimizedModelFilePath.class, fi, OrtApi.SetOptimizedModelFilePath$FUNC, scope);
         }
 
-        static SetOptimizedModelFilePath ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetOptimizedModelFilePath ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -1358,8 +1357,8 @@ public class OrtApi {
         OrtApi.SetOptimizedModelFilePath$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetOptimizedModelFilePath SetOptimizedModelFilePath(MemorySegment segment, MemorySession session) {
-        return SetOptimizedModelFilePath.ofAddress(SetOptimizedModelFilePath$get(segment), session);
+    public static SetOptimizedModelFilePath SetOptimizedModelFilePath(MemorySegment segment, SegmentScope scope) {
+        return SetOptimizedModelFilePath.ofAddress(SetOptimizedModelFilePath$get(segment), scope);
     }
 
     static final FunctionDescriptor CloneSessionOptions$FUNC = FunctionDescriptor.of(
@@ -1374,12 +1373,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CloneSessionOptions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CloneSessionOptions.class, fi, OrtApi.CloneSessionOptions$FUNC, session);
+        static MemorySegment allocate(CloneSessionOptions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CloneSessionOptions.class, fi, OrtApi.CloneSessionOptions$FUNC, scope);
         }
 
-        static CloneSessionOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CloneSessionOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -1424,8 +1423,8 @@ public class OrtApi {
         OrtApi.CloneSessionOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CloneSessionOptions CloneSessionOptions(MemorySegment segment, MemorySession session) {
-        return CloneSessionOptions.ofAddress(CloneSessionOptions$get(segment), session);
+    public static CloneSessionOptions CloneSessionOptions(MemorySegment segment, SegmentScope scope) {
+        return CloneSessionOptions.ofAddress(CloneSessionOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor SetSessionExecutionMode$FUNC = FunctionDescriptor.of(
@@ -1441,13 +1440,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetSessionExecutionMode fi, MemorySession session) {
+        static MemorySegment allocate(SetSessionExecutionMode fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetSessionExecutionMode.class, fi, OrtApi.SetSessionExecutionMode$FUNC, session);
+                    SetSessionExecutionMode.class, fi, OrtApi.SetSessionExecutionMode$FUNC, scope);
         }
 
-        static SetSessionExecutionMode ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetSessionExecutionMode ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -1492,8 +1491,8 @@ public class OrtApi {
         OrtApi.SetSessionExecutionMode$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetSessionExecutionMode SetSessionExecutionMode(MemorySegment segment, MemorySession session) {
-        return SetSessionExecutionMode.ofAddress(SetSessionExecutionMode$get(segment), session);
+    public static SetSessionExecutionMode SetSessionExecutionMode(MemorySegment segment, SegmentScope scope) {
+        return SetSessionExecutionMode.ofAddress(SetSessionExecutionMode$get(segment), scope);
     }
 
     static final FunctionDescriptor EnableProfiling$FUNC = FunctionDescriptor.of(
@@ -1508,12 +1507,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(EnableProfiling fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(EnableProfiling.class, fi, OrtApi.EnableProfiling$FUNC, session);
+        static MemorySegment allocate(EnableProfiling fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(EnableProfiling.class, fi, OrtApi.EnableProfiling$FUNC, scope);
         }
 
-        static EnableProfiling ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static EnableProfiling ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.EnableProfiling$MH.invokeExact(symbol, __x0, __x1);
@@ -1557,8 +1556,8 @@ public class OrtApi {
         OrtApi.EnableProfiling$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static EnableProfiling EnableProfiling(MemorySegment segment, MemorySession session) {
-        return EnableProfiling.ofAddress(EnableProfiling$get(segment), session);
+    public static EnableProfiling EnableProfiling(MemorySegment segment, SegmentScope scope) {
+        return EnableProfiling.ofAddress(EnableProfiling$get(segment), scope);
     }
 
     static final FunctionDescriptor DisableProfiling$FUNC =
@@ -1573,12 +1572,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(DisableProfiling fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(DisableProfiling.class, fi, OrtApi.DisableProfiling$FUNC, session);
+        static MemorySegment allocate(DisableProfiling fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(DisableProfiling.class, fi, OrtApi.DisableProfiling$FUNC, scope);
         }
 
-        static DisableProfiling ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static DisableProfiling ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.DisableProfiling$MH.invokeExact(symbol, __x0);
@@ -1622,8 +1621,8 @@ public class OrtApi {
         OrtApi.DisableProfiling$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static DisableProfiling DisableProfiling(MemorySegment segment, MemorySession session) {
-        return DisableProfiling.ofAddress(DisableProfiling$get(segment), session);
+    public static DisableProfiling DisableProfiling(MemorySegment segment, SegmentScope scope) {
+        return DisableProfiling.ofAddress(DisableProfiling$get(segment), scope);
     }
 
     static final FunctionDescriptor EnableMemPattern$FUNC =
@@ -1638,12 +1637,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(EnableMemPattern fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(EnableMemPattern.class, fi, OrtApi.EnableMemPattern$FUNC, session);
+        static MemorySegment allocate(EnableMemPattern fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(EnableMemPattern.class, fi, OrtApi.EnableMemPattern$FUNC, scope);
         }
 
-        static EnableMemPattern ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static EnableMemPattern ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.EnableMemPattern$MH.invokeExact(symbol, __x0);
@@ -1687,8 +1686,8 @@ public class OrtApi {
         OrtApi.EnableMemPattern$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static EnableMemPattern EnableMemPattern(MemorySegment segment, MemorySession session) {
-        return EnableMemPattern.ofAddress(EnableMemPattern$get(segment), session);
+    public static EnableMemPattern EnableMemPattern(MemorySegment segment, SegmentScope scope) {
+        return EnableMemPattern.ofAddress(EnableMemPattern$get(segment), scope);
     }
 
     static final FunctionDescriptor DisableMemPattern$FUNC =
@@ -1703,12 +1702,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(DisableMemPattern fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(DisableMemPattern.class, fi, OrtApi.DisableMemPattern$FUNC, session);
+        static MemorySegment allocate(DisableMemPattern fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(DisableMemPattern.class, fi, OrtApi.DisableMemPattern$FUNC, scope);
         }
 
-        static DisableMemPattern ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static DisableMemPattern ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.DisableMemPattern$MH.invokeExact(symbol, __x0);
@@ -1752,8 +1751,8 @@ public class OrtApi {
         OrtApi.DisableMemPattern$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static DisableMemPattern DisableMemPattern(MemorySegment segment, MemorySession session) {
-        return DisableMemPattern.ofAddress(DisableMemPattern$get(segment), session);
+    public static DisableMemPattern DisableMemPattern(MemorySegment segment, SegmentScope scope) {
+        return DisableMemPattern.ofAddress(DisableMemPattern$get(segment), scope);
     }
 
     static final FunctionDescriptor EnableCpuMemArena$FUNC =
@@ -1768,12 +1767,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(EnableCpuMemArena fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(EnableCpuMemArena.class, fi, OrtApi.EnableCpuMemArena$FUNC, session);
+        static MemorySegment allocate(EnableCpuMemArena fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(EnableCpuMemArena.class, fi, OrtApi.EnableCpuMemArena$FUNC, scope);
         }
 
-        static EnableCpuMemArena ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static EnableCpuMemArena ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.EnableCpuMemArena$MH.invokeExact(symbol, __x0);
@@ -1817,8 +1816,8 @@ public class OrtApi {
         OrtApi.EnableCpuMemArena$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static EnableCpuMemArena EnableCpuMemArena(MemorySegment segment, MemorySession session) {
-        return EnableCpuMemArena.ofAddress(EnableCpuMemArena$get(segment), session);
+    public static EnableCpuMemArena EnableCpuMemArena(MemorySegment segment, SegmentScope scope) {
+        return EnableCpuMemArena.ofAddress(EnableCpuMemArena$get(segment), scope);
     }
 
     static final FunctionDescriptor DisableCpuMemArena$FUNC =
@@ -1833,12 +1832,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(DisableCpuMemArena fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(DisableCpuMemArena.class, fi, OrtApi.DisableCpuMemArena$FUNC, session);
+        static MemorySegment allocate(DisableCpuMemArena fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(DisableCpuMemArena.class, fi, OrtApi.DisableCpuMemArena$FUNC, scope);
         }
 
-        static DisableCpuMemArena ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static DisableCpuMemArena ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.DisableCpuMemArena$MH.invokeExact(symbol, __x0);
@@ -1882,8 +1881,8 @@ public class OrtApi {
         OrtApi.DisableCpuMemArena$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static DisableCpuMemArena DisableCpuMemArena(MemorySegment segment, MemorySession session) {
-        return DisableCpuMemArena.ofAddress(DisableCpuMemArena$get(segment), session);
+    public static DisableCpuMemArena DisableCpuMemArena(MemorySegment segment, SegmentScope scope) {
+        return DisableCpuMemArena.ofAddress(DisableCpuMemArena$get(segment), scope);
     }
 
     static final FunctionDescriptor SetSessionLogId$FUNC = FunctionDescriptor.of(
@@ -1898,12 +1897,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SetSessionLogId fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SetSessionLogId.class, fi, OrtApi.SetSessionLogId$FUNC, session);
+        static MemorySegment allocate(SetSessionLogId fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetSessionLogId.class, fi, OrtApi.SetSessionLogId$FUNC, scope);
         }
 
-        static SetSessionLogId ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetSessionLogId ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.SetSessionLogId$MH.invokeExact(symbol, __x0, __x1);
@@ -1947,8 +1946,8 @@ public class OrtApi {
         OrtApi.SetSessionLogId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetSessionLogId SetSessionLogId(MemorySegment segment, MemorySession session) {
-        return SetSessionLogId.ofAddress(SetSessionLogId$get(segment), session);
+    public static SetSessionLogId SetSessionLogId(MemorySegment segment, SegmentScope scope) {
+        return SetSessionLogId.ofAddress(SetSessionLogId$get(segment), scope);
     }
 
     static final FunctionDescriptor SetSessionLogVerbosityLevel$FUNC = FunctionDescriptor.of(
@@ -1964,13 +1963,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetSessionLogVerbosityLevel fi, MemorySession session) {
+        static MemorySegment allocate(SetSessionLogVerbosityLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetSessionLogVerbosityLevel.class, fi, OrtApi.SetSessionLogVerbosityLevel$FUNC, session);
+                    SetSessionLogVerbosityLevel.class, fi, OrtApi.SetSessionLogVerbosityLevel$FUNC, scope);
         }
 
-        static SetSessionLogVerbosityLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetSessionLogVerbosityLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2016,9 +2015,8 @@ public class OrtApi {
         OrtApi.SetSessionLogVerbosityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetSessionLogVerbosityLevel SetSessionLogVerbosityLevel(
-            MemorySegment segment, MemorySession session) {
-        return SetSessionLogVerbosityLevel.ofAddress(SetSessionLogVerbosityLevel$get(segment), session);
+    public static SetSessionLogVerbosityLevel SetSessionLogVerbosityLevel(MemorySegment segment, SegmentScope scope) {
+        return SetSessionLogVerbosityLevel.ofAddress(SetSessionLogVerbosityLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor SetSessionLogSeverityLevel$FUNC = FunctionDescriptor.of(
@@ -2034,13 +2032,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetSessionLogSeverityLevel fi, MemorySession session) {
+        static MemorySegment allocate(SetSessionLogSeverityLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetSessionLogSeverityLevel.class, fi, OrtApi.SetSessionLogSeverityLevel$FUNC, session);
+                    SetSessionLogSeverityLevel.class, fi, OrtApi.SetSessionLogSeverityLevel$FUNC, scope);
         }
 
-        static SetSessionLogSeverityLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetSessionLogSeverityLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2086,8 +2084,8 @@ public class OrtApi {
         OrtApi.SetSessionLogSeverityLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetSessionLogSeverityLevel SetSessionLogSeverityLevel(MemorySegment segment, MemorySession session) {
-        return SetSessionLogSeverityLevel.ofAddress(SetSessionLogSeverityLevel$get(segment), session);
+    public static SetSessionLogSeverityLevel SetSessionLogSeverityLevel(MemorySegment segment, SegmentScope scope) {
+        return SetSessionLogSeverityLevel.ofAddress(SetSessionLogSeverityLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor SetSessionGraphOptimizationLevel$FUNC = FunctionDescriptor.of(
@@ -2103,13 +2101,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetSessionGraphOptimizationLevel fi, MemorySession session) {
+        static MemorySegment allocate(SetSessionGraphOptimizationLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetSessionGraphOptimizationLevel.class, fi, OrtApi.SetSessionGraphOptimizationLevel$FUNC, session);
+                    SetSessionGraphOptimizationLevel.class, fi, OrtApi.SetSessionGraphOptimizationLevel$FUNC, scope);
         }
 
-        static SetSessionGraphOptimizationLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetSessionGraphOptimizationLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2156,8 +2154,8 @@ public class OrtApi {
     }
 
     public static SetSessionGraphOptimizationLevel SetSessionGraphOptimizationLevel(
-            MemorySegment segment, MemorySession session) {
-        return SetSessionGraphOptimizationLevel.ofAddress(SetSessionGraphOptimizationLevel$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SetSessionGraphOptimizationLevel.ofAddress(SetSessionGraphOptimizationLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor SetIntraOpNumThreads$FUNC = FunctionDescriptor.of(
@@ -2172,12 +2170,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetIntraOpNumThreads fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SetIntraOpNumThreads.class, fi, OrtApi.SetIntraOpNumThreads$FUNC, session);
+        static MemorySegment allocate(SetIntraOpNumThreads fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetIntraOpNumThreads.class, fi, OrtApi.SetIntraOpNumThreads$FUNC, scope);
         }
 
-        static SetIntraOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetIntraOpNumThreads ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2222,8 +2220,8 @@ public class OrtApi {
         OrtApi.SetIntraOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetIntraOpNumThreads SetIntraOpNumThreads(MemorySegment segment, MemorySession session) {
-        return SetIntraOpNumThreads.ofAddress(SetIntraOpNumThreads$get(segment), session);
+    public static SetIntraOpNumThreads SetIntraOpNumThreads(MemorySegment segment, SegmentScope scope) {
+        return SetIntraOpNumThreads.ofAddress(SetIntraOpNumThreads$get(segment), scope);
     }
 
     static final FunctionDescriptor SetInterOpNumThreads$FUNC = FunctionDescriptor.of(
@@ -2238,12 +2236,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetInterOpNumThreads fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SetInterOpNumThreads.class, fi, OrtApi.SetInterOpNumThreads$FUNC, session);
+        static MemorySegment allocate(SetInterOpNumThreads fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetInterOpNumThreads.class, fi, OrtApi.SetInterOpNumThreads$FUNC, scope);
         }
 
-        static SetInterOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetInterOpNumThreads ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2288,8 +2286,8 @@ public class OrtApi {
         OrtApi.SetInterOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetInterOpNumThreads SetInterOpNumThreads(MemorySegment segment, MemorySession session) {
-        return SetInterOpNumThreads.ofAddress(SetInterOpNumThreads$get(segment), session);
+    public static SetInterOpNumThreads SetInterOpNumThreads(MemorySegment segment, SegmentScope scope) {
+        return SetInterOpNumThreads.ofAddress(SetInterOpNumThreads$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateCustomOpDomain$FUNC = FunctionDescriptor.of(
@@ -2304,12 +2302,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CreateCustomOpDomain fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateCustomOpDomain.class, fi, OrtApi.CreateCustomOpDomain$FUNC, session);
+        static MemorySegment allocate(CreateCustomOpDomain fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateCustomOpDomain.class, fi, OrtApi.CreateCustomOpDomain$FUNC, scope);
         }
 
-        static CreateCustomOpDomain ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateCustomOpDomain ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2354,8 +2352,8 @@ public class OrtApi {
         OrtApi.CreateCustomOpDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateCustomOpDomain CreateCustomOpDomain(MemorySegment segment, MemorySession session) {
-        return CreateCustomOpDomain.ofAddress(CreateCustomOpDomain$get(segment), session);
+    public static CreateCustomOpDomain CreateCustomOpDomain(MemorySegment segment, SegmentScope scope) {
+        return CreateCustomOpDomain.ofAddress(CreateCustomOpDomain$get(segment), scope);
     }
 
     static final FunctionDescriptor CustomOpDomain_Add$FUNC = FunctionDescriptor.of(
@@ -2370,12 +2368,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CustomOpDomain_Add fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CustomOpDomain_Add.class, fi, OrtApi.CustomOpDomain_Add$FUNC, session);
+        static MemorySegment allocate(CustomOpDomain_Add fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CustomOpDomain_Add.class, fi, OrtApi.CustomOpDomain_Add$FUNC, scope);
         }
 
-        static CustomOpDomain_Add ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CustomOpDomain_Add ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2420,8 +2418,8 @@ public class OrtApi {
         OrtApi.CustomOpDomain_Add$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CustomOpDomain_Add CustomOpDomain_Add(MemorySegment segment, MemorySession session) {
-        return CustomOpDomain_Add.ofAddress(CustomOpDomain_Add$get(segment), session);
+    public static CustomOpDomain_Add CustomOpDomain_Add(MemorySegment segment, SegmentScope scope) {
+        return CustomOpDomain_Add.ofAddress(CustomOpDomain_Add$get(segment), scope);
     }
 
     static final FunctionDescriptor AddCustomOpDomain$FUNC = FunctionDescriptor.of(
@@ -2436,12 +2434,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(AddCustomOpDomain fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(AddCustomOpDomain.class, fi, OrtApi.AddCustomOpDomain$FUNC, session);
+        static MemorySegment allocate(AddCustomOpDomain fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AddCustomOpDomain.class, fi, OrtApi.AddCustomOpDomain$FUNC, scope);
         }
 
-        static AddCustomOpDomain ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddCustomOpDomain ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2486,8 +2484,8 @@ public class OrtApi {
         OrtApi.AddCustomOpDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AddCustomOpDomain AddCustomOpDomain(MemorySegment segment, MemorySession session) {
-        return AddCustomOpDomain.ofAddress(AddCustomOpDomain$get(segment), session);
+    public static AddCustomOpDomain AddCustomOpDomain(MemorySegment segment, SegmentScope scope) {
+        return AddCustomOpDomain.ofAddress(AddCustomOpDomain$get(segment), scope);
     }
 
     static final FunctionDescriptor RegisterCustomOpsLibrary$FUNC = FunctionDescriptor.of(
@@ -2509,13 +2507,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(RegisterCustomOpsLibrary fi, MemorySession session) {
+        static MemorySegment allocate(RegisterCustomOpsLibrary fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RegisterCustomOpsLibrary.class, fi, OrtApi.RegisterCustomOpsLibrary$FUNC, session);
+                    RegisterCustomOpsLibrary.class, fi, OrtApi.RegisterCustomOpsLibrary$FUNC, scope);
         }
 
-        static RegisterCustomOpsLibrary ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RegisterCustomOpsLibrary ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -2562,8 +2560,8 @@ public class OrtApi {
         OrtApi.RegisterCustomOpsLibrary$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RegisterCustomOpsLibrary RegisterCustomOpsLibrary(MemorySegment segment, MemorySession session) {
-        return RegisterCustomOpsLibrary.ofAddress(RegisterCustomOpsLibrary$get(segment), session);
+    public static RegisterCustomOpsLibrary RegisterCustomOpsLibrary(MemorySegment segment, SegmentScope scope) {
+        return RegisterCustomOpsLibrary.ofAddress(RegisterCustomOpsLibrary$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetInputCount$FUNC = FunctionDescriptor.of(
@@ -2578,12 +2576,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionGetInputCount fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SessionGetInputCount.class, fi, OrtApi.SessionGetInputCount$FUNC, session);
+        static MemorySegment allocate(SessionGetInputCount fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SessionGetInputCount.class, fi, OrtApi.SessionGetInputCount$FUNC, scope);
         }
 
-        static SessionGetInputCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetInputCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2628,8 +2626,8 @@ public class OrtApi {
         OrtApi.SessionGetInputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetInputCount SessionGetInputCount(MemorySegment segment, MemorySession session) {
-        return SessionGetInputCount.ofAddress(SessionGetInputCount$get(segment), session);
+    public static SessionGetInputCount SessionGetInputCount(MemorySegment segment, SegmentScope scope) {
+        return SessionGetInputCount.ofAddress(SessionGetInputCount$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetOutputCount$FUNC = FunctionDescriptor.of(
@@ -2645,13 +2643,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionGetOutputCount fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    SessionGetOutputCount.class, fi, OrtApi.SessionGetOutputCount$FUNC, session);
+        static MemorySegment allocate(SessionGetOutputCount fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SessionGetOutputCount.class, fi, OrtApi.SessionGetOutputCount$FUNC, scope);
         }
 
-        static SessionGetOutputCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetOutputCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2696,8 +2693,8 @@ public class OrtApi {
         OrtApi.SessionGetOutputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetOutputCount SessionGetOutputCount(MemorySegment segment, MemorySession session) {
-        return SessionGetOutputCount.ofAddress(SessionGetOutputCount$get(segment), session);
+    public static SessionGetOutputCount SessionGetOutputCount(MemorySegment segment, SegmentScope scope) {
+        return SessionGetOutputCount.ofAddress(SessionGetOutputCount$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetOverridableInitializerCount$FUNC = FunctionDescriptor.of(
@@ -2713,16 +2710,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionGetOverridableInitializerCount fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetOverridableInitializerCount fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionGetOverridableInitializerCount.class,
                     fi,
                     OrtApi.SessionGetOverridableInitializerCount$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionGetOverridableInitializerCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetOverridableInitializerCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2769,9 +2766,9 @@ public class OrtApi {
     }
 
     public static SessionGetOverridableInitializerCount SessionGetOverridableInitializerCount(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionGetOverridableInitializerCount.ofAddress(
-                SessionGetOverridableInitializerCount$get(segment), session);
+                SessionGetOverridableInitializerCount$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetInputTypeInfo$FUNC = FunctionDescriptor.of(
@@ -2791,13 +2788,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(SessionGetInputTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetInputTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SessionGetInputTypeInfo.class, fi, OrtApi.SessionGetInputTypeInfo$FUNC, session);
+                    SessionGetInputTypeInfo.class, fi, OrtApi.SessionGetInputTypeInfo$FUNC, scope);
         }
 
-        static SessionGetInputTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetInputTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2842,8 +2839,8 @@ public class OrtApi {
         OrtApi.SessionGetInputTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetInputTypeInfo SessionGetInputTypeInfo(MemorySegment segment, MemorySession session) {
-        return SessionGetInputTypeInfo.ofAddress(SessionGetInputTypeInfo$get(segment), session);
+    public static SessionGetInputTypeInfo SessionGetInputTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return SessionGetInputTypeInfo.ofAddress(SessionGetInputTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetOutputTypeInfo$FUNC = FunctionDescriptor.of(
@@ -2863,13 +2860,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(SessionGetOutputTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetOutputTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SessionGetOutputTypeInfo.class, fi, OrtApi.SessionGetOutputTypeInfo$FUNC, session);
+                    SessionGetOutputTypeInfo.class, fi, OrtApi.SessionGetOutputTypeInfo$FUNC, scope);
         }
 
-        static SessionGetOutputTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetOutputTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2914,8 +2911,8 @@ public class OrtApi {
         OrtApi.SessionGetOutputTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetOutputTypeInfo SessionGetOutputTypeInfo(MemorySegment segment, MemorySession session) {
-        return SessionGetOutputTypeInfo.ofAddress(SessionGetOutputTypeInfo$get(segment), session);
+    public static SessionGetOutputTypeInfo SessionGetOutputTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return SessionGetOutputTypeInfo.ofAddress(SessionGetOutputTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetOverridableInitializerTypeInfo$FUNC = FunctionDescriptor.of(
@@ -2935,16 +2932,16 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(SessionGetOverridableInitializerTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetOverridableInitializerTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionGetOverridableInitializerTypeInfo.class,
                     fi,
                     OrtApi.SessionGetOverridableInitializerTypeInfo$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionGetOverridableInitializerTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetOverridableInitializerTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -2991,9 +2988,9 @@ public class OrtApi {
     }
 
     public static SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionGetOverridableInitializerTypeInfo.ofAddress(
-                SessionGetOverridableInitializerTypeInfo$get(segment), session);
+                SessionGetOverridableInitializerTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetInputName$FUNC = FunctionDescriptor.of(
@@ -3016,12 +3013,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(SessionGetInputName fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SessionGetInputName.class, fi, OrtApi.SessionGetInputName$FUNC, session);
+        static MemorySegment allocate(SessionGetInputName fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SessionGetInputName.class, fi, OrtApi.SessionGetInputName$FUNC, scope);
         }
 
-        static SessionGetInputName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetInputName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -3069,8 +3066,8 @@ public class OrtApi {
         OrtApi.SessionGetInputName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetInputName SessionGetInputName(MemorySegment segment, MemorySession session) {
-        return SessionGetInputName.ofAddress(SessionGetInputName$get(segment), session);
+    public static SessionGetInputName SessionGetInputName(MemorySegment segment, SegmentScope scope) {
+        return SessionGetInputName.ofAddress(SessionGetInputName$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetOutputName$FUNC = FunctionDescriptor.of(
@@ -3093,12 +3090,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(SessionGetOutputName fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SessionGetOutputName.class, fi, OrtApi.SessionGetOutputName$FUNC, session);
+        static MemorySegment allocate(SessionGetOutputName fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SessionGetOutputName.class, fi, OrtApi.SessionGetOutputName$FUNC, scope);
         }
 
-        static SessionGetOutputName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetOutputName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -3146,8 +3143,8 @@ public class OrtApi {
         OrtApi.SessionGetOutputName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetOutputName SessionGetOutputName(MemorySegment segment, MemorySession session) {
-        return SessionGetOutputName.ofAddress(SessionGetOutputName$get(segment), session);
+    public static SessionGetOutputName SessionGetOutputName(MemorySegment segment, SegmentScope scope) {
+        return SessionGetOutputName.ofAddress(SessionGetOutputName$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetOverridableInitializerName$FUNC = FunctionDescriptor.of(
@@ -3171,16 +3168,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(SessionGetOverridableInitializerName fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetOverridableInitializerName fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionGetOverridableInitializerName.class,
                     fi,
                     OrtApi.SessionGetOverridableInitializerName$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionGetOverridableInitializerName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetOverridableInitializerName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -3230,9 +3227,8 @@ public class OrtApi {
     }
 
     public static SessionGetOverridableInitializerName SessionGetOverridableInitializerName(
-            MemorySegment segment, MemorySession session) {
-        return SessionGetOverridableInitializerName.ofAddress(
-                SessionGetOverridableInitializerName$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SessionGetOverridableInitializerName.ofAddress(SessionGetOverridableInitializerName$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateRunOptions$FUNC =
@@ -3247,12 +3243,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateRunOptions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateRunOptions.class, fi, OrtApi.CreateRunOptions$FUNC, session);
+        static MemorySegment allocate(CreateRunOptions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateRunOptions.class, fi, OrtApi.CreateRunOptions$FUNC, scope);
         }
 
-        static CreateRunOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateRunOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CreateRunOptions$MH.invokeExact(symbol, __x0);
@@ -3296,8 +3292,8 @@ public class OrtApi {
         OrtApi.CreateRunOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateRunOptions CreateRunOptions(MemorySegment segment, MemorySession session) {
-        return CreateRunOptions.ofAddress(CreateRunOptions$get(segment), session);
+    public static CreateRunOptions CreateRunOptions(MemorySegment segment, SegmentScope scope) {
+        return CreateRunOptions.ofAddress(CreateRunOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsSetRunLogVerbosityLevel$FUNC = FunctionDescriptor.of(
@@ -3313,16 +3309,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(RunOptionsSetRunLogVerbosityLevel fi, MemorySession session) {
+        static MemorySegment allocate(RunOptionsSetRunLogVerbosityLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RunOptionsSetRunLogVerbosityLevel.class,
-                    fi,
-                    OrtApi.RunOptionsSetRunLogVerbosityLevel$FUNC,
-                    session);
+                    RunOptionsSetRunLogVerbosityLevel.class, fi, OrtApi.RunOptionsSetRunLogVerbosityLevel$FUNC, scope);
         }
 
-        static RunOptionsSetRunLogVerbosityLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsSetRunLogVerbosityLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3369,8 +3362,8 @@ public class OrtApi {
     }
 
     public static RunOptionsSetRunLogVerbosityLevel RunOptionsSetRunLogVerbosityLevel(
-            MemorySegment segment, MemorySession session) {
-        return RunOptionsSetRunLogVerbosityLevel.ofAddress(RunOptionsSetRunLogVerbosityLevel$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return RunOptionsSetRunLogVerbosityLevel.ofAddress(RunOptionsSetRunLogVerbosityLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsSetRunLogSeverityLevel$FUNC = FunctionDescriptor.of(
@@ -3386,13 +3379,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(RunOptionsSetRunLogSeverityLevel fi, MemorySession session) {
+        static MemorySegment allocate(RunOptionsSetRunLogSeverityLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RunOptionsSetRunLogSeverityLevel.class, fi, OrtApi.RunOptionsSetRunLogSeverityLevel$FUNC, session);
+                    RunOptionsSetRunLogSeverityLevel.class, fi, OrtApi.RunOptionsSetRunLogSeverityLevel$FUNC, scope);
         }
 
-        static RunOptionsSetRunLogSeverityLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsSetRunLogSeverityLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3439,8 +3432,8 @@ public class OrtApi {
     }
 
     public static RunOptionsSetRunLogSeverityLevel RunOptionsSetRunLogSeverityLevel(
-            MemorySegment segment, MemorySession session) {
-        return RunOptionsSetRunLogSeverityLevel.ofAddress(RunOptionsSetRunLogSeverityLevel$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return RunOptionsSetRunLogSeverityLevel.ofAddress(RunOptionsSetRunLogSeverityLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsSetRunTag$FUNC = FunctionDescriptor.of(
@@ -3455,12 +3448,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RunOptionsSetRunTag fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(RunOptionsSetRunTag.class, fi, OrtApi.RunOptionsSetRunTag$FUNC, session);
+        static MemorySegment allocate(RunOptionsSetRunTag fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(RunOptionsSetRunTag.class, fi, OrtApi.RunOptionsSetRunTag$FUNC, scope);
         }
 
-        static RunOptionsSetRunTag ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsSetRunTag ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3505,8 +3498,8 @@ public class OrtApi {
         OrtApi.RunOptionsSetRunTag$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RunOptionsSetRunTag RunOptionsSetRunTag(MemorySegment segment, MemorySession session) {
-        return RunOptionsSetRunTag.ofAddress(RunOptionsSetRunTag$get(segment), session);
+    public static RunOptionsSetRunTag RunOptionsSetRunTag(MemorySegment segment, SegmentScope scope) {
+        return RunOptionsSetRunTag.ofAddress(RunOptionsSetRunTag$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsGetRunLogVerbosityLevel$FUNC = FunctionDescriptor.of(
@@ -3522,16 +3515,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RunOptionsGetRunLogVerbosityLevel fi, MemorySession session) {
+        static MemorySegment allocate(RunOptionsGetRunLogVerbosityLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RunOptionsGetRunLogVerbosityLevel.class,
-                    fi,
-                    OrtApi.RunOptionsGetRunLogVerbosityLevel$FUNC,
-                    session);
+                    RunOptionsGetRunLogVerbosityLevel.class, fi, OrtApi.RunOptionsGetRunLogVerbosityLevel$FUNC, scope);
         }
 
-        static RunOptionsGetRunLogVerbosityLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsGetRunLogVerbosityLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3578,8 +3568,8 @@ public class OrtApi {
     }
 
     public static RunOptionsGetRunLogVerbosityLevel RunOptionsGetRunLogVerbosityLevel(
-            MemorySegment segment, MemorySession session) {
-        return RunOptionsGetRunLogVerbosityLevel.ofAddress(RunOptionsGetRunLogVerbosityLevel$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return RunOptionsGetRunLogVerbosityLevel.ofAddress(RunOptionsGetRunLogVerbosityLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsGetRunLogSeverityLevel$FUNC = FunctionDescriptor.of(
@@ -3595,13 +3585,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RunOptionsGetRunLogSeverityLevel fi, MemorySession session) {
+        static MemorySegment allocate(RunOptionsGetRunLogSeverityLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RunOptionsGetRunLogSeverityLevel.class, fi, OrtApi.RunOptionsGetRunLogSeverityLevel$FUNC, session);
+                    RunOptionsGetRunLogSeverityLevel.class, fi, OrtApi.RunOptionsGetRunLogSeverityLevel$FUNC, scope);
         }
 
-        static RunOptionsGetRunLogSeverityLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsGetRunLogSeverityLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3648,8 +3638,8 @@ public class OrtApi {
     }
 
     public static RunOptionsGetRunLogSeverityLevel RunOptionsGetRunLogSeverityLevel(
-            MemorySegment segment, MemorySession session) {
-        return RunOptionsGetRunLogSeverityLevel.ofAddress(RunOptionsGetRunLogSeverityLevel$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return RunOptionsGetRunLogSeverityLevel.ofAddress(RunOptionsGetRunLogSeverityLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsGetRunTag$FUNC = FunctionDescriptor.of(
@@ -3664,12 +3654,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RunOptionsGetRunTag fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(RunOptionsGetRunTag.class, fi, OrtApi.RunOptionsGetRunTag$FUNC, session);
+        static MemorySegment allocate(RunOptionsGetRunTag fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(RunOptionsGetRunTag.class, fi, OrtApi.RunOptionsGetRunTag$FUNC, scope);
         }
 
-        static RunOptionsGetRunTag ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsGetRunTag ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3714,8 +3704,8 @@ public class OrtApi {
         OrtApi.RunOptionsGetRunTag$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RunOptionsGetRunTag RunOptionsGetRunTag(MemorySegment segment, MemorySession session) {
-        return RunOptionsGetRunTag.ofAddress(RunOptionsGetRunTag$get(segment), session);
+    public static RunOptionsGetRunTag RunOptionsGetRunTag(MemorySegment segment, SegmentScope scope) {
+        return RunOptionsGetRunTag.ofAddress(RunOptionsGetRunTag$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsSetTerminate$FUNC =
@@ -3731,13 +3721,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(RunOptionsSetTerminate fi, MemorySession session) {
+        static MemorySegment allocate(RunOptionsSetTerminate fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RunOptionsSetTerminate.class, fi, OrtApi.RunOptionsSetTerminate$FUNC, session);
+                    RunOptionsSetTerminate.class, fi, OrtApi.RunOptionsSetTerminate$FUNC, scope);
         }
 
-        static RunOptionsSetTerminate ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsSetTerminate ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.RunOptionsSetTerminate$MH.invokeExact(symbol, __x0);
@@ -3781,8 +3771,8 @@ public class OrtApi {
         OrtApi.RunOptionsSetTerminate$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RunOptionsSetTerminate RunOptionsSetTerminate(MemorySegment segment, MemorySession session) {
-        return RunOptionsSetTerminate.ofAddress(RunOptionsSetTerminate$get(segment), session);
+    public static RunOptionsSetTerminate RunOptionsSetTerminate(MemorySegment segment, SegmentScope scope) {
+        return RunOptionsSetTerminate.ofAddress(RunOptionsSetTerminate$get(segment), scope);
     }
 
     static final FunctionDescriptor RunOptionsUnsetTerminate$FUNC =
@@ -3798,13 +3788,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(RunOptionsUnsetTerminate fi, MemorySession session) {
+        static MemorySegment allocate(RunOptionsUnsetTerminate fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RunOptionsUnsetTerminate.class, fi, OrtApi.RunOptionsUnsetTerminate$FUNC, session);
+                    RunOptionsUnsetTerminate.class, fi, OrtApi.RunOptionsUnsetTerminate$FUNC, scope);
         }
 
-        static RunOptionsUnsetTerminate ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunOptionsUnsetTerminate ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -3849,8 +3839,8 @@ public class OrtApi {
         OrtApi.RunOptionsUnsetTerminate$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RunOptionsUnsetTerminate RunOptionsUnsetTerminate(MemorySegment segment, MemorySession session) {
-        return RunOptionsUnsetTerminate.ofAddress(RunOptionsUnsetTerminate$get(segment), session);
+    public static RunOptionsUnsetTerminate RunOptionsUnsetTerminate(MemorySegment segment, SegmentScope scope) {
+        return RunOptionsUnsetTerminate.ofAddress(RunOptionsUnsetTerminate$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateTensorAsOrtValue$FUNC = FunctionDescriptor.of(
@@ -3876,13 +3866,13 @@ public class OrtApi {
                 int _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateTensorAsOrtValue fi, MemorySession session) {
+        static MemorySegment allocate(CreateTensorAsOrtValue fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateTensorAsOrtValue.class, fi, OrtApi.CreateTensorAsOrtValue$FUNC, session);
+                    CreateTensorAsOrtValue.class, fi, OrtApi.CreateTensorAsOrtValue$FUNC, scope);
         }
 
-        static CreateTensorAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateTensorAsOrtValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -3931,8 +3921,8 @@ public class OrtApi {
         OrtApi.CreateTensorAsOrtValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateTensorAsOrtValue CreateTensorAsOrtValue(MemorySegment segment, MemorySession session) {
-        return CreateTensorAsOrtValue.ofAddress(CreateTensorAsOrtValue$get(segment), session);
+    public static CreateTensorAsOrtValue CreateTensorAsOrtValue(MemorySegment segment, SegmentScope scope) {
+        return CreateTensorAsOrtValue.ofAddress(CreateTensorAsOrtValue$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateTensorWithDataAsOrtValue$FUNC = FunctionDescriptor.of(
@@ -3962,13 +3952,13 @@ public class OrtApi {
                 int _x5,
                 java.lang.foreign.MemorySegment _x6);
 
-        static MemorySegment allocate(CreateTensorWithDataAsOrtValue fi, MemorySession session) {
+        static MemorySegment allocate(CreateTensorWithDataAsOrtValue fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateTensorWithDataAsOrtValue.class, fi, OrtApi.CreateTensorWithDataAsOrtValue$FUNC, session);
+                    CreateTensorWithDataAsOrtValue.class, fi, OrtApi.CreateTensorWithDataAsOrtValue$FUNC, scope);
         }
 
-        static CreateTensorWithDataAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateTensorWithDataAsOrtValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -4021,8 +4011,8 @@ public class OrtApi {
     }
 
     public static CreateTensorWithDataAsOrtValue CreateTensorWithDataAsOrtValue(
-            MemorySegment segment, MemorySession session) {
-        return CreateTensorWithDataAsOrtValue.ofAddress(CreateTensorWithDataAsOrtValue$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return CreateTensorWithDataAsOrtValue.ofAddress(CreateTensorWithDataAsOrtValue$get(segment), scope);
     }
 
     static final FunctionDescriptor IsTensor$FUNC = FunctionDescriptor.of(
@@ -4037,12 +4027,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(IsTensor fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(IsTensor.class, fi, OrtApi.IsTensor$FUNC, session);
+        static MemorySegment allocate(IsTensor fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(IsTensor.class, fi, OrtApi.IsTensor$FUNC, scope);
         }
 
-        static IsTensor ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static IsTensor ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.IsTensor$MH.invokeExact(symbol, __x0, __x1);
@@ -4085,8 +4075,8 @@ public class OrtApi {
         OrtApi.IsTensor$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static IsTensor IsTensor(MemorySegment segment, MemorySession session) {
-        return IsTensor.ofAddress(IsTensor$get(segment), session);
+    public static IsTensor IsTensor(MemorySegment segment, SegmentScope scope) {
+        return IsTensor.ofAddress(IsTensor$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTensorMutableData$FUNC = FunctionDescriptor.of(
@@ -4101,12 +4091,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetTensorMutableData fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetTensorMutableData.class, fi, OrtApi.GetTensorMutableData$FUNC, session);
+        static MemorySegment allocate(GetTensorMutableData fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetTensorMutableData.class, fi, OrtApi.GetTensorMutableData$FUNC, scope);
         }
 
-        static GetTensorMutableData ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTensorMutableData ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4151,8 +4141,8 @@ public class OrtApi {
         OrtApi.GetTensorMutableData$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTensorMutableData GetTensorMutableData(MemorySegment segment, MemorySession session) {
-        return GetTensorMutableData.ofAddress(GetTensorMutableData$get(segment), session);
+    public static GetTensorMutableData GetTensorMutableData(MemorySegment segment, SegmentScope scope) {
+        return GetTensorMutableData.ofAddress(GetTensorMutableData$get(segment), scope);
     }
 
     static final FunctionDescriptor FillStringTensor$FUNC = FunctionDescriptor.of(
@@ -4171,12 +4161,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(FillStringTensor fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(FillStringTensor.class, fi, OrtApi.FillStringTensor$FUNC, session);
+        static MemorySegment allocate(FillStringTensor fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(FillStringTensor.class, fi, OrtApi.FillStringTensor$FUNC, scope);
         }
 
-        static FillStringTensor ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static FillStringTensor ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4221,8 +4211,8 @@ public class OrtApi {
         OrtApi.FillStringTensor$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static FillStringTensor FillStringTensor(MemorySegment segment, MemorySession session) {
-        return FillStringTensor.ofAddress(FillStringTensor$get(segment), session);
+    public static FillStringTensor FillStringTensor(MemorySegment segment, SegmentScope scope) {
+        return FillStringTensor.ofAddress(FillStringTensor$get(segment), scope);
     }
 
     static final FunctionDescriptor GetStringTensorDataLength$FUNC = FunctionDescriptor.of(
@@ -4238,13 +4228,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetStringTensorDataLength fi, MemorySession session) {
+        static MemorySegment allocate(GetStringTensorDataLength fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetStringTensorDataLength.class, fi, OrtApi.GetStringTensorDataLength$FUNC, session);
+                    GetStringTensorDataLength.class, fi, OrtApi.GetStringTensorDataLength$FUNC, scope);
         }
 
-        static GetStringTensorDataLength ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetStringTensorDataLength ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4289,8 +4279,8 @@ public class OrtApi {
         OrtApi.GetStringTensorDataLength$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetStringTensorDataLength GetStringTensorDataLength(MemorySegment segment, MemorySession session) {
-        return GetStringTensorDataLength.ofAddress(GetStringTensorDataLength$get(segment), session);
+    public static GetStringTensorDataLength GetStringTensorDataLength(MemorySegment segment, SegmentScope scope) {
+        return GetStringTensorDataLength.ofAddress(GetStringTensorDataLength$get(segment), scope);
     }
 
     static final FunctionDescriptor GetStringTensorContent$FUNC = FunctionDescriptor.of(
@@ -4316,13 +4306,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
-        static MemorySegment allocate(GetStringTensorContent fi, MemorySession session) {
+        static MemorySegment allocate(GetStringTensorContent fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetStringTensorContent.class, fi, OrtApi.GetStringTensorContent$FUNC, session);
+                    GetStringTensorContent.class, fi, OrtApi.GetStringTensorContent$FUNC, scope);
         }
 
-        static GetStringTensorContent ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetStringTensorContent ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -4371,8 +4361,8 @@ public class OrtApi {
         OrtApi.GetStringTensorContent$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetStringTensorContent GetStringTensorContent(MemorySegment segment, MemorySession session) {
-        return GetStringTensorContent.ofAddress(GetStringTensorContent$get(segment), session);
+    public static GetStringTensorContent GetStringTensorContent(MemorySegment segment, SegmentScope scope) {
+        return GetStringTensorContent.ofAddress(GetStringTensorContent$get(segment), scope);
     }
 
     static final FunctionDescriptor CastTypeInfoToTensorInfo$FUNC = FunctionDescriptor.of(
@@ -4388,13 +4378,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CastTypeInfoToTensorInfo fi, MemorySession session) {
+        static MemorySegment allocate(CastTypeInfoToTensorInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CastTypeInfoToTensorInfo.class, fi, OrtApi.CastTypeInfoToTensorInfo$FUNC, session);
+                    CastTypeInfoToTensorInfo.class, fi, OrtApi.CastTypeInfoToTensorInfo$FUNC, scope);
         }
 
-        static CastTypeInfoToTensorInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CastTypeInfoToTensorInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4439,8 +4429,8 @@ public class OrtApi {
         OrtApi.CastTypeInfoToTensorInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo(MemorySegment segment, MemorySession session) {
-        return CastTypeInfoToTensorInfo.ofAddress(CastTypeInfoToTensorInfo$get(segment), session);
+    public static CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo(MemorySegment segment, SegmentScope scope) {
+        return CastTypeInfoToTensorInfo.ofAddress(CastTypeInfoToTensorInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor GetOnnxTypeFromTypeInfo$FUNC = FunctionDescriptor.of(
@@ -4456,13 +4446,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetOnnxTypeFromTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(GetOnnxTypeFromTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetOnnxTypeFromTypeInfo.class, fi, OrtApi.GetOnnxTypeFromTypeInfo$FUNC, session);
+                    GetOnnxTypeFromTypeInfo.class, fi, OrtApi.GetOnnxTypeFromTypeInfo$FUNC, scope);
         }
 
-        static GetOnnxTypeFromTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetOnnxTypeFromTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4507,8 +4497,8 @@ public class OrtApi {
         OrtApi.GetOnnxTypeFromTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetOnnxTypeFromTypeInfo GetOnnxTypeFromTypeInfo(MemorySegment segment, MemorySession session) {
-        return GetOnnxTypeFromTypeInfo.ofAddress(GetOnnxTypeFromTypeInfo$get(segment), session);
+    public static GetOnnxTypeFromTypeInfo GetOnnxTypeFromTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return GetOnnxTypeFromTypeInfo.ofAddress(GetOnnxTypeFromTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateTensorTypeAndShapeInfo$FUNC =
@@ -4524,13 +4514,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateTensorTypeAndShapeInfo fi, MemorySession session) {
+        static MemorySegment allocate(CreateTensorTypeAndShapeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateTensorTypeAndShapeInfo.class, fi, OrtApi.CreateTensorTypeAndShapeInfo$FUNC, session);
+                    CreateTensorTypeAndShapeInfo.class, fi, OrtApi.CreateTensorTypeAndShapeInfo$FUNC, scope);
         }
 
-        static CreateTensorTypeAndShapeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateTensorTypeAndShapeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4576,9 +4566,8 @@ public class OrtApi {
         OrtApi.CreateTensorTypeAndShapeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateTensorTypeAndShapeInfo CreateTensorTypeAndShapeInfo(
-            MemorySegment segment, MemorySession session) {
-        return CreateTensorTypeAndShapeInfo.ofAddress(CreateTensorTypeAndShapeInfo$get(segment), session);
+    public static CreateTensorTypeAndShapeInfo CreateTensorTypeAndShapeInfo(MemorySegment segment, SegmentScope scope) {
+        return CreateTensorTypeAndShapeInfo.ofAddress(CreateTensorTypeAndShapeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor SetTensorElementType$FUNC = FunctionDescriptor.of(
@@ -4593,12 +4582,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetTensorElementType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SetTensorElementType.class, fi, OrtApi.SetTensorElementType$FUNC, session);
+        static MemorySegment allocate(SetTensorElementType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetTensorElementType.class, fi, OrtApi.SetTensorElementType$FUNC, scope);
         }
 
-        static SetTensorElementType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetTensorElementType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4643,8 +4632,8 @@ public class OrtApi {
         OrtApi.SetTensorElementType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetTensorElementType SetTensorElementType(MemorySegment segment, MemorySession session) {
-        return SetTensorElementType.ofAddress(SetTensorElementType$get(segment), session);
+    public static SetTensorElementType SetTensorElementType(MemorySegment segment, SegmentScope scope) {
+        return SetTensorElementType.ofAddress(SetTensorElementType$get(segment), scope);
     }
 
     static final FunctionDescriptor SetDimensions$FUNC = FunctionDescriptor.of(
@@ -4663,12 +4652,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(SetDimensions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SetDimensions.class, fi, OrtApi.SetDimensions$FUNC, session);
+        static MemorySegment allocate(SetDimensions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetDimensions.class, fi, OrtApi.SetDimensions$FUNC, scope);
         }
 
-        static SetDimensions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetDimensions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4713,8 +4702,8 @@ public class OrtApi {
         OrtApi.SetDimensions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetDimensions SetDimensions(MemorySegment segment, MemorySession session) {
-        return SetDimensions.ofAddress(SetDimensions$get(segment), session);
+    public static SetDimensions SetDimensions(MemorySegment segment, SegmentScope scope) {
+        return SetDimensions.ofAddress(SetDimensions$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTensorElementType$FUNC = FunctionDescriptor.of(
@@ -4729,12 +4718,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetTensorElementType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetTensorElementType.class, fi, OrtApi.GetTensorElementType$FUNC, session);
+        static MemorySegment allocate(GetTensorElementType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetTensorElementType.class, fi, OrtApi.GetTensorElementType$FUNC, scope);
         }
 
-        static GetTensorElementType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTensorElementType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4779,8 +4768,8 @@ public class OrtApi {
         OrtApi.GetTensorElementType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTensorElementType GetTensorElementType(MemorySegment segment, MemorySession session) {
-        return GetTensorElementType.ofAddress(GetTensorElementType$get(segment), session);
+    public static GetTensorElementType GetTensorElementType(MemorySegment segment, SegmentScope scope) {
+        return GetTensorElementType.ofAddress(GetTensorElementType$get(segment), scope);
     }
 
     static final FunctionDescriptor GetDimensionsCount$FUNC = FunctionDescriptor.of(
@@ -4795,12 +4784,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetDimensionsCount fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetDimensionsCount.class, fi, OrtApi.GetDimensionsCount$FUNC, session);
+        static MemorySegment allocate(GetDimensionsCount fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetDimensionsCount.class, fi, OrtApi.GetDimensionsCount$FUNC, scope);
         }
 
-        static GetDimensionsCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetDimensionsCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4845,8 +4834,8 @@ public class OrtApi {
         OrtApi.GetDimensionsCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetDimensionsCount GetDimensionsCount(MemorySegment segment, MemorySession session) {
-        return GetDimensionsCount.ofAddress(GetDimensionsCount$get(segment), session);
+    public static GetDimensionsCount GetDimensionsCount(MemorySegment segment, SegmentScope scope) {
+        return GetDimensionsCount.ofAddress(GetDimensionsCount$get(segment), scope);
     }
 
     static final FunctionDescriptor GetDimensions$FUNC = FunctionDescriptor.of(
@@ -4865,12 +4854,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(GetDimensions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetDimensions.class, fi, OrtApi.GetDimensions$FUNC, session);
+        static MemorySegment allocate(GetDimensions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetDimensions.class, fi, OrtApi.GetDimensions$FUNC, scope);
         }
 
-        static GetDimensions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetDimensions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4915,8 +4904,8 @@ public class OrtApi {
         OrtApi.GetDimensions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetDimensions GetDimensions(MemorySegment segment, MemorySession session) {
-        return GetDimensions.ofAddress(GetDimensions$get(segment), session);
+    public static GetDimensions GetDimensions(MemorySegment segment, SegmentScope scope) {
+        return GetDimensions.ofAddress(GetDimensions$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSymbolicDimensions$FUNC = FunctionDescriptor.of(
@@ -4936,13 +4925,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(GetSymbolicDimensions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetSymbolicDimensions.class, fi, OrtApi.GetSymbolicDimensions$FUNC, session);
+        static MemorySegment allocate(GetSymbolicDimensions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetSymbolicDimensions.class, fi, OrtApi.GetSymbolicDimensions$FUNC, scope);
         }
 
-        static GetSymbolicDimensions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSymbolicDimensions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -4987,8 +4975,8 @@ public class OrtApi {
         OrtApi.GetSymbolicDimensions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetSymbolicDimensions GetSymbolicDimensions(MemorySegment segment, MemorySession session) {
-        return GetSymbolicDimensions.ofAddress(GetSymbolicDimensions$get(segment), session);
+    public static GetSymbolicDimensions GetSymbolicDimensions(MemorySegment segment, SegmentScope scope) {
+        return GetSymbolicDimensions.ofAddress(GetSymbolicDimensions$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTensorShapeElementCount$FUNC = FunctionDescriptor.of(
@@ -5004,13 +4992,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetTensorShapeElementCount fi, MemorySession session) {
+        static MemorySegment allocate(GetTensorShapeElementCount fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetTensorShapeElementCount.class, fi, OrtApi.GetTensorShapeElementCount$FUNC, session);
+                    GetTensorShapeElementCount.class, fi, OrtApi.GetTensorShapeElementCount$FUNC, scope);
         }
 
-        static GetTensorShapeElementCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTensorShapeElementCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5056,8 +5044,8 @@ public class OrtApi {
         OrtApi.GetTensorShapeElementCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTensorShapeElementCount GetTensorShapeElementCount(MemorySegment segment, MemorySession session) {
-        return GetTensorShapeElementCount.ofAddress(GetTensorShapeElementCount$get(segment), session);
+    public static GetTensorShapeElementCount GetTensorShapeElementCount(MemorySegment segment, SegmentScope scope) {
+        return GetTensorShapeElementCount.ofAddress(GetTensorShapeElementCount$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTensorTypeAndShape$FUNC = FunctionDescriptor.of(
@@ -5073,13 +5061,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetTensorTypeAndShape fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetTensorTypeAndShape.class, fi, OrtApi.GetTensorTypeAndShape$FUNC, session);
+        static MemorySegment allocate(GetTensorTypeAndShape fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetTensorTypeAndShape.class, fi, OrtApi.GetTensorTypeAndShape$FUNC, scope);
         }
 
-        static GetTensorTypeAndShape ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTensorTypeAndShape ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5124,8 +5111,8 @@ public class OrtApi {
         OrtApi.GetTensorTypeAndShape$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTensorTypeAndShape GetTensorTypeAndShape(MemorySegment segment, MemorySession session) {
-        return GetTensorTypeAndShape.ofAddress(GetTensorTypeAndShape$get(segment), session);
+    public static GetTensorTypeAndShape GetTensorTypeAndShape(MemorySegment segment, SegmentScope scope) {
+        return GetTensorTypeAndShape.ofAddress(GetTensorTypeAndShape$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTypeInfo$FUNC = FunctionDescriptor.of(
@@ -5140,12 +5127,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetTypeInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetTypeInfo.class, fi, OrtApi.GetTypeInfo$FUNC, session);
+        static MemorySegment allocate(GetTypeInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetTypeInfo.class, fi, OrtApi.GetTypeInfo$FUNC, scope);
         }
 
-        static GetTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetTypeInfo$MH.invokeExact(symbol, __x0, __x1);
@@ -5189,8 +5176,8 @@ public class OrtApi {
         OrtApi.GetTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTypeInfo GetTypeInfo(MemorySegment segment, MemorySession session) {
-        return GetTypeInfo.ofAddress(GetTypeInfo$get(segment), session);
+    public static GetTypeInfo GetTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return GetTypeInfo.ofAddress(GetTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor GetValueType$FUNC = FunctionDescriptor.of(
@@ -5205,12 +5192,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetValueType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetValueType.class, fi, OrtApi.GetValueType$FUNC, session);
+        static MemorySegment allocate(GetValueType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetValueType.class, fi, OrtApi.GetValueType$FUNC, scope);
         }
 
-        static GetValueType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetValueType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetValueType$MH.invokeExact(symbol, __x0, __x1);
@@ -5254,8 +5241,8 @@ public class OrtApi {
         OrtApi.GetValueType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetValueType GetValueType(MemorySegment segment, MemorySession session) {
-        return GetValueType.ofAddress(GetValueType$get(segment), session);
+    public static GetValueType GetValueType(MemorySegment segment, SegmentScope scope) {
+        return GetValueType.ofAddress(GetValueType$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateMemoryInfo$FUNC = FunctionDescriptor.of(
@@ -5276,12 +5263,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateMemoryInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateMemoryInfo.class, fi, OrtApi.CreateMemoryInfo$FUNC, session);
+        static MemorySegment allocate(CreateMemoryInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateMemoryInfo.class, fi, OrtApi.CreateMemoryInfo$FUNC, scope);
         }
 
-        static CreateMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateMemoryInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     int __x1,
                     int __x2,
@@ -5330,8 +5317,8 @@ public class OrtApi {
         OrtApi.CreateMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateMemoryInfo CreateMemoryInfo(MemorySegment segment, MemorySession session) {
-        return CreateMemoryInfo.ofAddress(CreateMemoryInfo$get(segment), session);
+    public static CreateMemoryInfo CreateMemoryInfo(MemorySegment segment, SegmentScope scope) {
+        return CreateMemoryInfo.ofAddress(CreateMemoryInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateCpuMemoryInfo$FUNC = FunctionDescriptor.of(
@@ -5349,12 +5336,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(int _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(CreateCpuMemoryInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateCpuMemoryInfo.class, fi, OrtApi.CreateCpuMemoryInfo$FUNC, session);
+        static MemorySegment allocate(CreateCpuMemoryInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateCpuMemoryInfo.class, fi, OrtApi.CreateCpuMemoryInfo$FUNC, scope);
         }
 
-        static CreateCpuMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateCpuMemoryInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5399,8 +5386,8 @@ public class OrtApi {
         OrtApi.CreateCpuMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateCpuMemoryInfo CreateCpuMemoryInfo(MemorySegment segment, MemorySession session) {
-        return CreateCpuMemoryInfo.ofAddress(CreateCpuMemoryInfo$get(segment), session);
+    public static CreateCpuMemoryInfo CreateCpuMemoryInfo(MemorySegment segment, SegmentScope scope) {
+        return CreateCpuMemoryInfo.ofAddress(CreateCpuMemoryInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor CompareMemoryInfo$FUNC = FunctionDescriptor.of(
@@ -5421,12 +5408,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(CompareMemoryInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CompareMemoryInfo.class, fi, OrtApi.CompareMemoryInfo$FUNC, session);
+        static MemorySegment allocate(CompareMemoryInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CompareMemoryInfo.class, fi, OrtApi.CompareMemoryInfo$FUNC, scope);
         }
 
-        static CompareMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CompareMemoryInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -5473,8 +5460,8 @@ public class OrtApi {
         OrtApi.CompareMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CompareMemoryInfo CompareMemoryInfo(MemorySegment segment, MemorySession session) {
-        return CompareMemoryInfo.ofAddress(CompareMemoryInfo$get(segment), session);
+    public static CompareMemoryInfo CompareMemoryInfo(MemorySegment segment, SegmentScope scope) {
+        return CompareMemoryInfo.ofAddress(CompareMemoryInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor MemoryInfoGetName$FUNC = FunctionDescriptor.of(
@@ -5489,12 +5476,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(MemoryInfoGetName fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(MemoryInfoGetName.class, fi, OrtApi.MemoryInfoGetName$FUNC, session);
+        static MemorySegment allocate(MemoryInfoGetName fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(MemoryInfoGetName.class, fi, OrtApi.MemoryInfoGetName$FUNC, scope);
         }
 
-        static MemoryInfoGetName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static MemoryInfoGetName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5539,8 +5526,8 @@ public class OrtApi {
         OrtApi.MemoryInfoGetName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static MemoryInfoGetName MemoryInfoGetName(MemorySegment segment, MemorySession session) {
-        return MemoryInfoGetName.ofAddress(MemoryInfoGetName$get(segment), session);
+    public static MemoryInfoGetName MemoryInfoGetName(MemorySegment segment, SegmentScope scope) {
+        return MemoryInfoGetName.ofAddress(MemoryInfoGetName$get(segment), scope);
     }
 
     static final FunctionDescriptor MemoryInfoGetId$FUNC = FunctionDescriptor.of(
@@ -5555,12 +5542,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(MemoryInfoGetId fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(MemoryInfoGetId.class, fi, OrtApi.MemoryInfoGetId$FUNC, session);
+        static MemorySegment allocate(MemoryInfoGetId fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(MemoryInfoGetId.class, fi, OrtApi.MemoryInfoGetId$FUNC, scope);
         }
 
-        static MemoryInfoGetId ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static MemoryInfoGetId ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.MemoryInfoGetId$MH.invokeExact(symbol, __x0, __x1);
@@ -5604,8 +5591,8 @@ public class OrtApi {
         OrtApi.MemoryInfoGetId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static MemoryInfoGetId MemoryInfoGetId(MemorySegment segment, MemorySession session) {
-        return MemoryInfoGetId.ofAddress(MemoryInfoGetId$get(segment), session);
+    public static MemoryInfoGetId MemoryInfoGetId(MemorySegment segment, SegmentScope scope) {
+        return MemoryInfoGetId.ofAddress(MemoryInfoGetId$get(segment), scope);
     }
 
     static final FunctionDescriptor MemoryInfoGetMemType$FUNC = FunctionDescriptor.of(
@@ -5620,12 +5607,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(MemoryInfoGetMemType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(MemoryInfoGetMemType.class, fi, OrtApi.MemoryInfoGetMemType$FUNC, session);
+        static MemorySegment allocate(MemoryInfoGetMemType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(MemoryInfoGetMemType.class, fi, OrtApi.MemoryInfoGetMemType$FUNC, scope);
         }
 
-        static MemoryInfoGetMemType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static MemoryInfoGetMemType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5670,8 +5657,8 @@ public class OrtApi {
         OrtApi.MemoryInfoGetMemType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static MemoryInfoGetMemType MemoryInfoGetMemType(MemorySegment segment, MemorySession session) {
-        return MemoryInfoGetMemType.ofAddress(MemoryInfoGetMemType$get(segment), session);
+    public static MemoryInfoGetMemType MemoryInfoGetMemType(MemorySegment segment, SegmentScope scope) {
+        return MemoryInfoGetMemType.ofAddress(MemoryInfoGetMemType$get(segment), scope);
     }
 
     static final FunctionDescriptor MemoryInfoGetType$FUNC = FunctionDescriptor.of(
@@ -5686,12 +5673,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(MemoryInfoGetType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(MemoryInfoGetType.class, fi, OrtApi.MemoryInfoGetType$FUNC, session);
+        static MemorySegment allocate(MemoryInfoGetType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(MemoryInfoGetType.class, fi, OrtApi.MemoryInfoGetType$FUNC, scope);
         }
 
-        static MemoryInfoGetType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static MemoryInfoGetType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5736,8 +5723,8 @@ public class OrtApi {
         OrtApi.MemoryInfoGetType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static MemoryInfoGetType MemoryInfoGetType(MemorySegment segment, MemorySession session) {
-        return MemoryInfoGetType.ofAddress(MemoryInfoGetType$get(segment), session);
+    public static MemoryInfoGetType MemoryInfoGetType(MemorySegment segment, SegmentScope scope) {
+        return MemoryInfoGetType.ofAddress(MemoryInfoGetType$get(segment), scope);
     }
 
     static final FunctionDescriptor AllocatorAlloc$FUNC = FunctionDescriptor.of(
@@ -5756,12 +5743,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(AllocatorAlloc fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(AllocatorAlloc.class, fi, OrtApi.AllocatorAlloc$FUNC, session);
+        static MemorySegment allocate(AllocatorAlloc fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AllocatorAlloc.class, fi, OrtApi.AllocatorAlloc$FUNC, scope);
         }
 
-        static AllocatorAlloc ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AllocatorAlloc ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -5806,8 +5793,8 @@ public class OrtApi {
         OrtApi.AllocatorAlloc$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AllocatorAlloc AllocatorAlloc(MemorySegment segment, MemorySession session) {
-        return AllocatorAlloc.ofAddress(AllocatorAlloc$get(segment), session);
+    public static AllocatorAlloc AllocatorAlloc(MemorySegment segment, SegmentScope scope) {
+        return AllocatorAlloc.ofAddress(AllocatorAlloc$get(segment), scope);
     }
 
     static final FunctionDescriptor AllocatorFree$FUNC = FunctionDescriptor.of(
@@ -5822,12 +5809,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(AllocatorFree fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(AllocatorFree.class, fi, OrtApi.AllocatorFree$FUNC, session);
+        static MemorySegment allocate(AllocatorFree fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AllocatorFree.class, fi, OrtApi.AllocatorFree$FUNC, scope);
         }
 
-        static AllocatorFree ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AllocatorFree ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.AllocatorFree$MH.invokeExact(symbol, __x0, __x1);
@@ -5871,8 +5858,8 @@ public class OrtApi {
         OrtApi.AllocatorFree$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AllocatorFree AllocatorFree(MemorySegment segment, MemorySession session) {
-        return AllocatorFree.ofAddress(AllocatorFree$get(segment), session);
+    public static AllocatorFree AllocatorFree(MemorySegment segment, SegmentScope scope) {
+        return AllocatorFree.ofAddress(AllocatorFree$get(segment), scope);
     }
 
     static final FunctionDescriptor AllocatorGetInfo$FUNC = FunctionDescriptor.of(
@@ -5887,12 +5874,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(AllocatorGetInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(AllocatorGetInfo.class, fi, OrtApi.AllocatorGetInfo$FUNC, session);
+        static MemorySegment allocate(AllocatorGetInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AllocatorGetInfo.class, fi, OrtApi.AllocatorGetInfo$FUNC, scope);
         }
 
-        static AllocatorGetInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AllocatorGetInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.AllocatorGetInfo$MH.invokeExact(symbol, __x0, __x1);
@@ -5936,8 +5923,8 @@ public class OrtApi {
         OrtApi.AllocatorGetInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AllocatorGetInfo AllocatorGetInfo(MemorySegment segment, MemorySession session) {
-        return AllocatorGetInfo.ofAddress(AllocatorGetInfo$get(segment), session);
+    public static AllocatorGetInfo AllocatorGetInfo(MemorySegment segment, SegmentScope scope) {
+        return AllocatorGetInfo.ofAddress(AllocatorGetInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor GetAllocatorWithDefaultOptions$FUNC =
@@ -5953,13 +5940,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(GetAllocatorWithDefaultOptions fi, MemorySession session) {
+        static MemorySegment allocate(GetAllocatorWithDefaultOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetAllocatorWithDefaultOptions.class, fi, OrtApi.GetAllocatorWithDefaultOptions$FUNC, session);
+                    GetAllocatorWithDefaultOptions.class, fi, OrtApi.GetAllocatorWithDefaultOptions$FUNC, scope);
         }
 
-        static GetAllocatorWithDefaultOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetAllocatorWithDefaultOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -6006,8 +5993,8 @@ public class OrtApi {
     }
 
     public static GetAllocatorWithDefaultOptions GetAllocatorWithDefaultOptions(
-            MemorySegment segment, MemorySession session) {
-        return GetAllocatorWithDefaultOptions.ofAddress(GetAllocatorWithDefaultOptions$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return GetAllocatorWithDefaultOptions.ofAddress(GetAllocatorWithDefaultOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor AddFreeDimensionOverride$FUNC = FunctionDescriptor.of(
@@ -6027,13 +6014,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(AddFreeDimensionOverride fi, MemorySession session) {
+        static MemorySegment allocate(AddFreeDimensionOverride fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    AddFreeDimensionOverride.class, fi, OrtApi.AddFreeDimensionOverride$FUNC, session);
+                    AddFreeDimensionOverride.class, fi, OrtApi.AddFreeDimensionOverride$FUNC, scope);
         }
 
-        static AddFreeDimensionOverride ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddFreeDimensionOverride ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -6078,8 +6065,8 @@ public class OrtApi {
         OrtApi.AddFreeDimensionOverride$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AddFreeDimensionOverride AddFreeDimensionOverride(MemorySegment segment, MemorySession session) {
-        return AddFreeDimensionOverride.ofAddress(AddFreeDimensionOverride$get(segment), session);
+    public static AddFreeDimensionOverride AddFreeDimensionOverride(MemorySegment segment, SegmentScope scope) {
+        return AddFreeDimensionOverride.ofAddress(AddFreeDimensionOverride$get(segment), scope);
     }
 
     static final FunctionDescriptor GetValue$FUNC = FunctionDescriptor.of(
@@ -6102,12 +6089,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(GetValue fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetValue.class, fi, OrtApi.GetValue$FUNC, session);
+        static MemorySegment allocate(GetValue fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetValue.class, fi, OrtApi.GetValue$FUNC, scope);
         }
 
-        static GetValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     int __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -6154,8 +6141,8 @@ public class OrtApi {
         OrtApi.GetValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetValue GetValue(MemorySegment segment, MemorySession session) {
-        return GetValue.ofAddress(GetValue$get(segment), session);
+    public static GetValue GetValue(MemorySegment segment, SegmentScope scope) {
+        return GetValue.ofAddress(GetValue$get(segment), scope);
     }
 
     static final FunctionDescriptor GetValueCount$FUNC = FunctionDescriptor.of(
@@ -6170,12 +6157,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetValueCount fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetValueCount.class, fi, OrtApi.GetValueCount$FUNC, session);
+        static MemorySegment allocate(GetValueCount fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetValueCount.class, fi, OrtApi.GetValueCount$FUNC, scope);
         }
 
-        static GetValueCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetValueCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetValueCount$MH.invokeExact(symbol, __x0, __x1);
@@ -6219,8 +6206,8 @@ public class OrtApi {
         OrtApi.GetValueCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetValueCount GetValueCount(MemorySegment segment, MemorySession session) {
-        return GetValueCount.ofAddress(GetValueCount$get(segment), session);
+    public static GetValueCount GetValueCount(MemorySegment segment, SegmentScope scope) {
+        return GetValueCount.ofAddress(GetValueCount$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateValue$FUNC = FunctionDescriptor.of(
@@ -6240,12 +6227,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, int _x2, java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(CreateValue fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateValue.class, fi, OrtApi.CreateValue$FUNC, session);
+        static MemorySegment allocate(CreateValue fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateValue.class, fi, OrtApi.CreateValue$FUNC, scope);
         }
 
-        static CreateValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     int __x2,
@@ -6293,8 +6280,8 @@ public class OrtApi {
         OrtApi.CreateValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateValue CreateValue(MemorySegment segment, MemorySession session) {
-        return CreateValue.ofAddress(CreateValue$get(segment), session);
+    public static CreateValue CreateValue(MemorySegment segment, SegmentScope scope) {
+        return CreateValue.ofAddress(CreateValue$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateOpaqueValue$FUNC = FunctionDescriptor.of(
@@ -6319,12 +6306,12 @@ public class OrtApi {
                 long _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateOpaqueValue fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateOpaqueValue.class, fi, OrtApi.CreateOpaqueValue$FUNC, session);
+        static MemorySegment allocate(CreateOpaqueValue fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateOpaqueValue.class, fi, OrtApi.CreateOpaqueValue$FUNC, scope);
         }
 
-        static CreateOpaqueValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateOpaqueValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -6373,8 +6360,8 @@ public class OrtApi {
         OrtApi.CreateOpaqueValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateOpaqueValue CreateOpaqueValue(MemorySegment segment, MemorySession session) {
-        return CreateOpaqueValue.ofAddress(CreateOpaqueValue$get(segment), session);
+    public static CreateOpaqueValue CreateOpaqueValue(MemorySegment segment, SegmentScope scope) {
+        return CreateOpaqueValue.ofAddress(CreateOpaqueValue$get(segment), scope);
     }
 
     static final FunctionDescriptor GetOpaqueValue$FUNC = FunctionDescriptor.of(
@@ -6399,12 +6386,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
-        static MemorySegment allocate(GetOpaqueValue fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetOpaqueValue.class, fi, OrtApi.GetOpaqueValue$FUNC, session);
+        static MemorySegment allocate(GetOpaqueValue fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetOpaqueValue.class, fi, OrtApi.GetOpaqueValue$FUNC, scope);
         }
 
-        static GetOpaqueValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetOpaqueValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -6453,8 +6440,8 @@ public class OrtApi {
         OrtApi.GetOpaqueValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetOpaqueValue GetOpaqueValue(MemorySegment segment, MemorySession session) {
-        return GetOpaqueValue.ofAddress(GetOpaqueValue$get(segment), session);
+    public static GetOpaqueValue GetOpaqueValue(MemorySegment segment, SegmentScope scope) {
+        return GetOpaqueValue.ofAddress(GetOpaqueValue$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfoGetAttribute_float$FUNC = FunctionDescriptor.of(
@@ -6476,13 +6463,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(KernelInfoGetAttribute_float fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfoGetAttribute_float fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfoGetAttribute_float.class, fi, OrtApi.KernelInfoGetAttribute_float$FUNC, session);
+                    KernelInfoGetAttribute_float.class, fi, OrtApi.KernelInfoGetAttribute_float$FUNC, scope);
         }
 
-        static KernelInfoGetAttribute_float ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfoGetAttribute_float ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -6530,9 +6517,8 @@ public class OrtApi {
         OrtApi.KernelInfoGetAttribute_float$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfoGetAttribute_float KernelInfoGetAttribute_float(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfoGetAttribute_float.ofAddress(KernelInfoGetAttribute_float$get(segment), session);
+    public static KernelInfoGetAttribute_float KernelInfoGetAttribute_float(MemorySegment segment, SegmentScope scope) {
+        return KernelInfoGetAttribute_float.ofAddress(KernelInfoGetAttribute_float$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfoGetAttribute_int64$FUNC = FunctionDescriptor.of(
@@ -6554,13 +6540,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(KernelInfoGetAttribute_int64 fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfoGetAttribute_int64 fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfoGetAttribute_int64.class, fi, OrtApi.KernelInfoGetAttribute_int64$FUNC, session);
+                    KernelInfoGetAttribute_int64.class, fi, OrtApi.KernelInfoGetAttribute_int64$FUNC, scope);
         }
 
-        static KernelInfoGetAttribute_int64 ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfoGetAttribute_int64 ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -6608,9 +6594,8 @@ public class OrtApi {
         OrtApi.KernelInfoGetAttribute_int64$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfoGetAttribute_int64 KernelInfoGetAttribute_int64(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfoGetAttribute_int64.ofAddress(KernelInfoGetAttribute_int64$get(segment), session);
+    public static KernelInfoGetAttribute_int64 KernelInfoGetAttribute_int64(MemorySegment segment, SegmentScope scope) {
+        return KernelInfoGetAttribute_int64.ofAddress(KernelInfoGetAttribute_int64$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfoGetAttribute_string$FUNC = FunctionDescriptor.of(
@@ -6634,13 +6619,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(KernelInfoGetAttribute_string fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfoGetAttribute_string fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfoGetAttribute_string.class, fi, OrtApi.KernelInfoGetAttribute_string$FUNC, session);
+                    KernelInfoGetAttribute_string.class, fi, OrtApi.KernelInfoGetAttribute_string$FUNC, scope);
         }
 
-        static KernelInfoGetAttribute_string ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfoGetAttribute_string ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -6690,8 +6675,8 @@ public class OrtApi {
     }
 
     public static KernelInfoGetAttribute_string KernelInfoGetAttribute_string(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfoGetAttribute_string.ofAddress(KernelInfoGetAttribute_string$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return KernelInfoGetAttribute_string.ofAddress(KernelInfoGetAttribute_string$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelContext_GetInputCount$FUNC = FunctionDescriptor.of(
@@ -6707,13 +6692,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(KernelContext_GetInputCount fi, MemorySession session) {
+        static MemorySegment allocate(KernelContext_GetInputCount fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelContext_GetInputCount.class, fi, OrtApi.KernelContext_GetInputCount$FUNC, session);
+                    KernelContext_GetInputCount.class, fi, OrtApi.KernelContext_GetInputCount$FUNC, scope);
         }
 
-        static KernelContext_GetInputCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelContext_GetInputCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -6759,9 +6744,8 @@ public class OrtApi {
         OrtApi.KernelContext_GetInputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelContext_GetInputCount KernelContext_GetInputCount(
-            MemorySegment segment, MemorySession session) {
-        return KernelContext_GetInputCount.ofAddress(KernelContext_GetInputCount$get(segment), session);
+    public static KernelContext_GetInputCount KernelContext_GetInputCount(MemorySegment segment, SegmentScope scope) {
+        return KernelContext_GetInputCount.ofAddress(KernelContext_GetInputCount$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelContext_GetOutputCount$FUNC = FunctionDescriptor.of(
@@ -6777,13 +6761,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(KernelContext_GetOutputCount fi, MemorySession session) {
+        static MemorySegment allocate(KernelContext_GetOutputCount fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelContext_GetOutputCount.class, fi, OrtApi.KernelContext_GetOutputCount$FUNC, session);
+                    KernelContext_GetOutputCount.class, fi, OrtApi.KernelContext_GetOutputCount$FUNC, scope);
         }
 
-        static KernelContext_GetOutputCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelContext_GetOutputCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -6829,9 +6813,8 @@ public class OrtApi {
         OrtApi.KernelContext_GetOutputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelContext_GetOutputCount KernelContext_GetOutputCount(
-            MemorySegment segment, MemorySession session) {
-        return KernelContext_GetOutputCount.ofAddress(KernelContext_GetOutputCount$get(segment), session);
+    public static KernelContext_GetOutputCount KernelContext_GetOutputCount(MemorySegment segment, SegmentScope scope) {
+        return KernelContext_GetOutputCount.ofAddress(KernelContext_GetOutputCount$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelContext_GetInput$FUNC = FunctionDescriptor.of(
@@ -6851,13 +6834,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(KernelContext_GetInput fi, MemorySession session) {
+        static MemorySegment allocate(KernelContext_GetInput fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelContext_GetInput.class, fi, OrtApi.KernelContext_GetInput$FUNC, session);
+                    KernelContext_GetInput.class, fi, OrtApi.KernelContext_GetInput$FUNC, scope);
         }
 
-        static KernelContext_GetInput ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelContext_GetInput ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -6902,8 +6885,8 @@ public class OrtApi {
         OrtApi.KernelContext_GetInput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelContext_GetInput KernelContext_GetInput(MemorySegment segment, MemorySession session) {
-        return KernelContext_GetInput.ofAddress(KernelContext_GetInput$get(segment), session);
+    public static KernelContext_GetInput KernelContext_GetInput(MemorySegment segment, SegmentScope scope) {
+        return KernelContext_GetInput.ofAddress(KernelContext_GetInput$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelContext_GetOutput$FUNC = FunctionDescriptor.of(
@@ -6929,13 +6912,13 @@ public class OrtApi {
                 long _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(KernelContext_GetOutput fi, MemorySession session) {
+        static MemorySegment allocate(KernelContext_GetOutput fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelContext_GetOutput.class, fi, OrtApi.KernelContext_GetOutput$FUNC, session);
+                    KernelContext_GetOutput.class, fi, OrtApi.KernelContext_GetOutput$FUNC, scope);
         }
 
-        static KernelContext_GetOutput ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelContext_GetOutput ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -6984,8 +6967,8 @@ public class OrtApi {
         OrtApi.KernelContext_GetOutput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelContext_GetOutput KernelContext_GetOutput(MemorySegment segment, MemorySession session) {
-        return KernelContext_GetOutput.ofAddress(KernelContext_GetOutput$get(segment), session);
+    public static KernelContext_GetOutput KernelContext_GetOutput(MemorySegment segment, SegmentScope scope) {
+        return KernelContext_GetOutput.ofAddress(KernelContext_GetOutput$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseEnv$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -6999,12 +6982,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseEnv fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseEnv.class, fi, OrtApi.ReleaseEnv$FUNC, session);
+        static MemorySegment allocate(ReleaseEnv fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseEnv.class, fi, OrtApi.ReleaseEnv$FUNC, scope);
         }
 
-        static ReleaseEnv ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseEnv ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseEnv$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7048,8 +7031,8 @@ public class OrtApi {
         OrtApi.ReleaseEnv$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseEnv ReleaseEnv(MemorySegment segment, MemorySession session) {
-        return ReleaseEnv.ofAddress(ReleaseEnv$get(segment), session);
+    public static ReleaseEnv ReleaseEnv(MemorySegment segment, SegmentScope scope) {
+        return ReleaseEnv.ofAddress(ReleaseEnv$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseStatus$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -7063,12 +7046,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseStatus fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseStatus.class, fi, OrtApi.ReleaseStatus$FUNC, session);
+        static MemorySegment allocate(ReleaseStatus fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseStatus.class, fi, OrtApi.ReleaseStatus$FUNC, scope);
         }
 
-        static ReleaseStatus ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseStatus ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseStatus$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7112,8 +7095,8 @@ public class OrtApi {
         OrtApi.ReleaseStatus$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseStatus ReleaseStatus(MemorySegment segment, MemorySession session) {
-        return ReleaseStatus.ofAddress(ReleaseStatus$get(segment), session);
+    public static ReleaseStatus ReleaseStatus(MemorySegment segment, SegmentScope scope) {
+        return ReleaseStatus.ofAddress(ReleaseStatus$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseMemoryInfo$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -7127,12 +7110,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseMemoryInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseMemoryInfo.class, fi, OrtApi.ReleaseMemoryInfo$FUNC, session);
+        static MemorySegment allocate(ReleaseMemoryInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseMemoryInfo.class, fi, OrtApi.ReleaseMemoryInfo$FUNC, scope);
         }
 
-        static ReleaseMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseMemoryInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseMemoryInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7176,8 +7159,8 @@ public class OrtApi {
         OrtApi.ReleaseMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseMemoryInfo ReleaseMemoryInfo(MemorySegment segment, MemorySession session) {
-        return ReleaseMemoryInfo.ofAddress(ReleaseMemoryInfo$get(segment), session);
+    public static ReleaseMemoryInfo ReleaseMemoryInfo(MemorySegment segment, SegmentScope scope) {
+        return ReleaseMemoryInfo.ofAddress(ReleaseMemoryInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseSession$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -7191,12 +7174,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseSession fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseSession.class, fi, OrtApi.ReleaseSession$FUNC, session);
+        static MemorySegment allocate(ReleaseSession fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseSession.class, fi, OrtApi.ReleaseSession$FUNC, scope);
         }
 
-        static ReleaseSession ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseSession ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseSession$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7240,8 +7223,8 @@ public class OrtApi {
         OrtApi.ReleaseSession$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseSession ReleaseSession(MemorySegment segment, MemorySession session) {
-        return ReleaseSession.ofAddress(ReleaseSession$get(segment), session);
+    public static ReleaseSession ReleaseSession(MemorySegment segment, SegmentScope scope) {
+        return ReleaseSession.ofAddress(ReleaseSession$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseValue$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -7255,12 +7238,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseValue fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseValue.class, fi, OrtApi.ReleaseValue$FUNC, session);
+        static MemorySegment allocate(ReleaseValue fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseValue.class, fi, OrtApi.ReleaseValue$FUNC, scope);
         }
 
-        static ReleaseValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseValue$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7304,8 +7287,8 @@ public class OrtApi {
         OrtApi.ReleaseValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseValue ReleaseValue(MemorySegment segment, MemorySession session) {
-        return ReleaseValue.ofAddress(ReleaseValue$get(segment), session);
+    public static ReleaseValue ReleaseValue(MemorySegment segment, SegmentScope scope) {
+        return ReleaseValue.ofAddress(ReleaseValue$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseRunOptions$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -7319,12 +7302,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseRunOptions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseRunOptions.class, fi, OrtApi.ReleaseRunOptions$FUNC, session);
+        static MemorySegment allocate(ReleaseRunOptions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseRunOptions.class, fi, OrtApi.ReleaseRunOptions$FUNC, scope);
         }
 
-        static ReleaseRunOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseRunOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseRunOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7368,8 +7351,8 @@ public class OrtApi {
         OrtApi.ReleaseRunOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseRunOptions ReleaseRunOptions(MemorySegment segment, MemorySession session) {
-        return ReleaseRunOptions.ofAddress(ReleaseRunOptions$get(segment), session);
+    public static ReleaseRunOptions ReleaseRunOptions(MemorySegment segment, SegmentScope scope) {
+        return ReleaseRunOptions.ofAddress(ReleaseRunOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseTypeInfo$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -7383,12 +7366,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseTypeInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseTypeInfo.class, fi, OrtApi.ReleaseTypeInfo$FUNC, session);
+        static MemorySegment allocate(ReleaseTypeInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseTypeInfo.class, fi, OrtApi.ReleaseTypeInfo$FUNC, scope);
         }
 
-        static ReleaseTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseTypeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7432,8 +7415,8 @@ public class OrtApi {
         OrtApi.ReleaseTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseTypeInfo ReleaseTypeInfo(MemorySegment segment, MemorySession session) {
-        return ReleaseTypeInfo.ofAddress(ReleaseTypeInfo$get(segment), session);
+    public static ReleaseTypeInfo ReleaseTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return ReleaseTypeInfo.ofAddress(ReleaseTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseTensorTypeAndShapeInfo$FUNC =
@@ -7449,13 +7432,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseTensorTypeAndShapeInfo fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseTensorTypeAndShapeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseTensorTypeAndShapeInfo.class, fi, OrtApi.ReleaseTensorTypeAndShapeInfo$FUNC, session);
+                    ReleaseTensorTypeAndShapeInfo.class, fi, OrtApi.ReleaseTensorTypeAndShapeInfo$FUNC, scope);
         }
 
-        static ReleaseTensorTypeAndShapeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseTensorTypeAndShapeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseTensorTypeAndShapeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7501,8 +7484,8 @@ public class OrtApi {
     }
 
     public static ReleaseTensorTypeAndShapeInfo ReleaseTensorTypeAndShapeInfo(
-            MemorySegment segment, MemorySession session) {
-        return ReleaseTensorTypeAndShapeInfo.ofAddress(ReleaseTensorTypeAndShapeInfo$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return ReleaseTensorTypeAndShapeInfo.ofAddress(ReleaseTensorTypeAndShapeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseSessionOptions$FUNC =
@@ -7518,13 +7501,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseSessionOptions fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    ReleaseSessionOptions.class, fi, OrtApi.ReleaseSessionOptions$FUNC, session);
+        static MemorySegment allocate(ReleaseSessionOptions fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseSessionOptions.class, fi, OrtApi.ReleaseSessionOptions$FUNC, scope);
         }
 
-        static ReleaseSessionOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseSessionOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseSessionOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7568,8 +7550,8 @@ public class OrtApi {
         OrtApi.ReleaseSessionOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseSessionOptions ReleaseSessionOptions(MemorySegment segment, MemorySession session) {
-        return ReleaseSessionOptions.ofAddress(ReleaseSessionOptions$get(segment), session);
+    public static ReleaseSessionOptions ReleaseSessionOptions(MemorySegment segment, SegmentScope scope) {
+        return ReleaseSessionOptions.ofAddress(ReleaseSessionOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseCustomOpDomain$FUNC =
@@ -7585,13 +7567,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseCustomOpDomain fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    ReleaseCustomOpDomain.class, fi, OrtApi.ReleaseCustomOpDomain$FUNC, session);
+        static MemorySegment allocate(ReleaseCustomOpDomain fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseCustomOpDomain.class, fi, OrtApi.ReleaseCustomOpDomain$FUNC, scope);
         }
 
-        static ReleaseCustomOpDomain ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseCustomOpDomain ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseCustomOpDomain$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -7635,8 +7616,8 @@ public class OrtApi {
         OrtApi.ReleaseCustomOpDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseCustomOpDomain ReleaseCustomOpDomain(MemorySegment segment, MemorySession session) {
-        return ReleaseCustomOpDomain.ofAddress(ReleaseCustomOpDomain$get(segment), session);
+    public static ReleaseCustomOpDomain ReleaseCustomOpDomain(MemorySegment segment, SegmentScope scope) {
+        return ReleaseCustomOpDomain.ofAddress(ReleaseCustomOpDomain$get(segment), scope);
     }
 
     static final FunctionDescriptor GetDenotationFromTypeInfo$FUNC = FunctionDescriptor.of(
@@ -7658,13 +7639,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetDenotationFromTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(GetDenotationFromTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetDenotationFromTypeInfo.class, fi, OrtApi.GetDenotationFromTypeInfo$FUNC, session);
+                    GetDenotationFromTypeInfo.class, fi, OrtApi.GetDenotationFromTypeInfo$FUNC, scope);
         }
 
-        static GetDenotationFromTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetDenotationFromTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -7711,8 +7692,8 @@ public class OrtApi {
         OrtApi.GetDenotationFromTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetDenotationFromTypeInfo GetDenotationFromTypeInfo(MemorySegment segment, MemorySession session) {
-        return GetDenotationFromTypeInfo.ofAddress(GetDenotationFromTypeInfo$get(segment), session);
+    public static GetDenotationFromTypeInfo GetDenotationFromTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return GetDenotationFromTypeInfo.ofAddress(GetDenotationFromTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor CastTypeInfoToMapTypeInfo$FUNC = FunctionDescriptor.of(
@@ -7728,13 +7709,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CastTypeInfoToMapTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(CastTypeInfoToMapTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CastTypeInfoToMapTypeInfo.class, fi, OrtApi.CastTypeInfoToMapTypeInfo$FUNC, session);
+                    CastTypeInfoToMapTypeInfo.class, fi, OrtApi.CastTypeInfoToMapTypeInfo$FUNC, scope);
         }
 
-        static CastTypeInfoToMapTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CastTypeInfoToMapTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -7779,8 +7760,8 @@ public class OrtApi {
         OrtApi.CastTypeInfoToMapTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo(MemorySegment segment, MemorySession session) {
-        return CastTypeInfoToMapTypeInfo.ofAddress(CastTypeInfoToMapTypeInfo$get(segment), session);
+    public static CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return CastTypeInfoToMapTypeInfo.ofAddress(CastTypeInfoToMapTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor CastTypeInfoToSequenceTypeInfo$FUNC = FunctionDescriptor.of(
@@ -7796,13 +7777,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CastTypeInfoToSequenceTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(CastTypeInfoToSequenceTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CastTypeInfoToSequenceTypeInfo.class, fi, OrtApi.CastTypeInfoToSequenceTypeInfo$FUNC, session);
+                    CastTypeInfoToSequenceTypeInfo.class, fi, OrtApi.CastTypeInfoToSequenceTypeInfo$FUNC, scope);
         }
 
-        static CastTypeInfoToSequenceTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CastTypeInfoToSequenceTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -7849,8 +7830,8 @@ public class OrtApi {
     }
 
     public static CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo(
-            MemorySegment segment, MemorySession session) {
-        return CastTypeInfoToSequenceTypeInfo.ofAddress(CastTypeInfoToSequenceTypeInfo$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return CastTypeInfoToSequenceTypeInfo.ofAddress(CastTypeInfoToSequenceTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor GetMapKeyType$FUNC = FunctionDescriptor.of(
@@ -7865,12 +7846,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetMapKeyType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetMapKeyType.class, fi, OrtApi.GetMapKeyType$FUNC, session);
+        static MemorySegment allocate(GetMapKeyType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetMapKeyType.class, fi, OrtApi.GetMapKeyType$FUNC, scope);
         }
 
-        static GetMapKeyType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetMapKeyType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetMapKeyType$MH.invokeExact(symbol, __x0, __x1);
@@ -7914,8 +7895,8 @@ public class OrtApi {
         OrtApi.GetMapKeyType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetMapKeyType GetMapKeyType(MemorySegment segment, MemorySession session) {
-        return GetMapKeyType.ofAddress(GetMapKeyType$get(segment), session);
+    public static GetMapKeyType GetMapKeyType(MemorySegment segment, SegmentScope scope) {
+        return GetMapKeyType.ofAddress(GetMapKeyType$get(segment), scope);
     }
 
     static final FunctionDescriptor GetMapValueType$FUNC = FunctionDescriptor.of(
@@ -7930,12 +7911,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetMapValueType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetMapValueType.class, fi, OrtApi.GetMapValueType$FUNC, session);
+        static MemorySegment allocate(GetMapValueType fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetMapValueType.class, fi, OrtApi.GetMapValueType$FUNC, scope);
         }
 
-        static GetMapValueType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetMapValueType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetMapValueType$MH.invokeExact(symbol, __x0, __x1);
@@ -7979,8 +7960,8 @@ public class OrtApi {
         OrtApi.GetMapValueType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetMapValueType GetMapValueType(MemorySegment segment, MemorySession session) {
-        return GetMapValueType.ofAddress(GetMapValueType$get(segment), session);
+    public static GetMapValueType GetMapValueType(MemorySegment segment, SegmentScope scope) {
+        return GetMapValueType.ofAddress(GetMapValueType$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSequenceElementType$FUNC = FunctionDescriptor.of(
@@ -7996,13 +7977,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetSequenceElementType fi, MemorySession session) {
+        static MemorySegment allocate(GetSequenceElementType fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetSequenceElementType.class, fi, OrtApi.GetSequenceElementType$FUNC, session);
+                    GetSequenceElementType.class, fi, OrtApi.GetSequenceElementType$FUNC, scope);
         }
 
-        static GetSequenceElementType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSequenceElementType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -8047,8 +8028,8 @@ public class OrtApi {
         OrtApi.GetSequenceElementType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetSequenceElementType GetSequenceElementType(MemorySegment segment, MemorySession session) {
-        return GetSequenceElementType.ofAddress(GetSequenceElementType$get(segment), session);
+    public static GetSequenceElementType GetSequenceElementType(MemorySegment segment, SegmentScope scope) {
+        return GetSequenceElementType.ofAddress(GetSequenceElementType$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseMapTypeInfo$FUNC =
@@ -8063,12 +8044,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseMapTypeInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseMapTypeInfo.class, fi, OrtApi.ReleaseMapTypeInfo$FUNC, session);
+        static MemorySegment allocate(ReleaseMapTypeInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseMapTypeInfo.class, fi, OrtApi.ReleaseMapTypeInfo$FUNC, scope);
         }
 
-        static ReleaseMapTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseMapTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseMapTypeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -8112,8 +8093,8 @@ public class OrtApi {
         OrtApi.ReleaseMapTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseMapTypeInfo ReleaseMapTypeInfo(MemorySegment segment, MemorySession session) {
-        return ReleaseMapTypeInfo.ofAddress(ReleaseMapTypeInfo$get(segment), session);
+    public static ReleaseMapTypeInfo ReleaseMapTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return ReleaseMapTypeInfo.ofAddress(ReleaseMapTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseSequenceTypeInfo$FUNC =
@@ -8129,13 +8110,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseSequenceTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseSequenceTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseSequenceTypeInfo.class, fi, OrtApi.ReleaseSequenceTypeInfo$FUNC, session);
+                    ReleaseSequenceTypeInfo.class, fi, OrtApi.ReleaseSequenceTypeInfo$FUNC, scope);
         }
 
-        static ReleaseSequenceTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseSequenceTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseSequenceTypeInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -8179,8 +8160,8 @@ public class OrtApi {
         OrtApi.ReleaseSequenceTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseSequenceTypeInfo ReleaseSequenceTypeInfo(MemorySegment segment, MemorySession session) {
-        return ReleaseSequenceTypeInfo.ofAddress(ReleaseSequenceTypeInfo$get(segment), session);
+    public static ReleaseSequenceTypeInfo ReleaseSequenceTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return ReleaseSequenceTypeInfo.ofAddress(ReleaseSequenceTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionEndProfiling$FUNC = FunctionDescriptor.of(
@@ -8201,12 +8182,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(SessionEndProfiling fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SessionEndProfiling.class, fi, OrtApi.SessionEndProfiling$FUNC, session);
+        static MemorySegment allocate(SessionEndProfiling fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SessionEndProfiling.class, fi, OrtApi.SessionEndProfiling$FUNC, scope);
         }
 
-        static SessionEndProfiling ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionEndProfiling ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -8253,8 +8234,8 @@ public class OrtApi {
         OrtApi.SessionEndProfiling$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionEndProfiling SessionEndProfiling(MemorySegment segment, MemorySession session) {
-        return SessionEndProfiling.ofAddress(SessionEndProfiling$get(segment), session);
+    public static SessionEndProfiling SessionEndProfiling(MemorySegment segment, SegmentScope scope) {
+        return SessionEndProfiling.ofAddress(SessionEndProfiling$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetModelMetadata$FUNC = FunctionDescriptor.of(
@@ -8270,13 +8251,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionGetModelMetadata fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetModelMetadata fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SessionGetModelMetadata.class, fi, OrtApi.SessionGetModelMetadata$FUNC, session);
+                    SessionGetModelMetadata.class, fi, OrtApi.SessionGetModelMetadata$FUNC, scope);
         }
 
-        static SessionGetModelMetadata ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetModelMetadata ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -8321,8 +8302,8 @@ public class OrtApi {
         OrtApi.SessionGetModelMetadata$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SessionGetModelMetadata SessionGetModelMetadata(MemorySegment segment, MemorySession session) {
-        return SessionGetModelMetadata.ofAddress(SessionGetModelMetadata$get(segment), session);
+    public static SessionGetModelMetadata SessionGetModelMetadata(MemorySegment segment, SegmentScope scope) {
+        return SessionGetModelMetadata.ofAddress(SessionGetModelMetadata$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetProducerName$FUNC = FunctionDescriptor.of(
@@ -8344,13 +8325,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(ModelMetadataGetProducerName fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetProducerName fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ModelMetadataGetProducerName.class, fi, OrtApi.ModelMetadataGetProducerName$FUNC, session);
+                    ModelMetadataGetProducerName.class, fi, OrtApi.ModelMetadataGetProducerName$FUNC, scope);
         }
 
-        static ModelMetadataGetProducerName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetProducerName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -8398,9 +8379,8 @@ public class OrtApi {
         OrtApi.ModelMetadataGetProducerName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ModelMetadataGetProducerName ModelMetadataGetProducerName(
-            MemorySegment segment, MemorySession session) {
-        return ModelMetadataGetProducerName.ofAddress(ModelMetadataGetProducerName$get(segment), session);
+    public static ModelMetadataGetProducerName ModelMetadataGetProducerName(MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataGetProducerName.ofAddress(ModelMetadataGetProducerName$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetGraphName$FUNC = FunctionDescriptor.of(
@@ -8422,13 +8402,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(ModelMetadataGetGraphName fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetGraphName fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ModelMetadataGetGraphName.class, fi, OrtApi.ModelMetadataGetGraphName$FUNC, session);
+                    ModelMetadataGetGraphName.class, fi, OrtApi.ModelMetadataGetGraphName$FUNC, scope);
         }
 
-        static ModelMetadataGetGraphName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetGraphName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -8475,8 +8455,8 @@ public class OrtApi {
         OrtApi.ModelMetadataGetGraphName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ModelMetadataGetGraphName ModelMetadataGetGraphName(MemorySegment segment, MemorySession session) {
-        return ModelMetadataGetGraphName.ofAddress(ModelMetadataGetGraphName$get(segment), session);
+    public static ModelMetadataGetGraphName ModelMetadataGetGraphName(MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataGetGraphName.ofAddress(ModelMetadataGetGraphName$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetDomain$FUNC = FunctionDescriptor.of(
@@ -8498,13 +8478,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(ModelMetadataGetDomain fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetDomain fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ModelMetadataGetDomain.class, fi, OrtApi.ModelMetadataGetDomain$FUNC, session);
+                    ModelMetadataGetDomain.class, fi, OrtApi.ModelMetadataGetDomain$FUNC, scope);
         }
 
-        static ModelMetadataGetDomain ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetDomain ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -8551,8 +8531,8 @@ public class OrtApi {
         OrtApi.ModelMetadataGetDomain$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ModelMetadataGetDomain ModelMetadataGetDomain(MemorySegment segment, MemorySession session) {
-        return ModelMetadataGetDomain.ofAddress(ModelMetadataGetDomain$get(segment), session);
+    public static ModelMetadataGetDomain ModelMetadataGetDomain(MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataGetDomain.ofAddress(ModelMetadataGetDomain$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetDescription$FUNC = FunctionDescriptor.of(
@@ -8574,13 +8554,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(ModelMetadataGetDescription fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetDescription fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ModelMetadataGetDescription.class, fi, OrtApi.ModelMetadataGetDescription$FUNC, session);
+                    ModelMetadataGetDescription.class, fi, OrtApi.ModelMetadataGetDescription$FUNC, scope);
         }
 
-        static ModelMetadataGetDescription ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetDescription ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -8628,9 +8608,8 @@ public class OrtApi {
         OrtApi.ModelMetadataGetDescription$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ModelMetadataGetDescription ModelMetadataGetDescription(
-            MemorySegment segment, MemorySession session) {
-        return ModelMetadataGetDescription.ofAddress(ModelMetadataGetDescription$get(segment), session);
+    public static ModelMetadataGetDescription ModelMetadataGetDescription(MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataGetDescription.ofAddress(ModelMetadataGetDescription$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataLookupCustomMetadataMap$FUNC = FunctionDescriptor.of(
@@ -8654,16 +8633,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(ModelMetadataLookupCustomMetadataMap fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataLookupCustomMetadataMap fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataLookupCustomMetadataMap.class,
                     fi,
                     OrtApi.ModelMetadataLookupCustomMetadataMap$FUNC,
-                    session);
+                    scope);
         }
 
-        static ModelMetadataLookupCustomMetadataMap ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataLookupCustomMetadataMap ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -8713,9 +8692,8 @@ public class OrtApi {
     }
 
     public static ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap(
-            MemorySegment segment, MemorySession session) {
-        return ModelMetadataLookupCustomMetadataMap.ofAddress(
-                ModelMetadataLookupCustomMetadataMap$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataLookupCustomMetadataMap.ofAddress(ModelMetadataLookupCustomMetadataMap$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetVersion$FUNC = FunctionDescriptor.of(
@@ -8731,13 +8709,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(ModelMetadataGetVersion fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetVersion fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ModelMetadataGetVersion.class, fi, OrtApi.ModelMetadataGetVersion$FUNC, session);
+                    ModelMetadataGetVersion.class, fi, OrtApi.ModelMetadataGetVersion$FUNC, scope);
         }
 
-        static ModelMetadataGetVersion ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetVersion ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -8782,8 +8760,8 @@ public class OrtApi {
         OrtApi.ModelMetadataGetVersion$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ModelMetadataGetVersion ModelMetadataGetVersion(MemorySegment segment, MemorySession session) {
-        return ModelMetadataGetVersion.ofAddress(ModelMetadataGetVersion$get(segment), session);
+    public static ModelMetadataGetVersion ModelMetadataGetVersion(MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataGetVersion.ofAddress(ModelMetadataGetVersion$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseModelMetadata$FUNC =
@@ -8798,12 +8776,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseModelMetadata fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseModelMetadata.class, fi, OrtApi.ReleaseModelMetadata$FUNC, session);
+        static MemorySegment allocate(ReleaseModelMetadata fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseModelMetadata.class, fi, OrtApi.ReleaseModelMetadata$FUNC, scope);
         }
 
-        static ReleaseModelMetadata ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseModelMetadata ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseModelMetadata$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -8847,8 +8825,8 @@ public class OrtApi {
         OrtApi.ReleaseModelMetadata$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseModelMetadata ReleaseModelMetadata(MemorySegment segment, MemorySession session) {
-        return ReleaseModelMetadata.ofAddress(ReleaseModelMetadata$get(segment), session);
+    public static ReleaseModelMetadata ReleaseModelMetadata(MemorySegment segment, SegmentScope scope) {
+        return ReleaseModelMetadata.ofAddress(ReleaseModelMetadata$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateEnvWithGlobalThreadPools$FUNC = FunctionDescriptor.of(
@@ -8872,13 +8850,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(CreateEnvWithGlobalThreadPools fi, MemorySession session) {
+        static MemorySegment allocate(CreateEnvWithGlobalThreadPools fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateEnvWithGlobalThreadPools.class, fi, OrtApi.CreateEnvWithGlobalThreadPools$FUNC, session);
+                    CreateEnvWithGlobalThreadPools.class, fi, OrtApi.CreateEnvWithGlobalThreadPools$FUNC, scope);
         }
 
-        static CreateEnvWithGlobalThreadPools ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateEnvWithGlobalThreadPools ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -8928,8 +8906,8 @@ public class OrtApi {
     }
 
     public static CreateEnvWithGlobalThreadPools CreateEnvWithGlobalThreadPools(
-            MemorySegment segment, MemorySession session) {
-        return CreateEnvWithGlobalThreadPools.ofAddress(CreateEnvWithGlobalThreadPools$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return CreateEnvWithGlobalThreadPools.ofAddress(CreateEnvWithGlobalThreadPools$get(segment), scope);
     }
 
     static final FunctionDescriptor DisablePerSessionThreads$FUNC =
@@ -8945,13 +8923,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(DisablePerSessionThreads fi, MemorySession session) {
+        static MemorySegment allocate(DisablePerSessionThreads fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    DisablePerSessionThreads.class, fi, OrtApi.DisablePerSessionThreads$FUNC, session);
+                    DisablePerSessionThreads.class, fi, OrtApi.DisablePerSessionThreads$FUNC, scope);
         }
 
-        static DisablePerSessionThreads ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static DisablePerSessionThreads ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -8996,8 +8974,8 @@ public class OrtApi {
         OrtApi.DisablePerSessionThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static DisablePerSessionThreads DisablePerSessionThreads(MemorySegment segment, MemorySession session) {
-        return DisablePerSessionThreads.ofAddress(DisablePerSessionThreads$get(segment), session);
+    public static DisablePerSessionThreads DisablePerSessionThreads(MemorySegment segment, SegmentScope scope) {
+        return DisablePerSessionThreads.ofAddress(DisablePerSessionThreads$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateThreadingOptions$FUNC =
@@ -9013,13 +8991,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateThreadingOptions fi, MemorySession session) {
+        static MemorySegment allocate(CreateThreadingOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateThreadingOptions.class, fi, OrtApi.CreateThreadingOptions$FUNC, session);
+                    CreateThreadingOptions.class, fi, OrtApi.CreateThreadingOptions$FUNC, scope);
         }
 
-        static CreateThreadingOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateThreadingOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CreateThreadingOptions$MH.invokeExact(symbol, __x0);
@@ -9063,8 +9041,8 @@ public class OrtApi {
         OrtApi.CreateThreadingOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateThreadingOptions CreateThreadingOptions(MemorySegment segment, MemorySession session) {
-        return CreateThreadingOptions.ofAddress(CreateThreadingOptions$get(segment), session);
+    public static CreateThreadingOptions CreateThreadingOptions(MemorySegment segment, SegmentScope scope) {
+        return CreateThreadingOptions.ofAddress(CreateThreadingOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseThreadingOptions$FUNC =
@@ -9080,13 +9058,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseThreadingOptions fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseThreadingOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseThreadingOptions.class, fi, OrtApi.ReleaseThreadingOptions$FUNC, session);
+                    ReleaseThreadingOptions.class, fi, OrtApi.ReleaseThreadingOptions$FUNC, scope);
         }
 
-        static ReleaseThreadingOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseThreadingOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseThreadingOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -9130,8 +9108,8 @@ public class OrtApi {
         OrtApi.ReleaseThreadingOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseThreadingOptions ReleaseThreadingOptions(MemorySegment segment, MemorySession session) {
-        return ReleaseThreadingOptions.ofAddress(ReleaseThreadingOptions$get(segment), session);
+    public static ReleaseThreadingOptions ReleaseThreadingOptions(MemorySegment segment, SegmentScope scope) {
+        return ReleaseThreadingOptions.ofAddress(ReleaseThreadingOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetCustomMetadataMapKeys$FUNC = FunctionDescriptor.of(
@@ -9155,16 +9133,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(ModelMetadataGetCustomMetadataMapKeys fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetCustomMetadataMapKeys fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     ModelMetadataGetCustomMetadataMapKeys.class,
                     fi,
                     OrtApi.ModelMetadataGetCustomMetadataMapKeys$FUNC,
-                    session);
+                    scope);
         }
 
-        static ModelMetadataGetCustomMetadataMapKeys ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetCustomMetadataMapKeys ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -9214,9 +9192,9 @@ public class OrtApi {
     }
 
     public static ModelMetadataGetCustomMetadataMapKeys ModelMetadataGetCustomMetadataMapKeys(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return ModelMetadataGetCustomMetadataMapKeys.ofAddress(
-                ModelMetadataGetCustomMetadataMapKeys$get(segment), session);
+                ModelMetadataGetCustomMetadataMapKeys$get(segment), scope);
     }
 
     static final FunctionDescriptor AddFreeDimensionOverrideByName$FUNC = FunctionDescriptor.of(
@@ -9236,13 +9214,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(AddFreeDimensionOverrideByName fi, MemorySession session) {
+        static MemorySegment allocate(AddFreeDimensionOverrideByName fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    AddFreeDimensionOverrideByName.class, fi, OrtApi.AddFreeDimensionOverrideByName$FUNC, session);
+                    AddFreeDimensionOverrideByName.class, fi, OrtApi.AddFreeDimensionOverrideByName$FUNC, scope);
         }
 
-        static AddFreeDimensionOverrideByName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddFreeDimensionOverrideByName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -9289,8 +9267,8 @@ public class OrtApi {
     }
 
     public static AddFreeDimensionOverrideByName AddFreeDimensionOverrideByName(
-            MemorySegment segment, MemorySession session) {
-        return AddFreeDimensionOverrideByName.ofAddress(AddFreeDimensionOverrideByName$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return AddFreeDimensionOverrideByName.ofAddress(AddFreeDimensionOverrideByName$get(segment), scope);
     }
 
     static final FunctionDescriptor GetAvailableProviders$FUNC = FunctionDescriptor.of(
@@ -9306,13 +9284,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetAvailableProviders fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetAvailableProviders.class, fi, OrtApi.GetAvailableProviders$FUNC, session);
+        static MemorySegment allocate(GetAvailableProviders fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetAvailableProviders.class, fi, OrtApi.GetAvailableProviders$FUNC, scope);
         }
 
-        static GetAvailableProviders ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetAvailableProviders ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -9357,8 +9334,8 @@ public class OrtApi {
         OrtApi.GetAvailableProviders$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetAvailableProviders GetAvailableProviders(MemorySegment segment, MemorySession session) {
-        return GetAvailableProviders.ofAddress(GetAvailableProviders$get(segment), session);
+    public static GetAvailableProviders GetAvailableProviders(MemorySegment segment, SegmentScope scope) {
+        return GetAvailableProviders.ofAddress(GetAvailableProviders$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseAvailableProviders$FUNC = FunctionDescriptor.of(
@@ -9374,13 +9351,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(ReleaseAvailableProviders fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseAvailableProviders fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseAvailableProviders.class, fi, OrtApi.ReleaseAvailableProviders$FUNC, session);
+                    ReleaseAvailableProviders.class, fi, OrtApi.ReleaseAvailableProviders$FUNC, scope);
         }
 
-        static ReleaseAvailableProviders ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseAvailableProviders ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -9425,8 +9402,8 @@ public class OrtApi {
         OrtApi.ReleaseAvailableProviders$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseAvailableProviders ReleaseAvailableProviders(MemorySegment segment, MemorySession session) {
-        return ReleaseAvailableProviders.ofAddress(ReleaseAvailableProviders$get(segment), session);
+    public static ReleaseAvailableProviders ReleaseAvailableProviders(MemorySegment segment, SegmentScope scope) {
+        return ReleaseAvailableProviders.ofAddress(ReleaseAvailableProviders$get(segment), scope);
     }
 
     static final FunctionDescriptor GetStringTensorElementLength$FUNC = FunctionDescriptor.of(
@@ -9446,13 +9423,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetStringTensorElementLength fi, MemorySession session) {
+        static MemorySegment allocate(GetStringTensorElementLength fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetStringTensorElementLength.class, fi, OrtApi.GetStringTensorElementLength$FUNC, session);
+                    GetStringTensorElementLength.class, fi, OrtApi.GetStringTensorElementLength$FUNC, scope);
         }
 
-        static GetStringTensorElementLength ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetStringTensorElementLength ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -9498,9 +9475,8 @@ public class OrtApi {
         OrtApi.GetStringTensorElementLength$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetStringTensorElementLength GetStringTensorElementLength(
-            MemorySegment segment, MemorySession session) {
-        return GetStringTensorElementLength.ofAddress(GetStringTensorElementLength$get(segment), session);
+    public static GetStringTensorElementLength GetStringTensorElementLength(MemorySegment segment, SegmentScope scope) {
+        return GetStringTensorElementLength.ofAddress(GetStringTensorElementLength$get(segment), scope);
     }
 
     static final FunctionDescriptor GetStringTensorElement$FUNC = FunctionDescriptor.of(
@@ -9521,13 +9497,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, long _x2, java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(GetStringTensorElement fi, MemorySession session) {
+        static MemorySegment allocate(GetStringTensorElement fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetStringTensorElement.class, fi, OrtApi.GetStringTensorElement$FUNC, session);
+                    GetStringTensorElement.class, fi, OrtApi.GetStringTensorElement$FUNC, scope);
         }
 
-        static GetStringTensorElement ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetStringTensorElement ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     long __x2,
@@ -9575,8 +9551,8 @@ public class OrtApi {
         OrtApi.GetStringTensorElement$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetStringTensorElement GetStringTensorElement(MemorySegment segment, MemorySession session) {
-        return GetStringTensorElement.ofAddress(GetStringTensorElement$get(segment), session);
+    public static GetStringTensorElement GetStringTensorElement(MemorySegment segment, SegmentScope scope) {
+        return GetStringTensorElement.ofAddress(GetStringTensorElement$get(segment), scope);
     }
 
     static final FunctionDescriptor FillStringTensorElement$FUNC = FunctionDescriptor.of(
@@ -9596,13 +9572,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(FillStringTensorElement fi, MemorySession session) {
+        static MemorySegment allocate(FillStringTensorElement fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    FillStringTensorElement.class, fi, OrtApi.FillStringTensorElement$FUNC, session);
+                    FillStringTensorElement.class, fi, OrtApi.FillStringTensorElement$FUNC, scope);
         }
 
-        static FillStringTensorElement ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static FillStringTensorElement ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -9647,8 +9623,8 @@ public class OrtApi {
         OrtApi.FillStringTensorElement$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static FillStringTensorElement FillStringTensorElement(MemorySegment segment, MemorySession session) {
-        return FillStringTensorElement.ofAddress(FillStringTensorElement$get(segment), session);
+    public static FillStringTensorElement FillStringTensorElement(MemorySegment segment, SegmentScope scope) {
+        return FillStringTensorElement.ofAddress(FillStringTensorElement$get(segment), scope);
     }
 
     static final FunctionDescriptor AddSessionConfigEntry$FUNC = FunctionDescriptor.of(
@@ -9670,13 +9646,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(AddSessionConfigEntry fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    AddSessionConfigEntry.class, fi, OrtApi.AddSessionConfigEntry$FUNC, session);
+        static MemorySegment allocate(AddSessionConfigEntry fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AddSessionConfigEntry.class, fi, OrtApi.AddSessionConfigEntry$FUNC, scope);
         }
 
-        static AddSessionConfigEntry ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddSessionConfigEntry ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -9723,8 +9698,8 @@ public class OrtApi {
         OrtApi.AddSessionConfigEntry$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AddSessionConfigEntry AddSessionConfigEntry(MemorySegment segment, MemorySession session) {
-        return AddSessionConfigEntry.ofAddress(AddSessionConfigEntry$get(segment), session);
+    public static AddSessionConfigEntry AddSessionConfigEntry(MemorySegment segment, SegmentScope scope) {
+        return AddSessionConfigEntry.ofAddress(AddSessionConfigEntry$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateAllocator$FUNC = FunctionDescriptor.of(
@@ -9745,12 +9720,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(CreateAllocator fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateAllocator.class, fi, OrtApi.CreateAllocator$FUNC, session);
+        static MemorySegment allocate(CreateAllocator fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateAllocator.class, fi, OrtApi.CreateAllocator$FUNC, scope);
         }
 
-        static CreateAllocator ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateAllocator ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -9797,8 +9772,8 @@ public class OrtApi {
         OrtApi.CreateAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateAllocator CreateAllocator(MemorySegment segment, MemorySession session) {
-        return CreateAllocator.ofAddress(CreateAllocator$get(segment), session);
+    public static CreateAllocator CreateAllocator(MemorySegment segment, SegmentScope scope) {
+        return CreateAllocator.ofAddress(CreateAllocator$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseAllocator$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -9812,12 +9787,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseAllocator fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseAllocator.class, fi, OrtApi.ReleaseAllocator$FUNC, session);
+        static MemorySegment allocate(ReleaseAllocator fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseAllocator.class, fi, OrtApi.ReleaseAllocator$FUNC, scope);
         }
 
-        static ReleaseAllocator ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseAllocator ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseAllocator$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -9861,8 +9836,8 @@ public class OrtApi {
         OrtApi.ReleaseAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseAllocator ReleaseAllocator(MemorySegment segment, MemorySession session) {
-        return ReleaseAllocator.ofAddress(ReleaseAllocator$get(segment), session);
+    public static ReleaseAllocator ReleaseAllocator(MemorySegment segment, SegmentScope scope) {
+        return ReleaseAllocator.ofAddress(ReleaseAllocator$get(segment), scope);
     }
 
     static final FunctionDescriptor RunWithBinding$FUNC = FunctionDescriptor.of(
@@ -9883,12 +9858,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(RunWithBinding fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(RunWithBinding.class, fi, OrtApi.RunWithBinding$FUNC, session);
+        static MemorySegment allocate(RunWithBinding fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(RunWithBinding.class, fi, OrtApi.RunWithBinding$FUNC, scope);
         }
 
-        static RunWithBinding ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RunWithBinding ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -9935,8 +9910,8 @@ public class OrtApi {
         OrtApi.RunWithBinding$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RunWithBinding RunWithBinding(MemorySegment segment, MemorySession session) {
-        return RunWithBinding.ofAddress(RunWithBinding$get(segment), session);
+    public static RunWithBinding RunWithBinding(MemorySegment segment, SegmentScope scope) {
+        return RunWithBinding.ofAddress(RunWithBinding$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateIoBinding$FUNC = FunctionDescriptor.of(
@@ -9951,12 +9926,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CreateIoBinding fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateIoBinding.class, fi, OrtApi.CreateIoBinding$FUNC, session);
+        static MemorySegment allocate(CreateIoBinding fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateIoBinding.class, fi, OrtApi.CreateIoBinding$FUNC, scope);
         }
 
-        static CreateIoBinding ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateIoBinding ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CreateIoBinding$MH.invokeExact(symbol, __x0, __x1);
@@ -10000,8 +9975,8 @@ public class OrtApi {
         OrtApi.CreateIoBinding$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateIoBinding CreateIoBinding(MemorySegment segment, MemorySession session) {
-        return CreateIoBinding.ofAddress(CreateIoBinding$get(segment), session);
+    public static CreateIoBinding CreateIoBinding(MemorySegment segment, SegmentScope scope) {
+        return CreateIoBinding.ofAddress(CreateIoBinding$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseIoBinding$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -10015,12 +9990,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseIoBinding fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseIoBinding.class, fi, OrtApi.ReleaseIoBinding$FUNC, session);
+        static MemorySegment allocate(ReleaseIoBinding fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseIoBinding.class, fi, OrtApi.ReleaseIoBinding$FUNC, scope);
         }
 
-        static ReleaseIoBinding ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseIoBinding ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseIoBinding$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -10064,8 +10039,8 @@ public class OrtApi {
         OrtApi.ReleaseIoBinding$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseIoBinding ReleaseIoBinding(MemorySegment segment, MemorySession session) {
-        return ReleaseIoBinding.ofAddress(ReleaseIoBinding$get(segment), session);
+    public static ReleaseIoBinding ReleaseIoBinding(MemorySegment segment, SegmentScope scope) {
+        return ReleaseIoBinding.ofAddress(ReleaseIoBinding$get(segment), scope);
     }
 
     static final FunctionDescriptor BindInput$FUNC = FunctionDescriptor.of(
@@ -10086,12 +10061,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(BindInput fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(BindInput.class, fi, OrtApi.BindInput$FUNC, session);
+        static MemorySegment allocate(BindInput fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(BindInput.class, fi, OrtApi.BindInput$FUNC, scope);
         }
 
-        static BindInput ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static BindInput ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -10136,8 +10111,8 @@ public class OrtApi {
         OrtApi.BindInput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static BindInput BindInput(MemorySegment segment, MemorySession session) {
-        return BindInput.ofAddress(BindInput$get(segment), session);
+    public static BindInput BindInput(MemorySegment segment, SegmentScope scope) {
+        return BindInput.ofAddress(BindInput$get(segment), scope);
     }
 
     static final FunctionDescriptor BindOutput$FUNC = FunctionDescriptor.of(
@@ -10158,12 +10133,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(BindOutput fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(BindOutput.class, fi, OrtApi.BindOutput$FUNC, session);
+        static MemorySegment allocate(BindOutput fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(BindOutput.class, fi, OrtApi.BindOutput$FUNC, scope);
         }
 
-        static BindOutput ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static BindOutput ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -10209,8 +10184,8 @@ public class OrtApi {
         OrtApi.BindOutput$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static BindOutput BindOutput(MemorySegment segment, MemorySession session) {
-        return BindOutput.ofAddress(BindOutput$get(segment), session);
+    public static BindOutput BindOutput(MemorySegment segment, SegmentScope scope) {
+        return BindOutput.ofAddress(BindOutput$get(segment), scope);
     }
 
     static final FunctionDescriptor BindOutputToDevice$FUNC = FunctionDescriptor.of(
@@ -10231,12 +10206,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(BindOutputToDevice fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(BindOutputToDevice.class, fi, OrtApi.BindOutputToDevice$FUNC, session);
+        static MemorySegment allocate(BindOutputToDevice fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(BindOutputToDevice.class, fi, OrtApi.BindOutputToDevice$FUNC, scope);
         }
 
-        static BindOutputToDevice ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static BindOutputToDevice ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -10283,8 +10258,8 @@ public class OrtApi {
         OrtApi.BindOutputToDevice$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static BindOutputToDevice BindOutputToDevice(MemorySegment segment, MemorySession session) {
-        return BindOutputToDevice.ofAddress(BindOutputToDevice$get(segment), session);
+    public static BindOutputToDevice BindOutputToDevice(MemorySegment segment, SegmentScope scope) {
+        return BindOutputToDevice.ofAddress(BindOutputToDevice$get(segment), scope);
     }
 
     static final FunctionDescriptor GetBoundOutputNames$FUNC = FunctionDescriptor.of(
@@ -10309,12 +10284,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(GetBoundOutputNames fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetBoundOutputNames.class, fi, OrtApi.GetBoundOutputNames$FUNC, session);
+        static MemorySegment allocate(GetBoundOutputNames fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetBoundOutputNames.class, fi, OrtApi.GetBoundOutputNames$FUNC, scope);
         }
 
-        static GetBoundOutputNames ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetBoundOutputNames ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -10363,8 +10338,8 @@ public class OrtApi {
         OrtApi.GetBoundOutputNames$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetBoundOutputNames GetBoundOutputNames(MemorySegment segment, MemorySession session) {
-        return GetBoundOutputNames.ofAddress(GetBoundOutputNames$get(segment), session);
+    public static GetBoundOutputNames GetBoundOutputNames(MemorySegment segment, SegmentScope scope) {
+        return GetBoundOutputNames.ofAddress(GetBoundOutputNames$get(segment), scope);
     }
 
     static final FunctionDescriptor GetBoundOutputValues$FUNC = FunctionDescriptor.of(
@@ -10387,12 +10362,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(GetBoundOutputValues fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetBoundOutputValues.class, fi, OrtApi.GetBoundOutputValues$FUNC, session);
+        static MemorySegment allocate(GetBoundOutputValues fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetBoundOutputValues.class, fi, OrtApi.GetBoundOutputValues$FUNC, scope);
         }
 
-        static GetBoundOutputValues ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetBoundOutputValues ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -10440,8 +10415,8 @@ public class OrtApi {
         OrtApi.GetBoundOutputValues$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetBoundOutputValues GetBoundOutputValues(MemorySegment segment, MemorySession session) {
-        return GetBoundOutputValues.ofAddress(GetBoundOutputValues$get(segment), session);
+    public static GetBoundOutputValues GetBoundOutputValues(MemorySegment segment, SegmentScope scope) {
+        return GetBoundOutputValues.ofAddress(GetBoundOutputValues$get(segment), scope);
     }
 
     static final FunctionDescriptor ClearBoundInputs$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -10455,12 +10430,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ClearBoundInputs fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ClearBoundInputs.class, fi, OrtApi.ClearBoundInputs$FUNC, session);
+        static MemorySegment allocate(ClearBoundInputs fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ClearBoundInputs.class, fi, OrtApi.ClearBoundInputs$FUNC, scope);
         }
 
-        static ClearBoundInputs ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ClearBoundInputs ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ClearBoundInputs$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -10504,8 +10479,8 @@ public class OrtApi {
         OrtApi.ClearBoundInputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ClearBoundInputs ClearBoundInputs(MemorySegment segment, MemorySession session) {
-        return ClearBoundInputs.ofAddress(ClearBoundInputs$get(segment), session);
+    public static ClearBoundInputs ClearBoundInputs(MemorySegment segment, SegmentScope scope) {
+        return ClearBoundInputs.ofAddress(ClearBoundInputs$get(segment), scope);
     }
 
     static final FunctionDescriptor ClearBoundOutputs$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -10519,12 +10494,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ClearBoundOutputs fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ClearBoundOutputs.class, fi, OrtApi.ClearBoundOutputs$FUNC, session);
+        static MemorySegment allocate(ClearBoundOutputs fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ClearBoundOutputs.class, fi, OrtApi.ClearBoundOutputs$FUNC, scope);
         }
 
-        static ClearBoundOutputs ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ClearBoundOutputs ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ClearBoundOutputs$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -10568,8 +10543,8 @@ public class OrtApi {
         OrtApi.ClearBoundOutputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ClearBoundOutputs ClearBoundOutputs(MemorySegment segment, MemorySession session) {
-        return ClearBoundOutputs.ofAddress(ClearBoundOutputs$get(segment), session);
+    public static ClearBoundOutputs ClearBoundOutputs(MemorySegment segment, SegmentScope scope) {
+        return ClearBoundOutputs.ofAddress(ClearBoundOutputs$get(segment), scope);
     }
 
     static final FunctionDescriptor TensorAt$FUNC = FunctionDescriptor.of(
@@ -10592,12 +10567,12 @@ public class OrtApi {
                 long _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(TensorAt fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(TensorAt.class, fi, OrtApi.TensorAt$FUNC, session);
+        static MemorySegment allocate(TensorAt fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(TensorAt.class, fi, OrtApi.TensorAt$FUNC, scope);
         }
 
-        static TensorAt ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static TensorAt ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -10644,8 +10619,8 @@ public class OrtApi {
         OrtApi.TensorAt$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static TensorAt TensorAt(MemorySegment segment, MemorySession session) {
-        return TensorAt.ofAddress(TensorAt$get(segment), session);
+    public static TensorAt TensorAt(MemorySegment segment, SegmentScope scope) {
+        return TensorAt.ofAddress(TensorAt$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateAndRegisterAllocator$FUNC = FunctionDescriptor.of(
@@ -10667,13 +10642,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(CreateAndRegisterAllocator fi, MemorySession session) {
+        static MemorySegment allocate(CreateAndRegisterAllocator fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateAndRegisterAllocator.class, fi, OrtApi.CreateAndRegisterAllocator$FUNC, session);
+                    CreateAndRegisterAllocator.class, fi, OrtApi.CreateAndRegisterAllocator$FUNC, scope);
         }
 
-        static CreateAndRegisterAllocator ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateAndRegisterAllocator ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -10721,8 +10696,8 @@ public class OrtApi {
         OrtApi.CreateAndRegisterAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateAndRegisterAllocator CreateAndRegisterAllocator(MemorySegment segment, MemorySession session) {
-        return CreateAndRegisterAllocator.ofAddress(CreateAndRegisterAllocator$get(segment), session);
+    public static CreateAndRegisterAllocator CreateAndRegisterAllocator(MemorySegment segment, SegmentScope scope) {
+        return CreateAndRegisterAllocator.ofAddress(CreateAndRegisterAllocator$get(segment), scope);
     }
 
     static final FunctionDescriptor SetLanguageProjection$FUNC = FunctionDescriptor.of(
@@ -10738,13 +10713,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetLanguageProjection fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    SetLanguageProjection.class, fi, OrtApi.SetLanguageProjection$FUNC, session);
+        static MemorySegment allocate(SetLanguageProjection fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetLanguageProjection.class, fi, OrtApi.SetLanguageProjection$FUNC, scope);
         }
 
-        static SetLanguageProjection ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetLanguageProjection ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -10789,8 +10763,8 @@ public class OrtApi {
         OrtApi.SetLanguageProjection$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetLanguageProjection SetLanguageProjection(MemorySegment segment, MemorySession session) {
-        return SetLanguageProjection.ofAddress(SetLanguageProjection$get(segment), session);
+    public static SetLanguageProjection SetLanguageProjection(MemorySegment segment, SegmentScope scope) {
+        return SetLanguageProjection.ofAddress(SetLanguageProjection$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionGetProfilingStartTimeNs$FUNC = FunctionDescriptor.of(
@@ -10806,13 +10780,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionGetProfilingStartTimeNs fi, MemorySession session) {
+        static MemorySegment allocate(SessionGetProfilingStartTimeNs fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SessionGetProfilingStartTimeNs.class, fi, OrtApi.SessionGetProfilingStartTimeNs$FUNC, session);
+                    SessionGetProfilingStartTimeNs.class, fi, OrtApi.SessionGetProfilingStartTimeNs$FUNC, scope);
         }
 
-        static SessionGetProfilingStartTimeNs ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionGetProfilingStartTimeNs ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -10859,8 +10833,8 @@ public class OrtApi {
     }
 
     public static SessionGetProfilingStartTimeNs SessionGetProfilingStartTimeNs(
-            MemorySegment segment, MemorySession session) {
-        return SessionGetProfilingStartTimeNs.ofAddress(SessionGetProfilingStartTimeNs$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SessionGetProfilingStartTimeNs.ofAddress(SessionGetProfilingStartTimeNs$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalIntraOpNumThreads$FUNC = FunctionDescriptor.of(
@@ -10876,13 +10850,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetGlobalIntraOpNumThreads fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalIntraOpNumThreads fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetGlobalIntraOpNumThreads.class, fi, OrtApi.SetGlobalIntraOpNumThreads$FUNC, session);
+                    SetGlobalIntraOpNumThreads.class, fi, OrtApi.SetGlobalIntraOpNumThreads$FUNC, scope);
         }
 
-        static SetGlobalIntraOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalIntraOpNumThreads ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -10928,8 +10902,8 @@ public class OrtApi {
         OrtApi.SetGlobalIntraOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetGlobalIntraOpNumThreads SetGlobalIntraOpNumThreads(MemorySegment segment, MemorySession session) {
-        return SetGlobalIntraOpNumThreads.ofAddress(SetGlobalIntraOpNumThreads$get(segment), session);
+    public static SetGlobalIntraOpNumThreads SetGlobalIntraOpNumThreads(MemorySegment segment, SegmentScope scope) {
+        return SetGlobalIntraOpNumThreads.ofAddress(SetGlobalIntraOpNumThreads$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalInterOpNumThreads$FUNC = FunctionDescriptor.of(
@@ -10945,13 +10919,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetGlobalInterOpNumThreads fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalInterOpNumThreads fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetGlobalInterOpNumThreads.class, fi, OrtApi.SetGlobalInterOpNumThreads$FUNC, session);
+                    SetGlobalInterOpNumThreads.class, fi, OrtApi.SetGlobalInterOpNumThreads$FUNC, scope);
         }
 
-        static SetGlobalInterOpNumThreads ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalInterOpNumThreads ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -10997,8 +10971,8 @@ public class OrtApi {
         OrtApi.SetGlobalInterOpNumThreads$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetGlobalInterOpNumThreads SetGlobalInterOpNumThreads(MemorySegment segment, MemorySession session) {
-        return SetGlobalInterOpNumThreads.ofAddress(SetGlobalInterOpNumThreads$get(segment), session);
+    public static SetGlobalInterOpNumThreads SetGlobalInterOpNumThreads(MemorySegment segment, SegmentScope scope) {
+        return SetGlobalInterOpNumThreads.ofAddress(SetGlobalInterOpNumThreads$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalSpinControl$FUNC = FunctionDescriptor.of(
@@ -11013,12 +10987,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(SetGlobalSpinControl fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(SetGlobalSpinControl.class, fi, OrtApi.SetGlobalSpinControl$FUNC, session);
+        static MemorySegment allocate(SetGlobalSpinControl fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetGlobalSpinControl.class, fi, OrtApi.SetGlobalSpinControl$FUNC, scope);
         }
 
-        static SetGlobalSpinControl ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalSpinControl ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11063,8 +11037,8 @@ public class OrtApi {
         OrtApi.SetGlobalSpinControl$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetGlobalSpinControl SetGlobalSpinControl(MemorySegment segment, MemorySession session) {
-        return SetGlobalSpinControl.ofAddress(SetGlobalSpinControl$get(segment), session);
+    public static SetGlobalSpinControl SetGlobalSpinControl(MemorySegment segment, SegmentScope scope) {
+        return SetGlobalSpinControl.ofAddress(SetGlobalSpinControl$get(segment), scope);
     }
 
     static final FunctionDescriptor AddInitializer$FUNC = FunctionDescriptor.of(
@@ -11085,12 +11059,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(AddInitializer fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(AddInitializer.class, fi, OrtApi.AddInitializer$FUNC, session);
+        static MemorySegment allocate(AddInitializer fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AddInitializer.class, fi, OrtApi.AddInitializer$FUNC, scope);
         }
 
-        static AddInitializer ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddInitializer ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -11137,8 +11111,8 @@ public class OrtApi {
         OrtApi.AddInitializer$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AddInitializer AddInitializer(MemorySegment segment, MemorySession session) {
-        return AddInitializer.ofAddress(AddInitializer$get(segment), session);
+    public static AddInitializer AddInitializer(MemorySegment segment, SegmentScope scope) {
+        return AddInitializer.ofAddress(AddInitializer$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateEnvWithCustomLoggerAndGlobalThreadPools$FUNC = FunctionDescriptor.of(
@@ -11166,16 +11140,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4,
                 java.lang.foreign.MemorySegment _x5);
 
-        static MemorySegment allocate(CreateEnvWithCustomLoggerAndGlobalThreadPools fi, MemorySession session) {
+        static MemorySegment allocate(CreateEnvWithCustomLoggerAndGlobalThreadPools fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     CreateEnvWithCustomLoggerAndGlobalThreadPools.class,
                     fi,
                     OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools$FUNC,
-                    session);
+                    scope);
         }
 
-        static CreateEnvWithCustomLoggerAndGlobalThreadPools ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateEnvWithCustomLoggerAndGlobalThreadPools ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     int __x2,
@@ -11229,9 +11203,9 @@ public class OrtApi {
     }
 
     public static CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return CreateEnvWithCustomLoggerAndGlobalThreadPools.ofAddress(
-                CreateEnvWithCustomLoggerAndGlobalThreadPools$get(segment), session);
+                CreateEnvWithCustomLoggerAndGlobalThreadPools$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_CUDA$FUNC = FunctionDescriptor.of(
@@ -11247,16 +11221,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_CUDA.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_CUDA$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_CUDA ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_CUDA ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11303,9 +11277,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_CUDA SessionOptionsAppendExecutionProvider_CUDA(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_CUDA.ofAddress(
-                SessionOptionsAppendExecutionProvider_CUDA$get(segment), session);
+                SessionOptionsAppendExecutionProvider_CUDA$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_ROCM$FUNC = FunctionDescriptor.of(
@@ -11321,16 +11295,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_ROCM fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_ROCM fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_ROCM.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_ROCM$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_ROCM ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_ROCM ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11377,9 +11351,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_ROCM SessionOptionsAppendExecutionProvider_ROCM(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_ROCM.ofAddress(
-                SessionOptionsAppendExecutionProvider_ROCM$get(segment), session);
+                SessionOptionsAppendExecutionProvider_ROCM$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_OpenVINO$FUNC = FunctionDescriptor.of(
@@ -11395,16 +11369,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_OpenVINO fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_OpenVINO fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_OpenVINO.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_OpenVINO ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_OpenVINO ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11452,9 +11426,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_OpenVINO SessionOptionsAppendExecutionProvider_OpenVINO(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_OpenVINO.ofAddress(
-                SessionOptionsAppendExecutionProvider_OpenVINO$get(segment), session);
+                SessionOptionsAppendExecutionProvider_OpenVINO$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalDenormalAsZero$FUNC =
@@ -11470,13 +11444,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(SetGlobalDenormalAsZero fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalDenormalAsZero fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetGlobalDenormalAsZero.class, fi, OrtApi.SetGlobalDenormalAsZero$FUNC, session);
+                    SetGlobalDenormalAsZero.class, fi, OrtApi.SetGlobalDenormalAsZero$FUNC, scope);
         }
 
-        static SetGlobalDenormalAsZero ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalDenormalAsZero ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11521,8 +11495,8 @@ public class OrtApi {
         OrtApi.SetGlobalDenormalAsZero$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetGlobalDenormalAsZero SetGlobalDenormalAsZero(MemorySegment segment, MemorySession session) {
-        return SetGlobalDenormalAsZero.ofAddress(SetGlobalDenormalAsZero$get(segment), session);
+    public static SetGlobalDenormalAsZero SetGlobalDenormalAsZero(MemorySegment segment, SegmentScope scope) {
+        return SetGlobalDenormalAsZero.ofAddress(SetGlobalDenormalAsZero$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateArenaCfg$FUNC = FunctionDescriptor.of(
@@ -11542,12 +11516,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(long _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateArenaCfg fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateArenaCfg.class, fi, OrtApi.CreateArenaCfg$FUNC, session);
+        static MemorySegment allocate(CreateArenaCfg fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateArenaCfg.class, fi, OrtApi.CreateArenaCfg$FUNC, scope);
         }
 
-        static CreateArenaCfg ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateArenaCfg ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (long __x0, int __x1, int __x2, int __x3, java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11592,8 +11566,8 @@ public class OrtApi {
         OrtApi.CreateArenaCfg$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateArenaCfg CreateArenaCfg(MemorySegment segment, MemorySession session) {
-        return CreateArenaCfg.ofAddress(CreateArenaCfg$get(segment), session);
+    public static CreateArenaCfg CreateArenaCfg(MemorySegment segment, SegmentScope scope) {
+        return CreateArenaCfg.ofAddress(CreateArenaCfg$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseArenaCfg$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -11607,12 +11581,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseArenaCfg fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseArenaCfg.class, fi, OrtApi.ReleaseArenaCfg$FUNC, session);
+        static MemorySegment allocate(ReleaseArenaCfg fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseArenaCfg.class, fi, OrtApi.ReleaseArenaCfg$FUNC, scope);
         }
 
-        static ReleaseArenaCfg ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseArenaCfg ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseArenaCfg$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -11656,8 +11630,8 @@ public class OrtApi {
         OrtApi.ReleaseArenaCfg$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseArenaCfg ReleaseArenaCfg(MemorySegment segment, MemorySession session) {
-        return ReleaseArenaCfg.ofAddress(ReleaseArenaCfg$get(segment), session);
+    public static ReleaseArenaCfg ReleaseArenaCfg(MemorySegment segment, SegmentScope scope) {
+        return ReleaseArenaCfg.ofAddress(ReleaseArenaCfg$get(segment), scope);
     }
 
     static final FunctionDescriptor ModelMetadataGetGraphDescription$FUNC = FunctionDescriptor.of(
@@ -11679,13 +11653,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(ModelMetadataGetGraphDescription fi, MemorySession session) {
+        static MemorySegment allocate(ModelMetadataGetGraphDescription fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ModelMetadataGetGraphDescription.class, fi, OrtApi.ModelMetadataGetGraphDescription$FUNC, session);
+                    ModelMetadataGetGraphDescription.class, fi, OrtApi.ModelMetadataGetGraphDescription$FUNC, scope);
         }
 
-        static ModelMetadataGetGraphDescription ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ModelMetadataGetGraphDescription ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -11734,8 +11708,8 @@ public class OrtApi {
     }
 
     public static ModelMetadataGetGraphDescription ModelMetadataGetGraphDescription(
-            MemorySegment segment, MemorySession session) {
-        return ModelMetadataGetGraphDescription.ofAddress(ModelMetadataGetGraphDescription$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return ModelMetadataGetGraphDescription.ofAddress(ModelMetadataGetGraphDescription$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_TensorRT$FUNC = FunctionDescriptor.of(
@@ -11751,16 +11725,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_TensorRT.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_TensorRT$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_TensorRT ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_TensorRT ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -11808,9 +11782,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_TensorRT SessionOptionsAppendExecutionProvider_TensorRT(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_TensorRT.ofAddress(
-                SessionOptionsAppendExecutionProvider_TensorRT$get(segment), session);
+                SessionOptionsAppendExecutionProvider_TensorRT$get(segment), scope);
     }
 
     static final FunctionDescriptor SetCurrentGpuDeviceId$FUNC =
@@ -11826,13 +11800,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(int _x0);
 
-        static MemorySegment allocate(SetCurrentGpuDeviceId fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    SetCurrentGpuDeviceId.class, fi, OrtApi.SetCurrentGpuDeviceId$FUNC, session);
+        static MemorySegment allocate(SetCurrentGpuDeviceId fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(SetCurrentGpuDeviceId.class, fi, OrtApi.SetCurrentGpuDeviceId$FUNC, scope);
         }
 
-        static SetCurrentGpuDeviceId ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetCurrentGpuDeviceId ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.SetCurrentGpuDeviceId$MH.invokeExact(symbol, __x0);
@@ -11876,8 +11849,8 @@ public class OrtApi {
         OrtApi.SetCurrentGpuDeviceId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetCurrentGpuDeviceId SetCurrentGpuDeviceId(MemorySegment segment, MemorySession session) {
-        return SetCurrentGpuDeviceId.ofAddress(SetCurrentGpuDeviceId$get(segment), session);
+    public static SetCurrentGpuDeviceId SetCurrentGpuDeviceId(MemorySegment segment, SegmentScope scope) {
+        return SetCurrentGpuDeviceId.ofAddress(SetCurrentGpuDeviceId$get(segment), scope);
     }
 
     static final FunctionDescriptor GetCurrentGpuDeviceId$FUNC =
@@ -11893,13 +11866,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(GetCurrentGpuDeviceId fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetCurrentGpuDeviceId.class, fi, OrtApi.GetCurrentGpuDeviceId$FUNC, session);
+        static MemorySegment allocate(GetCurrentGpuDeviceId fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetCurrentGpuDeviceId.class, fi, OrtApi.GetCurrentGpuDeviceId$FUNC, scope);
         }
 
-        static GetCurrentGpuDeviceId ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetCurrentGpuDeviceId ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetCurrentGpuDeviceId$MH.invokeExact(symbol, __x0);
@@ -11943,8 +11915,8 @@ public class OrtApi {
         OrtApi.GetCurrentGpuDeviceId$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetCurrentGpuDeviceId GetCurrentGpuDeviceId(MemorySegment segment, MemorySession session) {
-        return GetCurrentGpuDeviceId.ofAddress(GetCurrentGpuDeviceId$get(segment), session);
+    public static GetCurrentGpuDeviceId GetCurrentGpuDeviceId(MemorySegment segment, SegmentScope scope) {
+        return GetCurrentGpuDeviceId.ofAddress(GetCurrentGpuDeviceId$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfoGetAttributeArray_float$FUNC = FunctionDescriptor.of(
@@ -11968,16 +11940,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(KernelInfoGetAttributeArray_float fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfoGetAttributeArray_float fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfoGetAttributeArray_float.class,
-                    fi,
-                    OrtApi.KernelInfoGetAttributeArray_float$FUNC,
-                    session);
+                    KernelInfoGetAttributeArray_float.class, fi, OrtApi.KernelInfoGetAttributeArray_float$FUNC, scope);
         }
 
-        static KernelInfoGetAttributeArray_float ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfoGetAttributeArray_float ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -12027,8 +11996,8 @@ public class OrtApi {
     }
 
     public static KernelInfoGetAttributeArray_float KernelInfoGetAttributeArray_float(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfoGetAttributeArray_float.ofAddress(KernelInfoGetAttributeArray_float$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return KernelInfoGetAttributeArray_float.ofAddress(KernelInfoGetAttributeArray_float$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfoGetAttributeArray_int64$FUNC = FunctionDescriptor.of(
@@ -12052,16 +12021,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(KernelInfoGetAttributeArray_int64 fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfoGetAttributeArray_int64 fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfoGetAttributeArray_int64.class,
-                    fi,
-                    OrtApi.KernelInfoGetAttributeArray_int64$FUNC,
-                    session);
+                    KernelInfoGetAttributeArray_int64.class, fi, OrtApi.KernelInfoGetAttributeArray_int64$FUNC, scope);
         }
 
-        static KernelInfoGetAttributeArray_int64 ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfoGetAttributeArray_int64 ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -12111,8 +12077,8 @@ public class OrtApi {
     }
 
     public static KernelInfoGetAttributeArray_int64 KernelInfoGetAttributeArray_int64(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfoGetAttributeArray_int64.ofAddress(KernelInfoGetAttributeArray_int64$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return KernelInfoGetAttributeArray_int64.ofAddress(KernelInfoGetAttributeArray_int64$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateArenaCfgV2$FUNC = FunctionDescriptor.of(
@@ -12135,12 +12101,12 @@ public class OrtApi {
                 long _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(CreateArenaCfgV2 fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateArenaCfgV2.class, fi, OrtApi.CreateArenaCfgV2$FUNC, session);
+        static MemorySegment allocate(CreateArenaCfgV2 fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateArenaCfgV2.class, fi, OrtApi.CreateArenaCfgV2$FUNC, scope);
         }
 
-        static CreateArenaCfgV2 ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateArenaCfgV2 ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -12188,8 +12154,8 @@ public class OrtApi {
         OrtApi.CreateArenaCfgV2$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateArenaCfgV2 CreateArenaCfgV2(MemorySegment segment, MemorySession session) {
-        return CreateArenaCfgV2.ofAddress(CreateArenaCfgV2$get(segment), session);
+    public static CreateArenaCfgV2 CreateArenaCfgV2(MemorySegment segment, SegmentScope scope) {
+        return CreateArenaCfgV2.ofAddress(CreateArenaCfgV2$get(segment), scope);
     }
 
     static final FunctionDescriptor AddRunConfigEntry$FUNC = FunctionDescriptor.of(
@@ -12210,12 +12176,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(AddRunConfigEntry fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(AddRunConfigEntry.class, fi, OrtApi.AddRunConfigEntry$FUNC, session);
+        static MemorySegment allocate(AddRunConfigEntry fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(AddRunConfigEntry.class, fi, OrtApi.AddRunConfigEntry$FUNC, scope);
         }
 
-        static AddRunConfigEntry ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddRunConfigEntry ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -12262,8 +12228,8 @@ public class OrtApi {
         OrtApi.AddRunConfigEntry$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AddRunConfigEntry AddRunConfigEntry(MemorySegment segment, MemorySession session) {
-        return AddRunConfigEntry.ofAddress(AddRunConfigEntry$get(segment), session);
+    public static AddRunConfigEntry AddRunConfigEntry(MemorySegment segment, SegmentScope scope) {
+        return AddRunConfigEntry.ofAddress(AddRunConfigEntry$get(segment), scope);
     }
 
     static final FunctionDescriptor CreatePrepackedWeightsContainer$FUNC =
@@ -12279,13 +12245,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreatePrepackedWeightsContainer fi, MemorySession session) {
+        static MemorySegment allocate(CreatePrepackedWeightsContainer fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreatePrepackedWeightsContainer.class, fi, OrtApi.CreatePrepackedWeightsContainer$FUNC, session);
+                    CreatePrepackedWeightsContainer.class, fi, OrtApi.CreatePrepackedWeightsContainer$FUNC, scope);
         }
 
-        static CreatePrepackedWeightsContainer ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreatePrepackedWeightsContainer ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -12332,8 +12298,8 @@ public class OrtApi {
     }
 
     public static CreatePrepackedWeightsContainer CreatePrepackedWeightsContainer(
-            MemorySegment segment, MemorySession session) {
-        return CreatePrepackedWeightsContainer.ofAddress(CreatePrepackedWeightsContainer$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return CreatePrepackedWeightsContainer.ofAddress(CreatePrepackedWeightsContainer$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleasePrepackedWeightsContainer$FUNC =
@@ -12349,13 +12315,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleasePrepackedWeightsContainer fi, MemorySession session) {
+        static MemorySegment allocate(ReleasePrepackedWeightsContainer fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleasePrepackedWeightsContainer.class, fi, OrtApi.ReleasePrepackedWeightsContainer$FUNC, session);
+                    ReleasePrepackedWeightsContainer.class, fi, OrtApi.ReleasePrepackedWeightsContainer$FUNC, scope);
         }
 
-        static ReleasePrepackedWeightsContainer ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleasePrepackedWeightsContainer ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleasePrepackedWeightsContainer$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -12401,8 +12367,8 @@ public class OrtApi {
     }
 
     public static ReleasePrepackedWeightsContainer ReleasePrepackedWeightsContainer(
-            MemorySegment segment, MemorySession session) {
-        return ReleasePrepackedWeightsContainer.ofAddress(ReleasePrepackedWeightsContainer$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return ReleasePrepackedWeightsContainer.ofAddress(ReleasePrepackedWeightsContainer$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSessionWithPrepackedWeightsContainer$FUNC = FunctionDescriptor.of(
@@ -12428,16 +12394,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateSessionWithPrepackedWeightsContainer fi, MemorySession session) {
+        static MemorySegment allocate(CreateSessionWithPrepackedWeightsContainer fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     CreateSessionWithPrepackedWeightsContainer.class,
                     fi,
                     OrtApi.CreateSessionWithPrepackedWeightsContainer$FUNC,
-                    session);
+                    scope);
         }
 
-        static CreateSessionWithPrepackedWeightsContainer ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSessionWithPrepackedWeightsContainer ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -12489,9 +12455,9 @@ public class OrtApi {
     }
 
     public static CreateSessionWithPrepackedWeightsContainer CreateSessionWithPrepackedWeightsContainer(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return CreateSessionWithPrepackedWeightsContainer.ofAddress(
-                CreateSessionWithPrepackedWeightsContainer$get(segment), session);
+                CreateSessionWithPrepackedWeightsContainer$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSessionFromArrayWithPrepackedWeightsContainer$FUNC = FunctionDescriptor.of(
@@ -12519,17 +12485,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4,
                 java.lang.foreign.MemorySegment _x5);
 
-        static MemorySegment allocate(CreateSessionFromArrayWithPrepackedWeightsContainer fi, MemorySession session) {
+        static MemorySegment allocate(CreateSessionFromArrayWithPrepackedWeightsContainer fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     CreateSessionFromArrayWithPrepackedWeightsContainer.class,
                     fi,
                     OrtApi.CreateSessionFromArrayWithPrepackedWeightsContainer$FUNC,
-                    session);
+                    scope);
         }
 
-        static CreateSessionFromArrayWithPrepackedWeightsContainer ofAddress(
-                MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSessionFromArrayWithPrepackedWeightsContainer ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -12583,9 +12548,9 @@ public class OrtApi {
     }
 
     public static CreateSessionFromArrayWithPrepackedWeightsContainer
-            CreateSessionFromArrayWithPrepackedWeightsContainer(MemorySegment segment, MemorySession session) {
+            CreateSessionFromArrayWithPrepackedWeightsContainer(MemorySegment segment, SegmentScope scope) {
         return CreateSessionFromArrayWithPrepackedWeightsContainer.ofAddress(
-                CreateSessionFromArrayWithPrepackedWeightsContainer$get(segment), session);
+                CreateSessionFromArrayWithPrepackedWeightsContainer$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_TensorRT_V2$FUNC = FunctionDescriptor.of(
@@ -12601,16 +12566,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT_V2 fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT_V2 fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_TensorRT_V2.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_TensorRT_V2 ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_TensorRT_V2 ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -12658,9 +12623,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_TensorRT_V2 SessionOptionsAppendExecutionProvider_TensorRT_V2(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_TensorRT_V2.ofAddress(
-                SessionOptionsAppendExecutionProvider_TensorRT_V2$get(segment), session);
+                SessionOptionsAppendExecutionProvider_TensorRT_V2$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateTensorRTProviderOptions$FUNC =
@@ -12676,13 +12641,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateTensorRTProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(CreateTensorRTProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateTensorRTProviderOptions.class, fi, OrtApi.CreateTensorRTProviderOptions$FUNC, session);
+                    CreateTensorRTProviderOptions.class, fi, OrtApi.CreateTensorRTProviderOptions$FUNC, scope);
         }
 
-        static CreateTensorRTProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateTensorRTProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -12729,8 +12694,8 @@ public class OrtApi {
     }
 
     public static CreateTensorRTProviderOptions CreateTensorRTProviderOptions(
-            MemorySegment segment, MemorySession session) {
-        return CreateTensorRTProviderOptions.ofAddress(CreateTensorRTProviderOptions$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return CreateTensorRTProviderOptions.ofAddress(CreateTensorRTProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor UpdateTensorRTProviderOptions$FUNC = FunctionDescriptor.of(
@@ -12754,13 +12719,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
-        static MemorySegment allocate(UpdateTensorRTProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(UpdateTensorRTProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    UpdateTensorRTProviderOptions.class, fi, OrtApi.UpdateTensorRTProviderOptions$FUNC, session);
+                    UpdateTensorRTProviderOptions.class, fi, OrtApi.UpdateTensorRTProviderOptions$FUNC, scope);
         }
 
-        static UpdateTensorRTProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UpdateTensorRTProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -12810,8 +12775,8 @@ public class OrtApi {
     }
 
     public static UpdateTensorRTProviderOptions UpdateTensorRTProviderOptions(
-            MemorySegment segment, MemorySession session) {
-        return UpdateTensorRTProviderOptions.ofAddress(UpdateTensorRTProviderOptions$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return UpdateTensorRTProviderOptions.ofAddress(UpdateTensorRTProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTensorRTProviderOptionsAsString$FUNC = FunctionDescriptor.of(
@@ -12833,16 +12798,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetTensorRTProviderOptionsAsString fi, MemorySession session) {
+        static MemorySegment allocate(GetTensorRTProviderOptionsAsString fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     GetTensorRTProviderOptionsAsString.class,
                     fi,
                     OrtApi.GetTensorRTProviderOptionsAsString$FUNC,
-                    session);
+                    scope);
         }
 
-        static GetTensorRTProviderOptionsAsString ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTensorRTProviderOptionsAsString ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -12891,8 +12856,8 @@ public class OrtApi {
     }
 
     public static GetTensorRTProviderOptionsAsString GetTensorRTProviderOptionsAsString(
-            MemorySegment segment, MemorySession session) {
-        return GetTensorRTProviderOptionsAsString.ofAddress(GetTensorRTProviderOptionsAsString$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return GetTensorRTProviderOptionsAsString.ofAddress(GetTensorRTProviderOptionsAsString$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseTensorRTProviderOptions$FUNC =
@@ -12908,13 +12873,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseTensorRTProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseTensorRTProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseTensorRTProviderOptions.class, fi, OrtApi.ReleaseTensorRTProviderOptions$FUNC, session);
+                    ReleaseTensorRTProviderOptions.class, fi, OrtApi.ReleaseTensorRTProviderOptions$FUNC, scope);
         }
 
-        static ReleaseTensorRTProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseTensorRTProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseTensorRTProviderOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -12960,8 +12925,8 @@ public class OrtApi {
     }
 
     public static ReleaseTensorRTProviderOptions ReleaseTensorRTProviderOptions(
-            MemorySegment segment, MemorySession session) {
-        return ReleaseTensorRTProviderOptions.ofAddress(ReleaseTensorRTProviderOptions$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return ReleaseTensorRTProviderOptions.ofAddress(ReleaseTensorRTProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor EnableOrtCustomOps$FUNC =
@@ -12976,12 +12941,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(EnableOrtCustomOps fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(EnableOrtCustomOps.class, fi, OrtApi.EnableOrtCustomOps$FUNC, session);
+        static MemorySegment allocate(EnableOrtCustomOps fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(EnableOrtCustomOps.class, fi, OrtApi.EnableOrtCustomOps$FUNC, scope);
         }
 
-        static EnableOrtCustomOps ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static EnableOrtCustomOps ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.EnableOrtCustomOps$MH.invokeExact(symbol, __x0);
@@ -13025,8 +12990,8 @@ public class OrtApi {
         OrtApi.EnableOrtCustomOps$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static EnableOrtCustomOps EnableOrtCustomOps(MemorySegment segment, MemorySession session) {
-        return EnableOrtCustomOps.ofAddress(EnableOrtCustomOps$get(segment), session);
+    public static EnableOrtCustomOps EnableOrtCustomOps(MemorySegment segment, SegmentScope scope) {
+        return EnableOrtCustomOps.ofAddress(EnableOrtCustomOps$get(segment), scope);
     }
 
     static final FunctionDescriptor RegisterAllocator$FUNC = FunctionDescriptor.of(
@@ -13041,12 +13006,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RegisterAllocator fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(RegisterAllocator.class, fi, OrtApi.RegisterAllocator$FUNC, session);
+        static MemorySegment allocate(RegisterAllocator fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(RegisterAllocator.class, fi, OrtApi.RegisterAllocator$FUNC, scope);
         }
 
-        static RegisterAllocator ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RegisterAllocator ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -13091,8 +13056,8 @@ public class OrtApi {
         OrtApi.RegisterAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RegisterAllocator RegisterAllocator(MemorySegment segment, MemorySession session) {
-        return RegisterAllocator.ofAddress(RegisterAllocator$get(segment), session);
+    public static RegisterAllocator RegisterAllocator(MemorySegment segment, SegmentScope scope) {
+        return RegisterAllocator.ofAddress(RegisterAllocator$get(segment), scope);
     }
 
     static final FunctionDescriptor UnregisterAllocator$FUNC = FunctionDescriptor.of(
@@ -13107,12 +13072,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(UnregisterAllocator fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(UnregisterAllocator.class, fi, OrtApi.UnregisterAllocator$FUNC, session);
+        static MemorySegment allocate(UnregisterAllocator fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(UnregisterAllocator.class, fi, OrtApi.UnregisterAllocator$FUNC, scope);
         }
 
-        static UnregisterAllocator ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UnregisterAllocator ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -13157,8 +13122,8 @@ public class OrtApi {
         OrtApi.UnregisterAllocator$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UnregisterAllocator UnregisterAllocator(MemorySegment segment, MemorySession session) {
-        return UnregisterAllocator.ofAddress(UnregisterAllocator$get(segment), session);
+    public static UnregisterAllocator UnregisterAllocator(MemorySegment segment, SegmentScope scope) {
+        return UnregisterAllocator.ofAddress(UnregisterAllocator$get(segment), scope);
     }
 
     static final FunctionDescriptor IsSparseTensor$FUNC = FunctionDescriptor.of(
@@ -13173,12 +13138,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(IsSparseTensor fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(IsSparseTensor.class, fi, OrtApi.IsSparseTensor$FUNC, session);
+        static MemorySegment allocate(IsSparseTensor fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(IsSparseTensor.class, fi, OrtApi.IsSparseTensor$FUNC, scope);
         }
 
-        static IsSparseTensor ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static IsSparseTensor ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.IsSparseTensor$MH.invokeExact(symbol, __x0, __x1);
@@ -13222,8 +13187,8 @@ public class OrtApi {
         OrtApi.IsSparseTensor$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static IsSparseTensor IsSparseTensor(MemorySegment segment, MemorySession session) {
-        return IsSparseTensor.ofAddress(IsSparseTensor$get(segment), session);
+    public static IsSparseTensor IsSparseTensor(MemorySegment segment, SegmentScope scope) {
+        return IsSparseTensor.ofAddress(IsSparseTensor$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSparseTensorAsOrtValue$FUNC = FunctionDescriptor.of(
@@ -13249,13 +13214,13 @@ public class OrtApi {
                 int _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateSparseTensorAsOrtValue fi, MemorySession session) {
+        static MemorySegment allocate(CreateSparseTensorAsOrtValue fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateSparseTensorAsOrtValue.class, fi, OrtApi.CreateSparseTensorAsOrtValue$FUNC, session);
+                    CreateSparseTensorAsOrtValue.class, fi, OrtApi.CreateSparseTensorAsOrtValue$FUNC, scope);
         }
 
-        static CreateSparseTensorAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSparseTensorAsOrtValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -13305,9 +13270,8 @@ public class OrtApi {
         OrtApi.CreateSparseTensorAsOrtValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateSparseTensorAsOrtValue CreateSparseTensorAsOrtValue(
-            MemorySegment segment, MemorySession session) {
-        return CreateSparseTensorAsOrtValue.ofAddress(CreateSparseTensorAsOrtValue$get(segment), session);
+    public static CreateSparseTensorAsOrtValue CreateSparseTensorAsOrtValue(MemorySegment segment, SegmentScope scope) {
+        return CreateSparseTensorAsOrtValue.ofAddress(CreateSparseTensorAsOrtValue$get(segment), scope);
     }
 
     static final FunctionDescriptor FillSparseTensorCoo$FUNC = FunctionDescriptor.of(
@@ -13336,12 +13300,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x5,
                 long _x6);
 
-        static MemorySegment allocate(FillSparseTensorCoo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(FillSparseTensorCoo.class, fi, OrtApi.FillSparseTensorCoo$FUNC, session);
+        static MemorySegment allocate(FillSparseTensorCoo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(FillSparseTensorCoo.class, fi, OrtApi.FillSparseTensorCoo$FUNC, scope);
         }
 
-        static FillSparseTensorCoo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static FillSparseTensorCoo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -13392,8 +13356,8 @@ public class OrtApi {
         OrtApi.FillSparseTensorCoo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static FillSparseTensorCoo FillSparseTensorCoo(MemorySegment segment, MemorySession session) {
-        return FillSparseTensorCoo.ofAddress(FillSparseTensorCoo$get(segment), session);
+    public static FillSparseTensorCoo FillSparseTensorCoo(MemorySegment segment, SegmentScope scope) {
+        return FillSparseTensorCoo.ofAddress(FillSparseTensorCoo$get(segment), scope);
     }
 
     static final FunctionDescriptor FillSparseTensorCsr$FUNC = FunctionDescriptor.of(
@@ -13426,12 +13390,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x7,
                 long _x8);
 
-        static MemorySegment allocate(FillSparseTensorCsr fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(FillSparseTensorCsr.class, fi, OrtApi.FillSparseTensorCsr$FUNC, session);
+        static MemorySegment allocate(FillSparseTensorCsr fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(FillSparseTensorCsr.class, fi, OrtApi.FillSparseTensorCsr$FUNC, scope);
         }
 
-        static FillSparseTensorCsr ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static FillSparseTensorCsr ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -13484,8 +13448,8 @@ public class OrtApi {
         OrtApi.FillSparseTensorCsr$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static FillSparseTensorCsr FillSparseTensorCsr(MemorySegment segment, MemorySession session) {
-        return FillSparseTensorCsr.ofAddress(FillSparseTensorCsr$get(segment), session);
+    public static FillSparseTensorCsr FillSparseTensorCsr(MemorySegment segment, SegmentScope scope) {
+        return FillSparseTensorCsr.ofAddress(FillSparseTensorCsr$get(segment), scope);
     }
 
     static final FunctionDescriptor FillSparseTensorBlockSparse$FUNC = FunctionDescriptor.of(
@@ -13517,13 +13481,13 @@ public class OrtApi {
                 long _x6,
                 java.lang.foreign.MemorySegment _x7);
 
-        static MemorySegment allocate(FillSparseTensorBlockSparse fi, MemorySession session) {
+        static MemorySegment allocate(FillSparseTensorBlockSparse fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    FillSparseTensorBlockSparse.class, fi, OrtApi.FillSparseTensorBlockSparse$FUNC, session);
+                    FillSparseTensorBlockSparse.class, fi, OrtApi.FillSparseTensorBlockSparse$FUNC, scope);
         }
 
-        static FillSparseTensorBlockSparse ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static FillSparseTensorBlockSparse ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -13576,9 +13540,8 @@ public class OrtApi {
         OrtApi.FillSparseTensorBlockSparse$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static FillSparseTensorBlockSparse FillSparseTensorBlockSparse(
-            MemorySegment segment, MemorySession session) {
-        return FillSparseTensorBlockSparse.ofAddress(FillSparseTensorBlockSparse$get(segment), session);
+    public static FillSparseTensorBlockSparse FillSparseTensorBlockSparse(MemorySegment segment, SegmentScope scope) {
+        return FillSparseTensorBlockSparse.ofAddress(FillSparseTensorBlockSparse$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateSparseTensorWithValuesAsOrtValue$FUNC = FunctionDescriptor.of(
@@ -13610,16 +13573,16 @@ public class OrtApi {
                 int _x6,
                 java.lang.foreign.MemorySegment _x7);
 
-        static MemorySegment allocate(CreateSparseTensorWithValuesAsOrtValue fi, MemorySession session) {
+        static MemorySegment allocate(CreateSparseTensorWithValuesAsOrtValue fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     CreateSparseTensorWithValuesAsOrtValue.class,
                     fi,
                     OrtApi.CreateSparseTensorWithValuesAsOrtValue$FUNC,
-                    session);
+                    scope);
         }
 
-        static CreateSparseTensorWithValuesAsOrtValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateSparseTensorWithValuesAsOrtValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -13674,9 +13637,9 @@ public class OrtApi {
     }
 
     public static CreateSparseTensorWithValuesAsOrtValue CreateSparseTensorWithValuesAsOrtValue(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return CreateSparseTensorWithValuesAsOrtValue.ofAddress(
-                CreateSparseTensorWithValuesAsOrtValue$get(segment), session);
+                CreateSparseTensorWithValuesAsOrtValue$get(segment), scope);
     }
 
     static final FunctionDescriptor UseCooIndices$FUNC = FunctionDescriptor.of(
@@ -13695,12 +13658,12 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
-        static MemorySegment allocate(UseCooIndices fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(UseCooIndices.class, fi, OrtApi.UseCooIndices$FUNC, session);
+        static MemorySegment allocate(UseCooIndices fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(UseCooIndices.class, fi, OrtApi.UseCooIndices$FUNC, scope);
         }
 
-        static UseCooIndices ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UseCooIndices ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -13745,8 +13708,8 @@ public class OrtApi {
         OrtApi.UseCooIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UseCooIndices UseCooIndices(MemorySegment segment, MemorySession session) {
-        return UseCooIndices.ofAddress(UseCooIndices$get(segment), session);
+    public static UseCooIndices UseCooIndices(MemorySegment segment, SegmentScope scope) {
+        return UseCooIndices.ofAddress(UseCooIndices$get(segment), scope);
     }
 
     static final FunctionDescriptor UseCsrIndices$FUNC = FunctionDescriptor.of(
@@ -13771,12 +13734,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
-        static MemorySegment allocate(UseCsrIndices fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(UseCsrIndices.class, fi, OrtApi.UseCsrIndices$FUNC, session);
+        static MemorySegment allocate(UseCsrIndices fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(UseCsrIndices.class, fi, OrtApi.UseCsrIndices$FUNC, scope);
         }
 
-        static UseCsrIndices ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UseCsrIndices ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -13825,8 +13788,8 @@ public class OrtApi {
         OrtApi.UseCsrIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UseCsrIndices UseCsrIndices(MemorySegment segment, MemorySession session) {
-        return UseCsrIndices.ofAddress(UseCsrIndices$get(segment), session);
+    public static UseCsrIndices UseCsrIndices(MemorySegment segment, SegmentScope scope) {
+        return UseCsrIndices.ofAddress(UseCsrIndices$get(segment), scope);
     }
 
     static final FunctionDescriptor UseBlockSparseIndices$FUNC = FunctionDescriptor.of(
@@ -13850,13 +13813,12 @@ public class OrtApi {
                 long _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(UseBlockSparseIndices fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    UseBlockSparseIndices.class, fi, OrtApi.UseBlockSparseIndices$FUNC, session);
+        static MemorySegment allocate(UseBlockSparseIndices fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(UseBlockSparseIndices.class, fi, OrtApi.UseBlockSparseIndices$FUNC, scope);
         }
 
-        static UseBlockSparseIndices ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UseBlockSparseIndices ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     long __x2,
@@ -13904,8 +13866,8 @@ public class OrtApi {
         OrtApi.UseBlockSparseIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UseBlockSparseIndices UseBlockSparseIndices(MemorySegment segment, MemorySession session) {
-        return UseBlockSparseIndices.ofAddress(UseBlockSparseIndices$get(segment), session);
+    public static UseBlockSparseIndices UseBlockSparseIndices(MemorySegment segment, SegmentScope scope) {
+        return UseBlockSparseIndices.ofAddress(UseBlockSparseIndices$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSparseTensorFormat$FUNC = FunctionDescriptor.of(
@@ -13921,13 +13883,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetSparseTensorFormat fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetSparseTensorFormat.class, fi, OrtApi.GetSparseTensorFormat$FUNC, session);
+        static MemorySegment allocate(GetSparseTensorFormat fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetSparseTensorFormat.class, fi, OrtApi.GetSparseTensorFormat$FUNC, scope);
         }
 
-        static GetSparseTensorFormat ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSparseTensorFormat ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -13972,8 +13933,8 @@ public class OrtApi {
         OrtApi.GetSparseTensorFormat$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetSparseTensorFormat GetSparseTensorFormat(MemorySegment segment, MemorySession session) {
-        return GetSparseTensorFormat.ofAddress(GetSparseTensorFormat$get(segment), session);
+    public static GetSparseTensorFormat GetSparseTensorFormat(MemorySegment segment, SegmentScope scope) {
+        return GetSparseTensorFormat.ofAddress(GetSparseTensorFormat$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSparseTensorValuesTypeAndShape$FUNC = FunctionDescriptor.of(
@@ -13989,16 +13950,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetSparseTensorValuesTypeAndShape fi, MemorySession session) {
+        static MemorySegment allocate(GetSparseTensorValuesTypeAndShape fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetSparseTensorValuesTypeAndShape.class,
-                    fi,
-                    OrtApi.GetSparseTensorValuesTypeAndShape$FUNC,
-                    session);
+                    GetSparseTensorValuesTypeAndShape.class, fi, OrtApi.GetSparseTensorValuesTypeAndShape$FUNC, scope);
         }
 
-        static GetSparseTensorValuesTypeAndShape ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSparseTensorValuesTypeAndShape ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14045,8 +14003,8 @@ public class OrtApi {
     }
 
     public static GetSparseTensorValuesTypeAndShape GetSparseTensorValuesTypeAndShape(
-            MemorySegment segment, MemorySession session) {
-        return GetSparseTensorValuesTypeAndShape.ofAddress(GetSparseTensorValuesTypeAndShape$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return GetSparseTensorValuesTypeAndShape.ofAddress(GetSparseTensorValuesTypeAndShape$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSparseTensorValues$FUNC = FunctionDescriptor.of(
@@ -14062,13 +14020,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetSparseTensorValues fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetSparseTensorValues.class, fi, OrtApi.GetSparseTensorValues$FUNC, session);
+        static MemorySegment allocate(GetSparseTensorValues fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetSparseTensorValues.class, fi, OrtApi.GetSparseTensorValues$FUNC, scope);
         }
 
-        static GetSparseTensorValues ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSparseTensorValues ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14113,8 +14070,8 @@ public class OrtApi {
         OrtApi.GetSparseTensorValues$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetSparseTensorValues GetSparseTensorValues(MemorySegment segment, MemorySession session) {
-        return GetSparseTensorValues.ofAddress(GetSparseTensorValues$get(segment), session);
+    public static GetSparseTensorValues GetSparseTensorValues(MemorySegment segment, SegmentScope scope) {
+        return GetSparseTensorValues.ofAddress(GetSparseTensorValues$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSparseTensorIndicesTypeShape$FUNC = FunctionDescriptor.of(
@@ -14134,13 +14091,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetSparseTensorIndicesTypeShape fi, MemorySession session) {
+        static MemorySegment allocate(GetSparseTensorIndicesTypeShape fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetSparseTensorIndicesTypeShape.class, fi, OrtApi.GetSparseTensorIndicesTypeShape$FUNC, session);
+                    GetSparseTensorIndicesTypeShape.class, fi, OrtApi.GetSparseTensorIndicesTypeShape$FUNC, scope);
         }
 
-        static GetSparseTensorIndicesTypeShape ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSparseTensorIndicesTypeShape ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14187,8 +14144,8 @@ public class OrtApi {
     }
 
     public static GetSparseTensorIndicesTypeShape GetSparseTensorIndicesTypeShape(
-            MemorySegment segment, MemorySession session) {
-        return GetSparseTensorIndicesTypeShape.ofAddress(GetSparseTensorIndicesTypeShape$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return GetSparseTensorIndicesTypeShape.ofAddress(GetSparseTensorIndicesTypeShape$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSparseTensorIndices$FUNC = FunctionDescriptor.of(
@@ -14212,13 +14169,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(GetSparseTensorIndices fi, MemorySession session) {
+        static MemorySegment allocate(GetSparseTensorIndices fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetSparseTensorIndices.class, fi, OrtApi.GetSparseTensorIndices$FUNC, session);
+                    GetSparseTensorIndices.class, fi, OrtApi.GetSparseTensorIndices$FUNC, scope);
         }
 
-        static GetSparseTensorIndices ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSparseTensorIndices ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     int __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -14266,8 +14223,8 @@ public class OrtApi {
         OrtApi.GetSparseTensorIndices$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetSparseTensorIndices GetSparseTensorIndices(MemorySegment segment, MemorySession session) {
-        return GetSparseTensorIndices.ofAddress(GetSparseTensorIndices$get(segment), session);
+    public static GetSparseTensorIndices GetSparseTensorIndices(MemorySegment segment, SegmentScope scope) {
+        return GetSparseTensorIndices.ofAddress(GetSparseTensorIndices$get(segment), scope);
     }
 
     static final FunctionDescriptor HasValue$FUNC = FunctionDescriptor.of(
@@ -14282,12 +14239,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(HasValue fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(HasValue.class, fi, OrtApi.HasValue$FUNC, session);
+        static MemorySegment allocate(HasValue fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(HasValue.class, fi, OrtApi.HasValue$FUNC, scope);
         }
 
-        static HasValue ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static HasValue ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.HasValue$MH.invokeExact(symbol, __x0, __x1);
@@ -14330,8 +14287,8 @@ public class OrtApi {
         OrtApi.HasValue$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static HasValue HasValue(MemorySegment segment, MemorySession session) {
-        return HasValue.ofAddress(HasValue$get(segment), session);
+    public static HasValue HasValue(MemorySegment segment, SegmentScope scope) {
+        return HasValue.ofAddress(HasValue$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelContext_GetGPUComputeStream$FUNC = FunctionDescriptor.of(
@@ -14347,16 +14304,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(KernelContext_GetGPUComputeStream fi, MemorySession session) {
+        static MemorySegment allocate(KernelContext_GetGPUComputeStream fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelContext_GetGPUComputeStream.class,
-                    fi,
-                    OrtApi.KernelContext_GetGPUComputeStream$FUNC,
-                    session);
+                    KernelContext_GetGPUComputeStream.class, fi, OrtApi.KernelContext_GetGPUComputeStream$FUNC, scope);
         }
 
-        static KernelContext_GetGPUComputeStream ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelContext_GetGPUComputeStream ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14403,8 +14357,8 @@ public class OrtApi {
     }
 
     public static KernelContext_GetGPUComputeStream KernelContext_GetGPUComputeStream(
-            MemorySegment segment, MemorySession session) {
-        return KernelContext_GetGPUComputeStream.ofAddress(KernelContext_GetGPUComputeStream$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return KernelContext_GetGPUComputeStream.ofAddress(KernelContext_GetGPUComputeStream$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTensorMemoryInfo$FUNC = FunctionDescriptor.of(
@@ -14419,12 +14373,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(GetTensorMemoryInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetTensorMemoryInfo.class, fi, OrtApi.GetTensorMemoryInfo$FUNC, session);
+        static MemorySegment allocate(GetTensorMemoryInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetTensorMemoryInfo.class, fi, OrtApi.GetTensorMemoryInfo$FUNC, scope);
         }
 
-        static GetTensorMemoryInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTensorMemoryInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14469,8 +14423,8 @@ public class OrtApi {
         OrtApi.GetTensorMemoryInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTensorMemoryInfo GetTensorMemoryInfo(MemorySegment segment, MemorySession session) {
-        return GetTensorMemoryInfo.ofAddress(GetTensorMemoryInfo$get(segment), session);
+    public static GetTensorMemoryInfo GetTensorMemoryInfo(MemorySegment segment, SegmentScope scope) {
+        return GetTensorMemoryInfo.ofAddress(GetTensorMemoryInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor GetExecutionProviderApi$FUNC = FunctionDescriptor.of(
@@ -14490,13 +14444,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetExecutionProviderApi fi, MemorySession session) {
+        static MemorySegment allocate(GetExecutionProviderApi fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetExecutionProviderApi.class, fi, OrtApi.GetExecutionProviderApi$FUNC, session);
+                    GetExecutionProviderApi.class, fi, OrtApi.GetExecutionProviderApi$FUNC, scope);
         }
 
-        static GetExecutionProviderApi ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetExecutionProviderApi ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14541,8 +14495,8 @@ public class OrtApi {
         OrtApi.GetExecutionProviderApi$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetExecutionProviderApi GetExecutionProviderApi(MemorySegment segment, MemorySession session) {
-        return GetExecutionProviderApi.ofAddress(GetExecutionProviderApi$get(segment), session);
+    public static GetExecutionProviderApi GetExecutionProviderApi(MemorySegment segment, SegmentScope scope) {
+        return GetExecutionProviderApi.ofAddress(GetExecutionProviderApi$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsSetCustomCreateThreadFn$FUNC = FunctionDescriptor.of(
@@ -14558,16 +14512,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsSetCustomCreateThreadFn fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsSetCustomCreateThreadFn fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsSetCustomCreateThreadFn.class,
                     fi,
                     OrtApi.SessionOptionsSetCustomCreateThreadFn$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsSetCustomCreateThreadFn ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsSetCustomCreateThreadFn ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14614,9 +14568,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsSetCustomCreateThreadFn SessionOptionsSetCustomCreateThreadFn(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsSetCustomCreateThreadFn.ofAddress(
-                SessionOptionsSetCustomCreateThreadFn$get(segment), session);
+                SessionOptionsSetCustomCreateThreadFn$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsSetCustomThreadCreationOptions$FUNC = FunctionDescriptor.of(
@@ -14632,16 +14586,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsSetCustomThreadCreationOptions fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsSetCustomThreadCreationOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsSetCustomThreadCreationOptions.class,
                     fi,
                     OrtApi.SessionOptionsSetCustomThreadCreationOptions$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsSetCustomThreadCreationOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsSetCustomThreadCreationOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14689,9 +14643,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsSetCustomThreadCreationOptions SessionOptionsSetCustomThreadCreationOptions(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsSetCustomThreadCreationOptions.ofAddress(
-                SessionOptionsSetCustomThreadCreationOptions$get(segment), session);
+                SessionOptionsSetCustomThreadCreationOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsSetCustomJoinThreadFn$FUNC = FunctionDescriptor.of(
@@ -14707,16 +14661,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsSetCustomJoinThreadFn fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsSetCustomJoinThreadFn fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsSetCustomJoinThreadFn.class,
                     fi,
                     OrtApi.SessionOptionsSetCustomJoinThreadFn$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsSetCustomJoinThreadFn ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsSetCustomJoinThreadFn ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14763,8 +14717,8 @@ public class OrtApi {
     }
 
     public static SessionOptionsSetCustomJoinThreadFn SessionOptionsSetCustomJoinThreadFn(
-            MemorySegment segment, MemorySession session) {
-        return SessionOptionsSetCustomJoinThreadFn.ofAddress(SessionOptionsSetCustomJoinThreadFn$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SessionOptionsSetCustomJoinThreadFn.ofAddress(SessionOptionsSetCustomJoinThreadFn$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalCustomCreateThreadFn$FUNC = FunctionDescriptor.of(
@@ -14780,13 +14734,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SetGlobalCustomCreateThreadFn fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalCustomCreateThreadFn fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetGlobalCustomCreateThreadFn.class, fi, OrtApi.SetGlobalCustomCreateThreadFn$FUNC, session);
+                    SetGlobalCustomCreateThreadFn.class, fi, OrtApi.SetGlobalCustomCreateThreadFn$FUNC, scope);
         }
 
-        static SetGlobalCustomCreateThreadFn ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalCustomCreateThreadFn ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14833,8 +14787,8 @@ public class OrtApi {
     }
 
     public static SetGlobalCustomCreateThreadFn SetGlobalCustomCreateThreadFn(
-            MemorySegment segment, MemorySession session) {
-        return SetGlobalCustomCreateThreadFn.ofAddress(SetGlobalCustomCreateThreadFn$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SetGlobalCustomCreateThreadFn.ofAddress(SetGlobalCustomCreateThreadFn$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalCustomThreadCreationOptions$FUNC = FunctionDescriptor.of(
@@ -14850,16 +14804,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SetGlobalCustomThreadCreationOptions fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalCustomThreadCreationOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SetGlobalCustomThreadCreationOptions.class,
                     fi,
                     OrtApi.SetGlobalCustomThreadCreationOptions$FUNC,
-                    session);
+                    scope);
         }
 
-        static SetGlobalCustomThreadCreationOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalCustomThreadCreationOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14906,9 +14860,8 @@ public class OrtApi {
     }
 
     public static SetGlobalCustomThreadCreationOptions SetGlobalCustomThreadCreationOptions(
-            MemorySegment segment, MemorySession session) {
-        return SetGlobalCustomThreadCreationOptions.ofAddress(
-                SetGlobalCustomThreadCreationOptions$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SetGlobalCustomThreadCreationOptions.ofAddress(SetGlobalCustomThreadCreationOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalCustomJoinThreadFn$FUNC = FunctionDescriptor.of(
@@ -14924,13 +14877,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SetGlobalCustomJoinThreadFn fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalCustomJoinThreadFn fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetGlobalCustomJoinThreadFn.class, fi, OrtApi.SetGlobalCustomJoinThreadFn$FUNC, session);
+                    SetGlobalCustomJoinThreadFn.class, fi, OrtApi.SetGlobalCustomJoinThreadFn$FUNC, scope);
         }
 
-        static SetGlobalCustomJoinThreadFn ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalCustomJoinThreadFn ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -14976,9 +14929,8 @@ public class OrtApi {
         OrtApi.SetGlobalCustomJoinThreadFn$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SetGlobalCustomJoinThreadFn SetGlobalCustomJoinThreadFn(
-            MemorySegment segment, MemorySession session) {
-        return SetGlobalCustomJoinThreadFn.ofAddress(SetGlobalCustomJoinThreadFn$get(segment), session);
+    public static SetGlobalCustomJoinThreadFn SetGlobalCustomJoinThreadFn(MemorySegment segment, SegmentScope scope) {
+        return SetGlobalCustomJoinThreadFn.ofAddress(SetGlobalCustomJoinThreadFn$get(segment), scope);
     }
 
     static final FunctionDescriptor SynchronizeBoundInputs$FUNC =
@@ -14994,13 +14946,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(SynchronizeBoundInputs fi, MemorySession session) {
+        static MemorySegment allocate(SynchronizeBoundInputs fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SynchronizeBoundInputs.class, fi, OrtApi.SynchronizeBoundInputs$FUNC, session);
+                    SynchronizeBoundInputs.class, fi, OrtApi.SynchronizeBoundInputs$FUNC, scope);
         }
 
-        static SynchronizeBoundInputs ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SynchronizeBoundInputs ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.SynchronizeBoundInputs$MH.invokeExact(symbol, __x0);
@@ -15044,8 +14996,8 @@ public class OrtApi {
         OrtApi.SynchronizeBoundInputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SynchronizeBoundInputs SynchronizeBoundInputs(MemorySegment segment, MemorySession session) {
-        return SynchronizeBoundInputs.ofAddress(SynchronizeBoundInputs$get(segment), session);
+    public static SynchronizeBoundInputs SynchronizeBoundInputs(MemorySegment segment, SegmentScope scope) {
+        return SynchronizeBoundInputs.ofAddress(SynchronizeBoundInputs$get(segment), scope);
     }
 
     static final FunctionDescriptor SynchronizeBoundOutputs$FUNC =
@@ -15061,13 +15013,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(SynchronizeBoundOutputs fi, MemorySession session) {
+        static MemorySegment allocate(SynchronizeBoundOutputs fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SynchronizeBoundOutputs.class, fi, OrtApi.SynchronizeBoundOutputs$FUNC, session);
+                    SynchronizeBoundOutputs.class, fi, OrtApi.SynchronizeBoundOutputs$FUNC, scope);
         }
 
-        static SynchronizeBoundOutputs ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SynchronizeBoundOutputs ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -15112,8 +15064,8 @@ public class OrtApi {
         OrtApi.SynchronizeBoundOutputs$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static SynchronizeBoundOutputs SynchronizeBoundOutputs(MemorySegment segment, MemorySession session) {
-        return SynchronizeBoundOutputs.ofAddress(SynchronizeBoundOutputs$get(segment), session);
+    public static SynchronizeBoundOutputs SynchronizeBoundOutputs(MemorySegment segment, SegmentScope scope) {
+        return SynchronizeBoundOutputs.ofAddress(SynchronizeBoundOutputs$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC = FunctionDescriptor.of(
@@ -15129,16 +15081,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_CUDA_V2.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -15186,9 +15138,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_CUDA_V2.ofAddress(
-                SessionOptionsAppendExecutionProvider_CUDA_V2$get(segment), session);
+                SessionOptionsAppendExecutionProvider_CUDA_V2$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateCUDAProviderOptions$FUNC =
@@ -15204,13 +15156,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateCUDAProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(CreateCUDAProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateCUDAProviderOptions.class, fi, OrtApi.CreateCUDAProviderOptions$FUNC, session);
+                    CreateCUDAProviderOptions.class, fi, OrtApi.CreateCUDAProviderOptions$FUNC, scope);
         }
 
-        static CreateCUDAProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateCUDAProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -15255,8 +15207,8 @@ public class OrtApi {
         OrtApi.CreateCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateCUDAProviderOptions CreateCUDAProviderOptions(MemorySegment segment, MemorySession session) {
-        return CreateCUDAProviderOptions.ofAddress(CreateCUDAProviderOptions$get(segment), session);
+    public static CreateCUDAProviderOptions CreateCUDAProviderOptions(MemorySegment segment, SegmentScope scope) {
+        return CreateCUDAProviderOptions.ofAddress(CreateCUDAProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor UpdateCUDAProviderOptions$FUNC = FunctionDescriptor.of(
@@ -15280,13 +15232,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
-        static MemorySegment allocate(UpdateCUDAProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(UpdateCUDAProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    UpdateCUDAProviderOptions.class, fi, OrtApi.UpdateCUDAProviderOptions$FUNC, session);
+                    UpdateCUDAProviderOptions.class, fi, OrtApi.UpdateCUDAProviderOptions$FUNC, scope);
         }
 
-        static UpdateCUDAProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UpdateCUDAProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -15334,8 +15286,8 @@ public class OrtApi {
         OrtApi.UpdateCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UpdateCUDAProviderOptions UpdateCUDAProviderOptions(MemorySegment segment, MemorySession session) {
-        return UpdateCUDAProviderOptions.ofAddress(UpdateCUDAProviderOptions$get(segment), session);
+    public static UpdateCUDAProviderOptions UpdateCUDAProviderOptions(MemorySegment segment, SegmentScope scope) {
+        return UpdateCUDAProviderOptions.ofAddress(UpdateCUDAProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor GetCUDAProviderOptionsAsString$FUNC = FunctionDescriptor.of(
@@ -15357,13 +15309,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetCUDAProviderOptionsAsString fi, MemorySession session) {
+        static MemorySegment allocate(GetCUDAProviderOptionsAsString fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetCUDAProviderOptionsAsString.class, fi, OrtApi.GetCUDAProviderOptionsAsString$FUNC, session);
+                    GetCUDAProviderOptionsAsString.class, fi, OrtApi.GetCUDAProviderOptionsAsString$FUNC, scope);
         }
 
-        static GetCUDAProviderOptionsAsString ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetCUDAProviderOptionsAsString ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -15412,8 +15364,8 @@ public class OrtApi {
     }
 
     public static GetCUDAProviderOptionsAsString GetCUDAProviderOptionsAsString(
-            MemorySegment segment, MemorySession session) {
-        return GetCUDAProviderOptionsAsString.ofAddress(GetCUDAProviderOptionsAsString$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return GetCUDAProviderOptionsAsString.ofAddress(GetCUDAProviderOptionsAsString$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseCUDAProviderOptions$FUNC =
@@ -15429,13 +15381,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseCUDAProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseCUDAProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseCUDAProviderOptions.class, fi, OrtApi.ReleaseCUDAProviderOptions$FUNC, session);
+                    ReleaseCUDAProviderOptions.class, fi, OrtApi.ReleaseCUDAProviderOptions$FUNC, scope);
         }
 
-        static ReleaseCUDAProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseCUDAProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseCUDAProviderOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -15480,8 +15432,8 @@ public class OrtApi {
         OrtApi.ReleaseCUDAProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions(MemorySegment segment, MemorySession session) {
-        return ReleaseCUDAProviderOptions.ofAddress(ReleaseCUDAProviderOptions$get(segment), session);
+    public static ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions(MemorySegment segment, SegmentScope scope) {
+        return ReleaseCUDAProviderOptions.ofAddress(ReleaseCUDAProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_MIGraphX$FUNC = FunctionDescriptor.of(
@@ -15497,16 +15449,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_MIGraphX.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -15554,9 +15506,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_MIGraphX.ofAddress(
-                SessionOptionsAppendExecutionProvider_MIGraphX$get(segment), session);
+                SessionOptionsAppendExecutionProvider_MIGraphX$get(segment), scope);
     }
 
     static final FunctionDescriptor AddExternalInitializers$FUNC = FunctionDescriptor.of(
@@ -15580,13 +15532,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
-        static MemorySegment allocate(AddExternalInitializers fi, MemorySession session) {
+        static MemorySegment allocate(AddExternalInitializers fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    AddExternalInitializers.class, fi, OrtApi.AddExternalInitializers$FUNC, session);
+                    AddExternalInitializers.class, fi, OrtApi.AddExternalInitializers$FUNC, scope);
         }
 
-        static AddExternalInitializers ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static AddExternalInitializers ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -15634,8 +15586,8 @@ public class OrtApi {
         OrtApi.AddExternalInitializers$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static AddExternalInitializers AddExternalInitializers(MemorySegment segment, MemorySession session) {
-        return AddExternalInitializers.ofAddress(AddExternalInitializers$get(segment), session);
+    public static AddExternalInitializers AddExternalInitializers(MemorySegment segment, SegmentScope scope) {
+        return AddExternalInitializers.ofAddress(AddExternalInitializers$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateOpAttr$FUNC = FunctionDescriptor.of(
@@ -15660,12 +15612,12 @@ public class OrtApi {
                 int _x3,
                 java.lang.foreign.MemorySegment _x4);
 
-        static MemorySegment allocate(CreateOpAttr fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateOpAttr.class, fi, OrtApi.CreateOpAttr$FUNC, session);
+        static MemorySegment allocate(CreateOpAttr fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateOpAttr.class, fi, OrtApi.CreateOpAttr$FUNC, scope);
         }
 
-        static CreateOpAttr ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateOpAttr ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     int __x2,
@@ -15714,8 +15666,8 @@ public class OrtApi {
         OrtApi.CreateOpAttr$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateOpAttr CreateOpAttr(MemorySegment segment, MemorySession session) {
-        return CreateOpAttr.ofAddress(CreateOpAttr$get(segment), session);
+    public static CreateOpAttr CreateOpAttr(MemorySegment segment, SegmentScope scope) {
+        return CreateOpAttr.ofAddress(CreateOpAttr$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseOpAttr$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -15729,12 +15681,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseOpAttr fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseOpAttr.class, fi, OrtApi.ReleaseOpAttr$FUNC, session);
+        static MemorySegment allocate(ReleaseOpAttr fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseOpAttr.class, fi, OrtApi.ReleaseOpAttr$FUNC, scope);
         }
 
-        static ReleaseOpAttr ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseOpAttr ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseOpAttr$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -15778,8 +15730,8 @@ public class OrtApi {
         OrtApi.ReleaseOpAttr$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseOpAttr ReleaseOpAttr(MemorySegment segment, MemorySession session) {
-        return ReleaseOpAttr.ofAddress(ReleaseOpAttr$get(segment), session);
+    public static ReleaseOpAttr ReleaseOpAttr(MemorySegment segment, SegmentScope scope) {
+        return ReleaseOpAttr.ofAddress(ReleaseOpAttr$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateOp$FUNC = FunctionDescriptor.of(
@@ -15818,12 +15770,12 @@ public class OrtApi {
                 int _x10,
                 java.lang.foreign.MemorySegment _x11);
 
-        static MemorySegment allocate(CreateOp fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateOp.class, fi, OrtApi.CreateOp$FUNC, session);
+        static MemorySegment allocate(CreateOp fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CreateOp.class, fi, OrtApi.CreateOp$FUNC, scope);
         }
 
-        static CreateOp ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateOp ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -15878,8 +15830,8 @@ public class OrtApi {
         OrtApi.CreateOp$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateOp CreateOp(MemorySegment segment, MemorySession session) {
-        return CreateOp.ofAddress(CreateOp$get(segment), session);
+    public static CreateOp CreateOp(MemorySegment segment, SegmentScope scope) {
+        return CreateOp.ofAddress(CreateOp$get(segment), scope);
     }
 
     static final FunctionDescriptor InvokeOp$FUNC = FunctionDescriptor.of(
@@ -15906,12 +15858,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4,
                 int _x5);
 
-        static MemorySegment allocate(InvokeOp fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(InvokeOp.class, fi, OrtApi.InvokeOp$FUNC, session);
+        static MemorySegment allocate(InvokeOp fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(InvokeOp.class, fi, OrtApi.InvokeOp$FUNC, scope);
         }
 
-        static InvokeOp ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static InvokeOp ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -15960,8 +15912,8 @@ public class OrtApi {
         OrtApi.InvokeOp$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static InvokeOp InvokeOp(MemorySegment segment, MemorySession session) {
-        return InvokeOp.ofAddress(InvokeOp$get(segment), session);
+    public static InvokeOp InvokeOp(MemorySegment segment, SegmentScope scope) {
+        return InvokeOp.ofAddress(InvokeOp$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseOp$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -15975,12 +15927,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseOp fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseOp.class, fi, OrtApi.ReleaseOp$FUNC, session);
+        static MemorySegment allocate(ReleaseOp fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseOp.class, fi, OrtApi.ReleaseOp$FUNC, scope);
         }
 
-        static ReleaseOp ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseOp ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseOp$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -16023,8 +15975,8 @@ public class OrtApi {
         OrtApi.ReleaseOp$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseOp ReleaseOp(MemorySegment segment, MemorySession session) {
-        return ReleaseOp.ofAddress(ReleaseOp$get(segment), session);
+    public static ReleaseOp ReleaseOp(MemorySegment segment, SegmentScope scope) {
+        return ReleaseOp.ofAddress(ReleaseOp$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider$FUNC = FunctionDescriptor.of(
@@ -16050,16 +16002,16 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3,
                 long _x4);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -16111,9 +16063,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider SessionOptionsAppendExecutionProvider(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider.ofAddress(
-                SessionOptionsAppendExecutionProvider$get(segment), session);
+                SessionOptionsAppendExecutionProvider$get(segment), scope);
     }
 
     static final FunctionDescriptor CopyKernelInfo$FUNC = FunctionDescriptor.of(
@@ -16128,12 +16080,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(CopyKernelInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CopyKernelInfo.class, fi, OrtApi.CopyKernelInfo$FUNC, session);
+        static MemorySegment allocate(CopyKernelInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(CopyKernelInfo.class, fi, OrtApi.CopyKernelInfo$FUNC, scope);
         }
 
-        static CopyKernelInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CopyKernelInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.CopyKernelInfo$MH.invokeExact(symbol, __x0, __x1);
@@ -16177,8 +16129,8 @@ public class OrtApi {
         OrtApi.CopyKernelInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CopyKernelInfo CopyKernelInfo(MemorySegment segment, MemorySession session) {
-        return CopyKernelInfo.ofAddress(CopyKernelInfo$get(segment), session);
+    public static CopyKernelInfo CopyKernelInfo(MemorySegment segment, SegmentScope scope) {
+        return CopyKernelInfo.ofAddress(CopyKernelInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseKernelInfo$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
@@ -16192,12 +16144,12 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseKernelInfo fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(ReleaseKernelInfo.class, fi, OrtApi.ReleaseKernelInfo$FUNC, session);
+        static MemorySegment allocate(ReleaseKernelInfo fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(ReleaseKernelInfo.class, fi, OrtApi.ReleaseKernelInfo$FUNC, scope);
         }
 
-        static ReleaseKernelInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseKernelInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseKernelInfo$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -16241,8 +16193,8 @@ public class OrtApi {
         OrtApi.ReleaseKernelInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseKernelInfo ReleaseKernelInfo(MemorySegment segment, MemorySession session) {
-        return ReleaseKernelInfo.ofAddress(ReleaseKernelInfo$get(segment), session);
+    public static ReleaseKernelInfo ReleaseKernelInfo(MemorySegment segment, SegmentScope scope) {
+        return ReleaseKernelInfo.ofAddress(ReleaseKernelInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor GetTrainingApi$FUNC =
@@ -16257,12 +16209,12 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(int _x0);
 
-        static MemorySegment allocate(GetTrainingApi fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetTrainingApi.class, fi, OrtApi.GetTrainingApi$FUNC, session);
+        static MemorySegment allocate(GetTrainingApi fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetTrainingApi.class, fi, OrtApi.GetTrainingApi$FUNC, scope);
         }
 
-        static GetTrainingApi ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetTrainingApi ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApi.GetTrainingApi$MH.invokeExact(symbol, __x0);
@@ -16306,8 +16258,8 @@ public class OrtApi {
         OrtApi.GetTrainingApi$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetTrainingApi GetTrainingApi(MemorySegment segment, MemorySession session) {
-        return GetTrainingApi.ofAddress(GetTrainingApi$get(segment), session);
+    public static GetTrainingApi GetTrainingApi(MemorySegment segment, SegmentScope scope) {
+        return GetTrainingApi.ofAddress(GetTrainingApi$get(segment), scope);
     }
 
     static final FunctionDescriptor SessionOptionsAppendExecutionProvider_CANN$FUNC = FunctionDescriptor.of(
@@ -16323,16 +16275,16 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CANN fi, MemorySession session) {
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CANN fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
                     SessionOptionsAppendExecutionProvider_CANN.class,
                     fi,
                     OrtApi.SessionOptionsAppendExecutionProvider_CANN$FUNC,
-                    session);
+                    scope);
         }
 
-        static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -16379,9 +16331,9 @@ public class OrtApi {
     }
 
     public static SessionOptionsAppendExecutionProvider_CANN SessionOptionsAppendExecutionProvider_CANN(
-            MemorySegment segment, MemorySession session) {
+            MemorySegment segment, SegmentScope scope) {
         return SessionOptionsAppendExecutionProvider_CANN.ofAddress(
-                SessionOptionsAppendExecutionProvider_CANN$get(segment), session);
+                SessionOptionsAppendExecutionProvider_CANN$get(segment), scope);
     }
 
     static final FunctionDescriptor CreateCANNProviderOptions$FUNC =
@@ -16397,13 +16349,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(CreateCANNProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(CreateCANNProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    CreateCANNProviderOptions.class, fi, OrtApi.CreateCANNProviderOptions$FUNC, session);
+                    CreateCANNProviderOptions.class, fi, OrtApi.CreateCANNProviderOptions$FUNC, scope);
         }
 
-        static CreateCANNProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static CreateCANNProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -16448,8 +16400,8 @@ public class OrtApi {
         OrtApi.CreateCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static CreateCANNProviderOptions CreateCANNProviderOptions(MemorySegment segment, MemorySession session) {
-        return CreateCANNProviderOptions.ofAddress(CreateCANNProviderOptions$get(segment), session);
+    public static CreateCANNProviderOptions CreateCANNProviderOptions(MemorySegment segment, SegmentScope scope) {
+        return CreateCANNProviderOptions.ofAddress(CreateCANNProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor UpdateCANNProviderOptions$FUNC = FunctionDescriptor.of(
@@ -16473,13 +16425,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 long _x3);
 
-        static MemorySegment allocate(UpdateCANNProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(UpdateCANNProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    UpdateCANNProviderOptions.class, fi, OrtApi.UpdateCANNProviderOptions$FUNC, session);
+                    UpdateCANNProviderOptions.class, fi, OrtApi.UpdateCANNProviderOptions$FUNC, scope);
         }
 
-        static UpdateCANNProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UpdateCANNProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -16527,8 +16479,8 @@ public class OrtApi {
         OrtApi.UpdateCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UpdateCANNProviderOptions UpdateCANNProviderOptions(MemorySegment segment, MemorySession session) {
-        return UpdateCANNProviderOptions.ofAddress(UpdateCANNProviderOptions$get(segment), session);
+    public static UpdateCANNProviderOptions UpdateCANNProviderOptions(MemorySegment segment, SegmentScope scope) {
+        return UpdateCANNProviderOptions.ofAddress(UpdateCANNProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor GetCANNProviderOptionsAsString$FUNC = FunctionDescriptor.of(
@@ -16550,13 +16502,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(GetCANNProviderOptionsAsString fi, MemorySession session) {
+        static MemorySegment allocate(GetCANNProviderOptionsAsString fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    GetCANNProviderOptionsAsString.class, fi, OrtApi.GetCANNProviderOptionsAsString$FUNC, session);
+                    GetCANNProviderOptionsAsString.class, fi, OrtApi.GetCANNProviderOptionsAsString$FUNC, scope);
         }
 
-        static GetCANNProviderOptionsAsString ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetCANNProviderOptionsAsString ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -16605,8 +16557,8 @@ public class OrtApi {
     }
 
     public static GetCANNProviderOptionsAsString GetCANNProviderOptionsAsString(
-            MemorySegment segment, MemorySession session) {
-        return GetCANNProviderOptionsAsString.ofAddress(GetCANNProviderOptionsAsString$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return GetCANNProviderOptionsAsString.ofAddress(GetCANNProviderOptionsAsString$get(segment), scope);
     }
 
     static final FunctionDescriptor ReleaseCANNProviderOptions$FUNC =
@@ -16622,13 +16574,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-        static MemorySegment allocate(ReleaseCANNProviderOptions fi, MemorySession session) {
+        static MemorySegment allocate(ReleaseCANNProviderOptions fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    ReleaseCANNProviderOptions.class, fi, OrtApi.ReleaseCANNProviderOptions$FUNC, session);
+                    ReleaseCANNProviderOptions.class, fi, OrtApi.ReleaseCANNProviderOptions$FUNC, scope);
         }
 
-        static ReleaseCANNProviderOptions ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static ReleaseCANNProviderOptions ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
                     OrtApi.ReleaseCANNProviderOptions$MH.invokeExact(symbol, _ort_custom_thread_handle);
@@ -16673,8 +16625,8 @@ public class OrtApi {
         OrtApi.ReleaseCANNProviderOptions$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static ReleaseCANNProviderOptions ReleaseCANNProviderOptions(MemorySegment segment, MemorySession session) {
-        return ReleaseCANNProviderOptions.ofAddress(ReleaseCANNProviderOptions$get(segment), session);
+    public static ReleaseCANNProviderOptions ReleaseCANNProviderOptions(MemorySegment segment, SegmentScope scope) {
+        return ReleaseCANNProviderOptions.ofAddress(ReleaseCANNProviderOptions$get(segment), scope);
     }
 
     static final FunctionDescriptor MemoryInfoGetDeviceType$FUNC =
@@ -16690,13 +16642,13 @@ public class OrtApi {
 
         void apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(MemoryInfoGetDeviceType fi, MemorySession session) {
+        static MemorySegment allocate(MemoryInfoGetDeviceType fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    MemoryInfoGetDeviceType.class, fi, OrtApi.MemoryInfoGetDeviceType$FUNC, session);
+                    MemoryInfoGetDeviceType.class, fi, OrtApi.MemoryInfoGetDeviceType$FUNC, scope);
         }
 
-        static MemoryInfoGetDeviceType ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static MemoryInfoGetDeviceType ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     OrtApi.MemoryInfoGetDeviceType$MH.invokeExact(symbol, __x0, __x1);
@@ -16740,8 +16692,8 @@ public class OrtApi {
         OrtApi.MemoryInfoGetDeviceType$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static MemoryInfoGetDeviceType MemoryInfoGetDeviceType(MemorySegment segment, MemorySession session) {
-        return MemoryInfoGetDeviceType.ofAddress(MemoryInfoGetDeviceType$get(segment), session);
+    public static MemoryInfoGetDeviceType MemoryInfoGetDeviceType(MemorySegment segment, SegmentScope scope) {
+        return MemoryInfoGetDeviceType.ofAddress(MemoryInfoGetDeviceType$get(segment), scope);
     }
 
     static final FunctionDescriptor UpdateEnvWithCustomLogLevel$FUNC = FunctionDescriptor.of(
@@ -16757,13 +16709,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
-        static MemorySegment allocate(UpdateEnvWithCustomLogLevel fi, MemorySession session) {
+        static MemorySegment allocate(UpdateEnvWithCustomLogLevel fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    UpdateEnvWithCustomLogLevel.class, fi, OrtApi.UpdateEnvWithCustomLogLevel$FUNC, session);
+                    UpdateEnvWithCustomLogLevel.class, fi, OrtApi.UpdateEnvWithCustomLogLevel$FUNC, scope);
         }
 
-        static UpdateEnvWithCustomLogLevel ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static UpdateEnvWithCustomLogLevel ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -16809,9 +16761,8 @@ public class OrtApi {
         OrtApi.UpdateEnvWithCustomLogLevel$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static UpdateEnvWithCustomLogLevel UpdateEnvWithCustomLogLevel(
-            MemorySegment segment, MemorySession session) {
-        return UpdateEnvWithCustomLogLevel.ofAddress(UpdateEnvWithCustomLogLevel$get(segment), session);
+    public static UpdateEnvWithCustomLogLevel UpdateEnvWithCustomLogLevel(MemorySegment segment, SegmentScope scope) {
+        return UpdateEnvWithCustomLogLevel.ofAddress(UpdateEnvWithCustomLogLevel$get(segment), scope);
     }
 
     static final FunctionDescriptor SetGlobalIntraOpThreadAffinity$FUNC = FunctionDescriptor.of(
@@ -16827,13 +16778,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(SetGlobalIntraOpThreadAffinity fi, MemorySession session) {
+        static MemorySegment allocate(SetGlobalIntraOpThreadAffinity fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    SetGlobalIntraOpThreadAffinity.class, fi, OrtApi.SetGlobalIntraOpThreadAffinity$FUNC, session);
+                    SetGlobalIntraOpThreadAffinity.class, fi, OrtApi.SetGlobalIntraOpThreadAffinity$FUNC, scope);
         }
 
-        static SetGlobalIntraOpThreadAffinity ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static SetGlobalIntraOpThreadAffinity ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -16880,8 +16831,8 @@ public class OrtApi {
     }
 
     public static SetGlobalIntraOpThreadAffinity SetGlobalIntraOpThreadAffinity(
-            MemorySegment segment, MemorySession session) {
-        return SetGlobalIntraOpThreadAffinity.ofAddress(SetGlobalIntraOpThreadAffinity$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return SetGlobalIntraOpThreadAffinity.ofAddress(SetGlobalIntraOpThreadAffinity$get(segment), scope);
     }
 
     static final FunctionDescriptor RegisterCustomOpsLibrary_V2$FUNC = FunctionDescriptor.of(
@@ -16897,13 +16848,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RegisterCustomOpsLibrary_V2 fi, MemorySession session) {
+        static MemorySegment allocate(RegisterCustomOpsLibrary_V2 fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RegisterCustomOpsLibrary_V2.class, fi, OrtApi.RegisterCustomOpsLibrary_V2$FUNC, session);
+                    RegisterCustomOpsLibrary_V2.class, fi, OrtApi.RegisterCustomOpsLibrary_V2$FUNC, scope);
         }
 
-        static RegisterCustomOpsLibrary_V2 ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RegisterCustomOpsLibrary_V2 ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -16949,9 +16900,8 @@ public class OrtApi {
         OrtApi.RegisterCustomOpsLibrary_V2$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static RegisterCustomOpsLibrary_V2 RegisterCustomOpsLibrary_V2(
-            MemorySegment segment, MemorySession session) {
-        return RegisterCustomOpsLibrary_V2.ofAddress(RegisterCustomOpsLibrary_V2$get(segment), session);
+    public static RegisterCustomOpsLibrary_V2 RegisterCustomOpsLibrary_V2(MemorySegment segment, SegmentScope scope) {
+        return RegisterCustomOpsLibrary_V2.ofAddress(RegisterCustomOpsLibrary_V2$get(segment), scope);
     }
 
     static final FunctionDescriptor RegisterCustomOpsUsingFunction$FUNC = FunctionDescriptor.of(
@@ -16967,13 +16917,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(RegisterCustomOpsUsingFunction fi, MemorySession session) {
+        static MemorySegment allocate(RegisterCustomOpsUsingFunction fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    RegisterCustomOpsUsingFunction.class, fi, OrtApi.RegisterCustomOpsUsingFunction$FUNC, session);
+                    RegisterCustomOpsUsingFunction.class, fi, OrtApi.RegisterCustomOpsUsingFunction$FUNC, scope);
         }
 
-        static RegisterCustomOpsUsingFunction ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static RegisterCustomOpsUsingFunction ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -17020,8 +16970,8 @@ public class OrtApi {
     }
 
     public static RegisterCustomOpsUsingFunction RegisterCustomOpsUsingFunction(
-            MemorySegment segment, MemorySession session) {
-        return RegisterCustomOpsUsingFunction.ofAddress(RegisterCustomOpsUsingFunction$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return RegisterCustomOpsUsingFunction.ofAddress(RegisterCustomOpsUsingFunction$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfo_GetInputCount$FUNC = FunctionDescriptor.of(
@@ -17037,13 +16987,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(KernelInfo_GetInputCount fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfo_GetInputCount fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfo_GetInputCount.class, fi, OrtApi.KernelInfo_GetInputCount$FUNC, session);
+                    KernelInfo_GetInputCount.class, fi, OrtApi.KernelInfo_GetInputCount$FUNC, scope);
         }
 
-        static KernelInfo_GetInputCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfo_GetInputCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -17088,8 +17038,8 @@ public class OrtApi {
         OrtApi.KernelInfo_GetInputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfo_GetInputCount KernelInfo_GetInputCount(MemorySegment segment, MemorySession session) {
-        return KernelInfo_GetInputCount.ofAddress(KernelInfo_GetInputCount$get(segment), session);
+    public static KernelInfo_GetInputCount KernelInfo_GetInputCount(MemorySegment segment, SegmentScope scope) {
+        return KernelInfo_GetInputCount.ofAddress(KernelInfo_GetInputCount$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfo_GetOutputCount$FUNC = FunctionDescriptor.of(
@@ -17105,13 +17055,13 @@ public class OrtApi {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(KernelInfo_GetOutputCount fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfo_GetOutputCount fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfo_GetOutputCount.class, fi, OrtApi.KernelInfo_GetOutputCount$FUNC, session);
+                    KernelInfo_GetOutputCount.class, fi, OrtApi.KernelInfo_GetOutputCount$FUNC, scope);
         }
 
-        static KernelInfo_GetOutputCount ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfo_GetOutputCount ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -17156,8 +17106,8 @@ public class OrtApi {
         OrtApi.KernelInfo_GetOutputCount$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfo_GetOutputCount KernelInfo_GetOutputCount(MemorySegment segment, MemorySession session) {
-        return KernelInfo_GetOutputCount.ofAddress(KernelInfo_GetOutputCount$get(segment), session);
+    public static KernelInfo_GetOutputCount KernelInfo_GetOutputCount(MemorySegment segment, SegmentScope scope) {
+        return KernelInfo_GetOutputCount.ofAddress(KernelInfo_GetOutputCount$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfo_GetInputName$FUNC = FunctionDescriptor.of(
@@ -17181,13 +17131,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(KernelInfo_GetInputName fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfo_GetInputName fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfo_GetInputName.class, fi, OrtApi.KernelInfo_GetInputName$FUNC, session);
+                    KernelInfo_GetInputName.class, fi, OrtApi.KernelInfo_GetInputName$FUNC, scope);
         }
 
-        static KernelInfo_GetInputName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfo_GetInputName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -17235,8 +17185,8 @@ public class OrtApi {
         OrtApi.KernelInfo_GetInputName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfo_GetInputName KernelInfo_GetInputName(MemorySegment segment, MemorySession session) {
-        return KernelInfo_GetInputName.ofAddress(KernelInfo_GetInputName$get(segment), session);
+    public static KernelInfo_GetInputName KernelInfo_GetInputName(MemorySegment segment, SegmentScope scope) {
+        return KernelInfo_GetInputName.ofAddress(KernelInfo_GetInputName$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfo_GetOutputName$FUNC = FunctionDescriptor.of(
@@ -17260,13 +17210,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(KernelInfo_GetOutputName fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfo_GetOutputName fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfo_GetOutputName.class, fi, OrtApi.KernelInfo_GetOutputName$FUNC, session);
+                    KernelInfo_GetOutputName.class, fi, OrtApi.KernelInfo_GetOutputName$FUNC, scope);
         }
 
-        static KernelInfo_GetOutputName ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfo_GetOutputName ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     long __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -17314,8 +17264,8 @@ public class OrtApi {
         OrtApi.KernelInfo_GetOutputName$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfo_GetOutputName KernelInfo_GetOutputName(MemorySegment segment, MemorySession session) {
-        return KernelInfo_GetOutputName.ofAddress(KernelInfo_GetOutputName$get(segment), session);
+    public static KernelInfo_GetOutputName KernelInfo_GetOutputName(MemorySegment segment, SegmentScope scope) {
+        return KernelInfo_GetOutputName.ofAddress(KernelInfo_GetOutputName$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfo_GetInputTypeInfo$FUNC = FunctionDescriptor.of(
@@ -17335,13 +17285,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(KernelInfo_GetInputTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfo_GetInputTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfo_GetInputTypeInfo.class, fi, OrtApi.KernelInfo_GetInputTypeInfo$FUNC, session);
+                    KernelInfo_GetInputTypeInfo.class, fi, OrtApi.KernelInfo_GetInputTypeInfo$FUNC, scope);
         }
 
-        static KernelInfo_GetInputTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfo_GetInputTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -17387,9 +17337,8 @@ public class OrtApi {
         OrtApi.KernelInfo_GetInputTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfo_GetInputTypeInfo KernelInfo_GetInputTypeInfo(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfo_GetInputTypeInfo.ofAddress(KernelInfo_GetInputTypeInfo$get(segment), session);
+    public static KernelInfo_GetInputTypeInfo KernelInfo_GetInputTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return KernelInfo_GetInputTypeInfo.ofAddress(KernelInfo_GetInputTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfo_GetOutputTypeInfo$FUNC = FunctionDescriptor.of(
@@ -17409,13 +17358,13 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(KernelInfo_GetOutputTypeInfo fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfo_GetOutputTypeInfo fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfo_GetOutputTypeInfo.class, fi, OrtApi.KernelInfo_GetOutputTypeInfo$FUNC, session);
+                    KernelInfo_GetOutputTypeInfo.class, fi, OrtApi.KernelInfo_GetOutputTypeInfo$FUNC, scope);
         }
 
-        static KernelInfo_GetOutputTypeInfo ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfo_GetOutputTypeInfo ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
@@ -17461,9 +17410,8 @@ public class OrtApi {
         OrtApi.KernelInfo_GetOutputTypeInfo$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static KernelInfo_GetOutputTypeInfo KernelInfo_GetOutputTypeInfo(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfo_GetOutputTypeInfo.ofAddress(KernelInfo_GetOutputTypeInfo$get(segment), session);
+    public static KernelInfo_GetOutputTypeInfo KernelInfo_GetOutputTypeInfo(MemorySegment segment, SegmentScope scope) {
+        return KernelInfo_GetOutputTypeInfo.ofAddress(KernelInfo_GetOutputTypeInfo$get(segment), scope);
     }
 
     static final FunctionDescriptor KernelInfoGetAttribute_tensor$FUNC = FunctionDescriptor.of(
@@ -17487,13 +17435,13 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(KernelInfoGetAttribute_tensor fi, MemorySession session) {
+        static MemorySegment allocate(KernelInfoGetAttribute_tensor fi, SegmentScope scope) {
             return RuntimeHelper.upcallStub(
-                    KernelInfoGetAttribute_tensor.class, fi, OrtApi.KernelInfoGetAttribute_tensor$FUNC, session);
+                    KernelInfoGetAttribute_tensor.class, fi, OrtApi.KernelInfoGetAttribute_tensor$FUNC, scope);
         }
 
-        static KernelInfoGetAttribute_tensor ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static KernelInfoGetAttribute_tensor ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -17543,8 +17491,8 @@ public class OrtApi {
     }
 
     public static KernelInfoGetAttribute_tensor KernelInfoGetAttribute_tensor(
-            MemorySegment segment, MemorySession session) {
-        return KernelInfoGetAttribute_tensor.ofAddress(KernelInfoGetAttribute_tensor$get(segment), session);
+            MemorySegment segment, SegmentScope scope) {
+        return KernelInfoGetAttribute_tensor.ofAddress(KernelInfoGetAttribute_tensor$get(segment), scope);
     }
 
     static final FunctionDescriptor HasSessionConfigEntry$FUNC = FunctionDescriptor.of(
@@ -17566,13 +17514,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x1,
                 java.lang.foreign.MemorySegment _x2);
 
-        static MemorySegment allocate(HasSessionConfigEntry fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    HasSessionConfigEntry.class, fi, OrtApi.HasSessionConfigEntry$FUNC, session);
+        static MemorySegment allocate(HasSessionConfigEntry fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(HasSessionConfigEntry.class, fi, OrtApi.HasSessionConfigEntry$FUNC, scope);
         }
 
-        static HasSessionConfigEntry ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static HasSessionConfigEntry ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
@@ -17619,8 +17566,8 @@ public class OrtApi {
         OrtApi.HasSessionConfigEntry$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static HasSessionConfigEntry HasSessionConfigEntry(MemorySegment segment, MemorySession session) {
-        return HasSessionConfigEntry.ofAddress(HasSessionConfigEntry$get(segment), session);
+    public static HasSessionConfigEntry HasSessionConfigEntry(MemorySegment segment, SegmentScope scope) {
+        return HasSessionConfigEntry.ofAddress(HasSessionConfigEntry$get(segment), scope);
     }
 
     static final FunctionDescriptor GetSessionConfigEntry$FUNC = FunctionDescriptor.of(
@@ -17644,13 +17591,12 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2,
                 java.lang.foreign.MemorySegment _x3);
 
-        static MemorySegment allocate(GetSessionConfigEntry fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetSessionConfigEntry.class, fi, OrtApi.GetSessionConfigEntry$FUNC, session);
+        static MemorySegment allocate(GetSessionConfigEntry fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetSessionConfigEntry.class, fi, OrtApi.GetSessionConfigEntry$FUNC, scope);
         }
 
-        static GetSessionConfigEntry ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetSessionConfigEntry ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0,
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2,
@@ -17698,8 +17644,8 @@ public class OrtApi {
         OrtApi.GetSessionConfigEntry$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetSessionConfigEntry GetSessionConfigEntry(MemorySegment segment, MemorySession session) {
-        return GetSessionConfigEntry.ofAddress(GetSessionConfigEntry$get(segment), session);
+    public static GetSessionConfigEntry GetSessionConfigEntry(MemorySegment segment, SegmentScope scope) {
+        return GetSessionConfigEntry.ofAddress(GetSessionConfigEntry$get(segment), scope);
     }
 
     public static long sizeof() {
@@ -17714,7 +17660,7 @@ public class OrtApi {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    public static MemorySegment ofAddress(MemorySegment addr, SegmentScope scope) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
     }
 }

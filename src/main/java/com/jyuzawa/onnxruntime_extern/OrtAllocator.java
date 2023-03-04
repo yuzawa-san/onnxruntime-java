@@ -78,12 +78,12 @@ public class OrtAllocator {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, long _x1);
 
-        static MemorySegment allocate(Alloc fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Alloc.class, fi, OrtAllocator.Alloc$FUNC, session);
+        static MemorySegment allocate(Alloc fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(Alloc.class, fi, OrtAllocator.Alloc$FUNC, scope);
         }
 
-        static Alloc ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static Alloc ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, long __x1) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtAllocator.Alloc$MH.invokeExact(symbol, __x0, __x1);
@@ -126,8 +126,8 @@ public class OrtAllocator {
         OrtAllocator.Alloc$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static Alloc Alloc(MemorySegment segment, MemorySession session) {
-        return Alloc.ofAddress(Alloc$get(segment), session);
+    public static Alloc Alloc(MemorySegment segment, SegmentScope scope) {
+        return Alloc.ofAddress(Alloc$get(segment), scope);
     }
 
     static final FunctionDescriptor Free$FUNC =
@@ -142,12 +142,12 @@ public class OrtAllocator {
 
         void apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(Free fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Free.class, fi, OrtAllocator.Free$FUNC, session);
+        static MemorySegment allocate(Free fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(Free.class, fi, OrtAllocator.Free$FUNC, scope);
         }
 
-        static Free ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static Free ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
                     OrtAllocator.Free$MH.invokeExact(symbol, __x0, __x1);
@@ -190,8 +190,8 @@ public class OrtAllocator {
         OrtAllocator.Free$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static Free Free(MemorySegment segment, MemorySession session) {
-        return Free.ofAddress(Free$get(segment), session);
+    public static Free Free(MemorySegment segment, SegmentScope scope) {
+        return Free.ofAddress(Free$get(segment), scope);
     }
 
     static final FunctionDescriptor Info$FUNC =
@@ -206,12 +206,12 @@ public class OrtAllocator {
 
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(Info fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Info.class, fi, OrtAllocator.Info$FUNC, session);
+        static MemorySegment allocate(Info fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(Info.class, fi, OrtAllocator.Info$FUNC, scope);
         }
 
-        static Info ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static Info ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtAllocator.Info$MH.invokeExact(symbol, __x0);
@@ -254,8 +254,8 @@ public class OrtAllocator {
         OrtAllocator.Info$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static Info Info(MemorySegment segment, MemorySession session) {
-        return Info.ofAddress(Info$get(segment), session);
+    public static Info Info(MemorySegment segment, SegmentScope scope) {
+        return Info.ofAddress(Info$get(segment), scope);
     }
 
     public static long sizeof() {
@@ -270,7 +270,7 @@ public class OrtAllocator {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    public static MemorySegment ofAddress(MemorySegment addr, SegmentScope scope) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
     }
 }

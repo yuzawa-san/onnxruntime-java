@@ -12,7 +12,7 @@ import java.lang.System.Logger.Level;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentScope;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -136,7 +136,7 @@ public enum OnnxRuntimeLoggingLevel {
                                     MemorySegment.class,
                                     MemorySegment.class));
             return Linker.nativeLinker()
-                    .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, MemorySession.global());
+                    .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, SegmentScope.global());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new OnnxRuntimeException("failed to initialize logger", e);
         }

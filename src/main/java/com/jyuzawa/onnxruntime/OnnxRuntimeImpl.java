@@ -10,7 +10,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtGetApiBase;
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentScope;
 
 // NOTE: this class actually is more like OrtApiBase
 enum OnnxRuntimeImpl implements OnnxRuntime {
@@ -21,7 +21,7 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private OnnxRuntimeImpl() {
         Loader.load();
-        MemorySession scope = MemorySession.global();
+        SegmentScope scope = SegmentScope.global();
         MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase().address(), OrtApiBase.sizeof(), scope);
         this.version = OrtApiBase.GetVersionString(segment, scope).apply().getUtf8String(0);
         MemorySegment apiAddress = OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION());

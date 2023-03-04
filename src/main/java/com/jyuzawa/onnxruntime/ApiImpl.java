@@ -14,7 +14,7 @@ import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentScope;
 import java.lang.foreign.SegmentAllocator;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -140,7 +140,7 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
-        MemorySession memorySession = MemorySession.global();
+        SegmentScope memorySession = SegmentScope.global();
         this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment, memorySession);
         this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment, memorySession);
         this.AllocatorFree = OrtApi.AllocatorFree(memorySegment, memorySession);

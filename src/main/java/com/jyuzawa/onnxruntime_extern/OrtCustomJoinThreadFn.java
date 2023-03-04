@@ -17,13 +17,12 @@ public interface OrtCustomJoinThreadFn {
 
     void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-    static MemorySegment allocate(OrtCustomJoinThreadFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(
-                OrtCustomJoinThreadFn.class, fi, constants$1.OrtCustomJoinThreadFn$FUNC, session);
+    static MemorySegment allocate(OrtCustomJoinThreadFn fi, SegmentScope scope) {
+        return RuntimeHelper.upcallStub(OrtCustomJoinThreadFn.class, fi, constants$1.OrtCustomJoinThreadFn$FUNC, scope);
     }
 
-    static OrtCustomJoinThreadFn ofAddress(MemorySegment addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+    static OrtCustomJoinThreadFn ofAddress(MemorySegment addr, SegmentScope scope) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
         return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
             try {
                 constants$1.OrtCustomJoinThreadFn$MH.invokeExact(symbol, _ort_custom_thread_handle);

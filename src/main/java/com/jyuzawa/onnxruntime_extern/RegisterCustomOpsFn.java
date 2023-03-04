@@ -17,12 +17,12 @@ public interface RegisterCustomOpsFn {
 
     java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
 
-    static MemorySegment allocate(RegisterCustomOpsFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(RegisterCustomOpsFn.class, fi, constants$1.RegisterCustomOpsFn$FUNC, session);
+    static MemorySegment allocate(RegisterCustomOpsFn fi, SegmentScope scope) {
+        return RuntimeHelper.upcallStub(RegisterCustomOpsFn.class, fi, constants$1.RegisterCustomOpsFn$FUNC, scope);
     }
 
-    static RegisterCustomOpsFn ofAddress(MemorySegment addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+    static RegisterCustomOpsFn ofAddress(MemorySegment addr, SegmentScope scope) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
         return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
             try {
                 return (java.lang.foreign.MemorySegment)

@@ -17,12 +17,12 @@ public interface OrtThreadWorkerFn {
 
     void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-    static MemorySegment allocate(OrtThreadWorkerFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(OrtThreadWorkerFn.class, fi, constants$0.OrtThreadWorkerFn$FUNC, session);
+    static MemorySegment allocate(OrtThreadWorkerFn fi, SegmentScope scope) {
+        return RuntimeHelper.upcallStub(OrtThreadWorkerFn.class, fi, constants$0.OrtThreadWorkerFn$FUNC, scope);
     }
 
-    static OrtThreadWorkerFn ofAddress(MemorySegment addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+    static OrtThreadWorkerFn ofAddress(MemorySegment addr, SegmentScope scope) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
         return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
             try {
                 constants$0.OrtThreadWorkerFn$MH.invokeExact(symbol, _ort_custom_thread_handle);

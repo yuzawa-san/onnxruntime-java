@@ -23,12 +23,12 @@ public interface OrtLoggingFunction {
             java.lang.foreign.MemorySegment code_location,
             java.lang.foreign.MemorySegment message);
 
-    static MemorySegment allocate(OrtLoggingFunction fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(OrtLoggingFunction.class, fi, constants$0.OrtLoggingFunction$FUNC, session);
+    static MemorySegment allocate(OrtLoggingFunction fi, SegmentScope scope) {
+        return RuntimeHelper.upcallStub(OrtLoggingFunction.class, fi, constants$0.OrtLoggingFunction$FUNC, scope);
     }
 
-    static OrtLoggingFunction ofAddress(MemorySegment addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+    static OrtLoggingFunction ofAddress(MemorySegment addr, SegmentScope scope) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
         return (java.lang.foreign.MemorySegment _param,
                 int _severity,
                 java.lang.foreign.MemorySegment _category,

@@ -20,13 +20,13 @@ public interface OrtCustomCreateThreadFn {
             java.lang.foreign.MemorySegment ort_thread_worker_fn,
             java.lang.foreign.MemorySegment ort_worker_fn_param);
 
-    static MemorySegment allocate(OrtCustomCreateThreadFn fi, MemorySession session) {
+    static MemorySegment allocate(OrtCustomCreateThreadFn fi, SegmentScope scope) {
         return RuntimeHelper.upcallStub(
-                OrtCustomCreateThreadFn.class, fi, constants$0.OrtCustomCreateThreadFn$FUNC, session);
+                OrtCustomCreateThreadFn.class, fi, constants$0.OrtCustomCreateThreadFn$FUNC, scope);
     }
 
-    static OrtCustomCreateThreadFn ofAddress(MemorySegment addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+    static OrtCustomCreateThreadFn ofAddress(MemorySegment addr, SegmentScope scope) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
         return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
                 java.lang.foreign.MemorySegment _ort_thread_worker_fn,
                 java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {

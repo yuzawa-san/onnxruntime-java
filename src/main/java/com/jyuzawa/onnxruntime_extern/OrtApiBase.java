@@ -41,12 +41,12 @@ public class OrtApiBase {
 
         java.lang.foreign.MemorySegment apply(int _x0);
 
-        static MemorySegment allocate(GetApi fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetApi.class, fi, OrtApiBase.GetApi$FUNC, session);
+        static MemorySegment allocate(GetApi fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetApi.class, fi, OrtApiBase.GetApi$FUNC, scope);
         }
 
-        static GetApi ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetApi ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return (int __x0) -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApiBase.GetApi$MH.invokeExact(symbol, __x0);
@@ -89,8 +89,8 @@ public class OrtApiBase {
         OrtApiBase.GetApi$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetApi GetApi(MemorySegment segment, MemorySession session) {
-        return GetApi.ofAddress(GetApi$get(segment), session);
+    public static GetApi GetApi(MemorySegment segment, SegmentScope scope) {
+        return GetApi.ofAddress(GetApi$get(segment), scope);
     }
 
     static final FunctionDescriptor GetVersionString$FUNC = FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT);
@@ -104,12 +104,12 @@ public class OrtApiBase {
 
         java.lang.foreign.MemorySegment apply();
 
-        static MemorySegment allocate(GetVersionString fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetVersionString.class, fi, OrtApiBase.GetVersionString$FUNC, session);
+        static MemorySegment allocate(GetVersionString fi, SegmentScope scope) {
+            return RuntimeHelper.upcallStub(GetVersionString.class, fi, OrtApiBase.GetVersionString$FUNC, scope);
         }
 
-        static GetVersionString ofAddress(MemorySegment addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        static GetVersionString ofAddress(MemorySegment addr, SegmentScope scope) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
             return () -> {
                 try {
                     return (java.lang.foreign.MemorySegment) OrtApiBase.GetVersionString$MH.invokeExact(symbol);
@@ -153,8 +153,8 @@ public class OrtApiBase {
         OrtApiBase.GetVersionString$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    public static GetVersionString GetVersionString(MemorySegment segment, MemorySession session) {
-        return GetVersionString.ofAddress(GetVersionString$get(segment), session);
+    public static GetVersionString GetVersionString(MemorySegment segment, SegmentScope scope) {
+        return GetVersionString.ofAddress(GetVersionString$get(segment), scope);
     }
 
     public static long sizeof() {
@@ -169,7 +169,7 @@ public class OrtApiBase {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    public static MemorySegment ofAddress(MemorySegment addr, SegmentScope scope) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
     }
 }
