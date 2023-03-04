@@ -78,14 +78,14 @@ final class SessionImpl extends ManagedImpl implements Session {
             }
 
             MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
-this.libraryHandle = builder.libraryHandle;
+            this.libraryHandle = builder.libraryHandle;
             try {
-            this.address = api.create(
-                    memorySession,
-                    out -> api.CreateSessionFromArray.apply(
-                            environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
+                this.address = api.create(
+                        memorySession,
+                        out -> api.CreateSessionFromArray.apply(
+                                environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
             } finally {
-            	api.ReleaseSessionOptions.apply(sessionOptions);
+                api.ReleaseSessionOptions.apply(sessionOptions);
             }
 
             this.overridableInitializers = createMap(
@@ -118,13 +118,13 @@ this.libraryHandle = builder.libraryHandle;
             this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, address, ortAllocator);
         }
     }
-    
+
     @Override
-    public  void close() {
-    	api.ReleaseSession.apply(address);
-    	if(libraryHandle!= null) {
-    		Builder.closeLibrary(libraryHandle);
-    	}
+    public void close() {
+        api.ReleaseSession.apply(address);
+        if (libraryHandle != null) {
+            Builder.closeLibrary(libraryHandle);
+        }
         super.close();
     }
 
@@ -134,15 +134,15 @@ this.libraryHandle = builder.libraryHandle;
     }
 
     private interface GetCount {
-    	MemorySegment apply(MemorySegment session, MemorySegment out);
+        MemorySegment apply(MemorySegment session, MemorySegment out);
     }
 
     private interface GetName {
-    	MemorySegment apply(MemorySegment session, long idx, MemorySegment ortAllocator, MemorySegment out);
+        MemorySegment apply(MemorySegment session, long idx, MemorySegment ortAllocator, MemorySegment out);
     }
 
     private interface GetTypeInfo {
-    	MemorySegment apply(MemorySegment session, long idx, MemorySegment out);
+        MemorySegment apply(MemorySegment session, long idx, MemorySegment out);
     }
 
     private static NamedCollection<NodeInfoImpl> createMap(
@@ -364,7 +364,7 @@ this.libraryHandle = builder.libraryHandle;
         }
 
         private MemorySegment newSessionOptions(Arena memorySession) {
-        	MemorySegment sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
+            MemorySegment sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
             }
@@ -372,9 +372,7 @@ this.libraryHandle = builder.libraryHandle;
                 api.checkStatus(api.SetSessionLogVerbosityLevel.apply(sessionOptions, logVerbosityLevel));
             }
             if (loggerId != null) {
-                api.checkStatus(api.SetSessionLogId.apply(
-                        sessionOptions,
-                        memorySession.allocateUtf8String(loggerId)));
+                api.checkStatus(api.SetSessionLogId.apply(sessionOptions, memorySession.allocateUtf8String(loggerId)));
             }
             if (memoryPatternOptimization != null) {
                 if (memoryPatternOptimization) {
@@ -425,11 +423,8 @@ this.libraryHandle = builder.libraryHandle;
                         memorySession,
                         out -> api.RegisterCustomOpsLibrary.apply(
                                 sessionOptions,
-                                memorySession
-                                        .allocateUtf8String(customOpsLibrary
-                                                .toAbsolutePath()
-                                                .toString())
-                                        ,
+                                memorySession.allocateUtf8String(
+                                        customOpsLibrary.toAbsolutePath().toString()),
                                 out));
             }
             return sessionOptions;

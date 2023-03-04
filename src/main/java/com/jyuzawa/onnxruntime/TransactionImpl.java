@@ -131,7 +131,7 @@ final class TransactionImpl implements Transaction {
         }
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
-        	MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
+            MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
             // TODO: get typeinfo from result
             NodeInfoImpl nodeInfo = outputs.get(i);
             OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
@@ -186,7 +186,7 @@ final class TransactionImpl implements Transaction {
         }
 
         private MemorySegment newRunOptions(SegmentAllocator scope) {
-        	MemorySegment runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
+            MemorySegment runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
             }
@@ -194,8 +194,7 @@ final class TransactionImpl implements Transaction {
                 api.checkStatus(api.RunOptionsSetRunLogVerbosityLevel.apply(runOptions, logVerbosityLevel));
             }
             if (runTag != null) {
-                api.checkStatus(api.RunOptionsSetRunTag.apply(
-                        runOptions, scope.allocateUtf8String(runTag)));
+                api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, scope.allocateUtf8String(runTag)));
             }
             if (config != null && !config.isEmpty()) {
                 for (Map.Entry<String, String> entry : config.entrySet()) {

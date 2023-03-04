@@ -67,7 +67,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     @SuppressWarnings("unused")
     private static final void logCallback(
-    		MemorySegment parameterAddress,
+            MemorySegment parameterAddress,
             int level,
             MemorySegment categoryAddress,
             MemorySegment idAddress,

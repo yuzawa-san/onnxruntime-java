@@ -18,7 +18,7 @@ abstract class ManagedImpl implements AutoCloseable {
     }
 
     @Override
-    public  void close() {
+    public void close() {
         memorySession.close();
     }
 

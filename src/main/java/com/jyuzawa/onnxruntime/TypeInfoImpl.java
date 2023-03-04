@@ -19,11 +19,7 @@ final class TypeInfoImpl implements TypeInfo {
     private final TypeInfoImpl sequenceInfo;
 
     TypeInfoImpl(
-            ApiImpl api,
-            MemorySegment typeInfo,
-            Arena allocator,
-            Arena sessionAllocator,
-            MemorySegment ortAllocator) {
+            ApiImpl api, MemorySegment typeInfo, Arena allocator, Arena sessionAllocator, MemorySegment ortAllocator) {
         allocator.addCloseAction(() -> api.ReleaseTypeInfo.apply(typeInfo));
         this.type =
                 OnnxType.forNumber(api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
@@ -32,7 +28,7 @@ final class TypeInfoImpl implements TypeInfo {
         TypeInfoImpl sequenceInfo = null;
 
         if (type == OnnxType.TENSOR || type == OnnxType.SPARSETENSOR) {
-        	MemorySegment ortTensorInfo =
+            MemorySegment ortTensorInfo =
                     api.create(allocator, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
             OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
                     api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
@@ -43,16 +39,16 @@ final class TypeInfoImpl implements TypeInfo {
                     api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
             tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
         } else if (type == OnnxType.MAP) {
-        	MemorySegment ortMapInfo = api.create(allocator, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
+            MemorySegment ortMapInfo = api.create(allocator, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
             OnnxTensorElementDataType keyType = OnnxTensorElementDataType.forNumber(
                     api.extractInt(allocator, out -> api.GetMapKeyType.apply(ortMapInfo, out)));
             MemorySegment valueTypeAddress = api.create(allocator, out -> api.GetMapValueType.apply(ortMapInfo, out));
             mapInfo = new MapInfoImpl(
                     keyType, new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator));
         } else if (type == OnnxType.SEQUENCE) {
-        	MemorySegment ortSequenceInfo =
+            MemorySegment ortSequenceInfo =
                     api.create(allocator, out -> api.CastTypeInfoToSequenceTypeInfo.apply(typeInfo, out));
-        	MemorySegment valueTypeAddress =
+            MemorySegment valueTypeAddress =
                     api.create(allocator, out -> api.GetSequenceElementType.apply(ortSequenceInfo, out));
             sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator);
         } else {

@@ -8,6 +8,8 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
 
+import com.jyuzawa.onnxruntime_extern.OrtApi;
+import com.jyuzawa.onnxruntime_extern.OrtApi.*;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
@@ -18,9 +20,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.Function;
-
-import com.jyuzawa.onnxruntime_extern.OrtApi;
-import com.jyuzawa.onnxruntime_extern.OrtApi.*;
 
 final class ApiImpl implements Api {
 

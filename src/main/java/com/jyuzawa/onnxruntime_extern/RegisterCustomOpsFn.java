@@ -8,23 +8,25 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 
+/**
+ * {@snippet :
+ * struct OrtStatus* (*RegisterCustomOpsFn)(struct OrtSessionOptions* options,struct OrtApiBase* api);
+ * }
+ */
 public interface RegisterCustomOpsFn {
 
-    java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress options, java.lang.foreign.MemoryAddress api);
+    java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
 
     static MemorySegment allocate(RegisterCustomOpsFn fi, MemorySession session) {
         return RuntimeHelper.upcallStub(RegisterCustomOpsFn.class, fi, constants$1.RegisterCustomOpsFn$FUNC, session);
     }
 
-    static RegisterCustomOpsFn ofAddress(MemoryAddress addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-        return (java.lang.foreign.MemoryAddress _options, java.lang.foreign.MemoryAddress _api) -> {
+    static RegisterCustomOpsFn ofAddress(MemorySegment addr, MemorySession session) {
+        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, session);
+        return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
             try {
-                return (java.lang.foreign.Addressable)
-                        (java.lang.foreign.MemoryAddress) constants$1.RegisterCustomOpsFn$MH.invokeExact(
-                                (Addressable) symbol,
-                                (java.lang.foreign.Addressable) _options,
-                                (java.lang.foreign.Addressable) _api);
+                return (java.lang.foreign.MemorySegment)
+                        constants$1.RegisterCustomOpsFn$MH.invokeExact(symbol, _options, _api);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }

@@ -84,8 +84,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
             valuesArray.setAtIndex(C_POINTER, i, value.toNative());
         }
         return api.create(
-                allocator,
-                out -> api.CreateValue.apply(valuesArray, size, OnnxType.SEQUENCE.getNumber(), out));
+                allocator, out -> api.CreateValue.apply(valuesArray, size, OnnxType.SEQUENCE.getNumber(), out));
     }
 
     @Override

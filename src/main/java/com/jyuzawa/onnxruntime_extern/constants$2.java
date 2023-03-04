@@ -9,7 +9,10 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 
-class constants$2 {
+final class constants$2 {
+
+    // Suppresses default constructor, ensuring non-instantiability.
+    private constants$2() {}
 
     static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);

@@ -24,18 +24,18 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             if (builder.useThreadingOptions) {
                 MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
                 try {
-                this.address = api.create(
-                        memorySession,
-                        out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
-                                OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                MemorySegment.NULL,
-                                builder.severityLevel.getNumber(),
-                                logName,
-                                threadingOptionsAddress,
-                                out));
-            	}finally {
-            		api.ReleaseThreadingOptions.apply(threadingOptionsAddress);
-            	}
+                    this.address = api.create(
+                            memorySession,
+                            out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
+                                    OnnxRuntimeLoggingLevel.LOG_CALLBACK,
+                                    MemorySegment.NULL,
+                                    builder.severityLevel.getNumber(),
+                                    logName,
+                                    threadingOptionsAddress,
+                                    out));
+                } finally {
+                    api.ReleaseThreadingOptions.apply(threadingOptionsAddress);
+                }
             } else {
                 this.address = api.create(
                         memorySession,
@@ -53,12 +53,12 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             this.ortAllocator = api.create(memorySession, out -> api.GetAllocatorWithDefaultOptions.apply(out));
         }
     }
-    
+
     @Override
-	public void close() {
-    	api.ReleaseEnv.apply(address);
-    	api.ReleaseMemoryInfo.apply(memoryInfo);
-    	super.close();
+    public void close() {
+        api.ReleaseEnv.apply(address);
+        api.ReleaseMemoryInfo.apply(memoryInfo);
+        super.close();
     }
 
     @Override

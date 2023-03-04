@@ -23,7 +23,7 @@ final class ExecutionProviderSimpleMapConfig extends ExecutionProviderMapConfig 
 
     @Override
     protected void appendToSessionOptions(
-Arena memorySession,
+            Arena memorySession,
             ApiImpl api,
             MemorySegment sessionOptions,
             MemorySegment keys,

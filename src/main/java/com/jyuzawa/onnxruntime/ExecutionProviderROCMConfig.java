@@ -4,11 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import com.jyuzawa.onnxruntime_extern.OrtROCMProviderOptions;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.Map;
-
-import com.jyuzawa.onnxruntime_extern.OrtROCMProviderOptions;
 
 final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
 

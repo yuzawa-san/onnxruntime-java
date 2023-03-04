@@ -22,7 +22,7 @@ abstract class ExecutionProviderObjectConfig extends ExecutionProviderMapConfig 
             MemorySegment keys,
             MemorySegment values,
             int numProperties) {
-    	MemorySegment config = api.create(memorySession, out -> create(api, out));
+        MemorySegment config = api.create(memorySession, out -> create(api, out));
         memorySession.addCloseAction(() -> {
             release(api, config);
         });

@@ -20,6 +20,7 @@ import java.lang.invoke.VarHandle;
  *     int has_user_compute_stream;
  *     void* user_compute_stream;
  *     OrtArenaCfg* default_memory_arena_cfg;
+ *     int tunable_op_enabled;
  * };
  * }
  */
@@ -314,11 +315,21 @@ public class OrtROCMProviderOptions {
     public static VarHandle tunable_op_enabled$VH() {
         return OrtROCMProviderOptions.tunable_op_enabled$VH;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int tunable_op_enabled;
+     * }
+     */
     public static int tunable_op_enabled$get(MemorySegment seg) {
         return (int) OrtROCMProviderOptions.tunable_op_enabled$VH.get(seg);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int tunable_op_enabled;
+     * }
+     */
     public static void tunable_op_enabled$set(MemorySegment seg, int x) {
         OrtROCMProviderOptions.tunable_op_enabled$VH.set(seg, x);
     }
