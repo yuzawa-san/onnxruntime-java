@@ -31,6 +31,7 @@ final class Microsoft implements Wrapper {
 
     @Override
     public long[] evaluate(long[] input) throws Exception {
+
         try (OnnxTensor tensor = OnnxTensor.createTensor(ENVIRONMENT, new long[][] {input});
                 Result result = session.run(Map.of(inputName, tensor))) {
             return ((long[][]) result.get(0).getValue())[0];

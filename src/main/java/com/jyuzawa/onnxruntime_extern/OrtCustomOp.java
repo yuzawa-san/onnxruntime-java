@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -43,7 +43,12 @@ public class OrtCustomOp {
                     Constants$root.C_POINTER$LAYOUT.withName("KernelCompute"),
                     Constants$root.C_POINTER$LAYOUT.withName("KernelDestroy"),
                     Constants$root.C_POINTER$LAYOUT.withName("GetInputCharacteristic"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetOutputCharacteristic"))
+                    Constants$root.C_POINTER$LAYOUT.withName("GetOutputCharacteristic"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetInputMemoryType"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicInputMinArity"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicInputHomogeneity"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputMinArity"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputHomogeneity"))
             .withName("OrtCustomOp");
 
     public static MemoryLayout $LAYOUT() {
@@ -812,6 +817,280 @@ public class OrtCustomOp {
 
     public static GetOutputCharacteristic GetOutputCharacteristic(MemorySegment segment, MemorySession session) {
         return GetOutputCharacteristic.ofAddress(GetOutputCharacteristic$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetInputMemoryType$FUNC = FunctionDescriptor.of(
+            Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
+    static final MethodHandle GetInputMemoryType$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetInputMemoryType$FUNC);
+
+    public interface GetInputMemoryType {
+
+        int apply(java.lang.foreign.MemoryAddress _x0, long _x1);
+
+        static MemorySegment allocate(GetInputMemoryType fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(GetInputMemoryType.class, fi, OrtCustomOp.GetInputMemoryType$FUNC, session);
+        }
+
+        static GetInputMemoryType ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
+                try {
+                    return (int) OrtCustomOp.GetInputMemoryType$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetInputMemoryType$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetInputMemoryType"));
+
+    public static VarHandle GetInputMemoryType$VH() {
+        return OrtCustomOp.GetInputMemoryType$VH;
+    }
+
+    public static MemoryAddress GetInputMemoryType$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputMemoryType$VH.get(seg);
+    }
+
+    public static void GetInputMemoryType$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetInputMemoryType$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetInputMemoryType$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputMemoryType$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetInputMemoryType$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetInputMemoryType$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetInputMemoryType GetInputMemoryType(MemorySegment segment, MemorySession session) {
+        return GetInputMemoryType.ofAddress(GetInputMemoryType$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetVariadicInputMinArity$FUNC =
+            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetVariadicInputMinArity$MH =
+            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicInputMinArity$FUNC);
+
+    public interface GetVariadicInputMinArity {
+
+        int apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(GetVariadicInputMinArity fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    GetVariadicInputMinArity.class, fi, OrtCustomOp.GetVariadicInputMinArity$FUNC, session);
+        }
+
+        static GetVariadicInputMinArity ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (int) OrtCustomOp.GetVariadicInputMinArity$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetVariadicInputMinArity$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicInputMinArity"));
+
+    public static VarHandle GetVariadicInputMinArity$VH() {
+        return OrtCustomOp.GetVariadicInputMinArity$VH;
+    }
+
+    public static MemoryAddress GetVariadicInputMinArity$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicInputMinArity$VH.get(seg);
+    }
+
+    public static void GetVariadicInputMinArity$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetVariadicInputMinArity$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetVariadicInputMinArity$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtCustomOp.GetVariadicInputMinArity$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetVariadicInputMinArity$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetVariadicInputMinArity$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetVariadicInputMinArity GetVariadicInputMinArity(MemorySegment segment, MemorySession session) {
+        return GetVariadicInputMinArity.ofAddress(GetVariadicInputMinArity$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetVariadicInputHomogeneity$FUNC =
+            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetVariadicInputHomogeneity$MH =
+            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicInputHomogeneity$FUNC);
+
+    public interface GetVariadicInputHomogeneity {
+
+        int apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(GetVariadicInputHomogeneity fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    GetVariadicInputHomogeneity.class, fi, OrtCustomOp.GetVariadicInputHomogeneity$FUNC, session);
+        }
+
+        static GetVariadicInputHomogeneity ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (int) OrtCustomOp.GetVariadicInputHomogeneity$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetVariadicInputHomogeneity$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicInputHomogeneity"));
+
+    public static VarHandle GetVariadicInputHomogeneity$VH() {
+        return OrtCustomOp.GetVariadicInputHomogeneity$VH;
+    }
+
+    public static MemoryAddress GetVariadicInputHomogeneity$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicInputHomogeneity$VH.get(seg);
+    }
+
+    public static void GetVariadicInputHomogeneity$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetVariadicInputHomogeneity$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetVariadicInputHomogeneity$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtCustomOp.GetVariadicInputHomogeneity$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetVariadicInputHomogeneity$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetVariadicInputHomogeneity$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetVariadicInputHomogeneity GetVariadicInputHomogeneity(
+            MemorySegment segment, MemorySession session) {
+        return GetVariadicInputHomogeneity.ofAddress(GetVariadicInputHomogeneity$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetVariadicOutputMinArity$FUNC =
+            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetVariadicOutputMinArity$MH =
+            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicOutputMinArity$FUNC);
+
+    public interface GetVariadicOutputMinArity {
+
+        int apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(GetVariadicOutputMinArity fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    GetVariadicOutputMinArity.class, fi, OrtCustomOp.GetVariadicOutputMinArity$FUNC, session);
+        }
+
+        static GetVariadicOutputMinArity ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (int) OrtCustomOp.GetVariadicOutputMinArity$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetVariadicOutputMinArity$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicOutputMinArity"));
+
+    public static VarHandle GetVariadicOutputMinArity$VH() {
+        return OrtCustomOp.GetVariadicOutputMinArity$VH;
+    }
+
+    public static MemoryAddress GetVariadicOutputMinArity$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicOutputMinArity$VH.get(seg);
+    }
+
+    public static void GetVariadicOutputMinArity$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetVariadicOutputMinArity$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetVariadicOutputMinArity$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtCustomOp.GetVariadicOutputMinArity$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetVariadicOutputMinArity$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetVariadicOutputMinArity$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetVariadicOutputMinArity GetVariadicOutputMinArity(MemorySegment segment, MemorySession session) {
+        return GetVariadicOutputMinArity.ofAddress(GetVariadicOutputMinArity$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetVariadicOutputHomogeneity$FUNC =
+            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetVariadicOutputHomogeneity$MH =
+            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicOutputHomogeneity$FUNC);
+
+    public interface GetVariadicOutputHomogeneity {
+
+        int apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(GetVariadicOutputHomogeneity fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(
+                    GetVariadicOutputHomogeneity.class, fi, OrtCustomOp.GetVariadicOutputHomogeneity$FUNC, session);
+        }
+
+        static GetVariadicOutputHomogeneity ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (int) OrtCustomOp.GetVariadicOutputHomogeneity$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetVariadicOutputHomogeneity$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicOutputHomogeneity"));
+
+    public static VarHandle GetVariadicOutputHomogeneity$VH() {
+        return OrtCustomOp.GetVariadicOutputHomogeneity$VH;
+    }
+
+    public static MemoryAddress GetVariadicOutputHomogeneity$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicOutputHomogeneity$VH.get(seg);
+    }
+
+    public static void GetVariadicOutputHomogeneity$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetVariadicOutputHomogeneity$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetVariadicOutputHomogeneity$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtCustomOp.GetVariadicOutputHomogeneity$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetVariadicOutputHomogeneity$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetVariadicOutputHomogeneity$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetVariadicOutputHomogeneity GetVariadicOutputHomogeneity(
+            MemorySegment segment, MemorySession session) {
+        return GetVariadicOutputHomogeneity.ofAddress(GetVariadicOutputHomogeneity$get(segment), session);
     }
 
     public static long sizeof() {
