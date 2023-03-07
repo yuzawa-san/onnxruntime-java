@@ -29,7 +29,7 @@ jobs:
         with:
           cache-read-only: true
       - name: Run snapshot action
-        uses: mikepenz/gradle-dependency-submission@v0.8.4
+        uses: mikepenz/gradle-dependency-submission@v0.8.5
         with:
           gradle-build-configuration: compileClasspath
       - name: Build with Gradle
