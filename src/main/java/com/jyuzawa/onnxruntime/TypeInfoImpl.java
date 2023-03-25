@@ -20,7 +20,6 @@ final class TypeInfoImpl implements TypeInfo {
 
     TypeInfoImpl(
             ApiImpl api, MemorySegment typeInfo, Arena allocator, Arena sessionAllocator, MemorySegment ortAllocator) {
-        allocator.addCloseAction(() -> api.ReleaseTypeInfo.apply(typeInfo));
         this.type =
                 OnnxType.forNumber(api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
         TensorInfoImpl tensorInfo = null;
@@ -57,6 +56,7 @@ final class TypeInfoImpl implements TypeInfo {
         this.tensorInfo = tensorInfo;
         this.mapInfo = mapInfo;
         this.sequenceInfo = sequenceInfo;
+        api.ReleaseTypeInfo.apply(typeInfo);
     }
 
     @Override

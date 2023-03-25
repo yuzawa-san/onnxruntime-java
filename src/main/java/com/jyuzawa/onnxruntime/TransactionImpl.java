@@ -97,11 +97,12 @@ final class TransactionImpl implements Transaction {
         MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
         MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
         MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
+        List<MemorySegment> inputSegments = new ArrayList<>(numInputs);
         for (int i = 0; i < numInputs; i++) {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
             MemorySegment valueAddress = inputTuple.value().toNative();
-            memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
+            inputSegments.add(valueAddress);
             inputValues.setAtIndex(C_POINTER, i, valueAddress);
         }
 
@@ -129,13 +130,16 @@ final class TransactionImpl implements Transaction {
             // runOptions = null;
             // }
         }
+        for (int i = 0; i < numInputs; i++) {
+            api.ReleaseValue.apply(inputSegments.get(i));
+        }
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
             MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
             // TODO: get typeinfo from result
             NodeInfoImpl nodeInfo = outputs.get(i);
             OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
-            memorySession.addCloseAction(() -> api.ReleaseValue.apply(outputAddress));
+            api.ReleaseValue.apply(outputAddress);
             out.put(nodeInfo.getName(), outputValue);
         }
 
