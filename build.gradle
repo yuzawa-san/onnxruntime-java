@@ -1,5 +1,5 @@
 plugins {
-	id "com.diffplug.spotless" version "6.15.0"
+	id "com.diffplug.spotless" version "6.17.0"
 	id 'java'
 	id 'maven-publish'
 	id 'signing'
@@ -274,8 +274,8 @@ signing {
 dependencies {
 	testImplementation "junit:junit:4.13.2"
 	testImplementation project(':onnx')
-	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.19.0'
-	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.19.0'
+	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.20.0'
+	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.20.0'
 }
 
 sourceSets {
