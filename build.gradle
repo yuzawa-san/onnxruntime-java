@@ -75,6 +75,7 @@ description = "A Java binding of Microsoft's ONNX Runtime project."
 
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
+def ORT_BASELINE = project.findProperty('com.jyuzawa.onnxruntime.library_baseline')
 
 def getGitHash = { ->
 	def stdout = new ByteArrayOutputStream()
@@ -129,7 +130,9 @@ allArches.each { osArch ->
 	}
 	task "osArchJar${osArch}" (type: Jar) {
 		from tasks.named("copy${osArch}")
-		archiveClassifier = osArch
+		archiveBaseName = osArch.endsWith("-gpu") ? "onnxruntime-gpu" : "onnxruntime-cpu"
+		archiveClassifier = osArch.replace("-gpu","")
+		archiveVersion = ORT_VERSION
 		doFirst {
 			manifest {
 				attributes(jarAttributes)
@@ -162,41 +165,25 @@ configurations {
 			outgoing.artifact(tasks.named("osArchJar${it}"))
 		}
 	}
-	nativeElements {
-		canBeResolved = false
-		canBeConsumed = true
-		attributes {
-			attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
-			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.DYNAMIC_LIB))
-
-		}
-		allArches.each {
-			outgoing.artifact(tasks.named("osArchJar${it}"))
-		}
-	}
 }
 components.java {
-	addVariantsFromConfiguration(configurations.nativeElements) {
-		mapToOptional()
-	}
 }
 
-def makePom(node, osArches) {
+def makePom(node, osArches, theVersion, theBaseline) {
 	def parentNode = node.appendNode('parent')
 	parentNode.appendNode('groupId', project.group)
 	parentNode.appendNode('artifactId', project.name)
-	parentNode.appendNode('version', version)
+	parentNode.appendNode('version', theBaseline)
 	def dependenciesNode = node.appendNode('dependencies')
 	def mainDependency = dependenciesNode.appendNode('dependency')
 	mainDependency.appendNode('groupId', project.group)
 	mainDependency.appendNode('artifactId', project.name)
-	mainDependency.appendNode('version', version)
+	mainDependency.appendNode('version', theBaseline)
 	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
 		dependency.appendNode('groupId', project.group)
-		dependency.appendNode('artifactId', project.name)
-		dependency.appendNode('version', version)
+		dependency.appendNode('artifactId', it.endsWith("-gpu") ? "onnxruntime-gpu" : "onnxruntime-cpu")
+		dependency.appendNode('version', theVersion)
 		dependency.appendNode('classifier', it)
 	}
 }
@@ -216,15 +203,23 @@ publishing {
 	}
 	publications {
 		onnxruntimeCpu(MavenPublication) {
+			version = ORT_VERSION
 			artifactId = "${rootProject.name}-cpu"
 			pom.withXml {
-				makePom(asNode(), cpuOsArches)
+				makePom(asNode(), cpuOsArches, ORT_VERSION, ORT_BASELINE)
+			}
+			cpuOsArches.each {
+				artifact tasks.named("osArchJar${it}")
 			}
 		}
 		onnxruntimeGpu(MavenPublication) {
+			version = ORT_VERSION
 			artifactId = "${rootProject.name}-gpu"
 			pom.withXml {
-				makePom(asNode(), gpuOsArches)
+				makePom(asNode(), gpuOsArches, ORT_VERSION, ORT_BASELINE)
+			}
+			gpuOsArches.each {
+				artifact tasks.named("osArchJar${it}")
 			}
 		}
 		onnxruntime(MavenPublication) {
@@ -262,9 +257,9 @@ publishing {
 	}
 }
 
-signing {
+/*signing {
 	sign publishing.publications
-}
+}*/
 
 dependencies {
 	testImplementation "junit:junit:4.13.2"
