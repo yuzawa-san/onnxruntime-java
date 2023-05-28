@@ -21,8 +21,8 @@ public class OrtROCMProviderOptions {
                     MemoryLayout.paddingLayout(32),
                     Constants$root.C_POINTER$LAYOUT.withName("user_compute_stream"),
                     Constants$root.C_POINTER$LAYOUT.withName("default_memory_arena_cfg"),
-                    Constants$root.C_INT$LAYOUT.withName("tunable_op_enabled"),
-                    MemoryLayout.paddingLayout(32))
+                    Constants$root.C_INT$LAYOUT.withName("tunable_op_enable"),
+                    Constants$root.C_INT$LAYOUT.withName("tunable_op_tuning_enable"))
             .withName("OrtROCMProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
@@ -214,27 +214,50 @@ public class OrtROCMProviderOptions {
         OrtROCMProviderOptions.default_memory_arena_cfg$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle tunable_op_enabled$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("tunable_op_enabled"));
+    static final VarHandle tunable_op_enable$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("tunable_op_enable"));
 
-    public static VarHandle tunable_op_enabled$VH() {
-        return OrtROCMProviderOptions.tunable_op_enabled$VH;
+    public static VarHandle tunable_op_enable$VH() {
+        return OrtROCMProviderOptions.tunable_op_enable$VH;
     }
 
-    public static int tunable_op_enabled$get(MemorySegment seg) {
-        return (int) OrtROCMProviderOptions.tunable_op_enabled$VH.get(seg);
+    public static int tunable_op_enable$get(MemorySegment seg) {
+        return (int) OrtROCMProviderOptions.tunable_op_enable$VH.get(seg);
     }
 
-    public static void tunable_op_enabled$set(MemorySegment seg, int x) {
-        OrtROCMProviderOptions.tunable_op_enabled$VH.set(seg, x);
+    public static void tunable_op_enable$set(MemorySegment seg, int x) {
+        OrtROCMProviderOptions.tunable_op_enable$VH.set(seg, x);
     }
 
-    public static int tunable_op_enabled$get(MemorySegment seg, long index) {
-        return (int) OrtROCMProviderOptions.tunable_op_enabled$VH.get(seg.asSlice(index * sizeof()));
+    public static int tunable_op_enable$get(MemorySegment seg, long index) {
+        return (int) OrtROCMProviderOptions.tunable_op_enable$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void tunable_op_enabled$set(MemorySegment seg, long index, int x) {
-        OrtROCMProviderOptions.tunable_op_enabled$VH.set(seg.asSlice(index * sizeof()), x);
+    public static void tunable_op_enable$set(MemorySegment seg, long index, int x) {
+        OrtROCMProviderOptions.tunable_op_enable$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle tunable_op_tuning_enable$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("tunable_op_tuning_enable"));
+
+    public static VarHandle tunable_op_tuning_enable$VH() {
+        return OrtROCMProviderOptions.tunable_op_tuning_enable$VH;
+    }
+
+    public static int tunable_op_tuning_enable$get(MemorySegment seg) {
+        return (int) OrtROCMProviderOptions.tunable_op_tuning_enable$VH.get(seg);
+    }
+
+    public static void tunable_op_tuning_enable$set(MemorySegment seg, int x) {
+        OrtROCMProviderOptions.tunable_op_tuning_enable$VH.set(seg, x);
+    }
+
+    public static int tunable_op_tuning_enable$get(MemorySegment seg, long index) {
+        return (int) OrtROCMProviderOptions.tunable_op_tuning_enable$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void tunable_op_tuning_enable$set(MemorySegment seg, long index, int x) {
+        OrtROCMProviderOptions.tunable_op_tuning_enable$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {
