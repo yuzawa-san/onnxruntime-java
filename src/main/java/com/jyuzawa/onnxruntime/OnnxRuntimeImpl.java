@@ -9,6 +9,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtGetApiBase;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
+import java.lang.System.Logger.Level;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
@@ -31,6 +32,13 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
         MemoryAddress apiAddress =
                 OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
         this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress, OrtApi.sizeof(), scope));
+        System.getLogger(OnnxRuntimeImpl.class.getName())
+                .log(
+                        Level.DEBUG,
+                        "Version: {0}, API Version: {1}, Build Info: {2}",
+                        version,
+                        ortApiVersion,
+                        api.getBuildString());
     }
 
     @Override
