@@ -25,4 +25,10 @@ public interface Api {
      * @return a set of execution providers.
      */
     Set<ExecutionProvider> getAvailableProviders();
+
+    /**
+     * This function returns the onnxruntime build information: including git branch, git commit id, build type(Debug/Release/RelWithDebInfo) and cmake cpp flags.
+     * @return the version string
+     */
+    String getBuildString();
 }

@@ -36,6 +36,7 @@ final class ApiImpl implements Api {
     final CreateAndRegisterAllocator CreateAndRegisterAllocator;
     final CreateCpuMemoryInfo CreateCpuMemoryInfo;
     final CreateCUDAProviderOptions CreateCUDAProviderOptions;
+    final CreateDnnlProviderOptions CreateDnnlProviderOptions;
     final CreateTensorRTProviderOptions CreateTensorRTProviderOptions;
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
@@ -58,6 +59,7 @@ final class ApiImpl implements Api {
     final FillStringTensor FillStringTensor;
     final GetAllocatorWithDefaultOptions GetAllocatorWithDefaultOptions;
     final GetAvailableProviders GetAvailableProviders;
+    final GetBuildInfoString GetBuildInfoString;
     final GetDimensions GetDimensions;
     final GetDimensionsCount GetDimensionsCount;
     final GetErrorCode GetErrorCode;
@@ -86,6 +88,7 @@ final class ApiImpl implements Api {
     final ReleaseAllocator ReleaseAllocator;
     final ReleaseAvailableProviders ReleaseAvailableProviders;
     final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
+    final ReleaseDnnlProviderOptions ReleaseDnnlProviderOptions;
     final ReleaseEnv ReleaseEnv;
     final ReleaseMemoryInfo ReleaseMemoryInfo;
     final ReleaseModelMetadata ReleaseModelMetadata;
@@ -131,11 +134,13 @@ final class ApiImpl implements Api {
     final SessionOptionsAppendExecutionProvider SessionOptionsAppendExecutionProvider;
     final SessionOptionsAppendExecutionProvider_CANN SessionOptionsAppendExecutionProvider_CANN;
     final SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2;
+    final SessionOptionsAppendExecutionProvider_Dnnl SessionOptionsAppendExecutionProvider_Dnnl;
     final SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX;
     final SessionOptionsAppendExecutionProvider_OpenVINO SessionOptionsAppendExecutionProvider_OpenVINO;
     final SessionOptionsAppendExecutionProvider_ROCM SessionOptionsAppendExecutionProvider_ROCM;
     final SessionOptionsAppendExecutionProvider_TensorRT_V2 SessionOptionsAppendExecutionProvider_TensorRT_V2;
     final UpdateCUDAProviderOptions UpdateCUDAProviderOptions;
+    final UpdateDnnlProviderOptions UpdateDnnlProviderOptions;
     final UpdateTensorRTProviderOptions UpdateTensorRTProviderOptions;
 
     private final Set<ExecutionProvider> providers;
@@ -152,6 +157,7 @@ final class ApiImpl implements Api {
         this.CreateAndRegisterAllocator = OrtApi.CreateAndRegisterAllocator(memorySegment, memorySession);
         this.CreateCpuMemoryInfo = OrtApi.CreateCpuMemoryInfo(memorySegment, memorySession);
         this.CreateCUDAProviderOptions = OrtApi.CreateCUDAProviderOptions(memorySegment, memorySession);
+        this.CreateDnnlProviderOptions = OrtApi.CreateDnnlProviderOptions(memorySegment, memorySession);
         this.CreateTensorRTProviderOptions = OrtApi.CreateTensorRTProviderOptions(memorySegment, memorySession);
         this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(memorySegment, memorySession);
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
@@ -175,6 +181,7 @@ final class ApiImpl implements Api {
         this.FillStringTensor = OrtApi.FillStringTensor(memorySegment, memorySession);
         this.GetAllocatorWithDefaultOptions = OrtApi.GetAllocatorWithDefaultOptions(memorySegment, memorySession);
         this.GetAvailableProviders = OrtApi.GetAvailableProviders(memorySegment, memorySession);
+        this.GetBuildInfoString = OrtApi.GetBuildInfoString(memorySegment, memorySession);
         this.GetDimensions = OrtApi.GetDimensions(memorySegment, memorySession);
         this.GetDimensionsCount = OrtApi.GetDimensionsCount(memorySegment, memorySession);
         this.GetErrorCode = OrtApi.GetErrorCode(memorySegment, memorySession);
@@ -205,6 +212,7 @@ final class ApiImpl implements Api {
         this.ReleaseAllocator = OrtApi.ReleaseAllocator(memorySegment, memorySession);
         this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(memorySegment, memorySession);
         this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(memorySegment, memorySession);
+        this.ReleaseDnnlProviderOptions = OrtApi.ReleaseDnnlProviderOptions(memorySegment, memorySession);
         this.ReleaseEnv = OrtApi.ReleaseEnv(memorySegment, memorySession);
         this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(memorySegment, memorySession);
         this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(memorySegment, memorySession);
@@ -256,6 +264,8 @@ final class ApiImpl implements Api {
                 OrtApi.SessionOptionsAppendExecutionProvider_CANN(memorySegment, memorySession);
         this.SessionOptionsAppendExecutionProvider_CUDA_V2 =
                 OrtApi.SessionOptionsAppendExecutionProvider_CUDA_V2(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_Dnnl =
+                OrtApi.SessionOptionsAppendExecutionProvider_Dnnl(memorySegment, memorySession);
         this.SessionOptionsAppendExecutionProvider_MIGraphX =
                 OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX(memorySegment, memorySession);
         this.SessionOptionsAppendExecutionProvider_OpenVINO =
@@ -265,6 +275,7 @@ final class ApiImpl implements Api {
         this.SessionOptionsAppendExecutionProvider_TensorRT_V2 =
                 OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2(memorySegment, memorySession);
         this.UpdateCUDAProviderOptions = OrtApi.UpdateCUDAProviderOptions(memorySegment, memorySession);
+        this.UpdateDnnlProviderOptions = OrtApi.UpdateDnnlProviderOptions(memorySegment, memorySession);
         this.UpdateTensorRTProviderOptions = OrtApi.UpdateTensorRTProviderOptions(memorySegment, memorySession);
 
         try (MemorySession session = MemorySession.openConfined()) {
@@ -291,6 +302,11 @@ final class ApiImpl implements Api {
             this.providers = Collections.unmodifiableSet(providers);
             LOG.log(Level.DEBUG, "Available providers: " + providers);
         }
+    }
+
+    @Override
+    public String getBuildString() {
+        return GetBuildInfoString.apply().address().getUtf8String(0);
     }
 
     @Override

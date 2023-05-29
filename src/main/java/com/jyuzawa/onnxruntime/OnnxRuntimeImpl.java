@@ -19,15 +19,17 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private final String version;
     private final ApiImpl api;
+    private final int ortApiVersion;
 
     private OnnxRuntimeImpl() {
         Loader.load();
         MemorySession scope = MemorySession.global();
         MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase(), OrtApiBase.sizeof(), scope);
+        this.ortApiVersion = ORT_API_VERSION();
         this.version =
                 OrtApiBase.GetVersionString(segment, scope).apply().address().getUtf8String(0);
         MemoryAddress apiAddress =
-                OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION()).address();
+                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
         this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress, OrtApi.sizeof(), scope));
     }
 
@@ -39,5 +41,10 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
     @Override
     public Api getApi() {
         return api;
+    }
+
+    @Override
+    public int getApiVersion() {
+        return ortApiVersion;
     }
 }
