@@ -16,4 +16,11 @@ class constants$2 {
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH = RuntimeHelper.downcallHandle(
             "OrtSessionOptionsAppendExecutionProvider_MIGraphX",
             constants$2.OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_Dnnl$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
+    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$MH = RuntimeHelper.downcallHandle(
+            "OrtSessionOptionsAppendExecutionProvider_Dnnl",
+            constants$2.OrtSessionOptionsAppendExecutionProvider_Dnnl$FUNC);
+    static final MemorySegment ORT_FILE$SEGMENT =
+            RuntimeHelper.CONSTANT_ALLOCATOR.allocateUtf8String("/tmp/jextract$6057477973278914107.h");
 }

@@ -23,7 +23,7 @@ public class onnxruntime_c_api_h {
     public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
 
     public static int ORT_API_VERSION() {
-        return (int) 14L;
+        return (int) 15L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
@@ -411,5 +411,24 @@ public class onnxruntime_c_api_h {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$MH() {
+        return RuntimeHelper.requireNonNull(
+                constants$2.OrtSessionOptionsAppendExecutionProvider_Dnnl$MH,
+                "OrtSessionOptionsAppendExecutionProvider_Dnnl");
+    }
+
+    public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_Dnnl(Addressable options, int use_arena) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_Dnnl$MH();
+        try {
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, use_arena);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static MemorySegment ORT_FILE() {
+        return constants$2.ORT_FILE$SEGMENT;
     }
 }

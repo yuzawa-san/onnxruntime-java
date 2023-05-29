@@ -20,9 +20,9 @@ public enum ExecutionProvider {
      */
     CUDA_EXECUTION_PROVIDER("CUDAExecutionProvider", ExecutionProviderCUDAConfig::new),
     /**
-     * DNNL: not supported
+     * DNNL: supported
      */
-    DNNL_EXECUTION_PROVIDER("DnnlExecutionProvider"),
+    DNNL_EXECUTION_PROVIDER("DnnlExecutionProvider", ExecutionProviderDnnlConfig::new),
     /**
      * OpenVINO: supported
      */
