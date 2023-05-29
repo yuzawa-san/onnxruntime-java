@@ -82,7 +82,8 @@ description = "A Java binding of Microsoft's ONNX Runtime project."
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
 def ORT_BASELINE = project.findProperty('com.jyuzawa.onnxruntime.library_baseline')
-def ORT_JAR_VERSION = version.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
+// NOTE: if the baseline is a snapshot then the other artifacts need to be snapshots in order to be uploaded
+def ORT_JAR_VERSION = ORT_BASELINE.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
 
 def getGitHash = { ->
 	def stdout = new ByteArrayOutputStream()
