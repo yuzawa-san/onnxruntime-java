@@ -64,9 +64,9 @@ public enum ExecutionProvider {
      */
     ROCM_EXECUTION_PROVIDER("ROCMExecutionProvider", ExecutionProviderROCMConfig::new),
     /**
-     * CoreML: not supported
+     * CoreML: supported
      */
-    COREML_EXECUTION_PROVIDER("CoreMLExecutionProvider"),
+    COREML_EXECUTION_PROVIDER("CoreMLExecutionProvider", ExecutionProviderCoreMLConfig::new),
     /**
      * SNPE: supported
      */

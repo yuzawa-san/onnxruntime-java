@@ -4,13 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.protobuf.ByteString;
-import com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h;
+import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -38,10 +35,11 @@ import onnx.OnnxMl.TypeProto;
 import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
-import org.junit.AfterClass;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 public class SessionTest {
 
@@ -57,7 +55,7 @@ public class SessionTest {
                             .addDim(Dimension.newBuilder().setDimValue(3))))
             .build();
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         OnnxRuntime apiBase = OnnxRuntime.get();
         api = apiBase.getApi();
@@ -67,7 +65,7 @@ public class SessionTest {
                 .build();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         environment.close();
     }
@@ -98,7 +96,7 @@ public class SessionTest {
     @Test
     public void buildInfoTest() {
         assertFalse(OnnxRuntime.get().getVersion().isEmpty());
-        assertEquals(OnnxRuntime.get().getApiVersion(), onnxruntime_c_api_h.ORT_API_VERSION());
+        assertEquals(OnnxRuntime.get().getApiVersion(), onnxruntime_all_h.ORT_API_VERSION());
         assertFalse(api.getBuildString().isEmpty());
     }
 
@@ -1000,10 +998,8 @@ public class SessionTest {
     }
 
     @Test
+    @EnabledOnOs(value = OS.MAC, architectures = "x86_64")
     public void customOpTest() throws Exception {
-        // TODO: more OS/arches
-        Assume.assumeTrue(System.getProperty("os.name").equalsIgnoreCase("mac os x")
-                && System.getProperty("os.arch").equalsIgnoreCase("x86_64"));
         Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
         try (Session session = environment
                         .newSession()
@@ -1045,6 +1041,12 @@ public class SessionTest {
     @Test
     public void cudaTest() throws Exception {
         providerTest(ExecutionProvider.CUDA_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    @EnabledOnOs({OS.MAC})
+    public void coreMLTest() throws Exception {
+        providerTest(ExecutionProvider.COREML_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 
     @Test

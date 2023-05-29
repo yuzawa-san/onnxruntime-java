@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.ORT_API_VERSION;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtGetApiBase;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_API_VERSION;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
