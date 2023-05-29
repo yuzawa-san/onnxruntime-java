@@ -9,9 +9,9 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 
-public class onnxruntime_c_api_h {
+public class onnxruntime_all_h {
 
-    /* package-private */ onnxruntime_c_api_h() {}
+    /* package-private */ onnxruntime_all_h() {}
 
     public static OfByte C_CHAR = Constants$root.C_CHAR$LAYOUT;
     public static OfShort C_SHORT = Constants$root.C_SHORT$LAYOUT;
@@ -423,6 +423,41 @@ public class onnxruntime_c_api_h {
         var mh$ = OrtSessionOptionsAppendExecutionProvider_Dnnl$MH();
         try {
             return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, use_arena);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static int COREML_FLAG_USE_NONE() {
+        return (int) 0L;
+    }
+
+    public static int COREML_FLAG_USE_CPU_ONLY() {
+        return (int) 1L;
+    }
+
+    public static int COREML_FLAG_ENABLE_ON_SUBGRAPH() {
+        return (int) 2L;
+    }
+
+    public static int COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE() {
+        return (int) 4L;
+    }
+
+    public static int COREML_FLAG_LAST() {
+        return (int) 4L;
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH() {
+        return RuntimeHelper.requireNonNull(
+                constants$2.OrtSessionOptionsAppendExecutionProvider_CoreML$MH,
+                "OrtSessionOptionsAppendExecutionProvider_CoreML");
+    }
+
+    public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_CoreML(Addressable options, int coreml_flags) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_CoreML$MH();
+        try {
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, coreml_flags);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }

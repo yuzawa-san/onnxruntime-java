@@ -155,6 +155,7 @@ task jextract(type: Exec) {
 	environment('ORT_VERSION', ORT_VERSION)
 	commandLine 'sh','./jextract.sh'
 	dependsOn tasks.named("downloadlinux-x86_64-gpu")
+	dependsOn tasks.named("downloadosx-x86_64")
 	finalizedBy tasks.named('spotlessJavaApply')
 	// TODO: enable jextract
 	// outputs.dir("${project.buildDir}/generated/source/jextract")

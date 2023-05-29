@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
-import com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h;
+import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -98,7 +98,7 @@ public class SessionTest {
     @Test
     public void buildInfoTest() {
         assertFalse(OnnxRuntime.get().getVersion().isEmpty());
-        assertEquals(OnnxRuntime.get().getApiVersion(), onnxruntime_c_api_h.ORT_API_VERSION());
+        assertEquals(OnnxRuntime.get().getApiVersion(), onnxruntime_all_h.ORT_API_VERSION());
         assertFalse(api.getBuildString().isEmpty());
     }
 
@@ -1045,6 +1045,11 @@ public class SessionTest {
     @Test
     public void cudaTest() throws Exception {
         providerTest(ExecutionProvider.CUDA_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void coreMLTest() throws Exception {
+        providerTest(ExecutionProvider.COREML_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 
     @Test
