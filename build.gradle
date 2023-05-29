@@ -81,6 +81,9 @@ description = "A Java binding of Microsoft's ONNX Runtime project."
 
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
+def ORT_BASELINE = project.findProperty('com.jyuzawa.onnxruntime.library_baseline')
+// NOTE: if the baseline is a snapshot then the other artifacts need to be snapshots in order to be uploaded
+def ORT_JAR_VERSION = ORT_BASELINE.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
 
 def getGitHash = { ->
 	def stdout = new ByteArrayOutputStream()
@@ -135,7 +138,9 @@ allArches.each { osArch ->
 	}
 	task "osArchJar${osArch}" (type: Jar) {
 		from tasks.named("copy${osArch}")
-		archiveClassifier = osArch
+		archiveBaseName = osArch.endsWith("-gpu") ? "onnxruntime-gpu" : "onnxruntime-cpu"
+		archiveClassifier = osArch.replace("-gpu","")
+		archiveVersion = ORT_JAR_VERSION
 		doFirst {
 			manifest {
 				attributes(jarAttributes)
@@ -145,6 +150,26 @@ allArches.each { osArch ->
 		from ("${osArchRoot}/LICENSE") {
 			rename "LICENSE", "LICENSE.onnxruntime.txt"
 			into "META-INF/licenses/"
+		}
+	}
+}
+
+task "cpuJar" (type: Jar) {
+	archiveBaseName = "onnxruntime-cpu"
+	archiveVersion = ORT_JAR_VERSION
+	doFirst {
+		manifest {
+			attributes(jarAttributes)
+		}
+	}
+}
+
+task "gpuJar" (type: Jar) {
+	archiveBaseName = "onnxruntime-gpu"
+	archiveVersion = ORT_JAR_VERSION
+	doFirst {
+		manifest {
+			attributes(jarAttributes)
 		}
 	}
 }
@@ -169,41 +194,25 @@ configurations {
 			outgoing.artifact(tasks.named("osArchJar${it}"))
 		}
 	}
-	nativeElements {
-		canBeResolved = false
-		canBeConsumed = true
-		attributes {
-			attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
-			attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, Category.LIBRARY))
-			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements, LibraryElements.DYNAMIC_LIB))
-
-		}
-		allArches.each {
-			outgoing.artifact(tasks.named("osArchJar${it}"))
-		}
-	}
 }
 components.java {
-	addVariantsFromConfiguration(configurations.nativeElements) {
-		mapToOptional()
-	}
 }
 
-def makePom(node, osArches) {
+def makePom(node, osArches, theVersion, theBaseline) {
 	def parentNode = node.appendNode('parent')
 	parentNode.appendNode('groupId', project.group)
 	parentNode.appendNode('artifactId', project.name)
-	parentNode.appendNode('version', version)
+	parentNode.appendNode('version', theBaseline)
 	def dependenciesNode = node.appendNode('dependencies')
 	def mainDependency = dependenciesNode.appendNode('dependency')
 	mainDependency.appendNode('groupId', project.group)
 	mainDependency.appendNode('artifactId', project.name)
-	mainDependency.appendNode('version', version)
+	mainDependency.appendNode('version', theBaseline)
 	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
-		dependency.appendNode('groupId', project.group)
-		dependency.appendNode('artifactId', project.name)
-		dependency.appendNode('version', version)
+		dependency.appendNode('groupId', '${project.groupId}')
+		dependency.appendNode('artifactId', '${project.artifactId}')
+		dependency.appendNode('version', '${project.version}')
 		dependency.appendNode('classifier', it)
 	}
 }
@@ -223,15 +232,25 @@ publishing {
 	}
 	publications {
 		onnxruntimeCpu(MavenPublication) {
+			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-cpu"
 			pom.withXml {
-				makePom(asNode(), cpuOsArches)
+				makePom(asNode(), cpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
+			}
+			artifact tasks.named("cpuJar")
+			cpuOsArches.each {
+				artifact tasks.named("osArchJar${it}")
 			}
 		}
 		onnxruntimeGpu(MavenPublication) {
+			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-gpu"
 			pom.withXml {
-				makePom(asNode(), gpuOsArches)
+				makePom(asNode(), gpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
+			}
+			artifact tasks.named("gpuJar")
+			gpuOsArches.each {
+				artifact tasks.named("osArchJar${it}")
 			}
 		}
 		onnxruntime(MavenPublication) {
