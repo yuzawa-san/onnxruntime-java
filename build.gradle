@@ -154,6 +154,26 @@ allArches.each { osArch ->
 	}
 }
 
+task "cpuJar" (type: Jar) {
+	archiveBaseName = "onnxruntime-cpu"
+	archiveVersion = ORT_JAR_VERSION
+	doFirst {
+		manifest {
+			attributes(jarAttributes)
+		}
+	}
+}
+
+task "gpuJar" (type: Jar) {
+	archiveBaseName = "onnxruntime-gpu"
+	archiveVersion = ORT_JAR_VERSION
+	doFirst {
+		manifest {
+			attributes(jarAttributes)
+		}
+	}
+}
+
 // TODO: enable jextract
 
 task jextract(type: Exec) {
@@ -189,9 +209,9 @@ def makePom(node, osArches, theVersion, theBaseline) {
 	mainDependency.appendNode('version', theBaseline)
 	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
-		dependency.appendNode('groupId', project.group)
-		dependency.appendNode('artifactId', it.endsWith("-gpu") ? "onnxruntime-gpu" : "onnxruntime-cpu")
-		dependency.appendNode('version', theVersion)
+		dependency.appendNode('groupId', '${project.groupId}')
+		dependency.appendNode('artifactId', '${project.artifactId}')
+		dependency.appendNode('version', '${project.version}')
 		dependency.appendNode('classifier', it)
 	}
 }
@@ -216,6 +236,7 @@ publishing {
 			pom.withXml {
 				makePom(asNode(), cpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
 			}
+			artifact tasks.named("cpuJar")
 			cpuOsArches.each {
 				artifact tasks.named("osArchJar${it}")
 			}
@@ -226,6 +247,7 @@ publishing {
 			pom.withXml {
 				makePom(asNode(), gpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
 			}
+			artifact tasks.named("gpuJar")
 			gpuOsArches.each {
 				artifact tasks.named("osArchJar${it}")
 			}
