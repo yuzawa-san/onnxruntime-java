@@ -29,6 +29,11 @@ final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
         if (TRUE_VALUE.equals(properties.get("device_with_ane"))) {
             flags |= onnxruntime_all_h.COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE();
         }
-        api.checkStatus(onnxruntime_all_h.OrtSessionOptionsAppendExecutionProvider_CoreML(sessionOptions, flags));
+        try {
+            api.checkStatus(onnxruntime_all_h.OrtSessionOptionsAppendExecutionProvider_CoreML(sessionOptions, flags));
+        } catch (UnsatisfiedLinkError e) {
+            // NOTE: CoreML is not always present
+            throw new OnnxRuntimeException("CoreML is not supported", e);
+        }
     }
 }
