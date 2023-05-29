@@ -155,6 +155,7 @@ task jextract(type: Exec) {
 	environment('ORT_VERSION', ORT_VERSION)
 	commandLine 'sh','./jextract.sh'
 	dependsOn tasks.named("downloadlinux-x86_64-gpu")
+	dependsOn tasks.named("downloadosx-x86_64")
 	finalizedBy tasks.named('spotlessJavaApply')
 	// TODO: enable jextract
 	// outputs.dir("${project.buildDir}/generated/source/jextract")
@@ -273,7 +274,9 @@ signing {
 }
 
 dependencies {
-	testImplementation "junit:junit:4.13.2"
+	implementation platform('org.junit:junit-bom:5.9.3')
+	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testImplementation project(':onnx')
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.20.0'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.20.0'

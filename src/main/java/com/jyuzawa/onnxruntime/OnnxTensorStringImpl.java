@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;

@@ -21,6 +21,11 @@ class constants$2 {
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$MH = RuntimeHelper.downcallHandle(
             "OrtSessionOptionsAppendExecutionProvider_Dnnl",
             constants$2.OrtSessionOptionsAppendExecutionProvider_Dnnl$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_CoreML$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
+    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH = RuntimeHelper.downcallHandle(
+            "OrtSessionOptionsAppendExecutionProvider_CoreML",
+            constants$2.OrtSessionOptionsAppendExecutionProvider_CoreML$FUNC);
     static final MemorySegment ORT_FILE$SEGMENT =
-            RuntimeHelper.CONSTANT_ALLOCATOR.allocateUtf8String("/tmp/jextract$6057477973278914107.h");
+            RuntimeHelper.CONSTANT_ALLOCATOR.allocateUtf8String("/tmp/jextract$6461729276767156453.h");
 }
