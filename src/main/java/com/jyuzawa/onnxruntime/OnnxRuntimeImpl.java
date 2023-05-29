@@ -9,6 +9,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtGetApiBase;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
+import java.lang.System.Logger.Level;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
@@ -19,16 +20,25 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private final String version;
     private final ApiImpl api;
+    private final int ortApiVersion;
 
     private OnnxRuntimeImpl() {
         Loader.load();
         MemorySession scope = MemorySession.global();
         MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase(), OrtApiBase.sizeof(), scope);
+        this.ortApiVersion = ORT_API_VERSION();
         this.version =
                 OrtApiBase.GetVersionString(segment, scope).apply().address().getUtf8String(0);
         MemoryAddress apiAddress =
-                OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION()).address();
+                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
         this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress, OrtApi.sizeof(), scope));
+        System.getLogger(OnnxRuntimeImpl.class.getName())
+                .log(
+                        Level.DEBUG,
+                        "Version: {0}, API Version: {1}, Build Info: {2}",
+                        version,
+                        ortApiVersion,
+                        api.getBuildString());
     }
 
     @Override
@@ -39,5 +49,10 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
     @Override
     public Api getApi() {
         return api;
+    }
+
+    @Override
+    public int getApiVersion() {
+        return ortApiVersion;
     }
 }

@@ -27,7 +27,8 @@ final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
         copyInteger("has_user_compute_stream", config, OrtROCMProviderOptions::has_user_compute_stream$set);
         // TODO: user_compute_stream
         // TODO: default_memory_arena_cfg
-        copyInteger("tunable_op_enabled", config, OrtROCMProviderOptions::tunable_op_enabled$set);
+        copyInteger("tunable_op_enable", config, OrtROCMProviderOptions::tunable_op_enable$set);
+        copyInteger("tunable_op_tuning_enable", config, OrtROCMProviderOptions::tunable_op_tuning_enable$set);
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_ROCM.apply(sessionOptions, config.address()));
     }
 }

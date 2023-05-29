@@ -42,9 +42,15 @@ allprojects {
 			endWithNewline()
 		}
 		format 'misc', {
-			target '**/*.gradle', '**/*.proto', '**/*.feature'
+			target '**/*.gradle'
 			trimTrailingWhitespace()
 			indentWithTabs()
+			endWithNewline()
+		}
+		format 'proto', {
+			target '**/*.proto'
+			trimTrailingWhitespace()
+			indentWithSpaces(2)
 			endWithNewline()
 		}
 		format 'md', {

@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.protobuf.ByteString;
+import com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -92,6 +93,13 @@ public class SessionTest {
         Set<ExecutionProvider> providers = api.getAvailableProviders();
         assertFalse(providers.isEmpty());
         assertTrue(providers.contains(ExecutionProvider.CPU_EXECUTION_PROVIDER));
+    }
+
+    @Test
+    public void buildInfoTest() {
+        assertFalse(OnnxRuntime.get().getVersion().isEmpty());
+        assertEquals(OnnxRuntime.get().getApiVersion(), onnxruntime_c_api_h.ORT_API_VERSION());
+        assertFalse(api.getBuildString().isEmpty());
     }
 
     @Test
@@ -1056,6 +1064,11 @@ public class SessionTest {
 
     @Test
     public void rocmTest() throws Exception {
+        providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void dnnlTest() throws Exception {
         providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 }
