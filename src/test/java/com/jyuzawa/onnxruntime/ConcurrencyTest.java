@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -24,9 +24,9 @@ import onnx.OnnxMl.TensorShapeProto.Dimension;
 import onnx.OnnxMl.TypeProto;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class ConcurrencyTest {
 
@@ -34,7 +34,7 @@ public class ConcurrencyTest {
     private static Environment environment;
     private static byte[] model;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         OnnxRuntime apiBase = OnnxRuntime.get();
         Api api = apiBase.getApi();
@@ -66,7 +66,7 @@ public class ConcurrencyTest {
                 .toByteArray();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         environment.close();
     }

@@ -33,7 +33,7 @@ final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
             api.checkStatus(onnxruntime_all_h.OrtSessionOptionsAppendExecutionProvider_CoreML(sessionOptions, flags));
         } catch (UnsatisfiedLinkError e) {
             // NOTE: CoreML is not always present
-            throw new OnnxRuntimeException("CoreML is not supported", e);
+            throw new OnnxRuntimeException("CoreML is not enabled in this build", e);
         }
     }
 }
