@@ -1071,6 +1071,21 @@ public class SessionTest {
 
     @Test
     public void dnnlTest() throws Exception {
-        providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+        providerTest(ExecutionProvider.DNNL_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void snpeTest() throws Exception {
+        providerTest(ExecutionProvider.SNPE_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void xnnpackTest() throws Exception {
+        providerTest(ExecutionProvider.XNNPACK_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void qnnTest() throws Exception {
+        providerTest(ExecutionProvider.QNN_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 }
