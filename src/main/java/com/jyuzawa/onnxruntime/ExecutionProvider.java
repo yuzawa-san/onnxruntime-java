@@ -7,8 +7,9 @@ package com.jyuzawa.onnxruntime;
 /**
  * The universe of possible execution providers.
  *
- * The identifiers are the constants defined in //https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/graph/constants.h
+ * The identifiers are the constants defined in https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/graph/constants.h
  *
+ * Support in the public C API and in the provided native library is a requirement for successful usage.
  */
 public enum ExecutionProvider {
     /**
@@ -20,7 +21,7 @@ public enum ExecutionProvider {
      */
     CUDA_EXECUTION_PROVIDER("CUDAExecutionProvider", ExecutionProviderCUDAConfig::new),
     /**
-     * DNNL: supported
+     * oneDNN (DNNL): supported
      */
     DNNL_EXECUTION_PROVIDER("DnnlExecutionProvider", ExecutionProviderDnnlConfig::new),
     /**
@@ -39,6 +40,10 @@ public enum ExecutionProvider {
      * NNApi: not supported
      */
     NNAPI_EXECUTION_PROVIDER("NnapiExecutionProvider"),
+    /**
+     * QNN: supported
+     */
+    QNN_EXECUTION_PROVIDER("QNNExecutionProvider", ExecutionProviderSimpleMapConfig.of("QNN")),
     /**
      * RKNPU: not supported
      */
@@ -68,6 +73,10 @@ public enum ExecutionProvider {
      */
     COREML_EXECUTION_PROVIDER("CoreMLExecutionProvider", ExecutionProviderCoreMLConfig::new),
     /**
+     * JS Execution Provider: not supported
+     */
+    JS_EXECUTION_PROVIDER("JsExecutionProvider"),
+    /**
      * SNPE: supported
      */
     SNPE_EXECUTION_PROVIDER("SNPEExecutionProvider", ExecutionProviderSimpleMapConfig.of("SNPE")),
@@ -80,9 +89,17 @@ public enum ExecutionProvider {
      */
     XNNPACK_EXECUTION_PROVIDER("XnnpackExecutionProvider", ExecutionProviderSimpleMapConfig.of("XNNPACK")),
     /**
+     * WebNN: not supported
+     */
+    WEBNN_EXECUTION_PROVIDER("WebNNExecutionProvider"),
+    /**
      * CANN: not supported
      */
-    CANN_EXECUTION_PROVIDER("CANNExecutionProvider");
+    CANN_EXECUTION_PROVIDER("CANNExecutionProvider"),
+    /**
+     * Azure: not supported
+     */
+    AZURE_EXECUTION_PROVIDER("AzureExecutionProvider");
 
     private final String identifier;
     final ExecutionProviderConfigFactory factory;
