@@ -1033,6 +1033,7 @@ public class SessionTest {
             String message = e.getMessage();
             LOG.log(Level.ERROR, "Provider failed with: " + message);
             assertTrue(message.contains("not enabled in this build")
+                    || message.contains("not supported in this build")
                     || message.contains("onnxruntime::ProviderSharedLibrary")
                     || message.contains("onnxruntime::ProviderLibrary"));
         }

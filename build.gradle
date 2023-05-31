@@ -351,6 +351,7 @@ tasks.named('compileJava') {
 
 
 test {
+	useJUnitPlatform()
 	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
 	finalizedBy jacocoTestReport
 }

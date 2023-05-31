@@ -27,10 +27,14 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
         MemorySession scope = MemorySession.global();
         MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase(), OrtApiBase.sizeof(), scope);
         this.ortApiVersion = ORT_API_VERSION();
-        this.version =
-                OrtApiBase.GetVersionString(segment, scope).apply().address().getUtf8String(0);
         MemoryAddress apiAddress =
                 OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
+        if (apiAddress == MemoryAddress.NULL) {
+            throw new UnsatisfiedLinkError(
+                    "Onnxruntime native library present, but does not provide API version " + ortApiVersion);
+        }
+        this.version =
+                OrtApiBase.GetVersionString(segment, scope).apply().address().getUtf8String(0);
         this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress, OrtApi.sizeof(), scope));
         System.getLogger(OnnxRuntimeImpl.class.getName())
                 .log(
