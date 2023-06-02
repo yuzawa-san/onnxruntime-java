@@ -8,6 +8,8 @@ import java.util.NoSuchElementException;
 
 /**
  * A description of the type of an input or output. Use {@link #getType()} to determine what type of additional information is present. A {@link NoSuchElementException} will be thrown from getters which are not valid for the instance's type.
+ *
+ * @since 1.0.0
  */
 public interface TypeInfo {
 

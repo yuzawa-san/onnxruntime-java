@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * This is the entrypoint into this library. It is a singleton that is accessible using {@link #get()}.
  *
+ * @since 1.0.0
  */
 public interface OnnxRuntime {
 

@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * A representation of a model evaluation. Should NOT be reused. This class is NOT thread-safe.
  *
+ * @since 1.0.0
  */
 public interface Transaction extends AutoCloseable {
     /**
