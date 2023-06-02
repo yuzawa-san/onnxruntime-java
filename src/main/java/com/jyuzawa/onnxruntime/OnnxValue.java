@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 /**
  * A representation of a value provided as an input or output. Use {@link #getType()} to find out which more specific view is present. A {@link NoSuchElementException} will be thrown if a view does not exist for this instance's type.
  *
+ * @since 1.0.0
  */
 public interface OnnxValue {
 

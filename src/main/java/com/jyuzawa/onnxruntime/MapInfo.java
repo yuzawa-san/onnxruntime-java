@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * A description of the type information related to ONNX's "Map" type.
  *
+ * @since 1.0.0
  */
 public interface MapInfo {
 

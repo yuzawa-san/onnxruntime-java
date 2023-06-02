@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * A description of a tensor: type and shape.
  *
+ * @since 1.0.0
  */
 public interface TensorInfo {
 

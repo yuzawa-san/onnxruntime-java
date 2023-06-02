@@ -9,6 +9,8 @@ import java.util.Map;
 /**
  * The environment in which model evaluation sessions can be constructed. Only
  * one environment should be used in your application. This class is thread safe.
+ *
+ * @since 1.0.0
  */
 public interface Environment extends AutoCloseable {
 

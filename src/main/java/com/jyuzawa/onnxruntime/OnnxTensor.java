@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 /**
  * A representation of a dense tensor. Use {@link #getInfo()} to select the proper buffer type. A {@link NoSuchElementException} will be thrown if a view does not exist for this instance's type.
  *
+ * @since 1.0.0
  */
 public interface OnnxTensor {
 

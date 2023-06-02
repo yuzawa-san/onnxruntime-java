@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * A representation of the metadata stored in an ONNX model.
  *
+ * @since 1.0.0
  */
 public interface ModelMetadata {
     /**

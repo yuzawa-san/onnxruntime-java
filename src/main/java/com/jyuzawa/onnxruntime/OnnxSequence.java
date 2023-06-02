@@ -10,6 +10,7 @@ import java.util.List;
  * A sequence view of an {@link OnnxValue}. Extends {@link java.util.List} to provide an UNMODIFIABLE view.
  * Use {@link #add()} to populate the sequence.
  *
+ * @since 1.0.0
  */
 public interface OnnxSequence extends List<OnnxValue> {
 

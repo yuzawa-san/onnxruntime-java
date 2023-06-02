@@ -9,6 +9,7 @@ import java.util.Set;
 /**
  * The top-level API of the ONNX runtime.
  *
+ * @since 1.0.0
  */
 public interface Api {
 

@@ -10,6 +10,7 @@ import java.util.Map;
  * A type-safe map of an {@link OnnxValue}. Extends {@link java.util.Map} to provide an UNMODIFIABLE view. Use {@link #set(Object)} to populate the map.
  *
  * @param <K> key type
+ * @since 1.0.0
  */
 public interface OnnxTypedMap<K> extends Map<K, OnnxValue> {
 
