@@ -41,6 +41,7 @@ public interface Environment extends AutoCloseable {
      * A builder of an {@link Environment}. The default severity level is determined
      * from the logger level of the logger of {@link Environment}.
      *
+     * @since 1.0.0
      */
     public interface Builder {
         /**

@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 /**
  * The level for the internal logger within the ONNX runtime.
  *
+ * @since 1.0.0
  */
 public enum OnnxRuntimeLoggingLevel {
     VERBOSE(0),

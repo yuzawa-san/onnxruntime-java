@@ -68,6 +68,7 @@ public interface Session extends AutoCloseable {
     /**
      * A builder of a {@link Session}. Must provide either bytes or a path.
      *
+     * @since 1.0.0
      */
     public interface Builder {
         /**

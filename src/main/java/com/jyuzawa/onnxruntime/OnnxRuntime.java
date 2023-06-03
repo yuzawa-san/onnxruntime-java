@@ -20,6 +20,7 @@ public interface OnnxRuntime {
     /**
      * This function returns the value of the ORT_API_VERSION constant.
      * @return the int version number
+     * @since 1.2.0
      */
     int getApiVersion();
 

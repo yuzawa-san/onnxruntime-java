@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * A type from ONNX.
  *
+ * @since 1.0.0
  */
 public enum OnnxType {
     UNKNOWN(0),

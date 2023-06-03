@@ -9,13 +9,17 @@
  * require the runtime to have the {@code --enable-native-access=ALL-UNNAMED} and {@code --enable-preview} JVM options.
  * <ul>
  * <li>The {@code onnxruntime-cpu} artifact provides support for several common operating systems / CPU architecture
- * combinations.
+ * combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like
+ * {@code osx-x86_64} to provide specific support.
  * <li>The {@code onnxruntime-gpu} artifact provides GPU (CUDA) support for several common operating systems / CPU
- * architecture combinations.
+ * architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers
+ * like {@code osx-x86_64} to provide specific support.
  * <li>The {@code onnxruntime} artifact contains only bindings and no libraries. This means the native library will need
  * to be provided. Use this artifact as a compile dependency if you want to allow your project's users to bring use
  * {@code onnxruntime-cpu}, {@code onnxruntime-gpu}, or their own native library as dependencies provided at runtime.
  * </ul>
+ *
+ * @since 1.0.0
  */
 module com.jyuzawa.onnxruntime {
     exports com.jyuzawa.onnxruntime;

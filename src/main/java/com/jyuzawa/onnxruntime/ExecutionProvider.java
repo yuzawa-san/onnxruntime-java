@@ -10,6 +10,8 @@ package com.jyuzawa.onnxruntime;
  * The identifiers are the constants defined in https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/graph/constants.h
  *
  * Support in the public C API and in the provided native library is a requirement for successful usage.
+ *
+ * @since 1.0.0
  */
 public enum ExecutionProvider {
     /**
@@ -42,6 +44,7 @@ public enum ExecutionProvider {
     NNAPI_EXECUTION_PROVIDER("NnapiExecutionProvider"),
     /**
      * QNN: supported
+     * @since 1.2.0
      */
     QNN_EXECUTION_PROVIDER("QNNExecutionProvider", ExecutionProviderSimpleMapConfig.of("QNN")),
     /**
@@ -74,6 +77,7 @@ public enum ExecutionProvider {
     COREML_EXECUTION_PROVIDER("CoreMLExecutionProvider", ExecutionProviderCoreMLConfig::new),
     /**
      * JS Execution Provider: not supported
+     * @since 1.2.0
      */
     JS_EXECUTION_PROVIDER("JsExecutionProvider"),
     /**
@@ -90,6 +94,7 @@ public enum ExecutionProvider {
     XNNPACK_EXECUTION_PROVIDER("XnnpackExecutionProvider", ExecutionProviderSimpleMapConfig.of("XNNPACK")),
     /**
      * WebNN: not supported
+     * @since 1.2.0
      */
     WEBNN_EXECUTION_PROVIDER("WebNNExecutionProvider"),
     /**
@@ -98,6 +103,7 @@ public enum ExecutionProvider {
     CANN_EXECUTION_PROVIDER("CANNExecutionProvider"),
     /**
      * Azure: not supported
+     * @since 1.2.0
      */
     AZURE_EXECUTION_PROVIDER("AzureExecutionProvider");
 

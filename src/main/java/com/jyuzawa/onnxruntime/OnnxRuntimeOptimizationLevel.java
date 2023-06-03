@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * A level of optimization to target.
  *
+ * @since 1.0.0
  */
 public enum OnnxRuntimeOptimizationLevel {
     DISABLE_ALL(0),

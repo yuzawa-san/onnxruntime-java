@@ -16,6 +16,7 @@ import java.lang.foreign.ValueLayout;
 /**
  * A tensor type from ONNX.
  *
+ * @since 1.0.0
  */
 public enum OnnxTensorElementDataType {
     UNDEFINED(0, null),
