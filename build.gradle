@@ -8,6 +8,8 @@ plugins {
 	id 'jacoco'
 	id "com.github.jakemarsden.git-hooks" version "0.0.2"
 	id 'net.researchgate.release' version '3.0.2'
+	id 'me.champeau.gradle.japicmp' version '0.4.1'
+	id 'de.undercouch.download' version "5.4.0"
 }
 
 apply plugin: "java-library"
@@ -173,6 +175,42 @@ task "gpuJar" (type: Jar) {
 		}
 	}
 }
+
+def compatibleVersion = project.findProperty('compatibleVersion') ?: 'SKIP'
+
+task downloadBaseline(type: Download) {
+	onlyIf {
+		if (project.gradle.startParameter.isOffline()) {
+			println "Offline: skipping downloading of baseline and JAPICMP"
+			return false
+		}
+		else if ("$compatibleVersion" == "SKIP") {
+			println "SKIP: Instructed to skip the baseline comparison"
+			return false
+		}
+		else {
+			println "Will download and perform baseline comparison with ${compatibleVersion}"
+			return true
+		}
+	}
+
+	onlyIfNewer true
+	compress true
+	src "${repositories.mavenCentral().url}com/jyuzawa/onnxruntime/$compatibleVersion/onnxruntime-${compatibleVersion}.jar"
+	dest "${buildDir}/baselineLibs/onnxruntime-${compatibleVersion}.jar"
+}
+
+tasks.register("japicmp", me.champeau.gradle.japicmp.JapicmpTask) {
+	onlyIf { "$compatibleVersion" != "SKIP" }
+	oldClasspath.from(files("${buildDir}/baselineLibs/onnxruntime-${compatibleVersion}.jar"))
+	newClasspath.from(tasks.named('jar'))
+	packageExcludes = ['com.jyuzawa.onnxruntime_extern']
+	onlyModified = true
+	failOnModification = true
+	txtOutputFile = layout.buildDirectory.file("reports/japi.txt")
+}
+tasks.japicmp.dependsOn(downloadBaseline)
+tasks.check.dependsOn(japicmp)
 
 // TODO: enable jextract
 
