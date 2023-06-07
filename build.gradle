@@ -21,7 +21,6 @@ release {
 		signTag.set(true)
 	}
 }
-afterReleaseBuild.dependsOn publishOnnxruntimePublicationToMavenRepository
 
 allprojects {
 	apply plugin: "java"
@@ -326,6 +325,7 @@ publishing {
 		}
 	}
 }
+afterReleaseBuild.dependsOn tasks.named('publishOnnxruntimePublicationToMavenRepository')
 
 signing {
 	sign publishing.publications
