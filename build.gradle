@@ -21,7 +21,7 @@ release {
 		signTag.set(true)
 	}
 }
-afterReleaseBuild.dependsOn publish
+afterReleaseBuild.dependsOn publishOnnxruntimePublicationToMavenRepository
 
 allprojects {
 	apply plugin: "java"
@@ -86,6 +86,7 @@ def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version'
 def ORT_BASELINE = project.findProperty('com.jyuzawa.onnxruntime.library_baseline')
 // NOTE: if the baseline is a snapshot then the other artifacts need to be snapshots in order to be uploaded
 def ORT_JAR_VERSION = ORT_BASELINE.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
+// NOTE: publish tasks are: publishOnnxruntimeCpuPublicationToMavenRepository publishOnnxruntimeGpuPublicationToMavenRepository
 
 def getGitHash = { ->
 	def stdout = new ByteArrayOutputStream()
