@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * A preference for sequential or parallel execution.
  *
+ * @since 1.0.0
  */
 public enum OnnxRuntimeExecutionMode {
     SEQUENTIAL(0),

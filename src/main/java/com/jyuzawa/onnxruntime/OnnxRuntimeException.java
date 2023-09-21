@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * An exception thrown from within the ONNX runtime.
  *
+ * @since 1.0.0
  */
 public class OnnxRuntimeException extends RuntimeException {
     private static final int UNKNOWN_CODE = -1;

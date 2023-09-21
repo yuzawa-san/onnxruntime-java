@@ -53,7 +53,9 @@ public class OrtCustomOp {
                     Constants$root.C_POINTER$LAYOUT.withName("GetVariadicInputMinArity"),
                     Constants$root.C_POINTER$LAYOUT.withName("GetVariadicInputHomogeneity"),
                     Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputMinArity"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputHomogeneity"))
+                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputHomogeneity"),
+                    Constants$root.C_POINTER$LAYOUT.withName("CreateKernelV2"),
+                    Constants$root.C_POINTER$LAYOUT.withName("KernelComputeV2"))
             .withName("OrtCustomOp");
 
     public static MemoryLayout $LAYOUT() {
@@ -1159,6 +1161,129 @@ public class OrtCustomOp {
 
     public static GetVariadicOutputHomogeneity GetVariadicOutputHomogeneity(MemorySegment segment, SegmentScope scope) {
         return GetVariadicOutputHomogeneity.ofAddress(GetVariadicOutputHomogeneity$get(segment), scope);
+    }
+
+    static final FunctionDescriptor CreateKernelV2$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle CreateKernelV2$MH = RuntimeHelper.downcallHandle(OrtCustomOp.CreateKernelV2$FUNC);
+
+    public interface CreateKernelV2 {
+
+        java.lang.foreign.Addressable apply(
+                java.lang.foreign.MemoryAddress _x0,
+                java.lang.foreign.MemoryAddress _x1,
+                java.lang.foreign.MemoryAddress _x2,
+                java.lang.foreign.MemoryAddress _x3);
+
+        static MemorySegment allocate(CreateKernelV2 fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(CreateKernelV2.class, fi, OrtCustomOp.CreateKernelV2$FUNC, session);
+        }
+
+        static CreateKernelV2 ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0,
+                    java.lang.foreign.MemoryAddress __x1,
+                    java.lang.foreign.MemoryAddress __x2,
+                    java.lang.foreign.MemoryAddress __x3) -> {
+                try {
+                    return (java.lang.foreign.Addressable)
+                            (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernelV2$MH.invokeExact(
+                                    (Addressable) symbol,
+                                    (java.lang.foreign.Addressable) __x0,
+                                    (java.lang.foreign.Addressable) __x1,
+                                    (java.lang.foreign.Addressable) __x2,
+                                    (java.lang.foreign.Addressable) __x3);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle CreateKernelV2$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("CreateKernelV2"));
+
+    public static VarHandle CreateKernelV2$VH() {
+        return OrtCustomOp.CreateKernelV2$VH;
+    }
+
+    public static MemoryAddress CreateKernelV2$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernelV2$VH.get(seg);
+    }
+
+    public static void CreateKernelV2$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.CreateKernelV2$VH.set(seg, x);
+    }
+
+    public static MemoryAddress CreateKernelV2$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernelV2$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void CreateKernelV2$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.CreateKernelV2$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static CreateKernelV2 CreateKernelV2(MemorySegment segment, MemorySession session) {
+        return CreateKernelV2.ofAddress(CreateKernelV2$get(segment), session);
+    }
+
+    static final FunctionDescriptor KernelComputeV2$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle KernelComputeV2$MH = RuntimeHelper.downcallHandle(OrtCustomOp.KernelComputeV2$FUNC);
+
+    public interface KernelComputeV2 {
+
+        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+
+        static MemorySegment allocate(KernelComputeV2 fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(KernelComputeV2.class, fi, OrtCustomOp.KernelComputeV2$FUNC, session);
+        }
+
+        static KernelComputeV2 ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+                try {
+                    return (java.lang.foreign.Addressable)
+                            (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelComputeV2$MH.invokeExact(
+                                    (Addressable) symbol,
+                                    (java.lang.foreign.Addressable) __x0,
+                                    (java.lang.foreign.Addressable) __x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle KernelComputeV2$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("KernelComputeV2"));
+
+    public static VarHandle KernelComputeV2$VH() {
+        return OrtCustomOp.KernelComputeV2$VH;
+    }
+
+    public static MemoryAddress KernelComputeV2$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelComputeV2$VH.get(seg);
+    }
+
+    public static void KernelComputeV2$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.KernelComputeV2$VH.set(seg, x);
+    }
+
+    public static MemoryAddress KernelComputeV2$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelComputeV2$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void KernelComputeV2$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.KernelComputeV2$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static KernelComputeV2 KernelComputeV2(MemorySegment segment, MemorySession session) {
+        return KernelComputeV2.ofAddress(KernelComputeV2$get(segment), session);
     }
 
     public static long sizeof() {

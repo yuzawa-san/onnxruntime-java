@@ -4,18 +4,19 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_DOUBLE;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_FLOAT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_SHORT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_DOUBLE;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_FLOAT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_SHORT;
 
 import java.lang.foreign.ValueLayout;
 
 /**
  * A tensor type from ONNX.
  *
+ * @since 1.0.0
  */
 public enum OnnxTensorElementDataType {
     UNDEFINED(0, null),

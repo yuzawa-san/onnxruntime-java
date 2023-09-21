@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * This is the entrypoint into this library. It is a singleton that is accessible using {@link #get()}.
  *
+ * @since 1.0.0
  */
 public interface OnnxRuntime {
 
@@ -15,6 +16,13 @@ public interface OnnxRuntime {
      * @return x.y.z version
      */
     String getVersion();
+
+    /**
+     * This function returns the value of the ORT_API_VERSION constant.
+     * @return the int version number
+     * @since 1.2.0
+     */
+    int getApiVersion();
 
     /**
      * This method provides a view of the latest API.

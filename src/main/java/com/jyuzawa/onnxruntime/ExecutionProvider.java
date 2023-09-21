@@ -7,8 +7,11 @@ package com.jyuzawa.onnxruntime;
 /**
  * The universe of possible execution providers.
  *
- * The identifiers are the constants defined in //https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/graph/constants.h
+ * The identifiers are the constants defined in https://github.com/microsoft/onnxruntime/blob/main/include/onnxruntime/core/graph/constants.h
  *
+ * Support in the public C API and in the provided native library is a requirement for successful usage.
+ *
+ * @since 1.0.0
  */
 public enum ExecutionProvider {
     /**
@@ -20,9 +23,9 @@ public enum ExecutionProvider {
      */
     CUDA_EXECUTION_PROVIDER("CUDAExecutionProvider", ExecutionProviderCUDAConfig::new),
     /**
-     * DNNL: not supported
+     * oneDNN (DNNL): supported
      */
-    DNNL_EXECUTION_PROVIDER("DnnlExecutionProvider"),
+    DNNL_EXECUTION_PROVIDER("DnnlExecutionProvider", ExecutionProviderDnnlConfig::new),
     /**
      * OpenVINO: supported
      */
@@ -39,6 +42,11 @@ public enum ExecutionProvider {
      * NNApi: not supported
      */
     NNAPI_EXECUTION_PROVIDER("NnapiExecutionProvider"),
+    /**
+     * QNN: supported
+     * @since 1.2.0
+     */
+    QNN_EXECUTION_PROVIDER("QNNExecutionProvider", ExecutionProviderSimpleMapConfig.of("QNN")),
     /**
      * RKNPU: not supported
      */
@@ -64,9 +72,14 @@ public enum ExecutionProvider {
      */
     ROCM_EXECUTION_PROVIDER("ROCMExecutionProvider", ExecutionProviderROCMConfig::new),
     /**
-     * CoreML: not supported
+     * CoreML: supported
      */
-    COREML_EXECUTION_PROVIDER("CoreMLExecutionProvider"),
+    COREML_EXECUTION_PROVIDER("CoreMLExecutionProvider", ExecutionProviderCoreMLConfig::new),
+    /**
+     * JS Execution Provider: not supported
+     * @since 1.2.0
+     */
+    JS_EXECUTION_PROVIDER("JsExecutionProvider"),
     /**
      * SNPE: supported
      */
@@ -80,9 +93,19 @@ public enum ExecutionProvider {
      */
     XNNPACK_EXECUTION_PROVIDER("XnnpackExecutionProvider", ExecutionProviderSimpleMapConfig.of("XNNPACK")),
     /**
+     * WebNN: not supported
+     * @since 1.2.0
+     */
+    WEBNN_EXECUTION_PROVIDER("WebNNExecutionProvider"),
+    /**
      * CANN: not supported
      */
-    CANN_EXECUTION_PROVIDER("CANNExecutionProvider");
+    CANN_EXECUTION_PROVIDER("CANNExecutionProvider"),
+    /**
+     * Azure: not supported
+     * @since 1.2.0
+     */
+    AZURE_EXECUTION_PROVIDER("AzureExecutionProvider");
 
     private final String identifier;
     final ExecutionProviderConfigFactory factory;

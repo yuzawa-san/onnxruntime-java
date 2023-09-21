@@ -29,9 +29,9 @@ final class constants$1 {
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
     static final MethodHandle RegisterCustomOpsFn$MH =
             RuntimeHelper.downcallHandle(constants$1.RegisterCustomOpsFn$FUNC);
-    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
-    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH = RuntimeHelper.downcallHandle(
-            "OrtSessionOptionsAppendExecutionProvider_CUDA",
-            constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC);
+    static final FunctionDescriptor RunAsyncCallbackFn$FUNC = FunctionDescriptor.ofVoid(
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_LONG_LONG$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT);
 }

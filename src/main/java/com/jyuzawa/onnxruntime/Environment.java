@@ -4,9 +4,13 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.Map;
+
 /**
  * The environment in which model evaluation sessions can be constructed. Only
  * one environment should be used in your application. This class is thread safe.
+ *
+ * @since 1.0.0
  */
 public interface Environment extends AutoCloseable {
 
@@ -37,6 +41,7 @@ public interface Environment extends AutoCloseable {
      * A builder of an {@link Environment}. The default severity level is determined
      * from the logger level of the logger of {@link Environment}.
      *
+     * @since 1.0.0
      */
     public interface Builder {
         /**
@@ -82,6 +87,14 @@ public interface Environment extends AutoCloseable {
          * @return the builder
          */
         Builder setGlobalSpinControl(boolean globalSpinControl);
+
+        /**
+         * Set whether the environment's shared allocator for CPU should be arena-based
+         * @param config the key/value configuration of the arena
+         * @return the builder
+         * @since 1.2.0
+         */
+        Builder setArenaConfig(Map<String, Long> config);
 
         /**
          * Constructs the {@link Environment}.

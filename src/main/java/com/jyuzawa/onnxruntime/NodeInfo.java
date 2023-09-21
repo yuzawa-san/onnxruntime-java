@@ -7,6 +7,7 @@ package com.jyuzawa.onnxruntime;
 /**
  * A tuple of name and type information.
  *
+ * @since 1.0.0
  */
 public interface NodeInfo {
 

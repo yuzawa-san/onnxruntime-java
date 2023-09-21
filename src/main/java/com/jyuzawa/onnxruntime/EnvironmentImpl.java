@@ -4,12 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.ORT_PROJECTION_JAVA;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtArenaAllocator;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtMemTypeDefault;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JAVA;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.util.Map;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {
 
@@ -51,6 +54,24 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                     memorySession, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
             api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, MemorySegment.NULL));
             this.ortAllocator = api.create(memorySession, out -> api.GetAllocatorWithDefaultOptions.apply(out));
+            Map<String, Long> arenaConfig = builder.arenaConfig;
+            if (arenaConfig == null) {
+                api.RegisterAllocator.apply(address, ortAllocator);
+            } else {
+                int size = arenaConfig.size();
+                MemorySegment keyArray = temporarySession.allocateArray(C_POINTER, size);
+                MemorySegment valueArray = temporarySession.allocateArray(C_LONG, size);
+                int i = 0;
+                for (Map.Entry<String, Long> entry : arenaConfig.entrySet()) {
+                    keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateUtf8String(entry.getKey()));
+                    valueArray.setAtIndex(C_LONG, i, entry.getValue());
+                    i++;
+                }
+                MemoryAddress arenaConfigAddress = api.create(
+                        temporarySession,
+                        out -> api.CreateArenaCfgV2.apply(keyArray.address(), valueArray.address(), size, out));
+                api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
+            }
         }
     }
 
@@ -90,6 +111,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         private Integer globalInterOpNumThreads;
         private Integer globalIntraOpNumThreads;
         private Boolean globalSpinControl;
+        private Map<String, Long> arenaConfig;
 
         Builder(ApiImpl api) {
             this.api = api;
@@ -134,6 +156,11 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         public Builder setGlobalSpinControl(boolean globalSpinControl) {
             this.useThreadingOptions = true;
             this.globalSpinControl = globalSpinControl;
+            return this;
+        }
+
+        public Builder setArenaConfig(Map<String, Long> config) {
+            this.arenaConfig = config;
             return this;
         }
 

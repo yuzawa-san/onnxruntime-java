@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * An immutable collection which can be accessed by list index or name.
  * @param <V> the type in the collection
+ * @since 1.0.0
  */
 public interface NamedCollection<V> {
 

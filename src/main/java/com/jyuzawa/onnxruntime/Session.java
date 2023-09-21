@@ -12,6 +12,8 @@ import java.util.Map;
 
 /**
  * An evaluation session loaded from an ONNX file or bytes. This class is thread safe.
+ *
+ * @since 1.0.0
  */
 public interface Session extends AutoCloseable {
 
@@ -66,6 +68,7 @@ public interface Session extends AutoCloseable {
     /**
      * A builder of a {@link Session}. Must provide either bytes or a path.
      *
+     * @since 1.0.0
      */
     public interface Builder {
         /**

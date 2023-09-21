@@ -21,8 +21,8 @@ There are [other](https://github.com/bytedeco/javacpp-presets/tree/master/onnxru
 This project is released to [Maven Central](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) and can be used in your project. There are a few artifacts published:
 
 * [`onnxruntime`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) - The binding with no native libraries. For use as a implementation dependency.
-* [`onnxruntime-cpu`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-cpu) - A collection of native libraries with CPU support for a several common OS/architecture combinations. For use as an optional runtime dependency.
-* [`onnxruntime-gpu`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-gpu) - A collection of native libraries with GPU support for a several common OS/architecture combinations. For use as an optional runtime dependency.
+* [`onnxruntime-cpu`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-cpu) - A collection of native libraries with CPU support for a several common OS/architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like `osx-x86_64` to provide specific support.
+* [`onnxruntime-gpu`](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-gpu) - A collection of native libraries with GPU support for a several common OS/architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like `osx-x86_64` to provide specific support.
 
 The native library (from Microsoft) will need to be provided at runtime using one of the latter two artifacts. Alternatively, the Java library path (`java.library.path`) will be used if neither of those artifacts is provided.
 This allows users to "bring their own" shared library.
@@ -41,7 +41,7 @@ This puts the burden of providing a native library on your end user.
 There is an example application in the `onnxruntime-sample-application` directory.
 The library should use the `onnxruntime` as a implementation dependency.
 The application needs to have acccess to the native library.
-You have the option providing it via a runtime dependency using either `onnxruntime-cpu` or `onnxruntime-gpu`
+You have the option providing it via a runtime dependency using either a classifier variant from `onnxruntime-cpu` or `onnxruntime-gpu`
 Otherwise, the Java library path will be used to load the native library.
 
 
@@ -69,6 +69,8 @@ Major version will be bumped when this API or the underlying C API has backward 
 Upstream major version changes will typically be major version changes here.
 Minor version will be bumped for smaller, but compatible changes.
 Upstream minor version changes will typically be minor version changes here.
+
+The `onnxruntime-cpu` and `onnxruntime-gpu` artifacts are versioned to match the upstream versions and depend on a minimum compatible `onnxruntime` version.
 
 ### Snapshots
 

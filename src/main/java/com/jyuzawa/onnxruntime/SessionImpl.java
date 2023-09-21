@@ -4,10 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 
 import java.io.IOException;

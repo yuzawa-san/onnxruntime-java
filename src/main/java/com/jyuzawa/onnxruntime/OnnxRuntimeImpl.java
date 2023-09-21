@@ -4,11 +4,13 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.ORT_API_VERSION;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.OrtGetApiBase;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_API_VERSION;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
 
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
+import java.lang.System.Logger.Level;
+import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentScope;
 
@@ -18,14 +20,29 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private final String version;
     private final ApiImpl api;
+    private final int ortApiVersion;
 
     private OnnxRuntimeImpl() {
         Loader.load();
         SegmentScope scope = SegmentScope.global();
         MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase().address(), OrtApiBase.sizeof(), scope);
+        this.ortApiVersion = ORT_API_VERSION();
+        MemoryAddress apiAddress =
+                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
+        if (apiAddress == MemoryAddress.NULL) {
+            throw new UnsatisfiedLinkError(
+                    "Onnxruntime native library present, but does not provide API version " + ortApiVersion);
+        }
         this.version = OrtApiBase.GetVersionString(segment, scope).apply().getUtf8String(0);
         MemorySegment apiAddress = OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION());
         this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress.address(), OrtApi.sizeof(), scope));
+        System.getLogger(OnnxRuntimeImpl.class.getName())
+                .log(
+                        Level.DEBUG,
+                        "Version: {0}, API Version: {1}, Build Info: {2}",
+                        version,
+                        ortApiVersion,
+                        api.getBuildString());
     }
 
     @Override
@@ -36,5 +53,10 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
     @Override
     public Api getApi() {
         return api;
+    }
+
+    @Override
+    public int getApiVersion() {
+        return ortApiVersion;
     }
 }

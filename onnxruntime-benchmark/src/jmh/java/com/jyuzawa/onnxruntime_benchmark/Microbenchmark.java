@@ -25,6 +25,7 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -39,9 +40,10 @@ import org.openjdk.jmh.infra.Blackhole;
 public class Microbenchmark {
 
     private static final String ONNXRUNTIME_JAVA = "onnxruntime-java";
+    private static final String ONNXRUNTIME_JAVA_ARENA = "onnxruntime-java-arena";
     private static final String MICROSOFT = "microsoft";
 
-    @Param(value = {ONNXRUNTIME_JAVA, MICROSOFT})
+    @Param(value = {ONNXRUNTIME_JAVA, ONNXRUNTIME_JAVA_ARENA, MICROSOFT})
     private String implementation;
 
     @Param({"16", "256", "4096"})
@@ -77,12 +79,14 @@ public class Microbenchmark {
             input[i] = random.nextLong();
         }
         wrapper = switch (implementation) {
-            case ONNXRUNTIME_JAVA -> new OnnxruntimeJava(bytes);
+            case ONNXRUNTIME_JAVA -> new OnnxruntimeJava(bytes, false);
+            case ONNXRUNTIME_JAVA_ARENA -> new OnnxruntimeJava(bytes, true);
             case MICROSOFT -> new Microsoft(bytes);
             default -> throw new IllegalArgumentException();};
     }
 
     @Benchmark
+    @Threads(Threads.MAX)
     public void run(Blackhole bh) throws Exception {
         bh.consume(wrapper.evaluate(input));
     }

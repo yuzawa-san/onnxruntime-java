@@ -55,7 +55,9 @@ final class Loader {
                 System.load(libraryPath);
             }
         } catch (IOException e) {
-            throw new UnsatisfiedLinkError("Failed to load onnxruntime");
+            UnsatisfiedLinkError ule = new UnsatisfiedLinkError("Failed to load onnxruntime");
+            e.initCause(e);
+            throw ule;
         }
     }
 

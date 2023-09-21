@@ -9,6 +9,8 @@ import java.util.NoSuchElementException;
 /**
  * A map view of an {@link OnnxValue}. Use the {@link MapInfo#getKeyType()} to
  * select a type-safe view. A {@link NoSuchElementException} will be thrown if a view does not exist for this instance's type.
+ *
+ * @since 1.0.0
  */
 public interface OnnxMap {
 

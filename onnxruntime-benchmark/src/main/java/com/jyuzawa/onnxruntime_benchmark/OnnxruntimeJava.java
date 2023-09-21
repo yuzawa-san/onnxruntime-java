@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime_benchmark;
 
 import com.jyuzawa.onnxruntime.Environment;
+import com.jyuzawa.onnxruntime.ExecutionProvider;
 import com.jyuzawa.onnxruntime.NamedCollection;
 import com.jyuzawa.onnxruntime.OnnxRuntime;
 import com.jyuzawa.onnxruntime.OnnxRuntimeLoggingLevel;
@@ -12,6 +13,7 @@ import com.jyuzawa.onnxruntime.OnnxValue;
 import com.jyuzawa.onnxruntime.Session;
 import com.jyuzawa.onnxruntime.Transaction;
 import java.io.IOException;
+import java.util.Map;
 
 final class OnnxruntimeJava implements Wrapper {
 
@@ -23,8 +25,12 @@ final class OnnxruntimeJava implements Wrapper {
 
     private final Session session;
 
-    OnnxruntimeJava(byte[] bytes) throws IOException {
-        this.session = ENVIRONMENT.newSession().setByteArray(bytes).build();
+    OnnxruntimeJava(byte[] bytes, boolean arena) throws IOException {
+        this.session = ENVIRONMENT
+                .newSession()
+                .setByteArray(bytes)
+                .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", arena ? "1" : "0"))
+                .build();
     }
 
     @Override

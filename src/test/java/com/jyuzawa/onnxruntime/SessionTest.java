@@ -4,12 +4,10 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.protobuf.ByteString;
+import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
 import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -37,10 +35,11 @@ import onnx.OnnxMl.TypeProto;
 import onnx.OnnxMl.TypeProto.Sequence;
 import onnx.OnnxMl.TypeProto.Tensor;
 import onnx.OnnxMl.ValueInfoProto;
-import org.junit.AfterClass;
-import org.junit.Assume;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 public class SessionTest {
 
@@ -56,17 +55,18 @@ public class SessionTest {
                             .addDim(Dimension.newBuilder().setDimValue(3))))
             .build();
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         OnnxRuntime apiBase = OnnxRuntime.get();
         api = apiBase.getApi();
         environment = api.newEnvironment()
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogId("testing")
+                .setArenaConfig(Map.of("initial_chunk_size_bytes", 65535L, "initial_growth_chunk_size_bytes", 65535L))
                 .build();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         environment.close();
     }
@@ -92,6 +92,13 @@ public class SessionTest {
         Set<ExecutionProvider> providers = api.getAvailableProviders();
         assertFalse(providers.isEmpty());
         assertTrue(providers.contains(ExecutionProvider.CPU_EXECUTION_PROVIDER));
+    }
+
+    @Test
+    public void buildInfoTest() {
+        assertFalse(OnnxRuntime.get().getVersion().isEmpty());
+        assertEquals(OnnxRuntime.get().getApiVersion(), onnxruntime_all_h.ORT_API_VERSION());
+        assertFalse(api.getBuildString().isEmpty());
     }
 
     @Test
@@ -992,10 +999,8 @@ public class SessionTest {
     }
 
     @Test
+    @EnabledOnOs(value = OS.MAC, architectures = "x86_64")
     public void customOpTest() throws Exception {
-        // TODO: more OS/arches
-        Assume.assumeTrue(System.getProperty("os.name").equalsIgnoreCase("mac os x")
-                && System.getProperty("os.arch").equalsIgnoreCase("x86_64"));
         Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
         try (Session session = environment
                         .newSession()
@@ -1029,6 +1034,7 @@ public class SessionTest {
             String message = e.getMessage();
             LOG.log(Level.ERROR, "Provider failed with: " + message);
             assertTrue(message.contains("not enabled in this build")
+                    || message.contains("not supported in this build")
                     || message.contains("onnxruntime::ProviderSharedLibrary")
                     || message.contains("onnxruntime::ProviderLibrary"));
         }
@@ -1037,6 +1043,12 @@ public class SessionTest {
     @Test
     public void cudaTest() throws Exception {
         providerTest(ExecutionProvider.CUDA_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    @EnabledOnOs({OS.MAC})
+    public void coreMLTest() throws Exception {
+        providerTest(ExecutionProvider.COREML_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 
     @Test
@@ -1057,5 +1069,25 @@ public class SessionTest {
     @Test
     public void rocmTest() throws Exception {
         providerTest(ExecutionProvider.ROCM_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void dnnlTest() throws Exception {
+        providerTest(ExecutionProvider.DNNL_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void snpeTest() throws Exception {
+        providerTest(ExecutionProvider.SNPE_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void xnnpackTest() throws Exception {
+        providerTest(ExecutionProvider.XNNPACK_EXECUTION_PROVIDER, Map.of("device_id", "0"));
+    }
+
+    @Test
+    public void qnnTest() throws Exception {
+        providerTest(ExecutionProvider.QNN_EXECUTION_PROVIDER, Map.of("device_id", "0"));
     }
 }

@@ -9,23 +9,23 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
 
-public class onnxruntime_c_api_h {
+public class onnxruntime_all_h {
 
-    public static final OfByte C_CHAR = Constants$root.C_CHAR$LAYOUT;
-    public static final OfShort C_SHORT = Constants$root.C_SHORT$LAYOUT;
-    public static final OfInt C_INT = Constants$root.C_INT$LAYOUT;
-    public static final OfLong C_LONG = Constants$root.C_LONG_LONG$LAYOUT;
-    public static final OfLong C_LONG_LONG = Constants$root.C_LONG_LONG$LAYOUT;
-    public static final OfFloat C_FLOAT = Constants$root.C_FLOAT$LAYOUT;
-    public static final OfDouble C_DOUBLE = Constants$root.C_DOUBLE$LAYOUT;
-    public static final OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
+    public static final OfByte C_CHAR = JAVA_BYTE;
+    public static final OfShort C_SHORT = JAVA_SHORT;
+    public static final OfInt C_INT = JAVA_INT;
+    public static final OfLong C_LONG = JAVA_LONG;
+    public static final OfLong C_LONG_LONG = JAVA_LONG;
+    public static final OfFloat C_FLOAT = JAVA_FLOAT;
+    public static final OfDouble C_DOUBLE = JAVA_DOUBLE;
+    public static final AddressLayout C_POINTER = RuntimeHelper.POINTER;
     /**
      * {@snippet :
-     * #define ORT_API_VERSION 14
+     * #define ORT_API_VERSION 16
      * }
      */
     public static int ORT_API_VERSION() {
-        return (int) 14L;
+        return (int) 16L;
     }
     /**
      * {@snippet :
@@ -162,6 +162,38 @@ public class onnxruntime_c_api_h {
      */
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_BFLOAT16() {
         return (int) 16L;
+    }
+    /**
+     * {@snippet :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FN = 17;
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FN() {
+        return (int) 17L;
+    }
+    /**
+     * {@snippet :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FNUZ = 18;
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FNUZ() {
+        return (int) 18L;
+    }
+    /**
+     * {@snippet :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2 = 19;
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2() {
+        return (int) 19L;
+    }
+    /**
+     * {@snippet :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2FNUZ = 20;
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2FNUZ() {
+        return (int) 20L;
     }
     /**
      * {@snippet :
@@ -480,7 +512,7 @@ public class onnxruntime_c_api_h {
      * typedef struct OrtStatus* OrtStatusPtr;
      * }
      */
-    public static final OfAddress OrtStatusPtr = Constants$root.C_POINTER$LAYOUT;
+    public static final AddressLayout OrtStatusPtr = RuntimeHelper.POINTER;
     /**
      * {@snippet :
      * enum GraphOptimizationLevel.ORT_DISABLE_ALL = 0;
@@ -691,11 +723,11 @@ public class onnxruntime_c_api_h {
     }
 
     public static MethodHandle OrtGetApiBase$MH() {
-        return RuntimeHelper.requireNonNull(constants$0.OrtGetApiBase$MH, "OrtGetApiBase");
+        return RuntimeHelper.requireNonNull(constants$13.const$4, "OrtGetApiBase");
     }
     /**
      * {@snippet :
-     * const OrtApiBase* OrtGetApiBase();
+     * struct OrtApiBase* OrtGetApiBase();
      * }
      */
     public static MemorySegment OrtGetApiBase() {
@@ -711,7 +743,7 @@ public class onnxruntime_c_api_h {
      * typedef struct OrtCustomHandleType* OrtCustomThreadHandle;
      * }
      */
-    public static final OfAddress OrtCustomThreadHandle = Constants$root.C_POINTER$LAYOUT;
+    public static final AddressLayout OrtCustomThreadHandle = RuntimeHelper.POINTER;
     /**
      * {@snippet :
      * enum OrtCustomOpInputOutputCharacteristic.INPUT_OUTPUT_REQUIRED = 0;
@@ -738,13 +770,11 @@ public class onnxruntime_c_api_h {
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH() {
-        return RuntimeHelper.requireNonNull(
-                constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$MH,
-                "OrtSessionOptionsAppendExecutionProvider_CUDA");
+        return RuntimeHelper.requireNonNull(constants$125.const$5, "OrtSessionOptionsAppendExecutionProvider_CUDA");
     }
     /**
      * {@snippet :
-     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CUDA(OrtSessionOptions* options, int device_id);
+     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_CUDA(struct OrtSessionOptions* options, int device_id);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_CUDA(MemorySegment options, int device_id) {
@@ -756,14 +786,29 @@ public class onnxruntime_c_api_h {
         }
     }
 
-    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH() {
-        return RuntimeHelper.requireNonNull(
-                constants$2.OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH,
-                "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_ROCM$MH() {
+        return RuntimeHelper.requireNonNull(constants$126.const$0, "OrtSessionOptionsAppendExecutionProvider_ROCM");
     }
     /**
      * {@snippet :
-     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_MIGraphX(OrtSessionOptions* options, int device_id);
+     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_ROCM(struct OrtSessionOptions* options, int device_id);
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_ROCM(MemorySegment options, int device_id) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_ROCM$MH();
+        try {
+            return (java.lang.foreign.MemorySegment) mh$.invokeExact(options, device_id);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH() {
+        return RuntimeHelper.requireNonNull(constants$126.const$1, "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+    }
+    /**
+     * {@snippet :
+     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_MIGraphX(struct OrtSessionOptions* options, int device_id);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_MIGraphX(
@@ -774,5 +819,96 @@ public class onnxruntime_c_api_h {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$MH() {
+        return RuntimeHelper.requireNonNull(constants$126.const$2, "OrtSessionOptionsAppendExecutionProvider_Dnnl");
+    }
+    /**
+     * {@snippet :
+     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_Dnnl(struct OrtSessionOptions* options, int use_arena);
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_Dnnl(MemorySegment options, int use_arena) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_Dnnl$MH();
+        try {
+            return (java.lang.foreign.MemorySegment) mh$.invokeExact(options, use_arena);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+    /**
+     * {@snippet :
+     * enum COREMLFlags.COREML_FLAG_USE_NONE = 0;
+     * }
+     */
+    public static int COREML_FLAG_USE_NONE() {
+        return (int) 0L;
+    }
+    /**
+     * {@snippet :
+     * enum COREMLFlags.COREML_FLAG_USE_CPU_ONLY = 1;
+     * }
+     */
+    public static int COREML_FLAG_USE_CPU_ONLY() {
+        return (int) 1L;
+    }
+    /**
+     * {@snippet :
+     * enum COREMLFlags.COREML_FLAG_ENABLE_ON_SUBGRAPH = 2;
+     * }
+     */
+    public static int COREML_FLAG_ENABLE_ON_SUBGRAPH() {
+        return (int) 2L;
+    }
+    /**
+     * {@snippet :
+     * enum COREMLFlags.COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE = 4;
+     * }
+     */
+    public static int COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE() {
+        return (int) 4L;
+    }
+    /**
+     * {@snippet :
+     * enum COREMLFlags.COREML_FLAG_ONLY_ALLOW_STATIC_INPUT_SHAPES = 8;
+     * }
+     */
+    public static int COREML_FLAG_ONLY_ALLOW_STATIC_INPUT_SHAPES() {
+        return (int) 8L;
+    }
+    /**
+     * {@snippet :
+     * enum COREMLFlags.COREML_FLAG_LAST = 8;
+     * }
+     */
+    public static int COREML_FLAG_LAST() {
+        return (int) 8L;
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH() {
+        return RuntimeHelper.requireNonNull(constants$126.const$3, "OrtSessionOptionsAppendExecutionProvider_CoreML");
+    }
+    /**
+     * {@snippet :
+     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_CoreML(struct OrtSessionOptions* options, unsigned int coreml_flags);
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_CoreML(
+            MemorySegment options, int coreml_flags) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_CoreML$MH();
+        try {
+            return (java.lang.foreign.MemorySegment) mh$.invokeExact(options, coreml_flags);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+    /**
+     * {@snippet :
+     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$14676555284054055513.h"
+     * }
+     */
+    public static MemorySegment ORT_FILE() {
+        return constants$126.const$4;
     }
 }

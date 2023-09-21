@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_c_api_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 /**
  * The level for the internal logger within the ONNX runtime.
  *
+ * @since 1.0.0
  */
 public enum OnnxRuntimeLoggingLevel {
     VERBOSE(0),
