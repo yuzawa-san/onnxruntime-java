@@ -18,19 +18,12 @@ import java.lang.invoke.VarHandle;
  */
 public class OrtCustomHandleType {
 
-    static final StructLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    Constants$root.C_CHAR$LAYOUT.withName("__place_holder"))
-            .withName("OrtCustomHandleType");
-
     public static MemoryLayout $LAYOUT() {
-        return OrtCustomHandleType.$struct$LAYOUT;
+        return constants$14.const$2;
     }
 
-    static final VarHandle __place_holder$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("__place_holder"));
-
     public static VarHandle __place_holder$VH() {
-        return OrtCustomHandleType.__place_holder$VH;
+        return constants$14.const$3;
     }
     /**
      * Getter for field:
@@ -39,7 +32,7 @@ public class OrtCustomHandleType {
      * }
      */
     public static byte __place_holder$get(MemorySegment seg) {
-        return (byte) OrtCustomHandleType.__place_holder$VH.get(seg);
+        return (byte) constants$14.const$3.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -48,15 +41,15 @@ public class OrtCustomHandleType {
      * }
      */
     public static void __place_holder$set(MemorySegment seg, byte x) {
-        OrtCustomHandleType.__place_holder$VH.set(seg, x);
+        constants$14.const$3.set(seg, 0L, x);
     }
 
     public static byte __place_holder$get(MemorySegment seg, long index) {
-        return (byte) OrtCustomHandleType.__place_holder$VH.get(seg.asSlice(index * sizeof()));
+        return (byte) constants$14.const$3.get(seg, index * sizeof());
     }
 
     public static void __place_holder$set(MemorySegment seg, long index, byte x) {
-        OrtCustomHandleType.__place_holder$VH.set(seg.asSlice(index * sizeof()), x);
+        constants$14.const$3.set(seg, index * sizeof(), x);
     }
 
     public static long sizeof() {
@@ -71,7 +64,7 @@ public class OrtCustomHandleType {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, SegmentScope scope) {
+    public static MemorySegment ofAddress(MemorySegment addr, Arena scope) {
         return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
     }
 }

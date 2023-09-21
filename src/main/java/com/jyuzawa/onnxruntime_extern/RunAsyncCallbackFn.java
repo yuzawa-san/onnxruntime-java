@@ -8,31 +8,31 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 
+/**
+ * {@snippet :
+ * void (*RunAsyncCallbackFn)(void* user_data,struct OrtValue** outputs,unsigned long num_outputs,struct OrtStatus* status);
+ * }
+ */
 public interface RunAsyncCallbackFn {
 
     void apply(
-            java.lang.foreign.MemoryAddress user_data,
-            java.lang.foreign.MemoryAddress outputs,
+            java.lang.foreign.MemorySegment user_data,
+            java.lang.foreign.MemorySegment outputs,
             long num_outputs,
-            java.lang.foreign.MemoryAddress status);
+            java.lang.foreign.MemorySegment status);
 
-    static MemorySegment allocate(RunAsyncCallbackFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(RunAsyncCallbackFn.class, fi, constants$1.RunAsyncCallbackFn$FUNC, session);
+    static MemorySegment allocate(RunAsyncCallbackFn fi, Arena scope) {
+        return RuntimeHelper.upcallStub(constants$16.const$0, fi, constants$15.const$5, scope);
     }
 
-    static RunAsyncCallbackFn ofAddress(MemoryAddress addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-        return (java.lang.foreign.MemoryAddress _user_data,
-                java.lang.foreign.MemoryAddress _outputs,
+    static RunAsyncCallbackFn ofAddress(MemorySegment addr, Arena arena) {
+        MemorySegment symbol = addr.reinterpret(arena, null);
+        return (java.lang.foreign.MemorySegment _user_data,
+                java.lang.foreign.MemorySegment _outputs,
                 long _num_outputs,
-                java.lang.foreign.MemoryAddress _status) -> {
+                java.lang.foreign.MemorySegment _status) -> {
             try {
-                constants$2.RunAsyncCallbackFn$MH.invokeExact(
-                        (Addressable) symbol,
-                        (java.lang.foreign.Addressable) _user_data,
-                        (java.lang.foreign.Addressable) _outputs,
-                        _num_outputs,
-                        (java.lang.foreign.Addressable) _status);
+                constants$16.const$1.invokeExact(symbol, _user_data, _outputs, _num_outputs, _status);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }

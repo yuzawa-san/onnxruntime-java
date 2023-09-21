@@ -8,28 +8,25 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.VarHandle;
 
 final class constants$0 {
 
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$0() {}
 
-    static final FunctionDescriptor OrtLoggingFunction$FUNC = FunctionDescriptor.ofVoid(
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_INT$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle OrtLoggingFunction$MH = RuntimeHelper.downcallHandle(constants$0.OrtLoggingFunction$FUNC);
-    static final FunctionDescriptor OrtGetApiBase$FUNC = FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle OrtGetApiBase$MH =
-            RuntimeHelper.downcallHandle("OrtGetApiBase", constants$0.OrtGetApiBase$FUNC);
-    static final FunctionDescriptor OrtThreadWorkerFn$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle OrtThreadWorkerFn$MH = RuntimeHelper.downcallHandle(constants$0.OrtThreadWorkerFn$FUNC);
-    static final FunctionDescriptor OrtCustomCreateThreadFn$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT);
+    static final StructLayout const$0 = MemoryLayout.structLayout(
+                    JAVA_INT.withName("version"),
+                    MemoryLayout.paddingLayout(4),
+                    RuntimeHelper.POINTER.withName("Alloc"),
+                    RuntimeHelper.POINTER.withName("Free"),
+                    RuntimeHelper.POINTER.withName("Info"))
+            .withName("OrtAllocator");
+    static final VarHandle const$1 = constants$0.const$0.varHandle(MemoryLayout.PathElement.groupElement("version"));
+    static final FunctionDescriptor const$2 =
+            FunctionDescriptor.of(RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_LONG);
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtAllocator.Alloc.class, "apply", constants$0.const$2);
+    static final MethodHandle const$4 = RuntimeHelper.downcallHandle(constants$0.const$2);
+    static final VarHandle const$5 = constants$0.const$0.varHandle(MemoryLayout.PathElement.groupElement("Alloc"));
 }

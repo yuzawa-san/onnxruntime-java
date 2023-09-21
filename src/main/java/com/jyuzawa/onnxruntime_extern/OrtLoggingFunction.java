@@ -23,12 +23,12 @@ public interface OrtLoggingFunction {
             java.lang.foreign.MemorySegment code_location,
             java.lang.foreign.MemorySegment message);
 
-    static MemorySegment allocate(OrtLoggingFunction fi, SegmentScope scope) {
-        return RuntimeHelper.upcallStub(OrtLoggingFunction.class, fi, constants$0.OrtLoggingFunction$FUNC, scope);
+    static MemorySegment allocate(OrtLoggingFunction fi, Arena scope) {
+        return RuntimeHelper.upcallStub(constants$2.const$3, fi, constants$2.const$2, scope);
     }
 
-    static OrtLoggingFunction ofAddress(MemorySegment addr, SegmentScope scope) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
+    static OrtLoggingFunction ofAddress(MemorySegment addr, Arena arena) {
+        MemorySegment symbol = addr.reinterpret(arena, null);
         return (java.lang.foreign.MemorySegment _param,
                 int _severity,
                 java.lang.foreign.MemorySegment _category,
@@ -36,8 +36,7 @@ public interface OrtLoggingFunction {
                 java.lang.foreign.MemorySegment _code_location,
                 java.lang.foreign.MemorySegment _message) -> {
             try {
-                constants$0.OrtLoggingFunction$MH.invokeExact(
-                        symbol, _param, _severity, _category, _logid, _code_location, _message);
+                constants$2.const$4.invokeExact(symbol, _param, _severity, _category, _logid, _code_location, _message);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }

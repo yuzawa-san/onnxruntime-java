@@ -8,30 +8,19 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.VarHandle;
 
 final class constants$1 {
 
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$1() {}
 
-    static final FunctionDescriptor OrtCustomCreateThreadFn$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle OrtCustomCreateThreadFn$MH =
-            RuntimeHelper.downcallHandle(constants$1.OrtCustomCreateThreadFn$FUNC);
-    static final FunctionDescriptor OrtCustomJoinThreadFn$FUNC =
-            FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle OrtCustomJoinThreadFn$MH =
-            RuntimeHelper.downcallHandle(constants$1.OrtCustomJoinThreadFn$FUNC);
-    static final FunctionDescriptor RegisterCustomOpsFn$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle RegisterCustomOpsFn$MH =
-            RuntimeHelper.downcallHandle(constants$1.RegisterCustomOpsFn$FUNC);
-    static final FunctionDescriptor RunAsyncCallbackFn$FUNC = FunctionDescriptor.ofVoid(
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_LONG_LONG$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT);
+    static final FunctionDescriptor const$0 = FunctionDescriptor.ofVoid(RuntimeHelper.POINTER, RuntimeHelper.POINTER);
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtAllocator.Free.class, "apply", constants$1.const$0);
+    static final MethodHandle const$2 = RuntimeHelper.downcallHandle(constants$1.const$0);
+    static final VarHandle const$3 = constants$0.const$0.varHandle(MemoryLayout.PathElement.groupElement("Free"));
+    static final FunctionDescriptor const$4 = FunctionDescriptor.of(RuntimeHelper.POINTER, RuntimeHelper.POINTER);
+    static final MethodHandle const$5 =
+            RuntimeHelper.upcallHandle(OrtAllocator.Info.class, "apply", constants$1.const$4);
 }

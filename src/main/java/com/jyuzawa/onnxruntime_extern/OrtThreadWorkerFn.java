@@ -17,15 +17,15 @@ public interface OrtThreadWorkerFn {
 
     void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-    static MemorySegment allocate(OrtThreadWorkerFn fi, SegmentScope scope) {
-        return RuntimeHelper.upcallStub(OrtThreadWorkerFn.class, fi, constants$0.OrtThreadWorkerFn$FUNC, scope);
+    static MemorySegment allocate(OrtThreadWorkerFn fi, Arena scope) {
+        return RuntimeHelper.upcallStub(constants$14.const$0, fi, constants$13.const$5, scope);
     }
 
-    static OrtThreadWorkerFn ofAddress(MemorySegment addr, SegmentScope scope) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr.address(), 0, scope);
+    static OrtThreadWorkerFn ofAddress(MemorySegment addr, Arena arena) {
+        MemorySegment symbol = addr.reinterpret(arena, null);
         return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
             try {
-                constants$0.OrtThreadWorkerFn$MH.invokeExact(symbol, _ort_custom_thread_handle);
+                constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
