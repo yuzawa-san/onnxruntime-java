@@ -23,7 +23,7 @@ public class onnxruntime_all_h {
     public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
 
     public static int ORT_API_VERSION() {
-        return (int) 15L;
+        return (int) 16L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
@@ -92,6 +92,22 @@ public class onnxruntime_all_h {
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_BFLOAT16() {
         return (int) 16L;
+    }
+
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FN() {
+        return (int) 17L;
+    }
+
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FNUZ() {
+        return (int) 18L;
+    }
+
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2() {
+        return (int) 19L;
+    }
+
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2FNUZ() {
+        return (int) 20L;
     }
 
     public static int ONNX_TYPE_UNKNOWN() {
@@ -385,12 +401,27 @@ public class onnxruntime_all_h {
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH() {
         return RuntimeHelper.requireNonNull(
-                constants$1.OrtSessionOptionsAppendExecutionProvider_CUDA$MH,
+                constants$2.OrtSessionOptionsAppendExecutionProvider_CUDA$MH,
                 "OrtSessionOptionsAppendExecutionProvider_CUDA");
     }
 
     public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_CUDA(Addressable options, int device_id) {
         var mh$ = OrtSessionOptionsAppendExecutionProvider_CUDA$MH();
+        try {
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, device_id);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_ROCM$MH() {
+        return RuntimeHelper.requireNonNull(
+                constants$2.OrtSessionOptionsAppendExecutionProvider_ROCM$MH,
+                "OrtSessionOptionsAppendExecutionProvider_ROCM");
+    }
+
+    public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_ROCM(Addressable options, int device_id) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_ROCM$MH();
         try {
             return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, device_id);
         } catch (Throwable ex$) {
@@ -444,8 +475,12 @@ public class onnxruntime_all_h {
         return (int) 4L;
     }
 
+    public static int COREML_FLAG_ONLY_ALLOW_STATIC_INPUT_SHAPES() {
+        return (int) 8L;
+    }
+
     public static int COREML_FLAG_LAST() {
-        return (int) 4L;
+        return (int) 8L;
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH() {
@@ -464,6 +499,6 @@ public class onnxruntime_all_h {
     }
 
     public static MemorySegment ORT_FILE() {
-        return constants$2.ORT_FILE$SEGMENT;
+        return constants$3.ORT_FILE$SEGMENT;
     }
 }

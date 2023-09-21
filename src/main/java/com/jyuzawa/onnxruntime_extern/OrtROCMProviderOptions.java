@@ -22,7 +22,9 @@ public class OrtROCMProviderOptions {
                     Constants$root.C_POINTER$LAYOUT.withName("user_compute_stream"),
                     Constants$root.C_POINTER$LAYOUT.withName("default_memory_arena_cfg"),
                     Constants$root.C_INT$LAYOUT.withName("tunable_op_enable"),
-                    Constants$root.C_INT$LAYOUT.withName("tunable_op_tuning_enable"))
+                    Constants$root.C_INT$LAYOUT.withName("tunable_op_tuning_enable"),
+                    Constants$root.C_INT$LAYOUT.withName("tunable_op_max_tuning_duration_ms"),
+                    MemoryLayout.paddingLayout(32))
             .withName("OrtROCMProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
@@ -258,6 +260,29 @@ public class OrtROCMProviderOptions {
 
     public static void tunable_op_tuning_enable$set(MemorySegment seg, long index, int x) {
         OrtROCMProviderOptions.tunable_op_tuning_enable$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle tunable_op_max_tuning_duration_ms$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("tunable_op_max_tuning_duration_ms"));
+
+    public static VarHandle tunable_op_max_tuning_duration_ms$VH() {
+        return OrtROCMProviderOptions.tunable_op_max_tuning_duration_ms$VH;
+    }
+
+    public static int tunable_op_max_tuning_duration_ms$get(MemorySegment seg) {
+        return (int) OrtROCMProviderOptions.tunable_op_max_tuning_duration_ms$VH.get(seg);
+    }
+
+    public static void tunable_op_max_tuning_duration_ms$set(MemorySegment seg, int x) {
+        OrtROCMProviderOptions.tunable_op_max_tuning_duration_ms$VH.set(seg, x);
+    }
+
+    public static int tunable_op_max_tuning_duration_ms$get(MemorySegment seg, long index) {
+        return (int) OrtROCMProviderOptions.tunable_op_max_tuning_duration_ms$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void tunable_op_max_tuning_duration_ms$set(MemorySegment seg, long index, int x) {
+        OrtROCMProviderOptions.tunable_op_max_tuning_duration_ms$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {

@@ -11,6 +11,22 @@ import java.lang.invoke.MethodHandle;
 
 class constants$2 {
 
+    static final FunctionDescriptor RunAsyncCallbackFn$FUNC = FunctionDescriptor.ofVoid(
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT,
+            Constants$root.C_LONG_LONG$LAYOUT,
+            Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle RunAsyncCallbackFn$MH = RuntimeHelper.downcallHandle(constants$2.RunAsyncCallbackFn$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
+    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH = RuntimeHelper.downcallHandle(
+            "OrtSessionOptionsAppendExecutionProvider_CUDA",
+            constants$2.OrtSessionOptionsAppendExecutionProvider_CUDA$FUNC);
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_ROCM$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
+    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_ROCM$MH = RuntimeHelper.downcallHandle(
+            "OrtSessionOptionsAppendExecutionProvider_ROCM",
+            constants$2.OrtSessionOptionsAppendExecutionProvider_ROCM$FUNC);
     static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_MIGraphX$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH = RuntimeHelper.downcallHandle(
@@ -26,6 +42,4 @@ class constants$2 {
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH = RuntimeHelper.downcallHandle(
             "OrtSessionOptionsAppendExecutionProvider_CoreML",
             constants$2.OrtSessionOptionsAppendExecutionProvider_CoreML$FUNC);
-    static final MemorySegment ORT_FILE$SEGMENT =
-            RuntimeHelper.CONSTANT_ALLOCATOR.allocateUtf8String("/tmp/jextract$6461729276767156453.h");
 }

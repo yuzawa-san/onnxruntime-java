@@ -29,6 +29,10 @@ final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
         // TODO: default_memory_arena_cfg
         copyInteger("tunable_op_enable", config, OrtROCMProviderOptions::tunable_op_enable$set);
         copyInteger("tunable_op_tuning_enable", config, OrtROCMProviderOptions::tunable_op_tuning_enable$set);
+        copyInteger(
+                "tunable_op_max_tuning_duration_ms",
+                config,
+                OrtROCMProviderOptions::tunable_op_max_tuning_duration_ms$set);
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_ROCM.apply(sessionOptions, config.address()));
     }
 }
