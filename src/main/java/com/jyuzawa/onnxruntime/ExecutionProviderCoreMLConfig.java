@@ -29,6 +29,9 @@ final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
         if (TRUE_VALUE.equals(properties.get("device_with_ane"))) {
             flags |= onnxruntime_all_h.COREML_FLAG_ONLY_ENABLE_DEVICE_WITH_ANE();
         }
+        if (TRUE_VALUE.equals(properties.get("allow_static_input_shapes"))) {
+            flags |= onnxruntime_all_h.COREML_FLAG_ONLY_ALLOW_STATIC_INPUT_SHAPES();
+        }
         try {
             api.checkStatus(onnxruntime_all_h.OrtSessionOptionsAppendExecutionProvider_CoreML(sessionOptions, flags));
         } catch (UnsatisfiedLinkError e) {
