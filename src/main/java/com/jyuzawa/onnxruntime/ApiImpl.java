@@ -42,6 +42,7 @@ final class ApiImpl implements Api {
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
     final CreateRunOptions CreateRunOptions;
+    final CreateSession CreateSession;
     final CreateSessionFromArray CreateSessionFromArray;
     final CreateSessionOptions CreateSessionOptions;
     final CreateTensorAsOrtValue CreateTensorAsOrtValue;
@@ -86,7 +87,7 @@ final class ApiImpl implements Api {
     final ModelMetadataGetVersion ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap;
     final RegisterAllocator RegisterAllocator;
-    final RegisterCustomOpsLibrary RegisterCustomOpsLibrary;
+    final RegisterCustomOpsLibrary_V2 RegisterCustomOpsLibrary_V2;
     final ReleaseAllocator ReleaseAllocator;
     final ReleaseAvailableProviders ReleaseAvailableProviders;
     final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
@@ -166,6 +167,7 @@ final class ApiImpl implements Api {
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
                 OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(memorySegment, memorySession);
         this.CreateRunOptions = OrtApi.CreateRunOptions(memorySegment, memorySession);
+        this.CreateSession = OrtApi.CreateSession(memorySegment, memorySession);
         this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(memorySegment, memorySession);
         this.CreateSessionOptions = OrtApi.CreateSessionOptions(memorySegment, memorySession);
         this.CreateTensorAsOrtValue = OrtApi.CreateTensorAsOrtValue(memorySegment, memorySession);
@@ -212,7 +214,7 @@ final class ApiImpl implements Api {
         this.ModelMetadataLookupCustomMetadataMap =
                 OrtApi.ModelMetadataLookupCustomMetadataMap(memorySegment, memorySession);
         this.RegisterAllocator = OrtApi.RegisterAllocator(memorySegment, memorySession);
-        this.RegisterCustomOpsLibrary = OrtApi.RegisterCustomOpsLibrary(memorySegment, memorySession);
+        this.RegisterCustomOpsLibrary_V2 = OrtApi.RegisterCustomOpsLibrary_V2(memorySegment, memorySession);
         this.ReleaseAllocator = OrtApi.ReleaseAllocator(memorySegment, memorySession);
         this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(memorySegment, memorySession);
         this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(memorySegment, memorySession);

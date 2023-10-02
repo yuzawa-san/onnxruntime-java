@@ -5,27 +5,18 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Addressable;
-import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.Linker;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SymbolLookup;
-import java.lang.invoke.MethodHandle;
 import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -36,6 +27,8 @@ import java.util.Map;
 final class SessionImpl extends ManagedImpl implements Session {
 
     private static final Logger LOG = System.getLogger(SessionImpl.class.getName());
+    private static final boolean IS_WINDOWS =
+            System.getProperty("os.name").toLowerCase().contains("windows");
 
     private final MemoryAddress address;
     private final NamedCollection<NodeInfoImpl> overridableInitializers;
@@ -50,40 +43,38 @@ final class SessionImpl extends ManagedImpl implements Session {
         try (MemorySession tempMemorySession = MemorySession.openConfined()) {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
+            MemoryAddress sessionOptions = builder.newSessionOptions(tempMemorySession);
 
             final MemorySegment mappedBuf;
             ByteBuffer buffer = builder.buffer;
             byte[] bytes = builder.bytes;
             Path path = builder.path;
-            if (buffer != null) {
-                if (buffer.isDirect()) {
-                    mappedBuf = MemorySegment.ofBuffer(buffer);
-
-                } else {
-                    mappedBuf = tempMemorySession.allocateArray(C_CHAR, buffer.remaining());
-                    mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
-                }
-            } else if (bytes != null) {
-                mappedBuf = tempMemorySession.allocateArray(C_CHAR, bytes);
-            } else if (path != null) {
+            if (path != null) {
                 LOG.log(Level.DEBUG, "Loading session from " + path);
-                try (RandomAccessFile file =
-                        new RandomAccessFile(path.toAbsolutePath().toFile(), "r")) {
-                    FileChannel fileChannel = file.getChannel();
-                    long size = fileChannel.size();
-                    MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, size);
-                    mappedBuf = MemorySegment.ofBuffer(mappedByteBuffer);
-                }
+                this.address = api.create(
+                        memorySession,
+                        out -> api.CreateSession.apply(
+                                environment.address(), createPath(tempMemorySession, path), sessionOptions, out));
             } else {
-                throw new IllegalArgumentException("missing model source");
+                if (buffer != null) {
+                    if (buffer.isDirect()) {
+                        mappedBuf = MemorySegment.ofBuffer(buffer);
+
+                    } else {
+                        mappedBuf = tempMemorySession.allocateArray(C_CHAR, buffer.remaining());
+                        mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
+                    }
+                } else if (bytes != null) {
+                    mappedBuf = tempMemorySession.allocateArray(C_CHAR, bytes);
+                } else {
+                    throw new IllegalArgumentException("missing model source");
+                }
+                this.address = api.create(
+                        memorySession,
+                        out -> api.CreateSessionFromArray.apply(
+                                environment.address(), mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
             }
 
-            MemoryAddress sessionOptions = builder.newSessionOptions(tempMemorySession);
-
-            this.address = api.create(
-                    memorySession,
-                    out -> api.CreateSessionFromArray.apply(
-                            environment.address(), mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
             memorySession.addCloseAction(() -> api.ReleaseSession.apply(address));
 
             this.overridableInitializers = createMap(
@@ -115,6 +106,21 @@ final class SessionImpl extends ManagedImpl implements Session {
                     api.SessionGetOutputTypeInfo::apply);
             this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, address, ortAllocator);
         }
+    }
+
+    private static final MemoryAddress createPath(SegmentAllocator segmentAllocator, Path path) {
+        String pathString = path.toAbsolutePath().toString();
+        if (IS_WINDOWS) {
+            // treat segment as wchar_t
+            byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
+            MemorySegment addr = segmentAllocator.allocate(bytes.length + 2);
+            MemorySegment heapSegment = MemorySegment.ofArray(bytes);
+            addr.copyFrom(heapSegment);
+            addr.set(JAVA_BYTE, bytes.length, (byte) 0);
+            addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
+            return addr.address();
+        }
+        return segmentAllocator.allocateUtf8String(pathString).address();
     }
 
     @Override
@@ -203,22 +209,6 @@ final class SessionImpl extends ManagedImpl implements Session {
     }
 
     static final class Builder implements Session.Builder {
-
-        private static final boolean IS_WINDOWS =
-                System.getProperty("os.name").toLowerCase().contains("windows");
-        private static final MethodHandle CLOSE_LIBRARY;
-
-        static {
-            Addressable symbol;
-            if (IS_WINDOWS) {
-                System.loadLibrary("Kernel32");
-                symbol = SymbolLookup.loaderLookup().lookup("FreeLibrary").get();
-            } else {
-                symbol = SymbolLookup.loaderLookup().lookup("dlclose").get();
-            }
-            CLOSE_LIBRARY = Linker.nativeLinker().downcallHandle(symbol, FunctionDescriptor.of(C_INT, C_POINTER));
-        }
-
         private final ApiImpl api;
         private final EnvironmentImpl environment;
         private Path path;
@@ -410,44 +400,10 @@ final class SessionImpl extends ManagedImpl implements Session {
             }
             for (Path customOpsLibrary : customOpsLibraries) {
                 LOG.log(Level.DEBUG, "Adding custom op library: " + customOpsLibrary);
-                MemoryAddress libraryHandle = api.create(
-                        memorySession,
-                        out -> api.RegisterCustomOpsLibrary.apply(
-                                sessionOptions,
-                                memorySession
-                                        .allocateUtf8String(customOpsLibrary
-                                                .toAbsolutePath()
-                                                .toString())
-                                        .address(),
-                                out));
-                memorySession.addCloseAction(() -> {
-                    closeLibrary(libraryHandle);
-                });
+                api.checkStatus(api.RegisterCustomOpsLibrary_V2.apply(
+                        sessionOptions, createPath(memorySession, customOpsLibrary)));
             }
             return sessionOptions;
-        }
-
-        private static int closeLibrary(Addressable libraryHandler) {
-            try {
-                return (int) CLOSE_LIBRARY.invokeExact(libraryHandler);
-            } catch (Throwable ex) {
-                throw new AssertionError("should not reach here", ex);
-            }
-        }
-
-        private static final MemoryAddress createPath(SegmentAllocator segmentAllocator, Path path) {
-            String pathString = path.toAbsolutePath().toString();
-            if (IS_WINDOWS) {
-                // treat segment as wchar_t
-                byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
-                MemorySegment addr = segmentAllocator.allocate(bytes.length + 2);
-                MemorySegment heapSegment = MemorySegment.ofArray(bytes);
-                addr.copyFrom(heapSegment);
-                addr.set(JAVA_BYTE, bytes.length, (byte) 0);
-                addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
-                return addr.address();
-            }
-            return segmentAllocator.allocateUtf8String(pathString).address();
         }
 
         @Override
