@@ -42,6 +42,7 @@ final class ApiImpl implements Api {
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
     final CreateRunOptions CreateRunOptions;
+    final CreateSession CreateSession;
     final CreateSessionFromArray CreateSessionFromArray;
     final CreateSessionOptions CreateSessionOptions;
     final CreateTensorAsOrtValue CreateTensorAsOrtValue;
@@ -166,6 +167,7 @@ final class ApiImpl implements Api {
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
                 OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(memorySegment, memorySession);
         this.CreateRunOptions = OrtApi.CreateRunOptions(memorySegment, memorySession);
+        this.CreateSession = OrtApi.CreateSession(memorySegment, memorySession);
         this.CreateSessionFromArray = OrtApi.CreateSessionFromArray(memorySegment, memorySession);
         this.CreateSessionOptions = OrtApi.CreateSessionOptions(memorySegment, memorySession);
         this.CreateTensorAsOrtValue = OrtApi.CreateTensorAsOrtValue(memorySegment, memorySession);
