@@ -87,7 +87,7 @@ final class ApiImpl implements Api {
     final ModelMetadataGetVersion ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap;
     final RegisterAllocator RegisterAllocator;
-    final RegisterCustomOpsLibrary RegisterCustomOpsLibrary;
+    final RegisterCustomOpsLibrary_V2 RegisterCustomOpsLibrary_V2;
     final ReleaseAllocator ReleaseAllocator;
     final ReleaseAvailableProviders ReleaseAvailableProviders;
     final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
@@ -214,7 +214,7 @@ final class ApiImpl implements Api {
         this.ModelMetadataLookupCustomMetadataMap =
                 OrtApi.ModelMetadataLookupCustomMetadataMap(memorySegment, memorySession);
         this.RegisterAllocator = OrtApi.RegisterAllocator(memorySegment, memorySession);
-        this.RegisterCustomOpsLibrary = OrtApi.RegisterCustomOpsLibrary(memorySegment, memorySession);
+        this.RegisterCustomOpsLibrary_V2 = OrtApi.RegisterCustomOpsLibrary_V2(memorySegment, memorySession);
         this.ReleaseAllocator = OrtApi.ReleaseAllocator(memorySegment, memorySession);
         this.ReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(memorySegment, memorySession);
         this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(memorySegment, memorySession);

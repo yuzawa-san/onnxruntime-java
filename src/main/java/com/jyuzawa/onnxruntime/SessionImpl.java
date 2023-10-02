@@ -5,23 +5,17 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Addressable;
-import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.Linker;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SymbolLookup;
-import java.lang.invoke.MethodHandle;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -215,20 +209,6 @@ final class SessionImpl extends ManagedImpl implements Session {
     }
 
     static final class Builder implements Session.Builder {
-
-        private static final MethodHandle CLOSE_LIBRARY;
-
-        static {
-            Addressable symbol;
-            if (IS_WINDOWS) {
-                System.loadLibrary("Kernel32");
-                symbol = SymbolLookup.loaderLookup().lookup("FreeLibrary").get();
-            } else {
-                symbol = SymbolLookup.loaderLookup().lookup("dlclose").get();
-            }
-            CLOSE_LIBRARY = Linker.nativeLinker().downcallHandle(symbol, FunctionDescriptor.of(C_INT, C_POINTER));
-        }
-
         private final ApiImpl api;
         private final EnvironmentImpl environment;
         private Path path;
@@ -420,29 +400,10 @@ final class SessionImpl extends ManagedImpl implements Session {
             }
             for (Path customOpsLibrary : customOpsLibraries) {
                 LOG.log(Level.DEBUG, "Adding custom op library: " + customOpsLibrary);
-                MemoryAddress libraryHandle = api.create(
-                        memorySession,
-                        out -> api.RegisterCustomOpsLibrary.apply(
-                                sessionOptions,
-                                memorySession
-                                        .allocateUtf8String(customOpsLibrary
-                                                .toAbsolutePath()
-                                                .toString())
-                                        .address(),
-                                out));
-                memorySession.addCloseAction(() -> {
-                    closeLibrary(libraryHandle);
-                });
+                api.checkStatus(api.RegisterCustomOpsLibrary_V2.apply(
+                        sessionOptions, createPath(memorySession, customOpsLibrary)));
             }
             return sessionOptions;
-        }
-
-        private static int closeLibrary(Addressable libraryHandler) {
-            try {
-                return (int) CLOSE_LIBRARY.invokeExact(libraryHandler);
-            } catch (Throwable ex) {
-                throw new AssertionError("should not reach here", ex);
-            }
         }
 
         @Override
