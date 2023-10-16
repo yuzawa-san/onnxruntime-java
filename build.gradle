@@ -338,7 +338,7 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testImplementation project(':onnx')
-	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.20.0'
+	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.21.0'
 	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.20.0'
 }
 
