@@ -4,12 +4,12 @@ plugins {
 apply plugin: "java-library"
 
 dependencies {
-	api 'com.google.protobuf:protobuf-java:3.24.3'
+	api 'com.google.protobuf:protobuf-java:3.25.1'
 }
 
 protobuf {
 	protoc {
-		artifact = "com.google.protobuf:protoc:3.24.3"
+		artifact = "com.google.protobuf:protoc:3.25.1"
 	}
 	generateProtoTasks {
 		ofSourceSet('main')
