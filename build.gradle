@@ -5,7 +5,7 @@ plugins {
 	id 'signing'
 	id 'eclipse'
 	id 'idea'
-	//id 'jacoco'
+	id 'jacoco'
 	id "com.github.jakemarsden.git-hooks" version "0.0.2"
 	id 'net.researchgate.release' version '3.0.2'
 	id 'me.champeau.gradle.japicmp' version '0.4.2'
@@ -25,12 +25,10 @@ release {
 allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
-	sourceCompatibility = targetCompatibility = 20
 	java {
-		sourceCompatibility = targetCompatibility = 19
-	}
-	tasks.withType(JavaCompile) {
-		options.compilerArgs += "--enable-preview"
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(22)
+		}
 	}
 	repositories {
 		mavenCentral()
@@ -68,11 +66,7 @@ allprojects {
 gitHooks {
 	hooks = ['pre-push': 'spotlessCheck']
 }
-/*
-// TODO: use a real version that supports java 20
-jacoco {
-	toolVersion = "0.8.9.202303220432"
-}
+
 jacocoTestReport {
 	reports {
 		xml.required = true
@@ -84,7 +78,6 @@ jacocoTestReport {
 		}))
 	}
 }
-*/
 
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
@@ -371,8 +364,7 @@ java {
 javadoc {
 }
 javadoc.options {
-	addBooleanOption('-enable-preview', true)
-	addStringOption('-release', '20')
+	addStringOption('-release', '22')
 }
 
 def moduleName = "com.jyuzawa.onnxruntime"
@@ -399,6 +391,6 @@ tasks.named('compileJava') {
 
 test {
 	useJUnitPlatform()
-	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
-	//finalizedBy jacocoTestReport
+	jvmArgs '--enable-native-access=ALL-UNNAMED'
+	finalizedBy jacocoTestReport
 }
