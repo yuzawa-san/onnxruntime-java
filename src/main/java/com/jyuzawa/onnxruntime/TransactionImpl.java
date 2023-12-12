@@ -26,7 +26,7 @@ final class TransactionImpl implements Transaction {
     private final ValueContext valueContext;
 
     TransactionImpl(Builder builder) {
-        this.memorySession = Arena.openConfined();
+        this.memorySession = Arena.ofConfined();
         this.allocator = memorySession;
         this.builder = builder;
         this.inputs = new ArrayList<>(builder.session.inputs.size());

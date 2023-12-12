@@ -21,8 +21,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     final MemorySegment ortAllocator;
 
     EnvironmentImpl(Builder builder) {
-        super(builder.api, Arena.openShared());
-        try (Arena temporarySession = Arena.openConfined()) {
+        super(builder.api, Arena.ofShared());
+        try (Arena temporarySession = Arena.ofConfined()) {
             MemorySegment logName = temporarySession.allocateUtf8String(builder.logId);
             if (builder.useThreadingOptions) {
                 MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
@@ -67,9 +67,9 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                     valueArray.setAtIndex(C_LONG, i, entry.getValue());
                     i++;
                 }
-                MemoryAddress arenaConfigAddress = api.create(
+                MemorySegment arenaConfigAddress = api.create(
                         temporarySession,
-                        out -> api.CreateArenaCfgV2.apply(keyArray.address(), valueArray.address(), size, out));
+                        out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
                 api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
             }
         }
@@ -159,7 +159,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             return this;
         }
 
-        public Builder setArenaConfig(Map<String, Long> config) {
+        @Override
+		public Builder setArenaConfig(Map<String, Long> config) {
             this.arenaConfig = config;
             return this;
         }

@@ -30,7 +30,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
             ApiImpl api = valueContext.api();
             MemorySegment floatOutput =
                     api.create(segmentAllocator, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
-            this.memorySegment = MemorySegment.ofAddress(floatOutput.address(), tensorInfo.getByteCount());
+            this.memorySegment = floatOutput.reinterpret(tensorInfo.getByteCount());
         }
         this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
     }

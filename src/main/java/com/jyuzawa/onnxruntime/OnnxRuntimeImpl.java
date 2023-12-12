@@ -10,9 +10,8 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
 import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentScope;
 
 // NOTE: this class actually is more like OrtApiBase
 enum OnnxRuntimeImpl implements OnnxRuntime {
@@ -24,18 +23,18 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private OnnxRuntimeImpl() {
         Loader.load();
-        SegmentScope scope = SegmentScope.global();
-        MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase().address(), OrtApiBase.sizeof(), scope);
+        Arena scope = Arena.global();
+        MemorySegment segment = OrtGetApiBase().reinterpret(OrtApiBase.sizeof());
         this.ortApiVersion = ORT_API_VERSION();
-        MemoryAddress apiAddress =
-                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
-        if (apiAddress == MemoryAddress.NULL) {
+        MemorySegment apiAddress =
+                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion);
+        if (MemorySegment.NULL.equals(apiAddress)) {
             throw new UnsatisfiedLinkError(
                     "Onnxruntime native library present, but does not provide API version " + ortApiVersion);
         }
         this.version = OrtApiBase.GetVersionString(segment, scope).apply().getUtf8String(0);
-        MemorySegment apiAddress = OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION());
-        this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress.address(), OrtApi.sizeof(), scope));
+        MemorySegment apiSegment = OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION());
+        this.api = new ApiImpl(apiSegment.reinterpret(OrtApi.sizeof()));
         System.getLogger(OnnxRuntimeImpl.class.getName())
                 .log(
                         Level.DEBUG,

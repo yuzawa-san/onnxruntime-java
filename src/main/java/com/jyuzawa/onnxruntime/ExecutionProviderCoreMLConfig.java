@@ -5,8 +5,9 @@
 package com.jyuzawa.onnxruntime;
 
 import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
+
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.Map;
 
 final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
@@ -18,7 +19,7 @@ final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    final void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
+    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         int flags = 0;
         if (TRUE_VALUE.equals(properties.get("use_cpu_only"))) {
             flags |= onnxruntime_all_h.COREML_FLAG_USE_CPU_ONLY();

@@ -26,7 +26,9 @@ allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
 	java {
-		sourceCompatibility = targetCompatibility = 19
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(21)
+		}
 	}
 	tasks.withType(JavaCompile) {
 		options.compilerArgs += "--enable-preview"

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.ByteBuffer;
@@ -36,14 +35,13 @@ final class SessionImpl extends ManagedImpl implements Session {
     final EnvironmentImpl environment;
     private final ModelMetadata modelMetadata;
     private final MemorySegment ortAllocator;
-    private final MemorySegment libraryHandle;
 
     SessionImpl(Builder builder) throws IOException {
-        super(builder.api, Arena.openShared());
-        try (Arena tempMemorySession = Arena.openConfined()) {
+        super(builder.api, Arena.ofShared());
+        try (Arena tempMemorySession = Arena.ofConfined()) {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
-            MemoryAddress sessionOptions = builder.newSessionOptions(tempMemorySession);
+             MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
 
             final MemorySegment mappedBuf;
             ByteBuffer buffer = builder.buffer;
@@ -69,21 +67,15 @@ final class SessionImpl extends ManagedImpl implements Session {
                 } else {
                     throw new IllegalArgumentException("missing model source");
                 }
-                this.address = api.create(
-                        memorySession,
-                        out -> api.CreateSessionFromArray.apply(
-                                environment.address(), mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
-            }
-
-            MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
-            this.libraryHandle = builder.libraryHandle;
-            try {
-                this.address = api.create(
-                        memorySession,
-                        out -> api.CreateSessionFromArray.apply(
-                                environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
-            } finally {
-                api.ReleaseSessionOptions.apply(sessionOptions);
+                MemorySegment newSessionOptions = builder.newSessionOptions(tempMemorySession);
+                try {
+                    this.address = api.create(
+                            memorySession,
+                            out -> api.CreateSessionFromArray.apply(
+                                    environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
+                } finally {
+                    api.ReleaseSessionOptions.apply(newSessionOptions);
+                }
             }
 
             this.overridableInitializers = createMap(
@@ -117,7 +109,7 @@ final class SessionImpl extends ManagedImpl implements Session {
         }
     }
 
-    private static final MemoryAddress createPath(SegmentAllocator segmentAllocator, Path path) {
+    private static final MemorySegment createPath(SegmentAllocator segmentAllocator, Path path) {
         String pathString = path.toAbsolutePath().toString();
         if (IS_WINDOWS) {
             // treat segment as wchar_t
@@ -127,9 +119,9 @@ final class SessionImpl extends ManagedImpl implements Session {
             addr.copyFrom(heapSegment);
             addr.set(JAVA_BYTE, bytes.length, (byte) 0);
             addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
-            return addr.address();
+            return addr;
         }
-        return segmentAllocator.allocateUtf8String(pathString).address();
+        return segmentAllocator.allocateUtf8String(pathString);
     }
 
     @Override
@@ -182,14 +174,14 @@ final class SessionImpl extends ManagedImpl implements Session {
 
     @Override
     public long getProfilingStartTimeInNs() {
-        try (Arena session = Arena.openConfined()) {
+        try (Arena session = Arena.ofConfined()) {
             return api.extractLong(session, out -> api.SessionGetProfilingStartTimeNs.apply(address, out));
         }
     }
 
     @Override
     public Path endProfiling() {
-        try (Arena session = Arena.openConfined()) {
+        try (Arena session = Arena.ofConfined()) {
             MemorySegment path = api.create(session, out -> api.SessionEndProfiling.apply(address, ortAllocator, out));
             return Path.of(path.getUtf8String(0));
         }

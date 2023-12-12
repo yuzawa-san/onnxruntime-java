@@ -15,7 +15,6 @@ import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
-import java.lang.foreign.SegmentScope;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
@@ -148,7 +147,7 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
-        SegmentScope memorySession = SegmentScope.global();
+        Arena memorySession = Arena.global();
         this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment, memorySession);
         this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment, memorySession);
         this.AllocatorFree = OrtApi.AllocatorFree(memorySegment, memorySession);
@@ -283,14 +282,14 @@ final class ApiImpl implements Api {
         this.UpdateDnnlProviderOptions = OrtApi.UpdateDnnlProviderOptions(memorySegment, memorySession);
         this.UpdateTensorRTProviderOptions = OrtApi.UpdateTensorRTProviderOptions(memorySegment, memorySession);
 
-        try (Arena session = Arena.openConfined()) {
+        try (Arena session = Arena.ofConfined()) {
             Set<ExecutionProvider> providers = EnumSet.noneOf(ExecutionProvider.class);
             MemorySegment pointer = session.allocate(C_POINTER);
             MemorySegment countPointer = session.allocate(C_INT);
             checkStatus(GetAvailableProviders.apply(pointer, countPointer));
             int numProviders = countPointer.getAtIndex(C_INT, 0);
-            MemorySegment providersArray = MemorySegment.ofAddress(
-                    pointer.getAtIndex(C_POINTER, 0).address(), numProviders * C_POINTER.byteSize(), memorySession);
+            MemorySegment providersArray = 
+                    pointer.getAtIndex(C_POINTER, 0).reinterpret(numProviders * C_POINTER.byteSize());
             for (int i = 0; i < numProviders; i++) {
                 MemorySegment providerAddress = providersArray.getAtIndex(C_POINTER, i);
                 String identifier = providerAddress.getUtf8String(0);
@@ -311,7 +310,7 @@ final class ApiImpl implements Api {
 
     @Override
     public String getBuildString() {
-        return GetBuildInfoString.apply().address().getUtf8String(0);
+        return GetBuildInfoString.apply().getUtf8String(0);
     }
 
     @Override
