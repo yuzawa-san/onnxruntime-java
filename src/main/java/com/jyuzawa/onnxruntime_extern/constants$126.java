@@ -22,6 +22,6 @@ final class constants$126 {
             RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_Dnnl", constants$23.const$1);
     static final MethodHandle const$3 =
             RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_CoreML", constants$23.const$1);
-    static final MemorySegment const$4 = RuntimeHelper.CONSTANT_ALLOCATOR.allocateFrom(
-            "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$14231167248673787848.h");
+    static final MemorySegment const$4 = RuntimeHelper.CONSTANT_ALLOCATOR.allocateUtf8String(
+            "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$4773181173038790813.h");
 }

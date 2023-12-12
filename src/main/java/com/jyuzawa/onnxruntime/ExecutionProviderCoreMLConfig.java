@@ -5,7 +5,6 @@
 package com.jyuzawa.onnxruntime;
 
 import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
-
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.Map;

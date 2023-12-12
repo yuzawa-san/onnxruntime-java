@@ -41,7 +41,7 @@ final class SessionImpl extends ManagedImpl implements Session {
         try (Arena tempMemorySession = Arena.ofConfined()) {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
-             MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
+            MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
 
             final MemorySegment mappedBuf;
             ByteBuffer buffer = builder.buffer;

@@ -68,8 +68,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                     i++;
                 }
                 MemorySegment arenaConfigAddress = api.create(
-                        temporarySession,
-                        out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
+                        temporarySession, out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
                 api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
             }
         }
@@ -160,7 +159,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         }
 
         @Override
-		public Builder setArenaConfig(Map<String, Long> config) {
+        public Builder setArenaConfig(Map<String, Long> config) {
             this.arenaConfig = config;
             return this;
         }

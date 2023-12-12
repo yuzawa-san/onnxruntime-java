@@ -49,7 +49,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int device_id$get(MemorySegment seg) {
-        return (int) constants$7.const$0.get(seg, 0L);
+        return (int) constants$7.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -58,15 +58,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void device_id$set(MemorySegment seg, int x) {
-        constants$7.const$0.set(seg, 0L, x);
+        constants$7.const$0.set(seg, x);
     }
 
     public static int device_id$get(MemorySegment seg, long index) {
-        return (int) constants$7.const$0.get(seg, index * sizeof());
+        return (int) constants$7.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void device_id$set(MemorySegment seg, long index, int x) {
-        constants$7.const$0.set(seg, index * sizeof(), x);
+        constants$7.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle has_user_compute_stream$VH() {
@@ -79,7 +79,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int has_user_compute_stream$get(MemorySegment seg) {
-        return (int) constants$7.const$1.get(seg, 0L);
+        return (int) constants$7.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -88,15 +88,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void has_user_compute_stream$set(MemorySegment seg, int x) {
-        constants$7.const$1.set(seg, 0L, x);
+        constants$7.const$1.set(seg, x);
     }
 
     public static int has_user_compute_stream$get(MemorySegment seg, long index) {
-        return (int) constants$7.const$1.get(seg, index * sizeof());
+        return (int) constants$7.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void has_user_compute_stream$set(MemorySegment seg, long index, int x) {
-        constants$7.const$1.set(seg, index * sizeof(), x);
+        constants$7.const$1.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle user_compute_stream$VH() {
@@ -109,7 +109,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static MemorySegment user_compute_stream$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$7.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$7.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -118,15 +118,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void user_compute_stream$set(MemorySegment seg, MemorySegment x) {
-        constants$7.const$2.set(seg, 0L, x);
+        constants$7.const$2.set(seg, x);
     }
 
     public static MemorySegment user_compute_stream$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$7.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$7.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void user_compute_stream$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$7.const$2.set(seg, index * sizeof(), x);
+        constants$7.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_max_partition_iterations$VH() {
@@ -139,7 +139,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_max_partition_iterations$get(MemorySegment seg) {
-        return (int) constants$7.const$3.get(seg, 0L);
+        return (int) constants$7.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -148,15 +148,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_max_partition_iterations$set(MemorySegment seg, int x) {
-        constants$7.const$3.set(seg, 0L, x);
+        constants$7.const$3.set(seg, x);
     }
 
     public static int trt_max_partition_iterations$get(MemorySegment seg, long index) {
-        return (int) constants$7.const$3.get(seg, index * sizeof());
+        return (int) constants$7.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_max_partition_iterations$set(MemorySegment seg, long index, int x) {
-        constants$7.const$3.set(seg, index * sizeof(), x);
+        constants$7.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_min_subgraph_size$VH() {
@@ -169,7 +169,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_min_subgraph_size$get(MemorySegment seg) {
-        return (int) constants$7.const$4.get(seg, 0L);
+        return (int) constants$7.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -178,15 +178,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_min_subgraph_size$set(MemorySegment seg, int x) {
-        constants$7.const$4.set(seg, 0L, x);
+        constants$7.const$4.set(seg, x);
     }
 
     public static int trt_min_subgraph_size$get(MemorySegment seg, long index) {
-        return (int) constants$7.const$4.get(seg, index * sizeof());
+        return (int) constants$7.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_min_subgraph_size$set(MemorySegment seg, long index, int x) {
-        constants$7.const$4.set(seg, index * sizeof(), x);
+        constants$7.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_max_workspace_size$VH() {
@@ -199,7 +199,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static long trt_max_workspace_size$get(MemorySegment seg) {
-        return (long) constants$7.const$5.get(seg, 0L);
+        return (long) constants$7.const$5.get(seg);
     }
     /**
      * Setter for field:
@@ -208,15 +208,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_max_workspace_size$set(MemorySegment seg, long x) {
-        constants$7.const$5.set(seg, 0L, x);
+        constants$7.const$5.set(seg, x);
     }
 
     public static long trt_max_workspace_size$get(MemorySegment seg, long index) {
-        return (long) constants$7.const$5.get(seg, index * sizeof());
+        return (long) constants$7.const$5.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_max_workspace_size$set(MemorySegment seg, long index, long x) {
-        constants$7.const$5.set(seg, index * sizeof(), x);
+        constants$7.const$5.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_fp16_enable$VH() {
@@ -229,7 +229,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_fp16_enable$get(MemorySegment seg) {
-        return (int) constants$8.const$0.get(seg, 0L);
+        return (int) constants$8.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -238,15 +238,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_fp16_enable$set(MemorySegment seg, int x) {
-        constants$8.const$0.set(seg, 0L, x);
+        constants$8.const$0.set(seg, x);
     }
 
     public static int trt_fp16_enable$get(MemorySegment seg, long index) {
-        return (int) constants$8.const$0.get(seg, index * sizeof());
+        return (int) constants$8.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_fp16_enable$set(MemorySegment seg, long index, int x) {
-        constants$8.const$0.set(seg, index * sizeof(), x);
+        constants$8.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_int8_enable$VH() {
@@ -259,7 +259,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_int8_enable$get(MemorySegment seg) {
-        return (int) constants$8.const$1.get(seg, 0L);
+        return (int) constants$8.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -268,15 +268,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_int8_enable$set(MemorySegment seg, int x) {
-        constants$8.const$1.set(seg, 0L, x);
+        constants$8.const$1.set(seg, x);
     }
 
     public static int trt_int8_enable$get(MemorySegment seg, long index) {
-        return (int) constants$8.const$1.get(seg, index * sizeof());
+        return (int) constants$8.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_int8_enable$set(MemorySegment seg, long index, int x) {
-        constants$8.const$1.set(seg, index * sizeof(), x);
+        constants$8.const$1.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_int8_calibration_table_name$VH() {
@@ -289,7 +289,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static MemorySegment trt_int8_calibration_table_name$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$8.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$8.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -298,15 +298,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_int8_calibration_table_name$set(MemorySegment seg, MemorySegment x) {
-        constants$8.const$2.set(seg, 0L, x);
+        constants$8.const$2.set(seg, x);
     }
 
     public static MemorySegment trt_int8_calibration_table_name$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$8.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$8.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_int8_calibration_table_name$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$8.const$2.set(seg, index * sizeof(), x);
+        constants$8.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_int8_use_native_calibration_table$VH() {
@@ -319,7 +319,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_int8_use_native_calibration_table$get(MemorySegment seg) {
-        return (int) constants$8.const$3.get(seg, 0L);
+        return (int) constants$8.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -328,15 +328,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_int8_use_native_calibration_table$set(MemorySegment seg, int x) {
-        constants$8.const$3.set(seg, 0L, x);
+        constants$8.const$3.set(seg, x);
     }
 
     public static int trt_int8_use_native_calibration_table$get(MemorySegment seg, long index) {
-        return (int) constants$8.const$3.get(seg, index * sizeof());
+        return (int) constants$8.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_int8_use_native_calibration_table$set(MemorySegment seg, long index, int x) {
-        constants$8.const$3.set(seg, index * sizeof(), x);
+        constants$8.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_dla_enable$VH() {
@@ -349,7 +349,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_dla_enable$get(MemorySegment seg) {
-        return (int) constants$8.const$4.get(seg, 0L);
+        return (int) constants$8.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -358,15 +358,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_dla_enable$set(MemorySegment seg, int x) {
-        constants$8.const$4.set(seg, 0L, x);
+        constants$8.const$4.set(seg, x);
     }
 
     public static int trt_dla_enable$get(MemorySegment seg, long index) {
-        return (int) constants$8.const$4.get(seg, index * sizeof());
+        return (int) constants$8.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_dla_enable$set(MemorySegment seg, long index, int x) {
-        constants$8.const$4.set(seg, index * sizeof(), x);
+        constants$8.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_dla_core$VH() {
@@ -379,7 +379,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_dla_core$get(MemorySegment seg) {
-        return (int) constants$8.const$5.get(seg, 0L);
+        return (int) constants$8.const$5.get(seg);
     }
     /**
      * Setter for field:
@@ -388,15 +388,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_dla_core$set(MemorySegment seg, int x) {
-        constants$8.const$5.set(seg, 0L, x);
+        constants$8.const$5.set(seg, x);
     }
 
     public static int trt_dla_core$get(MemorySegment seg, long index) {
-        return (int) constants$8.const$5.get(seg, index * sizeof());
+        return (int) constants$8.const$5.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_dla_core$set(MemorySegment seg, long index, int x) {
-        constants$8.const$5.set(seg, index * sizeof(), x);
+        constants$8.const$5.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_dump_subgraphs$VH() {
@@ -409,7 +409,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_dump_subgraphs$get(MemorySegment seg) {
-        return (int) constants$9.const$0.get(seg, 0L);
+        return (int) constants$9.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -418,15 +418,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_dump_subgraphs$set(MemorySegment seg, int x) {
-        constants$9.const$0.set(seg, 0L, x);
+        constants$9.const$0.set(seg, x);
     }
 
     public static int trt_dump_subgraphs$get(MemorySegment seg, long index) {
-        return (int) constants$9.const$0.get(seg, index * sizeof());
+        return (int) constants$9.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_dump_subgraphs$set(MemorySegment seg, long index, int x) {
-        constants$9.const$0.set(seg, index * sizeof(), x);
+        constants$9.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_engine_cache_enable$VH() {
@@ -439,7 +439,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_engine_cache_enable$get(MemorySegment seg) {
-        return (int) constants$9.const$1.get(seg, 0L);
+        return (int) constants$9.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -448,15 +448,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_engine_cache_enable$set(MemorySegment seg, int x) {
-        constants$9.const$1.set(seg, 0L, x);
+        constants$9.const$1.set(seg, x);
     }
 
     public static int trt_engine_cache_enable$get(MemorySegment seg, long index) {
-        return (int) constants$9.const$1.get(seg, index * sizeof());
+        return (int) constants$9.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_engine_cache_enable$set(MemorySegment seg, long index, int x) {
-        constants$9.const$1.set(seg, index * sizeof(), x);
+        constants$9.const$1.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_engine_cache_path$VH() {
@@ -469,7 +469,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static MemorySegment trt_engine_cache_path$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$9.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$9.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -478,15 +478,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_engine_cache_path$set(MemorySegment seg, MemorySegment x) {
-        constants$9.const$2.set(seg, 0L, x);
+        constants$9.const$2.set(seg, x);
     }
 
     public static MemorySegment trt_engine_cache_path$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$9.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$9.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_engine_cache_path$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$9.const$2.set(seg, index * sizeof(), x);
+        constants$9.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_engine_decryption_enable$VH() {
@@ -499,7 +499,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_engine_decryption_enable$get(MemorySegment seg) {
-        return (int) constants$9.const$3.get(seg, 0L);
+        return (int) constants$9.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -508,15 +508,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_engine_decryption_enable$set(MemorySegment seg, int x) {
-        constants$9.const$3.set(seg, 0L, x);
+        constants$9.const$3.set(seg, x);
     }
 
     public static int trt_engine_decryption_enable$get(MemorySegment seg, long index) {
-        return (int) constants$9.const$3.get(seg, index * sizeof());
+        return (int) constants$9.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_engine_decryption_enable$set(MemorySegment seg, long index, int x) {
-        constants$9.const$3.set(seg, index * sizeof(), x);
+        constants$9.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_engine_decryption_lib_path$VH() {
@@ -529,7 +529,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static MemorySegment trt_engine_decryption_lib_path$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$9.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$9.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -538,15 +538,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_engine_decryption_lib_path$set(MemorySegment seg, MemorySegment x) {
-        constants$9.const$4.set(seg, 0L, x);
+        constants$9.const$4.set(seg, x);
     }
 
     public static MemorySegment trt_engine_decryption_lib_path$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$9.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$9.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_engine_decryption_lib_path$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$9.const$4.set(seg, index * sizeof(), x);
+        constants$9.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle trt_force_sequential_engine_build$VH() {
@@ -559,7 +559,7 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static int trt_force_sequential_engine_build$get(MemorySegment seg) {
-        return (int) constants$9.const$5.get(seg, 0L);
+        return (int) constants$9.const$5.get(seg);
     }
     /**
      * Setter for field:
@@ -568,15 +568,15 @@ public class OrtTensorRTProviderOptions {
      * }
      */
     public static void trt_force_sequential_engine_build$set(MemorySegment seg, int x) {
-        constants$9.const$5.set(seg, 0L, x);
+        constants$9.const$5.set(seg, x);
     }
 
     public static int trt_force_sequential_engine_build$get(MemorySegment seg, long index) {
-        return (int) constants$9.const$5.get(seg, index * sizeof());
+        return (int) constants$9.const$5.get(seg.asSlice(index * sizeof()));
     }
 
     public static void trt_force_sequential_engine_build$set(MemorySegment seg, long index, int x) {
-        constants$9.const$5.set(seg, index * sizeof(), x);
+        constants$9.const$5.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {

@@ -136,8 +136,7 @@ public enum OnnxRuntimeLoggingLevel {
                                     MemorySegment.class,
                                     MemorySegment.class,
                                     MemorySegment.class));
-            return Linker.nativeLinker()
-                    .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, Arena.global());
+            return Linker.nativeLinker().upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, Arena.global());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new OnnxRuntimeException("failed to initialize logger", e);
         }

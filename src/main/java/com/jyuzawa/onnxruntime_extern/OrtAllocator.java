@@ -35,7 +35,7 @@ public class OrtAllocator {
      * }
      */
     public static int version$get(MemorySegment seg) {
-        return (int) constants$0.const$1.get(seg, 0L);
+        return (int) constants$0.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -44,15 +44,15 @@ public class OrtAllocator {
      * }
      */
     public static void version$set(MemorySegment seg, int x) {
-        constants$0.const$1.set(seg, 0L, x);
+        constants$0.const$1.set(seg, x);
     }
 
     public static int version$get(MemorySegment seg, long index) {
-        return (int) constants$0.const$1.get(seg, index * sizeof());
+        return (int) constants$0.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void version$set(MemorySegment seg, long index, int x) {
-        constants$0.const$1.set(seg, index * sizeof(), x);
+        constants$0.const$1.set(seg.asSlice(index * sizeof()), x);
     }
     /**
      * {@snippet :
@@ -89,7 +89,7 @@ public class OrtAllocator {
      * }
      */
     public static MemorySegment Alloc$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$0.const$5.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$0.const$5.get(seg);
     }
     /**
      * Setter for field:
@@ -98,15 +98,15 @@ public class OrtAllocator {
      * }
      */
     public static void Alloc$set(MemorySegment seg, MemorySegment x) {
-        constants$0.const$5.set(seg, 0L, x);
+        constants$0.const$5.set(seg, x);
     }
 
     public static MemorySegment Alloc$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$0.const$5.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$0.const$5.get(seg.asSlice(index * sizeof()));
     }
 
     public static void Alloc$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$0.const$5.set(seg, index * sizeof(), x);
+        constants$0.const$5.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static Alloc Alloc(MemorySegment segment, Arena scope) {
@@ -147,7 +147,7 @@ public class OrtAllocator {
      * }
      */
     public static MemorySegment Free$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$1.const$3.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$1.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -156,15 +156,15 @@ public class OrtAllocator {
      * }
      */
     public static void Free$set(MemorySegment seg, MemorySegment x) {
-        constants$1.const$3.set(seg, 0L, x);
+        constants$1.const$3.set(seg, x);
     }
 
     public static MemorySegment Free$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$1.const$3.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$1.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void Free$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$1.const$3.set(seg, index * sizeof(), x);
+        constants$1.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static Free Free(MemorySegment segment, Arena scope) {
@@ -205,7 +205,7 @@ public class OrtAllocator {
      * }
      */
     public static MemorySegment Info$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$2.const$1.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$2.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -214,15 +214,15 @@ public class OrtAllocator {
      * }
      */
     public static void Info$set(MemorySegment seg, MemorySegment x) {
-        constants$2.const$1.set(seg, 0L, x);
+        constants$2.const$1.set(seg, x);
     }
 
     public static MemorySegment Info$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$2.const$1.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$2.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void Info$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$2.const$1.set(seg, index * sizeof(), x);
+        constants$2.const$1.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static Info Info(MemorySegment segment, Arena scope) {

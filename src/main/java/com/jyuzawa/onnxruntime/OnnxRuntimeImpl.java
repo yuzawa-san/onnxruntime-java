@@ -26,8 +26,7 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
         Arena scope = Arena.global();
         MemorySegment segment = OrtGetApiBase().reinterpret(OrtApiBase.sizeof());
         this.ortApiVersion = ORT_API_VERSION();
-        MemorySegment apiAddress =
-                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion);
+        MemorySegment apiAddress = OrtApiBase.GetApi(segment, scope).apply(ortApiVersion);
         if (MemorySegment.NULL.equals(apiAddress)) {
             throw new UnsatisfiedLinkError(
                     "Onnxruntime native library present, but does not provide API version " + ortApiVersion);

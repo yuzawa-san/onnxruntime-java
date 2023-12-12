@@ -42,7 +42,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int device_id$get(MemorySegment seg) {
-        return (int) constants$5.const$0.get(seg, 0L);
+        return (int) constants$5.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -51,15 +51,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void device_id$set(MemorySegment seg, int x) {
-        constants$5.const$0.set(seg, 0L, x);
+        constants$5.const$0.set(seg, x);
     }
 
     public static int device_id$get(MemorySegment seg, long index) {
-        return (int) constants$5.const$0.get(seg, index * sizeof());
+        return (int) constants$5.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void device_id$set(MemorySegment seg, long index, int x) {
-        constants$5.const$0.set(seg, index * sizeof(), x);
+        constants$5.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle miopen_conv_exhaustive_search$VH() {
@@ -72,7 +72,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int miopen_conv_exhaustive_search$get(MemorySegment seg) {
-        return (int) constants$5.const$1.get(seg, 0L);
+        return (int) constants$5.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -81,15 +81,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void miopen_conv_exhaustive_search$set(MemorySegment seg, int x) {
-        constants$5.const$1.set(seg, 0L, x);
+        constants$5.const$1.set(seg, x);
     }
 
     public static int miopen_conv_exhaustive_search$get(MemorySegment seg, long index) {
-        return (int) constants$5.const$1.get(seg, index * sizeof());
+        return (int) constants$5.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void miopen_conv_exhaustive_search$set(MemorySegment seg, long index, int x) {
-        constants$5.const$1.set(seg, index * sizeof(), x);
+        constants$5.const$1.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle gpu_mem_limit$VH() {
@@ -102,7 +102,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static long gpu_mem_limit$get(MemorySegment seg) {
-        return (long) constants$5.const$2.get(seg, 0L);
+        return (long) constants$5.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -111,15 +111,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void gpu_mem_limit$set(MemorySegment seg, long x) {
-        constants$5.const$2.set(seg, 0L, x);
+        constants$5.const$2.set(seg, x);
     }
 
     public static long gpu_mem_limit$get(MemorySegment seg, long index) {
-        return (long) constants$5.const$2.get(seg, index * sizeof());
+        return (long) constants$5.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void gpu_mem_limit$set(MemorySegment seg, long index, long x) {
-        constants$5.const$2.set(seg, index * sizeof(), x);
+        constants$5.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle arena_extend_strategy$VH() {
@@ -132,7 +132,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int arena_extend_strategy$get(MemorySegment seg) {
-        return (int) constants$5.const$3.get(seg, 0L);
+        return (int) constants$5.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -141,15 +141,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void arena_extend_strategy$set(MemorySegment seg, int x) {
-        constants$5.const$3.set(seg, 0L, x);
+        constants$5.const$3.set(seg, x);
     }
 
     public static int arena_extend_strategy$get(MemorySegment seg, long index) {
-        return (int) constants$5.const$3.get(seg, index * sizeof());
+        return (int) constants$5.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void arena_extend_strategy$set(MemorySegment seg, long index, int x) {
-        constants$5.const$3.set(seg, index * sizeof(), x);
+        constants$5.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle do_copy_in_default_stream$VH() {
@@ -162,7 +162,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int do_copy_in_default_stream$get(MemorySegment seg) {
-        return (int) constants$5.const$4.get(seg, 0L);
+        return (int) constants$5.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -171,15 +171,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void do_copy_in_default_stream$set(MemorySegment seg, int x) {
-        constants$5.const$4.set(seg, 0L, x);
+        constants$5.const$4.set(seg, x);
     }
 
     public static int do_copy_in_default_stream$get(MemorySegment seg, long index) {
-        return (int) constants$5.const$4.get(seg, index * sizeof());
+        return (int) constants$5.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void do_copy_in_default_stream$set(MemorySegment seg, long index, int x) {
-        constants$5.const$4.set(seg, index * sizeof(), x);
+        constants$5.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle has_user_compute_stream$VH() {
@@ -192,7 +192,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int has_user_compute_stream$get(MemorySegment seg) {
-        return (int) constants$5.const$5.get(seg, 0L);
+        return (int) constants$5.const$5.get(seg);
     }
     /**
      * Setter for field:
@@ -201,15 +201,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void has_user_compute_stream$set(MemorySegment seg, int x) {
-        constants$5.const$5.set(seg, 0L, x);
+        constants$5.const$5.set(seg, x);
     }
 
     public static int has_user_compute_stream$get(MemorySegment seg, long index) {
-        return (int) constants$5.const$5.get(seg, index * sizeof());
+        return (int) constants$5.const$5.get(seg.asSlice(index * sizeof()));
     }
 
     public static void has_user_compute_stream$set(MemorySegment seg, long index, int x) {
-        constants$5.const$5.set(seg, index * sizeof(), x);
+        constants$5.const$5.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle user_compute_stream$VH() {
@@ -222,7 +222,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static MemorySegment user_compute_stream$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$6.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$6.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -231,15 +231,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void user_compute_stream$set(MemorySegment seg, MemorySegment x) {
-        constants$6.const$0.set(seg, 0L, x);
+        constants$6.const$0.set(seg, x);
     }
 
     public static MemorySegment user_compute_stream$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$6.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$6.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void user_compute_stream$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$6.const$0.set(seg, index * sizeof(), x);
+        constants$6.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle default_memory_arena_cfg$VH() {
@@ -252,7 +252,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static MemorySegment default_memory_arena_cfg$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$6.const$1.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$6.const$1.get(seg);
     }
     /**
      * Setter for field:
@@ -261,15 +261,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void default_memory_arena_cfg$set(MemorySegment seg, MemorySegment x) {
-        constants$6.const$1.set(seg, 0L, x);
+        constants$6.const$1.set(seg, x);
     }
 
     public static MemorySegment default_memory_arena_cfg$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$6.const$1.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$6.const$1.get(seg.asSlice(index * sizeof()));
     }
 
     public static void default_memory_arena_cfg$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$6.const$1.set(seg, index * sizeof(), x);
+        constants$6.const$1.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle tunable_op_enable$VH() {
@@ -282,7 +282,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int tunable_op_enable$get(MemorySegment seg) {
-        return (int) constants$6.const$2.get(seg, 0L);
+        return (int) constants$6.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -291,15 +291,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void tunable_op_enable$set(MemorySegment seg, int x) {
-        constants$6.const$2.set(seg, 0L, x);
+        constants$6.const$2.set(seg, x);
     }
 
     public static int tunable_op_enable$get(MemorySegment seg, long index) {
-        return (int) constants$6.const$2.get(seg, index * sizeof());
+        return (int) constants$6.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void tunable_op_enable$set(MemorySegment seg, long index, int x) {
-        constants$6.const$2.set(seg, index * sizeof(), x);
+        constants$6.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle tunable_op_tuning_enable$VH() {
@@ -312,7 +312,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int tunable_op_tuning_enable$get(MemorySegment seg) {
-        return (int) constants$6.const$3.get(seg, 0L);
+        return (int) constants$6.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -321,15 +321,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void tunable_op_tuning_enable$set(MemorySegment seg, int x) {
-        constants$6.const$3.set(seg, 0L, x);
+        constants$6.const$3.set(seg, x);
     }
 
     public static int tunable_op_tuning_enable$get(MemorySegment seg, long index) {
-        return (int) constants$6.const$3.get(seg, index * sizeof());
+        return (int) constants$6.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void tunable_op_tuning_enable$set(MemorySegment seg, long index, int x) {
-        constants$6.const$3.set(seg, index * sizeof(), x);
+        constants$6.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static VarHandle tunable_op_max_tuning_duration_ms$VH() {
@@ -342,7 +342,7 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static int tunable_op_max_tuning_duration_ms$get(MemorySegment seg) {
-        return (int) constants$6.const$4.get(seg, 0L);
+        return (int) constants$6.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -351,15 +351,15 @@ public class OrtROCMProviderOptions {
      * }
      */
     public static void tunable_op_max_tuning_duration_ms$set(MemorySegment seg, int x) {
-        constants$6.const$4.set(seg, 0L, x);
+        constants$6.const$4.set(seg, x);
     }
 
     public static int tunable_op_max_tuning_duration_ms$get(MemorySegment seg, long index) {
-        return (int) constants$6.const$4.get(seg, index * sizeof());
+        return (int) constants$6.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void tunable_op_max_tuning_duration_ms$set(MemorySegment seg, long index, int x) {
-        constants$6.const$4.set(seg, index * sizeof(), x);
+        constants$6.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {

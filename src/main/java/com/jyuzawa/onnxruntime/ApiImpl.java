@@ -288,7 +288,7 @@ final class ApiImpl implements Api {
             MemorySegment countPointer = session.allocate(C_INT);
             checkStatus(GetAvailableProviders.apply(pointer, countPointer));
             int numProviders = countPointer.getAtIndex(C_INT, 0);
-            MemorySegment providersArray = 
+            MemorySegment providersArray =
                     pointer.getAtIndex(C_POINTER, 0).reinterpret(numProviders * C_POINTER.byteSize());
             for (int i = 0; i < numProviders; i++) {
                 MemorySegment providerAddress = providersArray.getAtIndex(C_POINTER, i);

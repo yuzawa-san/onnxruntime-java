@@ -50,7 +50,7 @@ public class OrtCustomOp {
      * }
      */
     public static int version$get(MemorySegment seg) {
-        return (int) constants$119.const$0.get(seg, 0L);
+        return (int) constants$119.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -59,15 +59,15 @@ public class OrtCustomOp {
      * }
      */
     public static void version$set(MemorySegment seg, int x) {
-        constants$119.const$0.set(seg, 0L, x);
+        constants$119.const$0.set(seg, x);
     }
 
     public static int version$get(MemorySegment seg, long index) {
-        return (int) constants$119.const$0.get(seg, index * sizeof());
+        return (int) constants$119.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void version$set(MemorySegment seg, long index, int x) {
-        constants$119.const$0.set(seg, index * sizeof(), x);
+        constants$119.const$0.set(seg.asSlice(index * sizeof()), x);
     }
     /**
      * {@snippet :
@@ -110,7 +110,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment CreateKernel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$119.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$119.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -119,15 +119,15 @@ public class OrtCustomOp {
      * }
      */
     public static void CreateKernel$set(MemorySegment seg, MemorySegment x) {
-        constants$119.const$2.set(seg, 0L, x);
+        constants$119.const$2.set(seg, x);
     }
 
     public static MemorySegment CreateKernel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$119.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$119.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void CreateKernel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$119.const$2.set(seg, index * sizeof(), x);
+        constants$119.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static CreateKernel CreateKernel(MemorySegment segment, Arena scope) {
@@ -168,7 +168,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$119.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$119.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -177,15 +177,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetName$set(MemorySegment seg, MemorySegment x) {
-        constants$119.const$4.set(seg, 0L, x);
+        constants$119.const$4.set(seg, x);
     }
 
     public static MemorySegment GetName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$119.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$119.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$119.const$4.set(seg, index * sizeof(), x);
+        constants$119.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetName GetName(MemorySegment segment, Arena scope) {
@@ -226,7 +226,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetExecutionProviderType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$120.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$120.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -235,15 +235,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetExecutionProviderType$set(MemorySegment seg, MemorySegment x) {
-        constants$120.const$0.set(seg, 0L, x);
+        constants$120.const$0.set(seg, x);
     }
 
     public static MemorySegment GetExecutionProviderType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$120.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$120.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetExecutionProviderType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$120.const$0.set(seg, index * sizeof(), x);
+        constants$120.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetExecutionProviderType GetExecutionProviderType(MemorySegment segment, Arena scope) {
@@ -284,7 +284,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetInputType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$120.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$120.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -293,15 +293,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetInputType$set(MemorySegment seg, MemorySegment x) {
-        constants$120.const$4.set(seg, 0L, x);
+        constants$120.const$4.set(seg, x);
     }
 
     public static MemorySegment GetInputType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$120.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$120.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetInputType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$120.const$4.set(seg, index * sizeof(), x);
+        constants$120.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetInputType GetInputType(MemorySegment segment, Arena scope) {
@@ -342,7 +342,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetInputTypeCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$121.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$121.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -351,15 +351,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetInputTypeCount$set(MemorySegment seg, MemorySegment x) {
-        constants$121.const$2.set(seg, 0L, x);
+        constants$121.const$2.set(seg, x);
     }
 
     public static MemorySegment GetInputTypeCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$121.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$121.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetInputTypeCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$121.const$2.set(seg, index * sizeof(), x);
+        constants$121.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetInputTypeCount GetInputTypeCount(MemorySegment segment, Arena scope) {
@@ -400,7 +400,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetOutputType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$121.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$121.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -409,15 +409,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetOutputType$set(MemorySegment seg, MemorySegment x) {
-        constants$121.const$4.set(seg, 0L, x);
+        constants$121.const$4.set(seg, x);
     }
 
     public static MemorySegment GetOutputType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$121.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$121.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetOutputType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$121.const$4.set(seg, index * sizeof(), x);
+        constants$121.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetOutputType GetOutputType(MemorySegment segment, Arena scope) {
@@ -458,7 +458,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetOutputTypeCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$122.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$122.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -467,15 +467,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetOutputTypeCount$set(MemorySegment seg, MemorySegment x) {
-        constants$122.const$0.set(seg, 0L, x);
+        constants$122.const$0.set(seg, x);
     }
 
     public static MemorySegment GetOutputTypeCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$122.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$122.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetOutputTypeCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$122.const$0.set(seg, index * sizeof(), x);
+        constants$122.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetOutputTypeCount GetOutputTypeCount(MemorySegment segment, Arena scope) {
@@ -516,7 +516,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment KernelCompute$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$122.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$122.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -525,15 +525,15 @@ public class OrtCustomOp {
      * }
      */
     public static void KernelCompute$set(MemorySegment seg, MemorySegment x) {
-        constants$122.const$2.set(seg, 0L, x);
+        constants$122.const$2.set(seg, x);
     }
 
     public static MemorySegment KernelCompute$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$122.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$122.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void KernelCompute$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$122.const$2.set(seg, index * sizeof(), x);
+        constants$122.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static KernelCompute KernelCompute(MemorySegment segment, Arena scope) {
@@ -574,7 +574,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment KernelDestroy$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$122.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$122.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -583,15 +583,15 @@ public class OrtCustomOp {
      * }
      */
     public static void KernelDestroy$set(MemorySegment seg, MemorySegment x) {
-        constants$122.const$4.set(seg, 0L, x);
+        constants$122.const$4.set(seg, x);
     }
 
     public static MemorySegment KernelDestroy$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$122.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$122.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void KernelDestroy$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$122.const$4.set(seg, index * sizeof(), x);
+        constants$122.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static KernelDestroy KernelDestroy(MemorySegment segment, Arena scope) {
@@ -632,7 +632,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetInputCharacteristic$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$123.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$123.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -641,15 +641,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetInputCharacteristic$set(MemorySegment seg, MemorySegment x) {
-        constants$123.const$0.set(seg, 0L, x);
+        constants$123.const$0.set(seg, x);
     }
 
     public static MemorySegment GetInputCharacteristic$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$123.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$123.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetInputCharacteristic$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$123.const$0.set(seg, index * sizeof(), x);
+        constants$123.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetInputCharacteristic GetInputCharacteristic(MemorySegment segment, Arena scope) {
@@ -690,7 +690,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetOutputCharacteristic$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$123.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$123.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -699,15 +699,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetOutputCharacteristic$set(MemorySegment seg, MemorySegment x) {
-        constants$123.const$2.set(seg, 0L, x);
+        constants$123.const$2.set(seg, x);
     }
 
     public static MemorySegment GetOutputCharacteristic$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$123.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$123.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetOutputCharacteristic$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$123.const$2.set(seg, index * sizeof(), x);
+        constants$123.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetOutputCharacteristic GetOutputCharacteristic(MemorySegment segment, Arena scope) {
@@ -748,7 +748,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetInputMemoryType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$123.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$123.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -757,15 +757,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetInputMemoryType$set(MemorySegment seg, MemorySegment x) {
-        constants$123.const$4.set(seg, 0L, x);
+        constants$123.const$4.set(seg, x);
     }
 
     public static MemorySegment GetInputMemoryType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$123.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$123.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetInputMemoryType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$123.const$4.set(seg, index * sizeof(), x);
+        constants$123.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetInputMemoryType GetInputMemoryType(MemorySegment segment, Arena scope) {
@@ -806,7 +806,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetVariadicInputMinArity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$124.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$124.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -815,15 +815,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetVariadicInputMinArity$set(MemorySegment seg, MemorySegment x) {
-        constants$124.const$0.set(seg, 0L, x);
+        constants$124.const$0.set(seg, x);
     }
 
     public static MemorySegment GetVariadicInputMinArity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$124.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$124.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetVariadicInputMinArity$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$124.const$0.set(seg, index * sizeof(), x);
+        constants$124.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetVariadicInputMinArity GetVariadicInputMinArity(MemorySegment segment, Arena scope) {
@@ -864,7 +864,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetVariadicInputHomogeneity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$124.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$124.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -873,15 +873,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetVariadicInputHomogeneity$set(MemorySegment seg, MemorySegment x) {
-        constants$124.const$2.set(seg, 0L, x);
+        constants$124.const$2.set(seg, x);
     }
 
     public static MemorySegment GetVariadicInputHomogeneity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$124.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$124.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetVariadicInputHomogeneity$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$124.const$2.set(seg, index * sizeof(), x);
+        constants$124.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetVariadicInputHomogeneity GetVariadicInputHomogeneity(MemorySegment segment, Arena scope) {
@@ -922,7 +922,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetVariadicOutputMinArity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$124.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$124.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -931,15 +931,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetVariadicOutputMinArity$set(MemorySegment seg, MemorySegment x) {
-        constants$124.const$4.set(seg, 0L, x);
+        constants$124.const$4.set(seg, x);
     }
 
     public static MemorySegment GetVariadicOutputMinArity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$124.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$124.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetVariadicOutputMinArity$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$124.const$4.set(seg, index * sizeof(), x);
+        constants$124.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetVariadicOutputMinArity GetVariadicOutputMinArity(MemorySegment segment, Arena scope) {
@@ -980,7 +980,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment GetVariadicOutputHomogeneity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$125.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$125.const$0.get(seg);
     }
     /**
      * Setter for field:
@@ -989,15 +989,15 @@ public class OrtCustomOp {
      * }
      */
     public static void GetVariadicOutputHomogeneity$set(MemorySegment seg, MemorySegment x) {
-        constants$125.const$0.set(seg, 0L, x);
+        constants$125.const$0.set(seg, x);
     }
 
     public static MemorySegment GetVariadicOutputHomogeneity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$125.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$125.const$0.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetVariadicOutputHomogeneity$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$125.const$0.set(seg, index * sizeof(), x);
+        constants$125.const$0.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetVariadicOutputHomogeneity GetVariadicOutputHomogeneity(MemorySegment segment, Arena scope) {
@@ -1046,7 +1046,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment CreateKernelV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$125.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$125.const$2.get(seg);
     }
     /**
      * Setter for field:
@@ -1055,15 +1055,15 @@ public class OrtCustomOp {
      * }
      */
     public static void CreateKernelV2$set(MemorySegment seg, MemorySegment x) {
-        constants$125.const$2.set(seg, 0L, x);
+        constants$125.const$2.set(seg, x);
     }
 
     public static MemorySegment CreateKernelV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$125.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$125.const$2.get(seg.asSlice(index * sizeof()));
     }
 
     public static void CreateKernelV2$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$125.const$2.set(seg, index * sizeof(), x);
+        constants$125.const$2.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static CreateKernelV2 CreateKernelV2(MemorySegment segment, Arena scope) {
@@ -1105,7 +1105,7 @@ public class OrtCustomOp {
      * }
      */
     public static MemorySegment KernelComputeV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$125.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$125.const$4.get(seg);
     }
     /**
      * Setter for field:
@@ -1114,15 +1114,15 @@ public class OrtCustomOp {
      * }
      */
     public static void KernelComputeV2$set(MemorySegment seg, MemorySegment x) {
-        constants$125.const$4.set(seg, 0L, x);
+        constants$125.const$4.set(seg, x);
     }
 
     public static MemorySegment KernelComputeV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$125.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$125.const$4.get(seg.asSlice(index * sizeof()));
     }
 
     public static void KernelComputeV2$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$125.const$4.set(seg, index * sizeof(), x);
+        constants$125.const$4.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static KernelComputeV2 KernelComputeV2(MemorySegment segment, Arena scope) {

@@ -57,7 +57,7 @@ public class OrtApiBase {
      * }
      */
     public static MemorySegment GetApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$12.const$5.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$12.const$5.get(seg);
     }
     /**
      * Setter for field:
@@ -66,15 +66,15 @@ public class OrtApiBase {
      * }
      */
     public static void GetApi$set(MemorySegment seg, MemorySegment x) {
-        constants$12.const$5.set(seg, 0L, x);
+        constants$12.const$5.set(seg, x);
     }
 
     public static MemorySegment GetApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$12.const$5.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$12.const$5.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetApi$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$12.const$5.set(seg, index * sizeof(), x);
+        constants$12.const$5.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetApi GetApi(MemorySegment segment, Arena scope) {
@@ -115,7 +115,7 @@ public class OrtApiBase {
      * }
      */
     public static MemorySegment GetVersionString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$13.const$3.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$13.const$3.get(seg);
     }
     /**
      * Setter for field:
@@ -124,15 +124,15 @@ public class OrtApiBase {
      * }
      */
     public static void GetVersionString$set(MemorySegment seg, MemorySegment x) {
-        constants$13.const$3.set(seg, 0L, x);
+        constants$13.const$3.set(seg, x);
     }
 
     public static MemorySegment GetVersionString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$13.const$3.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$13.const$3.get(seg.asSlice(index * sizeof()));
     }
 
     public static void GetVersionString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$13.const$3.set(seg, index * sizeof(), x);
+        constants$13.const$3.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static GetVersionString GetVersionString(MemorySegment segment, Arena scope) {
