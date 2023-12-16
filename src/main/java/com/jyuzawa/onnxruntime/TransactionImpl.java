@@ -129,9 +129,9 @@ final class TransactionImpl implements Transaction {
             api.ReleaseRunOptions.apply(runOptionsAddress);
             // runOptions = null;
             // }
-        }
-        for (int i = 0; i < numInputs; i++) {
-            api.ReleaseValue.apply(inputSegments.get(i));
+            for (int i = 0; i < numInputs; i++) {
+                api.ReleaseValue.apply(inputSegments.get(i));
+            }
         }
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
