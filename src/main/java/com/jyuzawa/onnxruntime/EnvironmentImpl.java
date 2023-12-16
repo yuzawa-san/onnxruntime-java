@@ -52,7 +52,6 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
                     memorySession, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, MemorySegment.NULL));
             this.ortAllocator = api.create(memorySession, out -> api.GetAllocatorWithDefaultOptions.apply(out));
             Map<String, Long> arenaConfig = builder.arenaConfig;
             if (arenaConfig == null) {
