@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [19]
+        java: 21
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
     runs-on: ${{ matrix.os }}
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
@@ -33,7 +33,7 @@ jobs:
         run: |
           ./gradlew --no-daemon -s :build
       - name: Upload coverage to Codecov
-        if: ${{ matrix.java == '19' && matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.java == '21' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3.1.4
       - name: Save reports
         uses: actions/upload-artifact@v3

@@ -368,7 +368,7 @@ javadoc {
 }
 javadoc.options {
 	addBooleanOption('-enable-preview', true)
-	addStringOption('-release', '19')
+	addStringOption('-release', '21')
 }
 
 def moduleName = "com.jyuzawa.onnxruntime"
