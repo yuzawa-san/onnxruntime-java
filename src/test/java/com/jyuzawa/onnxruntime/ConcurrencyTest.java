@@ -92,7 +92,7 @@ public class ConcurrencyTest {
                         OnnxValue outputValue = output.get(0);
                         OnnxTensor outputTensor = outputValue.asTensor();
                         outputTensor.getFloatBuffer().get(rawOutput);
-                        assertTrue(Arrays.equals(rawInput, rawOutput));
+                        assertArrayEquals(rawInput, rawOutput);
                     }
                 }
             }

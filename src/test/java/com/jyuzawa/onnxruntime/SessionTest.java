@@ -490,9 +490,9 @@ public class SessionTest {
             assertTrue(outputSequence.listIterator(0).hasNext());
             assertFalse(outputSequence.subList(0, 1).isEmpty());
             outputSequence.get(0).asTensor().getFloatBuffer().get(outputBuffer);
-            assertTrue(Arrays.equals(rawInput1, outputBuffer));
+            assertArrayEquals(rawInput1, outputBuffer);
             outputSequence.get(1).asTensor().getFloatBuffer().get(outputBuffer);
-            assertTrue(Arrays.equals(rawInput2, outputBuffer));
+            assertArrayEquals(rawInput2, outputBuffer);
             LOG.log(Level.INFO, output.get(0));
         }
     }
