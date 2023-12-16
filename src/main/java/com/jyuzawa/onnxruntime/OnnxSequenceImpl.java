@@ -38,7 +38,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
                         out -> api.GetValue.apply(ortValueAddress, index, valueContext.ortAllocatorAddress(), out));
                 OnnxValueImpl value = typeInfo.newValue(valueContext, valueAddress);
                 data.add(value);
-                api.ReleaseValue.apply(valueAddress);
+                // api.ReleaseValue.apply(valueAddress);
             }
         }
         this.unmodifiableData = Collections.unmodifiableList(data);
