@@ -16,7 +16,6 @@ import java.lang.foreign.MemorySegment;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.util.function.Supplier;
 
 /**
  * The level for the internal logger within the ONNX runtime.
@@ -74,33 +73,20 @@ public enum OnnxRuntimeLoggingLevel {
             MemorySegment idAddress,
             MemorySegment locationAddress,
             MemorySegment messageAddress) {
-        String category = categoryAddress.getUtf8String(0);
-        String id = idAddress.getUtf8String(0);
-        String location = locationAddress.getUtf8String(0);
-        String message = messageAddress.getUtf8String(0);
-        Supplier<String> line = () -> new StringBuilder()
-                .append(category)
-                .append(' ')
-                .append(id)
-                .append(' ')
-                .append(location)
-                .append(' ')
-                .append(message)
-                .toString();
-        switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
-            case VERBOSE:
-                LOG.log(Level.DEBUG, line);
-                break;
-            case INFO:
-                LOG.log(Level.INFO, line);
-                break;
-            case WARNING:
-                LOG.log(Level.WARNING, line);
-                break;
-            case FATAL:
-            case ERROR:
-                LOG.log(Level.ERROR, line);
-                break;
+        Level theLevel =
+                switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
+                    case VERBOSE -> Level.DEBUG;
+                    case INFO -> Level.INFO;
+                    case WARNING -> Level.WARNING;
+                    case FATAL -> Level.ERROR;
+                    case ERROR -> Level.ERROR;
+                };
+        if (LOG.isLoggable(theLevel)) {
+            String category = categoryAddress.getUtf8String(0);
+            String id = idAddress.getUtf8String(0);
+            String location = locationAddress.getUtf8String(0);
+            String message = messageAddress.getUtf8String(0);
+            LOG.log(theLevel, category + ' ' + id + ' ' + location + ' ' + message);
         }
     }
 
