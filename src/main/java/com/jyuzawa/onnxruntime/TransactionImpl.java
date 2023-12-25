@@ -36,12 +36,16 @@ final class TransactionImpl implements Transaction {
                 allocator,
                 memorySession,
                 builder.session.environment.ortAllocator,
-                builder.session.environment.memoryInfo);
+                builder.session.environment.memoryInfo,
+                new ArrayList<>());
         // this.cancelLock = new Object();
     }
 
     @Override
     public void close() {
+        for (Runnable closeables : valueContext.closeables()) {
+            closeables.run();
+        }
         memorySession.close();
     }
 
@@ -102,6 +106,7 @@ final class TransactionImpl implements Transaction {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
             MemorySegment valueAddress = inputTuple.value().toNative();
+            valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
             inputSegments.add(valueAddress);
             inputValues.setAtIndex(C_POINTER, i, valueAddress);
         }
@@ -129,9 +134,6 @@ final class TransactionImpl implements Transaction {
             api.ReleaseRunOptions.apply(runOptionsAddress);
             // runOptions = null;
             // }
-            for (int i = 0; i < numInputs; i++) {
-                api.ReleaseValue.apply(inputSegments.get(i));
-            }
         }
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
@@ -139,7 +141,7 @@ final class TransactionImpl implements Transaction {
             // TODO: get typeinfo from result
             NodeInfoImpl nodeInfo = outputs.get(i);
             OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
-            api.ReleaseValue.apply(outputAddress);
+            valueContext.closeables().add(() -> api.ReleaseValue.apply(outputAddress));
             out.put(nodeInfo.getName(), outputValue);
         }
 

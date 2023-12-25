@@ -32,8 +32,10 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
             MemorySegment ortAllocator = valueContext.ortAllocatorAddress();
             MemorySegment keyAddress =
                     api.create(allocator, out -> api.GetValue.apply(ortValueAddress, 0, ortAllocator, out));
+            valueContext.closeables().add(() -> api.ReleaseValue.apply(keyAddress));
             MemorySegment valueAddress =
                     api.create(allocator, out -> api.GetValue.apply(ortValueAddress, 1, ortAllocator, out));
+            valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
             MemorySegment keyInfo = api.create(allocator, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
             int size = Math.toIntExact(
                     api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
@@ -41,8 +43,6 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
             T keyVector = newKeyVector(size, keyAddress);
             OnnxTensorImpl valueVector = newValueVector(size, valueAddress);
             valueVector.getScalars(explodeKeyVector(keyVector).map(this::set));
-            api.ReleaseValue.apply(keyAddress);
-            api.ReleaseValue.apply(valueAddress);
         }
         this.unmodifiableData = Collections.unmodifiableMap(data);
     }
