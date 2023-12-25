@@ -11,6 +11,7 @@ import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ final class TransactionImpl implements Transaction {
                 memorySession,
                 builder.session.environment.ortAllocator,
                 builder.session.environment.memoryInfo,
-                new ArrayList<>());
+                new LinkedList<>());
         // this.cancelLock = new Object();
     }
 
@@ -101,13 +102,11 @@ final class TransactionImpl implements Transaction {
         MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
         MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
         MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
-        List<MemorySegment> inputSegments = new ArrayList<>(numInputs);
         for (int i = 0; i < numInputs; i++) {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
             MemorySegment valueAddress = inputTuple.value().toNative();
             valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
-            inputSegments.add(valueAddress);
             inputValues.setAtIndex(C_POINTER, i, valueAddress);
         }
 

@@ -20,43 +20,48 @@ final class TypeInfoImpl implements TypeInfo {
 
     TypeInfoImpl(
             ApiImpl api, MemorySegment typeInfo, Arena allocator, Arena sessionAllocator, MemorySegment ortAllocator) {
-        this.type =
-                OnnxType.forNumber(api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
-        TensorInfoImpl tensorInfo = null;
-        MapInfoImpl mapInfo = null;
-        TypeInfoImpl sequenceInfo = null;
+        try {
+            this.type = OnnxType.forNumber(
+                    api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
+            TensorInfoImpl tensorInfo = null;
+            MapInfoImpl mapInfo = null;
+            TypeInfoImpl sequenceInfo = null;
 
-        if (type == OnnxType.TENSOR || type == OnnxType.SPARSETENSOR) {
-            MemorySegment ortTensorInfo =
-                    api.create(allocator, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
-            OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
-                    api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
-            int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-            MemorySegment dims = sessionAllocator.allocateArray(C_LONG, dimCount);
-            api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
-            long elementCount =
-                    api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
-            tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
-        } else if (type == OnnxType.MAP) {
-            MemorySegment ortMapInfo = api.create(allocator, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
-            OnnxTensorElementDataType keyType = OnnxTensorElementDataType.forNumber(
-                    api.extractInt(allocator, out -> api.GetMapKeyType.apply(ortMapInfo, out)));
-            MemorySegment valueTypeAddress = api.create(allocator, out -> api.GetMapValueType.apply(ortMapInfo, out));
-            mapInfo = new MapInfoImpl(
-                    keyType, new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator));
-        } else if (type == OnnxType.SEQUENCE) {
-            MemorySegment ortSequenceInfo =
-                    api.create(allocator, out -> api.CastTypeInfoToSequenceTypeInfo.apply(typeInfo, out));
-            MemorySegment valueTypeAddress =
-                    api.create(allocator, out -> api.GetSequenceElementType.apply(ortSequenceInfo, out));
-            sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator);
-        } else {
-            throw new UnsupportedOperationException("unsupported type: " + type);
+            if (type == OnnxType.TENSOR || type == OnnxType.SPARSETENSOR) {
+                MemorySegment ortTensorInfo =
+                        api.create(allocator, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
+                OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
+                        api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
+                int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
+                MemorySegment dims = sessionAllocator.allocateArray(C_LONG, dimCount);
+                api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
+                long elementCount =
+                        api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
+                tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
+            } else if (type == OnnxType.MAP) {
+                MemorySegment ortMapInfo =
+                        api.create(allocator, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
+                OnnxTensorElementDataType keyType = OnnxTensorElementDataType.forNumber(
+                        api.extractInt(allocator, out -> api.GetMapKeyType.apply(ortMapInfo, out)));
+                MemorySegment valueTypeAddress =
+                        api.create(allocator, out -> api.GetMapValueType.apply(ortMapInfo, out));
+                mapInfo = new MapInfoImpl(
+                        keyType, new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator));
+            } else if (type == OnnxType.SEQUENCE) {
+                MemorySegment ortSequenceInfo =
+                        api.create(allocator, out -> api.CastTypeInfoToSequenceTypeInfo.apply(typeInfo, out));
+                MemorySegment valueTypeAddress =
+                        api.create(allocator, out -> api.GetSequenceElementType.apply(ortSequenceInfo, out));
+                sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator);
+            } else {
+                throw new UnsupportedOperationException("unsupported type: " + type);
+            }
+            this.tensorInfo = tensorInfo;
+            this.mapInfo = mapInfo;
+            this.sequenceInfo = sequenceInfo;
+        } finally {
+            api.ReleaseTypeInfo.apply(typeInfo);
         }
-        this.tensorInfo = tensorInfo;
-        this.mapInfo = mapInfo;
-        this.sequenceInfo = sequenceInfo;
-        api.ReleaseTypeInfo.apply(typeInfo);
     }
 
     @Override

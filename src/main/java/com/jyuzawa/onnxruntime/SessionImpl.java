@@ -42,70 +42,75 @@ final class SessionImpl extends ManagedImpl implements Session {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
             MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
+            try {
+                final MemorySegment mappedBuf;
+                ByteBuffer buffer = builder.buffer;
+                byte[] bytes = builder.bytes;
+                Path path = builder.path;
+                if (path != null) {
+                    LOG.log(Level.DEBUG, "Loading session from " + path);
+                    this.address = api.create(
+                            memorySession,
+                            out -> api.CreateSession.apply(
+                                    environment.address(), createPath(tempMemorySession, path), sessionOptions, out));
 
-            final MemorySegment mappedBuf;
-            ByteBuffer buffer = builder.buffer;
-            byte[] bytes = builder.bytes;
-            Path path = builder.path;
-            if (path != null) {
-                LOG.log(Level.DEBUG, "Loading session from " + path);
-                this.address = api.create(
-                        memorySession,
-                        out -> api.CreateSession.apply(
-                                environment.address(), createPath(tempMemorySession, path), sessionOptions, out));
-            } else {
-                if (buffer != null) {
-                    if (buffer.isDirect()) {
-                        mappedBuf = MemorySegment.ofBuffer(buffer);
-
-                    } else {
-                        mappedBuf = tempMemorySession.allocateArray(C_CHAR, buffer.remaining());
-                        mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
-                    }
-                } else if (bytes != null) {
-                    mappedBuf = tempMemorySession.allocateArray(C_CHAR, bytes);
                 } else {
-                    throw new IllegalArgumentException("missing model source");
-                }
-                MemorySegment newSessionOptions = builder.newSessionOptions(tempMemorySession);
-                try {
+                    if (buffer != null) {
+                        if (buffer.isDirect()) {
+                            mappedBuf = MemorySegment.ofBuffer(buffer);
+
+                        } else {
+                            mappedBuf = tempMemorySession.allocateArray(C_CHAR, buffer.remaining());
+                            mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
+                        }
+                    } else if (bytes != null) {
+                        mappedBuf = tempMemorySession.allocateArray(C_CHAR, bytes);
+                    } else {
+                        throw new IllegalArgumentException("missing model source");
+                    }
                     this.address = api.create(
                             memorySession,
                             out -> api.CreateSessionFromArray.apply(
                                     environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
-                } finally {
-                    api.ReleaseSessionOptions.apply(newSessionOptions);
                 }
-            }
 
-            this.overridableInitializers = createMap(
-                    api,
-                    tempMemorySession,
-                    memorySession,
-                    ortAllocator,
-                    address,
-                    api.SessionGetOverridableInitializerCount::apply,
-                    api.SessionGetOverridableInitializerName::apply,
-                    api.SessionGetOverridableInitializerTypeInfo::apply);
-            this.inputs = createMap(
-                    api,
-                    tempMemorySession,
-                    memorySession,
-                    ortAllocator,
-                    address,
-                    api.SessionGetInputCount::apply,
-                    api.SessionGetInputName::apply,
-                    api.SessionGetInputTypeInfo::apply);
-            this.outputs = createMap(
-                    api,
-                    tempMemorySession,
-                    memorySession,
-                    ortAllocator,
-                    address,
-                    api.SessionGetOutputCount::apply,
-                    api.SessionGetOutputName::apply,
-                    api.SessionGetOutputTypeInfo::apply);
-            this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, address, ortAllocator);
+                this.overridableInitializers = createMap(
+                        api,
+                        tempMemorySession,
+                        memorySession,
+                        ortAllocator,
+                        address,
+                        api.SessionGetOverridableInitializerCount::apply,
+                        api.SessionGetOverridableInitializerName::apply,
+                        api.SessionGetOverridableInitializerTypeInfo::apply);
+                this.inputs = createMap(
+                        api,
+                        tempMemorySession,
+                        memorySession,
+                        ortAllocator,
+                        address,
+                        api.SessionGetInputCount::apply,
+                        api.SessionGetInputName::apply,
+                        api.SessionGetInputTypeInfo::apply);
+                this.outputs = createMap(
+                        api,
+                        tempMemorySession,
+                        memorySession,
+                        ortAllocator,
+                        address,
+                        api.SessionGetOutputCount::apply,
+                        api.SessionGetOutputName::apply,
+                        api.SessionGetOutputTypeInfo::apply);
+                MemorySegment metadataAddress =
+                        api.create(memorySession, out -> api.SessionGetModelMetadata.apply(address, out));
+                try {
+                    this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, metadataAddress, ortAllocator);
+                } finally {
+                    api.ReleaseModelMetadata.apply(metadataAddress);
+                }
+            } finally {
+                api.ReleaseSessionOptions.apply(sessionOptions);
+            }
         }
     }
 

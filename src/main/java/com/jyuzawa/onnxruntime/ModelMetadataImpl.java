@@ -23,8 +23,7 @@ final class ModelMetadataImpl implements ModelMetadata {
     private final long version;
     private final Map<String, String> customMetadata;
 
-    ModelMetadataImpl(ApiImpl api, Arena memorySession, MemorySegment session, MemorySegment ortAllocator) {
-        MemorySegment metadata = api.create(memorySession, out -> api.SessionGetModelMetadata.apply(session, out));
+    ModelMetadataImpl(ApiImpl api, Arena memorySession, MemorySegment metadata, MemorySegment ortAllocator) {
         {
             MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));
@@ -80,7 +79,6 @@ final class ModelMetadataImpl implements ModelMetadata {
                 this.customMetadata = Collections.unmodifiableMap(customMetadata);
             }
         }
-        api.ReleaseModelMetadata.apply(metadata);
     }
 
     @Override

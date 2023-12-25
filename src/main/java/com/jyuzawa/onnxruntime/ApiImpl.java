@@ -290,19 +290,24 @@ final class ApiImpl implements Api {
             int numProviders = countPointer.getAtIndex(C_INT, 0);
             MemorySegment providersArray =
                     pointer.getAtIndex(C_POINTER, 0).reinterpret(numProviders * C_POINTER.byteSize());
-            for (int i = 0; i < numProviders; i++) {
-                MemorySegment providerAddress = providersArray.getAtIndex(C_POINTER, i);
-                String identifier = providerAddress.getUtf8String(0);
-                ExecutionProvider provider = ExecutionProvider.of(identifier);
-                if (provider == null) {
-                    LOG.log(Level.WARNING, "Unknown available provider " + identifier);
-                } else if (!provider.isSupported()) {
-                    LOG.log(Level.WARNING, "Provider " + provider + " is available, but not supported by this library");
-                } else {
-                    providers.add(provider);
+            try {
+                for (int i = 0; i < numProviders; i++) {
+                    MemorySegment providerAddress = providersArray.getAtIndex(C_POINTER, i);
+                    String identifier = providerAddress.getUtf8String(0);
+                    ExecutionProvider provider = ExecutionProvider.of(identifier);
+                    if (provider == null) {
+                        LOG.log(Level.WARNING, "Unknown available provider " + identifier);
+                    } else if (!provider.isSupported()) {
+                        LOG.log(
+                                Level.WARNING,
+                                "Provider " + provider + " is available, but not supported by this library");
+                    } else {
+                        providers.add(provider);
+                    }
                 }
+            } finally {
+                checkStatus(ReleaseAvailableProviders.apply(providersArray, numProviders));
             }
-            checkStatus(ReleaseAvailableProviders.apply(providersArray, numProviders));
             this.providers = Collections.unmodifiableSet(providers);
             LOG.log(Level.DEBUG, "Available providers: " + providers);
         }
@@ -324,13 +329,16 @@ final class ApiImpl implements Api {
     }
 
     void checkStatus(MemorySegment status) {
-        if (MemorySegment.NULL.address() == status.address()) {
-            return;
+        try {
+            if (MemorySegment.NULL.address() == status.address()) {
+                return;
+            }
+            int code = GetErrorCode.apply(status);
+            String message = GetErrorMessage.apply(status).getUtf8String(0);
+            throw new OnnxRuntimeException(code, message);
+        } finally {
+            ReleaseStatus.apply(status);
         }
-        int code = GetErrorCode.apply(status);
-        String message = GetErrorMessage.apply(status).getUtf8String(0);
-        ReleaseStatus.apply(status);
-        throw new OnnxRuntimeException(code, message);
     }
 
     MemorySegment create(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> constructor) {

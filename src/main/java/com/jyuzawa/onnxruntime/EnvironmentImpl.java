@@ -75,8 +75,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
 
     @Override
     public void close() {
-        api.ReleaseEnv.apply(address);
         api.ReleaseMemoryInfo.apply(memoryInfo);
+        api.ReleaseEnv.apply(address);
         super.close();
     }
 
