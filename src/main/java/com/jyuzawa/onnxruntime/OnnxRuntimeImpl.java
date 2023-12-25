@@ -7,7 +7,6 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_API_VERSION;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
 
-import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
@@ -24,7 +23,7 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
     private OnnxRuntimeImpl() {
         Loader.load();
         Arena scope = Arena.global();
-        MemorySegment segment = OrtGetApiBase().reinterpret(OrtApiBase.sizeof());
+        MemorySegment segment = OrtGetApiBase();
         this.ortApiVersion = ORT_API_VERSION();
         MemorySegment apiAddress = OrtApiBase.GetApi(segment, scope).apply(ortApiVersion);
         if (MemorySegment.NULL.address() == apiAddress.address()) {
@@ -33,7 +32,7 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
         }
         this.version = OrtApiBase.GetVersionString(segment, scope).apply().getUtf8String(0);
         MemorySegment apiSegment = OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION());
-        this.api = new ApiImpl(apiSegment.reinterpret(OrtApi.sizeof()));
+        this.api = new ApiImpl(apiSegment);
         System.getLogger(OnnxRuntimeImpl.class.getName())
                 .log(
                         Level.DEBUG,
