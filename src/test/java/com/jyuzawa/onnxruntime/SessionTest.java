@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import onnx.OnnxMl.AttributeProto;
 import onnx.OnnxMl.AttributeProto.AttributeType;
 import onnx.OnnxMl.GraphProto;
@@ -948,6 +950,44 @@ public class SessionTest {
                 t.addInput(0);
                 t.run();
             });
+        }
+    }
+
+    @Test
+    public void ioBindingTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.INT32_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                IoBinding txn = session.newIoBinding()
+                        .bindInput(0)
+                        .bindOutput(0)
+                        .setConfigMap(Map.of("foo", "bar"))
+                        .build()) {
+            txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.INFO);
+            txn.setLogVerbosityLevel(0);
+            txn.setRunTag("foo");
+            IntBuffer inputBuf = txn.getInputs().get(0).asTensor().getIntBuffer();
+            IntBuffer outputBuf = txn.getOutputs().get(0).asTensor().getIntBuffer();
+            int[] rawOutput = new int[3];
+            for (int i = 0; i < 100; i++) {
+                int[] rawInput = new int[] {
+                    ThreadLocalRandom.current().nextInt(),
+                    ThreadLocalRandom.current().nextInt(),
+                    ThreadLocalRandom.current().nextInt()
+                };
+                inputBuf.clear().put(rawInput);
+                txn.run();
+                outputBuf.rewind().get(rawOutput);
+                assertArrayEquals(rawInput, rawOutput);
+            }
         }
     }
 

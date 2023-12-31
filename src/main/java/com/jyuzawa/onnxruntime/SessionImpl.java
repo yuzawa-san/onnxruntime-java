@@ -208,6 +208,11 @@ final class SessionImpl extends ManagedImpl implements Session {
         return new TransactionImpl.Builder(this);
     }
 
+    @Override
+    public IoBinding.Builder newIoBinding() {
+        return new IoBindingImpl.Builder(this);
+    }
+
     static final class Builder implements Session.Builder {
         private final ApiImpl api;
         private final EnvironmentImpl environment;
