@@ -17,7 +17,7 @@ import java.util.Map;
 
 final class OnnxruntimeJava implements Wrapper {
 
-    private static final Environment ENVIRONMENT = OnnxRuntime.get()
+    static final Environment ENVIRONMENT = OnnxRuntime.get()
             .getApi()
             .newEnvironment()
             .setLogSeverityLevel(OnnxRuntimeLoggingLevel.WARNING)
