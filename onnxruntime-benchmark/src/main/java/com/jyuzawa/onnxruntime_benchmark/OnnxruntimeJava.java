@@ -15,22 +15,24 @@ import com.jyuzawa.onnxruntime.Transaction;
 import java.io.IOException;
 import java.util.Map;
 
-final class OnnxruntimeJava implements Wrapper {
+class OnnxruntimeJava implements Wrapper {
 
-    static final Environment ENVIRONMENT = OnnxRuntime.get()
+    private static final Environment ENVIRONMENT = OnnxRuntime.get()
             .getApi()
             .newEnvironment()
             .setLogSeverityLevel(OnnxRuntimeLoggingLevel.WARNING)
             .build();
 
-    private final Session session;
+    protected final Session session;
+    protected final long[] out;
 
-    OnnxruntimeJava(byte[] bytes, boolean arena) throws IOException {
+    OnnxruntimeJava(byte[] bytes, boolean arena, int size) throws IOException {
         this.session = ENVIRONMENT
                 .newSession()
                 .setByteArray(bytes)
                 .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", arena ? "1" : "0"))
                 .build();
+        this.out = new long[size];
     }
 
     @Override
@@ -44,9 +46,8 @@ final class OnnxruntimeJava implements Wrapper {
             txn.addInput(0).asTensor().getLongBuffer().put(input);
             txn.addOutput(0);
             NamedCollection<OnnxValue> result = txn.run();
-            long[] output = new long[input.length];
-            result.get(0).asTensor().getLongBuffer().get(output);
-            return output;
+            result.get(0).asTensor().getLongBuffer().get(out);
+            return out;
         }
     }
 }

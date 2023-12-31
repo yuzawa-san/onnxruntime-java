@@ -4,26 +4,18 @@
  */
 package com.jyuzawa.onnxruntime_benchmark;
 
-import com.jyuzawa.onnxruntime.ExecutionProvider;
 import com.jyuzawa.onnxruntime.IoBinding;
-import com.jyuzawa.onnxruntime.Session;
 import java.io.IOException;
 import java.nio.LongBuffer;
-import java.util.Map;
 
-final class OnnxruntimeJava2 implements Wrapper {
+final class OnnxruntimeJavaIoBinding extends OnnxruntimeJava {
 
-    private final Session session;
     private final IoBinding ioBinding;
     private final LongBuffer inputBuf;
     private final LongBuffer outputBuf;
 
-    OnnxruntimeJava2(byte[] bytes, boolean arena) throws IOException {
-        this.session = OnnxruntimeJava.ENVIRONMENT
-                .newSession()
-                .setByteArray(bytes)
-                .addProvider(ExecutionProvider.CPU_EXECUTION_PROVIDER, Map.of("use_arena", arena ? "1" : "0"))
-                .build();
+    OnnxruntimeJavaIoBinding(byte[] bytes, boolean arena, int size) throws IOException {
+        super(bytes, arena, size);
         this.ioBinding = session.newIoBinding().bindInput(0).bindOutput(0).build();
         this.inputBuf = ioBinding.getInputs().get(0).asTensor().getLongBuffer();
         this.outputBuf = ioBinding.getOutputs().get(0).asTensor().getLongBuffer();
@@ -32,15 +24,14 @@ final class OnnxruntimeJava2 implements Wrapper {
     @Override
     public void close() throws Exception {
         ioBinding.close();
-        session.close();
+        super.close();
     }
 
     @Override
     public long[] evaluate(long[] input) {
         inputBuf.clear().put(input);
         ioBinding.run();
-        long[] output = new long[input.length];
-        outputBuf.rewind().get(output);
-        return output;
+        outputBuf.rewind().get(out);
+        return out;
     }
 }

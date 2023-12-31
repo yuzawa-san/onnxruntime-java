@@ -80,9 +80,9 @@ public class Microbenchmark {
             input[i] = random.nextLong();
         }
         wrapper = switch (implementation) {
-            case ONNXRUNTIME_JAVA -> new OnnxruntimeJava(bytes, false);
-            case ONNXRUNTIME_JAVA_ARENA -> new OnnxruntimeJava(bytes, true);
-            case ONNXRUNTIME_JAVA_IOBINDING -> new OnnxruntimeJava2(bytes, false);
+            case ONNXRUNTIME_JAVA -> new OnnxruntimeJava(bytes, false, size);
+            case ONNXRUNTIME_JAVA_ARENA -> new OnnxruntimeJava(bytes, true, size);
+            case ONNXRUNTIME_JAVA_IOBINDING -> new OnnxruntimeJavaIoBinding(bytes, false, size);
             case MICROSOFT -> new Microsoft(bytes);
             default -> throw new IllegalArgumentException();};
     }
