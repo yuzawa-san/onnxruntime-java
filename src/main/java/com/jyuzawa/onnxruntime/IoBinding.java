@@ -7,9 +7,9 @@ package com.jyuzawa.onnxruntime;
 import java.util.Map;
 
 /**
- * A representation of a model evaluation. Should NOT be reused. This class is NOT thread-safe.
+ * A representation of a model evaluation. Capable of reuse in repetitive runs. More efficient than {@link Transaction}. Only supports tensors. This class is NOT thread-safe.
  *
- * @since 1.0.0
+ * @since 1.4.0
  */
 public interface IoBinding extends AutoCloseable {
 
@@ -17,7 +17,7 @@ public interface IoBinding extends AutoCloseable {
      * Set the severity for logging for this specific transaction.
      * Can override the environment's or session's logger's severity.
      * @param level
-     * @return the builder
+     * @return this
      */
     IoBinding setLogSeverityLevel(OnnxRuntimeLoggingLevel level);
 
@@ -25,14 +25,14 @@ public interface IoBinding extends AutoCloseable {
      * Set the verbosity for logging for this specific transaction.
      * Can override the environment's or session's logger's verbosity.
      * @param level
-     * @return the builder
+     * @return this
      */
     IoBinding setLogVerbosityLevel(int level);
 
     /**
      * Set the run tag (which is the logger id)
      * @param runTag
-     * @return the builder
+     * @return this
      */
     IoBinding setRunTag(String runTag);
 

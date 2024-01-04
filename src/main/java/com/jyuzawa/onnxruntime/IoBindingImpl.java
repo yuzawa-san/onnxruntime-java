@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
@@ -13,24 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 final class IoBindingImpl implements IoBinding {
-    // private final Object cancelLock;
-    // private MemoryAddress runOptions;
-
     private final ApiImpl api;
     private final MemorySession memorySession;
-    private final SegmentAllocator allocator;
     private final MemoryAddress ioBinding;
     private final MemoryAddress runOptions;
     private final NamedCollectionImpl<OnnxValue> inputs;
     private final NamedCollectionImpl<OnnxValue> outputs;
-    private final ValueContext valueContext;
     private final MemoryAddress session;
 
     IoBindingImpl(Builder builder) {
         this.memorySession = MemorySession.openConfined();
         this.api = builder.api;
         this.session = builder.session.address();
-        this.allocator = SegmentAllocator.newNativeArena(memorySession);
+        SegmentAllocator allocator = SegmentAllocator.newNativeArena(memorySession);
         this.ioBinding = builder.api.create(allocator, out -> builder.api.CreateIoBinding.apply(session, out));
         this.runOptions = api.create(allocator, out -> api.CreateRunOptions.apply(out));
         Map<String, String> config = builder.config;
@@ -42,7 +38,7 @@ final class IoBindingImpl implements IoBinding {
                         allocator.allocateUtf8String(entry.getValue()).address()));
             }
         }
-        this.valueContext = new ValueContext(
+        ValueContext valueContext = new ValueContext(
                 builder.api,
                 allocator,
                 memorySession,
@@ -58,7 +54,7 @@ final class IoBindingImpl implements IoBinding {
             builder.api.checkStatus(
                     api.BindInput.apply(ioBinding.address(), inputNode.nameSegment.address(), valueAddress.address()));
         }
-        this.inputs = new NamedCollectionImpl<OnnxValue>(rawInputs);
+        this.inputs = new NamedCollectionImpl<>(rawInputs);
 
         LinkedHashMap<String, OnnxValue> rawOutputs = new LinkedHashMap<>(builder.outputs.size());
         for (NodeInfoImpl outputNode : builder.outputs) {
@@ -69,7 +65,7 @@ final class IoBindingImpl implements IoBinding {
             builder.api.checkStatus(api.BindOutput.apply(
                     ioBinding.address(), outputNode.nameSegment.address(), valueAddress.address()));
         }
-        this.outputs = new NamedCollectionImpl<OnnxValue>(rawOutputs);
+        this.outputs = new NamedCollectionImpl<>(rawOutputs);
     }
 
     @Override
@@ -162,8 +158,10 @@ final class IoBindingImpl implements IoBinding {
 
     @Override
     public IoBinding setRunTag(String runTag) {
-        api.checkStatus(api.RunOptionsSetRunTag.apply(
-                runOptions, allocator.allocateUtf8String(runTag).address()));
+        try (MemorySession allocator = MemorySession.openConfined()) {
+            MemorySegment segment = allocator.allocateUtf8String(runTag);
+            api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, segment.address()));
+        }
         return this;
     }
 
