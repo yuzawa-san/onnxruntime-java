@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
@@ -44,28 +45,32 @@ final class IoBindingImpl implements IoBinding {
                 memorySession,
                 builder.session.environment.ortAllocator,
                 builder.session.environment.memoryInfo);
+        this.inputs = add(builder.inputs, valueContext, memorySession, api, ioBinding, true);
+        this.outputs = add(builder.outputs, valueContext, memorySession, api, ioBinding, false);
+    }
 
-        LinkedHashMap<String, OnnxValue> rawInputs = new LinkedHashMap<>(builder.inputs.size());
-        for (NodeInfoImpl inputNode : builder.inputs) {
-            OnnxValueImpl input = inputNode.getTypeInfo().newValue(valueContext, null);
-            MemoryAddress valueAddress = input.toNative();
-            memorySession.addCloseAction(() -> builder.api.ReleaseValue.apply(valueAddress));
-            rawInputs.put(inputNode.getName(), input);
-            builder.api.checkStatus(
-                    api.BindInput.apply(ioBinding.address(), inputNode.nameSegment.address(), valueAddress.address()));
-        }
-        this.inputs = new NamedCollectionImpl<>(rawInputs);
-
-        LinkedHashMap<String, OnnxValue> rawOutputs = new LinkedHashMap<>(builder.outputs.size());
-        for (NodeInfoImpl outputNode : builder.outputs) {
-            OnnxValueImpl output = outputNode.getTypeInfo().newValue(valueContext, null);
+    private static final NamedCollectionImpl<OnnxValue> add(
+            List<NodeInfoImpl> nodes,
+            ValueContext valueContext,
+            MemorySession memorySession,
+            ApiImpl api,
+            MemoryAddress ioBinding,
+            boolean isInput) {
+        LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(nodes.size());
+        for (NodeInfoImpl node : nodes) {
+            OnnxValueImpl output = node.getTypeInfo().newValue(valueContext, null);
             MemoryAddress valueAddress = output.toNative();
-            memorySession.addCloseAction(() -> builder.api.ReleaseValue.apply(valueAddress));
-            rawOutputs.put(outputNode.getName(), output);
-            builder.api.checkStatus(api.BindOutput.apply(
-                    ioBinding.address(), outputNode.nameSegment.address(), valueAddress.address()));
+            memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
+            out.put(node.getName(), output);
+            final Addressable result;
+            if (isInput) {
+                result = api.BindInput.apply(ioBinding, node.nameSegment, valueAddress);
+            } else {
+                result = api.BindOutput.apply(ioBinding, node.nameSegment, valueAddress);
+            }
+            api.checkStatus(result);
         }
-        this.outputs = new NamedCollectionImpl<>(rawOutputs);
+        return new NamedCollectionImpl<>(out);
     }
 
     @Override

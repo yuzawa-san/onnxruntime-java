@@ -160,7 +160,10 @@ final class SessionImpl extends ManagedImpl implements Session {
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
             MemoryAddress typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
             TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateUtf8String(name), typeInfo));
+            inputs.put(
+                    name,
+                    new NodeInfoImpl(
+                            name, sessionAllocator.allocateUtf8String(name).address(), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
