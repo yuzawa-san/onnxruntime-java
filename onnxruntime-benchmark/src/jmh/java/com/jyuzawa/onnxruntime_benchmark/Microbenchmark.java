@@ -41,9 +41,10 @@ public class Microbenchmark {
 
     private static final String ONNXRUNTIME_JAVA = "onnxruntime-java";
     private static final String ONNXRUNTIME_JAVA_ARENA = "onnxruntime-java-arena";
+    private static final String ONNXRUNTIME_JAVA_IOBINDING = "onnxruntime-java-iobinding";
     private static final String MICROSOFT = "microsoft";
 
-    @Param(value = {ONNXRUNTIME_JAVA, ONNXRUNTIME_JAVA_ARENA, MICROSOFT})
+    @Param(value = {ONNXRUNTIME_JAVA, ONNXRUNTIME_JAVA_ARENA, ONNXRUNTIME_JAVA_IOBINDING, MICROSOFT})
     private String implementation;
 
     @Param({"16", "256", "4096"})
@@ -79,8 +80,9 @@ public class Microbenchmark {
             input[i] = random.nextLong();
         }
         wrapper = switch (implementation) {
-            case ONNXRUNTIME_JAVA -> new OnnxruntimeJava(bytes, false);
-            case ONNXRUNTIME_JAVA_ARENA -> new OnnxruntimeJava(bytes, true);
+            case ONNXRUNTIME_JAVA -> new OnnxruntimeJava(bytes, false, size);
+            case ONNXRUNTIME_JAVA_ARENA -> new OnnxruntimeJava(bytes, true, size);
+            case ONNXRUNTIME_JAVA_IOBINDING -> new OnnxruntimeJavaIoBinding(bytes, false, size);
             case MICROSOFT -> new Microsoft(bytes);
             default -> throw new IllegalArgumentException();};
     }

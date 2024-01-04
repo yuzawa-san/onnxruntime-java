@@ -65,6 +65,8 @@ public interface Session extends AutoCloseable {
      */
     Transaction.Builder newTransaction();
 
+    IoBinding.Builder newIoBinding();
+
     /**
      * A builder of a {@link Session}. Must provide either bytes or a path.
      *

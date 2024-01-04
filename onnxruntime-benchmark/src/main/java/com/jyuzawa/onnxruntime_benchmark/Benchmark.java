@@ -40,7 +40,7 @@ public final class Benchmark {
                         .addOutput(ValueInfoProto.newBuilder().setName("output").setType(type)))
                 .build();
         byte[] bytes = model.toByteArray();
-        List<Wrapper> wrappers = List.of(new OnnxruntimeJava(bytes, false), new Microsoft(bytes));
+        List<Wrapper> wrappers = List.of(new OnnxruntimeJava(bytes, false, input.length), new Microsoft(bytes));
         long i = 0;
         long startMs = System.currentTimeMillis();
         while (i >= 0) {

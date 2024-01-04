@@ -160,7 +160,10 @@ final class SessionImpl extends ManagedImpl implements Session {
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
             MemoryAddress typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
             TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateUtf8String(name), typeInfo));
+            inputs.put(
+                    name,
+                    new NodeInfoImpl(
+                            name, sessionAllocator.allocateUtf8String(name).address(), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
@@ -206,6 +209,11 @@ final class SessionImpl extends ManagedImpl implements Session {
     @Override
     public Transaction.Builder newTransaction() {
         return new TransactionImpl.Builder(this);
+    }
+
+    @Override
+    public IoBinding.Builder newIoBinding() {
+        return new IoBindingImpl.Builder(this);
     }
 
     static final class Builder implements Session.Builder {
