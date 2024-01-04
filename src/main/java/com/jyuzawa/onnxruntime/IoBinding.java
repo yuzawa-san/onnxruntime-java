@@ -7,7 +7,7 @@ package com.jyuzawa.onnxruntime;
 import java.util.Map;
 
 /**
- * A representation of a model evaluation. Capable of reuse in repetitive runs. More efficient than {@link Transaction}. Only supports tensors. This class is NOT thread-safe.
+ * A representation of a model evaluation. Capable of reuse in repetitive runs. More efficient than {@link Transaction}. Only supports tensors. Input and outputs are pre-allocated. This class is NOT thread-safe.
  *
  * @since 1.4.0
  */
