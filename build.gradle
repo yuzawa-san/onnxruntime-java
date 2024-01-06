@@ -27,7 +27,7 @@ allprojects {
 	apply plugin: "com.diffplug.spotless"
 	java {
 		toolchain {
-			languageVersion = JavaLanguageVersion.of(21)
+			languageVersion = JavaLanguageVersion.of(22)
 		}
 	}
 	tasks.withType(JavaCompile) {
@@ -368,7 +368,7 @@ javadoc {
 }
 javadoc.options {
 	addBooleanOption('-enable-preview', true)
-	addStringOption('-release', '21')
+	addStringOption('-release', '22')
 }
 
 def moduleName = "com.jyuzawa.onnxruntime"
@@ -396,5 +396,6 @@ tasks.named('compileJava') {
 test {
 	useJUnitPlatform()
 	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
-	finalizedBy jacocoTestReport
+	// TODO: re-enable JaCoCo
+	// finalizedBy jacocoTestReport
 }
