@@ -27,6 +27,8 @@ final class ApiImpl implements Api {
     final AddRunConfigEntry AddRunConfigEntry;
     final AddSessionConfigEntry AddSessionConfigEntry;
     final AllocatorFree AllocatorFree;
+    final BindInput BindInput;
+    final BindOutput BindOutput;
     final CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo;
     final CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo;
     final CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo;
@@ -36,6 +38,7 @@ final class ApiImpl implements Api {
     final CreateCpuMemoryInfo CreateCpuMemoryInfo;
     final CreateCUDAProviderOptions CreateCUDAProviderOptions;
     final CreateDnnlProviderOptions CreateDnnlProviderOptions;
+    final CreateIoBinding CreateIoBinding;
     final CreateTensorRTProviderOptions CreateTensorRTProviderOptions;
     final CreateEnvWithCustomLogger CreateEnvWithCustomLogger;
     final CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools;
@@ -91,6 +94,7 @@ final class ApiImpl implements Api {
     final ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions;
     final ReleaseDnnlProviderOptions ReleaseDnnlProviderOptions;
     final ReleaseEnv ReleaseEnv;
+    final ReleaseIoBinding ReleaseIoBinding;
     final ReleaseMemoryInfo ReleaseMemoryInfo;
     final ReleaseModelMetadata ReleaseModelMetadata;
     final ReleaseRunOptions ReleaseRunOptions;
@@ -107,6 +111,7 @@ final class ApiImpl implements Api {
     final RunOptionsSetRunLogVerbosityLevel RunOptionsSetRunLogVerbosityLevel;
     final RunOptionsSetRunTag RunOptionsSetRunTag;
     final RunOptionsSetTerminate RunOptionsSetTerminate;
+    final RunWithBinding RunWithBinding;
     final SetGlobalDenormalAsZero SetGlobalDenormalAsZero;
     final SetGlobalIntraOpNumThreads SetGlobalIntraOpNumThreads;
     final SetGlobalInterOpNumThreads SetGlobalInterOpNumThreads;
@@ -151,6 +156,8 @@ final class ApiImpl implements Api {
         this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment, memorySession);
         this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment, memorySession);
         this.AllocatorFree = OrtApi.AllocatorFree(memorySegment, memorySession);
+        this.BindInput = OrtApi.BindInput(memorySegment, memorySession);
+        this.BindOutput = OrtApi.BindOutput(memorySegment, memorySession);
         this.CastTypeInfoToMapTypeInfo = OrtApi.CastTypeInfoToMapTypeInfo(memorySegment, memorySession);
         this.CastTypeInfoToSequenceTypeInfo = OrtApi.CastTypeInfoToSequenceTypeInfo(memorySegment, memorySession);
         this.CastTypeInfoToTensorInfo = OrtApi.CastTypeInfoToTensorInfo(memorySegment, memorySession);
@@ -161,6 +168,7 @@ final class ApiImpl implements Api {
         this.CreateCUDAProviderOptions = OrtApi.CreateCUDAProviderOptions(memorySegment, memorySession);
         this.CreateDnnlProviderOptions = OrtApi.CreateDnnlProviderOptions(memorySegment, memorySession);
         this.CreateTensorRTProviderOptions = OrtApi.CreateTensorRTProviderOptions(memorySegment, memorySession);
+        this.CreateIoBinding = OrtApi.CreateIoBinding(memorySegment, memorySession);
         this.CreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(memorySegment, memorySession);
         this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
                 OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(memorySegment, memorySession);
@@ -218,6 +226,7 @@ final class ApiImpl implements Api {
         this.ReleaseCUDAProviderOptions = OrtApi.ReleaseCUDAProviderOptions(memorySegment, memorySession);
         this.ReleaseDnnlProviderOptions = OrtApi.ReleaseDnnlProviderOptions(memorySegment, memorySession);
         this.ReleaseEnv = OrtApi.ReleaseEnv(memorySegment, memorySession);
+        this.ReleaseIoBinding = OrtApi.ReleaseIoBinding(memorySegment, memorySession);
         this.ReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(memorySegment, memorySession);
         this.ReleaseModelMetadata = OrtApi.ReleaseModelMetadata(memorySegment, memorySession);
         this.ReleaseRunOptions = OrtApi.ReleaseRunOptions(memorySegment, memorySession);
@@ -234,6 +243,7 @@ final class ApiImpl implements Api {
         this.RunOptionsSetRunLogVerbosityLevel = OrtApi.RunOptionsSetRunLogVerbosityLevel(memorySegment, memorySession);
         this.RunOptionsSetRunTag = OrtApi.RunOptionsSetRunTag(memorySegment, memorySession);
         this.RunOptionsSetTerminate = OrtApi.RunOptionsSetTerminate(memorySegment, memorySession);
+        this.RunWithBinding = OrtApi.RunWithBinding(memorySegment, memorySession);
         this.SetGlobalDenormalAsZero = OrtApi.SetGlobalDenormalAsZero(memorySegment, memorySession);
         this.SetGlobalIntraOpNumThreads = OrtApi.SetGlobalIntraOpNumThreads(memorySegment, memorySession);
         this.SetGlobalInterOpNumThreads = OrtApi.SetGlobalInterOpNumThreads(memorySegment, memorySession);
