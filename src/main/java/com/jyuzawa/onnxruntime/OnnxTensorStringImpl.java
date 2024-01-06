@@ -52,9 +52,9 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         int numOutputs = buffer.length;
         ApiImpl api = valueContext.api();
         SegmentAllocator allocator = valueContext.segmentAllocator();
-        MemorySegment stringArray = allocator.allocateArray(C_POINTER, numOutputs);
+        MemorySegment stringArray = allocator.allocate(C_POINTER, numOutputs);
         for (int i = 0; i < numOutputs; i++) {
-            stringArray.setAtIndex(C_POINTER, i, allocator.allocateUtf8String(buffer[i]));
+            stringArray.setAtIndex(C_POINTER, i, allocator.allocateFrom(buffer[i]));
         }
         MemorySegment tensor = api.create(
                 allocator,

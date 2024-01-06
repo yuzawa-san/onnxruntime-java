@@ -103,7 +103,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
                         mapInfo.getValueType().getTensorInfo().getType(), size, allocator)
                 .newValue(valueContext, null);
         valueVector.putScalars(data.values());
-        MemorySegment kvArray = allocator.allocateArray(C_POINTER, 2);
+        MemorySegment kvArray = allocator.allocate(C_POINTER, 2);
         kvArray.setAtIndex(C_POINTER, 0, keyVector.toNative());
         kvArray.setAtIndex(C_POINTER, 1, valueVector.toNative());
         return api.create(allocator, out -> api.CreateValue.apply(kvArray, 2, OnnxType.MAP.getNumber(), out));

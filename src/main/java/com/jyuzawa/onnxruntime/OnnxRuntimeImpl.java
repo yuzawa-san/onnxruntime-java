@@ -30,7 +30,7 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
             throw new UnsatisfiedLinkError(
                     "Onnxruntime native library present, but does not provide API version " + ortApiVersion);
         }
-        this.version = OrtApiBase.GetVersionString(segment, scope).apply().getUtf8String(0);
+        this.version = OrtApiBase.GetVersionString(segment, scope).apply().getString(0);
         MemorySegment apiSegment = OrtApiBase.GetApi(segment, scope).apply(ORT_API_VERSION());
         this.api = new ApiImpl(apiSegment);
         System.getLogger(OnnxRuntimeImpl.class.getName())
