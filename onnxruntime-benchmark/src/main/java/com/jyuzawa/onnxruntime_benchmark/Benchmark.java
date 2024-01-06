@@ -15,8 +15,8 @@ public final class Benchmark {
         try (InputStream is = Benchmark.class.getResourceAsStream("/model.onnx")) {
             bytes = is.readAllBytes();
         }
-        List<Wrapper> wrappers = List.of(new OnnxruntimeJava(bytes, false, input.length), new Microsoft(bytes));
         long[] input = new long[] {1, 2, 3};
+        List<Wrapper> wrappers = List.of(new OnnxruntimeJava(bytes, false, input.length), new Microsoft(bytes));
         long i = 0;
         long startMs = System.currentTimeMillis();
         while (i >= 0) {
