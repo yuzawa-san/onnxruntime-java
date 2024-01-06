@@ -4,12 +4,12 @@ by [@yuzawa-san](https://github.com/yuzawa-san/)
 [![build](https://github.com/yuzawa-san/onnxruntime-java/workflows/build/badge.svg)](https://github.com/yuzawa-san/onnxruntime-java/actions)
 [![codecov](https://codecov.io/gh/yuzawa-san/onnxruntime-java/branch/master/graph/badge.svg)](https://codecov.io/gh/yuzawa-san/onnxruntime-java)
 
-This is an **experimental** and **modern** Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime) which uses Java's new Foreign Function & Memory API (a.k.a. Project Panama).
+This is an **performant** and **modern** Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime) which uses Java's new Foreign Function & Memory API (a.k.a. Project Panama).
 
 This project's goals are to provide a type-safe, lightweight, and performant binding which abstracts a lot of the native and C API intricacies away behind a Java-friendly interface.
 This is loosely coupled to the upstream project and built off of the public (and stable) [C API](https://onnxruntime.ai/docs/api/c/struct_ort_api.html).
 
-The supported Java version is 19, since the FFI API is in preview.
+The minimum supported Java version is 22, since the FFI API was introduced (and taken out of preview in that version).
 Given the limited stability guarantees of the underlying API, please use in production use cases with great care.
 There are [other](https://github.com/bytedeco/javacpp-presets/tree/master/onnxruntime) [fine](https://github.com/microsoft/onnxruntime/tree/main/java) bindings which use JNI and are capable of supporting lower Java versions.
 
@@ -53,7 +53,6 @@ The example application can be ran:
 #### JVM Arguments
 
 Since this uses a native library, this will require the runtime to have the `--enable-native-access` JVM option, likely `--enable-native-access=ALL-UNNAMED`.
-Since the foreign function API is in preview in Java 19, the `--enable-preview` will also be needed
 
 ### Execution Providers
 

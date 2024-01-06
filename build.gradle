@@ -30,9 +30,6 @@ allprojects {
 			languageVersion = JavaLanguageVersion.of(22)
 		}
 	}
-	tasks.withType(JavaCompile) {
-		options.compilerArgs += "--enable-preview"
-	}
 	repositories {
 		mavenCentral()
 	}
@@ -367,7 +364,6 @@ java {
 javadoc {
 }
 javadoc.options {
-	addBooleanOption('-enable-preview', true)
 	addStringOption('-release', '22')
 }
 
@@ -395,7 +391,7 @@ tasks.named('compileJava') {
 
 test {
 	useJUnitPlatform()
-	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
+	jvmArgs '--enable-native-access=ALL-UNNAMED'
 	// TODO: re-enable JaCoCo
 	// finalizedBy jacocoTestReport
 }
