@@ -82,10 +82,10 @@ public enum OnnxRuntimeLoggingLevel {
                     case ERROR -> Level.ERROR;
                 };
         if (LOG.isLoggable(theLevel)) {
-            String category = categoryAddress.getUtf8String(0);
-            String id = idAddress.getUtf8String(0);
-            String location = locationAddress.getUtf8String(0);
-            String message = messageAddress.getUtf8String(0);
+            String category = categoryAddress.getString(0);
+            String id = idAddress.getString(0);
+            String location = locationAddress.getString(0);
+            String message = messageAddress.getString(0);
             LOG.log(theLevel, category + ' ' + id + ' ' + location + ' ' + message);
         }
     }

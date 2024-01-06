@@ -23,7 +23,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     EnvironmentImpl(Builder builder) {
         super(builder.api, Arena.ofShared());
         try (Arena temporarySession = Arena.ofConfined()) {
-            MemorySegment logName = temporarySession.allocateUtf8String(builder.logId);
+            MemorySegment logName = temporarySession.allocateFrom(builder.logId);
             if (builder.useThreadingOptions) {
                 MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
                 try {
@@ -58,11 +58,11 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                 api.RegisterAllocator.apply(address, ortAllocator);
             } else {
                 int size = arenaConfig.size();
-                MemorySegment keyArray = temporarySession.allocateArray(C_POINTER, size);
-                MemorySegment valueArray = temporarySession.allocateArray(C_LONG, size);
+                MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
+                MemorySegment valueArray = temporarySession.allocate(C_LONG, size);
                 int i = 0;
                 for (Map.Entry<String, Long> entry : arenaConfig.entrySet()) {
-                    keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateUtf8String(entry.getKey()));
+                    keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateFrom(entry.getKey()));
                     valueArray.setAtIndex(C_LONG, i, entry.getValue());
                     i++;
                 }

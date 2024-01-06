@@ -27,31 +27,31 @@ final class ModelMetadataImpl implements ModelMetadata {
         {
             MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));
-            this.description = pointer.getUtf8String(0);
+            this.description = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
             MemorySegment pointer =
                     api.create(memorySession, out -> api.ModelMetadataGetDomain.apply(metadata, ortAllocator, out));
-            this.domain = pointer.getUtf8String(0);
+            this.domain = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
             MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetGraphDescription.apply(metadata, ortAllocator, out));
-            this.graphDescription = pointer.getUtf8String(0);
+            this.graphDescription = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
             MemorySegment pointer =
                     api.create(memorySession, out -> api.ModelMetadataGetGraphName.apply(metadata, ortAllocator, out));
-            this.graphName = pointer.getUtf8String(0);
+            this.graphName = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
             MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetProducerName.apply(metadata, ortAllocator, out));
-            this.producerName = pointer.getUtf8String(0);
+            this.producerName = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
@@ -72,7 +72,7 @@ final class ModelMetadataImpl implements ModelMetadata {
                     MemorySegment value = api.create(
                             memorySession,
                             out -> api.ModelMetadataLookupCustomMetadataMap.apply(metadata, ortAllocator, key, out));
-                    customMetadata.put(key.getUtf8String(0), value.getUtf8String(0));
+                    customMetadata.put(key.getString(0), value.getString(0));
                     api.checkStatus(api.AllocatorFree.apply(ortAllocator, key));
                     api.checkStatus(api.AllocatorFree.apply(ortAllocator, value));
                 }

@@ -303,7 +303,7 @@ final class ApiImpl implements Api {
             try {
                 for (int i = 0; i < numProviders; i++) {
                     MemorySegment providerAddress = providersArray.getAtIndex(C_POINTER, i);
-                    String identifier = providerAddress.getUtf8String(0);
+                    String identifier = providerAddress.getString(0);
                     ExecutionProvider provider = ExecutionProvider.of(identifier);
                     if (provider == null) {
                         LOG.log(Level.WARNING, "Unknown available provider " + identifier);
@@ -325,7 +325,7 @@ final class ApiImpl implements Api {
 
     @Override
     public String getBuildString() {
-        return GetBuildInfoString.apply().getUtf8String(0);
+        return GetBuildInfoString.apply().getString(0);
     }
 
     @Override
@@ -344,7 +344,7 @@ final class ApiImpl implements Api {
                 return;
             }
             int code = GetErrorCode.apply(status);
-            String message = GetErrorMessage.apply(status).getUtf8String(0);
+            String message = GetErrorMessage.apply(status).getString(0);
             throw new OnnxRuntimeException(code, message);
         } finally {
             ReleaseStatus.apply(status);

@@ -32,7 +32,7 @@ final class TensorInfoImpl implements TensorInfo {
     }
 
     static TensorInfoImpl of(OnnxTensorElementDataType type, long elementCount, SegmentAllocator scope) {
-        MemorySegment shapeData = scope.allocateArray(C_LONG, new long[] {elementCount});
+        MemorySegment shapeData = scope.allocateFrom(C_LONG, new long[] {elementCount});
         return new TensorInfoImpl(type, shapeData, 1, elementCount);
     }
 

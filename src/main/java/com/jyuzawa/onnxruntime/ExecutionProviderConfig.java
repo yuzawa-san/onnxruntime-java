@@ -45,7 +45,7 @@ abstract class ExecutionProviderConfig {
             MemorySegment config,
             SegmentAllocator allocator,
             BiConsumer<MemorySegment, MemorySegment> consumer) {
-        get(key).ifPresent(val -> consumer.accept(config, allocator.allocateUtf8String(val)));
+        get(key).ifPresent(val -> consumer.accept(config, allocator.allocateFrom(val)));
     }
 
     abstract void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions);

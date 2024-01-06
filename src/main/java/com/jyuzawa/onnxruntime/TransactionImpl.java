@@ -98,10 +98,10 @@ final class TransactionImpl implements Transaction {
         SessionImpl sessionImpl = builder.session;
         int numInputs = inputs.size();
         int numOutputs = outputs.size();
-        MemorySegment inputNames = allocator.allocateArray(C_POINTER, numInputs);
-        MemorySegment inputValues = allocator.allocateArray(C_POINTER, numInputs);
-        MemorySegment outputNames = allocator.allocateArray(C_POINTER, numOutputs);
-        MemorySegment outputValues = allocator.allocateArray(C_POINTER, numOutputs);
+        MemorySegment inputNames = allocator.allocate(C_POINTER, numInputs);
+        MemorySegment inputValues = allocator.allocate(C_POINTER, numInputs);
+        MemorySegment outputNames = allocator.allocate(C_POINTER, numOutputs);
+        MemorySegment outputValues = allocator.allocate(C_POINTER, numOutputs);
         for (int i = 0; i < numInputs; i++) {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
@@ -199,14 +199,12 @@ final class TransactionImpl implements Transaction {
                 api.checkStatus(api.RunOptionsSetRunLogVerbosityLevel.apply(runOptions, logVerbosityLevel));
             }
             if (runTag != null) {
-                api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, scope.allocateUtf8String(runTag)));
+                api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, scope.allocateFrom(runTag)));
             }
             if (config != null && !config.isEmpty()) {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddRunConfigEntry.apply(
-                            runOptions,
-                            scope.allocateUtf8String(entry.getKey()),
-                            scope.allocateUtf8String(entry.getValue())));
+                            runOptions, scope.allocateFrom(entry.getKey()), scope.allocateFrom(entry.getValue())));
                 }
             }
             return runOptions;

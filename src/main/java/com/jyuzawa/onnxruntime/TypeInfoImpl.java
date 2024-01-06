@@ -33,7 +33,7 @@ final class TypeInfoImpl implements TypeInfo {
                 OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
                         api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
                 int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = sessionAllocator.allocateArray(C_LONG, dimCount);
+                MemorySegment dims = sessionAllocator.allocate(C_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
                 long elementCount =
                         api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));

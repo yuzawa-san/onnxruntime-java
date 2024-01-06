@@ -60,11 +60,11 @@ final class SessionImpl extends ManagedImpl implements Session {
                             mappedBuf = MemorySegment.ofBuffer(buffer);
 
                         } else {
-                            mappedBuf = tempMemorySession.allocateArray(C_CHAR, buffer.remaining());
+                            mappedBuf = tempMemorySession.allocate(C_CHAR, buffer.remaining());
                             mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
                         }
                     } else if (bytes != null) {
-                        mappedBuf = tempMemorySession.allocateArray(C_CHAR, bytes);
+                        mappedBuf = tempMemorySession.allocateFrom(C_CHAR, bytes);
                     } else {
                         throw new IllegalArgumentException("missing model source");
                     }
@@ -126,7 +126,7 @@ final class SessionImpl extends ManagedImpl implements Session {
             addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
             return addr;
         }
-        return segmentAllocator.allocateUtf8String(pathString);
+        return segmentAllocator.allocateFrom(pathString);
     }
 
     @Override
@@ -168,11 +168,11 @@ final class SessionImpl extends ManagedImpl implements Session {
         for (long i = 0; i < numInputs; i++) {
             final long j = i;
             MemorySegment nameSegment = api.create(allocator, out -> getName.apply(session, j, ortAllocator, out));
-            String name = nameSegment.getUtf8String(0);
+            String name = nameSegment.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
             MemorySegment typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
             TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateUtf8String(name), typeInfo));
+            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateFrom(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
@@ -188,7 +188,7 @@ final class SessionImpl extends ManagedImpl implements Session {
     public Path endProfiling() {
         try (Arena session = Arena.ofConfined()) {
             MemorySegment path = api.create(session, out -> api.SessionEndProfiling.apply(address, ortAllocator, out));
-            return Path.of(path.getUtf8String(0));
+            return Path.of(path.getString(0));
         }
     }
 
@@ -368,7 +368,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                 api.checkStatus(api.SetSessionLogVerbosityLevel.apply(sessionOptions, logVerbosityLevel));
             }
             if (loggerId != null) {
-                api.checkStatus(api.SetSessionLogId.apply(sessionOptions, memorySession.allocateUtf8String(loggerId)));
+                api.checkStatus(api.SetSessionLogId.apply(sessionOptions, memorySession.allocateFrom(loggerId)));
             }
             if (memoryPatternOptimization != null) {
                 if (memoryPatternOptimization) {
@@ -404,8 +404,8 @@ final class SessionImpl extends ManagedImpl implements Session {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddSessionConfigEntry.apply(
                             sessionOptions,
-                            memorySession.allocateUtf8String(entry.getKey()),
-                            memorySession.allocateUtf8String(entry.getValue())));
+                            memorySession.allocateFrom(entry.getKey()),
+                            memorySession.allocateFrom(entry.getValue())));
                 }
             }
 
@@ -433,7 +433,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                 addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
                 return addr;
             }
-            return segmentAllocator.allocateUtf8String(pathString);
+            return segmentAllocator.allocateFrom(pathString);
         }
 
         @Override

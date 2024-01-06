@@ -30,9 +30,9 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                 long length = api.extractLong(
                         segmentAllocator, out -> api.GetStringTensorElementLength.apply(ortValueAddress, index, out));
                 // add a byte for the null termination
-                MemorySegment output = segmentAllocator.allocateArray(C_CHAR, length + 1);
+                MemorySegment output = segmentAllocator.allocate(C_CHAR, length + 1);
                 api.checkStatus(api.GetStringTensorElement.apply(ortValueAddress, length, index, output));
-                buffer[i] = output.getUtf8String(0);
+                buffer[i] = output.getString(0);
             }
         }
     }

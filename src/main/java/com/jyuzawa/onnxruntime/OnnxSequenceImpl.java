@@ -76,7 +76,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
         ApiImpl api = valueContext.api();
         SegmentAllocator allocator = valueContext.segmentAllocator();
         int size = data.size();
-        MemorySegment valuesArray = allocator.allocateArray(C_POINTER, size);
+        MemorySegment valuesArray = allocator.allocate(C_POINTER, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
             valuesArray.setAtIndex(C_POINTER, i, value.toNative());

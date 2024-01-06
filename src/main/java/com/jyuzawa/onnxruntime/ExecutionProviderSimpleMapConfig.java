@@ -30,6 +30,6 @@ final class ExecutionProviderSimpleMapConfig extends ExecutionProviderMapConfig 
             MemorySegment values,
             int numProperties) {
         api.checkStatus(api.SessionOptionsAppendExecutionProvider.apply(
-                sessionOptions, memorySession.allocateUtf8String(name), keys, values, numProperties));
+                sessionOptions, memorySession.allocateFrom(name), keys, values, numProperties));
     }
 }

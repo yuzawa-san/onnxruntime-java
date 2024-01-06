@@ -25,7 +25,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
         SegmentAllocator segmentAllocator = valueContext.segmentAllocator();
         if (ortValueAddress == null) {
             this.memorySegment =
-                    segmentAllocator.allocateArray(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
+                    segmentAllocator.allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
         } else {
             ApiImpl api = valueContext.api();
             MemorySegment floatOutput =

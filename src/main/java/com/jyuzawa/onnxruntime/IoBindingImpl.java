@@ -33,8 +33,8 @@ final class IoBindingImpl implements IoBinding {
             for (Map.Entry<String, String> entry : config.entrySet()) {
                 api.checkStatus(api.AddRunConfigEntry.apply(
                         runOptions,
-                        memorySession.allocateUtf8String(entry.getKey()),
-                        memorySession.allocateUtf8String(entry.getValue())));
+                        memorySession.allocateFrom(entry.getKey()),
+                        memorySession.allocateFrom(entry.getValue())));
             }
         }
         List<NodeInfoImpl> rawInputs = builder.inputs;
@@ -169,7 +169,7 @@ final class IoBindingImpl implements IoBinding {
     @Override
     public IoBinding setRunTag(String runTag) {
         try (Arena allocator = Arena.ofConfined()) {
-            MemorySegment segment = allocator.allocateUtf8String(runTag);
+            MemorySegment segment = allocator.allocateFrom(runTag);
             api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, segment));
         }
         return this;
