@@ -24,24 +24,24 @@ final class IoBindingImpl implements IoBinding {
     private final MemoryAddress session;
 
     IoBindingImpl(Builder builder) {
-        this.memorySession = MemorySession.openConfined();
+    	// NOTE: this is shared since we want to allow closing from another thread.
+        this.memorySession = MemorySession.openShared();
         this.api = builder.api;
         this.session = builder.session.address();
-        SegmentAllocator allocator = SegmentAllocator.newNativeArena(memorySession);
-        this.ioBinding = builder.api.create(allocator, out -> builder.api.CreateIoBinding.apply(session, out));
-        this.runOptions = api.create(allocator, out -> api.CreateRunOptions.apply(out));
+        this.ioBinding = builder.api.create(memorySession, out -> builder.api.CreateIoBinding.apply(session, out));
+        this.runOptions = api.create(memorySession, out -> api.CreateRunOptions.apply(out));
         Map<String, String> config = builder.config;
         if (config != null && !config.isEmpty()) {
             for (Map.Entry<String, String> entry : config.entrySet()) {
                 api.checkStatus(api.AddRunConfigEntry.apply(
                         runOptions,
-                        allocator.allocateUtf8String(entry.getKey()).address(),
-                        allocator.allocateUtf8String(entry.getValue()).address()));
+                        memorySession.allocateUtf8String(entry.getKey()).address(),
+                        memorySession.allocateUtf8String(entry.getValue()).address()));
             }
         }
         ValueContext valueContext = new ValueContext(
                 builder.api,
-                allocator,
+                memorySession,
                 memorySession,
                 builder.session.environment.ortAllocator,
                 builder.session.environment.memoryInfo);
