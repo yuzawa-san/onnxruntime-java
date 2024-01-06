@@ -8,7 +8,6 @@ import java.lang.foreign.Addressable;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.MemorySession;
-import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,7 +23,7 @@ final class IoBindingImpl implements IoBinding {
     private final MemoryAddress session;
 
     IoBindingImpl(Builder builder) {
-    	// NOTE: this is shared since we want to allow closing from another thread.
+        // NOTE: this is shared since we want to allow closing from another thread.
         this.memorySession = MemorySession.openShared();
         this.api = builder.api;
         this.session = builder.session.address();
