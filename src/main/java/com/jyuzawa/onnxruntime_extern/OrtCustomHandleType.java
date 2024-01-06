@@ -32,7 +32,7 @@ public class OrtCustomHandleType {
      * }
      */
     public static byte __place_holder$get(MemorySegment seg) {
-        return (byte) constants$14.const$3.get(seg);
+        return (byte) constants$14.const$3.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -41,15 +41,15 @@ public class OrtCustomHandleType {
      * }
      */
     public static void __place_holder$set(MemorySegment seg, byte x) {
-        constants$14.const$3.set(seg, x);
+        constants$14.const$3.set(seg, 0L, x);
     }
 
     public static byte __place_holder$get(MemorySegment seg, long index) {
-        return (byte) constants$14.const$3.get(seg.asSlice(index * sizeof()));
+        return (byte) constants$14.const$3.get(seg, index * sizeof());
     }
 
     public static void __place_holder$set(MemorySegment seg, long index, byte x) {
-        constants$14.const$3.set(seg.asSlice(index * sizeof()), x);
+        constants$14.const$3.set(seg, index * sizeof(), x);
     }
 
     public static long sizeof() {
