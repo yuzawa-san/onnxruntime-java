@@ -12,25 +12,25 @@ import java.lang.invoke.VarHandle;
 /**
  * {@snippet :
  * struct OrtCustomOp {
- *     unsigned int version;
- *     void* (*CreateKernel)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*);
+ *     uint32_t version;
+ *     void* (*CreateKernel)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*);
  *     char* (*GetName)(struct OrtCustomOp*);
  *     char* (*GetExecutionProviderType)(struct OrtCustomOp*);
- *     enum ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,unsigned long);
- *     unsigned long (*GetInputTypeCount)(struct OrtCustomOp*);
- *     enum ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,unsigned long);
- *     unsigned long (*GetOutputTypeCount)(struct OrtCustomOp*);
- *     void (*KernelCompute)(void*,struct OrtKernelContext*);
+ *     ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,size_t);
+ *     size_t (*GetInputTypeCount)(struct OrtCustomOp*);
+ *     ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,size_t);
+ *     size_t (*GetOutputTypeCount)(struct OrtCustomOp*);
+ *     void (*KernelCompute)(void*,OrtKernelContext*);
  *     void (*KernelDestroy)(void*);
- *     enum OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,unsigned long);
- *     enum OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,unsigned long);
- *     enum OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,unsigned long);
+ *     OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,size_t);
+ *     OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,size_t);
+ *     OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,size_t);
  *     int (*GetVariadicInputMinArity)(struct OrtCustomOp*);
  *     int (*GetVariadicInputHomogeneity)(struct OrtCustomOp*);
  *     int (*GetVariadicOutputMinArity)(struct OrtCustomOp*);
  *     int (*GetVariadicOutputHomogeneity)(struct OrtCustomOp*);
- *     struct OrtStatus* (*CreateKernelV2)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*,void**);
- *     struct OrtStatus* (*KernelComputeV2)(void*,struct OrtKernelContext*);
+ *     OrtStatusPtr (*CreateKernelV2)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*,void**);
+ *     OrtStatusPtr (*KernelComputeV2)(void*,OrtKernelContext*);
  * };
  * }
  */
@@ -46,7 +46,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned int version;
+     * uint32_t version;
      * }
      */
     public static int version$get(MemorySegment seg) {
@@ -55,7 +55,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned int version;
+     * uint32_t version;
      * }
      */
     public static void version$set(MemorySegment seg, int x) {
@@ -71,7 +71,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * void* (*CreateKernel)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*);
+     * void* (*CreateKernel)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*);
      * }
      */
     public interface CreateKernel {
@@ -106,7 +106,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * void* (*CreateKernel)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*);
+     * void* (*CreateKernel)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*);
      * }
      */
     public static MemorySegment CreateKernel$get(MemorySegment seg) {
@@ -115,7 +115,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * void* (*CreateKernel)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*);
+     * void* (*CreateKernel)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*);
      * }
      */
     public static void CreateKernel$set(MemorySegment seg, MemorySegment x) {
@@ -251,7 +251,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * enum ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,unsigned long);
+     * ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,size_t);
      * }
      */
     public interface GetInputType {
@@ -280,7 +280,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * enum ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,unsigned long);
+     * ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,size_t);
      * }
      */
     public static MemorySegment GetInputType$get(MemorySegment seg) {
@@ -289,7 +289,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * enum ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,unsigned long);
+     * ONNXTensorElementDataType (*GetInputType)(struct OrtCustomOp*,size_t);
      * }
      */
     public static void GetInputType$set(MemorySegment seg, MemorySegment x) {
@@ -309,7 +309,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * unsigned long (*GetInputTypeCount)(struct OrtCustomOp*);
+     * size_t (*GetInputTypeCount)(struct OrtCustomOp*);
      * }
      */
     public interface GetInputTypeCount {
@@ -338,7 +338,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned long (*GetInputTypeCount)(struct OrtCustomOp*);
+     * size_t (*GetInputTypeCount)(struct OrtCustomOp*);
      * }
      */
     public static MemorySegment GetInputTypeCount$get(MemorySegment seg) {
@@ -347,7 +347,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned long (*GetInputTypeCount)(struct OrtCustomOp*);
+     * size_t (*GetInputTypeCount)(struct OrtCustomOp*);
      * }
      */
     public static void GetInputTypeCount$set(MemorySegment seg, MemorySegment x) {
@@ -367,7 +367,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * enum ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,unsigned long);
+     * ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,size_t);
      * }
      */
     public interface GetOutputType {
@@ -396,7 +396,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * enum ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,unsigned long);
+     * ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,size_t);
      * }
      */
     public static MemorySegment GetOutputType$get(MemorySegment seg) {
@@ -405,7 +405,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * enum ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,unsigned long);
+     * ONNXTensorElementDataType (*GetOutputType)(struct OrtCustomOp*,size_t);
      * }
      */
     public static void GetOutputType$set(MemorySegment seg, MemorySegment x) {
@@ -425,7 +425,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * unsigned long (*GetOutputTypeCount)(struct OrtCustomOp*);
+     * size_t (*GetOutputTypeCount)(struct OrtCustomOp*);
      * }
      */
     public interface GetOutputTypeCount {
@@ -454,7 +454,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned long (*GetOutputTypeCount)(struct OrtCustomOp*);
+     * size_t (*GetOutputTypeCount)(struct OrtCustomOp*);
      * }
      */
     public static MemorySegment GetOutputTypeCount$get(MemorySegment seg) {
@@ -463,7 +463,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned long (*GetOutputTypeCount)(struct OrtCustomOp*);
+     * size_t (*GetOutputTypeCount)(struct OrtCustomOp*);
      * }
      */
     public static void GetOutputTypeCount$set(MemorySegment seg, MemorySegment x) {
@@ -483,7 +483,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * void (*KernelCompute)(void*,struct OrtKernelContext*);
+     * void (*KernelCompute)(void*,OrtKernelContext*);
      * }
      */
     public interface KernelCompute {
@@ -512,7 +512,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*KernelCompute)(void*,struct OrtKernelContext*);
+     * void (*KernelCompute)(void*,OrtKernelContext*);
      * }
      */
     public static MemorySegment KernelCompute$get(MemorySegment seg) {
@@ -521,7 +521,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*KernelCompute)(void*,struct OrtKernelContext*);
+     * void (*KernelCompute)(void*,OrtKernelContext*);
      * }
      */
     public static void KernelCompute$set(MemorySegment seg, MemorySegment x) {
@@ -599,7 +599,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * enum OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,unsigned long);
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,size_t);
      * }
      */
     public interface GetInputCharacteristic {
@@ -628,7 +628,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * enum OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,unsigned long);
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,size_t);
      * }
      */
     public static MemorySegment GetInputCharacteristic$get(MemorySegment seg) {
@@ -637,7 +637,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * enum OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,unsigned long);
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(struct OrtCustomOp*,size_t);
      * }
      */
     public static void GetInputCharacteristic$set(MemorySegment seg, MemorySegment x) {
@@ -657,7 +657,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * enum OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,unsigned long);
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,size_t);
      * }
      */
     public interface GetOutputCharacteristic {
@@ -686,7 +686,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * enum OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,unsigned long);
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,size_t);
      * }
      */
     public static MemorySegment GetOutputCharacteristic$get(MemorySegment seg) {
@@ -695,7 +695,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * enum OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,unsigned long);
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(struct OrtCustomOp*,size_t);
      * }
      */
     public static void GetOutputCharacteristic$set(MemorySegment seg, MemorySegment x) {
@@ -715,7 +715,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * enum OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,unsigned long);
+     * OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,size_t);
      * }
      */
     public interface GetInputMemoryType {
@@ -744,7 +744,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * enum OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,unsigned long);
+     * OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,size_t);
      * }
      */
     public static MemorySegment GetInputMemoryType$get(MemorySegment seg) {
@@ -753,7 +753,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * enum OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,unsigned long);
+     * OrtMemType (*GetInputMemoryType)(struct OrtCustomOp*,size_t);
      * }
      */
     public static void GetInputMemoryType$set(MemorySegment seg, MemorySegment x) {
@@ -1005,7 +1005,7 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateKernelV2)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*,void**);
+     * OrtStatusPtr (*CreateKernelV2)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*,void**);
      * }
      */
     public interface CreateKernelV2 {
@@ -1042,7 +1042,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateKernelV2)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*,void**);
+     * OrtStatusPtr (*CreateKernelV2)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*,void**);
      * }
      */
     public static MemorySegment CreateKernelV2$get(MemorySegment seg) {
@@ -1051,7 +1051,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateKernelV2)(struct OrtCustomOp*,struct OrtApi*,struct OrtKernelInfo*,void**);
+     * OrtStatusPtr (*CreateKernelV2)(struct OrtCustomOp*,const OrtApi*,const OrtKernelInfo*,void**);
      * }
      */
     public static void CreateKernelV2$set(MemorySegment seg, MemorySegment x) {
@@ -1071,13 +1071,12 @@ public class OrtCustomOp {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelComputeV2)(void*,struct OrtKernelContext*);
+     * OrtStatusPtr (*KernelComputeV2)(void*,OrtKernelContext*);
      * }
      */
     public interface KernelComputeV2 {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelComputeV2 fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$125.const$3, fi, constants$15.const$2, scope);
@@ -1085,9 +1084,9 @@ public class OrtCustomOp {
 
         static KernelComputeV2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1101,7 +1100,7 @@ public class OrtCustomOp {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelComputeV2)(void*,struct OrtKernelContext*);
+     * OrtStatusPtr (*KernelComputeV2)(void*,OrtKernelContext*);
      * }
      */
     public static MemorySegment KernelComputeV2$get(MemorySegment seg) {
@@ -1110,7 +1109,7 @@ public class OrtCustomOp {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelComputeV2)(void*,struct OrtKernelContext*);
+     * OrtStatusPtr (*KernelComputeV2)(void*,OrtKernelContext*);
      * }
      */
     public static void KernelComputeV2$set(MemorySegment seg, MemorySegment x) {

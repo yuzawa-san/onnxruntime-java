@@ -17,7 +17,7 @@ import java.lang.invoke.VarHandle;
  *     void* user_compute_stream;
  *     int trt_max_partition_iterations;
  *     int trt_min_subgraph_size;
- *     unsigned long trt_max_workspace_size;
+ *     size_t trt_max_workspace_size;
  *     int trt_fp16_enable;
  *     int trt_int8_enable;
  *     char* trt_int8_calibration_table_name;
@@ -195,7 +195,7 @@ public class OrtTensorRTProviderOptions {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned long trt_max_workspace_size;
+     * size_t trt_max_workspace_size;
      * }
      */
     public static long trt_max_workspace_size$get(MemorySegment seg) {
@@ -204,7 +204,7 @@ public class OrtTensorRTProviderOptions {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned long trt_max_workspace_size;
+     * size_t trt_max_workspace_size;
      * }
      */
     public static void trt_max_workspace_size$set(MemorySegment seg, long x) {

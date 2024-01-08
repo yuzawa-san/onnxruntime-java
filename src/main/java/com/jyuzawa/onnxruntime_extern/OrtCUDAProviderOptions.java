@@ -13,13 +13,13 @@ import java.lang.invoke.VarHandle;
  * {@snippet :
  * struct OrtCUDAProviderOptions {
  *     int device_id;
- *     enum OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
- *     unsigned long gpu_mem_limit;
+ *     OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
+ *     size_t gpu_mem_limit;
  *     int arena_extend_strategy;
  *     int do_copy_in_default_stream;
  *     int has_user_compute_stream;
  *     void* user_compute_stream;
- *     struct OrtArenaCfg* default_memory_arena_cfg;
+ *     OrtArenaCfg* default_memory_arena_cfg;
  *     int tunable_op_enable;
  *     int tunable_op_tuning_enable;
  *     int tunable_op_max_tuning_duration_ms;
@@ -68,7 +68,7 @@ public class OrtCUDAProviderOptions {
     /**
      * Getter for field:
      * {@snippet :
-     * enum OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
+     * OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
      * }
      */
     public static int cudnn_conv_algo_search$get(MemorySegment seg) {
@@ -77,7 +77,7 @@ public class OrtCUDAProviderOptions {
     /**
      * Setter for field:
      * {@snippet :
-     * enum OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
+     * OrtCudnnConvAlgoSearch cudnn_conv_algo_search;
      * }
      */
     public static void cudnn_conv_algo_search$set(MemorySegment seg, int x) {
@@ -98,7 +98,7 @@ public class OrtCUDAProviderOptions {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned long gpu_mem_limit;
+     * size_t gpu_mem_limit;
      * }
      */
     public static long gpu_mem_limit$get(MemorySegment seg) {
@@ -107,7 +107,7 @@ public class OrtCUDAProviderOptions {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned long gpu_mem_limit;
+     * size_t gpu_mem_limit;
      * }
      */
     public static void gpu_mem_limit$set(MemorySegment seg, long x) {
@@ -248,7 +248,7 @@ public class OrtCUDAProviderOptions {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtArenaCfg* default_memory_arena_cfg;
+     * OrtArenaCfg* default_memory_arena_cfg;
      * }
      */
     public static MemorySegment default_memory_arena_cfg$get(MemorySegment seg) {
@@ -257,7 +257,7 @@ public class OrtCUDAProviderOptions {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtArenaCfg* default_memory_arena_cfg;
+     * OrtArenaCfg* default_memory_arena_cfg;
      * }
      */
     public static void default_memory_arena_cfg$set(MemorySegment seg, MemorySegment x) {

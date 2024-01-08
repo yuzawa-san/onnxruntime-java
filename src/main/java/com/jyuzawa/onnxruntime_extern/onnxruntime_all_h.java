@@ -727,7 +727,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * struct OrtApiBase* OrtGetApiBase();
+     * const OrtApiBase* OrtGetApiBase();
      * }
      */
     public static MemorySegment OrtGetApiBase() {
@@ -774,7 +774,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_CUDA(struct OrtSessionOptions* options, int device_id);
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CUDA(OrtSessionOptions* options, int device_id);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_CUDA(MemorySegment options, int device_id) {
@@ -791,7 +791,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_ROCM(struct OrtSessionOptions* options, int device_id);
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_ROCM(OrtSessionOptions* options, int device_id);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_ROCM(MemorySegment options, int device_id) {
@@ -808,7 +808,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_MIGraphX(struct OrtSessionOptions* options, int device_id);
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_MIGraphX(OrtSessionOptions* options, int device_id);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_MIGraphX(
@@ -826,7 +826,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_Dnnl(struct OrtSessionOptions* options, int use_arena);
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_Dnnl(OrtSessionOptions* options, int use_arena);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_Dnnl(MemorySegment options, int use_arena) {
@@ -891,7 +891,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* OrtSessionOptionsAppendExecutionProvider_CoreML(struct OrtSessionOptions* options, unsigned int coreml_flags);
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CoreML(OrtSessionOptions* options, uint32_t coreml_flags);
      * }
      */
     public static MemorySegment OrtSessionOptionsAppendExecutionProvider_CoreML(
@@ -905,7 +905,7 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5282394025972749094.h"
+     * #define ORT_FILE "/tmp/jextract$356611428948935178.h"
      * }
      */
     public static MemorySegment ORT_FILE() {

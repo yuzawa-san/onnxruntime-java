@@ -12,8 +12,8 @@ import java.lang.invoke.VarHandle;
 /**
  * {@snippet :
  * struct OrtAllocator {
- *     unsigned int version;
- *     void* (*Alloc)(struct OrtAllocator*,unsigned long);
+ *     uint32_t version;
+ *     void* (*Alloc)(struct OrtAllocator*,size_t);
  *     void (*Free)(struct OrtAllocator*,void*);
  *     struct OrtMemoryInfo* (*Info)(struct OrtAllocator*);
  * };
@@ -31,7 +31,7 @@ public class OrtAllocator {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned int version;
+     * uint32_t version;
      * }
      */
     public static int version$get(MemorySegment seg) {
@@ -40,7 +40,7 @@ public class OrtAllocator {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned int version;
+     * uint32_t version;
      * }
      */
     public static void version$set(MemorySegment seg, int x) {
@@ -56,7 +56,7 @@ public class OrtAllocator {
     }
     /**
      * {@snippet :
-     * void* (*Alloc)(struct OrtAllocator*,unsigned long);
+     * void* (*Alloc)(struct OrtAllocator*,size_t);
      * }
      */
     public interface Alloc {
@@ -85,7 +85,7 @@ public class OrtAllocator {
     /**
      * Getter for field:
      * {@snippet :
-     * void* (*Alloc)(struct OrtAllocator*,unsigned long);
+     * void* (*Alloc)(struct OrtAllocator*,size_t);
      * }
      */
     public static MemorySegment Alloc$get(MemorySegment seg) {
@@ -94,7 +94,7 @@ public class OrtAllocator {
     /**
      * Setter for field:
      * {@snippet :
-     * void* (*Alloc)(struct OrtAllocator*,unsigned long);
+     * void* (*Alloc)(struct OrtAllocator*,size_t);
      * }
      */
     public static void Alloc$set(MemorySegment seg, MemorySegment x) {

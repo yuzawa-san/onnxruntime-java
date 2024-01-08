@@ -15,7 +15,7 @@ import java.lang.invoke.VarHandle;
  *     char* device_type;
  *     unsigned char enable_vpu_fast_compile;
  *     char* device_id;
- *     unsigned long num_of_threads;
+ *     size_t num_of_threads;
  *     char* cache_dir;
  *     void* context;
  *     unsigned char enable_opencl_throttling;
@@ -125,7 +125,7 @@ public class OrtOpenVINOProviderOptions {
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned long num_of_threads;
+     * size_t num_of_threads;
      * }
      */
     public static long num_of_threads$get(MemorySegment seg) {
@@ -134,7 +134,7 @@ public class OrtOpenVINOProviderOptions {
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned long num_of_threads;
+     * size_t num_of_threads;
      * }
      */
     public static void num_of_threads$set(MemorySegment seg, long x) {

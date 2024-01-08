@@ -12,272 +12,272 @@ import java.lang.invoke.VarHandle;
 /**
  * {@snippet :
  * struct OrtApi {
- *     struct OrtStatus* (*CreateStatus)(enum OrtErrorCode,char*);
- *     enum OrtErrorCode (*GetErrorCode)(struct OrtStatus*);
- *     char* (*GetErrorMessage)(struct OrtStatus*);
- *     struct OrtStatus* (*CreateEnv)(enum OrtLoggingLevel,char*,struct OrtEnv**);
- *     struct OrtStatus* (*CreateEnvWithCustomLogger)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtEnv**);
- *     struct OrtStatus* (*EnableTelemetryEvents)(struct OrtEnv*);
- *     struct OrtStatus* (*DisableTelemetryEvents)(struct OrtEnv*);
- *     struct OrtStatus* (*CreateSession)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtSession**);
- *     struct OrtStatus* (*CreateSessionFromArray)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtSession**);
- *     struct OrtStatus* (*Run)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**);
- *     struct OrtStatus* (*CreateSessionOptions)(struct OrtSessionOptions**);
- *     struct OrtStatus* (*SetOptimizedModelFilePath)(struct OrtSessionOptions*,char*);
- *     struct OrtStatus* (*CloneSessionOptions)(struct OrtSessionOptions*,struct OrtSessionOptions**);
- *     struct OrtStatus* (*SetSessionExecutionMode)(struct OrtSessionOptions*,enum ExecutionMode);
- *     struct OrtStatus* (*EnableProfiling)(struct OrtSessionOptions*,char*);
- *     struct OrtStatus* (*DisableProfiling)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*EnableMemPattern)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*DisableMemPattern)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*EnableCpuMemArena)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*DisableCpuMemArena)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*SetSessionLogId)(struct OrtSessionOptions*,char*);
- *     struct OrtStatus* (*SetSessionLogVerbosityLevel)(struct OrtSessionOptions*,int);
- *     struct OrtStatus* (*SetSessionLogSeverityLevel)(struct OrtSessionOptions*,int);
- *     struct OrtStatus* (*SetSessionGraphOptimizationLevel)(struct OrtSessionOptions*,enum GraphOptimizationLevel);
- *     struct OrtStatus* (*SetIntraOpNumThreads)(struct OrtSessionOptions*,int);
- *     struct OrtStatus* (*SetInterOpNumThreads)(struct OrtSessionOptions*,int);
- *     struct OrtStatus* (*CreateCustomOpDomain)(char*,struct OrtCustomOpDomain**);
- *     struct OrtStatus* (*CustomOpDomain_Add)(struct OrtCustomOpDomain*,struct OrtCustomOp*);
- *     struct OrtStatus* (*AddCustomOpDomain)(struct OrtSessionOptions*,struct OrtCustomOpDomain*);
- *     struct OrtStatus* (*RegisterCustomOpsLibrary)(struct OrtSessionOptions*,char*,void**);
- *     struct OrtStatus* (*SessionGetInputCount)(struct OrtSession*,unsigned long*);
- *     struct OrtStatus* (*SessionGetOutputCount)(struct OrtSession*,unsigned long*);
- *     struct OrtStatus* (*SessionGetOverridableInitializerCount)(struct OrtSession*,unsigned long*);
- *     struct OrtStatus* (*SessionGetInputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
- *     struct OrtStatus* (*SessionGetOutputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
- *     struct OrtStatus* (*SessionGetOverridableInitializerTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
- *     struct OrtStatus* (*SessionGetInputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*SessionGetOutputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*SessionGetOverridableInitializerName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*CreateRunOptions)(struct OrtRunOptions**);
- *     struct OrtStatus* (*RunOptionsSetRunLogVerbosityLevel)(struct OrtRunOptions*,int);
- *     struct OrtStatus* (*RunOptionsSetRunLogSeverityLevel)(struct OrtRunOptions*,int);
- *     struct OrtStatus* (*RunOptionsSetRunTag)(struct OrtRunOptions*,char*);
- *     struct OrtStatus* (*RunOptionsGetRunLogVerbosityLevel)(struct OrtRunOptions*,int*);
- *     struct OrtStatus* (*RunOptionsGetRunLogSeverityLevel)(struct OrtRunOptions*,int*);
- *     struct OrtStatus* (*RunOptionsGetRunTag)(struct OrtRunOptions*,char**);
- *     struct OrtStatus* (*RunOptionsSetTerminate)(struct OrtRunOptions*);
- *     struct OrtStatus* (*RunOptionsUnsetTerminate)(struct OrtRunOptions*);
- *     struct OrtStatus* (*CreateTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
- *     struct OrtStatus* (*CreateTensorWithDataAsOrtValue)(struct OrtMemoryInfo*,void*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
- *     struct OrtStatus* (*IsTensor)(struct OrtValue*,int*);
- *     struct OrtStatus* (*GetTensorMutableData)(struct OrtValue*,void**);
- *     struct OrtStatus* (*FillStringTensor)(struct OrtValue*,char**,unsigned long);
- *     struct OrtStatus* (*GetStringTensorDataLength)(struct OrtValue*,unsigned long*);
- *     struct OrtStatus* (*GetStringTensorContent)(struct OrtValue*,void*,unsigned long,unsigned long*,unsigned long);
- *     struct OrtStatus* (*CastTypeInfoToTensorInfo)(struct OrtTypeInfo*,struct OrtTensorTypeAndShapeInfo**);
- *     struct OrtStatus* (*GetOnnxTypeFromTypeInfo)(struct OrtTypeInfo*,enum ONNXType*);
- *     struct OrtStatus* (*CreateTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo**);
- *     struct OrtStatus* (*SetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
- *     struct OrtStatus* (*SetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
- *     struct OrtStatus* (*GetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
- *     struct OrtStatus* (*GetDimensionsCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
- *     struct OrtStatus* (*GetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
- *     struct OrtStatus* (*GetSymbolicDimensions)(struct OrtTensorTypeAndShapeInfo*,char**,unsigned long);
- *     struct OrtStatus* (*GetTensorShapeElementCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
- *     struct OrtStatus* (*GetTensorTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
- *     struct OrtStatus* (*GetTypeInfo)(struct OrtValue*,struct OrtTypeInfo**);
- *     struct OrtStatus* (*GetValueType)(struct OrtValue*,enum ONNXType*);
- *     struct OrtStatus* (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,struct OrtMemoryInfo**);
- *     struct OrtStatus* (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,struct OrtMemoryInfo**);
- *     struct OrtStatus* (*CompareMemoryInfo)(struct OrtMemoryInfo*,struct OrtMemoryInfo*,int*);
- *     struct OrtStatus* (*MemoryInfoGetName)(struct OrtMemoryInfo*,char**);
- *     struct OrtStatus* (*MemoryInfoGetId)(struct OrtMemoryInfo*,int*);
- *     struct OrtStatus* (*MemoryInfoGetMemType)(struct OrtMemoryInfo*,enum OrtMemType*);
- *     struct OrtStatus* (*MemoryInfoGetType)(struct OrtMemoryInfo*,enum OrtAllocatorType*);
- *     struct OrtStatus* (*AllocatorAlloc)(struct OrtAllocator*,unsigned long,void**);
- *     struct OrtStatus* (*AllocatorFree)(struct OrtAllocator*,void*);
- *     struct OrtStatus* (*AllocatorGetInfo)(struct OrtAllocator*,struct OrtMemoryInfo**);
- *     struct OrtStatus* (*GetAllocatorWithDefaultOptions)(struct OrtAllocator**);
- *     struct OrtStatus* (*AddFreeDimensionOverride)(struct OrtSessionOptions*,char*,long long);
- *     struct OrtStatus* (*GetValue)(struct OrtValue*,int,struct OrtAllocator*,struct OrtValue**);
- *     struct OrtStatus* (*GetValueCount)(struct OrtValue*,unsigned long*);
- *     struct OrtStatus* (*CreateValue)(struct OrtValue**,unsigned long,enum ONNXType,struct OrtValue**);
- *     struct OrtStatus* (*CreateOpaqueValue)(char*,char*,void*,unsigned long,struct OrtValue**);
- *     struct OrtStatus* (*GetOpaqueValue)(char*,char*,struct OrtValue*,void*,unsigned long);
- *     struct OrtStatus* (*KernelInfoGetAttribute_float)(struct OrtKernelInfo*,char*,float*);
- *     struct OrtStatus* (*KernelInfoGetAttribute_int64)(struct OrtKernelInfo*,char*,long long*);
- *     struct OrtStatus* (*KernelInfoGetAttribute_string)(struct OrtKernelInfo*,char*,char*,unsigned long*);
- *     struct OrtStatus* (*KernelContext_GetInputCount)(struct OrtKernelContext*,unsigned long*);
- *     struct OrtStatus* (*KernelContext_GetOutputCount)(struct OrtKernelContext*,unsigned long*);
- *     struct OrtStatus* (*KernelContext_GetInput)(struct OrtKernelContext*,unsigned long,struct OrtValue**);
- *     struct OrtStatus* (*KernelContext_GetOutput)(struct OrtKernelContext*,unsigned long,long long*,unsigned long,struct OrtValue**);
- *     void (*ReleaseEnv)(struct OrtEnv*);
- *     void (*ReleaseStatus)(struct OrtStatus*);
- *     void (*ReleaseMemoryInfo)(struct OrtMemoryInfo*);
- *     void (*ReleaseSession)(struct OrtSession*);
- *     void (*ReleaseValue)(struct OrtValue*);
- *     void (*ReleaseRunOptions)(struct OrtRunOptions*);
- *     void (*ReleaseTypeInfo)(struct OrtTypeInfo*);
- *     void (*ReleaseTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo*);
- *     void (*ReleaseSessionOptions)(struct OrtSessionOptions*);
- *     void (*ReleaseCustomOpDomain)(struct OrtCustomOpDomain*);
- *     struct OrtStatus* (*GetDenotationFromTypeInfo)(struct OrtTypeInfo*,char**,unsigned long*);
- *     struct OrtStatus* (*CastTypeInfoToMapTypeInfo)(struct OrtTypeInfo*,struct OrtMapTypeInfo**);
- *     struct OrtStatus* (*CastTypeInfoToSequenceTypeInfo)(struct OrtTypeInfo*,struct OrtSequenceTypeInfo**);
- *     struct OrtStatus* (*GetMapKeyType)(struct OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
- *     struct OrtStatus* (*GetMapValueType)(struct OrtMapTypeInfo*,struct OrtTypeInfo**);
- *     struct OrtStatus* (*GetSequenceElementType)(struct OrtSequenceTypeInfo*,struct OrtTypeInfo**);
- *     void (*ReleaseMapTypeInfo)(struct OrtMapTypeInfo*);
- *     void (*ReleaseSequenceTypeInfo)(struct OrtSequenceTypeInfo*);
- *     struct OrtStatus* (*SessionEndProfiling)(struct OrtSession*,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*SessionGetModelMetadata)(struct OrtSession*,struct OrtModelMetadata**);
- *     struct OrtStatus* (*ModelMetadataGetProducerName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*ModelMetadataGetGraphName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*ModelMetadataGetDomain)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*ModelMetadataGetDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*ModelMetadataLookupCustomMetadataMap)(struct OrtModelMetadata*,struct OrtAllocator*,char*,char**);
- *     struct OrtStatus* (*ModelMetadataGetVersion)(struct OrtModelMetadata*,long long*);
- *     void (*ReleaseModelMetadata)(struct OrtModelMetadata*);
- *     struct OrtStatus* (*CreateEnvWithGlobalThreadPools)(enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
- *     struct OrtStatus* (*DisablePerSessionThreads)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*CreateThreadingOptions)(struct OrtThreadingOptions**);
- *     void (*ReleaseThreadingOptions)(struct OrtThreadingOptions*);
- *     struct OrtStatus* (*ModelMetadataGetCustomMetadataMapKeys)(struct OrtModelMetadata*,struct OrtAllocator*,char***,long long*);
- *     struct OrtStatus* (*AddFreeDimensionOverrideByName)(struct OrtSessionOptions*,char*,long long);
- *     struct OrtStatus* (*GetAvailableProviders)(char***,int*);
- *     struct OrtStatus* (*ReleaseAvailableProviders)(char**,int);
- *     struct OrtStatus* (*GetStringTensorElementLength)(struct OrtValue*,unsigned long,unsigned long*);
- *     struct OrtStatus* (*GetStringTensorElement)(struct OrtValue*,unsigned long,unsigned long,void*);
- *     struct OrtStatus* (*FillStringTensorElement)(struct OrtValue*,char*,unsigned long);
- *     struct OrtStatus* (*AddSessionConfigEntry)(struct OrtSessionOptions*,char*,char*);
- *     struct OrtStatus* (*CreateAllocator)(struct OrtSession*,struct OrtMemoryInfo*,struct OrtAllocator**);
- *     void (*ReleaseAllocator)(struct OrtAllocator*);
- *     struct OrtStatus* (*RunWithBinding)(struct OrtSession*,struct OrtRunOptions*,struct OrtIoBinding*);
- *     struct OrtStatus* (*CreateIoBinding)(struct OrtSession*,struct OrtIoBinding**);
- *     void (*ReleaseIoBinding)(struct OrtIoBinding*);
- *     struct OrtStatus* (*BindInput)(struct OrtIoBinding*,char*,struct OrtValue*);
- *     struct OrtStatus* (*BindOutput)(struct OrtIoBinding*,char*,struct OrtValue*);
- *     struct OrtStatus* (*BindOutputToDevice)(struct OrtIoBinding*,char*,struct OrtMemoryInfo*);
- *     struct OrtStatus* (*GetBoundOutputNames)(struct OrtIoBinding*,struct OrtAllocator*,char**,unsigned long**,unsigned long*);
- *     struct OrtStatus* (*GetBoundOutputValues)(struct OrtIoBinding*,struct OrtAllocator*,struct OrtValue***,unsigned long*);
- *     void (*ClearBoundInputs)(struct OrtIoBinding*);
- *     void (*ClearBoundOutputs)(struct OrtIoBinding*);
- *     struct OrtStatus* (*TensorAt)(struct OrtValue*,long long*,unsigned long,void**);
- *     struct OrtStatus* (*CreateAndRegisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*,struct OrtArenaCfg*);
- *     struct OrtStatus* (*SetLanguageProjection)(struct OrtEnv*,enum OrtLanguageProjection);
- *     struct OrtStatus* (*SessionGetProfilingStartTimeNs)(struct OrtSession*,unsigned long long*);
- *     struct OrtStatus* (*SetGlobalIntraOpNumThreads)(struct OrtThreadingOptions*,int);
- *     struct OrtStatus* (*SetGlobalInterOpNumThreads)(struct OrtThreadingOptions*,int);
- *     struct OrtStatus* (*SetGlobalSpinControl)(struct OrtThreadingOptions*,int);
- *     struct OrtStatus* (*AddInitializer)(struct OrtSessionOptions*,char*,struct OrtValue*);
- *     struct OrtStatus* (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA)(struct OrtSessionOptions*,struct OrtCUDAProviderOptions*);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_ROCM)(struct OrtSessionOptions*,struct OrtROCMProviderOptions*);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_OpenVINO)(struct OrtSessionOptions*,struct OrtOpenVINOProviderOptions*);
- *     struct OrtStatus* (*SetGlobalDenormalAsZero)(struct OrtThreadingOptions*);
- *     struct OrtStatus* (*CreateArenaCfg)(unsigned long,int,int,int,struct OrtArenaCfg**);
- *     void (*ReleaseArenaCfg)(struct OrtArenaCfg*);
- *     struct OrtStatus* (*ModelMetadataGetGraphDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptions*);
- *     struct OrtStatus* (*SetCurrentGpuDeviceId)(int);
- *     struct OrtStatus* (*GetCurrentGpuDeviceId)(int*);
- *     struct OrtStatus* (*KernelInfoGetAttributeArray_float)(struct OrtKernelInfo*,char*,float*,unsigned long*);
- *     struct OrtStatus* (*KernelInfoGetAttributeArray_int64)(struct OrtKernelInfo*,char*,long long*,unsigned long*);
- *     struct OrtStatus* (*CreateArenaCfgV2)(char**,unsigned long*,unsigned long,struct OrtArenaCfg**);
- *     struct OrtStatus* (*AddRunConfigEntry)(struct OrtRunOptions*,char*,char*);
- *     struct OrtStatus* (*CreatePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer**);
- *     void (*ReleasePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer*);
- *     struct OrtStatus* (*CreateSessionWithPrepackedWeightsContainer)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
- *     struct OrtStatus* (*CreateSessionFromArrayWithPrepackedWeightsContainer)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptionsV2*);
- *     struct OrtStatus* (*CreateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2**);
- *     struct OrtStatus* (*UpdateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*,char**,char**,unsigned long);
- *     struct OrtStatus* (*GetTensorRTProviderOptionsAsString)(struct OrtTensorRTProviderOptionsV2*,struct OrtAllocator*,char**);
- *     void (*ReleaseTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*);
- *     struct OrtStatus* (*EnableOrtCustomOps)(struct OrtSessionOptions*);
- *     struct OrtStatus* (*RegisterAllocator)(struct OrtEnv*,struct OrtAllocator*);
- *     struct OrtStatus* (*UnregisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*);
- *     struct OrtStatus* (*IsSparseTensor)(struct OrtValue*,int*);
- *     struct OrtStatus* (*CreateSparseTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
- *     struct OrtStatus* (*FillSparseTensorCoo)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long);
- *     struct OrtStatus* (*FillSparseTensorCsr)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,long long*,unsigned long);
- *     struct OrtStatus* (*FillSparseTensorBlockSparse)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,int*);
- *     struct OrtStatus* (*CreateSparseTensorWithValuesAsOrtValue)(struct OrtMemoryInfo*,void*,long long*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
- *     struct OrtStatus* (*UseCooIndices)(struct OrtValue*,long long*,unsigned long);
- *     struct OrtStatus* (*UseCsrIndices)(struct OrtValue*,long long*,unsigned long,long long*,unsigned long);
- *     struct OrtStatus* (*UseBlockSparseIndices)(struct OrtValue*,long long*,unsigned long,int*);
- *     struct OrtStatus* (*GetSparseTensorFormat)(struct OrtValue*,enum OrtSparseFormat*);
- *     struct OrtStatus* (*GetSparseTensorValuesTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
- *     struct OrtStatus* (*GetSparseTensorValues)(struct OrtValue*,void**);
- *     struct OrtStatus* (*GetSparseTensorIndicesTypeShape)(struct OrtValue*,enum OrtSparseIndicesFormat,struct OrtTensorTypeAndShapeInfo**);
- *     struct OrtStatus* (*GetSparseTensorIndices)(struct OrtValue*,enum OrtSparseIndicesFormat,unsigned long*,void**);
- *     struct OrtStatus* (*HasValue)(struct OrtValue*,int*);
- *     struct OrtStatus* (*KernelContext_GetGPUComputeStream)(struct OrtKernelContext*,void**);
- *     struct OrtStatus* (*GetTensorMemoryInfo)(struct OrtValue*,struct OrtMemoryInfo**);
- *     struct OrtStatus* (*GetExecutionProviderApi)(char*,unsigned int,void**);
- *     struct OrtStatus* (*SessionOptionsSetCustomCreateThreadFn)(struct OrtSessionOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
- *     struct OrtStatus* (*SessionOptionsSetCustomThreadCreationOptions)(struct OrtSessionOptions*,void*);
- *     struct OrtStatus* (*SessionOptionsSetCustomJoinThreadFn)(struct OrtSessionOptions*,void (*)(struct OrtCustomHandleType*));
- *     struct OrtStatus* (*SetGlobalCustomCreateThreadFn)(struct OrtThreadingOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
- *     struct OrtStatus* (*SetGlobalCustomThreadCreationOptions)(struct OrtThreadingOptions*,void*);
- *     struct OrtStatus* (*SetGlobalCustomJoinThreadFn)(struct OrtThreadingOptions*,void (*)(struct OrtCustomHandleType*));
- *     struct OrtStatus* (*SynchronizeBoundInputs)(struct OrtIoBinding*);
- *     struct OrtStatus* (*SynchronizeBoundOutputs)(struct OrtIoBinding*);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA_V2)(struct OrtSessionOptions*,struct OrtCUDAProviderOptionsV2*);
- *     struct OrtStatus* (*CreateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2**);
- *     struct OrtStatus* (*UpdateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*,char**,char**,unsigned long);
- *     struct OrtStatus* (*GetCUDAProviderOptionsAsString)(struct OrtCUDAProviderOptionsV2*,struct OrtAllocator*,char**);
- *     void (*ReleaseCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_MIGraphX)(struct OrtSessionOptions*,struct OrtMIGraphXProviderOptions*);
- *     struct OrtStatus* (*AddExternalInitializers)(struct OrtSessionOptions*,char**,struct OrtValue**,unsigned long);
- *     struct OrtStatus* (*CreateOpAttr)(char*,void*,int,enum OrtOpAttrType,struct OrtOpAttr**);
- *     void (*ReleaseOpAttr)(struct OrtOpAttr*);
- *     struct OrtStatus* (*CreateOp)(struct OrtKernelInfo*,char*,char*,int,char**,enum ONNXTensorElementDataType*,int,struct OrtOpAttr**,int,int,int,struct OrtOp**);
- *     struct OrtStatus* (*InvokeOp)(struct OrtKernelContext*,struct OrtOp*,struct OrtValue**,int,struct OrtValue**,int);
- *     void (*ReleaseOp)(struct OrtOp*);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider)(struct OrtSessionOptions*,char*,char**,char**,unsigned long);
- *     struct OrtStatus* (*CopyKernelInfo)(struct OrtKernelInfo*,struct OrtKernelInfo**);
- *     void (*ReleaseKernelInfo)(struct OrtKernelInfo*);
- *     struct OrtTrainingApi* (*GetTrainingApi)(unsigned int);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CANN)(struct OrtSessionOptions*,struct OrtCANNProviderOptions*);
- *     struct OrtStatus* (*CreateCANNProviderOptions)(struct OrtCANNProviderOptions**);
- *     struct OrtStatus* (*UpdateCANNProviderOptions)(struct OrtCANNProviderOptions*,char**,char**,unsigned long);
- *     struct OrtStatus* (*GetCANNProviderOptionsAsString)(struct OrtCANNProviderOptions*,struct OrtAllocator*,char**);
- *     void (*ReleaseCANNProviderOptions)(struct OrtCANNProviderOptions*);
- *     void (*MemoryInfoGetDeviceType)(struct OrtMemoryInfo*,enum OrtMemoryInfoDeviceType*);
- *     struct OrtStatus* (*UpdateEnvWithCustomLogLevel)(struct OrtEnv*,enum OrtLoggingLevel);
- *     struct OrtStatus* (*SetGlobalIntraOpThreadAffinity)(struct OrtThreadingOptions*,char*);
- *     struct OrtStatus* (*RegisterCustomOpsLibrary_V2)(struct OrtSessionOptions*,char*);
- *     struct OrtStatus* (*RegisterCustomOpsUsingFunction)(struct OrtSessionOptions*,char*);
- *     struct OrtStatus* (*KernelInfo_GetInputCount)(struct OrtKernelInfo*,unsigned long*);
- *     struct OrtStatus* (*KernelInfo_GetOutputCount)(struct OrtKernelInfo*,unsigned long*);
- *     struct OrtStatus* (*KernelInfo_GetInputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
- *     struct OrtStatus* (*KernelInfo_GetOutputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
- *     struct OrtStatus* (*KernelInfo_GetInputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
- *     struct OrtStatus* (*KernelInfo_GetOutputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
- *     struct OrtStatus* (*KernelInfoGetAttribute_tensor)(struct OrtKernelInfo*,char*,struct OrtAllocator*,struct OrtValue**);
- *     struct OrtStatus* (*HasSessionConfigEntry)(struct OrtSessionOptions*,char*,int*);
- *     struct OrtStatus* (*GetSessionConfigEntry)(struct OrtSessionOptions*,char*,char*,unsigned long*);
- *     struct OrtStatus* (*SessionOptionsAppendExecutionProvider_Dnnl)(struct OrtSessionOptions*,struct OrtDnnlProviderOptions*);
- *     struct OrtStatus* (*CreateDnnlProviderOptions)(struct OrtDnnlProviderOptions**);
- *     struct OrtStatus* (*UpdateDnnlProviderOptions)(struct OrtDnnlProviderOptions*,char**,char**,unsigned long);
- *     struct OrtStatus* (*GetDnnlProviderOptionsAsString)(struct OrtDnnlProviderOptions*,struct OrtAllocator*,char**);
- *     void (*ReleaseDnnlProviderOptions)(struct OrtDnnlProviderOptions*);
- *     struct OrtStatus* (*KernelInfo_GetNodeName)(struct OrtKernelInfo*,char*,unsigned long*);
- *     struct OrtStatus* (*KernelInfo_GetLogger)(struct OrtKernelInfo*,struct OrtLogger**);
- *     struct OrtStatus* (*KernelContext_GetLogger)(struct OrtKernelContext*,struct OrtLogger**);
- *     struct OrtStatus* (*Logger_LogMessage)(struct OrtLogger*,enum OrtLoggingLevel,char*,char*,int,char*);
- *     struct OrtStatus* (*Logger_GetLoggingSeverityLevel)(struct OrtLogger*,enum OrtLoggingLevel*);
- *     struct OrtStatus* (*KernelInfoGetConstantInput_tensor)(struct OrtKernelInfo*,unsigned long,int*,struct OrtValue**);
- *     struct OrtStatus* (*CastTypeInfoToOptionalTypeInfo)(struct OrtTypeInfo*,struct OrtOptionalTypeInfo**);
- *     struct OrtStatus* (*GetOptionalContainedTypeInfo)(struct OrtOptionalTypeInfo*,struct OrtTypeInfo**);
- *     struct OrtStatus* (*GetResizedStringTensorElementBuffer)(struct OrtValue*,unsigned long,unsigned long,char**);
- *     struct OrtStatus* (*KernelContext_GetAllocator)(struct OrtKernelContext*,struct OrtMemoryInfo*,struct OrtAllocator**);
+ *     OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
+ *     OrtErrorCode (*GetErrorCode)(const OrtStatus*);
+ *     char* (*GetErrorMessage)(const OrtStatus*);
+ *     OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
+ *     OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
+ *     OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
+ *     OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
+ *     OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
+ *     OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
+ *     OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
+ *     OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
+ *     OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
+ *     OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
+ *     OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
+ *     OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
+ *     OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
+ *     OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
+ *     OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
+ *     OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
+ *     OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
+ *     OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
+ *     OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
+ *     OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
+ *     OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
+ *     OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
+ *     OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
+ *     OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
+ *     OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
+ *     OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
+ *     OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
+ *     OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
+ *     OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
+ *     OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
+ *     OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
+ *     OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
+ *     OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
+ *     OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
+ *     OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
+ *     OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
+ *     OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
+ *     OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
+ *     OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
+ *     OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
+ *     OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+ *     OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
+ *     OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+ *     OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+ *     OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
+ *     OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
+ *     OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
+ *     OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
+ *     OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
+ *     OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
+ *     OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
+ *     OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
+ *     OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
+ *     OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
+ *     OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
+ *     OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
+ *     OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
+ *     OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
+ *     OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
+ *     OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
+ *     OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
+ *     OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
+ *     OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
+ *     OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
+ *     OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
+ *     OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
+ *     OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
+ *     OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
+ *     OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
+ *     OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
+ *     void (*ReleaseEnv)(OrtEnv*);
+ *     void (*ReleaseStatus)(OrtStatus*);
+ *     void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
+ *     void (*ReleaseSession)(OrtSession*);
+ *     void (*ReleaseValue)(OrtValue*);
+ *     void (*ReleaseRunOptions)(OrtRunOptions*);
+ *     void (*ReleaseTypeInfo)(OrtTypeInfo*);
+ *     void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
+ *     void (*ReleaseSessionOptions)(OrtSessionOptions*);
+ *     void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
+ *     OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
+ *     OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
+ *     OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
+ *     OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+ *     OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
+ *     OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
+ *     void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
+ *     void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
+ *     OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
+ *     OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
+ *     OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
+ *     void (*ReleaseModelMetadata)(OrtModelMetadata*);
+ *     OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
+ *     OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
+ *     OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
+ *     void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
+ *     OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
+ *     OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
+ *     OrtStatusPtr (*GetAvailableProviders)(char***,int*);
+ *     OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
+ *     OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
+ *     OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
+ *     OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
+ *     OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
+ *     OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
+ *     void (*ReleaseAllocator)(OrtAllocator*);
+ *     OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
+ *     OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
+ *     void (*ReleaseIoBinding)(OrtIoBinding*);
+ *     OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
+ *     OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
+ *     OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
+ *     OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
+ *     OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
+ *     void (*ClearBoundInputs)(OrtIoBinding*);
+ *     void (*ClearBoundOutputs)(OrtIoBinding*);
+ *     OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
+ *     OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
+ *     OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
+ *     OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
+ *     OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
+ *     OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
+ *     OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
+ *     OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
+ *     OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
+ *     OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
+ *     OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
+ *     void (*ReleaseArenaCfg)(OrtArenaCfg*);
+ *     OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
+ *     OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
+ *     OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
+ *     OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
+ *     OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
+ *     OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
+ *     OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
+ *     OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
+ *     void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
+ *     OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+ *     OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
+ *     OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
+ *     OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
+ *     void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
+ *     OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
+ *     OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
+ *     OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
+ *     OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
+ *     OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
+ *     OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
+ *     OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
+ *     OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
+ *     OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
+ *     OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
+ *     OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
+ *     OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
+ *     OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
+ *     OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
+ *     OrtStatusPtr (*HasValue)(const OrtValue*,int*);
+ *     OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
+ *     OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
+ *     OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
+ *     OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
+ *     OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
+ *     OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
+ *     OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
+ *     OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
+ *     OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
+ *     OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
+ *     OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
+ *     OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
+ *     OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
+ *     void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
+ *     OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
+ *     OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
+ *     void (*ReleaseOpAttr)(OrtOpAttr*);
+ *     OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
+ *     OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
+ *     void (*ReleaseOp)(OrtOp*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
+ *     OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
+ *     void (*ReleaseKernelInfo)(OrtKernelInfo*);
+ *     const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
+ *     OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
+ *     OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
+ *     void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
+ *     void (*MemoryInfoGetDeviceType)(const OrtMemoryInfo*,OrtMemoryInfoDeviceType*);
+ *     OrtStatusPtr (*UpdateEnvWithCustomLogLevel)(OrtEnv*,OrtLoggingLevel);
+ *     OrtStatusPtr (*SetGlobalIntraOpThreadAffinity)(OrtThreadingOptions*,char*);
+ *     OrtStatusPtr (*RegisterCustomOpsLibrary_V2)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*RegisterCustomOpsUsingFunction)(OrtSessionOptions*,char*);
+ *     OrtStatusPtr (*KernelInfo_GetInputCount)(const OrtKernelInfo*,size_t*);
+ *     OrtStatusPtr (*KernelInfo_GetOutputCount)(const OrtKernelInfo*,size_t*);
+ *     OrtStatusPtr (*KernelInfo_GetInputName)(const OrtKernelInfo*,size_t,char*,size_t*);
+ *     OrtStatusPtr (*KernelInfo_GetOutputName)(const OrtKernelInfo*,size_t,char*,size_t*);
+ *     OrtStatusPtr (*KernelInfo_GetInputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*KernelInfo_GetOutputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
+ *     OrtStatusPtr (*KernelInfoGetAttribute_tensor)(const OrtKernelInfo*,char*,OrtAllocator*,OrtValue**);
+ *     OrtStatusPtr (*HasSessionConfigEntry)(const OrtSessionOptions*,char*,int*);
+ *     OrtStatusPtr (*GetSessionConfigEntry)(const OrtSessionOptions*,char*,char*,size_t*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_Dnnl)(OrtSessionOptions*,const OrtDnnlProviderOptions*);
+ *     OrtStatusPtr (*CreateDnnlProviderOptions)(OrtDnnlProviderOptions**);
+ *     OrtStatusPtr (*UpdateDnnlProviderOptions)(OrtDnnlProviderOptions*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetDnnlProviderOptionsAsString)(const OrtDnnlProviderOptions*,OrtAllocator*,char**);
+ *     void (*ReleaseDnnlProviderOptions)(OrtDnnlProviderOptions*);
+ *     OrtStatusPtr (*KernelInfo_GetNodeName)(const OrtKernelInfo*,char*,size_t*);
+ *     OrtStatusPtr (*KernelInfo_GetLogger)(const OrtKernelInfo*,const OrtLogger**);
+ *     OrtStatusPtr (*KernelContext_GetLogger)(const OrtKernelContext*,const OrtLogger**);
+ *     OrtStatusPtr (*Logger_LogMessage)(const OrtLogger*,OrtLoggingLevel,char*,char*,int,char*);
+ *     OrtStatusPtr (*Logger_GetLoggingSeverityLevel)(const OrtLogger*,OrtLoggingLevel*);
+ *     OrtStatusPtr (*KernelInfoGetConstantInput_tensor)(const OrtKernelInfo*,size_t,int*,const OrtValue**);
+ *     OrtStatusPtr (*CastTypeInfoToOptionalTypeInfo)(const OrtTypeInfo*,const OrtOptionalTypeInfo**);
+ *     OrtStatusPtr (*GetOptionalContainedTypeInfo)(const OrtOptionalTypeInfo*,OrtTypeInfo**);
+ *     OrtStatusPtr (*GetResizedStringTensorElementBuffer)(OrtValue*,size_t,size_t,char**);
+ *     OrtStatusPtr (*KernelContext_GetAllocator)(const OrtKernelContext*,const OrtMemoryInfo*,OrtAllocator**);
  *     char* (*GetBuildInfoString)();
- *     struct OrtStatus* (*CreateROCMProviderOptions)(struct OrtROCMProviderOptions**);
- *     struct OrtStatus* (*UpdateROCMProviderOptions)(struct OrtROCMProviderOptions*,char**,char**,unsigned long);
- *     struct OrtStatus* (*GetROCMProviderOptionsAsString)(struct OrtROCMProviderOptions*,struct OrtAllocator*,char**);
- *     void (*ReleaseROCMProviderOptions)(struct OrtROCMProviderOptions*);
- *     struct OrtStatus* (*CreateAndRegisterAllocatorV2)(struct OrtEnv*,char*,struct OrtMemoryInfo*,struct OrtArenaCfg*,char**,char**,unsigned long);
- *     struct OrtStatus* (*RunAsync)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**,void (*)(void*,struct OrtValue**,unsigned long,struct OrtStatus*),void*);
- *     struct OrtStatus* (*UpdateTensorRTProviderOptionsWithValue)(struct OrtTensorRTProviderOptionsV2*,char*,void*);
- *     struct OrtStatus* (*GetTensorRTProviderOptionsByName)(struct OrtTensorRTProviderOptionsV2*,char*,void**);
- *     struct OrtStatus* (*UpdateCUDAProviderOptionsWithValue)(struct OrtCUDAProviderOptionsV2*,char*,void*);
- *     struct OrtStatus* (*GetCUDAProviderOptionsByName)(struct OrtCUDAProviderOptionsV2*,char*,void**);
- *     struct OrtStatus* (*KernelContext_GetResource)(struct OrtKernelContext*,int,int,void**);
+ *     OrtStatusPtr (*CreateROCMProviderOptions)(OrtROCMProviderOptions**);
+ *     OrtStatusPtr (*UpdateROCMProviderOptions)(OrtROCMProviderOptions*,char**,char**,size_t);
+ *     OrtStatusPtr (*GetROCMProviderOptionsAsString)(const OrtROCMProviderOptions*,OrtAllocator*,char**);
+ *     void (*ReleaseROCMProviderOptions)(OrtROCMProviderOptions*);
+ *     OrtStatusPtr (*CreateAndRegisterAllocatorV2)(OrtEnv*,char*,const OrtMemoryInfo*,const OrtArenaCfg*,char**,char**,size_t);
+ *     OrtStatusPtr (*RunAsync)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**,RunAsyncCallbackFn,void*);
+ *     OrtStatusPtr (*UpdateTensorRTProviderOptionsWithValue)(OrtTensorRTProviderOptionsV2*,char*,void*);
+ *     OrtStatusPtr (*GetTensorRTProviderOptionsByName)(const OrtTensorRTProviderOptionsV2*,char*,void**);
+ *     OrtStatusPtr (*UpdateCUDAProviderOptionsWithValue)(OrtCUDAProviderOptionsV2*,char*,void*);
+ *     OrtStatusPtr (*GetCUDAProviderOptionsByName)(const OrtCUDAProviderOptionsV2*,char*,void**);
+ *     OrtStatusPtr (*KernelContext_GetResource)(const OrtKernelContext*,int,int,void**);
  * };
  * }
  */
@@ -288,7 +288,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateStatus)(enum OrtErrorCode,char*);
+     * OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
      * }
      */
     public interface CreateStatus {
@@ -317,7 +317,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateStatus)(enum OrtErrorCode,char*);
+     * OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
      * }
      */
     public static MemorySegment CreateStatus$get(MemorySegment seg) {
@@ -326,7 +326,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateStatus)(enum OrtErrorCode,char*);
+     * OrtStatus* (*CreateStatus)(OrtErrorCode,char*);
      * }
      */
     public static void CreateStatus$set(MemorySegment seg, MemorySegment x) {
@@ -346,7 +346,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * enum OrtErrorCode (*GetErrorCode)(struct OrtStatus*);
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus*);
      * }
      */
     public interface GetErrorCode {
@@ -375,7 +375,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * enum OrtErrorCode (*GetErrorCode)(struct OrtStatus*);
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus*);
      * }
      */
     public static MemorySegment GetErrorCode$get(MemorySegment seg) {
@@ -384,7 +384,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * enum OrtErrorCode (*GetErrorCode)(struct OrtStatus*);
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus*);
      * }
      */
     public static void GetErrorCode$set(MemorySegment seg, MemorySegment x) {
@@ -404,7 +404,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * char* (*GetErrorMessage)(struct OrtStatus*);
+     * char* (*GetErrorMessage)(const OrtStatus*);
      * }
      */
     public interface GetErrorMessage {
@@ -433,7 +433,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * char* (*GetErrorMessage)(struct OrtStatus*);
+     * char* (*GetErrorMessage)(const OrtStatus*);
      * }
      */
     public static MemorySegment GetErrorMessage$get(MemorySegment seg) {
@@ -442,7 +442,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * char* (*GetErrorMessage)(struct OrtStatus*);
+     * char* (*GetErrorMessage)(const OrtStatus*);
      * }
      */
     public static void GetErrorMessage$set(MemorySegment seg, MemorySegment x) {
@@ -462,7 +462,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateEnv)(enum OrtLoggingLevel,char*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
      * }
      */
     public interface CreateEnv {
@@ -492,7 +492,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnv)(enum OrtLoggingLevel,char*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
      * }
      */
     public static MemorySegment CreateEnv$get(MemorySegment seg) {
@@ -501,7 +501,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnv)(enum OrtLoggingLevel,char*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel,char*,OrtEnv**);
      * }
      */
     public static void CreateEnv$set(MemorySegment seg, MemorySegment x) {
@@ -521,7 +521,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithCustomLogger)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
      * }
      */
     public interface CreateEnvWithCustomLogger {
@@ -560,7 +560,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithCustomLogger)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
      * }
      */
     public static MemorySegment CreateEnvWithCustomLogger$get(MemorySegment seg) {
@@ -569,7 +569,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithCustomLogger)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,OrtEnv**);
      * }
      */
     public static void CreateEnvWithCustomLogger$set(MemorySegment seg, MemorySegment x) {
@@ -589,7 +589,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*EnableTelemetryEvents)(struct OrtEnv*);
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
      * }
      */
     public interface EnableTelemetryEvents {
@@ -618,7 +618,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableTelemetryEvents)(struct OrtEnv*);
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
      * }
      */
     public static MemorySegment EnableTelemetryEvents$get(MemorySegment seg) {
@@ -627,7 +627,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableTelemetryEvents)(struct OrtEnv*);
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv*);
      * }
      */
     public static void EnableTelemetryEvents$set(MemorySegment seg, MemorySegment x) {
@@ -647,7 +647,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*DisableTelemetryEvents)(struct OrtEnv*);
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
      * }
      */
     public interface DisableTelemetryEvents {
@@ -676,7 +676,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableTelemetryEvents)(struct OrtEnv*);
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
      * }
      */
     public static MemorySegment DisableTelemetryEvents$get(MemorySegment seg) {
@@ -685,7 +685,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableTelemetryEvents)(struct OrtEnv*);
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv*);
      * }
      */
     public static void DisableTelemetryEvents$set(MemorySegment seg, MemorySegment x) {
@@ -705,7 +705,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSession)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
      * }
      */
     public interface CreateSession {
@@ -742,7 +742,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSession)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
      * }
      */
     public static MemorySegment CreateSession$get(MemorySegment seg) {
@@ -751,7 +751,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSession)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSession)(const OrtEnv*,char*,const OrtSessionOptions*,OrtSession**);
      * }
      */
     public static void CreateSession$set(MemorySegment seg, MemorySegment x) {
@@ -771,7 +771,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionFromArray)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
      * }
      */
     public interface CreateSessionFromArray {
@@ -810,7 +810,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionFromArray)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
      * }
      */
     public static MemorySegment CreateSessionFromArray$get(MemorySegment seg) {
@@ -819,7 +819,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionFromArray)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtSession**);
      * }
      */
     public static void CreateSessionFromArray$set(MemorySegment seg, MemorySegment x) {
@@ -839,7 +839,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*Run)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
      * }
      */
     public interface Run {
@@ -884,7 +884,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*Run)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
      * }
      */
     public static MemorySegment Run$get(MemorySegment seg) {
@@ -893,7 +893,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*Run)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*Run)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**);
      * }
      */
     public static void Run$set(MemorySegment seg, MemorySegment x) {
@@ -913,7 +913,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionOptions)(struct OrtSessionOptions**);
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
      * }
      */
     public interface CreateSessionOptions {
@@ -942,7 +942,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionOptions)(struct OrtSessionOptions**);
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
      * }
      */
     public static MemorySegment CreateSessionOptions$get(MemorySegment seg) {
@@ -951,7 +951,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionOptions)(struct OrtSessionOptions**);
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions**);
      * }
      */
     public static void CreateSessionOptions$set(MemorySegment seg, MemorySegment x) {
@@ -971,13 +971,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetOptimizedModelFilePath)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
      * }
      */
     public interface SetOptimizedModelFilePath {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetOptimizedModelFilePath fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$22.const$3, fi, constants$15.const$2, scope);
@@ -985,9 +984,9 @@ public class OrtApi {
 
         static SetOptimizedModelFilePath ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1001,7 +1000,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetOptimizedModelFilePath)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
      * }
      */
     public static MemorySegment SetOptimizedModelFilePath$get(MemorySegment seg) {
@@ -1010,7 +1009,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetOptimizedModelFilePath)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions*,char*);
      * }
      */
     public static void SetOptimizedModelFilePath$set(MemorySegment seg, MemorySegment x) {
@@ -1030,13 +1029,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CloneSessionOptions)(struct OrtSessionOptions*,struct OrtSessionOptions**);
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
      * }
      */
     public interface CloneSessionOptions {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CloneSessionOptions fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$22.const$5, fi, constants$15.const$2, scope);
@@ -1044,9 +1042,9 @@ public class OrtApi {
 
         static CloneSessionOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1060,7 +1058,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CloneSessionOptions)(struct OrtSessionOptions*,struct OrtSessionOptions**);
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
      * }
      */
     public static MemorySegment CloneSessionOptions$get(MemorySegment seg) {
@@ -1069,7 +1067,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CloneSessionOptions)(struct OrtSessionOptions*,struct OrtSessionOptions**);
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions*,OrtSessionOptions**);
      * }
      */
     public static void CloneSessionOptions$set(MemorySegment seg, MemorySegment x) {
@@ -1089,7 +1087,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetSessionExecutionMode)(struct OrtSessionOptions*,enum ExecutionMode);
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
      * }
      */
     public interface SetSessionExecutionMode {
@@ -1118,7 +1116,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionExecutionMode)(struct OrtSessionOptions*,enum ExecutionMode);
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
      * }
      */
     public static MemorySegment SetSessionExecutionMode$get(MemorySegment seg) {
@@ -1127,7 +1125,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionExecutionMode)(struct OrtSessionOptions*,enum ExecutionMode);
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions*,ExecutionMode);
      * }
      */
     public static void SetSessionExecutionMode$set(MemorySegment seg, MemorySegment x) {
@@ -1147,13 +1145,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*EnableProfiling)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
      * }
      */
     public interface EnableProfiling {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(EnableProfiling fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$23.const$5, fi, constants$15.const$2, scope);
@@ -1161,9 +1158,9 @@ public class OrtApi {
 
         static EnableProfiling ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1177,7 +1174,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableProfiling)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
      * }
      */
     public static MemorySegment EnableProfiling$get(MemorySegment seg) {
@@ -1186,7 +1183,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableProfiling)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions*,char*);
      * }
      */
     public static void EnableProfiling$set(MemorySegment seg, MemorySegment x) {
@@ -1206,7 +1203,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*DisableProfiling)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
      * }
      */
     public interface DisableProfiling {
@@ -1235,7 +1232,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableProfiling)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment DisableProfiling$get(MemorySegment seg) {
@@ -1244,7 +1241,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableProfiling)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions*);
      * }
      */
     public static void DisableProfiling$set(MemorySegment seg, MemorySegment x) {
@@ -1264,7 +1261,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*EnableMemPattern)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
      * }
      */
     public interface EnableMemPattern {
@@ -1293,7 +1290,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableMemPattern)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment EnableMemPattern$get(MemorySegment seg) {
@@ -1302,7 +1299,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableMemPattern)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions*);
      * }
      */
     public static void EnableMemPattern$set(MemorySegment seg, MemorySegment x) {
@@ -1322,7 +1319,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*DisableMemPattern)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
      * }
      */
     public interface DisableMemPattern {
@@ -1351,7 +1348,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableMemPattern)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment DisableMemPattern$get(MemorySegment seg) {
@@ -1360,7 +1357,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableMemPattern)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions*);
      * }
      */
     public static void DisableMemPattern$set(MemorySegment seg, MemorySegment x) {
@@ -1380,7 +1377,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*EnableCpuMemArena)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
      * }
      */
     public interface EnableCpuMemArena {
@@ -1409,7 +1406,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableCpuMemArena)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment EnableCpuMemArena$get(MemorySegment seg) {
@@ -1418,7 +1415,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableCpuMemArena)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions*);
      * }
      */
     public static void EnableCpuMemArena$set(MemorySegment seg, MemorySegment x) {
@@ -1438,7 +1435,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*DisableCpuMemArena)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
      * }
      */
     public interface DisableCpuMemArena {
@@ -1467,7 +1464,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableCpuMemArena)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment DisableCpuMemArena$get(MemorySegment seg) {
@@ -1476,7 +1473,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisableCpuMemArena)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions*);
      * }
      */
     public static void DisableCpuMemArena$set(MemorySegment seg, MemorySegment x) {
@@ -1496,13 +1493,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogId)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
      * }
      */
     public interface SetSessionLogId {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetSessionLogId fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$25.const$5, fi, constants$15.const$2, scope);
@@ -1510,9 +1506,9 @@ public class OrtApi {
 
         static SetSessionLogId ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1526,7 +1522,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogId)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
      * }
      */
     public static MemorySegment SetSessionLogId$get(MemorySegment seg) {
@@ -1535,7 +1531,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogId)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions*,char*);
      * }
      */
     public static void SetSessionLogId$set(MemorySegment seg, MemorySegment x) {
@@ -1555,7 +1551,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogVerbosityLevel)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
      * }
      */
     public interface SetSessionLogVerbosityLevel {
@@ -1584,7 +1580,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogVerbosityLevel)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
      * }
      */
     public static MemorySegment SetSessionLogVerbosityLevel$get(MemorySegment seg) {
@@ -1593,7 +1589,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogVerbosityLevel)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions*,int);
      * }
      */
     public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -1613,7 +1609,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogSeverityLevel)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
      * }
      */
     public interface SetSessionLogSeverityLevel {
@@ -1642,7 +1638,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogSeverityLevel)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
      * }
      */
     public static MemorySegment SetSessionLogSeverityLevel$get(MemorySegment seg) {
@@ -1651,7 +1647,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionLogSeverityLevel)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions*,int);
      * }
      */
     public static void SetSessionLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -1671,7 +1667,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetSessionGraphOptimizationLevel)(struct OrtSessionOptions*,enum GraphOptimizationLevel);
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
      * }
      */
     public interface SetSessionGraphOptimizationLevel {
@@ -1700,7 +1696,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionGraphOptimizationLevel)(struct OrtSessionOptions*,enum GraphOptimizationLevel);
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
      * }
      */
     public static MemorySegment SetSessionGraphOptimizationLevel$get(MemorySegment seg) {
@@ -1709,7 +1705,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetSessionGraphOptimizationLevel)(struct OrtSessionOptions*,enum GraphOptimizationLevel);
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions*,GraphOptimizationLevel);
      * }
      */
     public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, MemorySegment x) {
@@ -1730,7 +1726,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetIntraOpNumThreads)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
      * }
      */
     public interface SetIntraOpNumThreads {
@@ -1759,7 +1755,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetIntraOpNumThreads)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
      * }
      */
     public static MemorySegment SetIntraOpNumThreads$get(MemorySegment seg) {
@@ -1768,7 +1764,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetIntraOpNumThreads)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions*,int);
      * }
      */
     public static void SetIntraOpNumThreads$set(MemorySegment seg, MemorySegment x) {
@@ -1788,7 +1784,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetInterOpNumThreads)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
      * }
      */
     public interface SetInterOpNumThreads {
@@ -1817,7 +1813,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetInterOpNumThreads)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
      * }
      */
     public static MemorySegment SetInterOpNumThreads$get(MemorySegment seg) {
@@ -1826,7 +1822,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetInterOpNumThreads)(struct OrtSessionOptions*,int);
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions*,int);
      * }
      */
     public static void SetInterOpNumThreads$set(MemorySegment seg, MemorySegment x) {
@@ -1846,13 +1842,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateCustomOpDomain)(char*,struct OrtCustomOpDomain**);
+     * OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
      * }
      */
     public interface CreateCustomOpDomain {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateCustomOpDomain fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$27.const$5, fi, constants$15.const$2, scope);
@@ -1860,9 +1855,9 @@ public class OrtApi {
 
         static CreateCustomOpDomain ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1876,7 +1871,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCustomOpDomain)(char*,struct OrtCustomOpDomain**);
+     * OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
      * }
      */
     public static MemorySegment CreateCustomOpDomain$get(MemorySegment seg) {
@@ -1885,7 +1880,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCustomOpDomain)(char*,struct OrtCustomOpDomain**);
+     * OrtStatusPtr (*CreateCustomOpDomain)(char*,OrtCustomOpDomain**);
      * }
      */
     public static void CreateCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
@@ -1905,13 +1900,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CustomOpDomain_Add)(struct OrtCustomOpDomain*,struct OrtCustomOp*);
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
      * }
      */
     public interface CustomOpDomain_Add {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CustomOpDomain_Add fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$28.const$1, fi, constants$15.const$2, scope);
@@ -1919,9 +1913,9 @@ public class OrtApi {
 
         static CustomOpDomain_Add ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1935,7 +1929,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CustomOpDomain_Add)(struct OrtCustomOpDomain*,struct OrtCustomOp*);
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
      * }
      */
     public static MemorySegment CustomOpDomain_Add$get(MemorySegment seg) {
@@ -1944,7 +1938,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CustomOpDomain_Add)(struct OrtCustomOpDomain*,struct OrtCustomOp*);
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain*,const OrtCustomOp*);
      * }
      */
     public static void CustomOpDomain_Add$set(MemorySegment seg, MemorySegment x) {
@@ -1964,13 +1958,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddCustomOpDomain)(struct OrtSessionOptions*,struct OrtCustomOpDomain*);
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
      * }
      */
     public interface AddCustomOpDomain {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AddCustomOpDomain fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$28.const$3, fi, constants$15.const$2, scope);
@@ -1978,9 +1971,9 @@ public class OrtApi {
 
         static AddCustomOpDomain ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1994,7 +1987,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddCustomOpDomain)(struct OrtSessionOptions*,struct OrtCustomOpDomain*);
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
      * }
      */
     public static MemorySegment AddCustomOpDomain$get(MemorySegment seg) {
@@ -2003,7 +1996,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddCustomOpDomain)(struct OrtSessionOptions*,struct OrtCustomOpDomain*);
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions*,OrtCustomOpDomain*);
      * }
      */
     public static void AddCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
@@ -2023,15 +2016,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsLibrary)(struct OrtSessionOptions*,char*,void**);
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
      * }
      */
     public interface RegisterCustomOpsLibrary {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(RegisterCustomOpsLibrary fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$28.const$5, fi, constants$14.const$4, scope);
@@ -2039,12 +2032,11 @@ public class OrtApi {
 
         static RegisterCustomOpsLibrary ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2058,7 +2050,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsLibrary)(struct OrtSessionOptions*,char*,void**);
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
      * }
      */
     public static MemorySegment RegisterCustomOpsLibrary$get(MemorySegment seg) {
@@ -2067,7 +2059,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsLibrary)(struct OrtSessionOptions*,char*,void**);
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions*,char*,void**);
      * }
      */
     public static void RegisterCustomOpsLibrary$set(MemorySegment seg, MemorySegment x) {
@@ -2087,13 +2079,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
      * }
      */
     public interface SessionGetInputCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetInputCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$29.const$1, fi, constants$15.const$2, scope);
@@ -2101,9 +2092,9 @@ public class OrtApi {
 
         static SessionGetInputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2117,7 +2108,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
      * }
      */
     public static MemorySegment SessionGetInputCount$get(MemorySegment seg) {
@@ -2126,7 +2117,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession*,size_t*);
      * }
      */
     public static void SessionGetInputCount$set(MemorySegment seg, MemorySegment x) {
@@ -2146,13 +2137,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
      * }
      */
     public interface SessionGetOutputCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetOutputCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$29.const$3, fi, constants$15.const$2, scope);
@@ -2160,9 +2150,9 @@ public class OrtApi {
 
         static SessionGetOutputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2176,7 +2166,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
      * }
      */
     public static MemorySegment SessionGetOutputCount$get(MemorySegment seg) {
@@ -2185,7 +2175,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession*,size_t*);
      * }
      */
     public static void SessionGetOutputCount$set(MemorySegment seg, MemorySegment x) {
@@ -2205,13 +2195,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
      * }
      */
     public interface SessionGetOverridableInitializerCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetOverridableInitializerCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$29.const$5, fi, constants$15.const$2, scope);
@@ -2219,9 +2208,9 @@ public class OrtApi {
 
         static SessionGetOverridableInitializerCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2235,7 +2224,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
      * }
      */
     public static MemorySegment SessionGetOverridableInitializerCount$get(MemorySegment seg) {
@@ -2244,7 +2233,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerCount)(struct OrtSession*,unsigned long*);
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession*,size_t*);
      * }
      */
     public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, MemorySegment x) {
@@ -2266,7 +2255,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public interface SessionGetInputTypeInfo {
@@ -2296,7 +2285,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public static MemorySegment SessionGetInputTypeInfo$get(MemorySegment seg) {
@@ -2305,7 +2294,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public static void SessionGetInputTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -2325,7 +2314,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public interface SessionGetOutputTypeInfo {
@@ -2355,7 +2344,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public static MemorySegment SessionGetOutputTypeInfo$get(MemorySegment seg) {
@@ -2364,7 +2353,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public static void SessionGetOutputTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -2384,7 +2373,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public interface SessionGetOverridableInitializerTypeInfo {
@@ -2414,7 +2403,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public static MemorySegment SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg) {
@@ -2423,7 +2412,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerTypeInfo)(struct OrtSession*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession*,size_t,OrtTypeInfo**);
      * }
      */
     public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -2445,7 +2434,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public interface SessionGetInputName {
@@ -2482,7 +2471,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment SessionGetInputName$get(MemorySegment seg) {
@@ -2491,7 +2480,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetInputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public static void SessionGetInputName$set(MemorySegment seg, MemorySegment x) {
@@ -2511,7 +2500,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public interface SessionGetOutputName {
@@ -2548,7 +2537,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment SessionGetOutputName$get(MemorySegment seg) {
@@ -2557,7 +2546,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOutputName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public static void SessionGetOutputName$set(MemorySegment seg, MemorySegment x) {
@@ -2577,7 +2566,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public interface SessionGetOverridableInitializerName {
@@ -2614,7 +2603,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment SessionGetOverridableInitializerName$get(MemorySegment seg) {
@@ -2623,7 +2612,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetOverridableInitializerName)(struct OrtSession*,unsigned long,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession*,size_t,OrtAllocator*,char**);
      * }
      */
     public static void SessionGetOverridableInitializerName$set(MemorySegment seg, MemorySegment x) {
@@ -2644,7 +2633,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateRunOptions)(struct OrtRunOptions**);
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
      * }
      */
     public interface CreateRunOptions {
@@ -2673,7 +2662,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateRunOptions)(struct OrtRunOptions**);
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
      * }
      */
     public static MemorySegment CreateRunOptions$get(MemorySegment seg) {
@@ -2682,7 +2671,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateRunOptions)(struct OrtRunOptions**);
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions**);
      * }
      */
     public static void CreateRunOptions$set(MemorySegment seg, MemorySegment x) {
@@ -2702,7 +2691,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunLogVerbosityLevel)(struct OrtRunOptions*,int);
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
      * }
      */
     public interface RunOptionsSetRunLogVerbosityLevel {
@@ -2731,7 +2720,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunLogVerbosityLevel)(struct OrtRunOptions*,int);
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
      * }
      */
     public static MemorySegment RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg) {
@@ -2740,7 +2729,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunLogVerbosityLevel)(struct OrtRunOptions*,int);
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions*,int);
      * }
      */
     public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -2761,7 +2750,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunLogSeverityLevel)(struct OrtRunOptions*,int);
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
      * }
      */
     public interface RunOptionsSetRunLogSeverityLevel {
@@ -2790,7 +2779,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunLogSeverityLevel)(struct OrtRunOptions*,int);
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
      * }
      */
     public static MemorySegment RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg) {
@@ -2799,7 +2788,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunLogSeverityLevel)(struct OrtRunOptions*,int);
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions*,int);
      * }
      */
     public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -2820,13 +2809,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunTag)(struct OrtRunOptions*,char*);
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
      * }
      */
     public interface RunOptionsSetRunTag {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsSetRunTag fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$33.const$5, fi, constants$15.const$2, scope);
@@ -2834,9 +2822,9 @@ public class OrtApi {
 
         static RunOptionsSetRunTag ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2850,7 +2838,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunTag)(struct OrtRunOptions*,char*);
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
      * }
      */
     public static MemorySegment RunOptionsSetRunTag$get(MemorySegment seg) {
@@ -2859,7 +2847,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetRunTag)(struct OrtRunOptions*,char*);
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions*,char*);
      * }
      */
     public static void RunOptionsSetRunTag$set(MemorySegment seg, MemorySegment x) {
@@ -2879,13 +2867,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunLogVerbosityLevel)(struct OrtRunOptions*,int*);
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
      * }
      */
     public interface RunOptionsGetRunLogVerbosityLevel {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunLogVerbosityLevel fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$34.const$1, fi, constants$15.const$2, scope);
@@ -2893,9 +2880,9 @@ public class OrtApi {
 
         static RunOptionsGetRunLogVerbosityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2909,7 +2896,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunLogVerbosityLevel)(struct OrtRunOptions*,int*);
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
      * }
      */
     public static MemorySegment RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg) {
@@ -2918,7 +2905,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunLogVerbosityLevel)(struct OrtRunOptions*,int*);
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions*,int*);
      * }
      */
     public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -2939,13 +2926,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunLogSeverityLevel)(struct OrtRunOptions*,int*);
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
      * }
      */
     public interface RunOptionsGetRunLogSeverityLevel {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunLogSeverityLevel fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$34.const$3, fi, constants$15.const$2, scope);
@@ -2953,9 +2939,9 @@ public class OrtApi {
 
         static RunOptionsGetRunLogSeverityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2969,7 +2955,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunLogSeverityLevel)(struct OrtRunOptions*,int*);
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
      * }
      */
     public static MemorySegment RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg) {
@@ -2978,7 +2964,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunLogSeverityLevel)(struct OrtRunOptions*,int*);
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions*,int*);
      * }
      */
     public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -2999,13 +2985,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunTag)(struct OrtRunOptions*,char**);
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
      * }
      */
     public interface RunOptionsGetRunTag {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunTag fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$34.const$5, fi, constants$15.const$2, scope);
@@ -3013,9 +2998,9 @@ public class OrtApi {
 
         static RunOptionsGetRunTag ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3029,7 +3014,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunTag)(struct OrtRunOptions*,char**);
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
      * }
      */
     public static MemorySegment RunOptionsGetRunTag$get(MemorySegment seg) {
@@ -3038,7 +3023,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsGetRunTag)(struct OrtRunOptions*,char**);
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions*,char**);
      * }
      */
     public static void RunOptionsGetRunTag$set(MemorySegment seg, MemorySegment x) {
@@ -3058,7 +3043,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetTerminate)(struct OrtRunOptions*);
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
      * }
      */
     public interface RunOptionsSetTerminate {
@@ -3087,7 +3072,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetTerminate)(struct OrtRunOptions*);
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
      * }
      */
     public static MemorySegment RunOptionsSetTerminate$get(MemorySegment seg) {
@@ -3096,7 +3081,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsSetTerminate)(struct OrtRunOptions*);
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions*);
      * }
      */
     public static void RunOptionsSetTerminate$set(MemorySegment seg, MemorySegment x) {
@@ -3116,7 +3101,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsUnsetTerminate)(struct OrtRunOptions*);
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
      * }
      */
     public interface RunOptionsUnsetTerminate {
@@ -3145,7 +3130,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsUnsetTerminate)(struct OrtRunOptions*);
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
      * }
      */
     public static MemorySegment RunOptionsUnsetTerminate$get(MemorySegment seg) {
@@ -3154,7 +3139,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunOptionsUnsetTerminate)(struct OrtRunOptions*);
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions*);
      * }
      */
     public static void RunOptionsUnsetTerminate$set(MemorySegment seg, MemorySegment x) {
@@ -3174,7 +3159,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public interface CreateTensorAsOrtValue {
@@ -3213,7 +3198,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static MemorySegment CreateTensorAsOrtValue$get(MemorySegment seg) {
@@ -3222,7 +3207,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static void CreateTensorAsOrtValue$set(MemorySegment seg, MemorySegment x) {
@@ -3242,7 +3227,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorWithDataAsOrtValue)(struct OrtMemoryInfo*,void*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public interface CreateTensorWithDataAsOrtValue {
@@ -3285,7 +3270,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorWithDataAsOrtValue)(struct OrtMemoryInfo*,void*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static MemorySegment CreateTensorWithDataAsOrtValue$get(MemorySegment seg) {
@@ -3294,7 +3279,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorWithDataAsOrtValue)(struct OrtMemoryInfo*,void*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo*,void*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, MemorySegment x) {
@@ -3314,13 +3299,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*IsTensor)(struct OrtValue*,int*);
+     * OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
      * }
      */
     public interface IsTensor {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(IsTensor fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$37.const$1, fi, constants$15.const$2, scope);
@@ -3328,9 +3312,9 @@ public class OrtApi {
 
         static IsTensor ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3344,7 +3328,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*IsTensor)(struct OrtValue*,int*);
+     * OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
      * }
      */
     public static MemorySegment IsTensor$get(MemorySegment seg) {
@@ -3353,7 +3337,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*IsTensor)(struct OrtValue*,int*);
+     * OrtStatusPtr (*IsTensor)(const OrtValue*,int*);
      * }
      */
     public static void IsTensor$set(MemorySegment seg, MemorySegment x) {
@@ -3373,13 +3357,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorMutableData)(struct OrtValue*,void**);
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
      * }
      */
     public interface GetTensorMutableData {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorMutableData fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$37.const$3, fi, constants$15.const$2, scope);
@@ -3387,9 +3370,9 @@ public class OrtApi {
 
         static GetTensorMutableData ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3403,7 +3386,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorMutableData)(struct OrtValue*,void**);
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
      * }
      */
     public static MemorySegment GetTensorMutableData$get(MemorySegment seg) {
@@ -3412,7 +3395,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorMutableData)(struct OrtValue*,void**);
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue*,void**);
      * }
      */
     public static void GetTensorMutableData$set(MemorySegment seg, MemorySegment x) {
@@ -3432,7 +3415,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*FillStringTensor)(struct OrtValue*,char**,unsigned long);
+     * OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
      * }
      */
     public interface FillStringTensor {
@@ -3462,7 +3445,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillStringTensor)(struct OrtValue*,char**,unsigned long);
+     * OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
      * }
      */
     public static MemorySegment FillStringTensor$get(MemorySegment seg) {
@@ -3471,7 +3454,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillStringTensor)(struct OrtValue*,char**,unsigned long);
+     * OrtStatusPtr (*FillStringTensor)(OrtValue*,char**,size_t);
      * }
      */
     public static void FillStringTensor$set(MemorySegment seg, MemorySegment x) {
@@ -3491,13 +3474,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorDataLength)(struct OrtValue*,unsigned long*);
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
      * }
      */
     public interface GetStringTensorDataLength {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetStringTensorDataLength fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$38.const$3, fi, constants$15.const$2, scope);
@@ -3505,9 +3487,9 @@ public class OrtApi {
 
         static GetStringTensorDataLength ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3521,7 +3503,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorDataLength)(struct OrtValue*,unsigned long*);
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
      * }
      */
     public static MemorySegment GetStringTensorDataLength$get(MemorySegment seg) {
@@ -3530,7 +3512,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorDataLength)(struct OrtValue*,unsigned long*);
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue*,size_t*);
      * }
      */
     public static void GetStringTensorDataLength$set(MemorySegment seg, MemorySegment x) {
@@ -3550,7 +3532,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorContent)(struct OrtValue*,void*,unsigned long,unsigned long*,unsigned long);
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
      * }
      */
     public interface GetStringTensorContent {
@@ -3589,7 +3571,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorContent)(struct OrtValue*,void*,unsigned long,unsigned long*,unsigned long);
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
      * }
      */
     public static MemorySegment GetStringTensorContent$get(MemorySegment seg) {
@@ -3598,7 +3580,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorContent)(struct OrtValue*,void*,unsigned long,unsigned long*,unsigned long);
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue*,void*,size_t,size_t*,size_t);
      * }
      */
     public static void GetStringTensorContent$set(MemorySegment seg, MemorySegment x) {
@@ -3618,13 +3600,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToTensorInfo)(struct OrtTypeInfo*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
      * }
      */
     public interface CastTypeInfoToTensorInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToTensorInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$39.const$3, fi, constants$15.const$2, scope);
@@ -3632,9 +3613,9 @@ public class OrtApi {
 
         static CastTypeInfoToTensorInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3648,7 +3629,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToTensorInfo)(struct OrtTypeInfo*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static MemorySegment CastTypeInfoToTensorInfo$get(MemorySegment seg) {
@@ -3657,7 +3638,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToTensorInfo)(struct OrtTypeInfo*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo*,const OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, MemorySegment x) {
@@ -3677,13 +3658,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetOnnxTypeFromTypeInfo)(struct OrtTypeInfo*,enum ONNXType*);
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
      * }
      */
     public interface GetOnnxTypeFromTypeInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetOnnxTypeFromTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$39.const$5, fi, constants$15.const$2, scope);
@@ -3691,9 +3671,9 @@ public class OrtApi {
 
         static GetOnnxTypeFromTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3707,7 +3687,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetOnnxTypeFromTypeInfo)(struct OrtTypeInfo*,enum ONNXType*);
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
      * }
      */
     public static MemorySegment GetOnnxTypeFromTypeInfo$get(MemorySegment seg) {
@@ -3716,7 +3696,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetOnnxTypeFromTypeInfo)(struct OrtTypeInfo*,enum ONNXType*);
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo*,enum ONNXType*);
      * }
      */
     public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -3736,7 +3716,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
      * }
      */
     public interface CreateTensorTypeAndShapeInfo {
@@ -3765,7 +3745,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static MemorySegment CreateTensorTypeAndShapeInfo$get(MemorySegment seg) {
@@ -3774,7 +3754,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -3794,7 +3774,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
      * }
      */
     public interface SetTensorElementType {
@@ -3823,7 +3803,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
      * }
      */
     public static MemorySegment SetTensorElementType$get(MemorySegment seg) {
@@ -3832,7 +3812,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType);
      * }
      */
     public static void SetTensorElementType$set(MemorySegment seg, MemorySegment x) {
@@ -3852,7 +3832,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
      * }
      */
     public interface SetDimensions {
@@ -3882,7 +3862,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
      * }
      */
     public static MemorySegment SetDimensions$get(MemorySegment seg) {
@@ -3891,7 +3871,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo*,const int64_t*,size_t);
      * }
      */
     public static void SetDimensions$set(MemorySegment seg, MemorySegment x) {
@@ -3911,13 +3891,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
      * }
      */
     public interface GetTensorElementType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorElementType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$41.const$1, fi, constants$15.const$2, scope);
@@ -3925,9 +3904,9 @@ public class OrtApi {
 
         static GetTensorElementType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3941,7 +3920,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
      * }
      */
     public static MemorySegment GetTensorElementType$get(MemorySegment seg) {
@@ -3950,7 +3929,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorElementType)(struct OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo*,enum ONNXTensorElementDataType*);
      * }
      */
     public static void GetTensorElementType$set(MemorySegment seg, MemorySegment x) {
@@ -3970,13 +3949,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetDimensionsCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
      * }
      */
     public interface GetDimensionsCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetDimensionsCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$41.const$3, fi, constants$15.const$2, scope);
@@ -3984,9 +3962,9 @@ public class OrtApi {
 
         static GetDimensionsCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4000,7 +3978,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDimensionsCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
      * }
      */
     public static MemorySegment GetDimensionsCount$get(MemorySegment seg) {
@@ -4009,7 +3987,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDimensionsCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
      * }
      */
     public static void GetDimensionsCount$set(MemorySegment seg, MemorySegment x) {
@@ -4029,7 +4007,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
      * }
      */
     public interface GetDimensions {
@@ -4059,7 +4037,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
      * }
      */
     public static MemorySegment GetDimensions$get(MemorySegment seg) {
@@ -4068,7 +4046,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDimensions)(struct OrtTensorTypeAndShapeInfo*,long long*,unsigned long);
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo*,int64_t*,size_t);
      * }
      */
     public static void GetDimensions$set(MemorySegment seg, MemorySegment x) {
@@ -4088,7 +4066,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSymbolicDimensions)(struct OrtTensorTypeAndShapeInfo*,char**,unsigned long);
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
      * }
      */
     public interface GetSymbolicDimensions {
@@ -4118,7 +4096,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSymbolicDimensions)(struct OrtTensorTypeAndShapeInfo*,char**,unsigned long);
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
      * }
      */
     public static MemorySegment GetSymbolicDimensions$get(MemorySegment seg) {
@@ -4127,7 +4105,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSymbolicDimensions)(struct OrtTensorTypeAndShapeInfo*,char**,unsigned long);
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo*,char**,size_t);
      * }
      */
     public static void GetSymbolicDimensions$set(MemorySegment seg, MemorySegment x) {
@@ -4147,13 +4125,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorShapeElementCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
      * }
      */
     public interface GetTensorShapeElementCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorShapeElementCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$42.const$3, fi, constants$15.const$2, scope);
@@ -4161,9 +4138,9 @@ public class OrtApi {
 
         static GetTensorShapeElementCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4177,7 +4154,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorShapeElementCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
      * }
      */
     public static MemorySegment GetTensorShapeElementCount$get(MemorySegment seg) {
@@ -4186,7 +4163,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorShapeElementCount)(struct OrtTensorTypeAndShapeInfo*,unsigned long*);
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo*,size_t*);
      * }
      */
     public static void GetTensorShapeElementCount$set(MemorySegment seg, MemorySegment x) {
@@ -4206,13 +4183,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public interface GetTensorTypeAndShape {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorTypeAndShape fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$42.const$5, fi, constants$15.const$2, scope);
@@ -4220,9 +4196,9 @@ public class OrtApi {
 
         static GetTensorTypeAndShape ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4236,7 +4212,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static MemorySegment GetTensorTypeAndShape$get(MemorySegment seg) {
@@ -4245,7 +4221,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static void GetTensorTypeAndShape$set(MemorySegment seg, MemorySegment x) {
@@ -4265,13 +4241,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTypeInfo)(struct OrtValue*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
      * }
      */
     public interface GetTypeInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$43.const$1, fi, constants$15.const$2, scope);
@@ -4279,9 +4254,9 @@ public class OrtApi {
 
         static GetTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4295,7 +4270,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTypeInfo)(struct OrtValue*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
      * }
      */
     public static MemorySegment GetTypeInfo$get(MemorySegment seg) {
@@ -4304,7 +4279,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTypeInfo)(struct OrtValue*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue*,OrtTypeInfo**);
      * }
      */
     public static void GetTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -4324,13 +4299,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetValueType)(struct OrtValue*,enum ONNXType*);
+     * OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
      * }
      */
     public interface GetValueType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetValueType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$43.const$3, fi, constants$15.const$2, scope);
@@ -4338,9 +4312,9 @@ public class OrtApi {
 
         static GetValueType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4354,7 +4328,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetValueType)(struct OrtValue*,enum ONNXType*);
+     * OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
      * }
      */
     public static MemorySegment GetValueType$get(MemorySegment seg) {
@@ -4363,7 +4337,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetValueType)(struct OrtValue*,enum ONNXType*);
+     * OrtStatusPtr (*GetValueType)(const OrtValue*,enum ONNXType*);
      * }
      */
     public static void GetValueType$set(MemorySegment seg, MemorySegment x) {
@@ -4383,7 +4357,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
      * }
      */
     public interface CreateMemoryInfo {
@@ -4418,7 +4392,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
      * }
      */
     public static MemorySegment CreateMemoryInfo$get(MemorySegment seg) {
@@ -4427,7 +4401,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*CreateMemoryInfo)(char*,enum OrtAllocatorType,int,enum OrtMemType,OrtMemoryInfo**);
      * }
      */
     public static void CreateMemoryInfo$set(MemorySegment seg, MemorySegment x) {
@@ -4447,7 +4421,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
      * }
      */
     public interface CreateCpuMemoryInfo {
@@ -4476,7 +4450,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
      * }
      */
     public static MemorySegment CreateCpuMemoryInfo$get(MemorySegment seg) {
@@ -4485,7 +4459,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType,enum OrtMemType,OrtMemoryInfo**);
      * }
      */
     public static void CreateCpuMemoryInfo$set(MemorySegment seg, MemorySegment x) {
@@ -4505,15 +4479,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CompareMemoryInfo)(struct OrtMemoryInfo*,struct OrtMemoryInfo*,int*);
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
      * }
      */
     public interface CompareMemoryInfo {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CompareMemoryInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$45.const$1, fi, constants$14.const$4, scope);
@@ -4521,12 +4495,11 @@ public class OrtApi {
 
         static CompareMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4540,7 +4513,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CompareMemoryInfo)(struct OrtMemoryInfo*,struct OrtMemoryInfo*,int*);
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
      * }
      */
     public static MemorySegment CompareMemoryInfo$get(MemorySegment seg) {
@@ -4549,7 +4522,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CompareMemoryInfo)(struct OrtMemoryInfo*,struct OrtMemoryInfo*,int*);
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo*,const OrtMemoryInfo*,int*);
      * }
      */
     public static void CompareMemoryInfo$set(MemorySegment seg, MemorySegment x) {
@@ -4569,13 +4542,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetName)(struct OrtMemoryInfo*,char**);
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
      * }
      */
     public interface MemoryInfoGetName {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetName fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$45.const$3, fi, constants$15.const$2, scope);
@@ -4583,9 +4555,9 @@ public class OrtApi {
 
         static MemoryInfoGetName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4599,7 +4571,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetName)(struct OrtMemoryInfo*,char**);
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
      * }
      */
     public static MemorySegment MemoryInfoGetName$get(MemorySegment seg) {
@@ -4608,7 +4580,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetName)(struct OrtMemoryInfo*,char**);
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo*,char**);
      * }
      */
     public static void MemoryInfoGetName$set(MemorySegment seg, MemorySegment x) {
@@ -4628,13 +4600,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetId)(struct OrtMemoryInfo*,int*);
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
      * }
      */
     public interface MemoryInfoGetId {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetId fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$45.const$5, fi, constants$15.const$2, scope);
@@ -4642,9 +4613,9 @@ public class OrtApi {
 
         static MemoryInfoGetId ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4658,7 +4629,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetId)(struct OrtMemoryInfo*,int*);
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
      * }
      */
     public static MemorySegment MemoryInfoGetId$get(MemorySegment seg) {
@@ -4667,7 +4638,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetId)(struct OrtMemoryInfo*,int*);
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo*,int*);
      * }
      */
     public static void MemoryInfoGetId$set(MemorySegment seg, MemorySegment x) {
@@ -4687,13 +4658,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetMemType)(struct OrtMemoryInfo*,enum OrtMemType*);
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
      * }
      */
     public interface MemoryInfoGetMemType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetMemType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$46.const$1, fi, constants$15.const$2, scope);
@@ -4701,9 +4671,9 @@ public class OrtApi {
 
         static MemoryInfoGetMemType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4717,7 +4687,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetMemType)(struct OrtMemoryInfo*,enum OrtMemType*);
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
      * }
      */
     public static MemorySegment MemoryInfoGetMemType$get(MemorySegment seg) {
@@ -4726,7 +4696,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetMemType)(struct OrtMemoryInfo*,enum OrtMemType*);
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo*,OrtMemType*);
      * }
      */
     public static void MemoryInfoGetMemType$set(MemorySegment seg, MemorySegment x) {
@@ -4746,13 +4716,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetType)(struct OrtMemoryInfo*,enum OrtAllocatorType*);
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
      * }
      */
     public interface MemoryInfoGetType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$46.const$3, fi, constants$15.const$2, scope);
@@ -4760,9 +4729,9 @@ public class OrtApi {
 
         static MemoryInfoGetType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4776,7 +4745,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetType)(struct OrtMemoryInfo*,enum OrtAllocatorType*);
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
      * }
      */
     public static MemorySegment MemoryInfoGetType$get(MemorySegment seg) {
@@ -4785,7 +4754,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*MemoryInfoGetType)(struct OrtMemoryInfo*,enum OrtAllocatorType*);
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo*,OrtAllocatorType*);
      * }
      */
     public static void MemoryInfoGetType$set(MemorySegment seg, MemorySegment x) {
@@ -4805,7 +4774,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AllocatorAlloc)(struct OrtAllocator*,unsigned long,void**);
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
      * }
      */
     public interface AllocatorAlloc {
@@ -4835,7 +4804,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AllocatorAlloc)(struct OrtAllocator*,unsigned long,void**);
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
      * }
      */
     public static MemorySegment AllocatorAlloc$get(MemorySegment seg) {
@@ -4844,7 +4813,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AllocatorAlloc)(struct OrtAllocator*,unsigned long,void**);
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator*,size_t,void**);
      * }
      */
     public static void AllocatorAlloc$set(MemorySegment seg, MemorySegment x) {
@@ -4864,13 +4833,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AllocatorFree)(struct OrtAllocator*,void*);
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
      * }
      */
     public interface AllocatorFree {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AllocatorFree fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$47.const$1, fi, constants$15.const$2, scope);
@@ -4878,9 +4846,9 @@ public class OrtApi {
 
         static AllocatorFree ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4894,7 +4862,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AllocatorFree)(struct OrtAllocator*,void*);
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
      * }
      */
     public static MemorySegment AllocatorFree$get(MemorySegment seg) {
@@ -4903,7 +4871,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AllocatorFree)(struct OrtAllocator*,void*);
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator*,void*);
      * }
      */
     public static void AllocatorFree$set(MemorySegment seg, MemorySegment x) {
@@ -4923,13 +4891,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AllocatorGetInfo)(struct OrtAllocator*,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
      * }
      */
     public interface AllocatorGetInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AllocatorGetInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$47.const$3, fi, constants$15.const$2, scope);
@@ -4937,9 +4904,9 @@ public class OrtApi {
 
         static AllocatorGetInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4953,7 +4920,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AllocatorGetInfo)(struct OrtAllocator*,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
      * }
      */
     public static MemorySegment AllocatorGetInfo$get(MemorySegment seg) {
@@ -4962,7 +4929,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AllocatorGetInfo)(struct OrtAllocator*,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator*,struct OrtMemoryInfo**);
      * }
      */
     public static void AllocatorGetInfo$set(MemorySegment seg, MemorySegment x) {
@@ -4982,7 +4949,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetAllocatorWithDefaultOptions)(struct OrtAllocator**);
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
      * }
      */
     public interface GetAllocatorWithDefaultOptions {
@@ -5011,7 +4978,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetAllocatorWithDefaultOptions)(struct OrtAllocator**);
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
      * }
      */
     public static MemorySegment GetAllocatorWithDefaultOptions$get(MemorySegment seg) {
@@ -5020,7 +4987,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetAllocatorWithDefaultOptions)(struct OrtAllocator**);
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator**);
      * }
      */
     public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, MemorySegment x) {
@@ -5040,7 +5007,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddFreeDimensionOverride)(struct OrtSessionOptions*,char*,long long);
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
      * }
      */
     public interface AddFreeDimensionOverride {
@@ -5070,7 +5037,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddFreeDimensionOverride)(struct OrtSessionOptions*,char*,long long);
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
      * }
      */
     public static MemorySegment AddFreeDimensionOverride$get(MemorySegment seg) {
@@ -5079,7 +5046,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddFreeDimensionOverride)(struct OrtSessionOptions*,char*,long long);
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions*,char*,int64_t);
      * }
      */
     public static void AddFreeDimensionOverride$set(MemorySegment seg, MemorySegment x) {
@@ -5099,7 +5066,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetValue)(struct OrtValue*,int,struct OrtAllocator*,struct OrtValue**);
+     * OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
      * }
      */
     public interface GetValue {
@@ -5136,7 +5103,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetValue)(struct OrtValue*,int,struct OrtAllocator*,struct OrtValue**);
+     * OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
      * }
      */
     public static MemorySegment GetValue$get(MemorySegment seg) {
@@ -5145,7 +5112,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetValue)(struct OrtValue*,int,struct OrtAllocator*,struct OrtValue**);
+     * OrtStatusPtr (*GetValue)(const OrtValue*,int,OrtAllocator*,OrtValue**);
      * }
      */
     public static void GetValue$set(MemorySegment seg, MemorySegment x) {
@@ -5165,13 +5132,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetValueCount)(struct OrtValue*,unsigned long*);
+     * OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
      * }
      */
     public interface GetValueCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetValueCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$49.const$1, fi, constants$15.const$2, scope);
@@ -5179,9 +5145,9 @@ public class OrtApi {
 
         static GetValueCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5195,7 +5161,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetValueCount)(struct OrtValue*,unsigned long*);
+     * OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
      * }
      */
     public static MemorySegment GetValueCount$get(MemorySegment seg) {
@@ -5204,7 +5170,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetValueCount)(struct OrtValue*,unsigned long*);
+     * OrtStatusPtr (*GetValueCount)(const OrtValue*,size_t*);
      * }
      */
     public static void GetValueCount$set(MemorySegment seg, MemorySegment x) {
@@ -5224,7 +5190,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateValue)(struct OrtValue**,unsigned long,enum ONNXType,struct OrtValue**);
+     * OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
      * }
      */
     public interface CreateValue {
@@ -5258,7 +5224,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateValue)(struct OrtValue**,unsigned long,enum ONNXType,struct OrtValue**);
+     * OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
      * }
      */
     public static MemorySegment CreateValue$get(MemorySegment seg) {
@@ -5267,7 +5233,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateValue)(struct OrtValue**,unsigned long,enum ONNXType,struct OrtValue**);
+     * OrtStatusPtr (*CreateValue)(const OrtValue**,size_t,enum ONNXType,OrtValue**);
      * }
      */
     public static void CreateValue$set(MemorySegment seg, MemorySegment x) {
@@ -5287,7 +5253,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateOpaqueValue)(char*,char*,void*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
      * }
      */
     public interface CreateOpaqueValue {
@@ -5326,7 +5292,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateOpaqueValue)(char*,char*,void*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
      * }
      */
     public static MemorySegment CreateOpaqueValue$get(MemorySegment seg) {
@@ -5335,7 +5301,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateOpaqueValue)(char*,char*,void*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*CreateOpaqueValue)(char*,char*,void*,size_t,OrtValue**);
      * }
      */
     public static void CreateOpaqueValue$set(MemorySegment seg, MemorySegment x) {
@@ -5355,7 +5321,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetOpaqueValue)(char*,char*,struct OrtValue*,void*,unsigned long);
+     * OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
      * }
      */
     public interface GetOpaqueValue {
@@ -5394,7 +5360,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetOpaqueValue)(char*,char*,struct OrtValue*,void*,unsigned long);
+     * OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
      * }
      */
     public static MemorySegment GetOpaqueValue$get(MemorySegment seg) {
@@ -5403,7 +5369,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetOpaqueValue)(char*,char*,struct OrtValue*,void*,unsigned long);
+     * OrtStatusPtr (*GetOpaqueValue)(char*,char*,const OrtValue*,void*,size_t);
      * }
      */
     public static void GetOpaqueValue$set(MemorySegment seg, MemorySegment x) {
@@ -5423,15 +5389,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_float)(struct OrtKernelInfo*,char*,float*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
      * }
      */
     public interface KernelInfoGetAttribute_float {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfoGetAttribute_float fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$51.const$3, fi, constants$14.const$4, scope);
@@ -5439,12 +5405,11 @@ public class OrtApi {
 
         static KernelInfoGetAttribute_float ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5458,7 +5423,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_float)(struct OrtKernelInfo*,char*,float*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_float$get(MemorySegment seg) {
@@ -5467,7 +5432,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_float)(struct OrtKernelInfo*,char*,float*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo*,char*,float*);
      * }
      */
     public static void KernelInfoGetAttribute_float$set(MemorySegment seg, MemorySegment x) {
@@ -5487,15 +5452,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_int64)(struct OrtKernelInfo*,char*,long long*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
      * }
      */
     public interface KernelInfoGetAttribute_int64 {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfoGetAttribute_int64 fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$51.const$5, fi, constants$14.const$4, scope);
@@ -5503,12 +5468,11 @@ public class OrtApi {
 
         static KernelInfoGetAttribute_int64 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5522,7 +5486,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_int64)(struct OrtKernelInfo*,char*,long long*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_int64$get(MemorySegment seg) {
@@ -5531,7 +5495,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_int64)(struct OrtKernelInfo*,char*,long long*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo*,char*,int64_t*);
      * }
      */
     public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, MemorySegment x) {
@@ -5551,7 +5515,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_string)(struct OrtKernelInfo*,char*,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
      * }
      */
     public interface KernelInfoGetAttribute_string {
@@ -5588,7 +5552,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_string)(struct OrtKernelInfo*,char*,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_string$get(MemorySegment seg) {
@@ -5597,7 +5561,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_string)(struct OrtKernelInfo*,char*,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo*,char*,char*,size_t*);
      * }
      */
     public static void KernelInfoGetAttribute_string$set(MemorySegment seg, MemorySegment x) {
@@ -5617,13 +5581,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetInputCount)(struct OrtKernelContext*,unsigned long*);
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
      * }
      */
     public interface KernelContext_GetInputCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetInputCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$52.const$3, fi, constants$15.const$2, scope);
@@ -5631,9 +5594,9 @@ public class OrtApi {
 
         static KernelContext_GetInputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5647,7 +5610,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetInputCount)(struct OrtKernelContext*,unsigned long*);
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
      * }
      */
     public static MemorySegment KernelContext_GetInputCount$get(MemorySegment seg) {
@@ -5656,7 +5619,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetInputCount)(struct OrtKernelContext*,unsigned long*);
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext*,size_t*);
      * }
      */
     public static void KernelContext_GetInputCount$set(MemorySegment seg, MemorySegment x) {
@@ -5676,13 +5639,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetOutputCount)(struct OrtKernelContext*,unsigned long*);
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
      * }
      */
     public interface KernelContext_GetOutputCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetOutputCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$52.const$5, fi, constants$15.const$2, scope);
@@ -5690,9 +5652,9 @@ public class OrtApi {
 
         static KernelContext_GetOutputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5706,7 +5668,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetOutputCount)(struct OrtKernelContext*,unsigned long*);
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
      * }
      */
     public static MemorySegment KernelContext_GetOutputCount$get(MemorySegment seg) {
@@ -5715,7 +5677,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetOutputCount)(struct OrtKernelContext*,unsigned long*);
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext*,size_t*);
      * }
      */
     public static void KernelContext_GetOutputCount$set(MemorySegment seg, MemorySegment x) {
@@ -5735,7 +5697,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetInput)(struct OrtKernelContext*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
      * }
      */
     public interface KernelContext_GetInput {
@@ -5765,7 +5727,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetInput)(struct OrtKernelContext*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
      * }
      */
     public static MemorySegment KernelContext_GetInput$get(MemorySegment seg) {
@@ -5774,7 +5736,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetInput)(struct OrtKernelContext*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext*,size_t,const OrtValue**);
      * }
      */
     public static void KernelContext_GetInput$set(MemorySegment seg, MemorySegment x) {
@@ -5794,7 +5756,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetOutput)(struct OrtKernelContext*,unsigned long,long long*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
      * }
      */
     public interface KernelContext_GetOutput {
@@ -5833,7 +5795,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetOutput)(struct OrtKernelContext*,unsigned long,long long*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
      * }
      */
     public static MemorySegment KernelContext_GetOutput$get(MemorySegment seg) {
@@ -5842,7 +5804,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetOutput)(struct OrtKernelContext*,unsigned long,long long*,unsigned long,struct OrtValue**);
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext*,size_t,const int64_t*,size_t,OrtValue**);
      * }
      */
     public static void KernelContext_GetOutput$set(MemorySegment seg, MemorySegment x) {
@@ -5862,7 +5824,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseEnv)(struct OrtEnv*);
+     * void (*ReleaseEnv)(OrtEnv*);
      * }
      */
     public interface ReleaseEnv {
@@ -5891,7 +5853,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseEnv)(struct OrtEnv*);
+     * void (*ReleaseEnv)(OrtEnv*);
      * }
      */
     public static MemorySegment ReleaseEnv$get(MemorySegment seg) {
@@ -5900,7 +5862,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseEnv)(struct OrtEnv*);
+     * void (*ReleaseEnv)(OrtEnv*);
      * }
      */
     public static void ReleaseEnv$set(MemorySegment seg, MemorySegment x) {
@@ -5920,7 +5882,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseStatus)(struct OrtStatus*);
+     * void (*ReleaseStatus)(OrtStatus*);
      * }
      */
     public interface ReleaseStatus {
@@ -5949,7 +5911,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseStatus)(struct OrtStatus*);
+     * void (*ReleaseStatus)(OrtStatus*);
      * }
      */
     public static MemorySegment ReleaseStatus$get(MemorySegment seg) {
@@ -5958,7 +5920,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseStatus)(struct OrtStatus*);
+     * void (*ReleaseStatus)(OrtStatus*);
      * }
      */
     public static void ReleaseStatus$set(MemorySegment seg, MemorySegment x) {
@@ -5978,7 +5940,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseMemoryInfo)(struct OrtMemoryInfo*);
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
      * }
      */
     public interface ReleaseMemoryInfo {
@@ -6007,7 +5969,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseMemoryInfo)(struct OrtMemoryInfo*);
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
      * }
      */
     public static MemorySegment ReleaseMemoryInfo$get(MemorySegment seg) {
@@ -6016,7 +5978,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseMemoryInfo)(struct OrtMemoryInfo*);
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo*);
      * }
      */
     public static void ReleaseMemoryInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6036,7 +5998,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseSession)(struct OrtSession*);
+     * void (*ReleaseSession)(OrtSession*);
      * }
      */
     public interface ReleaseSession {
@@ -6065,7 +6027,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseSession)(struct OrtSession*);
+     * void (*ReleaseSession)(OrtSession*);
      * }
      */
     public static MemorySegment ReleaseSession$get(MemorySegment seg) {
@@ -6074,7 +6036,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseSession)(struct OrtSession*);
+     * void (*ReleaseSession)(OrtSession*);
      * }
      */
     public static void ReleaseSession$set(MemorySegment seg, MemorySegment x) {
@@ -6094,7 +6056,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseValue)(struct OrtValue*);
+     * void (*ReleaseValue)(OrtValue*);
      * }
      */
     public interface ReleaseValue {
@@ -6123,7 +6085,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseValue)(struct OrtValue*);
+     * void (*ReleaseValue)(OrtValue*);
      * }
      */
     public static MemorySegment ReleaseValue$get(MemorySegment seg) {
@@ -6132,7 +6094,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseValue)(struct OrtValue*);
+     * void (*ReleaseValue)(OrtValue*);
      * }
      */
     public static void ReleaseValue$set(MemorySegment seg, MemorySegment x) {
@@ -6152,7 +6114,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseRunOptions)(struct OrtRunOptions*);
+     * void (*ReleaseRunOptions)(OrtRunOptions*);
      * }
      */
     public interface ReleaseRunOptions {
@@ -6181,7 +6143,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseRunOptions)(struct OrtRunOptions*);
+     * void (*ReleaseRunOptions)(OrtRunOptions*);
      * }
      */
     public static MemorySegment ReleaseRunOptions$get(MemorySegment seg) {
@@ -6190,7 +6152,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseRunOptions)(struct OrtRunOptions*);
+     * void (*ReleaseRunOptions)(OrtRunOptions*);
      * }
      */
     public static void ReleaseRunOptions$set(MemorySegment seg, MemorySegment x) {
@@ -6210,7 +6172,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseTypeInfo)(struct OrtTypeInfo*);
+     * void (*ReleaseTypeInfo)(OrtTypeInfo*);
      * }
      */
     public interface ReleaseTypeInfo {
@@ -6239,7 +6201,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseTypeInfo)(struct OrtTypeInfo*);
+     * void (*ReleaseTypeInfo)(OrtTypeInfo*);
      * }
      */
     public static MemorySegment ReleaseTypeInfo$get(MemorySegment seg) {
@@ -6248,7 +6210,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseTypeInfo)(struct OrtTypeInfo*);
+     * void (*ReleaseTypeInfo)(OrtTypeInfo*);
      * }
      */
     public static void ReleaseTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6268,7 +6230,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo*);
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
      * }
      */
     public interface ReleaseTensorTypeAndShapeInfo {
@@ -6297,7 +6259,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo*);
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
      * }
      */
     public static MemorySegment ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg) {
@@ -6306,7 +6268,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseTensorTypeAndShapeInfo)(struct OrtTensorTypeAndShapeInfo*);
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo*);
      * }
      */
     public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6326,7 +6288,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseSessionOptions)(struct OrtSessionOptions*);
+     * void (*ReleaseSessionOptions)(OrtSessionOptions*);
      * }
      */
     public interface ReleaseSessionOptions {
@@ -6355,7 +6317,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseSessionOptions)(struct OrtSessionOptions*);
+     * void (*ReleaseSessionOptions)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment ReleaseSessionOptions$get(MemorySegment seg) {
@@ -6364,7 +6326,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseSessionOptions)(struct OrtSessionOptions*);
+     * void (*ReleaseSessionOptions)(OrtSessionOptions*);
      * }
      */
     public static void ReleaseSessionOptions$set(MemorySegment seg, MemorySegment x) {
@@ -6384,7 +6346,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseCustomOpDomain)(struct OrtCustomOpDomain*);
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
      * }
      */
     public interface ReleaseCustomOpDomain {
@@ -6413,7 +6375,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseCustomOpDomain)(struct OrtCustomOpDomain*);
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
      * }
      */
     public static MemorySegment ReleaseCustomOpDomain$get(MemorySegment seg) {
@@ -6422,7 +6384,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseCustomOpDomain)(struct OrtCustomOpDomain*);
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain*);
      * }
      */
     public static void ReleaseCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
@@ -6442,15 +6404,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetDenotationFromTypeInfo)(struct OrtTypeInfo*,char**,unsigned long*);
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
      * }
      */
     public interface GetDenotationFromTypeInfo {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetDenotationFromTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$57.const$3, fi, constants$14.const$4, scope);
@@ -6458,12 +6420,11 @@ public class OrtApi {
 
         static GetDenotationFromTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6477,7 +6438,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDenotationFromTypeInfo)(struct OrtTypeInfo*,char**,unsigned long*);
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
      * }
      */
     public static MemorySegment GetDenotationFromTypeInfo$get(MemorySegment seg) {
@@ -6486,7 +6447,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDenotationFromTypeInfo)(struct OrtTypeInfo*,char**,unsigned long*);
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo*,char**,size_t*);
      * }
      */
     public static void GetDenotationFromTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6506,13 +6467,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToMapTypeInfo)(struct OrtTypeInfo*,struct OrtMapTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
      * }
      */
     public interface CastTypeInfoToMapTypeInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToMapTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$57.const$5, fi, constants$15.const$2, scope);
@@ -6520,9 +6480,9 @@ public class OrtApi {
 
         static CastTypeInfoToMapTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6536,7 +6496,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToMapTypeInfo)(struct OrtTypeInfo*,struct OrtMapTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
      * }
      */
     public static MemorySegment CastTypeInfoToMapTypeInfo$get(MemorySegment seg) {
@@ -6545,7 +6505,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToMapTypeInfo)(struct OrtTypeInfo*,struct OrtMapTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo*,const OrtMapTypeInfo**);
      * }
      */
     public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6565,13 +6525,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToSequenceTypeInfo)(struct OrtTypeInfo*,struct OrtSequenceTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
      * }
      */
     public interface CastTypeInfoToSequenceTypeInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToSequenceTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$58.const$1, fi, constants$15.const$2, scope);
@@ -6579,9 +6538,9 @@ public class OrtApi {
 
         static CastTypeInfoToSequenceTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6595,7 +6554,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToSequenceTypeInfo)(struct OrtTypeInfo*,struct OrtSequenceTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
      * }
      */
     public static MemorySegment CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg) {
@@ -6604,7 +6563,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToSequenceTypeInfo)(struct OrtTypeInfo*,struct OrtSequenceTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo*,const OrtSequenceTypeInfo**);
      * }
      */
     public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6624,13 +6583,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetMapKeyType)(struct OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
      * }
      */
     public interface GetMapKeyType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetMapKeyType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$58.const$3, fi, constants$15.const$2, scope);
@@ -6638,9 +6596,9 @@ public class OrtApi {
 
         static GetMapKeyType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6654,7 +6612,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetMapKeyType)(struct OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
      * }
      */
     public static MemorySegment GetMapKeyType$get(MemorySegment seg) {
@@ -6663,7 +6621,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetMapKeyType)(struct OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo*,enum ONNXTensorElementDataType*);
      * }
      */
     public static void GetMapKeyType$set(MemorySegment seg, MemorySegment x) {
@@ -6683,13 +6641,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetMapValueType)(struct OrtMapTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
      * }
      */
     public interface GetMapValueType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetMapValueType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$58.const$5, fi, constants$15.const$2, scope);
@@ -6697,9 +6654,9 @@ public class OrtApi {
 
         static GetMapValueType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6713,7 +6670,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetMapValueType)(struct OrtMapTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
      * }
      */
     public static MemorySegment GetMapValueType$get(MemorySegment seg) {
@@ -6722,7 +6679,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetMapValueType)(struct OrtMapTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo*,OrtTypeInfo**);
      * }
      */
     public static void GetMapValueType$set(MemorySegment seg, MemorySegment x) {
@@ -6742,13 +6699,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSequenceElementType)(struct OrtSequenceTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
      * }
      */
     public interface GetSequenceElementType {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSequenceElementType fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$59.const$1, fi, constants$15.const$2, scope);
@@ -6756,9 +6712,9 @@ public class OrtApi {
 
         static GetSequenceElementType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6772,7 +6728,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSequenceElementType)(struct OrtSequenceTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
      * }
      */
     public static MemorySegment GetSequenceElementType$get(MemorySegment seg) {
@@ -6781,7 +6737,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSequenceElementType)(struct OrtSequenceTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo*,OrtTypeInfo**);
      * }
      */
     public static void GetSequenceElementType$set(MemorySegment seg, MemorySegment x) {
@@ -6801,7 +6757,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseMapTypeInfo)(struct OrtMapTypeInfo*);
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
      * }
      */
     public interface ReleaseMapTypeInfo {
@@ -6830,7 +6786,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseMapTypeInfo)(struct OrtMapTypeInfo*);
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
      * }
      */
     public static MemorySegment ReleaseMapTypeInfo$get(MemorySegment seg) {
@@ -6839,7 +6795,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseMapTypeInfo)(struct OrtMapTypeInfo*);
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo*);
      * }
      */
     public static void ReleaseMapTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6859,7 +6815,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseSequenceTypeInfo)(struct OrtSequenceTypeInfo*);
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
      * }
      */
     public interface ReleaseSequenceTypeInfo {
@@ -6888,7 +6844,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseSequenceTypeInfo)(struct OrtSequenceTypeInfo*);
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
      * }
      */
     public static MemorySegment ReleaseSequenceTypeInfo$get(MemorySegment seg) {
@@ -6897,7 +6853,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseSequenceTypeInfo)(struct OrtSequenceTypeInfo*);
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo*);
      * }
      */
     public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -6917,15 +6873,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionEndProfiling)(struct OrtSession*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
      * }
      */
     public interface SessionEndProfiling {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionEndProfiling fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$60.const$1, fi, constants$14.const$4, scope);
@@ -6933,12 +6889,11 @@ public class OrtApi {
 
         static SessionEndProfiling ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6952,7 +6907,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionEndProfiling)(struct OrtSession*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment SessionEndProfiling$get(MemorySegment seg) {
@@ -6961,7 +6916,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionEndProfiling)(struct OrtSession*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession*,OrtAllocator*,char**);
      * }
      */
     public static void SessionEndProfiling$set(MemorySegment seg, MemorySegment x) {
@@ -6981,13 +6936,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetModelMetadata)(struct OrtSession*,struct OrtModelMetadata**);
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
      * }
      */
     public interface SessionGetModelMetadata {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetModelMetadata fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$60.const$3, fi, constants$15.const$2, scope);
@@ -6995,9 +6949,9 @@ public class OrtApi {
 
         static SessionGetModelMetadata ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7011,7 +6965,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetModelMetadata)(struct OrtSession*,struct OrtModelMetadata**);
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
      * }
      */
     public static MemorySegment SessionGetModelMetadata$get(MemorySegment seg) {
@@ -7020,7 +6974,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetModelMetadata)(struct OrtSession*,struct OrtModelMetadata**);
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession*,OrtModelMetadata**);
      * }
      */
     public static void SessionGetModelMetadata$set(MemorySegment seg, MemorySegment x) {
@@ -7040,15 +6994,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetProducerName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public interface ModelMetadataGetProducerName {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetProducerName fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$60.const$5, fi, constants$14.const$4, scope);
@@ -7056,12 +7010,11 @@ public class OrtApi {
 
         static ModelMetadataGetProducerName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7075,7 +7028,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetProducerName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment ModelMetadataGetProducerName$get(MemorySegment seg) {
@@ -7084,7 +7037,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetProducerName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static void ModelMetadataGetProducerName$set(MemorySegment seg, MemorySegment x) {
@@ -7104,15 +7057,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetGraphName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public interface ModelMetadataGetGraphName {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetGraphName fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$61.const$1, fi, constants$14.const$4, scope);
@@ -7120,12 +7073,11 @@ public class OrtApi {
 
         static ModelMetadataGetGraphName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7139,7 +7091,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetGraphName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment ModelMetadataGetGraphName$get(MemorySegment seg) {
@@ -7148,7 +7100,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetGraphName)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static void ModelMetadataGetGraphName$set(MemorySegment seg, MemorySegment x) {
@@ -7168,15 +7120,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetDomain)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public interface ModelMetadataGetDomain {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetDomain fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$61.const$3, fi, constants$14.const$4, scope);
@@ -7184,12 +7136,11 @@ public class OrtApi {
 
         static ModelMetadataGetDomain ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7203,7 +7154,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetDomain)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment ModelMetadataGetDomain$get(MemorySegment seg) {
@@ -7212,7 +7163,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetDomain)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static void ModelMetadataGetDomain$set(MemorySegment seg, MemorySegment x) {
@@ -7232,15 +7183,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public interface ModelMetadataGetDescription {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetDescription fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$61.const$5, fi, constants$14.const$4, scope);
@@ -7248,12 +7199,11 @@ public class OrtApi {
 
         static ModelMetadataGetDescription ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7267,7 +7217,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment ModelMetadataGetDescription$get(MemorySegment seg) {
@@ -7276,7 +7226,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static void ModelMetadataGetDescription$set(MemorySegment seg, MemorySegment x) {
@@ -7296,7 +7246,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataLookupCustomMetadataMap)(struct OrtModelMetadata*,struct OrtAllocator*,char*,char**);
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
      * }
      */
     public interface ModelMetadataLookupCustomMetadataMap {
@@ -7333,7 +7283,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataLookupCustomMetadataMap)(struct OrtModelMetadata*,struct OrtAllocator*,char*,char**);
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
      * }
      */
     public static MemorySegment ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg) {
@@ -7342,7 +7292,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataLookupCustomMetadataMap)(struct OrtModelMetadata*,struct OrtAllocator*,char*,char**);
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata*,OrtAllocator*,char*,char**);
      * }
      */
     public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, MemorySegment x) {
@@ -7363,13 +7313,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetVersion)(struct OrtModelMetadata*,long long*);
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
      * }
      */
     public interface ModelMetadataGetVersion {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(ModelMetadataGetVersion fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$62.const$3, fi, constants$15.const$2, scope);
@@ -7377,9 +7326,9 @@ public class OrtApi {
 
         static ModelMetadataGetVersion ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7393,7 +7342,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetVersion)(struct OrtModelMetadata*,long long*);
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
      * }
      */
     public static MemorySegment ModelMetadataGetVersion$get(MemorySegment seg) {
@@ -7402,7 +7351,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetVersion)(struct OrtModelMetadata*,long long*);
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata*,int64_t*);
      * }
      */
     public static void ModelMetadataGetVersion$set(MemorySegment seg, MemorySegment x) {
@@ -7422,7 +7371,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseModelMetadata)(struct OrtModelMetadata*);
+     * void (*ReleaseModelMetadata)(OrtModelMetadata*);
      * }
      */
     public interface ReleaseModelMetadata {
@@ -7451,7 +7400,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseModelMetadata)(struct OrtModelMetadata*);
+     * void (*ReleaseModelMetadata)(OrtModelMetadata*);
      * }
      */
     public static MemorySegment ReleaseModelMetadata$get(MemorySegment seg) {
@@ -7460,7 +7409,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseModelMetadata)(struct OrtModelMetadata*);
+     * void (*ReleaseModelMetadata)(OrtModelMetadata*);
      * }
      */
     public static void ReleaseModelMetadata$set(MemorySegment seg, MemorySegment x) {
@@ -7480,7 +7429,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithGlobalThreadPools)(enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
      * }
      */
     public interface CreateEnvWithGlobalThreadPools {
@@ -7517,7 +7466,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithGlobalThreadPools)(enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
      * }
      */
     public static MemorySegment CreateEnvWithGlobalThreadPools$get(MemorySegment seg) {
@@ -7526,7 +7475,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithGlobalThreadPools)(enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel,char*,const OrtThreadingOptions*,OrtEnv**);
      * }
      */
     public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, MemorySegment x) {
@@ -7546,7 +7495,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*DisablePerSessionThreads)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
      * }
      */
     public interface DisablePerSessionThreads {
@@ -7575,7 +7524,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisablePerSessionThreads)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment DisablePerSessionThreads$get(MemorySegment seg) {
@@ -7584,7 +7533,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*DisablePerSessionThreads)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions*);
      * }
      */
     public static void DisablePerSessionThreads$set(MemorySegment seg, MemorySegment x) {
@@ -7604,7 +7553,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateThreadingOptions)(struct OrtThreadingOptions**);
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
      * }
      */
     public interface CreateThreadingOptions {
@@ -7633,7 +7582,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateThreadingOptions)(struct OrtThreadingOptions**);
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
      * }
      */
     public static MemorySegment CreateThreadingOptions$get(MemorySegment seg) {
@@ -7642,7 +7591,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateThreadingOptions)(struct OrtThreadingOptions**);
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions**);
      * }
      */
     public static void CreateThreadingOptions$set(MemorySegment seg, MemorySegment x) {
@@ -7662,7 +7611,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseThreadingOptions)(struct OrtThreadingOptions*);
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
      * }
      */
     public interface ReleaseThreadingOptions {
@@ -7691,7 +7640,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseThreadingOptions)(struct OrtThreadingOptions*);
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
      * }
      */
     public static MemorySegment ReleaseThreadingOptions$get(MemorySegment seg) {
@@ -7700,7 +7649,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseThreadingOptions)(struct OrtThreadingOptions*);
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions*);
      * }
      */
     public static void ReleaseThreadingOptions$set(MemorySegment seg, MemorySegment x) {
@@ -7720,7 +7669,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetCustomMetadataMapKeys)(struct OrtModelMetadata*,struct OrtAllocator*,char***,long long*);
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
      * }
      */
     public interface ModelMetadataGetCustomMetadataMapKeys {
@@ -7757,7 +7706,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetCustomMetadataMapKeys)(struct OrtModelMetadata*,struct OrtAllocator*,char***,long long*);
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
      * }
      */
     public static MemorySegment ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg) {
@@ -7766,7 +7715,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetCustomMetadataMapKeys)(struct OrtModelMetadata*,struct OrtAllocator*,char***,long long*);
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata*,OrtAllocator*,char***,int64_t*);
      * }
      */
     public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, MemorySegment x) {
@@ -7788,7 +7737,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddFreeDimensionOverrideByName)(struct OrtSessionOptions*,char*,long long);
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
      * }
      */
     public interface AddFreeDimensionOverrideByName {
@@ -7818,7 +7767,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddFreeDimensionOverrideByName)(struct OrtSessionOptions*,char*,long long);
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
      * }
      */
     public static MemorySegment AddFreeDimensionOverrideByName$get(MemorySegment seg) {
@@ -7827,7 +7776,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddFreeDimensionOverrideByName)(struct OrtSessionOptions*,char*,long long);
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions*,char*,int64_t);
      * }
      */
     public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, MemorySegment x) {
@@ -7847,13 +7796,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetAvailableProviders)(char***,int*);
+     * OrtStatusPtr (*GetAvailableProviders)(char***,int*);
      * }
      */
     public interface GetAvailableProviders {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetAvailableProviders fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$65.const$3, fi, constants$15.const$2, scope);
@@ -7861,9 +7809,9 @@ public class OrtApi {
 
         static GetAvailableProviders ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7877,7 +7825,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetAvailableProviders)(char***,int*);
+     * OrtStatusPtr (*GetAvailableProviders)(char***,int*);
      * }
      */
     public static MemorySegment GetAvailableProviders$get(MemorySegment seg) {
@@ -7886,7 +7834,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetAvailableProviders)(char***,int*);
+     * OrtStatusPtr (*GetAvailableProviders)(char***,int*);
      * }
      */
     public static void GetAvailableProviders$set(MemorySegment seg, MemorySegment x) {
@@ -7906,7 +7854,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ReleaseAvailableProviders)(char**,int);
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
      * }
      */
     public interface ReleaseAvailableProviders {
@@ -7935,7 +7883,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ReleaseAvailableProviders)(char**,int);
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
      * }
      */
     public static MemorySegment ReleaseAvailableProviders$get(MemorySegment seg) {
@@ -7944,7 +7892,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ReleaseAvailableProviders)(char**,int);
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char**,int);
      * }
      */
     public static void ReleaseAvailableProviders$set(MemorySegment seg, MemorySegment x) {
@@ -7964,7 +7912,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorElementLength)(struct OrtValue*,unsigned long,unsigned long*);
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
      * }
      */
     public interface GetStringTensorElementLength {
@@ -7994,7 +7942,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorElementLength)(struct OrtValue*,unsigned long,unsigned long*);
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
      * }
      */
     public static MemorySegment GetStringTensorElementLength$get(MemorySegment seg) {
@@ -8003,7 +7951,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorElementLength)(struct OrtValue*,unsigned long,unsigned long*);
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue*,size_t,size_t*);
      * }
      */
     public static void GetStringTensorElementLength$set(MemorySegment seg, MemorySegment x) {
@@ -8023,7 +7971,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorElement)(struct OrtValue*,unsigned long,unsigned long,void*);
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
      * }
      */
     public interface GetStringTensorElement {
@@ -8057,7 +8005,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorElement)(struct OrtValue*,unsigned long,unsigned long,void*);
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
      * }
      */
     public static MemorySegment GetStringTensorElement$get(MemorySegment seg) {
@@ -8066,7 +8014,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetStringTensorElement)(struct OrtValue*,unsigned long,unsigned long,void*);
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue*,size_t,size_t,void*);
      * }
      */
     public static void GetStringTensorElement$set(MemorySegment seg, MemorySegment x) {
@@ -8086,7 +8034,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*FillStringTensorElement)(struct OrtValue*,char*,unsigned long);
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
      * }
      */
     public interface FillStringTensorElement {
@@ -8116,7 +8064,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillStringTensorElement)(struct OrtValue*,char*,unsigned long);
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
      * }
      */
     public static MemorySegment FillStringTensorElement$get(MemorySegment seg) {
@@ -8125,7 +8073,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillStringTensorElement)(struct OrtValue*,char*,unsigned long);
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue*,char*,size_t);
      * }
      */
     public static void FillStringTensorElement$set(MemorySegment seg, MemorySegment x) {
@@ -8145,15 +8093,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddSessionConfigEntry)(struct OrtSessionOptions*,char*,char*);
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
      * }
      */
     public interface AddSessionConfigEntry {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddSessionConfigEntry fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$67.const$3, fi, constants$14.const$4, scope);
@@ -8161,12 +8109,11 @@ public class OrtApi {
 
         static AddSessionConfigEntry ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8180,7 +8127,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddSessionConfigEntry)(struct OrtSessionOptions*,char*,char*);
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
      * }
      */
     public static MemorySegment AddSessionConfigEntry$get(MemorySegment seg) {
@@ -8189,7 +8136,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddSessionConfigEntry)(struct OrtSessionOptions*,char*,char*);
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions*,char*,char*);
      * }
      */
     public static void AddSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
@@ -8209,15 +8156,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateAllocator)(struct OrtSession*,struct OrtMemoryInfo*,struct OrtAllocator**);
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
      * }
      */
     public interface CreateAllocator {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateAllocator fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$67.const$5, fi, constants$14.const$4, scope);
@@ -8225,12 +8172,11 @@ public class OrtApi {
 
         static CreateAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8244,7 +8190,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateAllocator)(struct OrtSession*,struct OrtMemoryInfo*,struct OrtAllocator**);
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
      * }
      */
     public static MemorySegment CreateAllocator$get(MemorySegment seg) {
@@ -8253,7 +8199,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateAllocator)(struct OrtSession*,struct OrtMemoryInfo*,struct OrtAllocator**);
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession*,const OrtMemoryInfo*,OrtAllocator**);
      * }
      */
     public static void CreateAllocator$set(MemorySegment seg, MemorySegment x) {
@@ -8273,7 +8219,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseAllocator)(struct OrtAllocator*);
+     * void (*ReleaseAllocator)(OrtAllocator*);
      * }
      */
     public interface ReleaseAllocator {
@@ -8302,7 +8248,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseAllocator)(struct OrtAllocator*);
+     * void (*ReleaseAllocator)(OrtAllocator*);
      * }
      */
     public static MemorySegment ReleaseAllocator$get(MemorySegment seg) {
@@ -8311,7 +8257,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseAllocator)(struct OrtAllocator*);
+     * void (*ReleaseAllocator)(OrtAllocator*);
      * }
      */
     public static void ReleaseAllocator$set(MemorySegment seg, MemorySegment x) {
@@ -8331,15 +8277,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunWithBinding)(struct OrtSession*,struct OrtRunOptions*,struct OrtIoBinding*);
+     * OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
      * }
      */
     public interface RunWithBinding {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(RunWithBinding fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$68.const$3, fi, constants$14.const$4, scope);
@@ -8347,12 +8293,11 @@ public class OrtApi {
 
         static RunWithBinding ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8366,7 +8311,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunWithBinding)(struct OrtSession*,struct OrtRunOptions*,struct OrtIoBinding*);
+     * OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
      * }
      */
     public static MemorySegment RunWithBinding$get(MemorySegment seg) {
@@ -8375,7 +8320,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunWithBinding)(struct OrtSession*,struct OrtRunOptions*,struct OrtIoBinding*);
+     * OrtStatusPtr (*RunWithBinding)(OrtSession*,const OrtRunOptions*,const OrtIoBinding*);
      * }
      */
     public static void RunWithBinding$set(MemorySegment seg, MemorySegment x) {
@@ -8395,13 +8340,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateIoBinding)(struct OrtSession*,struct OrtIoBinding**);
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
      * }
      */
     public interface CreateIoBinding {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateIoBinding fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$68.const$5, fi, constants$15.const$2, scope);
@@ -8409,9 +8353,9 @@ public class OrtApi {
 
         static CreateIoBinding ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8425,7 +8369,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateIoBinding)(struct OrtSession*,struct OrtIoBinding**);
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
      * }
      */
     public static MemorySegment CreateIoBinding$get(MemorySegment seg) {
@@ -8434,7 +8378,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateIoBinding)(struct OrtSession*,struct OrtIoBinding**);
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession*,OrtIoBinding**);
      * }
      */
     public static void CreateIoBinding$set(MemorySegment seg, MemorySegment x) {
@@ -8454,7 +8398,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseIoBinding)(struct OrtIoBinding*);
+     * void (*ReleaseIoBinding)(OrtIoBinding*);
      * }
      */
     public interface ReleaseIoBinding {
@@ -8483,7 +8427,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseIoBinding)(struct OrtIoBinding*);
+     * void (*ReleaseIoBinding)(OrtIoBinding*);
      * }
      */
     public static MemorySegment ReleaseIoBinding$get(MemorySegment seg) {
@@ -8492,7 +8436,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseIoBinding)(struct OrtIoBinding*);
+     * void (*ReleaseIoBinding)(OrtIoBinding*);
      * }
      */
     public static void ReleaseIoBinding$set(MemorySegment seg, MemorySegment x) {
@@ -8512,15 +8456,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*BindInput)(struct OrtIoBinding*,char*,struct OrtValue*);
+     * OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
      * }
      */
     public interface BindInput {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindInput fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$69.const$3, fi, constants$14.const$4, scope);
@@ -8528,12 +8472,11 @@ public class OrtApi {
 
         static BindInput ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8547,7 +8490,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*BindInput)(struct OrtIoBinding*,char*,struct OrtValue*);
+     * OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
      * }
      */
     public static MemorySegment BindInput$get(MemorySegment seg) {
@@ -8556,7 +8499,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*BindInput)(struct OrtIoBinding*,char*,struct OrtValue*);
+     * OrtStatusPtr (*BindInput)(OrtIoBinding*,char*,const OrtValue*);
      * }
      */
     public static void BindInput$set(MemorySegment seg, MemorySegment x) {
@@ -8576,15 +8519,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*BindOutput)(struct OrtIoBinding*,char*,struct OrtValue*);
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
      * }
      */
     public interface BindOutput {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindOutput fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$69.const$5, fi, constants$14.const$4, scope);
@@ -8592,12 +8535,11 @@ public class OrtApi {
 
         static BindOutput ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8611,7 +8553,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*BindOutput)(struct OrtIoBinding*,char*,struct OrtValue*);
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
      * }
      */
     public static MemorySegment BindOutput$get(MemorySegment seg) {
@@ -8620,7 +8562,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*BindOutput)(struct OrtIoBinding*,char*,struct OrtValue*);
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding*,char*,const OrtValue*);
      * }
      */
     public static void BindOutput$set(MemorySegment seg, MemorySegment x) {
@@ -8640,15 +8582,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*BindOutputToDevice)(struct OrtIoBinding*,char*,struct OrtMemoryInfo*);
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
      * }
      */
     public interface BindOutputToDevice {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindOutputToDevice fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$70.const$1, fi, constants$14.const$4, scope);
@@ -8656,12 +8598,11 @@ public class OrtApi {
 
         static BindOutputToDevice ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8675,7 +8616,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*BindOutputToDevice)(struct OrtIoBinding*,char*,struct OrtMemoryInfo*);
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
      * }
      */
     public static MemorySegment BindOutputToDevice$get(MemorySegment seg) {
@@ -8684,7 +8625,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*BindOutputToDevice)(struct OrtIoBinding*,char*,struct OrtMemoryInfo*);
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding*,char*,const OrtMemoryInfo*);
      * }
      */
     public static void BindOutputToDevice$set(MemorySegment seg, MemorySegment x) {
@@ -8704,7 +8645,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetBoundOutputNames)(struct OrtIoBinding*,struct OrtAllocator*,char**,unsigned long**,unsigned long*);
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
      * }
      */
     public interface GetBoundOutputNames {
@@ -8743,7 +8684,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetBoundOutputNames)(struct OrtIoBinding*,struct OrtAllocator*,char**,unsigned long**,unsigned long*);
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
      * }
      */
     public static MemorySegment GetBoundOutputNames$get(MemorySegment seg) {
@@ -8752,7 +8693,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetBoundOutputNames)(struct OrtIoBinding*,struct OrtAllocator*,char**,unsigned long**,unsigned long*);
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding*,OrtAllocator*,char**,size_t**,size_t*);
      * }
      */
     public static void GetBoundOutputNames$set(MemorySegment seg, MemorySegment x) {
@@ -8772,7 +8713,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetBoundOutputValues)(struct OrtIoBinding*,struct OrtAllocator*,struct OrtValue***,unsigned long*);
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
      * }
      */
     public interface GetBoundOutputValues {
@@ -8809,7 +8750,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetBoundOutputValues)(struct OrtIoBinding*,struct OrtAllocator*,struct OrtValue***,unsigned long*);
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
      * }
      */
     public static MemorySegment GetBoundOutputValues$get(MemorySegment seg) {
@@ -8818,7 +8759,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetBoundOutputValues)(struct OrtIoBinding*,struct OrtAllocator*,struct OrtValue***,unsigned long*);
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding*,OrtAllocator*,OrtValue***,size_t*);
      * }
      */
     public static void GetBoundOutputValues$set(MemorySegment seg, MemorySegment x) {
@@ -8838,7 +8779,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ClearBoundInputs)(struct OrtIoBinding*);
+     * void (*ClearBoundInputs)(OrtIoBinding*);
      * }
      */
     public interface ClearBoundInputs {
@@ -8867,7 +8808,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ClearBoundInputs)(struct OrtIoBinding*);
+     * void (*ClearBoundInputs)(OrtIoBinding*);
      * }
      */
     public static MemorySegment ClearBoundInputs$get(MemorySegment seg) {
@@ -8876,7 +8817,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ClearBoundInputs)(struct OrtIoBinding*);
+     * void (*ClearBoundInputs)(OrtIoBinding*);
      * }
      */
     public static void ClearBoundInputs$set(MemorySegment seg, MemorySegment x) {
@@ -8896,7 +8837,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ClearBoundOutputs)(struct OrtIoBinding*);
+     * void (*ClearBoundOutputs)(OrtIoBinding*);
      * }
      */
     public interface ClearBoundOutputs {
@@ -8925,7 +8866,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ClearBoundOutputs)(struct OrtIoBinding*);
+     * void (*ClearBoundOutputs)(OrtIoBinding*);
      * }
      */
     public static MemorySegment ClearBoundOutputs$get(MemorySegment seg) {
@@ -8934,7 +8875,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ClearBoundOutputs)(struct OrtIoBinding*);
+     * void (*ClearBoundOutputs)(OrtIoBinding*);
      * }
      */
     public static void ClearBoundOutputs$set(MemorySegment seg, MemorySegment x) {
@@ -8954,7 +8895,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*TensorAt)(struct OrtValue*,long long*,unsigned long,void**);
+     * OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
      * }
      */
     public interface TensorAt {
@@ -8991,7 +8932,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*TensorAt)(struct OrtValue*,long long*,unsigned long,void**);
+     * OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
      * }
      */
     public static MemorySegment TensorAt$get(MemorySegment seg) {
@@ -9000,7 +8941,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*TensorAt)(struct OrtValue*,long long*,unsigned long,void**);
+     * OrtStatusPtr (*TensorAt)(OrtValue*,const int64_t*,size_t,void**);
      * }
      */
     public static void TensorAt$set(MemorySegment seg, MemorySegment x) {
@@ -9020,15 +8961,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateAndRegisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*,struct OrtArenaCfg*);
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
      * }
      */
     public interface CreateAndRegisterAllocator {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateAndRegisterAllocator fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$72.const$5, fi, constants$14.const$4, scope);
@@ -9036,12 +8977,11 @@ public class OrtApi {
 
         static CreateAndRegisterAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9055,7 +8995,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateAndRegisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*,struct OrtArenaCfg*);
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
      * }
      */
     public static MemorySegment CreateAndRegisterAllocator$get(MemorySegment seg) {
@@ -9064,7 +9004,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateAndRegisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*,struct OrtArenaCfg*);
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv*,const OrtMemoryInfo*,const OrtArenaCfg*);
      * }
      */
     public static void CreateAndRegisterAllocator$set(MemorySegment seg, MemorySegment x) {
@@ -9084,7 +9024,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetLanguageProjection)(struct OrtEnv*,enum OrtLanguageProjection);
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
      * }
      */
     public interface SetLanguageProjection {
@@ -9113,7 +9053,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetLanguageProjection)(struct OrtEnv*,enum OrtLanguageProjection);
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
      * }
      */
     public static MemorySegment SetLanguageProjection$get(MemorySegment seg) {
@@ -9122,7 +9062,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetLanguageProjection)(struct OrtEnv*,enum OrtLanguageProjection);
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv*,OrtLanguageProjection);
      * }
      */
     public static void SetLanguageProjection$set(MemorySegment seg, MemorySegment x) {
@@ -9142,13 +9082,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionGetProfilingStartTimeNs)(struct OrtSession*,unsigned long long*);
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
      * }
      */
     public interface SessionGetProfilingStartTimeNs {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetProfilingStartTimeNs fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$73.const$3, fi, constants$15.const$2, scope);
@@ -9156,9 +9095,9 @@ public class OrtApi {
 
         static SessionGetProfilingStartTimeNs ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9172,7 +9111,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetProfilingStartTimeNs)(struct OrtSession*,unsigned long long*);
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
      * }
      */
     public static MemorySegment SessionGetProfilingStartTimeNs$get(MemorySegment seg) {
@@ -9181,7 +9120,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionGetProfilingStartTimeNs)(struct OrtSession*,unsigned long long*);
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession*,uint64_t*);
      * }
      */
     public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, MemorySegment x) {
@@ -9201,7 +9140,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalIntraOpNumThreads)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
      * }
      */
     public interface SetGlobalIntraOpNumThreads {
@@ -9230,7 +9169,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalIntraOpNumThreads)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
      * }
      */
     public static MemorySegment SetGlobalIntraOpNumThreads$get(MemorySegment seg) {
@@ -9239,7 +9178,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalIntraOpNumThreads)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions*,int);
      * }
      */
     public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, MemorySegment x) {
@@ -9259,7 +9198,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalInterOpNumThreads)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
      * }
      */
     public interface SetGlobalInterOpNumThreads {
@@ -9288,7 +9227,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalInterOpNumThreads)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
      * }
      */
     public static MemorySegment SetGlobalInterOpNumThreads$get(MemorySegment seg) {
@@ -9297,7 +9236,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalInterOpNumThreads)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions*,int);
      * }
      */
     public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, MemorySegment x) {
@@ -9317,7 +9256,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalSpinControl)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
      * }
      */
     public interface SetGlobalSpinControl {
@@ -9346,7 +9285,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalSpinControl)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
      * }
      */
     public static MemorySegment SetGlobalSpinControl$get(MemorySegment seg) {
@@ -9355,7 +9294,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalSpinControl)(struct OrtThreadingOptions*,int);
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions*,int);
      * }
      */
     public static void SetGlobalSpinControl$set(MemorySegment seg, MemorySegment x) {
@@ -9375,15 +9314,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddInitializer)(struct OrtSessionOptions*,char*,struct OrtValue*);
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
      * }
      */
     public interface AddInitializer {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddInitializer fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$74.const$5, fi, constants$14.const$4, scope);
@@ -9391,12 +9330,11 @@ public class OrtApi {
 
         static AddInitializer ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9410,7 +9348,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddInitializer)(struct OrtSessionOptions*,char*,struct OrtValue*);
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
      * }
      */
     public static MemorySegment AddInitializer$get(MemorySegment seg) {
@@ -9419,7 +9357,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddInitializer)(struct OrtSessionOptions*,char*,struct OrtValue*);
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions*,char*,const OrtValue*);
      * }
      */
     public static void AddInitializer$set(MemorySegment seg, MemorySegment x) {
@@ -9439,7 +9377,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
      * }
      */
     public interface CreateEnvWithCustomLoggerAndGlobalThreadPools {
@@ -9480,7 +9418,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
      * }
      */
     public static MemorySegment CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg) {
@@ -9489,7 +9427,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(void (*)(void*,enum OrtLoggingLevel,char*,char*,char*,char*),void*,enum OrtLoggingLevel,char*,struct OrtThreadingOptions*,struct OrtEnv**);
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction,void*,OrtLoggingLevel,char*,struct OrtThreadingOptions*,OrtEnv**);
      * }
      */
     public static void CreateEnvWithCustomLoggerAndGlobalThreadPools$set(MemorySegment seg, MemorySegment x) {
@@ -9512,13 +9450,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA)(struct OrtSessionOptions*,struct OrtCUDAProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_CUDA {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$75.const$5, fi, constants$15.const$2, scope);
@@ -9526,9 +9463,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_CUDA ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9542,7 +9479,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA)(struct OrtSessionOptions*,struct OrtCUDAProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg) {
@@ -9551,7 +9488,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA)(struct OrtSessionOptions*,struct OrtCUDAProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions*,const OrtCUDAProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, MemorySegment x) {
@@ -9573,13 +9510,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_ROCM)(struct OrtSessionOptions*,struct OrtROCMProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_ROCM {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_ROCM fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$76.const$1, fi, constants$15.const$2, scope);
@@ -9587,9 +9523,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_ROCM ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9603,7 +9539,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_ROCM)(struct OrtSessionOptions*,struct OrtROCMProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg) {
@@ -9612,7 +9548,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_ROCM)(struct OrtSessionOptions*,struct OrtROCMProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions*,const OrtROCMProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, MemorySegment x) {
@@ -9634,13 +9570,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_OpenVINO)(struct OrtSessionOptions*,struct OrtOpenVINOProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_OpenVINO {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_OpenVINO fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$76.const$3, fi, constants$15.const$2, scope);
@@ -9648,9 +9583,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_OpenVINO ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9664,7 +9599,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_OpenVINO)(struct OrtSessionOptions*,struct OrtOpenVINOProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg) {
@@ -9673,7 +9608,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_OpenVINO)(struct OrtSessionOptions*,struct OrtOpenVINOProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions*,const OrtOpenVINOProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_OpenVINO$set(MemorySegment seg, MemorySegment x) {
@@ -9696,7 +9631,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalDenormalAsZero)(struct OrtThreadingOptions*);
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
      * }
      */
     public interface SetGlobalDenormalAsZero {
@@ -9725,7 +9660,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalDenormalAsZero)(struct OrtThreadingOptions*);
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
      * }
      */
     public static MemorySegment SetGlobalDenormalAsZero$get(MemorySegment seg) {
@@ -9734,7 +9669,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalDenormalAsZero)(struct OrtThreadingOptions*);
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions*);
      * }
      */
     public static void SetGlobalDenormalAsZero$set(MemorySegment seg, MemorySegment x) {
@@ -9754,7 +9689,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateArenaCfg)(unsigned long,int,int,int,struct OrtArenaCfg**);
+     * OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
      * }
      */
     public interface CreateArenaCfg {
@@ -9784,7 +9719,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateArenaCfg)(unsigned long,int,int,int,struct OrtArenaCfg**);
+     * OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
      * }
      */
     public static MemorySegment CreateArenaCfg$get(MemorySegment seg) {
@@ -9793,7 +9728,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateArenaCfg)(unsigned long,int,int,int,struct OrtArenaCfg**);
+     * OrtStatusPtr (*CreateArenaCfg)(size_t,int,int,int,OrtArenaCfg**);
      * }
      */
     public static void CreateArenaCfg$set(MemorySegment seg, MemorySegment x) {
@@ -9813,7 +9748,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseArenaCfg)(struct OrtArenaCfg*);
+     * void (*ReleaseArenaCfg)(OrtArenaCfg*);
      * }
      */
     public interface ReleaseArenaCfg {
@@ -9842,7 +9777,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseArenaCfg)(struct OrtArenaCfg*);
+     * void (*ReleaseArenaCfg)(OrtArenaCfg*);
      * }
      */
     public static MemorySegment ReleaseArenaCfg$get(MemorySegment seg) {
@@ -9851,7 +9786,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseArenaCfg)(struct OrtArenaCfg*);
+     * void (*ReleaseArenaCfg)(OrtArenaCfg*);
      * }
      */
     public static void ReleaseArenaCfg$set(MemorySegment seg, MemorySegment x) {
@@ -9871,15 +9806,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetGraphDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public interface ModelMetadataGetGraphDescription {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetGraphDescription fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$78.const$1, fi, constants$14.const$4, scope);
@@ -9887,12 +9822,11 @@ public class OrtApi {
 
         static ModelMetadataGetGraphDescription ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9906,7 +9840,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetGraphDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment ModelMetadataGetGraphDescription$get(MemorySegment seg) {
@@ -9915,7 +9849,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*ModelMetadataGetGraphDescription)(struct OrtModelMetadata*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata*,OrtAllocator*,char**);
      * }
      */
     public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, MemorySegment x) {
@@ -9936,13 +9870,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_TensorRT {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$78.const$3, fi, constants$15.const$2, scope);
@@ -9950,9 +9883,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_TensorRT ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9966,7 +9899,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg) {
@@ -9975,7 +9908,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions*,const OrtTensorRTProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_TensorRT$set(MemorySegment seg, MemorySegment x) {
@@ -9998,7 +9931,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetCurrentGpuDeviceId)(int);
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
      * }
      */
     public interface SetCurrentGpuDeviceId {
@@ -10027,7 +9960,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetCurrentGpuDeviceId)(int);
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
      * }
      */
     public static MemorySegment SetCurrentGpuDeviceId$get(MemorySegment seg) {
@@ -10036,7 +9969,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetCurrentGpuDeviceId)(int);
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int);
      * }
      */
     public static void SetCurrentGpuDeviceId$set(MemorySegment seg, MemorySegment x) {
@@ -10056,7 +9989,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetCurrentGpuDeviceId)(int*);
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
      * }
      */
     public interface GetCurrentGpuDeviceId {
@@ -10085,7 +10018,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCurrentGpuDeviceId)(int*);
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
      * }
      */
     public static MemorySegment GetCurrentGpuDeviceId$get(MemorySegment seg) {
@@ -10094,7 +10027,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCurrentGpuDeviceId)(int*);
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int*);
      * }
      */
     public static void GetCurrentGpuDeviceId$set(MemorySegment seg, MemorySegment x) {
@@ -10114,7 +10047,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttributeArray_float)(struct OrtKernelInfo*,char*,float*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
      * }
      */
     public interface KernelInfoGetAttributeArray_float {
@@ -10151,7 +10084,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttributeArray_float)(struct OrtKernelInfo*,char*,float*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
      * }
      */
     public static MemorySegment KernelInfoGetAttributeArray_float$get(MemorySegment seg) {
@@ -10160,7 +10093,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttributeArray_float)(struct OrtKernelInfo*,char*,float*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo*,char*,float*,size_t*);
      * }
      */
     public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, MemorySegment x) {
@@ -10181,7 +10114,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttributeArray_int64)(struct OrtKernelInfo*,char*,long long*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
      * }
      */
     public interface KernelInfoGetAttributeArray_int64 {
@@ -10218,7 +10151,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttributeArray_int64)(struct OrtKernelInfo*,char*,long long*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
      * }
      */
     public static MemorySegment KernelInfoGetAttributeArray_int64$get(MemorySegment seg) {
@@ -10227,7 +10160,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttributeArray_int64)(struct OrtKernelInfo*,char*,long long*,unsigned long*);
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo*,char*,int64_t*,size_t*);
      * }
      */
     public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, MemorySegment x) {
@@ -10248,7 +10181,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateArenaCfgV2)(char**,unsigned long*,unsigned long,struct OrtArenaCfg**);
+     * OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
      * }
      */
     public interface CreateArenaCfgV2 {
@@ -10285,7 +10218,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateArenaCfgV2)(char**,unsigned long*,unsigned long,struct OrtArenaCfg**);
+     * OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
      * }
      */
     public static MemorySegment CreateArenaCfgV2$get(MemorySegment seg) {
@@ -10294,7 +10227,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateArenaCfgV2)(char**,unsigned long*,unsigned long,struct OrtArenaCfg**);
+     * OrtStatusPtr (*CreateArenaCfgV2)(char**,const size_t*,size_t,OrtArenaCfg**);
      * }
      */
     public static void CreateArenaCfgV2$set(MemorySegment seg, MemorySegment x) {
@@ -10314,15 +10247,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddRunConfigEntry)(struct OrtRunOptions*,char*,char*);
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
      * }
      */
     public interface AddRunConfigEntry {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddRunConfigEntry fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$80.const$3, fi, constants$14.const$4, scope);
@@ -10330,12 +10263,11 @@ public class OrtApi {
 
         static AddRunConfigEntry ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10349,7 +10281,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddRunConfigEntry)(struct OrtRunOptions*,char*,char*);
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
      * }
      */
     public static MemorySegment AddRunConfigEntry$get(MemorySegment seg) {
@@ -10358,7 +10290,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddRunConfigEntry)(struct OrtRunOptions*,char*,char*);
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions*,char*,char*);
      * }
      */
     public static void AddRunConfigEntry$set(MemorySegment seg, MemorySegment x) {
@@ -10378,7 +10310,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreatePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer**);
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
      * }
      */
     public interface CreatePrepackedWeightsContainer {
@@ -10407,7 +10339,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreatePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer**);
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
      * }
      */
     public static MemorySegment CreatePrepackedWeightsContainer$get(MemorySegment seg) {
@@ -10416,7 +10348,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreatePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer**);
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer**);
      * }
      */
     public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
@@ -10436,7 +10368,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleasePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer*);
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
      * }
      */
     public interface ReleasePrepackedWeightsContainer {
@@ -10465,7 +10397,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleasePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer*);
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
      * }
      */
     public static MemorySegment ReleasePrepackedWeightsContainer$get(MemorySegment seg) {
@@ -10474,7 +10406,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleasePrepackedWeightsContainer)(struct OrtPrepackedWeightsContainer*);
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer*);
      * }
      */
     public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
@@ -10495,7 +10427,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionWithPrepackedWeightsContainer)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
      * }
      */
     public interface CreateSessionWithPrepackedWeightsContainer {
@@ -10534,7 +10466,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionWithPrepackedWeightsContainer)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
      * }
      */
     public static MemorySegment CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg) {
@@ -10543,7 +10475,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionWithPrepackedWeightsContainer)(struct OrtEnv*,char*,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv*,char*,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
      * }
      */
     public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
@@ -10565,7 +10497,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionFromArrayWithPrepackedWeightsContainer)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
      * }
      */
     public interface CreateSessionFromArrayWithPrepackedWeightsContainer {
@@ -10606,7 +10538,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionFromArrayWithPrepackedWeightsContainer)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
      * }
      */
     public static MemorySegment CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg) {
@@ -10615,7 +10547,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSessionFromArrayWithPrepackedWeightsContainer)(struct OrtEnv*,void*,unsigned long,struct OrtSessionOptions*,struct OrtPrepackedWeightsContainer*,struct OrtSession**);
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv*,void*,size_t,const OrtSessionOptions*,OrtPrepackedWeightsContainer*,OrtSession**);
      * }
      */
     public static void CreateSessionFromArrayWithPrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
@@ -10638,13 +10570,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptionsV2*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_TensorRT_V2 {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT_V2 fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$82.const$3, fi, constants$15.const$2, scope);
@@ -10652,9 +10583,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_TensorRT_V2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10668,7 +10599,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptionsV2*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg) {
@@ -10677,7 +10608,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(struct OrtSessionOptions*,struct OrtTensorRTProviderOptionsV2*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions*,const OrtTensorRTProviderOptionsV2*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_TensorRT_V2$set(MemorySegment seg, MemorySegment x) {
@@ -10700,7 +10631,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2**);
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
      * }
      */
     public interface CreateTensorRTProviderOptions {
@@ -10729,7 +10660,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2**);
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
      * }
      */
     public static MemorySegment CreateTensorRTProviderOptions$get(MemorySegment seg) {
@@ -10738,7 +10669,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2**);
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2**);
      * }
      */
     public static void CreateTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -10758,7 +10689,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
      * }
      */
     public interface UpdateTensorRTProviderOptions {
@@ -10795,7 +10726,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
      * }
      */
     public static MemorySegment UpdateTensorRTProviderOptions$get(MemorySegment seg) {
@@ -10804,7 +10735,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*,char**,char**,size_t);
      * }
      */
     public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -10824,15 +10755,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorRTProviderOptionsAsString)(struct OrtTensorRTProviderOptionsV2*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
      * }
      */
     public interface GetTensorRTProviderOptionsAsString {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetTensorRTProviderOptionsAsString fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$83.const$5, fi, constants$14.const$4, scope);
@@ -10840,12 +10771,11 @@ public class OrtApi {
 
         static GetTensorRTProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10859,7 +10789,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorRTProviderOptionsAsString)(struct OrtTensorRTProviderOptionsV2*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment GetTensorRTProviderOptionsAsString$get(MemorySegment seg) {
@@ -10868,7 +10798,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorRTProviderOptionsAsString)(struct OrtTensorRTProviderOptionsV2*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2*,OrtAllocator*,char**);
      * }
      */
     public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
@@ -10889,7 +10819,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*);
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
      * }
      */
     public interface ReleaseTensorRTProviderOptions {
@@ -10918,7 +10848,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*);
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
      * }
      */
     public static MemorySegment ReleaseTensorRTProviderOptions$get(MemorySegment seg) {
@@ -10927,7 +10857,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseTensorRTProviderOptions)(struct OrtTensorRTProviderOptionsV2*);
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2*);
      * }
      */
     public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -10947,7 +10877,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*EnableOrtCustomOps)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
      * }
      */
     public interface EnableOrtCustomOps {
@@ -10976,7 +10906,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableOrtCustomOps)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
      * }
      */
     public static MemorySegment EnableOrtCustomOps$get(MemorySegment seg) {
@@ -10985,7 +10915,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*EnableOrtCustomOps)(struct OrtSessionOptions*);
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions*);
      * }
      */
     public static void EnableOrtCustomOps$set(MemorySegment seg, MemorySegment x) {
@@ -11005,13 +10935,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RegisterAllocator)(struct OrtEnv*,struct OrtAllocator*);
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
      * }
      */
     public interface RegisterAllocator {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterAllocator fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$84.const$5, fi, constants$15.const$2, scope);
@@ -11019,9 +10948,9 @@ public class OrtApi {
 
         static RegisterAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11035,7 +10964,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterAllocator)(struct OrtEnv*,struct OrtAllocator*);
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
      * }
      */
     public static MemorySegment RegisterAllocator$get(MemorySegment seg) {
@@ -11044,7 +10973,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterAllocator)(struct OrtEnv*,struct OrtAllocator*);
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv*,OrtAllocator*);
      * }
      */
     public static void RegisterAllocator$set(MemorySegment seg, MemorySegment x) {
@@ -11064,13 +10993,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UnregisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*);
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
      * }
      */
     public interface UnregisterAllocator {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(UnregisterAllocator fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$85.const$1, fi, constants$15.const$2, scope);
@@ -11078,9 +11006,9 @@ public class OrtApi {
 
         static UnregisterAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11094,7 +11022,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UnregisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*);
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
      * }
      */
     public static MemorySegment UnregisterAllocator$get(MemorySegment seg) {
@@ -11103,7 +11031,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UnregisterAllocator)(struct OrtEnv*,struct OrtMemoryInfo*);
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv*,const OrtMemoryInfo*);
      * }
      */
     public static void UnregisterAllocator$set(MemorySegment seg, MemorySegment x) {
@@ -11123,13 +11051,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*IsSparseTensor)(struct OrtValue*,int*);
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
      * }
      */
     public interface IsSparseTensor {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(IsSparseTensor fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$85.const$3, fi, constants$15.const$2, scope);
@@ -11137,9 +11064,9 @@ public class OrtApi {
 
         static IsSparseTensor ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11153,7 +11080,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*IsSparseTensor)(struct OrtValue*,int*);
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
      * }
      */
     public static MemorySegment IsSparseTensor$get(MemorySegment seg) {
@@ -11162,7 +11089,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*IsSparseTensor)(struct OrtValue*,int*);
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue*,int*);
      * }
      */
     public static void IsSparseTensor$set(MemorySegment seg, MemorySegment x) {
@@ -11182,7 +11109,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSparseTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public interface CreateSparseTensorAsOrtValue {
@@ -11221,7 +11148,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSparseTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static MemorySegment CreateSparseTensorAsOrtValue$get(MemorySegment seg) {
@@ -11230,7 +11157,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSparseTensorAsOrtValue)(struct OrtAllocator*,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator*,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, MemorySegment x) {
@@ -11250,7 +11177,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorCoo)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long);
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
      * }
      */
     public interface FillSparseTensorCoo {
@@ -11293,7 +11220,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorCoo)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long);
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
      * }
      */
     public static MemorySegment FillSparseTensorCoo$get(MemorySegment seg) {
@@ -11302,7 +11229,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorCoo)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long);
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t);
      * }
      */
     public static void FillSparseTensorCoo$set(MemorySegment seg, MemorySegment x) {
@@ -11322,7 +11249,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorCsr)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,long long*,unsigned long);
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
      * }
      */
     public interface FillSparseTensorCsr {
@@ -11369,7 +11296,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorCsr)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,long long*,unsigned long);
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
      * }
      */
     public static MemorySegment FillSparseTensorCsr$get(MemorySegment seg) {
@@ -11378,7 +11305,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorCsr)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,long long*,unsigned long);
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int64_t*,size_t);
      * }
      */
     public static void FillSparseTensorCsr$set(MemorySegment seg, MemorySegment x) {
@@ -11398,7 +11325,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorBlockSparse)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,int*);
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
      * }
      */
     public interface FillSparseTensorBlockSparse {
@@ -11443,7 +11370,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorBlockSparse)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,int*);
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
      * }
      */
     public static MemorySegment FillSparseTensorBlockSparse$get(MemorySegment seg) {
@@ -11452,7 +11379,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*FillSparseTensorBlockSparse)(struct OrtValue*,struct OrtMemoryInfo*,long long*,unsigned long,void*,long long*,unsigned long,int*);
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue*,const OrtMemoryInfo*,const int64_t*,size_t,void*,const int64_t*,size_t,const int32_t*);
      * }
      */
     public static void FillSparseTensorBlockSparse$set(MemorySegment seg, MemorySegment x) {
@@ -11472,7 +11399,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateSparseTensorWithValuesAsOrtValue)(struct OrtMemoryInfo*,void*,long long*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public interface CreateSparseTensorWithValuesAsOrtValue {
@@ -11517,7 +11444,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSparseTensorWithValuesAsOrtValue)(struct OrtMemoryInfo*,void*,long long*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static MemorySegment CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg) {
@@ -11526,7 +11453,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateSparseTensorWithValuesAsOrtValue)(struct OrtMemoryInfo*,void*,long long*,unsigned long,long long*,unsigned long,enum ONNXTensorElementDataType,struct OrtValue**);
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo*,void*,const int64_t*,size_t,const int64_t*,size_t,ONNXTensorElementDataType,OrtValue**);
      * }
      */
     public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, MemorySegment x) {
@@ -11548,7 +11475,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UseCooIndices)(struct OrtValue*,long long*,unsigned long);
+     * OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
      * }
      */
     public interface UseCooIndices {
@@ -11578,7 +11505,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UseCooIndices)(struct OrtValue*,long long*,unsigned long);
+     * OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
      * }
      */
     public static MemorySegment UseCooIndices$get(MemorySegment seg) {
@@ -11587,7 +11514,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UseCooIndices)(struct OrtValue*,long long*,unsigned long);
+     * OrtStatusPtr (*UseCooIndices)(OrtValue*,int64_t*,size_t);
      * }
      */
     public static void UseCooIndices$set(MemorySegment seg, MemorySegment x) {
@@ -11607,7 +11534,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UseCsrIndices)(struct OrtValue*,long long*,unsigned long,long long*,unsigned long);
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
      * }
      */
     public interface UseCsrIndices {
@@ -11646,7 +11573,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UseCsrIndices)(struct OrtValue*,long long*,unsigned long,long long*,unsigned long);
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
      * }
      */
     public static MemorySegment UseCsrIndices$get(MemorySegment seg) {
@@ -11655,7 +11582,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UseCsrIndices)(struct OrtValue*,long long*,unsigned long,long long*,unsigned long);
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue*,int64_t*,size_t,int64_t*,size_t);
      * }
      */
     public static void UseCsrIndices$set(MemorySegment seg, MemorySegment x) {
@@ -11675,7 +11602,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UseBlockSparseIndices)(struct OrtValue*,long long*,unsigned long,int*);
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
      * }
      */
     public interface UseBlockSparseIndices {
@@ -11712,7 +11639,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UseBlockSparseIndices)(struct OrtValue*,long long*,unsigned long,int*);
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
      * }
      */
     public static MemorySegment UseBlockSparseIndices$get(MemorySegment seg) {
@@ -11721,7 +11648,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UseBlockSparseIndices)(struct OrtValue*,long long*,unsigned long,int*);
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue*,const int64_t*,size_t,int32_t*);
      * }
      */
     public static void UseBlockSparseIndices$set(MemorySegment seg, MemorySegment x) {
@@ -11741,13 +11668,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorFormat)(struct OrtValue*,enum OrtSparseFormat*);
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
      * }
      */
     public interface GetSparseTensorFormat {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorFormat fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$89.const$5, fi, constants$15.const$2, scope);
@@ -11755,9 +11681,9 @@ public class OrtApi {
 
         static GetSparseTensorFormat ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11771,7 +11697,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorFormat)(struct OrtValue*,enum OrtSparseFormat*);
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
      * }
      */
     public static MemorySegment GetSparseTensorFormat$get(MemorySegment seg) {
@@ -11780,7 +11706,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorFormat)(struct OrtValue*,enum OrtSparseFormat*);
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue*,enum OrtSparseFormat*);
      * }
      */
     public static void GetSparseTensorFormat$set(MemorySegment seg, MemorySegment x) {
@@ -11800,13 +11726,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorValuesTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public interface GetSparseTensorValuesTypeAndShape {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorValuesTypeAndShape fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$90.const$1, fi, constants$15.const$2, scope);
@@ -11814,9 +11739,9 @@ public class OrtApi {
 
         static GetSparseTensorValuesTypeAndShape ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11830,7 +11755,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorValuesTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static MemorySegment GetSparseTensorValuesTypeAndShape$get(MemorySegment seg) {
@@ -11839,7 +11764,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorValuesTypeAndShape)(struct OrtValue*,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue*,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, MemorySegment x) {
@@ -11860,13 +11785,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorValues)(struct OrtValue*,void**);
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
      * }
      */
     public interface GetSparseTensorValues {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorValues fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$90.const$3, fi, constants$15.const$2, scope);
@@ -11874,9 +11798,9 @@ public class OrtApi {
 
         static GetSparseTensorValues ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11890,7 +11814,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorValues)(struct OrtValue*,void**);
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
      * }
      */
     public static MemorySegment GetSparseTensorValues$get(MemorySegment seg) {
@@ -11899,7 +11823,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorValues)(struct OrtValue*,void**);
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue*,void**);
      * }
      */
     public static void GetSparseTensorValues$set(MemorySegment seg, MemorySegment x) {
@@ -11919,7 +11843,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorIndicesTypeShape)(struct OrtValue*,enum OrtSparseIndicesFormat,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public interface GetSparseTensorIndicesTypeShape {
@@ -11949,7 +11873,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorIndicesTypeShape)(struct OrtValue*,enum OrtSparseIndicesFormat,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static MemorySegment GetSparseTensorIndicesTypeShape$get(MemorySegment seg) {
@@ -11958,7 +11882,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorIndicesTypeShape)(struct OrtValue*,enum OrtSparseIndicesFormat,struct OrtTensorTypeAndShapeInfo**);
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue*,enum OrtSparseIndicesFormat,OrtTensorTypeAndShapeInfo**);
      * }
      */
     public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, MemorySegment x) {
@@ -11978,7 +11902,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorIndices)(struct OrtValue*,enum OrtSparseIndicesFormat,unsigned long*,void**);
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
      * }
      */
     public interface GetSparseTensorIndices {
@@ -12015,7 +11939,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorIndices)(struct OrtValue*,enum OrtSparseIndicesFormat,unsigned long*,void**);
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
      * }
      */
     public static MemorySegment GetSparseTensorIndices$get(MemorySegment seg) {
@@ -12024,7 +11948,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSparseTensorIndices)(struct OrtValue*,enum OrtSparseIndicesFormat,unsigned long*,void**);
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue*,enum OrtSparseIndicesFormat,size_t*,void**);
      * }
      */
     public static void GetSparseTensorIndices$set(MemorySegment seg, MemorySegment x) {
@@ -12044,13 +11968,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*HasValue)(struct OrtValue*,int*);
+     * OrtStatusPtr (*HasValue)(const OrtValue*,int*);
      * }
      */
     public interface HasValue {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(HasValue fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$91.const$5, fi, constants$15.const$2, scope);
@@ -12058,9 +11981,9 @@ public class OrtApi {
 
         static HasValue ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12074,7 +11997,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*HasValue)(struct OrtValue*,int*);
+     * OrtStatusPtr (*HasValue)(const OrtValue*,int*);
      * }
      */
     public static MemorySegment HasValue$get(MemorySegment seg) {
@@ -12083,7 +12006,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*HasValue)(struct OrtValue*,int*);
+     * OrtStatusPtr (*HasValue)(const OrtValue*,int*);
      * }
      */
     public static void HasValue$set(MemorySegment seg, MemorySegment x) {
@@ -12103,13 +12026,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetGPUComputeStream)(struct OrtKernelContext*,void**);
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
      * }
      */
     public interface KernelContext_GetGPUComputeStream {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetGPUComputeStream fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$92.const$1, fi, constants$15.const$2, scope);
@@ -12117,9 +12039,9 @@ public class OrtApi {
 
         static KernelContext_GetGPUComputeStream ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12133,7 +12055,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetGPUComputeStream)(struct OrtKernelContext*,void**);
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
      * }
      */
     public static MemorySegment KernelContext_GetGPUComputeStream$get(MemorySegment seg) {
@@ -12142,7 +12064,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetGPUComputeStream)(struct OrtKernelContext*,void**);
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext*,void**);
      * }
      */
     public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, MemorySegment x) {
@@ -12163,13 +12085,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorMemoryInfo)(struct OrtValue*,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
      * }
      */
     public interface GetTensorMemoryInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorMemoryInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$92.const$3, fi, constants$15.const$2, scope);
@@ -12177,9 +12098,9 @@ public class OrtApi {
 
         static GetTensorMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12193,7 +12114,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorMemoryInfo)(struct OrtValue*,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
      * }
      */
     public static MemorySegment GetTensorMemoryInfo$get(MemorySegment seg) {
@@ -12202,7 +12123,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorMemoryInfo)(struct OrtValue*,struct OrtMemoryInfo**);
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue*,const OrtMemoryInfo**);
      * }
      */
     public static void GetTensorMemoryInfo$set(MemorySegment seg, MemorySegment x) {
@@ -12222,7 +12143,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetExecutionProviderApi)(char*,unsigned int,void**);
+     * OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
      * }
      */
     public interface GetExecutionProviderApi {
@@ -12252,7 +12173,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetExecutionProviderApi)(char*,unsigned int,void**);
+     * OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
      * }
      */
     public static MemorySegment GetExecutionProviderApi$get(MemorySegment seg) {
@@ -12261,7 +12182,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetExecutionProviderApi)(char*,unsigned int,void**);
+     * OrtStatusPtr (*GetExecutionProviderApi)(char*,uint32_t,void**);
      * }
      */
     public static void GetExecutionProviderApi$set(MemorySegment seg, MemorySegment x) {
@@ -12281,13 +12202,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomCreateThreadFn)(struct OrtSessionOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
      * }
      */
     public interface SessionOptionsSetCustomCreateThreadFn {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomCreateThreadFn fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$93.const$1, fi, constants$15.const$2, scope);
@@ -12295,9 +12215,9 @@ public class OrtApi {
 
         static SessionOptionsSetCustomCreateThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12311,7 +12231,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomCreateThreadFn)(struct OrtSessionOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
      * }
      */
     public static MemorySegment SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg) {
@@ -12320,7 +12240,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomCreateThreadFn)(struct OrtSessionOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions*,OrtCustomCreateThreadFn);
      * }
      */
     public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, MemorySegment x) {
@@ -12342,13 +12262,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomThreadCreationOptions)(struct OrtSessionOptions*,void*);
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
      * }
      */
     public interface SessionOptionsSetCustomThreadCreationOptions {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomThreadCreationOptions fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$93.const$3, fi, constants$15.const$2, scope);
@@ -12356,9 +12275,9 @@ public class OrtApi {
 
         static SessionOptionsSetCustomThreadCreationOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12372,7 +12291,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomThreadCreationOptions)(struct OrtSessionOptions*,void*);
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
      * }
      */
     public static MemorySegment SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg) {
@@ -12381,7 +12300,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomThreadCreationOptions)(struct OrtSessionOptions*,void*);
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions*,void*);
      * }
      */
     public static void SessionOptionsSetCustomThreadCreationOptions$set(MemorySegment seg, MemorySegment x) {
@@ -12404,13 +12323,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomJoinThreadFn)(struct OrtSessionOptions*,void (*)(struct OrtCustomHandleType*));
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
      * }
      */
     public interface SessionOptionsSetCustomJoinThreadFn {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomJoinThreadFn fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$93.const$5, fi, constants$15.const$2, scope);
@@ -12418,9 +12336,9 @@ public class OrtApi {
 
         static SessionOptionsSetCustomJoinThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12434,7 +12352,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomJoinThreadFn)(struct OrtSessionOptions*,void (*)(struct OrtCustomHandleType*));
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
      * }
      */
     public static MemorySegment SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg) {
@@ -12443,7 +12361,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsSetCustomJoinThreadFn)(struct OrtSessionOptions*,void (*)(struct OrtCustomHandleType*));
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions*,OrtCustomJoinThreadFn);
      * }
      */
     public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, MemorySegment x) {
@@ -12464,13 +12382,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomCreateThreadFn)(struct OrtThreadingOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
      * }
      */
     public interface SetGlobalCustomCreateThreadFn {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomCreateThreadFn fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$94.const$1, fi, constants$15.const$2, scope);
@@ -12478,9 +12395,9 @@ public class OrtApi {
 
         static SetGlobalCustomCreateThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12494,7 +12411,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomCreateThreadFn)(struct OrtThreadingOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
      * }
      */
     public static MemorySegment SetGlobalCustomCreateThreadFn$get(MemorySegment seg) {
@@ -12503,7 +12420,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomCreateThreadFn)(struct OrtThreadingOptions*,struct OrtCustomHandleType* (*)(void*,void (*)(void*),void*));
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions*,OrtCustomCreateThreadFn);
      * }
      */
     public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, MemorySegment x) {
@@ -12523,13 +12440,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomThreadCreationOptions)(struct OrtThreadingOptions*,void*);
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
      * }
      */
     public interface SetGlobalCustomThreadCreationOptions {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomThreadCreationOptions fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$94.const$3, fi, constants$15.const$2, scope);
@@ -12537,9 +12453,9 @@ public class OrtApi {
 
         static SetGlobalCustomThreadCreationOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12553,7 +12469,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomThreadCreationOptions)(struct OrtThreadingOptions*,void*);
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
      * }
      */
     public static MemorySegment SetGlobalCustomThreadCreationOptions$get(MemorySegment seg) {
@@ -12562,7 +12478,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomThreadCreationOptions)(struct OrtThreadingOptions*,void*);
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions*,void*);
      * }
      */
     public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, MemorySegment x) {
@@ -12583,13 +12499,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomJoinThreadFn)(struct OrtThreadingOptions*,void (*)(struct OrtCustomHandleType*));
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
      * }
      */
     public interface SetGlobalCustomJoinThreadFn {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomJoinThreadFn fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$94.const$5, fi, constants$15.const$2, scope);
@@ -12597,9 +12512,9 @@ public class OrtApi {
 
         static SetGlobalCustomJoinThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12613,7 +12528,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomJoinThreadFn)(struct OrtThreadingOptions*,void (*)(struct OrtCustomHandleType*));
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
      * }
      */
     public static MemorySegment SetGlobalCustomJoinThreadFn$get(MemorySegment seg) {
@@ -12622,7 +12537,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalCustomJoinThreadFn)(struct OrtThreadingOptions*,void (*)(struct OrtCustomHandleType*));
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions*,OrtCustomJoinThreadFn);
      * }
      */
     public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, MemorySegment x) {
@@ -12642,7 +12557,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SynchronizeBoundInputs)(struct OrtIoBinding*);
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
      * }
      */
     public interface SynchronizeBoundInputs {
@@ -12671,7 +12586,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SynchronizeBoundInputs)(struct OrtIoBinding*);
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
      * }
      */
     public static MemorySegment SynchronizeBoundInputs$get(MemorySegment seg) {
@@ -12680,7 +12595,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SynchronizeBoundInputs)(struct OrtIoBinding*);
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding*);
      * }
      */
     public static void SynchronizeBoundInputs$set(MemorySegment seg, MemorySegment x) {
@@ -12700,7 +12615,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SynchronizeBoundOutputs)(struct OrtIoBinding*);
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
      * }
      */
     public interface SynchronizeBoundOutputs {
@@ -12729,7 +12644,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SynchronizeBoundOutputs)(struct OrtIoBinding*);
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
      * }
      */
     public static MemorySegment SynchronizeBoundOutputs$get(MemorySegment seg) {
@@ -12738,7 +12653,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SynchronizeBoundOutputs)(struct OrtIoBinding*);
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding*);
      * }
      */
     public static void SynchronizeBoundOutputs$set(MemorySegment seg, MemorySegment x) {
@@ -12758,13 +12673,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA_V2)(struct OrtSessionOptions*,struct OrtCUDAProviderOptionsV2*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_CUDA_V2 {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$95.const$5, fi, constants$15.const$2, scope);
@@ -12772,9 +12686,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12788,7 +12702,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA_V2)(struct OrtSessionOptions*,struct OrtCUDAProviderOptionsV2*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg) {
@@ -12797,7 +12711,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CUDA_V2)(struct OrtSessionOptions*,struct OrtCUDAProviderOptionsV2*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions*,const OrtCUDAProviderOptionsV2*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(MemorySegment seg, MemorySegment x) {
@@ -12820,7 +12734,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2**);
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
      * }
      */
     public interface CreateCUDAProviderOptions {
@@ -12849,7 +12763,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2**);
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
      * }
      */
     public static MemorySegment CreateCUDAProviderOptions$get(MemorySegment seg) {
@@ -12858,7 +12772,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2**);
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2**);
      * }
      */
     public static void CreateCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -12878,7 +12792,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
      * }
      */
     public interface UpdateCUDAProviderOptions {
@@ -12915,7 +12829,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
      * }
      */
     public static MemorySegment UpdateCUDAProviderOptions$get(MemorySegment seg) {
@@ -12924,7 +12838,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2*,char**,char**,size_t);
      * }
      */
     public static void UpdateCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -12944,15 +12858,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetCUDAProviderOptionsAsString)(struct OrtCUDAProviderOptionsV2*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
      * }
      */
     public interface GetCUDAProviderOptionsAsString {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCUDAProviderOptionsAsString fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$96.const$5, fi, constants$14.const$4, scope);
@@ -12960,12 +12874,11 @@ public class OrtApi {
 
         static GetCUDAProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12979,7 +12892,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCUDAProviderOptionsAsString)(struct OrtCUDAProviderOptionsV2*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment GetCUDAProviderOptionsAsString$get(MemorySegment seg) {
@@ -12988,7 +12901,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCUDAProviderOptionsAsString)(struct OrtCUDAProviderOptionsV2*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2*,OrtAllocator*,char**);
      * }
      */
     public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
@@ -13008,7 +12921,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*);
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
      * }
      */
     public interface ReleaseCUDAProviderOptions {
@@ -13037,7 +12950,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*);
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
      * }
      */
     public static MemorySegment ReleaseCUDAProviderOptions$get(MemorySegment seg) {
@@ -13046,7 +12959,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseCUDAProviderOptions)(struct OrtCUDAProviderOptionsV2*);
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2*);
      * }
      */
     public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -13066,13 +12979,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_MIGraphX)(struct OrtSessionOptions*,struct OrtMIGraphXProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_MIGraphX {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$97.const$3, fi, constants$15.const$2, scope);
@@ -13080,9 +12992,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13096,7 +13008,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_MIGraphX)(struct OrtSessionOptions*,struct OrtMIGraphXProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg) {
@@ -13105,7 +13017,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_MIGraphX)(struct OrtSessionOptions*,struct OrtMIGraphXProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions*,const OrtMIGraphXProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(MemorySegment seg, MemorySegment x) {
@@ -13128,7 +13040,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*AddExternalInitializers)(struct OrtSessionOptions*,char**,struct OrtValue**,unsigned long);
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
      * }
      */
     public interface AddExternalInitializers {
@@ -13165,7 +13077,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddExternalInitializers)(struct OrtSessionOptions*,char**,struct OrtValue**,unsigned long);
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
      * }
      */
     public static MemorySegment AddExternalInitializers$get(MemorySegment seg) {
@@ -13174,7 +13086,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*AddExternalInitializers)(struct OrtSessionOptions*,char**,struct OrtValue**,unsigned long);
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions*,char**,const OrtValue**,size_t);
      * }
      */
     public static void AddExternalInitializers$set(MemorySegment seg, MemorySegment x) {
@@ -13194,7 +13106,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateOpAttr)(char*,void*,int,enum OrtOpAttrType,struct OrtOpAttr**);
+     * OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
      * }
      */
     public interface CreateOpAttr {
@@ -13233,7 +13145,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateOpAttr)(char*,void*,int,enum OrtOpAttrType,struct OrtOpAttr**);
+     * OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
      * }
      */
     public static MemorySegment CreateOpAttr$get(MemorySegment seg) {
@@ -13242,7 +13154,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateOpAttr)(char*,void*,int,enum OrtOpAttrType,struct OrtOpAttr**);
+     * OrtStatusPtr (*CreateOpAttr)(char*,void*,int,OrtOpAttrType,OrtOpAttr**);
      * }
      */
     public static void CreateOpAttr$set(MemorySegment seg, MemorySegment x) {
@@ -13262,7 +13174,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseOpAttr)(struct OrtOpAttr*);
+     * void (*ReleaseOpAttr)(OrtOpAttr*);
      * }
      */
     public interface ReleaseOpAttr {
@@ -13291,7 +13203,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseOpAttr)(struct OrtOpAttr*);
+     * void (*ReleaseOpAttr)(OrtOpAttr*);
      * }
      */
     public static MemorySegment ReleaseOpAttr$get(MemorySegment seg) {
@@ -13300,7 +13212,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseOpAttr)(struct OrtOpAttr*);
+     * void (*ReleaseOpAttr)(OrtOpAttr*);
      * }
      */
     public static void ReleaseOpAttr$set(MemorySegment seg, MemorySegment x) {
@@ -13320,7 +13232,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateOp)(struct OrtKernelInfo*,char*,char*,int,char**,enum ONNXTensorElementDataType*,int,struct OrtOpAttr**,int,int,int,struct OrtOp**);
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
      * }
      */
     public interface CreateOp {
@@ -13373,7 +13285,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateOp)(struct OrtKernelInfo*,char*,char*,int,char**,enum ONNXTensorElementDataType*,int,struct OrtOpAttr**,int,int,int,struct OrtOp**);
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
      * }
      */
     public static MemorySegment CreateOp$get(MemorySegment seg) {
@@ -13382,7 +13294,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateOp)(struct OrtKernelInfo*,char*,char*,int,char**,enum ONNXTensorElementDataType*,int,struct OrtOpAttr**,int,int,int,struct OrtOp**);
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo*,char*,char*,int,char**,const ONNXTensorElementDataType*,int,const OrtOpAttr**,int,int,int,OrtOp**);
      * }
      */
     public static void CreateOp$set(MemorySegment seg, MemorySegment x) {
@@ -13402,7 +13314,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*InvokeOp)(struct OrtKernelContext*,struct OrtOp*,struct OrtValue**,int,struct OrtValue**,int);
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
      * }
      */
     public interface InvokeOp {
@@ -13443,7 +13355,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*InvokeOp)(struct OrtKernelContext*,struct OrtOp*,struct OrtValue**,int,struct OrtValue**,int);
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
      * }
      */
     public static MemorySegment InvokeOp$get(MemorySegment seg) {
@@ -13452,7 +13364,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*InvokeOp)(struct OrtKernelContext*,struct OrtOp*,struct OrtValue**,int,struct OrtValue**,int);
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext*,const OrtOp*,const OrtValue**,int,OrtValue**,int);
      * }
      */
     public static void InvokeOp$set(MemorySegment seg, MemorySegment x) {
@@ -13472,7 +13384,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseOp)(struct OrtOp*);
+     * void (*ReleaseOp)(OrtOp*);
      * }
      */
     public interface ReleaseOp {
@@ -13501,7 +13413,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseOp)(struct OrtOp*);
+     * void (*ReleaseOp)(OrtOp*);
      * }
      */
     public static MemorySegment ReleaseOp$get(MemorySegment seg) {
@@ -13510,7 +13422,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseOp)(struct OrtOp*);
+     * void (*ReleaseOp)(OrtOp*);
      * }
      */
     public static void ReleaseOp$set(MemorySegment seg, MemorySegment x) {
@@ -13530,7 +13442,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider)(struct OrtSessionOptions*,char*,char**,char**,unsigned long);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider {
@@ -13569,7 +13481,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider)(struct OrtSessionOptions*,char*,char**,char**,unsigned long);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider$get(MemorySegment seg) {
@@ -13578,7 +13490,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider)(struct OrtSessionOptions*,char*,char**,char**,unsigned long);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions*,char*,char**,char**,size_t);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, MemorySegment x) {
@@ -13600,13 +13512,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CopyKernelInfo)(struct OrtKernelInfo*,struct OrtKernelInfo**);
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
      * }
      */
     public interface CopyKernelInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CopyKernelInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$101.const$1, fi, constants$15.const$2, scope);
@@ -13614,9 +13525,9 @@ public class OrtApi {
 
         static CopyKernelInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13630,7 +13541,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CopyKernelInfo)(struct OrtKernelInfo*,struct OrtKernelInfo**);
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
      * }
      */
     public static MemorySegment CopyKernelInfo$get(MemorySegment seg) {
@@ -13639,7 +13550,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CopyKernelInfo)(struct OrtKernelInfo*,struct OrtKernelInfo**);
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo*,OrtKernelInfo**);
      * }
      */
     public static void CopyKernelInfo$set(MemorySegment seg, MemorySegment x) {
@@ -13659,7 +13570,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseKernelInfo)(struct OrtKernelInfo*);
+     * void (*ReleaseKernelInfo)(OrtKernelInfo*);
      * }
      */
     public interface ReleaseKernelInfo {
@@ -13688,7 +13599,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseKernelInfo)(struct OrtKernelInfo*);
+     * void (*ReleaseKernelInfo)(OrtKernelInfo*);
      * }
      */
     public static MemorySegment ReleaseKernelInfo$get(MemorySegment seg) {
@@ -13697,7 +13608,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseKernelInfo)(struct OrtKernelInfo*);
+     * void (*ReleaseKernelInfo)(OrtKernelInfo*);
      * }
      */
     public static void ReleaseKernelInfo$set(MemorySegment seg, MemorySegment x) {
@@ -13717,7 +13628,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtTrainingApi* (*GetTrainingApi)(unsigned int);
+     * const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
      * }
      */
     public interface GetTrainingApi {
@@ -13746,7 +13657,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtTrainingApi* (*GetTrainingApi)(unsigned int);
+     * const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
      * }
      */
     public static MemorySegment GetTrainingApi$get(MemorySegment seg) {
@@ -13755,7 +13666,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtTrainingApi* (*GetTrainingApi)(unsigned int);
+     * const OrtTrainingApi* (*GetTrainingApi)(uint32_t);
      * }
      */
     public static void GetTrainingApi$set(MemorySegment seg, MemorySegment x) {
@@ -13775,13 +13686,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CANN)(struct OrtSessionOptions*,struct OrtCANNProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_CANN {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CANN fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$102.const$1, fi, constants$15.const$2, scope);
@@ -13789,9 +13699,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13805,7 +13715,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CANN)(struct OrtSessionOptions*,struct OrtCANNProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg) {
@@ -13814,7 +13724,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_CANN)(struct OrtSessionOptions*,struct OrtCANNProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions*,const OrtCANNProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, MemorySegment x) {
@@ -13836,7 +13746,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateCANNProviderOptions)(struct OrtCANNProviderOptions**);
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
      * }
      */
     public interface CreateCANNProviderOptions {
@@ -13865,7 +13775,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCANNProviderOptions)(struct OrtCANNProviderOptions**);
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
      * }
      */
     public static MemorySegment CreateCANNProviderOptions$get(MemorySegment seg) {
@@ -13874,7 +13784,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateCANNProviderOptions)(struct OrtCANNProviderOptions**);
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions**);
      * }
      */
     public static void CreateCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -13894,7 +13804,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateCANNProviderOptions)(struct OrtCANNProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
      * }
      */
     public interface UpdateCANNProviderOptions {
@@ -13931,7 +13841,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateCANNProviderOptions)(struct OrtCANNProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
      * }
      */
     public static MemorySegment UpdateCANNProviderOptions$get(MemorySegment seg) {
@@ -13940,7 +13850,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateCANNProviderOptions)(struct OrtCANNProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions*,char**,char**,size_t);
      * }
      */
     public static void UpdateCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -13960,15 +13870,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetCANNProviderOptionsAsString)(struct OrtCANNProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public interface GetCANNProviderOptionsAsString {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCANNProviderOptionsAsString fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$103.const$1, fi, constants$14.const$4, scope);
@@ -13976,12 +13886,11 @@ public class OrtApi {
 
         static GetCANNProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13995,7 +13904,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCANNProviderOptionsAsString)(struct OrtCANNProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment GetCANNProviderOptionsAsString$get(MemorySegment seg) {
@@ -14004,7 +13913,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCANNProviderOptionsAsString)(struct OrtCANNProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
@@ -14024,7 +13933,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseCANNProviderOptions)(struct OrtCANNProviderOptions*);
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
      * }
      */
     public interface ReleaseCANNProviderOptions {
@@ -14053,7 +13962,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseCANNProviderOptions)(struct OrtCANNProviderOptions*);
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
      * }
      */
     public static MemorySegment ReleaseCANNProviderOptions$get(MemorySegment seg) {
@@ -14062,7 +13971,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseCANNProviderOptions)(struct OrtCANNProviderOptions*);
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions*);
      * }
      */
     public static void ReleaseCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -14082,7 +13991,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*MemoryInfoGetDeviceType)(struct OrtMemoryInfo*,enum OrtMemoryInfoDeviceType*);
+     * void (*MemoryInfoGetDeviceType)(const OrtMemoryInfo*,OrtMemoryInfoDeviceType*);
      * }
      */
     public interface MemoryInfoGetDeviceType {
@@ -14111,7 +14020,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*MemoryInfoGetDeviceType)(struct OrtMemoryInfo*,enum OrtMemoryInfoDeviceType*);
+     * void (*MemoryInfoGetDeviceType)(const OrtMemoryInfo*,OrtMemoryInfoDeviceType*);
      * }
      */
     public static MemorySegment MemoryInfoGetDeviceType$get(MemorySegment seg) {
@@ -14120,7 +14029,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*MemoryInfoGetDeviceType)(struct OrtMemoryInfo*,enum OrtMemoryInfoDeviceType*);
+     * void (*MemoryInfoGetDeviceType)(const OrtMemoryInfo*,OrtMemoryInfoDeviceType*);
      * }
      */
     public static void MemoryInfoGetDeviceType$set(MemorySegment seg, MemorySegment x) {
@@ -14140,7 +14049,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateEnvWithCustomLogLevel)(struct OrtEnv*,enum OrtLoggingLevel);
+     * OrtStatusPtr (*UpdateEnvWithCustomLogLevel)(OrtEnv*,OrtLoggingLevel);
      * }
      */
     public interface UpdateEnvWithCustomLogLevel {
@@ -14169,7 +14078,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateEnvWithCustomLogLevel)(struct OrtEnv*,enum OrtLoggingLevel);
+     * OrtStatusPtr (*UpdateEnvWithCustomLogLevel)(OrtEnv*,OrtLoggingLevel);
      * }
      */
     public static MemorySegment UpdateEnvWithCustomLogLevel$get(MemorySegment seg) {
@@ -14178,7 +14087,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateEnvWithCustomLogLevel)(struct OrtEnv*,enum OrtLoggingLevel);
+     * OrtStatusPtr (*UpdateEnvWithCustomLogLevel)(OrtEnv*,OrtLoggingLevel);
      * }
      */
     public static void UpdateEnvWithCustomLogLevel$set(MemorySegment seg, MemorySegment x) {
@@ -14198,13 +14107,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalIntraOpThreadAffinity)(struct OrtThreadingOptions*,char*);
+     * OrtStatusPtr (*SetGlobalIntraOpThreadAffinity)(OrtThreadingOptions*,char*);
      * }
      */
     public interface SetGlobalIntraOpThreadAffinity {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalIntraOpThreadAffinity fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$104.const$3, fi, constants$15.const$2, scope);
@@ -14212,9 +14120,9 @@ public class OrtApi {
 
         static SetGlobalIntraOpThreadAffinity ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14228,7 +14136,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalIntraOpThreadAffinity)(struct OrtThreadingOptions*,char*);
+     * OrtStatusPtr (*SetGlobalIntraOpThreadAffinity)(OrtThreadingOptions*,char*);
      * }
      */
     public static MemorySegment SetGlobalIntraOpThreadAffinity$get(MemorySegment seg) {
@@ -14237,7 +14145,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SetGlobalIntraOpThreadAffinity)(struct OrtThreadingOptions*,char*);
+     * OrtStatusPtr (*SetGlobalIntraOpThreadAffinity)(OrtThreadingOptions*,char*);
      * }
      */
     public static void SetGlobalIntraOpThreadAffinity$set(MemorySegment seg, MemorySegment x) {
@@ -14257,13 +14165,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsLibrary_V2)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*RegisterCustomOpsLibrary_V2)(OrtSessionOptions*,char*);
      * }
      */
     public interface RegisterCustomOpsLibrary_V2 {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterCustomOpsLibrary_V2 fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$104.const$5, fi, constants$15.const$2, scope);
@@ -14271,9 +14178,9 @@ public class OrtApi {
 
         static RegisterCustomOpsLibrary_V2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14287,7 +14194,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsLibrary_V2)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*RegisterCustomOpsLibrary_V2)(OrtSessionOptions*,char*);
      * }
      */
     public static MemorySegment RegisterCustomOpsLibrary_V2$get(MemorySegment seg) {
@@ -14296,7 +14203,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsLibrary_V2)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*RegisterCustomOpsLibrary_V2)(OrtSessionOptions*,char*);
      * }
      */
     public static void RegisterCustomOpsLibrary_V2$set(MemorySegment seg, MemorySegment x) {
@@ -14316,13 +14223,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsUsingFunction)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*RegisterCustomOpsUsingFunction)(OrtSessionOptions*,char*);
      * }
      */
     public interface RegisterCustomOpsUsingFunction {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterCustomOpsUsingFunction fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$105.const$1, fi, constants$15.const$2, scope);
@@ -14330,9 +14236,9 @@ public class OrtApi {
 
         static RegisterCustomOpsUsingFunction ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14346,7 +14252,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsUsingFunction)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*RegisterCustomOpsUsingFunction)(OrtSessionOptions*,char*);
      * }
      */
     public static MemorySegment RegisterCustomOpsUsingFunction$get(MemorySegment seg) {
@@ -14355,7 +14261,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RegisterCustomOpsUsingFunction)(struct OrtSessionOptions*,char*);
+     * OrtStatusPtr (*RegisterCustomOpsUsingFunction)(OrtSessionOptions*,char*);
      * }
      */
     public static void RegisterCustomOpsUsingFunction$set(MemorySegment seg, MemorySegment x) {
@@ -14375,13 +14281,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputCount)(struct OrtKernelInfo*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetInputCount)(const OrtKernelInfo*,size_t*);
      * }
      */
     public interface KernelInfo_GetInputCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelInfo_GetInputCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$105.const$3, fi, constants$15.const$2, scope);
@@ -14389,9 +14294,9 @@ public class OrtApi {
 
         static KernelInfo_GetInputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14405,7 +14310,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputCount)(struct OrtKernelInfo*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetInputCount)(const OrtKernelInfo*,size_t*);
      * }
      */
     public static MemorySegment KernelInfo_GetInputCount$get(MemorySegment seg) {
@@ -14414,7 +14319,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputCount)(struct OrtKernelInfo*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetInputCount)(const OrtKernelInfo*,size_t*);
      * }
      */
     public static void KernelInfo_GetInputCount$set(MemorySegment seg, MemorySegment x) {
@@ -14434,13 +14339,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputCount)(struct OrtKernelInfo*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetOutputCount)(const OrtKernelInfo*,size_t*);
      * }
      */
     public interface KernelInfo_GetOutputCount {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelInfo_GetOutputCount fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$105.const$5, fi, constants$15.const$2, scope);
@@ -14448,9 +14352,9 @@ public class OrtApi {
 
         static KernelInfo_GetOutputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14464,7 +14368,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputCount)(struct OrtKernelInfo*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetOutputCount)(const OrtKernelInfo*,size_t*);
      * }
      */
     public static MemorySegment KernelInfo_GetOutputCount$get(MemorySegment seg) {
@@ -14473,7 +14377,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputCount)(struct OrtKernelInfo*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetOutputCount)(const OrtKernelInfo*,size_t*);
      * }
      */
     public static void KernelInfo_GetOutputCount$set(MemorySegment seg, MemorySegment x) {
@@ -14493,7 +14397,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetInputName)(const OrtKernelInfo*,size_t,char*,size_t*);
      * }
      */
     public interface KernelInfo_GetInputName {
@@ -14530,7 +14434,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetInputName)(const OrtKernelInfo*,size_t,char*,size_t*);
      * }
      */
     public static MemorySegment KernelInfo_GetInputName$get(MemorySegment seg) {
@@ -14539,7 +14443,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetInputName)(const OrtKernelInfo*,size_t,char*,size_t*);
      * }
      */
     public static void KernelInfo_GetInputName$set(MemorySegment seg, MemorySegment x) {
@@ -14559,7 +14463,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetOutputName)(const OrtKernelInfo*,size_t,char*,size_t*);
      * }
      */
     public interface KernelInfo_GetOutputName {
@@ -14596,7 +14500,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetOutputName)(const OrtKernelInfo*,size_t,char*,size_t*);
      * }
      */
     public static MemorySegment KernelInfo_GetOutputName$get(MemorySegment seg) {
@@ -14605,7 +14509,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputName)(struct OrtKernelInfo*,unsigned long,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetOutputName)(const OrtKernelInfo*,size_t,char*,size_t*);
      * }
      */
     public static void KernelInfo_GetOutputName$set(MemorySegment seg, MemorySegment x) {
@@ -14625,7 +14529,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*KernelInfo_GetInputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
      * }
      */
     public interface KernelInfo_GetInputTypeInfo {
@@ -14655,7 +14559,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*KernelInfo_GetInputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
      * }
      */
     public static MemorySegment KernelInfo_GetInputTypeInfo$get(MemorySegment seg) {
@@ -14664,7 +14568,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetInputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*KernelInfo_GetInputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
      * }
      */
     public static void KernelInfo_GetInputTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -14684,7 +14588,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*KernelInfo_GetOutputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
      * }
      */
     public interface KernelInfo_GetOutputTypeInfo {
@@ -14714,7 +14618,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*KernelInfo_GetOutputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
      * }
      */
     public static MemorySegment KernelInfo_GetOutputTypeInfo$get(MemorySegment seg) {
@@ -14723,7 +14627,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetOutputTypeInfo)(struct OrtKernelInfo*,unsigned long,struct OrtTypeInfo**);
+     * OrtStatusPtr (*KernelInfo_GetOutputTypeInfo)(const OrtKernelInfo*,size_t,OrtTypeInfo**);
      * }
      */
     public static void KernelInfo_GetOutputTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -14743,7 +14647,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_tensor)(struct OrtKernelInfo*,char*,struct OrtAllocator*,struct OrtValue**);
+     * OrtStatusPtr (*KernelInfoGetAttribute_tensor)(const OrtKernelInfo*,char*,OrtAllocator*,OrtValue**);
      * }
      */
     public interface KernelInfoGetAttribute_tensor {
@@ -14780,7 +14684,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_tensor)(struct OrtKernelInfo*,char*,struct OrtAllocator*,struct OrtValue**);
+     * OrtStatusPtr (*KernelInfoGetAttribute_tensor)(const OrtKernelInfo*,char*,OrtAllocator*,OrtValue**);
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_tensor$get(MemorySegment seg) {
@@ -14789,7 +14693,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetAttribute_tensor)(struct OrtKernelInfo*,char*,struct OrtAllocator*,struct OrtValue**);
+     * OrtStatusPtr (*KernelInfoGetAttribute_tensor)(const OrtKernelInfo*,char*,OrtAllocator*,OrtValue**);
      * }
      */
     public static void KernelInfoGetAttribute_tensor$set(MemorySegment seg, MemorySegment x) {
@@ -14809,15 +14713,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*HasSessionConfigEntry)(struct OrtSessionOptions*,char*,int*);
+     * OrtStatusPtr (*HasSessionConfigEntry)(const OrtSessionOptions*,char*,int*);
      * }
      */
     public interface HasSessionConfigEntry {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(HasSessionConfigEntry fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$107.const$5, fi, constants$14.const$4, scope);
@@ -14825,12 +14729,11 @@ public class OrtApi {
 
         static HasSessionConfigEntry ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14844,7 +14747,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*HasSessionConfigEntry)(struct OrtSessionOptions*,char*,int*);
+     * OrtStatusPtr (*HasSessionConfigEntry)(const OrtSessionOptions*,char*,int*);
      * }
      */
     public static MemorySegment HasSessionConfigEntry$get(MemorySegment seg) {
@@ -14853,7 +14756,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*HasSessionConfigEntry)(struct OrtSessionOptions*,char*,int*);
+     * OrtStatusPtr (*HasSessionConfigEntry)(const OrtSessionOptions*,char*,int*);
      * }
      */
     public static void HasSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
@@ -14873,7 +14776,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetSessionConfigEntry)(struct OrtSessionOptions*,char*,char*,unsigned long*);
+     * OrtStatusPtr (*GetSessionConfigEntry)(const OrtSessionOptions*,char*,char*,size_t*);
      * }
      */
     public interface GetSessionConfigEntry {
@@ -14910,7 +14813,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSessionConfigEntry)(struct OrtSessionOptions*,char*,char*,unsigned long*);
+     * OrtStatusPtr (*GetSessionConfigEntry)(const OrtSessionOptions*,char*,char*,size_t*);
      * }
      */
     public static MemorySegment GetSessionConfigEntry$get(MemorySegment seg) {
@@ -14919,7 +14822,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetSessionConfigEntry)(struct OrtSessionOptions*,char*,char*,unsigned long*);
+     * OrtStatusPtr (*GetSessionConfigEntry)(const OrtSessionOptions*,char*,char*,size_t*);
      * }
      */
     public static void GetSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
@@ -14939,13 +14842,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_Dnnl)(struct OrtSessionOptions*,struct OrtDnnlProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_Dnnl)(OrtSessionOptions*,const OrtDnnlProviderOptions*);
      * }
      */
     public interface SessionOptionsAppendExecutionProvider_Dnnl {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_Dnnl fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$108.const$3, fi, constants$15.const$2, scope);
@@ -14953,9 +14855,9 @@ public class OrtApi {
 
         static SessionOptionsAppendExecutionProvider_Dnnl ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14969,7 +14871,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_Dnnl)(struct OrtSessionOptions*,struct OrtDnnlProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_Dnnl)(OrtSessionOptions*,const OrtDnnlProviderOptions*);
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_Dnnl$get(MemorySegment seg) {
@@ -14978,7 +14880,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*SessionOptionsAppendExecutionProvider_Dnnl)(struct OrtSessionOptions*,struct OrtDnnlProviderOptions*);
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_Dnnl)(OrtSessionOptions*,const OrtDnnlProviderOptions*);
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_Dnnl$set(MemorySegment seg, MemorySegment x) {
@@ -15000,7 +14902,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateDnnlProviderOptions)(struct OrtDnnlProviderOptions**);
+     * OrtStatusPtr (*CreateDnnlProviderOptions)(OrtDnnlProviderOptions**);
      * }
      */
     public interface CreateDnnlProviderOptions {
@@ -15029,7 +14931,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateDnnlProviderOptions)(struct OrtDnnlProviderOptions**);
+     * OrtStatusPtr (*CreateDnnlProviderOptions)(OrtDnnlProviderOptions**);
      * }
      */
     public static MemorySegment CreateDnnlProviderOptions$get(MemorySegment seg) {
@@ -15038,7 +14940,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateDnnlProviderOptions)(struct OrtDnnlProviderOptions**);
+     * OrtStatusPtr (*CreateDnnlProviderOptions)(OrtDnnlProviderOptions**);
      * }
      */
     public static void CreateDnnlProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -15058,7 +14960,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateDnnlProviderOptions)(struct OrtDnnlProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateDnnlProviderOptions)(OrtDnnlProviderOptions*,char**,char**,size_t);
      * }
      */
     public interface UpdateDnnlProviderOptions {
@@ -15095,7 +14997,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateDnnlProviderOptions)(struct OrtDnnlProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateDnnlProviderOptions)(OrtDnnlProviderOptions*,char**,char**,size_t);
      * }
      */
     public static MemorySegment UpdateDnnlProviderOptions$get(MemorySegment seg) {
@@ -15104,7 +15006,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateDnnlProviderOptions)(struct OrtDnnlProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateDnnlProviderOptions)(OrtDnnlProviderOptions*,char**,char**,size_t);
      * }
      */
     public static void UpdateDnnlProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -15124,15 +15026,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetDnnlProviderOptionsAsString)(struct OrtDnnlProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetDnnlProviderOptionsAsString)(const OrtDnnlProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public interface GetDnnlProviderOptionsAsString {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetDnnlProviderOptionsAsString fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$109.const$3, fi, constants$14.const$4, scope);
@@ -15140,12 +15042,11 @@ public class OrtApi {
 
         static GetDnnlProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15159,7 +15060,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDnnlProviderOptionsAsString)(struct OrtDnnlProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetDnnlProviderOptionsAsString)(const OrtDnnlProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment GetDnnlProviderOptionsAsString$get(MemorySegment seg) {
@@ -15168,7 +15069,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetDnnlProviderOptionsAsString)(struct OrtDnnlProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetDnnlProviderOptionsAsString)(const OrtDnnlProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public static void GetDnnlProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
@@ -15188,7 +15089,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseDnnlProviderOptions)(struct OrtDnnlProviderOptions*);
+     * void (*ReleaseDnnlProviderOptions)(OrtDnnlProviderOptions*);
      * }
      */
     public interface ReleaseDnnlProviderOptions {
@@ -15217,7 +15118,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseDnnlProviderOptions)(struct OrtDnnlProviderOptions*);
+     * void (*ReleaseDnnlProviderOptions)(OrtDnnlProviderOptions*);
      * }
      */
     public static MemorySegment ReleaseDnnlProviderOptions$get(MemorySegment seg) {
@@ -15226,7 +15127,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseDnnlProviderOptions)(struct OrtDnnlProviderOptions*);
+     * void (*ReleaseDnnlProviderOptions)(OrtDnnlProviderOptions*);
      * }
      */
     public static void ReleaseDnnlProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -15246,15 +15147,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetNodeName)(struct OrtKernelInfo*,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetNodeName)(const OrtKernelInfo*,char*,size_t*);
      * }
      */
     public interface KernelInfo_GetNodeName {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfo_GetNodeName fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$110.const$1, fi, constants$14.const$4, scope);
@@ -15262,12 +15163,11 @@ public class OrtApi {
 
         static KernelInfo_GetNodeName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15281,7 +15181,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetNodeName)(struct OrtKernelInfo*,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetNodeName)(const OrtKernelInfo*,char*,size_t*);
      * }
      */
     public static MemorySegment KernelInfo_GetNodeName$get(MemorySegment seg) {
@@ -15290,7 +15190,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetNodeName)(struct OrtKernelInfo*,char*,unsigned long*);
+     * OrtStatusPtr (*KernelInfo_GetNodeName)(const OrtKernelInfo*,char*,size_t*);
      * }
      */
     public static void KernelInfo_GetNodeName$set(MemorySegment seg, MemorySegment x) {
@@ -15310,13 +15210,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetLogger)(struct OrtKernelInfo*,struct OrtLogger**);
+     * OrtStatusPtr (*KernelInfo_GetLogger)(const OrtKernelInfo*,const OrtLogger**);
      * }
      */
     public interface KernelInfo_GetLogger {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelInfo_GetLogger fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$110.const$3, fi, constants$15.const$2, scope);
@@ -15324,9 +15223,9 @@ public class OrtApi {
 
         static KernelInfo_GetLogger ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15340,7 +15239,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetLogger)(struct OrtKernelInfo*,struct OrtLogger**);
+     * OrtStatusPtr (*KernelInfo_GetLogger)(const OrtKernelInfo*,const OrtLogger**);
      * }
      */
     public static MemorySegment KernelInfo_GetLogger$get(MemorySegment seg) {
@@ -15349,7 +15248,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfo_GetLogger)(struct OrtKernelInfo*,struct OrtLogger**);
+     * OrtStatusPtr (*KernelInfo_GetLogger)(const OrtKernelInfo*,const OrtLogger**);
      * }
      */
     public static void KernelInfo_GetLogger$set(MemorySegment seg, MemorySegment x) {
@@ -15369,13 +15268,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetLogger)(struct OrtKernelContext*,struct OrtLogger**);
+     * OrtStatusPtr (*KernelContext_GetLogger)(const OrtKernelContext*,const OrtLogger**);
      * }
      */
     public interface KernelContext_GetLogger {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetLogger fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$110.const$5, fi, constants$15.const$2, scope);
@@ -15383,9 +15281,9 @@ public class OrtApi {
 
         static KernelContext_GetLogger ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15399,7 +15297,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetLogger)(struct OrtKernelContext*,struct OrtLogger**);
+     * OrtStatusPtr (*KernelContext_GetLogger)(const OrtKernelContext*,const OrtLogger**);
      * }
      */
     public static MemorySegment KernelContext_GetLogger$get(MemorySegment seg) {
@@ -15408,7 +15306,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetLogger)(struct OrtKernelContext*,struct OrtLogger**);
+     * OrtStatusPtr (*KernelContext_GetLogger)(const OrtKernelContext*,const OrtLogger**);
      * }
      */
     public static void KernelContext_GetLogger$set(MemorySegment seg, MemorySegment x) {
@@ -15428,7 +15326,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*Logger_LogMessage)(struct OrtLogger*,enum OrtLoggingLevel,char*,char*,int,char*);
+     * OrtStatusPtr (*Logger_LogMessage)(const OrtLogger*,OrtLoggingLevel,char*,char*,int,char*);
      * }
      */
     public interface Logger_LogMessage {
@@ -15469,7 +15367,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*Logger_LogMessage)(struct OrtLogger*,enum OrtLoggingLevel,char*,char*,int,char*);
+     * OrtStatusPtr (*Logger_LogMessage)(const OrtLogger*,OrtLoggingLevel,char*,char*,int,char*);
      * }
      */
     public static MemorySegment Logger_LogMessage$get(MemorySegment seg) {
@@ -15478,7 +15376,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*Logger_LogMessage)(struct OrtLogger*,enum OrtLoggingLevel,char*,char*,int,char*);
+     * OrtStatusPtr (*Logger_LogMessage)(const OrtLogger*,OrtLoggingLevel,char*,char*,int,char*);
      * }
      */
     public static void Logger_LogMessage$set(MemorySegment seg, MemorySegment x) {
@@ -15498,13 +15396,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*Logger_GetLoggingSeverityLevel)(struct OrtLogger*,enum OrtLoggingLevel*);
+     * OrtStatusPtr (*Logger_GetLoggingSeverityLevel)(const OrtLogger*,OrtLoggingLevel*);
      * }
      */
     public interface Logger_GetLoggingSeverityLevel {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(Logger_GetLoggingSeverityLevel fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$111.const$5, fi, constants$15.const$2, scope);
@@ -15512,9 +15409,9 @@ public class OrtApi {
 
         static Logger_GetLoggingSeverityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15528,7 +15425,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*Logger_GetLoggingSeverityLevel)(struct OrtLogger*,enum OrtLoggingLevel*);
+     * OrtStatusPtr (*Logger_GetLoggingSeverityLevel)(const OrtLogger*,OrtLoggingLevel*);
      * }
      */
     public static MemorySegment Logger_GetLoggingSeverityLevel$get(MemorySegment seg) {
@@ -15537,7 +15434,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*Logger_GetLoggingSeverityLevel)(struct OrtLogger*,enum OrtLoggingLevel*);
+     * OrtStatusPtr (*Logger_GetLoggingSeverityLevel)(const OrtLogger*,OrtLoggingLevel*);
      * }
      */
     public static void Logger_GetLoggingSeverityLevel$set(MemorySegment seg, MemorySegment x) {
@@ -15557,7 +15454,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetConstantInput_tensor)(struct OrtKernelInfo*,unsigned long,int*,struct OrtValue**);
+     * OrtStatusPtr (*KernelInfoGetConstantInput_tensor)(const OrtKernelInfo*,size_t,int*,const OrtValue**);
      * }
      */
     public interface KernelInfoGetConstantInput_tensor {
@@ -15594,7 +15491,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetConstantInput_tensor)(struct OrtKernelInfo*,unsigned long,int*,struct OrtValue**);
+     * OrtStatusPtr (*KernelInfoGetConstantInput_tensor)(const OrtKernelInfo*,size_t,int*,const OrtValue**);
      * }
      */
     public static MemorySegment KernelInfoGetConstantInput_tensor$get(MemorySegment seg) {
@@ -15603,7 +15500,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelInfoGetConstantInput_tensor)(struct OrtKernelInfo*,unsigned long,int*,struct OrtValue**);
+     * OrtStatusPtr (*KernelInfoGetConstantInput_tensor)(const OrtKernelInfo*,size_t,int*,const OrtValue**);
      * }
      */
     public static void KernelInfoGetConstantInput_tensor$set(MemorySegment seg, MemorySegment x) {
@@ -15624,13 +15521,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToOptionalTypeInfo)(struct OrtTypeInfo*,struct OrtOptionalTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToOptionalTypeInfo)(const OrtTypeInfo*,const OrtOptionalTypeInfo**);
      * }
      */
     public interface CastTypeInfoToOptionalTypeInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToOptionalTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$112.const$3, fi, constants$15.const$2, scope);
@@ -15638,9 +15534,9 @@ public class OrtApi {
 
         static CastTypeInfoToOptionalTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15654,7 +15550,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToOptionalTypeInfo)(struct OrtTypeInfo*,struct OrtOptionalTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToOptionalTypeInfo)(const OrtTypeInfo*,const OrtOptionalTypeInfo**);
      * }
      */
     public static MemorySegment CastTypeInfoToOptionalTypeInfo$get(MemorySegment seg) {
@@ -15663,7 +15559,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CastTypeInfoToOptionalTypeInfo)(struct OrtTypeInfo*,struct OrtOptionalTypeInfo**);
+     * OrtStatusPtr (*CastTypeInfoToOptionalTypeInfo)(const OrtTypeInfo*,const OrtOptionalTypeInfo**);
      * }
      */
     public static void CastTypeInfoToOptionalTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -15683,13 +15579,12 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetOptionalContainedTypeInfo)(struct OrtOptionalTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetOptionalContainedTypeInfo)(const OrtOptionalTypeInfo*,OrtTypeInfo**);
      * }
      */
     public interface GetOptionalContainedTypeInfo {
 
-        java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment options, java.lang.foreign.MemorySegment api);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetOptionalContainedTypeInfo fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$112.const$5, fi, constants$15.const$2, scope);
@@ -15697,9 +15592,9 @@ public class OrtApi {
 
         static GetOptionalContainedTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _options, java.lang.foreign.MemorySegment _api) -> {
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, _options, _api);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15713,7 +15608,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetOptionalContainedTypeInfo)(struct OrtOptionalTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetOptionalContainedTypeInfo)(const OrtOptionalTypeInfo*,OrtTypeInfo**);
      * }
      */
     public static MemorySegment GetOptionalContainedTypeInfo$get(MemorySegment seg) {
@@ -15722,7 +15617,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetOptionalContainedTypeInfo)(struct OrtOptionalTypeInfo*,struct OrtTypeInfo**);
+     * OrtStatusPtr (*GetOptionalContainedTypeInfo)(const OrtOptionalTypeInfo*,OrtTypeInfo**);
      * }
      */
     public static void GetOptionalContainedTypeInfo$set(MemorySegment seg, MemorySegment x) {
@@ -15742,7 +15637,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetResizedStringTensorElementBuffer)(struct OrtValue*,unsigned long,unsigned long,char**);
+     * OrtStatusPtr (*GetResizedStringTensorElementBuffer)(OrtValue*,size_t,size_t,char**);
      * }
      */
     public interface GetResizedStringTensorElementBuffer {
@@ -15776,7 +15671,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetResizedStringTensorElementBuffer)(struct OrtValue*,unsigned long,unsigned long,char**);
+     * OrtStatusPtr (*GetResizedStringTensorElementBuffer)(OrtValue*,size_t,size_t,char**);
      * }
      */
     public static MemorySegment GetResizedStringTensorElementBuffer$get(MemorySegment seg) {
@@ -15785,7 +15680,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetResizedStringTensorElementBuffer)(struct OrtValue*,unsigned long,unsigned long,char**);
+     * OrtStatusPtr (*GetResizedStringTensorElementBuffer)(OrtValue*,size_t,size_t,char**);
      * }
      */
     public static void GetResizedStringTensorElementBuffer$set(MemorySegment seg, MemorySegment x) {
@@ -15806,15 +15701,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetAllocator)(struct OrtKernelContext*,struct OrtMemoryInfo*,struct OrtAllocator**);
+     * OrtStatusPtr (*KernelContext_GetAllocator)(const OrtKernelContext*,const OrtMemoryInfo*,OrtAllocator**);
      * }
      */
     public interface KernelContext_GetAllocator {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelContext_GetAllocator fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$113.const$3, fi, constants$14.const$4, scope);
@@ -15822,12 +15717,11 @@ public class OrtApi {
 
         static KernelContext_GetAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15841,7 +15735,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetAllocator)(struct OrtKernelContext*,struct OrtMemoryInfo*,struct OrtAllocator**);
+     * OrtStatusPtr (*KernelContext_GetAllocator)(const OrtKernelContext*,const OrtMemoryInfo*,OrtAllocator**);
      * }
      */
     public static MemorySegment KernelContext_GetAllocator$get(MemorySegment seg) {
@@ -15850,7 +15744,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetAllocator)(struct OrtKernelContext*,struct OrtMemoryInfo*,struct OrtAllocator**);
+     * OrtStatusPtr (*KernelContext_GetAllocator)(const OrtKernelContext*,const OrtMemoryInfo*,OrtAllocator**);
      * }
      */
     public static void KernelContext_GetAllocator$set(MemorySegment seg, MemorySegment x) {
@@ -15928,7 +15822,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateROCMProviderOptions)(struct OrtROCMProviderOptions**);
+     * OrtStatusPtr (*CreateROCMProviderOptions)(OrtROCMProviderOptions**);
      * }
      */
     public interface CreateROCMProviderOptions {
@@ -15957,7 +15851,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateROCMProviderOptions)(struct OrtROCMProviderOptions**);
+     * OrtStatusPtr (*CreateROCMProviderOptions)(OrtROCMProviderOptions**);
      * }
      */
     public static MemorySegment CreateROCMProviderOptions$get(MemorySegment seg) {
@@ -15966,7 +15860,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateROCMProviderOptions)(struct OrtROCMProviderOptions**);
+     * OrtStatusPtr (*CreateROCMProviderOptions)(OrtROCMProviderOptions**);
      * }
      */
     public static void CreateROCMProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -15986,7 +15880,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateROCMProviderOptions)(struct OrtROCMProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateROCMProviderOptions)(OrtROCMProviderOptions*,char**,char**,size_t);
      * }
      */
     public interface UpdateROCMProviderOptions {
@@ -16023,7 +15917,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateROCMProviderOptions)(struct OrtROCMProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateROCMProviderOptions)(OrtROCMProviderOptions*,char**,char**,size_t);
      * }
      */
     public static MemorySegment UpdateROCMProviderOptions$get(MemorySegment seg) {
@@ -16032,7 +15926,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateROCMProviderOptions)(struct OrtROCMProviderOptions*,char**,char**,unsigned long);
+     * OrtStatusPtr (*UpdateROCMProviderOptions)(OrtROCMProviderOptions*,char**,char**,size_t);
      * }
      */
     public static void UpdateROCMProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -16052,15 +15946,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetROCMProviderOptionsAsString)(struct OrtROCMProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetROCMProviderOptionsAsString)(const OrtROCMProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public interface GetROCMProviderOptionsAsString {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetROCMProviderOptionsAsString fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$114.const$5, fi, constants$14.const$4, scope);
@@ -16068,12 +15962,11 @@ public class OrtApi {
 
         static GetROCMProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16087,7 +15980,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetROCMProviderOptionsAsString)(struct OrtROCMProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetROCMProviderOptionsAsString)(const OrtROCMProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public static MemorySegment GetROCMProviderOptionsAsString$get(MemorySegment seg) {
@@ -16096,7 +15989,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetROCMProviderOptionsAsString)(struct OrtROCMProviderOptions*,struct OrtAllocator*,char**);
+     * OrtStatusPtr (*GetROCMProviderOptionsAsString)(const OrtROCMProviderOptions*,OrtAllocator*,char**);
      * }
      */
     public static void GetROCMProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
@@ -16116,7 +16009,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * void (*ReleaseROCMProviderOptions)(struct OrtROCMProviderOptions*);
+     * void (*ReleaseROCMProviderOptions)(OrtROCMProviderOptions*);
      * }
      */
     public interface ReleaseROCMProviderOptions {
@@ -16145,7 +16038,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * void (*ReleaseROCMProviderOptions)(struct OrtROCMProviderOptions*);
+     * void (*ReleaseROCMProviderOptions)(OrtROCMProviderOptions*);
      * }
      */
     public static MemorySegment ReleaseROCMProviderOptions$get(MemorySegment seg) {
@@ -16154,7 +16047,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * void (*ReleaseROCMProviderOptions)(struct OrtROCMProviderOptions*);
+     * void (*ReleaseROCMProviderOptions)(OrtROCMProviderOptions*);
      * }
      */
     public static void ReleaseROCMProviderOptions$set(MemorySegment seg, MemorySegment x) {
@@ -16174,7 +16067,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*CreateAndRegisterAllocatorV2)(struct OrtEnv*,char*,struct OrtMemoryInfo*,struct OrtArenaCfg*,char**,char**,unsigned long);
+     * OrtStatusPtr (*CreateAndRegisterAllocatorV2)(OrtEnv*,char*,const OrtMemoryInfo*,const OrtArenaCfg*,char**,char**,size_t);
      * }
      */
     public interface CreateAndRegisterAllocatorV2 {
@@ -16217,7 +16110,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateAndRegisterAllocatorV2)(struct OrtEnv*,char*,struct OrtMemoryInfo*,struct OrtArenaCfg*,char**,char**,unsigned long);
+     * OrtStatusPtr (*CreateAndRegisterAllocatorV2)(OrtEnv*,char*,const OrtMemoryInfo*,const OrtArenaCfg*,char**,char**,size_t);
      * }
      */
     public static MemorySegment CreateAndRegisterAllocatorV2$get(MemorySegment seg) {
@@ -16226,7 +16119,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*CreateAndRegisterAllocatorV2)(struct OrtEnv*,char*,struct OrtMemoryInfo*,struct OrtArenaCfg*,char**,char**,unsigned long);
+     * OrtStatusPtr (*CreateAndRegisterAllocatorV2)(OrtEnv*,char*,const OrtMemoryInfo*,const OrtArenaCfg*,char**,char**,size_t);
      * }
      */
     public static void CreateAndRegisterAllocatorV2$set(MemorySegment seg, MemorySegment x) {
@@ -16246,7 +16139,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*RunAsync)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**,void (*)(void*,struct OrtValue**,unsigned long,struct OrtStatus*),void*);
+     * OrtStatusPtr (*RunAsync)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**,RunAsyncCallbackFn,void*);
      * }
      */
     public interface RunAsync {
@@ -16295,7 +16188,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunAsync)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**,void (*)(void*,struct OrtValue**,unsigned long,struct OrtStatus*),void*);
+     * OrtStatusPtr (*RunAsync)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**,RunAsyncCallbackFn,void*);
      * }
      */
     public static MemorySegment RunAsync$get(MemorySegment seg) {
@@ -16304,7 +16197,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*RunAsync)(struct OrtSession*,struct OrtRunOptions*,char**,struct OrtValue**,unsigned long,char**,unsigned long,struct OrtValue**,void (*)(void*,struct OrtValue**,unsigned long,struct OrtStatus*),void*);
+     * OrtStatusPtr (*RunAsync)(OrtSession*,const OrtRunOptions*,char**,const OrtValue**,size_t,char**,size_t,OrtValue**,RunAsyncCallbackFn,void*);
      * }
      */
     public static void RunAsync$set(MemorySegment seg, MemorySegment x) {
@@ -16324,15 +16217,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateTensorRTProviderOptionsWithValue)(struct OrtTensorRTProviderOptionsV2*,char*,void*);
+     * OrtStatusPtr (*UpdateTensorRTProviderOptionsWithValue)(OrtTensorRTProviderOptionsV2*,char*,void*);
      * }
      */
     public interface UpdateTensorRTProviderOptionsWithValue {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(UpdateTensorRTProviderOptionsWithValue fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$116.const$5, fi, constants$14.const$4, scope);
@@ -16340,12 +16233,11 @@ public class OrtApi {
 
         static UpdateTensorRTProviderOptionsWithValue ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16359,7 +16251,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateTensorRTProviderOptionsWithValue)(struct OrtTensorRTProviderOptionsV2*,char*,void*);
+     * OrtStatusPtr (*UpdateTensorRTProviderOptionsWithValue)(OrtTensorRTProviderOptionsV2*,char*,void*);
      * }
      */
     public static MemorySegment UpdateTensorRTProviderOptionsWithValue$get(MemorySegment seg) {
@@ -16368,7 +16260,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateTensorRTProviderOptionsWithValue)(struct OrtTensorRTProviderOptionsV2*,char*,void*);
+     * OrtStatusPtr (*UpdateTensorRTProviderOptionsWithValue)(OrtTensorRTProviderOptionsV2*,char*,void*);
      * }
      */
     public static void UpdateTensorRTProviderOptionsWithValue$set(MemorySegment seg, MemorySegment x) {
@@ -16390,15 +16282,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetTensorRTProviderOptionsByName)(struct OrtTensorRTProviderOptionsV2*,char*,void**);
+     * OrtStatusPtr (*GetTensorRTProviderOptionsByName)(const OrtTensorRTProviderOptionsV2*,char*,void**);
      * }
      */
     public interface GetTensorRTProviderOptionsByName {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetTensorRTProviderOptionsByName fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$117.const$1, fi, constants$14.const$4, scope);
@@ -16406,12 +16298,11 @@ public class OrtApi {
 
         static GetTensorRTProviderOptionsByName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16425,7 +16316,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorRTProviderOptionsByName)(struct OrtTensorRTProviderOptionsV2*,char*,void**);
+     * OrtStatusPtr (*GetTensorRTProviderOptionsByName)(const OrtTensorRTProviderOptionsV2*,char*,void**);
      * }
      */
     public static MemorySegment GetTensorRTProviderOptionsByName$get(MemorySegment seg) {
@@ -16434,7 +16325,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetTensorRTProviderOptionsByName)(struct OrtTensorRTProviderOptionsV2*,char*,void**);
+     * OrtStatusPtr (*GetTensorRTProviderOptionsByName)(const OrtTensorRTProviderOptionsV2*,char*,void**);
      * }
      */
     public static void GetTensorRTProviderOptionsByName$set(MemorySegment seg, MemorySegment x) {
@@ -16455,15 +16346,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*UpdateCUDAProviderOptionsWithValue)(struct OrtCUDAProviderOptionsV2*,char*,void*);
+     * OrtStatusPtr (*UpdateCUDAProviderOptionsWithValue)(OrtCUDAProviderOptionsV2*,char*,void*);
      * }
      */
     public interface UpdateCUDAProviderOptionsWithValue {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(UpdateCUDAProviderOptionsWithValue fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$117.const$3, fi, constants$14.const$4, scope);
@@ -16471,12 +16362,11 @@ public class OrtApi {
 
         static UpdateCUDAProviderOptionsWithValue ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16490,7 +16380,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateCUDAProviderOptionsWithValue)(struct OrtCUDAProviderOptionsV2*,char*,void*);
+     * OrtStatusPtr (*UpdateCUDAProviderOptionsWithValue)(OrtCUDAProviderOptionsV2*,char*,void*);
      * }
      */
     public static MemorySegment UpdateCUDAProviderOptionsWithValue$get(MemorySegment seg) {
@@ -16499,7 +16389,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*UpdateCUDAProviderOptionsWithValue)(struct OrtCUDAProviderOptionsV2*,char*,void*);
+     * OrtStatusPtr (*UpdateCUDAProviderOptionsWithValue)(OrtCUDAProviderOptionsV2*,char*,void*);
      * }
      */
     public static void UpdateCUDAProviderOptionsWithValue$set(MemorySegment seg, MemorySegment x) {
@@ -16520,15 +16410,15 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*GetCUDAProviderOptionsByName)(struct OrtCUDAProviderOptionsV2*,char*,void**);
+     * OrtStatusPtr (*GetCUDAProviderOptionsByName)(const OrtCUDAProviderOptionsV2*,char*,void**);
      * }
      */
     public interface GetCUDAProviderOptionsByName {
 
         java.lang.foreign.MemorySegment apply(
-                java.lang.foreign.MemorySegment ort_custom_thread_creation_options,
-                java.lang.foreign.MemorySegment ort_thread_worker_fn,
-                java.lang.foreign.MemorySegment ort_worker_fn_param);
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCUDAProviderOptionsByName fi, Arena scope) {
             return RuntimeHelper.upcallStub(constants$117.const$5, fi, constants$14.const$4, scope);
@@ -16536,12 +16426,11 @@ public class OrtApi {
 
         static GetCUDAProviderOptionsByName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
-            return (java.lang.foreign.MemorySegment _ort_custom_thread_creation_options,
-                    java.lang.foreign.MemorySegment _ort_thread_worker_fn,
-                    java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
-                            symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16555,7 +16444,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCUDAProviderOptionsByName)(struct OrtCUDAProviderOptionsV2*,char*,void**);
+     * OrtStatusPtr (*GetCUDAProviderOptionsByName)(const OrtCUDAProviderOptionsV2*,char*,void**);
      * }
      */
     public static MemorySegment GetCUDAProviderOptionsByName$get(MemorySegment seg) {
@@ -16564,7 +16453,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*GetCUDAProviderOptionsByName)(struct OrtCUDAProviderOptionsV2*,char*,void**);
+     * OrtStatusPtr (*GetCUDAProviderOptionsByName)(const OrtCUDAProviderOptionsV2*,char*,void**);
      * }
      */
     public static void GetCUDAProviderOptionsByName$set(MemorySegment seg, MemorySegment x) {
@@ -16584,7 +16473,7 @@ public class OrtApi {
     }
     /**
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetResource)(struct OrtKernelContext*,int,int,void**);
+     * OrtStatusPtr (*KernelContext_GetResource)(const OrtKernelContext*,int,int,void**);
      * }
      */
     public interface KernelContext_GetResource {
@@ -16615,7 +16504,7 @@ public class OrtApi {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetResource)(struct OrtKernelContext*,int,int,void**);
+     * OrtStatusPtr (*KernelContext_GetResource)(const OrtKernelContext*,int,int,void**);
      * }
      */
     public static MemorySegment KernelContext_GetResource$get(MemorySegment seg) {
@@ -16624,7 +16513,7 @@ public class OrtApi {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtStatus* (*KernelContext_GetResource)(struct OrtKernelContext*,int,int,void**);
+     * OrtStatusPtr (*KernelContext_GetResource)(const OrtKernelContext*,int,int,void**);
      * }
      */
     public static void KernelContext_GetResource$set(MemorySegment seg, MemorySegment x) {

@@ -12,7 +12,7 @@ import java.lang.invoke.VarHandle;
 /**
  * {@snippet :
  * struct OrtApiBase {
- *     struct OrtApi* (*GetApi)(unsigned int);
+ *     const OrtApi* (*GetApi)(uint32_t);
  *     char* (*GetVersionString)();
  * };
  * }
@@ -24,7 +24,7 @@ public class OrtApiBase {
     }
     /**
      * {@snippet :
-     * struct OrtApi* (*GetApi)(unsigned int);
+     * const OrtApi* (*GetApi)(uint32_t);
      * }
      */
     public interface GetApi {
@@ -53,7 +53,7 @@ public class OrtApiBase {
     /**
      * Getter for field:
      * {@snippet :
-     * struct OrtApi* (*GetApi)(unsigned int);
+     * const OrtApi* (*GetApi)(uint32_t);
      * }
      */
     public static MemorySegment GetApi$get(MemorySegment seg) {
@@ -62,7 +62,7 @@ public class OrtApiBase {
     /**
      * Setter for field:
      * {@snippet :
-     * struct OrtApi* (*GetApi)(unsigned int);
+     * const OrtApi* (*GetApi)(uint32_t);
      * }
      */
     public static void GetApi$set(MemorySegment seg, MemorySegment x) {
