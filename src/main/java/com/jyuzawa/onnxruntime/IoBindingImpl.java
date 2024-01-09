@@ -101,8 +101,8 @@ final class IoBindingImpl implements IoBinding {
         public Builder(SessionImpl session) {
             this.api = session.api;
             this.session = session;
-            this.inputs = new ArrayList<>();
-            this.outputs = new ArrayList<>();
+            this.inputs = new ArrayList<>(session.inputs.size());
+            this.outputs = new ArrayList<>(session.outputs.size());
         }
 
         @Override
@@ -183,5 +183,17 @@ final class IoBindingImpl implements IoBinding {
     @Override
     public NamedCollection<OnnxValue> getOutputs() {
         return outputs;
+    }
+
+    @Override
+    public IoBinding synchronizeBoundInputs() {
+        api.checkStatus(api.SynchronizeBoundInputs.apply(ioBinding));
+        return this;
+    }
+
+    @Override
+    public IoBinding synchronizeBoundOutputs() {
+        api.checkStatus(api.SynchronizeBoundOutputs.apply(ioBinding));
+        return this;
     }
 }
