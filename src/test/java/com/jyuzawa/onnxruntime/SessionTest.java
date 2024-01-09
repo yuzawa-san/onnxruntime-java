@@ -984,7 +984,9 @@ public class SessionTest {
                     ThreadLocalRandom.current().nextInt()
                 };
                 inputBuf.clear().put(rawInput);
+                txn.synchronizeBoundInputs();
                 txn.run();
+                txn.synchronizeBoundOutputs();
                 outputBuf.rewind().get(rawOutput);
                 assertArrayEquals(rawInput, rawOutput);
             }

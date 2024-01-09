@@ -36,6 +36,10 @@ public interface IoBinding extends AutoCloseable {
      */
     IoBinding setRunTag(String runTag);
 
+    IoBinding synchronizeBoundInputs();
+
+    IoBinding synchronizeBoundOutputs();
+
     NamedCollection<OnnxValue> getInputs();
 
     NamedCollection<OnnxValue> getOutputs();
