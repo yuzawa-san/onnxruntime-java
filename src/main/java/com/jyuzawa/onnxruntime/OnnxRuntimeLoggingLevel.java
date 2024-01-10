@@ -50,19 +50,14 @@ public enum OnnxRuntimeLoggingLevel {
      * @return the level, VERBOSE if not found
      */
     public static final OnnxRuntimeLoggingLevel forNumber(int number) {
-        switch (number) {
-            case 1:
-                return INFO;
-            case 2:
-                return WARNING;
-            case 3:
-                return ERROR;
-            case 4:
-                return FATAL;
-            case 0:
-            default:
-                return VERBOSE;
-        }
+        return switch (number) {
+            case 0 -> VERBOSE;
+            case 1 -> INFO;
+            case 2 -> WARNING;
+            case 3 -> ERROR;
+            case 4 -> FATAL;
+            default -> VERBOSE;
+        };
     }
 
     @SuppressWarnings("unused")
@@ -78,8 +73,7 @@ public enum OnnxRuntimeLoggingLevel {
                     case VERBOSE -> Level.DEBUG;
                     case INFO -> Level.INFO;
                     case WARNING -> Level.WARNING;
-                    case FATAL -> Level.ERROR;
-                    case ERROR -> Level.ERROR;
+                    case FATAL, ERROR -> Level.ERROR;
                 };
         if (LOG.isLoggable(theLevel)) {
             String category = categoryAddress.getString(0);
