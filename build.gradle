@@ -67,6 +67,11 @@ gitHooks {
 	hooks = ['pre-push': 'spotlessCheck']
 }
 
+jacoco {
+	// TODO: use gradle specified version
+	toolVersion = "0.8.11"
+}
+
 jacocoTestReport {
 	reports {
 		xml.required = true
@@ -392,6 +397,5 @@ tasks.named('compileJava') {
 test {
 	useJUnitPlatform()
 	jvmArgs '--enable-native-access=ALL-UNNAMED'
-	// TODO: re-enable JaCoCo
-	// finalizedBy jacocoTestReport
+	finalizedBy jacocoTestReport
 }
