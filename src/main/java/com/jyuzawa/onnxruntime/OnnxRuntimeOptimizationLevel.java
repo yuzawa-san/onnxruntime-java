@@ -26,16 +26,12 @@ public enum OnnxRuntimeOptimizationLevel {
     }
 
     public static final OnnxRuntimeOptimizationLevel forNumber(int number) {
-        switch (number) {
-            case 1:
-                return ENABLE_BASIC;
-            case 2:
-                return ENABLE_EXTENDED;
-            case 99:
-                return ENABLE_ALL;
-            case 0:
-            default:
-                return DISABLE_ALL;
-        }
+        return switch (number) {
+            case 0 -> DISABLE_ALL;
+            case 1 -> ENABLE_BASIC;
+            case 2 -> ENABLE_EXTENDED;
+            case 99 -> ENABLE_ALL;
+            default -> DISABLE_ALL;
+        };
     }
 }

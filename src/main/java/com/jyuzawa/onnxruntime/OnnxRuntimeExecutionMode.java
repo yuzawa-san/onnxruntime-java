@@ -24,12 +24,10 @@ public enum OnnxRuntimeExecutionMode {
     }
 
     public static final OnnxRuntimeExecutionMode forNumber(int number) {
-        switch (number) {
-            case 1:
-                return PARALLEL;
-            case 0:
-            default:
-                return SEQUENTIAL;
-        }
+        return switch (number) {
+            case 0 -> SEQUENTIAL;
+            case 1 -> PARALLEL;
+            default -> SEQUENTIAL;
+        };
     }
 }

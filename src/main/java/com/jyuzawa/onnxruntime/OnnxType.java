@@ -34,22 +34,15 @@ public enum OnnxType {
      * @return the level, UNKNOWN if not found
      */
     public static final OnnxType forNumber(int number) {
-        switch (number) {
-            case 1:
-                return TENSOR;
-            case 2:
-                return SEQUENCE;
-            case 3:
-                return MAP;
-            case 4:
-                return OPAQUE;
-            case 5:
-                return SPARSETENSOR;
-            case 6:
-                return OPTIONAL;
-            case 0:
-            default:
-                return UNKNOWN;
-        }
+        return switch (number) {
+            case 0 -> UNKNOWN;
+            case 1 -> TENSOR;
+            case 2 -> SEQUENCE;
+            case 3 -> MAP;
+            case 4 -> OPAQUE;
+            case 5 -> SPARSETENSOR;
+            case 6 -> OPTIONAL;
+            default -> UNKNOWN;
+        };
     }
 }

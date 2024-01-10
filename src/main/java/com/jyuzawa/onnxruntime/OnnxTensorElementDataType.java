@@ -57,43 +57,26 @@ public enum OnnxTensorElementDataType {
      * @return the level, UNDEFINED if not found
      */
     public static final OnnxTensorElementDataType forNumber(int number) {
-        switch (number) {
-            case 1:
-                return FLOAT;
-            case 2:
-                return UINT8;
-            case 3:
-                return INT8;
-            case 4:
-                return UINT16;
-            case 5:
-                return INT16;
-            case 6:
-                return INT32;
-            case 7:
-                return INT64;
-            case 8:
-                return STRING;
-            case 9:
-                return BOOL;
-            case 10:
-                return FLOAT16;
-            case 11:
-                return DOUBLE;
-            case 12:
-                return UINT32;
-            case 13:
-                return UINT64;
-            case 14:
-                return COMPLEX64;
-            case 15:
-                return COMPLEX128;
-            case 16:
-                return BFLOAT16;
-            case 0:
-            default:
-                return UNDEFINED;
-        }
+        return switch (number) {
+            case 0 -> UNDEFINED;
+            case 1 -> FLOAT;
+            case 2 -> UINT8;
+            case 3 -> INT8;
+            case 4 -> UINT16;
+            case 5 -> INT16;
+            case 6 -> INT32;
+            case 7 -> INT64;
+            case 8 -> STRING;
+            case 9 -> BOOL;
+            case 10 -> FLOAT16;
+            case 11 -> DOUBLE;
+            case 12 -> UINT32;
+            case 13 -> UINT64;
+            case 14 -> COMPLEX64;
+            case 15 -> COMPLEX128;
+            case 16 -> BFLOAT16;
+            default -> UNDEFINED;
+        };
     }
 
     ValueLayout getValueLayout() {

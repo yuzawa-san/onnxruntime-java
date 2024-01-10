@@ -16,7 +16,6 @@ import java.lang.foreign.MemorySession;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.util.function.Supplier;
 
 /**
  * The level for the internal logger within the ONNX runtime.
@@ -51,19 +50,14 @@ public enum OnnxRuntimeLoggingLevel {
      * @return the level, VERBOSE if not found
      */
     public static final OnnxRuntimeLoggingLevel forNumber(int number) {
-        switch (number) {
-            case 1:
-                return INFO;
-            case 2:
-                return WARNING;
-            case 3:
-                return ERROR;
-            case 4:
-                return FATAL;
-            case 0:
-            default:
-                return VERBOSE;
-        }
+        return switch (number) {
+            case 0 -> VERBOSE;
+            case 1 -> INFO;
+            case 2 -> WARNING;
+            case 3 -> ERROR;
+            case 4 -> FATAL;
+            default -> VERBOSE;
+        };
     }
 
     @SuppressWarnings("unused")
@@ -74,33 +68,19 @@ public enum OnnxRuntimeLoggingLevel {
             MemoryAddress idAddress,
             MemoryAddress locationAddress,
             MemoryAddress messageAddress) {
-        String category = categoryAddress.address().getUtf8String(0);
-        String id = idAddress.address().getUtf8String(0);
-        String location = locationAddress.address().getUtf8String(0);
-        String message = messageAddress.address().getUtf8String(0);
-        Supplier<String> line = () -> new StringBuilder()
-                .append(category)
-                .append(' ')
-                .append(id)
-                .append(' ')
-                .append(location)
-                .append(' ')
-                .append(message)
-                .toString();
-        switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
-            case VERBOSE:
-                LOG.log(Level.DEBUG, line);
-                break;
-            case INFO:
-                LOG.log(Level.INFO, line);
-                break;
-            case WARNING:
-                LOG.log(Level.WARNING, line);
-                break;
-            case FATAL:
-            case ERROR:
-                LOG.log(Level.ERROR, line);
-                break;
+        Level theLevel =
+                switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
+                    case VERBOSE -> Level.DEBUG;
+                    case INFO -> Level.INFO;
+                    case WARNING -> Level.WARNING;
+                    case FATAL, ERROR -> Level.ERROR;
+                };
+        if (LOG.isLoggable(theLevel)) {
+            String category = categoryAddress.address().getUtf8String(0);
+            String id = idAddress.address().getUtf8String(0);
+            String location = locationAddress.address().getUtf8String(0);
+            String message = messageAddress.address().getUtf8String(0);
+            LOG.log(theLevel, category + ' ' + id + ' ' + location + ' ' + message);
         }
     }
 
