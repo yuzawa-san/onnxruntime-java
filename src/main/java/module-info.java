@@ -5,8 +5,8 @@
  * native and C API intricacies away behind a Java-friendly interface. This is loosely coupled to the upstream project
  * and built off of the public (and stable) C API.
  * <p>
- * This uses Java's new Foreign Function &amp; Memory API (a.k.a. Project Panama), currently in preview. This will
- * require the runtime to have the {@code --enable-native-access=ALL-UNNAMED} and {@code --enable-preview} JVM options.
+ * This uses Java's Foreign Function &amp; Memory API. This will
+ * require the runtime to have the {@code --enable-native-access=ALL-UNNAMED} or similar JVM options.
  * <ul>
  * <li>The {@code onnxruntime-cpu} artifact provides support for several common operating systems / CPU architecture
  * combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like
