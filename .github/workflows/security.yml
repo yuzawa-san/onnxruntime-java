@@ -28,8 +28,6 @@ jobs:
         uses: gradle/gradle-build-action@v3
         with:
           cache-read-only: true
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v3
       - name: Build with Gradle
         run: |
           ./gradlew --no-daemon --no-build-cache -s :build
