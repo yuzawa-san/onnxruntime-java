@@ -21,7 +21,7 @@ jobs:
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
     steps:
       - uses: actions/checkout@v4
-      - uses: gradle/wrapper-validation-action@v1
+      - uses: gradle/wrapper-validation-action@v2
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
@@ -34,13 +34,13 @@ jobs:
           # NOTE: we need to install this for gradle, so it can bootstrap and find 22
           java-version: 21
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
       - name: Build with Gradle
         run: |
           ./gradlew --no-daemon -s :build
       - name: Upload coverage to Codecov
         if: ${{ matrix.java == '22-ea' && matrix.os == 'ubuntu-latest' }}
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v3.1.5
       - name: Save reports
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}
