@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -14,7 +14,9 @@ public class OrtMIGraphXProviderOptions {
     static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
                     Constants$root.C_INT$LAYOUT.withName("device_id"),
                     Constants$root.C_INT$LAYOUT.withName("migraphx_fp16_enable"),
-                    Constants$root.C_INT$LAYOUT.withName("migraphx_int8_enable"))
+                    Constants$root.C_INT$LAYOUT.withName("migraphx_int8_enable"),
+                    Constants$root.C_INT$LAYOUT.withName("migraphx_use_native_calibration_table"),
+                    Constants$root.C_POINTER$LAYOUT.withName("migraphx_int8_calibration_table_name"))
             .withName("OrtMIGraphXProviderOptions");
 
     public static MemoryLayout $LAYOUT() {
@@ -87,6 +89,55 @@ public class OrtMIGraphXProviderOptions {
 
     public static void migraphx_int8_enable$set(MemorySegment seg, long index, int x) {
         OrtMIGraphXProviderOptions.migraphx_int8_enable$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle migraphx_use_native_calibration_table$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("migraphx_use_native_calibration_table"));
+
+    public static VarHandle migraphx_use_native_calibration_table$VH() {
+        return OrtMIGraphXProviderOptions.migraphx_use_native_calibration_table$VH;
+    }
+
+    public static int migraphx_use_native_calibration_table$get(MemorySegment seg) {
+        return (int) OrtMIGraphXProviderOptions.migraphx_use_native_calibration_table$VH.get(seg);
+    }
+
+    public static void migraphx_use_native_calibration_table$set(MemorySegment seg, int x) {
+        OrtMIGraphXProviderOptions.migraphx_use_native_calibration_table$VH.set(seg, x);
+    }
+
+    public static int migraphx_use_native_calibration_table$get(MemorySegment seg, long index) {
+        return (int)
+                OrtMIGraphXProviderOptions.migraphx_use_native_calibration_table$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void migraphx_use_native_calibration_table$set(MemorySegment seg, long index, int x) {
+        OrtMIGraphXProviderOptions.migraphx_use_native_calibration_table$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    static final VarHandle migraphx_int8_calibration_table_name$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("migraphx_int8_calibration_table_name"));
+
+    public static VarHandle migraphx_int8_calibration_table_name$VH() {
+        return OrtMIGraphXProviderOptions.migraphx_int8_calibration_table_name$VH;
+    }
+
+    public static MemoryAddress migraphx_int8_calibration_table_name$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtMIGraphXProviderOptions.migraphx_int8_calibration_table_name$VH.get(seg);
+    }
+
+    public static void migraphx_int8_calibration_table_name$set(MemorySegment seg, MemoryAddress x) {
+        OrtMIGraphXProviderOptions.migraphx_int8_calibration_table_name$VH.set(seg, x);
+    }
+
+    public static MemoryAddress migraphx_int8_calibration_table_name$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress)
+                OrtMIGraphXProviderOptions.migraphx_int8_calibration_table_name$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void migraphx_int8_calibration_table_name$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtMIGraphXProviderOptions.migraphx_int8_calibration_table_name$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     public static long sizeof() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -32,7 +32,10 @@ public class OrtCustomOp {
                     Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputMinArity"),
                     Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputHomogeneity"),
                     Constants$root.C_POINTER$LAYOUT.withName("CreateKernelV2"),
-                    Constants$root.C_POINTER$LAYOUT.withName("KernelComputeV2"))
+                    Constants$root.C_POINTER$LAYOUT.withName("KernelComputeV2"),
+                    Constants$root.C_POINTER$LAYOUT.withName("InferOutputShapeFn"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetStartVersion"),
+                    Constants$root.C_POINTER$LAYOUT.withName("GetEndVersion"))
             .withName("OrtCustomOp");
 
     public static MemoryLayout $LAYOUT() {
@@ -1050,6 +1053,165 @@ public class OrtCustomOp {
 
     public static KernelComputeV2 KernelComputeV2(MemorySegment segment, MemorySession session) {
         return KernelComputeV2.ofAddress(KernelComputeV2$get(segment), session);
+    }
+
+    static final FunctionDescriptor InferOutputShapeFn$FUNC = FunctionDescriptor.of(
+            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle InferOutputShapeFn$MH = RuntimeHelper.downcallHandle(OrtCustomOp.InferOutputShapeFn$FUNC);
+
+    public interface InferOutputShapeFn {
+
+        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+
+        static MemorySegment allocate(InferOutputShapeFn fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(InferOutputShapeFn.class, fi, OrtCustomOp.InferOutputShapeFn$FUNC, session);
+        }
+
+        static InferOutputShapeFn ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+                try {
+                    return (java.lang.foreign.Addressable)
+                            (java.lang.foreign.MemoryAddress) OrtCustomOp.InferOutputShapeFn$MH.invokeExact(
+                                    (Addressable) symbol,
+                                    (java.lang.foreign.Addressable) __x0,
+                                    (java.lang.foreign.Addressable) __x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle InferOutputShapeFn$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("InferOutputShapeFn"));
+
+    public static VarHandle InferOutputShapeFn$VH() {
+        return OrtCustomOp.InferOutputShapeFn$VH;
+    }
+
+    public static MemoryAddress InferOutputShapeFn$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.InferOutputShapeFn$VH.get(seg);
+    }
+
+    public static void InferOutputShapeFn$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.InferOutputShapeFn$VH.set(seg, x);
+    }
+
+    public static MemoryAddress InferOutputShapeFn$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.InferOutputShapeFn$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void InferOutputShapeFn$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.InferOutputShapeFn$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static InferOutputShapeFn InferOutputShapeFn(MemorySegment segment, MemorySession session) {
+        return InferOutputShapeFn.ofAddress(InferOutputShapeFn$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetStartVersion$FUNC =
+            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetStartVersion$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetStartVersion$FUNC);
+
+    public interface GetStartVersion {
+
+        int apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(GetStartVersion fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(GetStartVersion.class, fi, OrtCustomOp.GetStartVersion$FUNC, session);
+        }
+
+        static GetStartVersion ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (int) OrtCustomOp.GetStartVersion$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetStartVersion$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetStartVersion"));
+
+    public static VarHandle GetStartVersion$VH() {
+        return OrtCustomOp.GetStartVersion$VH;
+    }
+
+    public static MemoryAddress GetStartVersion$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetStartVersion$VH.get(seg);
+    }
+
+    public static void GetStartVersion$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetStartVersion$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetStartVersion$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetStartVersion$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetStartVersion$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetStartVersion$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetStartVersion GetStartVersion(MemorySegment segment, MemorySession session) {
+        return GetStartVersion.ofAddress(GetStartVersion$get(segment), session);
+    }
+
+    static final FunctionDescriptor GetEndVersion$FUNC =
+            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
+    static final MethodHandle GetEndVersion$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetEndVersion$FUNC);
+
+    public interface GetEndVersion {
+
+        int apply(java.lang.foreign.MemoryAddress _x0);
+
+        static MemorySegment allocate(GetEndVersion fi, MemorySession session) {
+            return RuntimeHelper.upcallStub(GetEndVersion.class, fi, OrtCustomOp.GetEndVersion$FUNC, session);
+        }
+
+        static GetEndVersion ofAddress(MemoryAddress addr, MemorySession session) {
+            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
+            return (java.lang.foreign.MemoryAddress __x0) -> {
+                try {
+                    return (int) OrtCustomOp.GetEndVersion$MH.invokeExact(
+                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    static final VarHandle GetEndVersion$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetEndVersion"));
+
+    public static VarHandle GetEndVersion$VH() {
+        return OrtCustomOp.GetEndVersion$VH;
+    }
+
+    public static MemoryAddress GetEndVersion$get(MemorySegment seg) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetEndVersion$VH.get(seg);
+    }
+
+    public static void GetEndVersion$set(MemorySegment seg, MemoryAddress x) {
+        OrtCustomOp.GetEndVersion$VH.set(seg, x);
+    }
+
+    public static MemoryAddress GetEndVersion$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetEndVersion$VH.get(seg.asSlice(index * sizeof()));
+    }
+
+    public static void GetEndVersion$set(MemorySegment seg, long index, MemoryAddress x) {
+        OrtCustomOp.GetEndVersion$VH.set(seg.asSlice(index * sizeof()), x);
+    }
+
+    public static GetEndVersion GetEndVersion(MemorySegment segment, MemorySession session) {
+        return GetEndVersion.ofAddress(GetEndVersion$get(segment), session);
     }
 
     public static long sizeof() {

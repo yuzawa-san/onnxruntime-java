@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -13,7 +13,7 @@ public class OrtOpenVINOProviderOptions {
 
     static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
                     Constants$root.C_POINTER$LAYOUT.withName("device_type"),
-                    Constants$root.C_CHAR$LAYOUT.withName("enable_vpu_fast_compile"),
+                    Constants$root.C_CHAR$LAYOUT.withName("enable_npu_fast_compile"),
                     MemoryLayout.paddingLayout(56),
                     Constants$root.C_POINTER$LAYOUT.withName("device_id"),
                     Constants$root.C_LONG_LONG$LAYOUT.withName("num_of_threads"),
@@ -52,27 +52,27 @@ public class OrtOpenVINOProviderOptions {
         OrtOpenVINOProviderOptions.device_type$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
-    static final VarHandle enable_vpu_fast_compile$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("enable_vpu_fast_compile"));
+    static final VarHandle enable_npu_fast_compile$VH =
+            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("enable_npu_fast_compile"));
 
-    public static VarHandle enable_vpu_fast_compile$VH() {
-        return OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH;
+    public static VarHandle enable_npu_fast_compile$VH() {
+        return OrtOpenVINOProviderOptions.enable_npu_fast_compile$VH;
     }
 
-    public static byte enable_vpu_fast_compile$get(MemorySegment seg) {
-        return (byte) OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH.get(seg);
+    public static byte enable_npu_fast_compile$get(MemorySegment seg) {
+        return (byte) OrtOpenVINOProviderOptions.enable_npu_fast_compile$VH.get(seg);
     }
 
-    public static void enable_vpu_fast_compile$set(MemorySegment seg, byte x) {
-        OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH.set(seg, x);
+    public static void enable_npu_fast_compile$set(MemorySegment seg, byte x) {
+        OrtOpenVINOProviderOptions.enable_npu_fast_compile$VH.set(seg, x);
     }
 
-    public static byte enable_vpu_fast_compile$get(MemorySegment seg, long index) {
-        return (byte) OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH.get(seg.asSlice(index * sizeof()));
+    public static byte enable_npu_fast_compile$get(MemorySegment seg, long index) {
+        return (byte) OrtOpenVINOProviderOptions.enable_npu_fast_compile$VH.get(seg.asSlice(index * sizeof()));
     }
 
-    public static void enable_vpu_fast_compile$set(MemorySegment seg, long index, byte x) {
-        OrtOpenVINOProviderOptions.enable_vpu_fast_compile$VH.set(seg.asSlice(index * sizeof()), x);
+    public static void enable_npu_fast_compile$set(MemorySegment seg, long index, byte x) {
+        OrtOpenVINOProviderOptions.enable_npu_fast_compile$VH.set(seg.asSlice(index * sizeof()), x);
     }
 
     static final VarHandle device_id$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("device_id"));
