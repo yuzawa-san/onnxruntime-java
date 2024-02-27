@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -37,9 +37,9 @@ class constants$2 {
     static final MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$MH = RuntimeHelper.downcallHandle(
             "OrtSessionOptionsAppendExecutionProvider_Dnnl",
             constants$2.OrtSessionOptionsAppendExecutionProvider_Dnnl$FUNC);
-    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_CoreML$FUNC = FunctionDescriptor.of(
+    static final FunctionDescriptor OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC = FunctionDescriptor.of(
             Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
-    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH = RuntimeHelper.downcallHandle(
-            "OrtSessionOptionsAppendExecutionProvider_CoreML",
-            constants$2.OrtSessionOptionsAppendExecutionProvider_CoreML$FUNC);
+    static final MethodHandle OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH = RuntimeHelper.downcallHandle(
+            "OrtSessionOptionsAppendExecutionProvider_Tensorrt",
+            constants$2.OrtSessionOptionsAppendExecutionProvider_Tensorrt$FUNC);
 }

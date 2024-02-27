@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -23,7 +23,7 @@ public class onnxruntime_all_h {
     public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
 
     public static int ORT_API_VERSION() {
-        return (int) 16L;
+        return (int) 17L;
     }
 
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED() {
@@ -459,6 +459,21 @@ public class onnxruntime_all_h {
         }
     }
 
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH() {
+        return RuntimeHelper.requireNonNull(
+                constants$2.OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH,
+                "OrtSessionOptionsAppendExecutionProvider_Tensorrt");
+    }
+
+    public static MemoryAddress OrtSessionOptionsAppendExecutionProvider_Tensorrt(Addressable options, int device_id) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH();
+        try {
+            return (java.lang.foreign.MemoryAddress) mh$.invokeExact(options, device_id);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
     public static int COREML_FLAG_USE_NONE() {
         return (int) 0L;
     }
@@ -485,7 +500,7 @@ public class onnxruntime_all_h {
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH() {
         return RuntimeHelper.requireNonNull(
-                constants$2.OrtSessionOptionsAppendExecutionProvider_CoreML$MH,
+                constants$3.OrtSessionOptionsAppendExecutionProvider_CoreML$MH,
                 "OrtSessionOptionsAppendExecutionProvider_CoreML");
     }
 

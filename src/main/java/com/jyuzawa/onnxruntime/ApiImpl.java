@@ -122,6 +122,7 @@ final class ApiImpl implements Api {
     final SetIntraOpNumThreads SetIntraOpNumThreads;
     final SetLanguageProjection SetLanguageProjection;
     final SetOptimizedModelFilePath SetOptimizedModelFilePath;
+    final SetDeterministicCompute SetDeterministicCompute;
     final SetSessionExecutionMode SetSessionExecutionMode;
     final SetSessionGraphOptimizationLevel SetSessionGraphOptimizationLevel;
     final SetSessionLogId SetSessionLogId;
@@ -144,7 +145,7 @@ final class ApiImpl implements Api {
     final SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2;
     final SessionOptionsAppendExecutionProvider_Dnnl SessionOptionsAppendExecutionProvider_Dnnl;
     final SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX;
-    final SessionOptionsAppendExecutionProvider_OpenVINO SessionOptionsAppendExecutionProvider_OpenVINO;
+    final SessionOptionsAppendExecutionProvider_OpenVINO_V2 SessionOptionsAppendExecutionProvider_OpenVINO_V2;
     final SessionOptionsAppendExecutionProvider_ROCM SessionOptionsAppendExecutionProvider_ROCM;
     final SessionOptionsAppendExecutionProvider_TensorRT_V2 SessionOptionsAppendExecutionProvider_TensorRT_V2;
     final SynchronizeBoundInputs SynchronizeBoundInputs;
@@ -256,6 +257,7 @@ final class ApiImpl implements Api {
         this.SetIntraOpNumThreads = OrtApi.SetIntraOpNumThreads(memorySegment, memorySession);
         this.SetLanguageProjection = OrtApi.SetLanguageProjection(memorySegment, memorySession);
         this.SetOptimizedModelFilePath = OrtApi.SetOptimizedModelFilePath(memorySegment, memorySession);
+        this.SetDeterministicCompute = OrtApi.SetDeterministicCompute(memorySegment, memorySession);
         this.SetSessionExecutionMode = OrtApi.SetSessionExecutionMode(memorySegment, memorySession);
         this.SetSessionGraphOptimizationLevel = OrtApi.SetSessionGraphOptimizationLevel(memorySegment, memorySession);
         this.SetSessionLogId = OrtApi.SetSessionLogId(memorySegment, memorySession);
@@ -286,8 +288,8 @@ final class ApiImpl implements Api {
                 OrtApi.SessionOptionsAppendExecutionProvider_Dnnl(memorySegment, memorySession);
         this.SessionOptionsAppendExecutionProvider_MIGraphX =
                 OrtApi.SessionOptionsAppendExecutionProvider_MIGraphX(memorySegment, memorySession);
-        this.SessionOptionsAppendExecutionProvider_OpenVINO =
-                OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO(memorySegment, memorySession);
+        this.SessionOptionsAppendExecutionProvider_OpenVINO_V2 =
+                OrtApi.SessionOptionsAppendExecutionProvider_OpenVINO_V2(memorySegment, memorySession);
         this.SessionOptionsAppendExecutionProvider_ROCM =
                 OrtApi.SessionOptionsAppendExecutionProvider_ROCM(memorySegment, memorySession);
         this.SessionOptionsAppendExecutionProvider_TensorRT_V2 =

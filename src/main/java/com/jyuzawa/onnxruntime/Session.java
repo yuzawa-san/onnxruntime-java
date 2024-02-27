@@ -181,6 +181,14 @@ public interface Session extends AutoCloseable {
         Builder setOptimizationOutputPath(Path optimizedFile);
 
         /**
+         * Enable deterministic compute.
+         * @param value
+         * @return the builder
+         * @since 1.5.0
+         */
+        Builder setDeterministicCompute(boolean value);
+
+        /**
          * Add an execution provider with custom properties.
          * @param provider
          * @param properties
