@@ -21,7 +21,7 @@ public interface OrtCustomCreateThreadFn {
             java.lang.foreign.MemorySegment ort_worker_fn_param);
 
     static MemorySegment allocate(OrtCustomCreateThreadFn fi, Arena scope) {
-        return RuntimeHelper.upcallStub(constants$14.const$5, fi, constants$14.const$4, scope);
+        return RuntimeHelper.upcallStub(constants$15.const$1, fi, constants$15.const$0, scope);
     }
 
     static OrtCustomCreateThreadFn ofAddress(MemorySegment addr, Arena arena) {
@@ -30,7 +30,7 @@ public interface OrtCustomCreateThreadFn {
                 java.lang.foreign.MemorySegment _ort_thread_worker_fn,
                 java.lang.foreign.MemorySegment _ort_worker_fn_param) -> {
             try {
-                return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(
+                return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(
                         symbol, _ort_custom_thread_creation_options, _ort_thread_worker_fn, _ort_worker_fn_param);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);

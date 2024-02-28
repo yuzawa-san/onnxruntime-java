@@ -16,21 +16,15 @@ final class constants$81 {
     private constants$81() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreatePrepackedWeightsContainer"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AddRunConfigEntry"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleasePrepackedWeightsContainer.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.CreatePrepackedWeightsContainer.class, "apply", constants$1.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleasePrepackedWeightsContainer"));
-    static final MethodHandle const$3 = RuntimeHelper.upcallHandle(
-            OrtApi.CreateSessionWithPrepackedWeightsContainer.class, "apply", constants$70.const$3);
-    static final VarHandle const$4 = constants$16.const$2.varHandle(
-            MemoryLayout.PathElement.groupElement("CreateSessionWithPrepackedWeightsContainer"));
-    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            JAVA_LONG,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreatePrepackedWeightsContainer"));
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApi.ReleasePrepackedWeightsContainer.class, "apply", constants$14.const$1);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleasePrepackedWeightsContainer"));
+    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
+            OrtApi.CreateSessionWithPrepackedWeightsContainer.class, "apply", constants$70.const$5);
 }

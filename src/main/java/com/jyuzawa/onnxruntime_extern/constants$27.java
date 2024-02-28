@@ -16,15 +16,15 @@ final class constants$27 {
     private constants$27() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetSessionGraphOptimizationLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetSessionLogSeverityLevel"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.SetIntraOpNumThreads.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetSessionGraphOptimizationLevel.class, "apply", constants$23.const$3);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetIntraOpNumThreads"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetSessionGraphOptimizationLevel"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SetInterOpNumThreads.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetIntraOpNumThreads.class, "apply", constants$23.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetInterOpNumThreads"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetIntraOpNumThreads"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateCustomOpDomain.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.SetInterOpNumThreads.class, "apply", constants$23.const$3);
 }

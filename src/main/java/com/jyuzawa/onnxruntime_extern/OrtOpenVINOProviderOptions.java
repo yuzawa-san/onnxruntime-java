@@ -13,7 +13,7 @@ import java.lang.invoke.VarHandle;
  * {@snippet :
  * struct OrtOpenVINOProviderOptions {
  *     char* device_type;
- *     unsigned char enable_vpu_fast_compile;
+ *     unsigned char enable_npu_fast_compile;
  *     char* device_id;
  *     size_t num_of_threads;
  *     char* cache_dir;
@@ -26,11 +26,11 @@ import java.lang.invoke.VarHandle;
 public class OrtOpenVINOProviderOptions {
 
     public static MemoryLayout $LAYOUT() {
-        return constants$10.const$4;
+        return constants$11.const$0;
     }
 
     public static VarHandle device_type$VH() {
-        return constants$10.const$5;
+        return constants$11.const$1;
     }
     /**
      * Getter for field:
@@ -39,7 +39,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static MemorySegment device_type$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$10.const$5.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$11.const$1.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -48,49 +48,49 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void device_type$set(MemorySegment seg, MemorySegment x) {
-        constants$10.const$5.set(seg, 0L, x);
+        constants$11.const$1.set(seg, 0L, x);
     }
 
     public static MemorySegment device_type$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$10.const$5.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$11.const$1.get(seg, index * sizeof());
     }
 
     public static void device_type$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$10.const$5.set(seg, index * sizeof(), x);
+        constants$11.const$1.set(seg, index * sizeof(), x);
     }
 
-    public static VarHandle enable_vpu_fast_compile$VH() {
-        return constants$11.const$0;
+    public static VarHandle enable_npu_fast_compile$VH() {
+        return constants$11.const$2;
     }
     /**
      * Getter for field:
      * {@snippet :
-     * unsigned char enable_vpu_fast_compile;
+     * unsigned char enable_npu_fast_compile;
      * }
      */
-    public static byte enable_vpu_fast_compile$get(MemorySegment seg) {
-        return (byte) constants$11.const$0.get(seg, 0L);
+    public static byte enable_npu_fast_compile$get(MemorySegment seg) {
+        return (byte) constants$11.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
      * {@snippet :
-     * unsigned char enable_vpu_fast_compile;
+     * unsigned char enable_npu_fast_compile;
      * }
      */
-    public static void enable_vpu_fast_compile$set(MemorySegment seg, byte x) {
-        constants$11.const$0.set(seg, 0L, x);
+    public static void enable_npu_fast_compile$set(MemorySegment seg, byte x) {
+        constants$11.const$2.set(seg, 0L, x);
     }
 
-    public static byte enable_vpu_fast_compile$get(MemorySegment seg, long index) {
-        return (byte) constants$11.const$0.get(seg, index * sizeof());
+    public static byte enable_npu_fast_compile$get(MemorySegment seg, long index) {
+        return (byte) constants$11.const$2.get(seg, index * sizeof());
     }
 
-    public static void enable_vpu_fast_compile$set(MemorySegment seg, long index, byte x) {
-        constants$11.const$0.set(seg, index * sizeof(), x);
+    public static void enable_npu_fast_compile$set(MemorySegment seg, long index, byte x) {
+        constants$11.const$2.set(seg, index * sizeof(), x);
     }
 
     public static VarHandle device_id$VH() {
-        return constants$11.const$1;
+        return constants$11.const$3;
     }
     /**
      * Getter for field:
@@ -99,7 +99,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static MemorySegment device_id$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$1.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$11.const$3.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -108,19 +108,19 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void device_id$set(MemorySegment seg, MemorySegment x) {
-        constants$11.const$1.set(seg, 0L, x);
+        constants$11.const$3.set(seg, 0L, x);
     }
 
     public static MemorySegment device_id$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$1.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$11.const$3.get(seg, index * sizeof());
     }
 
     public static void device_id$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$11.const$1.set(seg, index * sizeof(), x);
+        constants$11.const$3.set(seg, index * sizeof(), x);
     }
 
     public static VarHandle num_of_threads$VH() {
-        return constants$11.const$2;
+        return constants$11.const$4;
     }
     /**
      * Getter for field:
@@ -129,7 +129,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static long num_of_threads$get(MemorySegment seg) {
-        return (long) constants$11.const$2.get(seg, 0L);
+        return (long) constants$11.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -138,19 +138,19 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void num_of_threads$set(MemorySegment seg, long x) {
-        constants$11.const$2.set(seg, 0L, x);
+        constants$11.const$4.set(seg, 0L, x);
     }
 
     public static long num_of_threads$get(MemorySegment seg, long index) {
-        return (long) constants$11.const$2.get(seg, index * sizeof());
+        return (long) constants$11.const$4.get(seg, index * sizeof());
     }
 
     public static void num_of_threads$set(MemorySegment seg, long index, long x) {
-        constants$11.const$2.set(seg, index * sizeof(), x);
+        constants$11.const$4.set(seg, index * sizeof(), x);
     }
 
     public static VarHandle cache_dir$VH() {
-        return constants$11.const$3;
+        return constants$11.const$5;
     }
     /**
      * Getter for field:
@@ -159,7 +159,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static MemorySegment cache_dir$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$3.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$11.const$5.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -168,19 +168,19 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void cache_dir$set(MemorySegment seg, MemorySegment x) {
-        constants$11.const$3.set(seg, 0L, x);
+        constants$11.const$5.set(seg, 0L, x);
     }
 
     public static MemorySegment cache_dir$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$3.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$11.const$5.get(seg, index * sizeof());
     }
 
     public static void cache_dir$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$11.const$3.set(seg, index * sizeof(), x);
+        constants$11.const$5.set(seg, index * sizeof(), x);
     }
 
     public static VarHandle context$VH() {
-        return constants$11.const$4;
+        return constants$12.const$0;
     }
     /**
      * Getter for field:
@@ -189,7 +189,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static MemorySegment context$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$12.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -198,19 +198,19 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void context$set(MemorySegment seg, MemorySegment x) {
-        constants$11.const$4.set(seg, 0L, x);
+        constants$12.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment context$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$12.const$0.get(seg, index * sizeof());
     }
 
     public static void context$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$11.const$4.set(seg, index * sizeof(), x);
+        constants$12.const$0.set(seg, index * sizeof(), x);
     }
 
     public static VarHandle enable_opencl_throttling$VH() {
-        return constants$11.const$5;
+        return constants$12.const$1;
     }
     /**
      * Getter for field:
@@ -219,7 +219,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static byte enable_opencl_throttling$get(MemorySegment seg) {
-        return (byte) constants$11.const$5.get(seg, 0L);
+        return (byte) constants$12.const$1.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -228,19 +228,19 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void enable_opencl_throttling$set(MemorySegment seg, byte x) {
-        constants$11.const$5.set(seg, 0L, x);
+        constants$12.const$1.set(seg, 0L, x);
     }
 
     public static byte enable_opencl_throttling$get(MemorySegment seg, long index) {
-        return (byte) constants$11.const$5.get(seg, index * sizeof());
+        return (byte) constants$12.const$1.get(seg, index * sizeof());
     }
 
     public static void enable_opencl_throttling$set(MemorySegment seg, long index, byte x) {
-        constants$11.const$5.set(seg, index * sizeof(), x);
+        constants$12.const$1.set(seg, index * sizeof(), x);
     }
 
     public static VarHandle enable_dynamic_shapes$VH() {
-        return constants$12.const$0;
+        return constants$12.const$2;
     }
     /**
      * Getter for field:
@@ -249,7 +249,7 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static byte enable_dynamic_shapes$get(MemorySegment seg) {
-        return (byte) constants$12.const$0.get(seg, 0L);
+        return (byte) constants$12.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -258,15 +258,15 @@ public class OrtOpenVINOProviderOptions {
      * }
      */
     public static void enable_dynamic_shapes$set(MemorySegment seg, byte x) {
-        constants$12.const$0.set(seg, 0L, x);
+        constants$12.const$2.set(seg, 0L, x);
     }
 
     public static byte enable_dynamic_shapes$get(MemorySegment seg, long index) {
-        return (byte) constants$12.const$0.get(seg, index * sizeof());
+        return (byte) constants$12.const$2.get(seg, index * sizeof());
     }
 
     public static void enable_dynamic_shapes$set(MemorySegment seg, long index, byte x) {
-        constants$12.const$0.set(seg, index * sizeof(), x);
+        constants$12.const$2.set(seg, index * sizeof(), x);
     }
 
     public static long sizeof() {

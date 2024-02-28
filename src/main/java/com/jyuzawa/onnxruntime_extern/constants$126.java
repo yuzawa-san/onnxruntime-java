@@ -8,20 +8,23 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.VarHandle;
 
 final class constants$126 {
 
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$126() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_ROCM", constants$23.const$1);
+    static final VarHandle const$0 =
+            constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetInputTypeCount"));
     static final MethodHandle const$1 =
-            RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_MIGraphX", constants$23.const$1);
-    static final MethodHandle const$2 =
-            RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_Dnnl", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtCustomOp.GetOutputType.class, "apply", constants$124.const$5);
+    static final VarHandle const$2 =
+            constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetOutputType"));
     static final MethodHandle const$3 =
-            RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_CoreML", constants$23.const$1);
-    static final MemorySegment const$4 =
-            RuntimeHelper.CONSTANT_ALLOCATOR.allocateFrom("/tmp/jextract$14551121699417355799.h");
+            RuntimeHelper.upcallHandle(OrtCustomOp.GetOutputTypeCount.class, "apply", constants$125.const$3);
+    static final VarHandle const$4 =
+            constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetOutputTypeCount"));
+    static final MethodHandle const$5 =
+            RuntimeHelper.upcallHandle(OrtCustomOp.KernelCompute.class, "apply", constants$1.const$0);
 }

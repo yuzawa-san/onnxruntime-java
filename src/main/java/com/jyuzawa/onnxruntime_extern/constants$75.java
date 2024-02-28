@@ -16,8 +16,12 @@ final class constants$75 {
     private constants$75() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("AddInitializer"));
-    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalSpinControl"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.AddInitializer.class, "apply", constants$15.const$0);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AddInitializer"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
@@ -25,11 +29,7 @@ final class constants$75 {
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$2 = RuntimeHelper.upcallHandle(
-            OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools.class, "apply", constants$75.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$75.const$1);
-    static final VarHandle const$4 = constants$16.const$2.varHandle(
-            MemoryLayout.PathElement.groupElement("CreateEnvWithCustomLoggerAndGlobalThreadPools"));
-    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
-            OrtApi.SessionOptionsAppendExecutionProvider_CUDA.class, "apply", constants$15.const$2);
+    static final MethodHandle const$4 = RuntimeHelper.upcallHandle(
+            OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools.class, "apply", constants$75.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$75.const$3);
 }

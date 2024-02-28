@@ -16,15 +16,15 @@ final class constants$52 {
     private constants$52() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetAttribute_int64"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetAttribute_float"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelInfoGetAttribute_string.class, "apply", constants$20.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.KernelInfoGetAttribute_int64.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetAttribute_string"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetAttribute_int64"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelContext_GetInputCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.KernelInfoGetAttribute_string.class, "apply", constants$20.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelContext_GetInputCount"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetAttribute_string"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelContext_GetOutputCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.KernelContext_GetInputCount.class, "apply", constants$15.const$4);
 }

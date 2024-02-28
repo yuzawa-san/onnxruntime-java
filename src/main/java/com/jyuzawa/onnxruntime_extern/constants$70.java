@@ -15,20 +15,20 @@ final class constants$70 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$70() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("BindOutput"));
+    static final VarHandle const$0 = constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("BindInput"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.BindOutputToDevice.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.BindOutput.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("BindOutputToDevice"));
-    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("BindOutput"));
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApi.BindOutputToDevice.class, "apply", constants$15.const$0);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("BindOutputToDevice"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.GetBoundOutputNames.class, "apply", constants$70.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$70.const$3);
 }

@@ -16,15 +16,15 @@ final class constants$26 {
     private constants$26() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetSessionLogId"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("DisableCpuMemArena"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.SetSessionLogVerbosityLevel.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetSessionLogId.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetSessionLogVerbosityLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetSessionLogId"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SetSessionLogSeverityLevel.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetSessionLogVerbosityLevel.class, "apply", constants$23.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetSessionLogSeverityLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetSessionLogVerbosityLevel"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.SetSessionGraphOptimizationLevel.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetSessionLogSeverityLevel.class, "apply", constants$23.const$3);
 }

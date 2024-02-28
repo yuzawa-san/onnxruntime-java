@@ -16,15 +16,15 @@ final class constants$41 {
     private constants$41() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetDimensions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetTensorElementType"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetTensorElementType.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.SetDimensions.class, "apply", constants$38.const$1);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetTensorElementType"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetDimensions"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.GetDimensionsCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetTensorElementType.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetDimensionsCount"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetTensorElementType"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.GetDimensions.class, "apply", constants$37.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.GetDimensionsCount.class, "apply", constants$15.const$4);
 }

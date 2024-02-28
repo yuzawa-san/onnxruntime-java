@@ -15,15 +15,13 @@ final class constants$14 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$14() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(OrtThreadWorkerFn.class, "apply", constants$13.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$13.const$5);
-    static final StructLayout const$2 =
+    static final MethodHandle const$0 = RuntimeHelper.downcallHandle("OrtGetApiBase", constants$13.const$2);
+    static final FunctionDescriptor const$1 = FunctionDescriptor.ofVoid(RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(OrtThreadWorkerFn.class, "apply", constants$14.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$14.const$1);
+    static final StructLayout const$4 =
             MemoryLayout.structLayout(JAVA_BYTE.withName("__place_holder")).withName("OrtCustomHandleType");
-    static final VarHandle const$3 =
-            constants$14.const$2.varHandle(MemoryLayout.PathElement.groupElement("__place_holder"));
-    static final FunctionDescriptor const$4 = FunctionDescriptor.of(
-            RuntimeHelper.POINTER, RuntimeHelper.POINTER, RuntimeHelper.POINTER, RuntimeHelper.POINTER);
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtCustomCreateThreadFn.class, "apply", constants$14.const$4);
+    static final VarHandle const$5 =
+            constants$14.const$4.varHandle(MemoryLayout.PathElement.groupElement("__place_holder"));
 }

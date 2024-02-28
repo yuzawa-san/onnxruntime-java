@@ -16,15 +16,15 @@ final class constants$29 {
     private constants$29() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RegisterCustomOpsLibrary"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AddCustomOpDomain"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.SessionGetInputCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RegisterCustomOpsLibrary.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SessionGetInputCount"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RegisterCustomOpsLibrary"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SessionGetOutputCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.SessionGetInputCount.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SessionGetOutputCount"));
-    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
-            OrtApi.SessionGetOverridableInitializerCount.class, "apply", constants$15.const$2);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SessionGetInputCount"));
+    static final MethodHandle const$5 =
+            RuntimeHelper.upcallHandle(OrtApi.SessionGetOutputCount.class, "apply", constants$15.const$4);
 }

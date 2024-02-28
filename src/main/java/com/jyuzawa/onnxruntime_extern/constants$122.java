@@ -15,16 +15,19 @@ final class constants$122 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$122() {}
 
-    static final VarHandle const$0 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetOutputTypeCount"));
-    static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.KernelCompute.class, "apply", constants$1.const$0);
+    static final MethodHandle const$0 =
+            RuntimeHelper.upcallHandle(OrtApi.SetDeterministicCompute.class, "apply", constants$121.const$5);
+    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$121.const$5);
     static final VarHandle const$2 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("KernelCompute"));
-    static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.KernelDestroy.class, "apply", constants$13.const$5);
-    static final VarHandle const$4 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("KernelDestroy"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetInputCharacteristic.class, "apply", constants$120.const$1);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetDeterministicCompute"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            JAVA_LONG,
+            JAVA_LONG,
+            RuntimeHelper.POINTER);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.KernelContext_ParallelFor.class, "apply", constants$122.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$122.const$3);
 }

@@ -16,15 +16,15 @@ final class constants$103 {
     private constants$103() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UpdateCANNProviderOptions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateCANNProviderOptions"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetCANNProviderOptionsAsString.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.UpdateCANNProviderOptions.class, "apply", constants$83.const$3);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetCANNProviderOptionsAsString"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UpdateCANNProviderOptions"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseCANNProviderOptions.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.GetCANNProviderOptionsAsString.class, "apply", constants$15.const$0);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseCANNProviderOptions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetCANNProviderOptionsAsString"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.MemoryInfoGetDeviceType.class, "apply", constants$1.const$0);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseCANNProviderOptions.class, "apply", constants$14.const$1);
 }

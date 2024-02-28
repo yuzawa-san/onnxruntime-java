@@ -15,6 +15,8 @@ import java.lang.invoke.VarHandle;
  *     int device_id;
  *     int migraphx_fp16_enable;
  *     int migraphx_int8_enable;
+ *     int migraphx_use_native_calibration_table;
+ *     char* migraphx_int8_calibration_table_name;
  * };
  * }
  */
@@ -112,6 +114,66 @@ public class OrtMIGraphXProviderOptions {
 
     public static void migraphx_int8_enable$set(MemorySegment seg, long index, int x) {
         constants$10.const$3.set(seg, index * sizeof(), x);
+    }
+
+    public static VarHandle migraphx_use_native_calibration_table$VH() {
+        return constants$10.const$4;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * int migraphx_use_native_calibration_table;
+     * }
+     */
+    public static int migraphx_use_native_calibration_table$get(MemorySegment seg) {
+        return (int) constants$10.const$4.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * int migraphx_use_native_calibration_table;
+     * }
+     */
+    public static void migraphx_use_native_calibration_table$set(MemorySegment seg, int x) {
+        constants$10.const$4.set(seg, 0L, x);
+    }
+
+    public static int migraphx_use_native_calibration_table$get(MemorySegment seg, long index) {
+        return (int) constants$10.const$4.get(seg, index * sizeof());
+    }
+
+    public static void migraphx_use_native_calibration_table$set(MemorySegment seg, long index, int x) {
+        constants$10.const$4.set(seg, index * sizeof(), x);
+    }
+
+    public static VarHandle migraphx_int8_calibration_table_name$VH() {
+        return constants$10.const$5;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * char* migraphx_int8_calibration_table_name;
+     * }
+     */
+    public static MemorySegment migraphx_int8_calibration_table_name$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$10.const$5.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * char* migraphx_int8_calibration_table_name;
+     * }
+     */
+    public static void migraphx_int8_calibration_table_name$set(MemorySegment seg, MemorySegment x) {
+        constants$10.const$5.set(seg, 0L, x);
+    }
+
+    public static MemorySegment migraphx_int8_calibration_table_name$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$10.const$5.get(seg, index * sizeof());
+    }
+
+    public static void migraphx_int8_calibration_table_name$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$10.const$5.set(seg, index * sizeof(), x);
     }
 
     public static long sizeof() {

@@ -15,20 +15,20 @@ final class constants$98 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$98() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("AddExternalInitializers"));
-    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+    static final VarHandle const$0 = constants$16.const$4.varHandle(
+            MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider_MIGraphX"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.AddExternalInitializers.class, "apply", constants$83.const$3);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AddExternalInitializers"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             JAVA_INT,
             JAVA_INT,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$2 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateOpAttr.class, "apply", constants$98.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$98.const$1);
-    static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateOpAttr"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseOpAttr.class, "apply", constants$13.const$5);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateOpAttr.class, "apply", constants$98.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$98.const$3);
 }

@@ -16,15 +16,13 @@ final class constants$124 {
     private constants$124() {}
 
     static final VarHandle const$0 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicInputMinArity"));
+            constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("CreateKernel"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetVariadicInputHomogeneity.class, "apply", constants$17.const$1);
-    static final VarHandle const$2 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicInputHomogeneity"));
+            RuntimeHelper.upcallHandle(OrtCustomOp.GetName.class, "apply", constants$1.const$4);
+    static final VarHandle const$2 = constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetName"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetVariadicOutputMinArity.class, "apply", constants$17.const$1);
+            RuntimeHelper.upcallHandle(OrtCustomOp.GetExecutionProviderType.class, "apply", constants$1.const$4);
     static final VarHandle const$4 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicOutputMinArity"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetVariadicOutputHomogeneity.class, "apply", constants$17.const$1);
+            constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetExecutionProviderType"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(JAVA_INT, RuntimeHelper.POINTER, JAVA_LONG);
 }

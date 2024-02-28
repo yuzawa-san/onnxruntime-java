@@ -16,18 +16,14 @@ final class constants$18 {
     private constants$18() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetErrorMessage"));
-    static final FunctionDescriptor const$1 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetErrorCode"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.GetErrorMessage.class, "apply", constants$1.const$4);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetErrorMessage"));
+    static final FunctionDescriptor const$3 =
             FunctionDescriptor.of(RuntimeHelper.POINTER, JAVA_INT, RuntimeHelper.POINTER, RuntimeHelper.POINTER);
-    static final MethodHandle const$2 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateEnv.class, "apply", constants$18.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$18.const$1);
-    static final VarHandle const$4 = constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateEnv"));
-    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            JAVA_INT,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateEnv.class, "apply", constants$18.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$18.const$3);
 }

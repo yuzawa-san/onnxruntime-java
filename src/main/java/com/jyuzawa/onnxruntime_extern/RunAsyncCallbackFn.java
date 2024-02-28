@@ -22,7 +22,7 @@ public interface RunAsyncCallbackFn {
             java.lang.foreign.MemorySegment status);
 
     static MemorySegment allocate(RunAsyncCallbackFn fi, Arena scope) {
-        return RuntimeHelper.upcallStub(constants$16.const$0, fi, constants$15.const$5, scope);
+        return RuntimeHelper.upcallStub(constants$16.const$2, fi, constants$16.const$1, scope);
     }
 
     static RunAsyncCallbackFn ofAddress(MemorySegment addr, Arena arena) {
@@ -32,7 +32,7 @@ public interface RunAsyncCallbackFn {
                 long _num_outputs,
                 java.lang.foreign.MemorySegment _status) -> {
             try {
-                constants$16.const$1.invokeExact(symbol, _user_data, _outputs, _num_outputs, _status);
+                constants$16.const$3.invokeExact(symbol, _user_data, _outputs, _num_outputs, _status);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }

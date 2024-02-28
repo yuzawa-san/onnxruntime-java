@@ -15,12 +15,12 @@ final class constants$13 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$13() {}
 
-    static final FunctionDescriptor const$0 = FunctionDescriptor.of(RuntimeHelper.POINTER);
-    static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApiBase.GetVersionString.class, "apply", constants$13.const$0);
-    static final MethodHandle const$2 = RuntimeHelper.downcallHandle(constants$13.const$0);
-    static final VarHandle const$3 =
-            constants$12.const$1.varHandle(MemoryLayout.PathElement.groupElement("GetVersionString"));
-    static final MethodHandle const$4 = RuntimeHelper.downcallHandle("OrtGetApiBase", constants$13.const$0);
-    static final FunctionDescriptor const$5 = FunctionDescriptor.ofVoid(RuntimeHelper.POINTER);
+    static final MethodHandle const$0 = RuntimeHelper.downcallHandle(constants$12.const$4);
+    static final VarHandle const$1 = constants$12.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetApi"));
+    static final FunctionDescriptor const$2 = FunctionDescriptor.of(RuntimeHelper.POINTER);
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApiBase.GetVersionString.class, "apply", constants$13.const$2);
+    static final MethodHandle const$4 = RuntimeHelper.downcallHandle(constants$13.const$2);
+    static final VarHandle const$5 =
+            constants$12.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetVersionString"));
 }

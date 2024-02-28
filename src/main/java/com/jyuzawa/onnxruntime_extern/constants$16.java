@@ -14,10 +14,13 @@ final class constants$16 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$16() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(RunAsyncCallbackFn.class, "apply", constants$15.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$15.const$5);
-    static final StructLayout const$2 = MemoryLayout.structLayout(
+    static final MethodHandle const$0 = RuntimeHelper.downcallHandle(constants$15.const$4);
+    static final FunctionDescriptor const$1 =
+            FunctionDescriptor.ofVoid(RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_LONG, RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(RunAsyncCallbackFn.class, "apply", constants$16.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$16.const$1);
+    static final StructLayout const$4 = MemoryLayout.structLayout(
                     RuntimeHelper.POINTER.withName("CreateStatus"),
                     RuntimeHelper.POINTER.withName("GetErrorCode"),
                     RuntimeHelper.POINTER.withName("GetErrorMessage"),
@@ -283,11 +286,18 @@ final class constants$16 {
                     RuntimeHelper.POINTER.withName("GetTensorRTProviderOptionsByName"),
                     RuntimeHelper.POINTER.withName("UpdateCUDAProviderOptionsWithValue"),
                     RuntimeHelper.POINTER.withName("GetCUDAProviderOptionsByName"),
-                    RuntimeHelper.POINTER.withName("KernelContext_GetResource"))
+                    RuntimeHelper.POINTER.withName("KernelContext_GetResource"),
+                    RuntimeHelper.POINTER.withName("SetUserLoggingFunction"),
+                    RuntimeHelper.POINTER.withName("ShapeInferContext_GetInputCount"),
+                    RuntimeHelper.POINTER.withName("ShapeInferContext_GetInputTypeShape"),
+                    RuntimeHelper.POINTER.withName("ShapeInferContext_GetAttribute"),
+                    RuntimeHelper.POINTER.withName("ShapeInferContext_SetOutputTypeShape"),
+                    RuntimeHelper.POINTER.withName("SetSymbolicDimensions"),
+                    RuntimeHelper.POINTER.withName("ReadOpAttr"),
+                    RuntimeHelper.POINTER.withName("SetDeterministicCompute"),
+                    RuntimeHelper.POINTER.withName("KernelContext_ParallelFor"),
+                    RuntimeHelper.POINTER.withName("SessionOptionsAppendExecutionProvider_OpenVINO_V2"))
             .withName("OrtApi");
-    static final FunctionDescriptor const$3 =
+    static final FunctionDescriptor const$5 =
             FunctionDescriptor.of(RuntimeHelper.POINTER, JAVA_INT, RuntimeHelper.POINTER);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateStatus.class, "apply", constants$16.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$16.const$3);
 }

@@ -16,15 +16,15 @@ final class constants$104 {
     private constants$104() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("MemoryInfoGetDeviceType"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseCANNProviderOptions"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.UpdateEnvWithCustomLogLevel.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.MemoryInfoGetDeviceType.class, "apply", constants$1.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UpdateEnvWithCustomLogLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("MemoryInfoGetDeviceType"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SetGlobalIntraOpThreadAffinity.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.UpdateEnvWithCustomLogLevel.class, "apply", constants$23.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalIntraOpThreadAffinity"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UpdateEnvWithCustomLogLevel"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.RegisterCustomOpsLibrary_V2.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.SetGlobalIntraOpThreadAffinity.class, "apply", constants$15.const$4);
 }

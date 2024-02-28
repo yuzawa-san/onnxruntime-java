@@ -16,15 +16,15 @@ final class constants$93 {
     private constants$93() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetExecutionProviderApi"));
-    static final MethodHandle const$1 = RuntimeHelper.upcallHandle(
-            OrtApi.SessionOptionsSetCustomCreateThreadFn.class, "apply", constants$15.const$2);
-    static final VarHandle const$2 = constants$16.const$2.varHandle(
-            MemoryLayout.PathElement.groupElement("SessionOptionsSetCustomCreateThreadFn"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetTensorMemoryInfo"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.GetExecutionProviderApi.class, "apply", constants$91.const$1);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetExecutionProviderApi"));
     static final MethodHandle const$3 = RuntimeHelper.upcallHandle(
-            OrtApi.SessionOptionsSetCustomThreadCreationOptions.class, "apply", constants$15.const$2);
-    static final VarHandle const$4 = constants$16.const$2.varHandle(
-            MemoryLayout.PathElement.groupElement("SessionOptionsSetCustomThreadCreationOptions"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.SessionOptionsSetCustomJoinThreadFn.class, "apply", constants$15.const$2);
+            OrtApi.SessionOptionsSetCustomCreateThreadFn.class, "apply", constants$15.const$4);
+    static final VarHandle const$4 = constants$16.const$4.varHandle(
+            MemoryLayout.PathElement.groupElement("SessionOptionsSetCustomCreateThreadFn"));
+    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
+            OrtApi.SessionOptionsSetCustomThreadCreationOptions.class, "apply", constants$15.const$4);
 }

@@ -16,15 +16,15 @@ final class constants$74 {
     private constants$74() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalIntraOpNumThreads"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SessionGetProfilingStartTimeNs"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.SetGlobalInterOpNumThreads.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetGlobalIntraOpNumThreads.class, "apply", constants$23.const$3);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalInterOpNumThreads"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalIntraOpNumThreads"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SetGlobalSpinControl.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SetGlobalInterOpNumThreads.class, "apply", constants$23.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalSpinControl"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalInterOpNumThreads"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.AddInitializer.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.SetGlobalSpinControl.class, "apply", constants$23.const$3);
 }

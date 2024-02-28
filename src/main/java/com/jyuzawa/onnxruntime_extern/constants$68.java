@@ -16,15 +16,15 @@ final class constants$68 {
     private constants$68() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateAllocator"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AddSessionConfigEntry"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseAllocator.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.CreateAllocator.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseAllocator"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateAllocator"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.RunWithBinding.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseAllocator.class, "apply", constants$14.const$1);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RunWithBinding"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseAllocator"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateIoBinding.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RunWithBinding.class, "apply", constants$15.const$0);
 }

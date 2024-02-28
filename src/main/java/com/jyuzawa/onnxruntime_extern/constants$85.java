@@ -16,15 +16,15 @@ final class constants$85 {
     private constants$85() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RegisterAllocator"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("EnableOrtCustomOps"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.UnregisterAllocator.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RegisterAllocator.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UnregisterAllocator"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RegisterAllocator"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.IsSparseTensor.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.UnregisterAllocator.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("IsSparseTensor"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UnregisterAllocator"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateSparseTensorAsOrtValue.class, "apply", constants$35.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.IsSparseTensor.class, "apply", constants$15.const$4);
 }

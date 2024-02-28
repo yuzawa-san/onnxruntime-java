@@ -16,15 +16,15 @@ final class constants$113 {
     private constants$113() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetOptionalContainedTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CastTypeInfoToOptionalTypeInfo"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetResizedStringTensorElementBuffer.class, "apply", constants$66.const$3);
-    static final VarHandle const$2 = constants$16.const$2.varHandle(
-            MemoryLayout.PathElement.groupElement("GetResizedStringTensorElementBuffer"));
+            RuntimeHelper.upcallHandle(OrtApi.GetOptionalContainedTypeInfo.class, "apply", constants$15.const$4);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetOptionalContainedTypeInfo"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelContext_GetAllocator.class, "apply", constants$14.const$4);
-    static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelContext_GetAllocator"));
+            RuntimeHelper.upcallHandle(OrtApi.GetResizedStringTensorElementBuffer.class, "apply", constants$66.const$5);
+    static final VarHandle const$4 = constants$16.const$4.varHandle(
+            MemoryLayout.PathElement.groupElement("GetResizedStringTensorElementBuffer"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.GetBuildInfoString.class, "apply", constants$13.const$0);
+            RuntimeHelper.upcallHandle(OrtApi.KernelContext_GetAllocator.class, "apply", constants$15.const$0);
 }

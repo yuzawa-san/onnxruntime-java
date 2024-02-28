@@ -16,15 +16,15 @@ final class constants$64 {
     private constants$64() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("DisablePerSessionThreads"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateEnvWithGlobalThreadPools"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateThreadingOptions.class, "apply", constants$1.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.DisablePerSessionThreads.class, "apply", constants$1.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateThreadingOptions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("DisablePerSessionThreads"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseThreadingOptions.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.CreateThreadingOptions.class, "apply", constants$1.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseThreadingOptions"));
-    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
-            OrtApi.ModelMetadataGetCustomMetadataMapKeys.class, "apply", constants$20.const$1);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateThreadingOptions"));
+    static final MethodHandle const$5 =
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseThreadingOptions.class, "apply", constants$14.const$1);
 }

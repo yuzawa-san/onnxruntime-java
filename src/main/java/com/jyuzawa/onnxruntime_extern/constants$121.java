@@ -15,15 +15,20 @@ final class constants$121 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$121() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetInputTypeCount.class, "apply", constants$120.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$120.const$5);
-    static final VarHandle const$2 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetInputTypeCount"));
-    static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetOutputType.class, "apply", constants$120.const$1);
+    static final VarHandle const$0 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetSymbolicDimensions"));
+    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            JAVA_INT,
+            RuntimeHelper.POINTER,
+            JAVA_LONG,
+            RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(OrtApi.ReadOpAttr.class, "apply", constants$121.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$121.const$1);
     static final VarHandle const$4 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetOutputType"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetOutputTypeCount.class, "apply", constants$120.const$5);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReadOpAttr"));
+    static final FunctionDescriptor const$5 =
+            FunctionDescriptor.of(RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_BOOLEAN);
 }

@@ -16,12 +16,16 @@ final class constants$115 {
     private constants$115() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetROCMProviderOptionsAsString"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UpdateROCMProviderOptions"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseROCMProviderOptions.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.GetROCMProviderOptionsAsString.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseROCMProviderOptions"));
-    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetROCMProviderOptionsAsString"));
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseROCMProviderOptions.class, "apply", constants$14.const$1);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseROCMProviderOptions"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
@@ -30,7 +34,4 @@ final class constants$115 {
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             JAVA_LONG);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateAndRegisterAllocatorV2.class, "apply", constants$115.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$115.const$3);
 }

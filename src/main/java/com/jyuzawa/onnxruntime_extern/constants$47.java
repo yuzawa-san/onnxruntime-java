@@ -16,15 +16,15 @@ final class constants$47 {
     private constants$47() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("AllocatorAlloc"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("MemoryInfoGetType"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.AllocatorFree.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.AllocatorAlloc.class, "apply", constants$30.const$3);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("AllocatorFree"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AllocatorAlloc"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.AllocatorGetInfo.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.AllocatorFree.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("AllocatorGetInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AllocatorFree"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.GetAllocatorWithDefaultOptions.class, "apply", constants$1.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.AllocatorGetInfo.class, "apply", constants$15.const$4);
 }

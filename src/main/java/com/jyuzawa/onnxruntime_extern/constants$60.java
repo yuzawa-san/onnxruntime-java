@@ -16,15 +16,15 @@ final class constants$60 {
     private constants$60() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseSequenceTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseMapTypeInfo"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.SessionEndProfiling.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseSequenceTypeInfo.class, "apply", constants$14.const$1);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SessionEndProfiling"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseSequenceTypeInfo"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SessionGetModelMetadata.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.SessionEndProfiling.class, "apply", constants$15.const$0);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SessionGetModelMetadata"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SessionEndProfiling"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetProducerName.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.SessionGetModelMetadata.class, "apply", constants$15.const$4);
 }

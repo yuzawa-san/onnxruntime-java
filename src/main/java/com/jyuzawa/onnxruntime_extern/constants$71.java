@@ -15,16 +15,15 @@ final class constants$71 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$71() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetBoundOutputNames"));
-    static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetBoundOutputValues.class, "apply", constants$20.const$1);
+    static final MethodHandle const$0 =
+            RuntimeHelper.upcallHandle(OrtApi.GetBoundOutputNames.class, "apply", constants$70.const$5);
+    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$70.const$5);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetBoundOutputValues"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetBoundOutputNames"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ClearBoundInputs.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.GetBoundOutputValues.class, "apply", constants$20.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ClearBoundInputs"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetBoundOutputValues"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ClearBoundOutputs.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ClearBoundInputs.class, "apply", constants$14.const$1);
 }

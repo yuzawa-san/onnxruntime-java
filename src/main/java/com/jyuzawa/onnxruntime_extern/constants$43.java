@@ -16,15 +16,15 @@ final class constants$43 {
     private constants$43() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetTensorTypeAndShape"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetTensorShapeElementCount"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetTypeInfo.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetTensorTypeAndShape.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetTensorTypeAndShape"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.GetValueType.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetTypeInfo.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetValueType"));
-    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
-            RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_INT, JAVA_INT, JAVA_INT, RuntimeHelper.POINTER);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetTypeInfo"));
+    static final MethodHandle const$5 =
+            RuntimeHelper.upcallHandle(OrtApi.GetValueType.class, "apply", constants$15.const$4);
 }

@@ -15,16 +15,15 @@ final class constants$73 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$73() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateAndRegisterAllocator"));
+    static final VarHandle const$0 = constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("TensorAt"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.SetLanguageProjection.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.CreateAndRegisterAllocator.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SetLanguageProjection"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateAndRegisterAllocator"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.SessionGetProfilingStartTimeNs.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.SetLanguageProjection.class, "apply", constants$23.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("SessionGetProfilingStartTimeNs"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetLanguageProjection"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.SetGlobalIntraOpNumThreads.class, "apply", constants$23.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.SessionGetProfilingStartTimeNs.class, "apply", constants$15.const$4);
 }

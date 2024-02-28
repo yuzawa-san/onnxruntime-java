@@ -16,15 +16,15 @@ final class constants$24 {
     private constants$24() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("EnableProfiling"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetSessionExecutionMode"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.DisableProfiling.class, "apply", constants$1.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.EnableProfiling.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("DisableProfiling"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("EnableProfiling"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.EnableMemPattern.class, "apply", constants$1.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.DisableProfiling.class, "apply", constants$1.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("EnableMemPattern"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("DisableProfiling"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.DisableMemPattern.class, "apply", constants$1.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.EnableMemPattern.class, "apply", constants$1.const$4);
 }

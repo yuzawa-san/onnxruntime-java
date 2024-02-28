@@ -15,16 +15,13 @@ final class constants$125 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$125() {}
 
-    static final VarHandle const$0 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicOutputHomogeneity"));
-    static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.CreateKernelV2.class, "apply", constants$20.const$1);
+    static final MethodHandle const$0 =
+            RuntimeHelper.upcallHandle(OrtCustomOp.GetInputType.class, "apply", constants$124.const$5);
+    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$124.const$5);
     static final VarHandle const$2 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("CreateKernelV2"));
-    static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.KernelComputeV2.class, "apply", constants$15.const$2);
-    static final VarHandle const$4 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("KernelComputeV2"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.downcallHandle("OrtSessionOptionsAppendExecutionProvider_CUDA", constants$23.const$1);
+            constants$123.const$3.varHandle(MemoryLayout.PathElement.groupElement("GetInputType"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(JAVA_LONG, RuntimeHelper.POINTER);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtCustomOp.GetInputTypeCount.class, "apply", constants$125.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$125.const$3);
 }

@@ -15,25 +15,19 @@ final class constants$50 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$50() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateValue"));
-    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+    static final MethodHandle const$0 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateValue.class, "apply", constants$49.const$5);
+    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$49.const$5);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateValue"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             JAVA_LONG,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$2 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateOpaqueValue.class, "apply", constants$50.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$50.const$1);
-    static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateOpaqueValue"));
-    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            JAVA_LONG);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateOpaqueValue.class, "apply", constants$50.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$50.const$3);
 }

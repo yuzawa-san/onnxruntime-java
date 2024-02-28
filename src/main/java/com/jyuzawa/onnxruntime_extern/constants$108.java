@@ -16,15 +16,15 @@ final class constants$108 {
     private constants$108() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("HasSessionConfigEntry"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetAttribute_tensor"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetSessionConfigEntry.class, "apply", constants$20.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.HasSessionConfigEntry.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetSessionConfigEntry"));
-    static final MethodHandle const$3 = RuntimeHelper.upcallHandle(
-            OrtApi.SessionOptionsAppendExecutionProvider_Dnnl.class, "apply", constants$15.const$2);
-    static final VarHandle const$4 = constants$16.const$2.varHandle(
-            MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider_Dnnl"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateDnnlProviderOptions.class, "apply", constants$1.const$4);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("HasSessionConfigEntry"));
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApi.GetSessionConfigEntry.class, "apply", constants$20.const$3);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetSessionConfigEntry"));
+    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
+            OrtApi.SessionOptionsAppendExecutionProvider_Dnnl.class, "apply", constants$15.const$4);
 }

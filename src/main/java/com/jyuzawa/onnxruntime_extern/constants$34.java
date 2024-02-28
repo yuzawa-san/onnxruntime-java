@@ -16,15 +16,15 @@ final class constants$34 {
     private constants$34() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsSetRunTag"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsSetRunLogSeverityLevel"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.RunOptionsGetRunLogVerbosityLevel.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RunOptionsSetRunTag.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsGetRunLogVerbosityLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsSetRunTag"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.RunOptionsGetRunLogSeverityLevel.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RunOptionsGetRunLogVerbosityLevel.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsGetRunLogSeverityLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsGetRunLogVerbosityLevel"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.RunOptionsGetRunTag.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RunOptionsGetRunLogSeverityLevel.class, "apply", constants$15.const$4);
 }

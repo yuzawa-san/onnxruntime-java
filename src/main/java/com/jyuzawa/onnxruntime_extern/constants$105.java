@@ -16,15 +16,15 @@ final class constants$105 {
     private constants$105() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RegisterCustomOpsLibrary_V2"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetGlobalIntraOpThreadAffinity"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.RegisterCustomOpsUsingFunction.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RegisterCustomOpsLibrary_V2.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RegisterCustomOpsUsingFunction"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RegisterCustomOpsLibrary_V2"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelInfo_GetInputCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.RegisterCustomOpsUsingFunction.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelInfo_GetInputCount"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RegisterCustomOpsUsingFunction"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelInfo_GetOutputCount.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.KernelInfo_GetInputCount.class, "apply", constants$15.const$4);
 }

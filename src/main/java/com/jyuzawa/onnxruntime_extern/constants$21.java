@@ -15,12 +15,21 @@ final class constants$21 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$21() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateSessionFromArray.class, "apply", constants$20.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$20.const$5);
-    static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateSessionFromArray"));
-    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+    static final VarHandle const$0 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateSession"));
+    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            JAVA_LONG,
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateSessionFromArray.class, "apply", constants$21.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$21.const$1);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateSessionFromArray"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
@@ -30,6 +39,4 @@ final class constants$21 {
             RuntimeHelper.POINTER,
             JAVA_LONG,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$4 = RuntimeHelper.upcallHandle(OrtApi.Run.class, "apply", constants$21.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$21.const$3);
 }

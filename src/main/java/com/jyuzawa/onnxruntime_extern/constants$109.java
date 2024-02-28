@@ -15,16 +15,16 @@ final class constants$109 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$109() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateDnnlProviderOptions"));
+    static final VarHandle const$0 = constants$16.const$4.varHandle(
+            MemoryLayout.PathElement.groupElement("SessionOptionsAppendExecutionProvider_Dnnl"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.UpdateDnnlProviderOptions.class, "apply", constants$83.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.CreateDnnlProviderOptions.class, "apply", constants$1.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UpdateDnnlProviderOptions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateDnnlProviderOptions"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.GetDnnlProviderOptionsAsString.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.UpdateDnnlProviderOptions.class, "apply", constants$83.const$3);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetDnnlProviderOptionsAsString"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UpdateDnnlProviderOptions"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseDnnlProviderOptions.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.GetDnnlProviderOptionsAsString.class, "apply", constants$15.const$0);
 }

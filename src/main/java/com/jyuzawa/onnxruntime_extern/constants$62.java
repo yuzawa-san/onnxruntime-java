@@ -16,15 +16,15 @@ final class constants$62 {
     private constants$62() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetDescription"));
-    static final MethodHandle const$1 = RuntimeHelper.upcallHandle(
-            OrtApi.ModelMetadataLookupCustomMetadataMap.class, "apply", constants$20.const$1);
-    static final VarHandle const$2 = constants$16.const$2.varHandle(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetDomain"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetDescription.class, "apply", constants$15.const$0);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetDescription"));
+    static final MethodHandle const$3 = RuntimeHelper.upcallHandle(
+            OrtApi.ModelMetadataLookupCustomMetadataMap.class, "apply", constants$20.const$3);
+    static final VarHandle const$4 = constants$16.const$4.varHandle(
             MemoryLayout.PathElement.groupElement("ModelMetadataLookupCustomMetadataMap"));
-    static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetVersion.class, "apply", constants$15.const$2);
-    static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetVersion"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseModelMetadata.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetVersion.class, "apply", constants$15.const$4);
 }

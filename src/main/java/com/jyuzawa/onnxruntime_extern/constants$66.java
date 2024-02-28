@@ -16,14 +16,15 @@ final class constants$66 {
     private constants$66() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseAvailableProviders"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetAvailableProviders"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetStringTensorElementLength.class, "apply", constants$30.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseAvailableProviders.class, "apply", constants$23.const$3);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetStringTensorElementLength"));
-    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseAvailableProviders"));
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApi.GetStringTensorElementLength.class, "apply", constants$30.const$3);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetStringTensorElementLength"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
             RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_LONG, JAVA_LONG, RuntimeHelper.POINTER);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.GetStringTensorElement.class, "apply", constants$66.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$66.const$3);
 }

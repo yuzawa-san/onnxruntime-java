@@ -16,15 +16,15 @@ final class constants$61 {
     private constants$61() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetProducerName"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SessionGetModelMetadata"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetGraphName.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetProducerName.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetGraphName"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetProducerName"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetDomain.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetGraphName.class, "apply", constants$15.const$0);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetDomain"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ModelMetadataGetGraphName"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetDescription.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.ModelMetadataGetDomain.class, "apply", constants$15.const$0);
 }

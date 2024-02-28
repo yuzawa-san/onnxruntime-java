@@ -16,15 +16,15 @@ final class constants$58 {
     private constants$58() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CastTypeInfoToMapTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetDenotationFromTypeInfo"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.CastTypeInfoToSequenceTypeInfo.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.CastTypeInfoToMapTypeInfo.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CastTypeInfoToSequenceTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CastTypeInfoToMapTypeInfo"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.GetMapKeyType.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.CastTypeInfoToSequenceTypeInfo.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetMapKeyType"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CastTypeInfoToSequenceTypeInfo"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.GetMapValueType.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetMapKeyType.class, "apply", constants$15.const$4);
 }

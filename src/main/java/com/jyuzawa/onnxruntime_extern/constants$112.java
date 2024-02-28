@@ -16,15 +16,15 @@ final class constants$112 {
     private constants$112() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("Logger_GetLoggingSeverityLevel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("Logger_LogMessage"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.KernelInfoGetConstantInput_tensor.class, "apply", constants$31.const$3);
+            RuntimeHelper.upcallHandle(OrtApi.Logger_GetLoggingSeverityLevel.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetConstantInput_tensor"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("Logger_GetLoggingSeverityLevel"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.CastTypeInfoToOptionalTypeInfo.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.KernelInfoGetConstantInput_tensor.class, "apply", constants$31.const$5);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CastTypeInfoToOptionalTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelInfoGetConstantInput_tensor"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.GetOptionalContainedTypeInfo.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.CastTypeInfoToOptionalTypeInfo.class, "apply", constants$15.const$4);
 }

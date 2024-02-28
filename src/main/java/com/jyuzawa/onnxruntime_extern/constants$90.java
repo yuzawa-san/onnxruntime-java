@@ -16,15 +16,15 @@ final class constants$90 {
     private constants$90() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorFormat"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UseBlockSparseIndices"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorValuesTypeAndShape.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorFormat.class, "apply", constants$15.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorValuesTypeAndShape"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorFormat"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorValues.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorValuesTypeAndShape.class, "apply", constants$15.const$4);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorValues"));
-    static final FunctionDescriptor const$5 =
-            FunctionDescriptor.of(RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_INT, RuntimeHelper.POINTER);
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorValuesTypeAndShape"));
+    static final MethodHandle const$5 =
+            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorValues.class, "apply", constants$15.const$4);
 }

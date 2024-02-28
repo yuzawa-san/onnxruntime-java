@@ -16,8 +16,12 @@ final class constants$111 {
     private constants$111() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("KernelContext_GetLogger"));
-    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelInfo_GetLogger"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.KernelContext_GetLogger.class, "apply", constants$15.const$4);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelContext_GetLogger"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             JAVA_INT,
@@ -25,11 +29,7 @@ final class constants$111 {
             RuntimeHelper.POINTER,
             JAVA_INT,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$2 =
-            RuntimeHelper.upcallHandle(OrtApi.Logger_LogMessage.class, "apply", constants$111.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$111.const$1);
-    static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("Logger_LogMessage"));
-    static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.Logger_GetLoggingSeverityLevel.class, "apply", constants$15.const$2);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.Logger_LogMessage.class, "apply", constants$111.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$111.const$3);
 }

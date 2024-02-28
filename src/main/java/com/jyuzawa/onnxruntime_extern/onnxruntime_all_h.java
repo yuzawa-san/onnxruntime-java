@@ -21,11 +21,11 @@ public class onnxruntime_all_h {
     public static final AddressLayout C_POINTER = RuntimeHelper.POINTER;
     /**
      * {@snippet :
-     * #define ORT_API_VERSION 16
+     * #define ORT_API_VERSION 17
      * }
      */
     public static int ORT_API_VERSION() {
-        return (int) 16L;
+        return (int) 17L;
     }
     /**
      * {@snippet :
@@ -723,7 +723,7 @@ public class onnxruntime_all_h {
     }
 
     public static MethodHandle OrtGetApiBase$MH() {
-        return RuntimeHelper.requireNonNull(constants$13.const$4, "OrtGetApiBase");
+        return RuntimeHelper.requireNonNull(constants$14.const$0, "OrtGetApiBase");
     }
     /**
      * {@snippet :
@@ -770,7 +770,7 @@ public class onnxruntime_all_h {
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$MH() {
-        return RuntimeHelper.requireNonNull(constants$125.const$5, "OrtSessionOptionsAppendExecutionProvider_CUDA");
+        return RuntimeHelper.requireNonNull(constants$131.const$3, "OrtSessionOptionsAppendExecutionProvider_CUDA");
     }
     /**
      * {@snippet :
@@ -787,7 +787,7 @@ public class onnxruntime_all_h {
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_ROCM$MH() {
-        return RuntimeHelper.requireNonNull(constants$126.const$0, "OrtSessionOptionsAppendExecutionProvider_ROCM");
+        return RuntimeHelper.requireNonNull(constants$131.const$4, "OrtSessionOptionsAppendExecutionProvider_ROCM");
     }
     /**
      * {@snippet :
@@ -804,7 +804,7 @@ public class onnxruntime_all_h {
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$MH() {
-        return RuntimeHelper.requireNonNull(constants$126.const$1, "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+        return RuntimeHelper.requireNonNull(constants$131.const$5, "OrtSessionOptionsAppendExecutionProvider_MIGraphX");
     }
     /**
      * {@snippet :
@@ -822,7 +822,7 @@ public class onnxruntime_all_h {
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$MH() {
-        return RuntimeHelper.requireNonNull(constants$126.const$2, "OrtSessionOptionsAppendExecutionProvider_Dnnl");
+        return RuntimeHelper.requireNonNull(constants$132.const$0, "OrtSessionOptionsAppendExecutionProvider_Dnnl");
     }
     /**
      * {@snippet :
@@ -833,6 +833,24 @@ public class onnxruntime_all_h {
         var mh$ = OrtSessionOptionsAppendExecutionProvider_Dnnl$MH();
         try {
             return (java.lang.foreign.MemorySegment) mh$.invokeExact(options, use_arena);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH() {
+        return RuntimeHelper.requireNonNull(constants$132.const$1, "OrtSessionOptionsAppendExecutionProvider_Tensorrt");
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_Tensorrt(OrtSessionOptions* options, int device_id);
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_Tensorrt(
+            MemorySegment options, int device_id) {
+        var mh$ = OrtSessionOptionsAppendExecutionProvider_Tensorrt$MH();
+        try {
+            return (java.lang.foreign.MemorySegment) mh$.invokeExact(options, device_id);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -887,7 +905,7 @@ public class onnxruntime_all_h {
     }
 
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$MH() {
-        return RuntimeHelper.requireNonNull(constants$126.const$3, "OrtSessionOptionsAppendExecutionProvider_CoreML");
+        return RuntimeHelper.requireNonNull(constants$132.const$2, "OrtSessionOptionsAppendExecutionProvider_CoreML");
     }
     /**
      * {@snippet :
@@ -905,10 +923,10 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet :
-     * #define ORT_FILE "/tmp/jextract$14551121699417355799.h"
+     * #define ORT_FILE "/tmp/jextract$10412803484612329544.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
-        return constants$126.const$4;
+        return constants$132.const$3;
     }
 }

@@ -15,16 +15,16 @@ final class constants$89 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$89() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UseCooIndices"));
+    static final VarHandle const$0 = constants$16.const$4.varHandle(
+            MemoryLayout.PathElement.groupElement("CreateSparseTensorWithValuesAsOrtValue"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.UseCsrIndices.class, "apply", constants$38.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.UseCooIndices.class, "apply", constants$38.const$1);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UseCsrIndices"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UseCooIndices"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.UseBlockSparseIndices.class, "apply", constants$72.const$1);
+            RuntimeHelper.upcallHandle(OrtApi.UseCsrIndices.class, "apply", constants$39.const$1);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("UseBlockSparseIndices"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("UseCsrIndices"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorFormat.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.UseBlockSparseIndices.class, "apply", constants$72.const$3);
 }

@@ -16,15 +16,15 @@ final class constants$55 {
     private constants$55() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseMemoryInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseStatus"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseSession.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseMemoryInfo.class, "apply", constants$14.const$1);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseSession"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseMemoryInfo"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseValue.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseSession.class, "apply", constants$14.const$1);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseValue"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseSession"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseRunOptions.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseValue.class, "apply", constants$14.const$1);
 }

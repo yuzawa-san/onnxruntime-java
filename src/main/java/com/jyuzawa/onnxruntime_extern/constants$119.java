@@ -15,14 +15,16 @@ final class constants$119 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$119() {}
 
-    static final VarHandle const$0 = constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("version"));
+    static final VarHandle const$0 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("KernelContext_GetResource"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.CreateKernel.class, "apply", constants$14.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.SetUserLoggingFunction.class, "apply", constants$15.const$0);
     static final VarHandle const$2 =
-            constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("CreateKernel"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("SetUserLoggingFunction"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetName.class, "apply", constants$1.const$4);
-    static final VarHandle const$4 = constants$118.const$5.varHandle(MemoryLayout.PathElement.groupElement("GetName"));
+            RuntimeHelper.upcallHandle(OrtApi.ShapeInferContext_GetInputCount.class, "apply", constants$15.const$4);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ShapeInferContext_GetInputCount"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtCustomOp.GetExecutionProviderType.class, "apply", constants$1.const$4);
+            RuntimeHelper.upcallHandle(OrtApi.ShapeInferContext_GetInputTypeShape.class, "apply", constants$30.const$3);
 }

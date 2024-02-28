@@ -16,23 +16,18 @@ final class constants$20 {
     private constants$20() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("DisableTelemetryEvents"));
-    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("EnableTelemetryEvents"));
+    static final MethodHandle const$1 =
+            RuntimeHelper.upcallHandle(OrtApi.DisableTelemetryEvents.class, "apply", constants$1.const$4);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("DisableTelemetryEvents"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$2 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateSession.class, "apply", constants$20.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$20.const$1);
-    static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateSession"));
-    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER,
-            JAVA_LONG,
-            RuntimeHelper.POINTER,
-            RuntimeHelper.POINTER);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateSession.class, "apply", constants$20.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$20.const$3);
 }

@@ -15,14 +15,15 @@ final class constants$44 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$44() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateMemoryInfo.class, "apply", constants$43.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$43.const$5);
-    static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateMemoryInfo"));
-    static final FunctionDescriptor const$3 =
+    static final VarHandle const$0 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetValueType"));
+    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_INT, JAVA_INT, JAVA_INT, RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateMemoryInfo.class, "apply", constants$44.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$44.const$1);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateMemoryInfo"));
+    static final FunctionDescriptor const$5 =
             FunctionDescriptor.of(RuntimeHelper.POINTER, JAVA_INT, JAVA_INT, RuntimeHelper.POINTER);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateCpuMemoryInfo.class, "apply", constants$44.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$44.const$3);
 }

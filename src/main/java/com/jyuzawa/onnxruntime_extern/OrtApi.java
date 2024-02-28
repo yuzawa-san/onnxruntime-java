@@ -278,13 +278,23 @@ import java.lang.invoke.VarHandle;
  *     OrtStatusPtr (*UpdateCUDAProviderOptionsWithValue)(OrtCUDAProviderOptionsV2*,char*,void*);
  *     OrtStatusPtr (*GetCUDAProviderOptionsByName)(const OrtCUDAProviderOptionsV2*,char*,void**);
  *     OrtStatusPtr (*KernelContext_GetResource)(const OrtKernelContext*,int,int,void**);
+ *     OrtStatusPtr (*SetUserLoggingFunction)(OrtSessionOptions*,OrtLoggingFunction,void*);
+ *     OrtStatusPtr (*ShapeInferContext_GetInputCount)(const OrtShapeInferContext*,size_t*);
+ *     OrtStatusPtr (*ShapeInferContext_GetInputTypeShape)(const OrtShapeInferContext*,size_t,OrtTensorTypeAndShapeInfo**);
+ *     OrtStatusPtr (*ShapeInferContext_GetAttribute)(const OrtShapeInferContext*,char*,const OrtOpAttr**);
+ *     OrtStatusPtr (*ShapeInferContext_SetOutputTypeShape)(const OrtShapeInferContext*,size_t,const OrtTensorTypeAndShapeInfo*);
+ *     OrtStatusPtr (*SetSymbolicDimensions)(OrtTensorTypeAndShapeInfo*,char**,size_t);
+ *     OrtStatusPtr (*ReadOpAttr)(const OrtOpAttr*,OrtOpAttrType,void*,size_t,size_t*);
+ *     OrtStatusPtr (*SetDeterministicCompute)(OrtSessionOptions*,_Bool);
+ *     OrtStatusPtr (*KernelContext_ParallelFor)(const OrtKernelContext*,void (*)(void*,size_t),size_t,size_t,void*);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO_V2)(OrtSessionOptions*,char**,char**,size_t);
  * };
  * }
  */
 public class OrtApi {
 
     public static MemoryLayout $LAYOUT() {
-        return constants$16.const$2;
+        return constants$16.const$4;
     }
     /**
      * {@snippet :
@@ -296,14 +306,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(int _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateStatus fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$16.const$4, fi, constants$16.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$17.const$0, fi, constants$16.const$5, scope);
         }
 
         static CreateStatus ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (int __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$16.const$5.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$17.const$1.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -312,7 +322,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateStatus$VH() {
-        return constants$17.const$0;
+        return constants$17.const$2;
     }
     /**
      * Getter for field:
@@ -321,7 +331,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateStatus$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$17.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$17.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -330,15 +340,15 @@ public class OrtApi {
      * }
      */
     public static void CreateStatus$set(MemorySegment seg, MemorySegment x) {
-        constants$17.const$0.set(seg, 0L, x);
+        constants$17.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateStatus$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$17.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$17.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateStatus$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$17.const$0.set(seg, index * sizeof(), x);
+        constants$17.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateStatus CreateStatus(MemorySegment segment, Arena scope) {
@@ -354,14 +364,14 @@ public class OrtApi {
         int apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetErrorCode fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$17.const$2, fi, constants$17.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$17.const$4, fi, constants$17.const$3, scope);
         }
 
         static GetErrorCode ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (int) constants$17.const$3.invokeExact(symbol, __x0);
+                    return (int) constants$17.const$5.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -370,7 +380,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetErrorCode$VH() {
-        return constants$17.const$4;
+        return constants$18.const$0;
     }
     /**
      * Getter for field:
@@ -379,7 +389,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetErrorCode$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$17.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$18.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -388,15 +398,15 @@ public class OrtApi {
      * }
      */
     public static void GetErrorCode$set(MemorySegment seg, MemorySegment x) {
-        constants$17.const$4.set(seg, 0L, x);
+        constants$18.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetErrorCode$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$17.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$18.const$0.get(seg, index * sizeof());
     }
 
     public static void GetErrorCode$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$17.const$4.set(seg, index * sizeof(), x);
+        constants$18.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetErrorCode GetErrorCode(MemorySegment segment, Arena scope) {
@@ -412,7 +422,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetErrorMessage fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$17.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$18.const$1, fi, constants$1.const$4, scope);
         }
 
         static GetErrorMessage ofAddress(MemorySegment addr, Arena arena) {
@@ -428,7 +438,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetErrorMessage$VH() {
-        return constants$18.const$0;
+        return constants$18.const$2;
     }
     /**
      * Getter for field:
@@ -437,7 +447,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetErrorMessage$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$18.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$18.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -446,15 +456,15 @@ public class OrtApi {
      * }
      */
     public static void GetErrorMessage$set(MemorySegment seg, MemorySegment x) {
-        constants$18.const$0.set(seg, 0L, x);
+        constants$18.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetErrorMessage$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$18.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$18.const$2.get(seg, index * sizeof());
     }
 
     public static void GetErrorMessage$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$18.const$0.set(seg, index * sizeof(), x);
+        constants$18.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetErrorMessage GetErrorMessage(MemorySegment segment, Arena scope) {
@@ -471,14 +481,14 @@ public class OrtApi {
                 int _x0, java.lang.foreign.MemorySegment _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateEnv fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$18.const$2, fi, constants$18.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$18.const$4, fi, constants$18.const$3, scope);
         }
 
         static CreateEnv ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (int __x0, java.lang.foreign.MemorySegment __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$18.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$18.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -487,7 +497,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateEnv$VH() {
-        return constants$18.const$4;
+        return constants$19.const$0;
     }
     /**
      * Getter for field:
@@ -496,7 +506,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateEnv$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$18.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$19.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -505,15 +515,15 @@ public class OrtApi {
      * }
      */
     public static void CreateEnv$set(MemorySegment seg, MemorySegment x) {
-        constants$18.const$4.set(seg, 0L, x);
+        constants$19.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateEnv$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$18.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$19.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateEnv$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$18.const$4.set(seg, index * sizeof(), x);
+        constants$19.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateEnv CreateEnv(MemorySegment segment, Arena scope) {
@@ -534,7 +544,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateEnvWithCustomLogger fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$19.const$0, fi, constants$18.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$19.const$2, fi, constants$19.const$1, scope);
         }
 
         static CreateEnvWithCustomLogger ofAddress(MemorySegment addr, Arena arena) {
@@ -546,7 +556,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$19.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$19.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -555,7 +565,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateEnvWithCustomLogger$VH() {
-        return constants$19.const$2;
+        return constants$19.const$4;
     }
     /**
      * Getter for field:
@@ -564,7 +574,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateEnvWithCustomLogger$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$19.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$19.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -573,15 +583,15 @@ public class OrtApi {
      * }
      */
     public static void CreateEnvWithCustomLogger$set(MemorySegment seg, MemorySegment x) {
-        constants$19.const$2.set(seg, 0L, x);
+        constants$19.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateEnvWithCustomLogger$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$19.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$19.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateEnvWithCustomLogger$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$19.const$2.set(seg, index * sizeof(), x);
+        constants$19.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateEnvWithCustomLogger CreateEnvWithCustomLogger(MemorySegment segment, Arena scope) {
@@ -597,7 +607,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableTelemetryEvents fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$19.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$19.const$5, fi, constants$1.const$4, scope);
         }
 
         static EnableTelemetryEvents ofAddress(MemorySegment addr, Arena arena) {
@@ -613,7 +623,7 @@ public class OrtApi {
     }
 
     public static VarHandle EnableTelemetryEvents$VH() {
-        return constants$19.const$4;
+        return constants$20.const$0;
     }
     /**
      * Getter for field:
@@ -622,7 +632,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment EnableTelemetryEvents$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$19.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$20.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -631,15 +641,15 @@ public class OrtApi {
      * }
      */
     public static void EnableTelemetryEvents$set(MemorySegment seg, MemorySegment x) {
-        constants$19.const$4.set(seg, 0L, x);
+        constants$20.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment EnableTelemetryEvents$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$19.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$20.const$0.get(seg, index * sizeof());
     }
 
     public static void EnableTelemetryEvents$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$19.const$4.set(seg, index * sizeof(), x);
+        constants$20.const$0.set(seg, index * sizeof(), x);
     }
 
     public static EnableTelemetryEvents EnableTelemetryEvents(MemorySegment segment, Arena scope) {
@@ -655,7 +665,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableTelemetryEvents fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$19.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$20.const$1, fi, constants$1.const$4, scope);
         }
 
         static DisableTelemetryEvents ofAddress(MemorySegment addr, Arena arena) {
@@ -671,7 +681,7 @@ public class OrtApi {
     }
 
     public static VarHandle DisableTelemetryEvents$VH() {
-        return constants$20.const$0;
+        return constants$20.const$2;
     }
     /**
      * Getter for field:
@@ -680,7 +690,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment DisableTelemetryEvents$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$20.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$20.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -689,15 +699,15 @@ public class OrtApi {
      * }
      */
     public static void DisableTelemetryEvents$set(MemorySegment seg, MemorySegment x) {
-        constants$20.const$0.set(seg, 0L, x);
+        constants$20.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment DisableTelemetryEvents$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$20.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$20.const$2.get(seg, index * sizeof());
     }
 
     public static void DisableTelemetryEvents$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$20.const$0.set(seg, index * sizeof(), x);
+        constants$20.const$2.set(seg, index * sizeof(), x);
     }
 
     public static DisableTelemetryEvents DisableTelemetryEvents(MemorySegment segment, Arena scope) {
@@ -717,7 +727,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateSession fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$20.const$2, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$20.const$4, fi, constants$20.const$3, scope);
         }
 
         static CreateSession ofAddress(MemorySegment addr, Arena arena) {
@@ -728,7 +738,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -737,7 +747,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSession$VH() {
-        return constants$20.const$4;
+        return constants$21.const$0;
     }
     /**
      * Getter for field:
@@ -746,7 +756,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSession$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$20.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$21.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -755,15 +765,15 @@ public class OrtApi {
      * }
      */
     public static void CreateSession$set(MemorySegment seg, MemorySegment x) {
-        constants$20.const$4.set(seg, 0L, x);
+        constants$21.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSession$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$20.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$21.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateSession$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$20.const$4.set(seg, index * sizeof(), x);
+        constants$21.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateSession CreateSession(MemorySegment segment, Arena scope) {
@@ -784,7 +794,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateSessionFromArray fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$21.const$0, fi, constants$20.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$21.const$2, fi, constants$21.const$1, scope);
         }
 
         static CreateSessionFromArray ofAddress(MemorySegment addr, Arena arena) {
@@ -796,7 +806,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$21.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$21.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -805,7 +815,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSessionFromArray$VH() {
-        return constants$21.const$2;
+        return constants$21.const$4;
     }
     /**
      * Getter for field:
@@ -814,7 +824,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSessionFromArray$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$21.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$21.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -823,15 +833,15 @@ public class OrtApi {
      * }
      */
     public static void CreateSessionFromArray$set(MemorySegment seg, MemorySegment x) {
-        constants$21.const$2.set(seg, 0L, x);
+        constants$21.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSessionFromArray$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$21.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$21.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateSessionFromArray$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$21.const$2.set(seg, index * sizeof(), x);
+        constants$21.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateSessionFromArray CreateSessionFromArray(MemorySegment segment, Arena scope) {
@@ -855,7 +865,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x7);
 
         static MemorySegment allocate(Run fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$21.const$4, fi, constants$21.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$22.const$0, fi, constants$21.const$5, scope);
         }
 
         static Run ofAddress(MemorySegment addr, Arena arena) {
@@ -870,7 +880,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x7) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$21.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
+                            constants$22.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -879,7 +889,7 @@ public class OrtApi {
     }
 
     public static VarHandle Run$VH() {
-        return constants$22.const$0;
+        return constants$22.const$2;
     }
     /**
      * Getter for field:
@@ -888,7 +898,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment Run$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$22.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$22.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -897,15 +907,15 @@ public class OrtApi {
      * }
      */
     public static void Run$set(MemorySegment seg, MemorySegment x) {
-        constants$22.const$0.set(seg, 0L, x);
+        constants$22.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment Run$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$22.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$22.const$2.get(seg, index * sizeof());
     }
 
     public static void Run$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$22.const$0.set(seg, index * sizeof(), x);
+        constants$22.const$2.set(seg, index * sizeof(), x);
     }
 
     public static Run Run(MemorySegment segment, Arena scope) {
@@ -921,7 +931,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateSessionOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$22.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$22.const$3, fi, constants$1.const$4, scope);
         }
 
         static CreateSessionOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -937,7 +947,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSessionOptions$VH() {
-        return constants$22.const$2;
+        return constants$22.const$4;
     }
     /**
      * Getter for field:
@@ -946,7 +956,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSessionOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$22.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$22.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -955,15 +965,15 @@ public class OrtApi {
      * }
      */
     public static void CreateSessionOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$22.const$2.set(seg, 0L, x);
+        constants$22.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSessionOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$22.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$22.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateSessionOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$22.const$2.set(seg, index * sizeof(), x);
+        constants$22.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateSessionOptions CreateSessionOptions(MemorySegment segment, Arena scope) {
@@ -979,14 +989,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetOptimizedModelFilePath fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$22.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$22.const$5, fi, constants$15.const$4, scope);
         }
 
         static SetOptimizedModelFilePath ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -995,7 +1005,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetOptimizedModelFilePath$VH() {
-        return constants$22.const$4;
+        return constants$23.const$0;
     }
     /**
      * Getter for field:
@@ -1004,7 +1014,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetOptimizedModelFilePath$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$22.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$23.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1013,15 +1023,15 @@ public class OrtApi {
      * }
      */
     public static void SetOptimizedModelFilePath$set(MemorySegment seg, MemorySegment x) {
-        constants$22.const$4.set(seg, 0L, x);
+        constants$23.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetOptimizedModelFilePath$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$22.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$23.const$0.get(seg, index * sizeof());
     }
 
     public static void SetOptimizedModelFilePath$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$22.const$4.set(seg, index * sizeof(), x);
+        constants$23.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetOptimizedModelFilePath SetOptimizedModelFilePath(MemorySegment segment, Arena scope) {
@@ -1037,14 +1047,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CloneSessionOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$22.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$23.const$1, fi, constants$15.const$4, scope);
         }
 
         static CloneSessionOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1053,7 +1063,7 @@ public class OrtApi {
     }
 
     public static VarHandle CloneSessionOptions$VH() {
-        return constants$23.const$0;
+        return constants$23.const$2;
     }
     /**
      * Getter for field:
@@ -1062,7 +1072,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CloneSessionOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$23.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$23.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1071,15 +1081,15 @@ public class OrtApi {
      * }
      */
     public static void CloneSessionOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$23.const$0.set(seg, 0L, x);
+        constants$23.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CloneSessionOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$23.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$23.const$2.get(seg, index * sizeof());
     }
 
     public static void CloneSessionOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$23.const$0.set(seg, index * sizeof(), x);
+        constants$23.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CloneSessionOptions CloneSessionOptions(MemorySegment segment, Arena scope) {
@@ -1095,14 +1105,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionExecutionMode fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$23.const$2, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$23.const$4, fi, constants$23.const$3, scope);
         }
 
         static SetSessionExecutionMode ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1111,7 +1121,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetSessionExecutionMode$VH() {
-        return constants$23.const$4;
+        return constants$24.const$0;
     }
     /**
      * Getter for field:
@@ -1120,7 +1130,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetSessionExecutionMode$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$23.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$24.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1129,15 +1139,15 @@ public class OrtApi {
      * }
      */
     public static void SetSessionExecutionMode$set(MemorySegment seg, MemorySegment x) {
-        constants$23.const$4.set(seg, 0L, x);
+        constants$24.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetSessionExecutionMode$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$23.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$24.const$0.get(seg, index * sizeof());
     }
 
     public static void SetSessionExecutionMode$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$23.const$4.set(seg, index * sizeof(), x);
+        constants$24.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetSessionExecutionMode SetSessionExecutionMode(MemorySegment segment, Arena scope) {
@@ -1153,14 +1163,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(EnableProfiling fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$23.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$24.const$1, fi, constants$15.const$4, scope);
         }
 
         static EnableProfiling ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1169,7 +1179,7 @@ public class OrtApi {
     }
 
     public static VarHandle EnableProfiling$VH() {
-        return constants$24.const$0;
+        return constants$24.const$2;
     }
     /**
      * Getter for field:
@@ -1178,7 +1188,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment EnableProfiling$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$24.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$24.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1187,15 +1197,15 @@ public class OrtApi {
      * }
      */
     public static void EnableProfiling$set(MemorySegment seg, MemorySegment x) {
-        constants$24.const$0.set(seg, 0L, x);
+        constants$24.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment EnableProfiling$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$24.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$24.const$2.get(seg, index * sizeof());
     }
 
     public static void EnableProfiling$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$24.const$0.set(seg, index * sizeof(), x);
+        constants$24.const$2.set(seg, index * sizeof(), x);
     }
 
     public static EnableProfiling EnableProfiling(MemorySegment segment, Arena scope) {
@@ -1211,7 +1221,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableProfiling fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$24.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$24.const$3, fi, constants$1.const$4, scope);
         }
 
         static DisableProfiling ofAddress(MemorySegment addr, Arena arena) {
@@ -1227,7 +1237,7 @@ public class OrtApi {
     }
 
     public static VarHandle DisableProfiling$VH() {
-        return constants$24.const$2;
+        return constants$24.const$4;
     }
     /**
      * Getter for field:
@@ -1236,7 +1246,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment DisableProfiling$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$24.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$24.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1245,15 +1255,15 @@ public class OrtApi {
      * }
      */
     public static void DisableProfiling$set(MemorySegment seg, MemorySegment x) {
-        constants$24.const$2.set(seg, 0L, x);
+        constants$24.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment DisableProfiling$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$24.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$24.const$4.get(seg, index * sizeof());
     }
 
     public static void DisableProfiling$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$24.const$2.set(seg, index * sizeof(), x);
+        constants$24.const$4.set(seg, index * sizeof(), x);
     }
 
     public static DisableProfiling DisableProfiling(MemorySegment segment, Arena scope) {
@@ -1269,7 +1279,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableMemPattern fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$24.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$24.const$5, fi, constants$1.const$4, scope);
         }
 
         static EnableMemPattern ofAddress(MemorySegment addr, Arena arena) {
@@ -1285,7 +1295,7 @@ public class OrtApi {
     }
 
     public static VarHandle EnableMemPattern$VH() {
-        return constants$24.const$4;
+        return constants$25.const$0;
     }
     /**
      * Getter for field:
@@ -1294,7 +1304,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment EnableMemPattern$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$24.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$25.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1303,15 +1313,15 @@ public class OrtApi {
      * }
      */
     public static void EnableMemPattern$set(MemorySegment seg, MemorySegment x) {
-        constants$24.const$4.set(seg, 0L, x);
+        constants$25.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment EnableMemPattern$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$24.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$25.const$0.get(seg, index * sizeof());
     }
 
     public static void EnableMemPattern$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$24.const$4.set(seg, index * sizeof(), x);
+        constants$25.const$0.set(seg, index * sizeof(), x);
     }
 
     public static EnableMemPattern EnableMemPattern(MemorySegment segment, Arena scope) {
@@ -1327,7 +1337,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableMemPattern fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$24.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$25.const$1, fi, constants$1.const$4, scope);
         }
 
         static DisableMemPattern ofAddress(MemorySegment addr, Arena arena) {
@@ -1343,7 +1353,7 @@ public class OrtApi {
     }
 
     public static VarHandle DisableMemPattern$VH() {
-        return constants$25.const$0;
+        return constants$25.const$2;
     }
     /**
      * Getter for field:
@@ -1352,7 +1362,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment DisableMemPattern$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$25.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$25.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1361,15 +1371,15 @@ public class OrtApi {
      * }
      */
     public static void DisableMemPattern$set(MemorySegment seg, MemorySegment x) {
-        constants$25.const$0.set(seg, 0L, x);
+        constants$25.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment DisableMemPattern$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$25.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$25.const$2.get(seg, index * sizeof());
     }
 
     public static void DisableMemPattern$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$25.const$0.set(seg, index * sizeof(), x);
+        constants$25.const$2.set(seg, index * sizeof(), x);
     }
 
     public static DisableMemPattern DisableMemPattern(MemorySegment segment, Arena scope) {
@@ -1385,7 +1395,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableCpuMemArena fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$25.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$25.const$3, fi, constants$1.const$4, scope);
         }
 
         static EnableCpuMemArena ofAddress(MemorySegment addr, Arena arena) {
@@ -1401,7 +1411,7 @@ public class OrtApi {
     }
 
     public static VarHandle EnableCpuMemArena$VH() {
-        return constants$25.const$2;
+        return constants$25.const$4;
     }
     /**
      * Getter for field:
@@ -1410,7 +1420,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment EnableCpuMemArena$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$25.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$25.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1419,15 +1429,15 @@ public class OrtApi {
      * }
      */
     public static void EnableCpuMemArena$set(MemorySegment seg, MemorySegment x) {
-        constants$25.const$2.set(seg, 0L, x);
+        constants$25.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment EnableCpuMemArena$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$25.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$25.const$4.get(seg, index * sizeof());
     }
 
     public static void EnableCpuMemArena$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$25.const$2.set(seg, index * sizeof(), x);
+        constants$25.const$4.set(seg, index * sizeof(), x);
     }
 
     public static EnableCpuMemArena EnableCpuMemArena(MemorySegment segment, Arena scope) {
@@ -1443,7 +1453,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisableCpuMemArena fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$25.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$25.const$5, fi, constants$1.const$4, scope);
         }
 
         static DisableCpuMemArena ofAddress(MemorySegment addr, Arena arena) {
@@ -1459,7 +1469,7 @@ public class OrtApi {
     }
 
     public static VarHandle DisableCpuMemArena$VH() {
-        return constants$25.const$4;
+        return constants$26.const$0;
     }
     /**
      * Getter for field:
@@ -1468,7 +1478,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment DisableCpuMemArena$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$25.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$26.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1477,15 +1487,15 @@ public class OrtApi {
      * }
      */
     public static void DisableCpuMemArena$set(MemorySegment seg, MemorySegment x) {
-        constants$25.const$4.set(seg, 0L, x);
+        constants$26.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment DisableCpuMemArena$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$25.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$26.const$0.get(seg, index * sizeof());
     }
 
     public static void DisableCpuMemArena$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$25.const$4.set(seg, index * sizeof(), x);
+        constants$26.const$0.set(seg, index * sizeof(), x);
     }
 
     public static DisableCpuMemArena DisableCpuMemArena(MemorySegment segment, Arena scope) {
@@ -1501,14 +1511,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetSessionLogId fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$25.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$26.const$1, fi, constants$15.const$4, scope);
         }
 
         static SetSessionLogId ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1517,7 +1527,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetSessionLogId$VH() {
-        return constants$26.const$0;
+        return constants$26.const$2;
     }
     /**
      * Getter for field:
@@ -1526,7 +1536,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetSessionLogId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$26.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$26.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1535,15 +1545,15 @@ public class OrtApi {
      * }
      */
     public static void SetSessionLogId$set(MemorySegment seg, MemorySegment x) {
-        constants$26.const$0.set(seg, 0L, x);
+        constants$26.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetSessionLogId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$26.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$26.const$2.get(seg, index * sizeof());
     }
 
     public static void SetSessionLogId$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$26.const$0.set(seg, index * sizeof(), x);
+        constants$26.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetSessionLogId SetSessionLogId(MemorySegment segment, Arena scope) {
@@ -1559,14 +1569,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionLogVerbosityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$26.const$1, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$26.const$3, fi, constants$23.const$3, scope);
         }
 
         static SetSessionLogVerbosityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1575,7 +1585,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetSessionLogVerbosityLevel$VH() {
-        return constants$26.const$2;
+        return constants$26.const$4;
     }
     /**
      * Getter for field:
@@ -1584,7 +1594,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetSessionLogVerbosityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$26.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$26.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1593,15 +1603,15 @@ public class OrtApi {
      * }
      */
     public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$26.const$2.set(seg, 0L, x);
+        constants$26.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SetSessionLogVerbosityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$26.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$26.const$4.get(seg, index * sizeof());
     }
 
     public static void SetSessionLogVerbosityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$26.const$2.set(seg, index * sizeof(), x);
+        constants$26.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SetSessionLogVerbosityLevel SetSessionLogVerbosityLevel(MemorySegment segment, Arena scope) {
@@ -1617,14 +1627,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionLogSeverityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$26.const$3, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$26.const$5, fi, constants$23.const$3, scope);
         }
 
         static SetSessionLogSeverityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1633,7 +1643,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetSessionLogSeverityLevel$VH() {
-        return constants$26.const$4;
+        return constants$27.const$0;
     }
     /**
      * Getter for field:
@@ -1642,7 +1652,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetSessionLogSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$26.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$27.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1651,15 +1661,15 @@ public class OrtApi {
      * }
      */
     public static void SetSessionLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$26.const$4.set(seg, 0L, x);
+        constants$27.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetSessionLogSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$26.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$27.const$0.get(seg, index * sizeof());
     }
 
     public static void SetSessionLogSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$26.const$4.set(seg, index * sizeof(), x);
+        constants$27.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetSessionLogSeverityLevel SetSessionLogSeverityLevel(MemorySegment segment, Arena scope) {
@@ -1675,14 +1685,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetSessionGraphOptimizationLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$26.const$5, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$27.const$1, fi, constants$23.const$3, scope);
         }
 
         static SetSessionGraphOptimizationLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1691,7 +1701,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetSessionGraphOptimizationLevel$VH() {
-        return constants$27.const$0;
+        return constants$27.const$2;
     }
     /**
      * Getter for field:
@@ -1700,7 +1710,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetSessionGraphOptimizationLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$27.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$27.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1709,15 +1719,15 @@ public class OrtApi {
      * }
      */
     public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$27.const$0.set(seg, 0L, x);
+        constants$27.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetSessionGraphOptimizationLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$27.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$27.const$2.get(seg, index * sizeof());
     }
 
     public static void SetSessionGraphOptimizationLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$27.const$0.set(seg, index * sizeof(), x);
+        constants$27.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetSessionGraphOptimizationLevel SetSessionGraphOptimizationLevel(
@@ -1734,14 +1744,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetIntraOpNumThreads fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$27.const$1, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$27.const$3, fi, constants$23.const$3, scope);
         }
 
         static SetIntraOpNumThreads ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1750,7 +1760,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetIntraOpNumThreads$VH() {
-        return constants$27.const$2;
+        return constants$27.const$4;
     }
     /**
      * Getter for field:
@@ -1759,7 +1769,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetIntraOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$27.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$27.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1768,15 +1778,15 @@ public class OrtApi {
      * }
      */
     public static void SetIntraOpNumThreads$set(MemorySegment seg, MemorySegment x) {
-        constants$27.const$2.set(seg, 0L, x);
+        constants$27.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SetIntraOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$27.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$27.const$4.get(seg, index * sizeof());
     }
 
     public static void SetIntraOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$27.const$2.set(seg, index * sizeof(), x);
+        constants$27.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SetIntraOpNumThreads SetIntraOpNumThreads(MemorySegment segment, Arena scope) {
@@ -1792,14 +1802,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetInterOpNumThreads fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$27.const$3, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$27.const$5, fi, constants$23.const$3, scope);
         }
 
         static SetInterOpNumThreads ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1808,7 +1818,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetInterOpNumThreads$VH() {
-        return constants$27.const$4;
+        return constants$28.const$0;
     }
     /**
      * Getter for field:
@@ -1817,7 +1827,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetInterOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$27.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$28.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1826,15 +1836,15 @@ public class OrtApi {
      * }
      */
     public static void SetInterOpNumThreads$set(MemorySegment seg, MemorySegment x) {
-        constants$27.const$4.set(seg, 0L, x);
+        constants$28.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetInterOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$27.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$28.const$0.get(seg, index * sizeof());
     }
 
     public static void SetInterOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$27.const$4.set(seg, index * sizeof(), x);
+        constants$28.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetInterOpNumThreads SetInterOpNumThreads(MemorySegment segment, Arena scope) {
@@ -1850,14 +1860,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateCustomOpDomain fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$27.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$28.const$1, fi, constants$15.const$4, scope);
         }
 
         static CreateCustomOpDomain ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1866,7 +1876,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateCustomOpDomain$VH() {
-        return constants$28.const$0;
+        return constants$28.const$2;
     }
     /**
      * Getter for field:
@@ -1875,7 +1885,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateCustomOpDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$28.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$28.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1884,15 +1894,15 @@ public class OrtApi {
      * }
      */
     public static void CreateCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
-        constants$28.const$0.set(seg, 0L, x);
+        constants$28.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateCustomOpDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$28.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$28.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateCustomOpDomain$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$28.const$0.set(seg, index * sizeof(), x);
+        constants$28.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateCustomOpDomain CreateCustomOpDomain(MemorySegment segment, Arena scope) {
@@ -1908,14 +1918,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CustomOpDomain_Add fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$28.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$28.const$3, fi, constants$15.const$4, scope);
         }
 
         static CustomOpDomain_Add ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1924,7 +1934,7 @@ public class OrtApi {
     }
 
     public static VarHandle CustomOpDomain_Add$VH() {
-        return constants$28.const$2;
+        return constants$28.const$4;
     }
     /**
      * Getter for field:
@@ -1933,7 +1943,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CustomOpDomain_Add$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$28.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$28.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -1942,15 +1952,15 @@ public class OrtApi {
      * }
      */
     public static void CustomOpDomain_Add$set(MemorySegment seg, MemorySegment x) {
-        constants$28.const$2.set(seg, 0L, x);
+        constants$28.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CustomOpDomain_Add$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$28.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$28.const$4.get(seg, index * sizeof());
     }
 
     public static void CustomOpDomain_Add$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$28.const$2.set(seg, index * sizeof(), x);
+        constants$28.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CustomOpDomain_Add CustomOpDomain_Add(MemorySegment segment, Arena scope) {
@@ -1966,14 +1976,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AddCustomOpDomain fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$28.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$28.const$5, fi, constants$15.const$4, scope);
         }
 
         static AddCustomOpDomain ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -1982,7 +1992,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddCustomOpDomain$VH() {
-        return constants$28.const$4;
+        return constants$29.const$0;
     }
     /**
      * Getter for field:
@@ -1991,7 +2001,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddCustomOpDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$28.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$29.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2000,15 +2010,15 @@ public class OrtApi {
      * }
      */
     public static void AddCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
-        constants$28.const$4.set(seg, 0L, x);
+        constants$29.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment AddCustomOpDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$28.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$29.const$0.get(seg, index * sizeof());
     }
 
     public static void AddCustomOpDomain$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$28.const$4.set(seg, index * sizeof(), x);
+        constants$29.const$0.set(seg, index * sizeof(), x);
     }
 
     public static AddCustomOpDomain AddCustomOpDomain(MemorySegment segment, Arena scope) {
@@ -2027,7 +2037,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(RegisterCustomOpsLibrary fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$28.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$29.const$1, fi, constants$15.const$0, scope);
         }
 
         static RegisterCustomOpsLibrary ofAddress(MemorySegment addr, Arena arena) {
@@ -2036,7 +2046,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2045,7 +2055,7 @@ public class OrtApi {
     }
 
     public static VarHandle RegisterCustomOpsLibrary$VH() {
-        return constants$29.const$0;
+        return constants$29.const$2;
     }
     /**
      * Getter for field:
@@ -2054,7 +2064,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RegisterCustomOpsLibrary$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$29.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$29.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2063,15 +2073,15 @@ public class OrtApi {
      * }
      */
     public static void RegisterCustomOpsLibrary$set(MemorySegment seg, MemorySegment x) {
-        constants$29.const$0.set(seg, 0L, x);
+        constants$29.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment RegisterCustomOpsLibrary$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$29.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$29.const$2.get(seg, index * sizeof());
     }
 
     public static void RegisterCustomOpsLibrary$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$29.const$0.set(seg, index * sizeof(), x);
+        constants$29.const$2.set(seg, index * sizeof(), x);
     }
 
     public static RegisterCustomOpsLibrary RegisterCustomOpsLibrary(MemorySegment segment, Arena scope) {
@@ -2087,14 +2097,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetInputCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$29.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$29.const$3, fi, constants$15.const$4, scope);
         }
 
         static SessionGetInputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2103,7 +2113,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetInputCount$VH() {
-        return constants$29.const$2;
+        return constants$29.const$4;
     }
     /**
      * Getter for field:
@@ -2112,7 +2122,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetInputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$29.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$29.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2121,15 +2131,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetInputCount$set(MemorySegment seg, MemorySegment x) {
-        constants$29.const$2.set(seg, 0L, x);
+        constants$29.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetInputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$29.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$29.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionGetInputCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$29.const$2.set(seg, index * sizeof(), x);
+        constants$29.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetInputCount SessionGetInputCount(MemorySegment segment, Arena scope) {
@@ -2145,14 +2155,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetOutputCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$29.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$29.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionGetOutputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2161,7 +2171,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetOutputCount$VH() {
-        return constants$29.const$4;
+        return constants$30.const$0;
     }
     /**
      * Getter for field:
@@ -2170,7 +2180,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetOutputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$29.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$30.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2179,15 +2189,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetOutputCount$set(MemorySegment seg, MemorySegment x) {
-        constants$29.const$4.set(seg, 0L, x);
+        constants$30.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetOutputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$29.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$30.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionGetOutputCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$29.const$4.set(seg, index * sizeof(), x);
+        constants$30.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetOutputCount SessionGetOutputCount(MemorySegment segment, Arena scope) {
@@ -2203,14 +2213,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetOverridableInitializerCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$29.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$30.const$1, fi, constants$15.const$4, scope);
         }
 
         static SessionGetOverridableInitializerCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2219,7 +2229,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetOverridableInitializerCount$VH() {
-        return constants$30.const$0;
+        return constants$30.const$2;
     }
     /**
      * Getter for field:
@@ -2228,7 +2238,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetOverridableInitializerCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$30.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$30.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2237,15 +2247,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, MemorySegment x) {
-        constants$30.const$0.set(seg, 0L, x);
+        constants$30.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetOverridableInitializerCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$30.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$30.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionGetOverridableInitializerCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$30.const$0.set(seg, index * sizeof(), x);
+        constants$30.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetOverridableInitializerCount SessionGetOverridableInitializerCount(
@@ -2264,14 +2274,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionGetInputTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$30.const$2, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$30.const$4, fi, constants$30.const$3, scope);
         }
 
         static SessionGetInputTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2280,7 +2290,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetInputTypeInfo$VH() {
-        return constants$30.const$4;
+        return constants$31.const$0;
     }
     /**
      * Getter for field:
@@ -2289,7 +2299,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetInputTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$30.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$31.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2298,15 +2308,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetInputTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$30.const$4.set(seg, 0L, x);
+        constants$31.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetInputTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$30.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$31.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionGetInputTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$30.const$4.set(seg, index * sizeof(), x);
+        constants$31.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetInputTypeInfo SessionGetInputTypeInfo(MemorySegment segment, Arena scope) {
@@ -2323,14 +2333,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionGetOutputTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$30.const$5, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$31.const$1, fi, constants$30.const$3, scope);
         }
 
         static SessionGetOutputTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2339,7 +2349,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetOutputTypeInfo$VH() {
-        return constants$31.const$0;
+        return constants$31.const$2;
     }
     /**
      * Getter for field:
@@ -2348,7 +2358,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetOutputTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$31.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$31.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2357,15 +2367,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetOutputTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$31.const$0.set(seg, 0L, x);
+        constants$31.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetOutputTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$31.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$31.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionGetOutputTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$31.const$0.set(seg, index * sizeof(), x);
+        constants$31.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetOutputTypeInfo SessionGetOutputTypeInfo(MemorySegment segment, Arena scope) {
@@ -2382,14 +2392,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionGetOverridableInitializerTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$31.const$1, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$31.const$3, fi, constants$30.const$3, scope);
         }
 
         static SessionGetOverridableInitializerTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2398,7 +2408,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetOverridableInitializerTypeInfo$VH() {
-        return constants$31.const$2;
+        return constants$31.const$4;
     }
     /**
      * Getter for field:
@@ -2407,7 +2417,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$31.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$31.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2416,15 +2426,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$31.const$2.set(seg, 0L, x);
+        constants$31.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetOverridableInitializerTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$31.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$31.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionGetOverridableInitializerTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$31.const$2.set(seg, index * sizeof(), x);
+        constants$31.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetOverridableInitializerTypeInfo SessionGetOverridableInitializerTypeInfo(
@@ -2446,7 +2456,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(SessionGetInputName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$31.const$4, fi, constants$31.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$32.const$0, fi, constants$31.const$5, scope);
         }
 
         static SessionGetInputName ofAddress(MemorySegment addr, Arena arena) {
@@ -2457,7 +2467,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$31.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$32.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2466,7 +2476,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetInputName$VH() {
-        return constants$32.const$0;
+        return constants$32.const$2;
     }
     /**
      * Getter for field:
@@ -2475,7 +2485,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetInputName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$32.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$32.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2484,15 +2494,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetInputName$set(MemorySegment seg, MemorySegment x) {
-        constants$32.const$0.set(seg, 0L, x);
+        constants$32.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetInputName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$32.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$32.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionGetInputName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$32.const$0.set(seg, index * sizeof(), x);
+        constants$32.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetInputName SessionGetInputName(MemorySegment segment, Arena scope) {
@@ -2512,7 +2522,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(SessionGetOutputName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$32.const$1, fi, constants$31.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$32.const$3, fi, constants$31.const$5, scope);
         }
 
         static SessionGetOutputName ofAddress(MemorySegment addr, Arena arena) {
@@ -2523,7 +2533,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$31.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$32.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2532,7 +2542,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetOutputName$VH() {
-        return constants$32.const$2;
+        return constants$32.const$4;
     }
     /**
      * Getter for field:
@@ -2541,7 +2551,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetOutputName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$32.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$32.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2550,15 +2560,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetOutputName$set(MemorySegment seg, MemorySegment x) {
-        constants$32.const$2.set(seg, 0L, x);
+        constants$32.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetOutputName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$32.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$32.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionGetOutputName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$32.const$2.set(seg, index * sizeof(), x);
+        constants$32.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetOutputName SessionGetOutputName(MemorySegment segment, Arena scope) {
@@ -2578,7 +2588,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(SessionGetOverridableInitializerName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$32.const$3, fi, constants$31.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$32.const$5, fi, constants$31.const$5, scope);
         }
 
         static SessionGetOverridableInitializerName ofAddress(MemorySegment addr, Arena arena) {
@@ -2589,7 +2599,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$31.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$32.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2598,7 +2608,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetOverridableInitializerName$VH() {
-        return constants$32.const$4;
+        return constants$33.const$0;
     }
     /**
      * Getter for field:
@@ -2607,7 +2617,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetOverridableInitializerName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$32.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$33.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2616,15 +2626,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetOverridableInitializerName$set(MemorySegment seg, MemorySegment x) {
-        constants$32.const$4.set(seg, 0L, x);
+        constants$33.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetOverridableInitializerName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$32.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$33.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionGetOverridableInitializerName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$32.const$4.set(seg, index * sizeof(), x);
+        constants$33.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetOverridableInitializerName SessionGetOverridableInitializerName(
@@ -2641,7 +2651,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateRunOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$32.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$33.const$1, fi, constants$1.const$4, scope);
         }
 
         static CreateRunOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -2657,7 +2667,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateRunOptions$VH() {
-        return constants$33.const$0;
+        return constants$33.const$2;
     }
     /**
      * Getter for field:
@@ -2666,7 +2676,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateRunOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$33.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$33.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2675,15 +2685,15 @@ public class OrtApi {
      * }
      */
     public static void CreateRunOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$33.const$0.set(seg, 0L, x);
+        constants$33.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateRunOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$33.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$33.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateRunOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$33.const$0.set(seg, index * sizeof(), x);
+        constants$33.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateRunOptions CreateRunOptions(MemorySegment segment, Arena scope) {
@@ -2699,14 +2709,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(RunOptionsSetRunLogVerbosityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$33.const$1, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$33.const$3, fi, constants$23.const$3, scope);
         }
 
         static RunOptionsSetRunLogVerbosityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2715,7 +2725,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsSetRunLogVerbosityLevel$VH() {
-        return constants$33.const$2;
+        return constants$33.const$4;
     }
     /**
      * Getter for field:
@@ -2724,7 +2734,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$33.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$33.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2733,15 +2743,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$33.const$2.set(seg, 0L, x);
+        constants$33.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsSetRunLogVerbosityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$33.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$33.const$4.get(seg, index * sizeof());
     }
 
     public static void RunOptionsSetRunLogVerbosityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$33.const$2.set(seg, index * sizeof(), x);
+        constants$33.const$4.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsSetRunLogVerbosityLevel RunOptionsSetRunLogVerbosityLevel(
@@ -2758,14 +2768,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(RunOptionsSetRunLogSeverityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$33.const$3, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$33.const$5, fi, constants$23.const$3, scope);
         }
 
         static RunOptionsSetRunLogSeverityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2774,7 +2784,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsSetRunLogSeverityLevel$VH() {
-        return constants$33.const$4;
+        return constants$34.const$0;
     }
     /**
      * Getter for field:
@@ -2783,7 +2793,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$33.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$34.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2792,15 +2802,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$33.const$4.set(seg, 0L, x);
+        constants$34.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsSetRunLogSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$33.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$34.const$0.get(seg, index * sizeof());
     }
 
     public static void RunOptionsSetRunLogSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$33.const$4.set(seg, index * sizeof(), x);
+        constants$34.const$0.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsSetRunLogSeverityLevel RunOptionsSetRunLogSeverityLevel(
@@ -2817,14 +2827,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsSetRunTag fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$33.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$34.const$1, fi, constants$15.const$4, scope);
         }
 
         static RunOptionsSetRunTag ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2833,7 +2843,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsSetRunTag$VH() {
-        return constants$34.const$0;
+        return constants$34.const$2;
     }
     /**
      * Getter for field:
@@ -2842,7 +2852,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsSetRunTag$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$34.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$34.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2851,15 +2861,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsSetRunTag$set(MemorySegment seg, MemorySegment x) {
-        constants$34.const$0.set(seg, 0L, x);
+        constants$34.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsSetRunTag$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$34.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$34.const$2.get(seg, index * sizeof());
     }
 
     public static void RunOptionsSetRunTag$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$34.const$0.set(seg, index * sizeof(), x);
+        constants$34.const$2.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsSetRunTag RunOptionsSetRunTag(MemorySegment segment, Arena scope) {
@@ -2875,14 +2885,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunLogVerbosityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$34.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$34.const$3, fi, constants$15.const$4, scope);
         }
 
         static RunOptionsGetRunLogVerbosityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2891,7 +2901,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsGetRunLogVerbosityLevel$VH() {
-        return constants$34.const$2;
+        return constants$34.const$4;
     }
     /**
      * Getter for field:
@@ -2900,7 +2910,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$34.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$34.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2909,15 +2919,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$34.const$2.set(seg, 0L, x);
+        constants$34.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsGetRunLogVerbosityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$34.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$34.const$4.get(seg, index * sizeof());
     }
 
     public static void RunOptionsGetRunLogVerbosityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$34.const$2.set(seg, index * sizeof(), x);
+        constants$34.const$4.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsGetRunLogVerbosityLevel RunOptionsGetRunLogVerbosityLevel(
@@ -2934,14 +2944,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunLogSeverityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$34.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$34.const$5, fi, constants$15.const$4, scope);
         }
 
         static RunOptionsGetRunLogSeverityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -2950,7 +2960,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsGetRunLogSeverityLevel$VH() {
-        return constants$34.const$4;
+        return constants$35.const$0;
     }
     /**
      * Getter for field:
@@ -2959,7 +2969,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$34.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$35.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -2968,15 +2978,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$34.const$4.set(seg, 0L, x);
+        constants$35.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsGetRunLogSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$34.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$35.const$0.get(seg, index * sizeof());
     }
 
     public static void RunOptionsGetRunLogSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$34.const$4.set(seg, index * sizeof(), x);
+        constants$35.const$0.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsGetRunLogSeverityLevel RunOptionsGetRunLogSeverityLevel(
@@ -2993,14 +3003,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RunOptionsGetRunTag fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$34.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$35.const$1, fi, constants$15.const$4, scope);
         }
 
         static RunOptionsGetRunTag ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3009,7 +3019,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsGetRunTag$VH() {
-        return constants$35.const$0;
+        return constants$35.const$2;
     }
     /**
      * Getter for field:
@@ -3018,7 +3028,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsGetRunTag$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$35.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$35.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3027,15 +3037,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsGetRunTag$set(MemorySegment seg, MemorySegment x) {
-        constants$35.const$0.set(seg, 0L, x);
+        constants$35.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsGetRunTag$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$35.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$35.const$2.get(seg, index * sizeof());
     }
 
     public static void RunOptionsGetRunTag$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$35.const$0.set(seg, index * sizeof(), x);
+        constants$35.const$2.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsGetRunTag RunOptionsGetRunTag(MemorySegment segment, Arena scope) {
@@ -3051,7 +3061,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(RunOptionsSetTerminate fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$35.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$35.const$3, fi, constants$1.const$4, scope);
         }
 
         static RunOptionsSetTerminate ofAddress(MemorySegment addr, Arena arena) {
@@ -3067,7 +3077,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsSetTerminate$VH() {
-        return constants$35.const$2;
+        return constants$35.const$4;
     }
     /**
      * Getter for field:
@@ -3076,7 +3086,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsSetTerminate$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$35.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$35.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3085,15 +3095,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsSetTerminate$set(MemorySegment seg, MemorySegment x) {
-        constants$35.const$2.set(seg, 0L, x);
+        constants$35.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsSetTerminate$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$35.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$35.const$4.get(seg, index * sizeof());
     }
 
     public static void RunOptionsSetTerminate$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$35.const$2.set(seg, index * sizeof(), x);
+        constants$35.const$4.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsSetTerminate RunOptionsSetTerminate(MemorySegment segment, Arena scope) {
@@ -3109,7 +3119,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(RunOptionsUnsetTerminate fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$35.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$35.const$5, fi, constants$1.const$4, scope);
         }
 
         static RunOptionsUnsetTerminate ofAddress(MemorySegment addr, Arena arena) {
@@ -3125,7 +3135,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunOptionsUnsetTerminate$VH() {
-        return constants$35.const$4;
+        return constants$36.const$0;
     }
     /**
      * Getter for field:
@@ -3134,7 +3144,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunOptionsUnsetTerminate$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$35.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$36.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3143,15 +3153,15 @@ public class OrtApi {
      * }
      */
     public static void RunOptionsUnsetTerminate$set(MemorySegment seg, MemorySegment x) {
-        constants$35.const$4.set(seg, 0L, x);
+        constants$36.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment RunOptionsUnsetTerminate$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$35.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$36.const$0.get(seg, index * sizeof());
     }
 
     public static void RunOptionsUnsetTerminate$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$35.const$4.set(seg, index * sizeof(), x);
+        constants$36.const$0.set(seg, index * sizeof(), x);
     }
 
     public static RunOptionsUnsetTerminate RunOptionsUnsetTerminate(MemorySegment segment, Arena scope) {
@@ -3172,7 +3182,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateTensorAsOrtValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$36.const$0, fi, constants$35.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$36.const$2, fi, constants$36.const$1, scope);
         }
 
         static CreateTensorAsOrtValue ofAddress(MemorySegment addr, Arena arena) {
@@ -3184,7 +3194,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$36.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$36.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3193,7 +3203,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateTensorAsOrtValue$VH() {
-        return constants$36.const$2;
+        return constants$36.const$4;
     }
     /**
      * Getter for field:
@@ -3202,7 +3212,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateTensorAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$36.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$36.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3211,15 +3221,15 @@ public class OrtApi {
      * }
      */
     public static void CreateTensorAsOrtValue$set(MemorySegment seg, MemorySegment x) {
-        constants$36.const$2.set(seg, 0L, x);
+        constants$36.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateTensorAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$36.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$36.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateTensorAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$36.const$2.set(seg, index * sizeof(), x);
+        constants$36.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateTensorAsOrtValue CreateTensorAsOrtValue(MemorySegment segment, Arena scope) {
@@ -3242,7 +3252,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x6);
 
         static MemorySegment allocate(CreateTensorWithDataAsOrtValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$36.const$4, fi, constants$36.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$37.const$0, fi, constants$36.const$5, scope);
         }
 
         static CreateTensorWithDataAsOrtValue ofAddress(MemorySegment addr, Arena arena) {
@@ -3256,7 +3266,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x6) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$36.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
+                            constants$37.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3265,7 +3275,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateTensorWithDataAsOrtValue$VH() {
-        return constants$37.const$0;
+        return constants$37.const$2;
     }
     /**
      * Getter for field:
@@ -3274,7 +3284,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateTensorWithDataAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$37.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$37.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3283,15 +3293,15 @@ public class OrtApi {
      * }
      */
     public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, MemorySegment x) {
-        constants$37.const$0.set(seg, 0L, x);
+        constants$37.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateTensorWithDataAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$37.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$37.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateTensorWithDataAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$37.const$0.set(seg, index * sizeof(), x);
+        constants$37.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateTensorWithDataAsOrtValue CreateTensorWithDataAsOrtValue(MemorySegment segment, Arena scope) {
@@ -3307,14 +3317,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(IsTensor fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$37.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$37.const$3, fi, constants$15.const$4, scope);
         }
 
         static IsTensor ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3323,7 +3333,7 @@ public class OrtApi {
     }
 
     public static VarHandle IsTensor$VH() {
-        return constants$37.const$2;
+        return constants$37.const$4;
     }
     /**
      * Getter for field:
@@ -3332,7 +3342,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment IsTensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$37.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$37.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3341,15 +3351,15 @@ public class OrtApi {
      * }
      */
     public static void IsTensor$set(MemorySegment seg, MemorySegment x) {
-        constants$37.const$2.set(seg, 0L, x);
+        constants$37.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment IsTensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$37.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$37.const$4.get(seg, index * sizeof());
     }
 
     public static void IsTensor$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$37.const$2.set(seg, index * sizeof(), x);
+        constants$37.const$4.set(seg, index * sizeof(), x);
     }
 
     public static IsTensor IsTensor(MemorySegment segment, Arena scope) {
@@ -3365,14 +3375,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorMutableData fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$37.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$37.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetTensorMutableData ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3381,7 +3391,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorMutableData$VH() {
-        return constants$37.const$4;
+        return constants$38.const$0;
     }
     /**
      * Getter for field:
@@ -3390,7 +3400,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorMutableData$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$37.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$38.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3399,15 +3409,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorMutableData$set(MemorySegment seg, MemorySegment x) {
-        constants$37.const$4.set(seg, 0L, x);
+        constants$38.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorMutableData$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$37.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$38.const$0.get(seg, index * sizeof());
     }
 
     public static void GetTensorMutableData$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$37.const$4.set(seg, index * sizeof(), x);
+        constants$38.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorMutableData GetTensorMutableData(MemorySegment segment, Arena scope) {
@@ -3424,14 +3434,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(FillStringTensor fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$38.const$0, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$38.const$2, fi, constants$38.const$1, scope);
         }
 
         static FillStringTensor ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3440,7 +3450,7 @@ public class OrtApi {
     }
 
     public static VarHandle FillStringTensor$VH() {
-        return constants$38.const$2;
+        return constants$38.const$4;
     }
     /**
      * Getter for field:
@@ -3449,7 +3459,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment FillStringTensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$38.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$38.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3458,15 +3468,15 @@ public class OrtApi {
      * }
      */
     public static void FillStringTensor$set(MemorySegment seg, MemorySegment x) {
-        constants$38.const$2.set(seg, 0L, x);
+        constants$38.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment FillStringTensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$38.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$38.const$4.get(seg, index * sizeof());
     }
 
     public static void FillStringTensor$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$38.const$2.set(seg, index * sizeof(), x);
+        constants$38.const$4.set(seg, index * sizeof(), x);
     }
 
     public static FillStringTensor FillStringTensor(MemorySegment segment, Arena scope) {
@@ -3482,14 +3492,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetStringTensorDataLength fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$38.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$38.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetStringTensorDataLength ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3498,7 +3508,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetStringTensorDataLength$VH() {
-        return constants$38.const$4;
+        return constants$39.const$0;
     }
     /**
      * Getter for field:
@@ -3507,7 +3517,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetStringTensorDataLength$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$38.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$39.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3516,15 +3526,15 @@ public class OrtApi {
      * }
      */
     public static void GetStringTensorDataLength$set(MemorySegment seg, MemorySegment x) {
-        constants$38.const$4.set(seg, 0L, x);
+        constants$39.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetStringTensorDataLength$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$38.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$39.const$0.get(seg, index * sizeof());
     }
 
     public static void GetStringTensorDataLength$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$38.const$4.set(seg, index * sizeof(), x);
+        constants$39.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetStringTensorDataLength GetStringTensorDataLength(MemorySegment segment, Arena scope) {
@@ -3545,7 +3555,7 @@ public class OrtApi {
                 long _x4);
 
         static MemorySegment allocate(GetStringTensorContent fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$39.const$0, fi, constants$38.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$39.const$2, fi, constants$39.const$1, scope);
         }
 
         static GetStringTensorContent ofAddress(MemorySegment addr, Arena arena) {
@@ -3557,7 +3567,7 @@ public class OrtApi {
                     long __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$39.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$39.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3566,7 +3576,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetStringTensorContent$VH() {
-        return constants$39.const$2;
+        return constants$39.const$4;
     }
     /**
      * Getter for field:
@@ -3575,7 +3585,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetStringTensorContent$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$39.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$39.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3584,15 +3594,15 @@ public class OrtApi {
      * }
      */
     public static void GetStringTensorContent$set(MemorySegment seg, MemorySegment x) {
-        constants$39.const$2.set(seg, 0L, x);
+        constants$39.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetStringTensorContent$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$39.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$39.const$4.get(seg, index * sizeof());
     }
 
     public static void GetStringTensorContent$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$39.const$2.set(seg, index * sizeof(), x);
+        constants$39.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetStringTensorContent GetStringTensorContent(MemorySegment segment, Arena scope) {
@@ -3608,14 +3618,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToTensorInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$39.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$39.const$5, fi, constants$15.const$4, scope);
         }
 
         static CastTypeInfoToTensorInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3624,7 +3634,7 @@ public class OrtApi {
     }
 
     public static VarHandle CastTypeInfoToTensorInfo$VH() {
-        return constants$39.const$4;
+        return constants$40.const$0;
     }
     /**
      * Getter for field:
@@ -3633,7 +3643,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CastTypeInfoToTensorInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$39.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$40.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3642,15 +3652,15 @@ public class OrtApi {
      * }
      */
     public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$39.const$4.set(seg, 0L, x);
+        constants$40.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CastTypeInfoToTensorInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$39.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$40.const$0.get(seg, index * sizeof());
     }
 
     public static void CastTypeInfoToTensorInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$39.const$4.set(seg, index * sizeof(), x);
+        constants$40.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CastTypeInfoToTensorInfo CastTypeInfoToTensorInfo(MemorySegment segment, Arena scope) {
@@ -3666,14 +3676,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetOnnxTypeFromTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$39.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$40.const$1, fi, constants$15.const$4, scope);
         }
 
         static GetOnnxTypeFromTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3682,7 +3692,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetOnnxTypeFromTypeInfo$VH() {
-        return constants$40.const$0;
+        return constants$40.const$2;
     }
     /**
      * Getter for field:
@@ -3691,7 +3701,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetOnnxTypeFromTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$40.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$40.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3700,15 +3710,15 @@ public class OrtApi {
      * }
      */
     public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$40.const$0.set(seg, 0L, x);
+        constants$40.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetOnnxTypeFromTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$40.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$40.const$2.get(seg, index * sizeof());
     }
 
     public static void GetOnnxTypeFromTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$40.const$0.set(seg, index * sizeof(), x);
+        constants$40.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetOnnxTypeFromTypeInfo GetOnnxTypeFromTypeInfo(MemorySegment segment, Arena scope) {
@@ -3724,7 +3734,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateTensorTypeAndShapeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$40.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$40.const$3, fi, constants$1.const$4, scope);
         }
 
         static CreateTensorTypeAndShapeInfo ofAddress(MemorySegment addr, Arena arena) {
@@ -3740,7 +3750,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateTensorTypeAndShapeInfo$VH() {
-        return constants$40.const$2;
+        return constants$40.const$4;
     }
     /**
      * Getter for field:
@@ -3749,7 +3759,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateTensorTypeAndShapeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$40.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$40.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3758,15 +3768,15 @@ public class OrtApi {
      * }
      */
     public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$40.const$2.set(seg, 0L, x);
+        constants$40.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateTensorTypeAndShapeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$40.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$40.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateTensorTypeAndShapeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$40.const$2.set(seg, index * sizeof(), x);
+        constants$40.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateTensorTypeAndShapeInfo CreateTensorTypeAndShapeInfo(MemorySegment segment, Arena scope) {
@@ -3782,14 +3792,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetTensorElementType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$40.const$3, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$40.const$5, fi, constants$23.const$3, scope);
         }
 
         static SetTensorElementType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3798,7 +3808,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetTensorElementType$VH() {
-        return constants$40.const$4;
+        return constants$41.const$0;
     }
     /**
      * Getter for field:
@@ -3807,7 +3817,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetTensorElementType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$40.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$41.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3816,15 +3826,15 @@ public class OrtApi {
      * }
      */
     public static void SetTensorElementType$set(MemorySegment seg, MemorySegment x) {
-        constants$40.const$4.set(seg, 0L, x);
+        constants$41.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetTensorElementType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$40.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$41.const$0.get(seg, index * sizeof());
     }
 
     public static void SetTensorElementType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$40.const$4.set(seg, index * sizeof(), x);
+        constants$41.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetTensorElementType SetTensorElementType(MemorySegment segment, Arena scope) {
@@ -3841,14 +3851,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(SetDimensions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$40.const$5, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$41.const$1, fi, constants$38.const$1, scope);
         }
 
         static SetDimensions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3857,7 +3867,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetDimensions$VH() {
-        return constants$41.const$0;
+        return constants$41.const$2;
     }
     /**
      * Getter for field:
@@ -3866,7 +3876,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetDimensions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$41.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$41.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3875,15 +3885,15 @@ public class OrtApi {
      * }
      */
     public static void SetDimensions$set(MemorySegment seg, MemorySegment x) {
-        constants$41.const$0.set(seg, 0L, x);
+        constants$41.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetDimensions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$41.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$41.const$2.get(seg, index * sizeof());
     }
 
     public static void SetDimensions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$41.const$0.set(seg, index * sizeof(), x);
+        constants$41.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetDimensions SetDimensions(MemorySegment segment, Arena scope) {
@@ -3899,14 +3909,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorElementType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$41.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$41.const$3, fi, constants$15.const$4, scope);
         }
 
         static GetTensorElementType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3915,7 +3925,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorElementType$VH() {
-        return constants$41.const$2;
+        return constants$41.const$4;
     }
     /**
      * Getter for field:
@@ -3924,7 +3934,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorElementType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$41.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$41.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3933,15 +3943,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorElementType$set(MemorySegment seg, MemorySegment x) {
-        constants$41.const$2.set(seg, 0L, x);
+        constants$41.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorElementType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$41.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$41.const$4.get(seg, index * sizeof());
     }
 
     public static void GetTensorElementType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$41.const$2.set(seg, index * sizeof(), x);
+        constants$41.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorElementType GetTensorElementType(MemorySegment segment, Arena scope) {
@@ -3957,14 +3967,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetDimensionsCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$41.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$41.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetDimensionsCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -3973,7 +3983,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetDimensionsCount$VH() {
-        return constants$41.const$4;
+        return constants$42.const$0;
     }
     /**
      * Getter for field:
@@ -3982,7 +3992,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetDimensionsCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$41.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$42.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -3991,15 +4001,15 @@ public class OrtApi {
      * }
      */
     public static void GetDimensionsCount$set(MemorySegment seg, MemorySegment x) {
-        constants$41.const$4.set(seg, 0L, x);
+        constants$42.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetDimensionsCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$41.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$42.const$0.get(seg, index * sizeof());
     }
 
     public static void GetDimensionsCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$41.const$4.set(seg, index * sizeof(), x);
+        constants$42.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetDimensionsCount GetDimensionsCount(MemorySegment segment, Arena scope) {
@@ -4016,14 +4026,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(GetDimensions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$41.const$5, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$42.const$1, fi, constants$38.const$1, scope);
         }
 
         static GetDimensions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4032,7 +4042,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetDimensions$VH() {
-        return constants$42.const$0;
+        return constants$42.const$2;
     }
     /**
      * Getter for field:
@@ -4041,7 +4051,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetDimensions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$42.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$42.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4050,15 +4060,15 @@ public class OrtApi {
      * }
      */
     public static void GetDimensions$set(MemorySegment seg, MemorySegment x) {
-        constants$42.const$0.set(seg, 0L, x);
+        constants$42.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetDimensions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$42.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$42.const$2.get(seg, index * sizeof());
     }
 
     public static void GetDimensions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$42.const$0.set(seg, index * sizeof(), x);
+        constants$42.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetDimensions GetDimensions(MemorySegment segment, Arena scope) {
@@ -4075,14 +4085,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(GetSymbolicDimensions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$42.const$1, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$42.const$3, fi, constants$38.const$1, scope);
         }
 
         static GetSymbolicDimensions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4091,7 +4101,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSymbolicDimensions$VH() {
-        return constants$42.const$2;
+        return constants$42.const$4;
     }
     /**
      * Getter for field:
@@ -4100,7 +4110,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSymbolicDimensions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$42.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$42.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4109,15 +4119,15 @@ public class OrtApi {
      * }
      */
     public static void GetSymbolicDimensions$set(MemorySegment seg, MemorySegment x) {
-        constants$42.const$2.set(seg, 0L, x);
+        constants$42.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSymbolicDimensions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$42.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$42.const$4.get(seg, index * sizeof());
     }
 
     public static void GetSymbolicDimensions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$42.const$2.set(seg, index * sizeof(), x);
+        constants$42.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetSymbolicDimensions GetSymbolicDimensions(MemorySegment segment, Arena scope) {
@@ -4133,14 +4143,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorShapeElementCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$42.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$42.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetTensorShapeElementCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4149,7 +4159,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorShapeElementCount$VH() {
-        return constants$42.const$4;
+        return constants$43.const$0;
     }
     /**
      * Getter for field:
@@ -4158,7 +4168,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorShapeElementCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$42.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$43.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4167,15 +4177,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorShapeElementCount$set(MemorySegment seg, MemorySegment x) {
-        constants$42.const$4.set(seg, 0L, x);
+        constants$43.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorShapeElementCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$42.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$43.const$0.get(seg, index * sizeof());
     }
 
     public static void GetTensorShapeElementCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$42.const$4.set(seg, index * sizeof(), x);
+        constants$43.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorShapeElementCount GetTensorShapeElementCount(MemorySegment segment, Arena scope) {
@@ -4191,14 +4201,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorTypeAndShape fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$42.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$43.const$1, fi, constants$15.const$4, scope);
         }
 
         static GetTensorTypeAndShape ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4207,7 +4217,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorTypeAndShape$VH() {
-        return constants$43.const$0;
+        return constants$43.const$2;
     }
     /**
      * Getter for field:
@@ -4216,7 +4226,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorTypeAndShape$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$43.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$43.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4225,15 +4235,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorTypeAndShape$set(MemorySegment seg, MemorySegment x) {
-        constants$43.const$0.set(seg, 0L, x);
+        constants$43.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorTypeAndShape$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$43.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$43.const$2.get(seg, index * sizeof());
     }
 
     public static void GetTensorTypeAndShape$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$43.const$0.set(seg, index * sizeof(), x);
+        constants$43.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorTypeAndShape GetTensorTypeAndShape(MemorySegment segment, Arena scope) {
@@ -4249,14 +4259,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$43.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$43.const$3, fi, constants$15.const$4, scope);
         }
 
         static GetTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4265,7 +4275,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTypeInfo$VH() {
-        return constants$43.const$2;
+        return constants$43.const$4;
     }
     /**
      * Getter for field:
@@ -4274,7 +4284,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$43.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$43.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4283,15 +4293,15 @@ public class OrtApi {
      * }
      */
     public static void GetTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$43.const$2.set(seg, 0L, x);
+        constants$43.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$43.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$43.const$4.get(seg, index * sizeof());
     }
 
     public static void GetTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$43.const$2.set(seg, index * sizeof(), x);
+        constants$43.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetTypeInfo GetTypeInfo(MemorySegment segment, Arena scope) {
@@ -4307,14 +4317,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetValueType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$43.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$43.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetValueType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4323,7 +4333,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetValueType$VH() {
-        return constants$43.const$4;
+        return constants$44.const$0;
     }
     /**
      * Getter for field:
@@ -4332,7 +4342,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetValueType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$43.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$44.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4341,15 +4351,15 @@ public class OrtApi {
      * }
      */
     public static void GetValueType$set(MemorySegment seg, MemorySegment x) {
-        constants$43.const$4.set(seg, 0L, x);
+        constants$44.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetValueType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$43.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$44.const$0.get(seg, index * sizeof());
     }
 
     public static void GetValueType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$43.const$4.set(seg, index * sizeof(), x);
+        constants$44.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetValueType GetValueType(MemorySegment segment, Arena scope) {
@@ -4366,7 +4376,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateMemoryInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$44.const$0, fi, constants$43.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$44.const$2, fi, constants$44.const$1, scope);
         }
 
         static CreateMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
@@ -4378,7 +4388,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$44.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$44.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4387,7 +4397,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateMemoryInfo$VH() {
-        return constants$44.const$2;
+        return constants$44.const$4;
     }
     /**
      * Getter for field:
@@ -4396,7 +4406,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$44.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$44.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4405,15 +4415,15 @@ public class OrtApi {
      * }
      */
     public static void CreateMemoryInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$44.const$2.set(seg, 0L, x);
+        constants$44.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$44.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$44.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$44.const$2.set(seg, index * sizeof(), x);
+        constants$44.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateMemoryInfo CreateMemoryInfo(MemorySegment segment, Arena scope) {
@@ -4429,14 +4439,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(int _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateCpuMemoryInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$44.const$4, fi, constants$44.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$45.const$0, fi, constants$44.const$5, scope);
         }
 
         static CreateCpuMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (int __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$44.const$5.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$45.const$1.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4445,7 +4455,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateCpuMemoryInfo$VH() {
-        return constants$45.const$0;
+        return constants$45.const$2;
     }
     /**
      * Getter for field:
@@ -4454,7 +4464,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateCpuMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$45.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$45.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4463,15 +4473,15 @@ public class OrtApi {
      * }
      */
     public static void CreateCpuMemoryInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$45.const$0.set(seg, 0L, x);
+        constants$45.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateCpuMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$45.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$45.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateCpuMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$45.const$0.set(seg, index * sizeof(), x);
+        constants$45.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateCpuMemoryInfo CreateCpuMemoryInfo(MemorySegment segment, Arena scope) {
@@ -4490,7 +4500,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CompareMemoryInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$45.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$45.const$3, fi, constants$15.const$0, scope);
         }
 
         static CompareMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
@@ -4499,7 +4509,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4508,7 +4518,7 @@ public class OrtApi {
     }
 
     public static VarHandle CompareMemoryInfo$VH() {
-        return constants$45.const$2;
+        return constants$45.const$4;
     }
     /**
      * Getter for field:
@@ -4517,7 +4527,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CompareMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$45.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$45.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4526,15 +4536,15 @@ public class OrtApi {
      * }
      */
     public static void CompareMemoryInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$45.const$2.set(seg, 0L, x);
+        constants$45.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CompareMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$45.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$45.const$4.get(seg, index * sizeof());
     }
 
     public static void CompareMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$45.const$2.set(seg, index * sizeof(), x);
+        constants$45.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CompareMemoryInfo CompareMemoryInfo(MemorySegment segment, Arena scope) {
@@ -4550,14 +4560,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$45.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$45.const$5, fi, constants$15.const$4, scope);
         }
 
         static MemoryInfoGetName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4566,7 +4576,7 @@ public class OrtApi {
     }
 
     public static VarHandle MemoryInfoGetName$VH() {
-        return constants$45.const$4;
+        return constants$46.const$0;
     }
     /**
      * Getter for field:
@@ -4575,7 +4585,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment MemoryInfoGetName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$45.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$46.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4584,15 +4594,15 @@ public class OrtApi {
      * }
      */
     public static void MemoryInfoGetName$set(MemorySegment seg, MemorySegment x) {
-        constants$45.const$4.set(seg, 0L, x);
+        constants$46.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment MemoryInfoGetName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$45.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$46.const$0.get(seg, index * sizeof());
     }
 
     public static void MemoryInfoGetName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$45.const$4.set(seg, index * sizeof(), x);
+        constants$46.const$0.set(seg, index * sizeof(), x);
     }
 
     public static MemoryInfoGetName MemoryInfoGetName(MemorySegment segment, Arena scope) {
@@ -4608,14 +4618,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetId fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$45.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$46.const$1, fi, constants$15.const$4, scope);
         }
 
         static MemoryInfoGetId ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4624,7 +4634,7 @@ public class OrtApi {
     }
 
     public static VarHandle MemoryInfoGetId$VH() {
-        return constants$46.const$0;
+        return constants$46.const$2;
     }
     /**
      * Getter for field:
@@ -4633,7 +4643,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment MemoryInfoGetId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$46.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$46.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4642,15 +4652,15 @@ public class OrtApi {
      * }
      */
     public static void MemoryInfoGetId$set(MemorySegment seg, MemorySegment x) {
-        constants$46.const$0.set(seg, 0L, x);
+        constants$46.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment MemoryInfoGetId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$46.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$46.const$2.get(seg, index * sizeof());
     }
 
     public static void MemoryInfoGetId$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$46.const$0.set(seg, index * sizeof(), x);
+        constants$46.const$2.set(seg, index * sizeof(), x);
     }
 
     public static MemoryInfoGetId MemoryInfoGetId(MemorySegment segment, Arena scope) {
@@ -4666,14 +4676,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetMemType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$46.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$46.const$3, fi, constants$15.const$4, scope);
         }
 
         static MemoryInfoGetMemType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4682,7 +4692,7 @@ public class OrtApi {
     }
 
     public static VarHandle MemoryInfoGetMemType$VH() {
-        return constants$46.const$2;
+        return constants$46.const$4;
     }
     /**
      * Getter for field:
@@ -4691,7 +4701,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment MemoryInfoGetMemType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$46.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$46.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4700,15 +4710,15 @@ public class OrtApi {
      * }
      */
     public static void MemoryInfoGetMemType$set(MemorySegment seg, MemorySegment x) {
-        constants$46.const$2.set(seg, 0L, x);
+        constants$46.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment MemoryInfoGetMemType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$46.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$46.const$4.get(seg, index * sizeof());
     }
 
     public static void MemoryInfoGetMemType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$46.const$2.set(seg, index * sizeof(), x);
+        constants$46.const$4.set(seg, index * sizeof(), x);
     }
 
     public static MemoryInfoGetMemType MemoryInfoGetMemType(MemorySegment segment, Arena scope) {
@@ -4724,14 +4734,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$46.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$46.const$5, fi, constants$15.const$4, scope);
         }
 
         static MemoryInfoGetType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4740,7 +4750,7 @@ public class OrtApi {
     }
 
     public static VarHandle MemoryInfoGetType$VH() {
-        return constants$46.const$4;
+        return constants$47.const$0;
     }
     /**
      * Getter for field:
@@ -4749,7 +4759,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment MemoryInfoGetType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$46.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$47.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4758,15 +4768,15 @@ public class OrtApi {
      * }
      */
     public static void MemoryInfoGetType$set(MemorySegment seg, MemorySegment x) {
-        constants$46.const$4.set(seg, 0L, x);
+        constants$47.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment MemoryInfoGetType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$46.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$47.const$0.get(seg, index * sizeof());
     }
 
     public static void MemoryInfoGetType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$46.const$4.set(seg, index * sizeof(), x);
+        constants$47.const$0.set(seg, index * sizeof(), x);
     }
 
     public static MemoryInfoGetType MemoryInfoGetType(MemorySegment segment, Arena scope) {
@@ -4783,14 +4793,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AllocatorAlloc fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$46.const$5, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$47.const$1, fi, constants$30.const$3, scope);
         }
 
         static AllocatorAlloc ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4799,7 +4809,7 @@ public class OrtApi {
     }
 
     public static VarHandle AllocatorAlloc$VH() {
-        return constants$47.const$0;
+        return constants$47.const$2;
     }
     /**
      * Getter for field:
@@ -4808,7 +4818,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AllocatorAlloc$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$47.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$47.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4817,15 +4827,15 @@ public class OrtApi {
      * }
      */
     public static void AllocatorAlloc$set(MemorySegment seg, MemorySegment x) {
-        constants$47.const$0.set(seg, 0L, x);
+        constants$47.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment AllocatorAlloc$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$47.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$47.const$2.get(seg, index * sizeof());
     }
 
     public static void AllocatorAlloc$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$47.const$0.set(seg, index * sizeof(), x);
+        constants$47.const$2.set(seg, index * sizeof(), x);
     }
 
     public static AllocatorAlloc AllocatorAlloc(MemorySegment segment, Arena scope) {
@@ -4841,14 +4851,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AllocatorFree fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$47.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$47.const$3, fi, constants$15.const$4, scope);
         }
 
         static AllocatorFree ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4857,7 +4867,7 @@ public class OrtApi {
     }
 
     public static VarHandle AllocatorFree$VH() {
-        return constants$47.const$2;
+        return constants$47.const$4;
     }
     /**
      * Getter for field:
@@ -4866,7 +4876,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AllocatorFree$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$47.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$47.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4875,15 +4885,15 @@ public class OrtApi {
      * }
      */
     public static void AllocatorFree$set(MemorySegment seg, MemorySegment x) {
-        constants$47.const$2.set(seg, 0L, x);
+        constants$47.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment AllocatorFree$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$47.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$47.const$4.get(seg, index * sizeof());
     }
 
     public static void AllocatorFree$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$47.const$2.set(seg, index * sizeof(), x);
+        constants$47.const$4.set(seg, index * sizeof(), x);
     }
 
     public static AllocatorFree AllocatorFree(MemorySegment segment, Arena scope) {
@@ -4899,14 +4909,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(AllocatorGetInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$47.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$47.const$5, fi, constants$15.const$4, scope);
         }
 
         static AllocatorGetInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -4915,7 +4925,7 @@ public class OrtApi {
     }
 
     public static VarHandle AllocatorGetInfo$VH() {
-        return constants$47.const$4;
+        return constants$48.const$0;
     }
     /**
      * Getter for field:
@@ -4924,7 +4934,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AllocatorGetInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$47.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$48.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4933,15 +4943,15 @@ public class OrtApi {
      * }
      */
     public static void AllocatorGetInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$47.const$4.set(seg, 0L, x);
+        constants$48.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment AllocatorGetInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$47.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$48.const$0.get(seg, index * sizeof());
     }
 
     public static void AllocatorGetInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$47.const$4.set(seg, index * sizeof(), x);
+        constants$48.const$0.set(seg, index * sizeof(), x);
     }
 
     public static AllocatorGetInfo AllocatorGetInfo(MemorySegment segment, Arena scope) {
@@ -4957,7 +4967,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetAllocatorWithDefaultOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$47.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$48.const$1, fi, constants$1.const$4, scope);
         }
 
         static GetAllocatorWithDefaultOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -4973,7 +4983,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetAllocatorWithDefaultOptions$VH() {
-        return constants$48.const$0;
+        return constants$48.const$2;
     }
     /**
      * Getter for field:
@@ -4982,7 +4992,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetAllocatorWithDefaultOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$48.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$48.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -4991,15 +5001,15 @@ public class OrtApi {
      * }
      */
     public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$48.const$0.set(seg, 0L, x);
+        constants$48.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetAllocatorWithDefaultOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$48.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$48.const$2.get(seg, index * sizeof());
     }
 
     public static void GetAllocatorWithDefaultOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$48.const$0.set(seg, index * sizeof(), x);
+        constants$48.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetAllocatorWithDefaultOptions GetAllocatorWithDefaultOptions(MemorySegment segment, Arena scope) {
@@ -5016,14 +5026,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(AddFreeDimensionOverride fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$48.const$1, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$48.const$3, fi, constants$38.const$1, scope);
         }
 
         static AddFreeDimensionOverride ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5032,7 +5042,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddFreeDimensionOverride$VH() {
-        return constants$48.const$2;
+        return constants$48.const$4;
     }
     /**
      * Getter for field:
@@ -5041,7 +5051,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddFreeDimensionOverride$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$48.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$48.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5050,15 +5060,15 @@ public class OrtApi {
      * }
      */
     public static void AddFreeDimensionOverride$set(MemorySegment seg, MemorySegment x) {
-        constants$48.const$2.set(seg, 0L, x);
+        constants$48.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment AddFreeDimensionOverride$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$48.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$48.const$4.get(seg, index * sizeof());
     }
 
     public static void AddFreeDimensionOverride$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$48.const$2.set(seg, index * sizeof(), x);
+        constants$48.const$4.set(seg, index * sizeof(), x);
     }
 
     public static AddFreeDimensionOverride AddFreeDimensionOverride(MemorySegment segment, Arena scope) {
@@ -5078,7 +5088,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$48.const$4, fi, constants$48.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$49.const$0, fi, constants$48.const$5, scope);
         }
 
         static GetValue ofAddress(MemorySegment addr, Arena arena) {
@@ -5089,7 +5099,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$48.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$49.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5098,7 +5108,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetValue$VH() {
-        return constants$49.const$0;
+        return constants$49.const$2;
     }
     /**
      * Getter for field:
@@ -5107,7 +5117,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$49.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$49.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5116,15 +5126,15 @@ public class OrtApi {
      * }
      */
     public static void GetValue$set(MemorySegment seg, MemorySegment x) {
-        constants$49.const$0.set(seg, 0L, x);
+        constants$49.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$49.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$49.const$2.get(seg, index * sizeof());
     }
 
     public static void GetValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$49.const$0.set(seg, index * sizeof(), x);
+        constants$49.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetValue GetValue(MemorySegment segment, Arena scope) {
@@ -5140,14 +5150,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetValueCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$49.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$49.const$3, fi, constants$15.const$4, scope);
         }
 
         static GetValueCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5156,7 +5166,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetValueCount$VH() {
-        return constants$49.const$2;
+        return constants$49.const$4;
     }
     /**
      * Getter for field:
@@ -5165,7 +5175,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetValueCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$49.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$49.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5174,15 +5184,15 @@ public class OrtApi {
      * }
      */
     public static void GetValueCount$set(MemorySegment seg, MemorySegment x) {
-        constants$49.const$2.set(seg, 0L, x);
+        constants$49.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetValueCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$49.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$49.const$4.get(seg, index * sizeof());
     }
 
     public static void GetValueCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$49.const$2.set(seg, index * sizeof(), x);
+        constants$49.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetValueCount GetValueCount(MemorySegment segment, Arena scope) {
@@ -5199,7 +5209,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, int _x2, java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$49.const$4, fi, constants$49.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$50.const$0, fi, constants$49.const$5, scope);
         }
 
         static CreateValue ofAddress(MemorySegment addr, Arena arena) {
@@ -5210,7 +5220,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$49.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$50.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5219,7 +5229,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateValue$VH() {
-        return constants$50.const$0;
+        return constants$50.const$2;
     }
     /**
      * Getter for field:
@@ -5228,7 +5238,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$50.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$50.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5237,15 +5247,15 @@ public class OrtApi {
      * }
      */
     public static void CreateValue$set(MemorySegment seg, MemorySegment x) {
-        constants$50.const$0.set(seg, 0L, x);
+        constants$50.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$50.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$50.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$50.const$0.set(seg, index * sizeof(), x);
+        constants$50.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateValue CreateValue(MemorySegment segment, Arena scope) {
@@ -5266,7 +5276,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateOpaqueValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$50.const$2, fi, constants$50.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$50.const$4, fi, constants$50.const$3, scope);
         }
 
         static CreateOpaqueValue ofAddress(MemorySegment addr, Arena arena) {
@@ -5278,7 +5288,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$50.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$50.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5287,7 +5297,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateOpaqueValue$VH() {
-        return constants$50.const$4;
+        return constants$51.const$0;
     }
     /**
      * Getter for field:
@@ -5296,7 +5306,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateOpaqueValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$50.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$51.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5305,15 +5315,15 @@ public class OrtApi {
      * }
      */
     public static void CreateOpaqueValue$set(MemorySegment seg, MemorySegment x) {
-        constants$50.const$4.set(seg, 0L, x);
+        constants$51.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateOpaqueValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$50.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$51.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateOpaqueValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$50.const$4.set(seg, index * sizeof(), x);
+        constants$51.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateOpaqueValue CreateOpaqueValue(MemorySegment segment, Arena scope) {
@@ -5334,7 +5344,7 @@ public class OrtApi {
                 long _x4);
 
         static MemorySegment allocate(GetOpaqueValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$51.const$0, fi, constants$50.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$51.const$2, fi, constants$51.const$1, scope);
         }
 
         static GetOpaqueValue ofAddress(MemorySegment addr, Arena arena) {
@@ -5346,7 +5356,7 @@ public class OrtApi {
                     long __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$51.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$51.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5355,7 +5365,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetOpaqueValue$VH() {
-        return constants$51.const$2;
+        return constants$51.const$4;
     }
     /**
      * Getter for field:
@@ -5364,7 +5374,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetOpaqueValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$51.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$51.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5373,15 +5383,15 @@ public class OrtApi {
      * }
      */
     public static void GetOpaqueValue$set(MemorySegment seg, MemorySegment x) {
-        constants$51.const$2.set(seg, 0L, x);
+        constants$51.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetOpaqueValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$51.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$51.const$4.get(seg, index * sizeof());
     }
 
     public static void GetOpaqueValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$51.const$2.set(seg, index * sizeof(), x);
+        constants$51.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetOpaqueValue GetOpaqueValue(MemorySegment segment, Arena scope) {
@@ -5400,7 +5410,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfoGetAttribute_float fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$51.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$51.const$5, fi, constants$15.const$0, scope);
         }
 
         static KernelInfoGetAttribute_float ofAddress(MemorySegment addr, Arena arena) {
@@ -5409,7 +5419,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5418,7 +5428,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetAttribute_float$VH() {
-        return constants$51.const$4;
+        return constants$52.const$0;
     }
     /**
      * Getter for field:
@@ -5427,7 +5437,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_float$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$51.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$52.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5436,15 +5446,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetAttribute_float$set(MemorySegment seg, MemorySegment x) {
-        constants$51.const$4.set(seg, 0L, x);
+        constants$52.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetAttribute_float$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$51.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$52.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetAttribute_float$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$51.const$4.set(seg, index * sizeof(), x);
+        constants$52.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetAttribute_float KernelInfoGetAttribute_float(MemorySegment segment, Arena scope) {
@@ -5463,7 +5473,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfoGetAttribute_int64 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$51.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$52.const$1, fi, constants$15.const$0, scope);
         }
 
         static KernelInfoGetAttribute_int64 ofAddress(MemorySegment addr, Arena arena) {
@@ -5472,7 +5482,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5481,7 +5491,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetAttribute_int64$VH() {
-        return constants$52.const$0;
+        return constants$52.const$2;
     }
     /**
      * Getter for field:
@@ -5490,7 +5500,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_int64$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$52.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$52.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5499,15 +5509,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, MemorySegment x) {
-        constants$52.const$0.set(seg, 0L, x);
+        constants$52.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetAttribute_int64$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$52.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$52.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetAttribute_int64$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$52.const$0.set(seg, index * sizeof(), x);
+        constants$52.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetAttribute_int64 KernelInfoGetAttribute_int64(MemorySegment segment, Arena scope) {
@@ -5527,7 +5537,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttribute_string fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$52.const$1, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$52.const$3, fi, constants$20.const$3, scope);
         }
 
         static KernelInfoGetAttribute_string ofAddress(MemorySegment addr, Arena arena) {
@@ -5538,7 +5548,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5547,7 +5557,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetAttribute_string$VH() {
-        return constants$52.const$2;
+        return constants$52.const$4;
     }
     /**
      * Getter for field:
@@ -5556,7 +5566,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_string$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$52.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$52.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5565,15 +5575,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetAttribute_string$set(MemorySegment seg, MemorySegment x) {
-        constants$52.const$2.set(seg, 0L, x);
+        constants$52.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetAttribute_string$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$52.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$52.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetAttribute_string$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$52.const$2.set(seg, index * sizeof(), x);
+        constants$52.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetAttribute_string KernelInfoGetAttribute_string(MemorySegment segment, Arena scope) {
@@ -5589,14 +5599,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetInputCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$52.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$52.const$5, fi, constants$15.const$4, scope);
         }
 
         static KernelContext_GetInputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5605,7 +5615,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetInputCount$VH() {
-        return constants$52.const$4;
+        return constants$53.const$0;
     }
     /**
      * Getter for field:
@@ -5614,7 +5624,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetInputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$52.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$53.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5623,15 +5633,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetInputCount$set(MemorySegment seg, MemorySegment x) {
-        constants$52.const$4.set(seg, 0L, x);
+        constants$53.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetInputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$52.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$53.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetInputCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$52.const$4.set(seg, index * sizeof(), x);
+        constants$53.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetInputCount KernelContext_GetInputCount(MemorySegment segment, Arena scope) {
@@ -5647,14 +5657,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetOutputCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$52.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$53.const$1, fi, constants$15.const$4, scope);
         }
 
         static KernelContext_GetOutputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5663,7 +5673,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetOutputCount$VH() {
-        return constants$53.const$0;
+        return constants$53.const$2;
     }
     /**
      * Getter for field:
@@ -5672,7 +5682,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetOutputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$53.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$53.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5681,15 +5691,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetOutputCount$set(MemorySegment seg, MemorySegment x) {
-        constants$53.const$0.set(seg, 0L, x);
+        constants$53.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetOutputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$53.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$53.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetOutputCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$53.const$0.set(seg, index * sizeof(), x);
+        constants$53.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetOutputCount KernelContext_GetOutputCount(MemorySegment segment, Arena scope) {
@@ -5706,14 +5716,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelContext_GetInput fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$53.const$1, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$53.const$3, fi, constants$30.const$3, scope);
         }
 
         static KernelContext_GetInput ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5722,7 +5732,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetInput$VH() {
-        return constants$53.const$2;
+        return constants$53.const$4;
     }
     /**
      * Getter for field:
@@ -5731,7 +5741,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetInput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$53.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$53.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5740,15 +5750,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetInput$set(MemorySegment seg, MemorySegment x) {
-        constants$53.const$2.set(seg, 0L, x);
+        constants$53.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetInput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$53.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$53.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetInput$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$53.const$2.set(seg, index * sizeof(), x);
+        constants$53.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetInput KernelContext_GetInput(MemorySegment segment, Arena scope) {
@@ -5769,7 +5779,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(KernelContext_GetOutput fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$53.const$4, fi, constants$53.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$54.const$0, fi, constants$53.const$5, scope);
         }
 
         static KernelContext_GetOutput ofAddress(MemorySegment addr, Arena arena) {
@@ -5781,7 +5791,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$53.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$54.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5790,7 +5800,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetOutput$VH() {
-        return constants$54.const$0;
+        return constants$54.const$2;
     }
     /**
      * Getter for field:
@@ -5799,7 +5809,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetOutput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$54.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$54.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5808,15 +5818,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetOutput$set(MemorySegment seg, MemorySegment x) {
-        constants$54.const$0.set(seg, 0L, x);
+        constants$54.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetOutput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$54.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$54.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetOutput$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$54.const$0.set(seg, index * sizeof(), x);
+        constants$54.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetOutput KernelContext_GetOutput(MemorySegment segment, Arena scope) {
@@ -5832,14 +5842,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseEnv fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$54.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$54.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseEnv ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5848,7 +5858,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseEnv$VH() {
-        return constants$54.const$2;
+        return constants$54.const$4;
     }
     /**
      * Getter for field:
@@ -5857,7 +5867,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseEnv$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$54.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$54.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5866,15 +5876,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseEnv$set(MemorySegment seg, MemorySegment x) {
-        constants$54.const$2.set(seg, 0L, x);
+        constants$54.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseEnv$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$54.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$54.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseEnv$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$54.const$2.set(seg, index * sizeof(), x);
+        constants$54.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseEnv ReleaseEnv(MemorySegment segment, Arena scope) {
@@ -5890,14 +5900,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseStatus fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$54.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$54.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseStatus ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5906,7 +5916,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseStatus$VH() {
-        return constants$54.const$4;
+        return constants$55.const$0;
     }
     /**
      * Getter for field:
@@ -5915,7 +5925,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseStatus$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$54.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$55.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5924,15 +5934,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseStatus$set(MemorySegment seg, MemorySegment x) {
-        constants$54.const$4.set(seg, 0L, x);
+        constants$55.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseStatus$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$54.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$55.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseStatus$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$54.const$4.set(seg, index * sizeof(), x);
+        constants$55.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseStatus ReleaseStatus(MemorySegment segment, Arena scope) {
@@ -5948,14 +5958,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseMemoryInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$54.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$55.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -5964,7 +5974,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseMemoryInfo$VH() {
-        return constants$55.const$0;
+        return constants$55.const$2;
     }
     /**
      * Getter for field:
@@ -5973,7 +5983,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$55.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$55.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -5982,15 +5992,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseMemoryInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$55.const$0.set(seg, 0L, x);
+        constants$55.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$55.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$55.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$55.const$0.set(seg, index * sizeof(), x);
+        constants$55.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseMemoryInfo ReleaseMemoryInfo(MemorySegment segment, Arena scope) {
@@ -6006,14 +6016,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseSession fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$55.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$55.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseSession ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6022,7 +6032,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseSession$VH() {
-        return constants$55.const$2;
+        return constants$55.const$4;
     }
     /**
      * Getter for field:
@@ -6031,7 +6041,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseSession$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$55.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$55.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6040,15 +6050,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseSession$set(MemorySegment seg, MemorySegment x) {
-        constants$55.const$2.set(seg, 0L, x);
+        constants$55.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseSession$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$55.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$55.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseSession$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$55.const$2.set(seg, index * sizeof(), x);
+        constants$55.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseSession ReleaseSession(MemorySegment segment, Arena scope) {
@@ -6064,14 +6074,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$55.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$55.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseValue ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6080,7 +6090,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseValue$VH() {
-        return constants$55.const$4;
+        return constants$56.const$0;
     }
     /**
      * Getter for field:
@@ -6089,7 +6099,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$55.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$56.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6098,15 +6108,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseValue$set(MemorySegment seg, MemorySegment x) {
-        constants$55.const$4.set(seg, 0L, x);
+        constants$56.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$55.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$56.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$55.const$4.set(seg, index * sizeof(), x);
+        constants$56.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseValue ReleaseValue(MemorySegment segment, Arena scope) {
@@ -6122,14 +6132,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseRunOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$55.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$56.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseRunOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6138,7 +6148,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseRunOptions$VH() {
-        return constants$56.const$0;
+        return constants$56.const$2;
     }
     /**
      * Getter for field:
@@ -6147,7 +6157,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseRunOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$56.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$56.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6156,15 +6166,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseRunOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$56.const$0.set(seg, 0L, x);
+        constants$56.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseRunOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$56.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$56.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseRunOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$56.const$0.set(seg, index * sizeof(), x);
+        constants$56.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseRunOptions ReleaseRunOptions(MemorySegment segment, Arena scope) {
@@ -6180,14 +6190,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$56.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$56.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6196,7 +6206,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseTypeInfo$VH() {
-        return constants$56.const$2;
+        return constants$56.const$4;
     }
     /**
      * Getter for field:
@@ -6205,7 +6215,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$56.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$56.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6214,15 +6224,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$56.const$2.set(seg, 0L, x);
+        constants$56.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$56.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$56.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$56.const$2.set(seg, index * sizeof(), x);
+        constants$56.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseTypeInfo ReleaseTypeInfo(MemorySegment segment, Arena scope) {
@@ -6238,14 +6248,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseTensorTypeAndShapeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$56.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$56.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseTensorTypeAndShapeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6254,7 +6264,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseTensorTypeAndShapeInfo$VH() {
-        return constants$56.const$4;
+        return constants$57.const$0;
     }
     /**
      * Getter for field:
@@ -6263,7 +6273,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$56.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$57.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6272,15 +6282,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$56.const$4.set(seg, 0L, x);
+        constants$57.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseTensorTypeAndShapeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$56.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$57.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseTensorTypeAndShapeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$56.const$4.set(seg, index * sizeof(), x);
+        constants$57.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseTensorTypeAndShapeInfo ReleaseTensorTypeAndShapeInfo(MemorySegment segment, Arena scope) {
@@ -6296,14 +6306,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseSessionOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$56.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$57.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseSessionOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6312,7 +6322,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseSessionOptions$VH() {
-        return constants$57.const$0;
+        return constants$57.const$2;
     }
     /**
      * Getter for field:
@@ -6321,7 +6331,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseSessionOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$57.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$57.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6330,15 +6340,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseSessionOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$57.const$0.set(seg, 0L, x);
+        constants$57.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseSessionOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$57.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$57.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseSessionOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$57.const$0.set(seg, index * sizeof(), x);
+        constants$57.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseSessionOptions ReleaseSessionOptions(MemorySegment segment, Arena scope) {
@@ -6354,14 +6364,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseCustomOpDomain fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$57.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$57.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseCustomOpDomain ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6370,7 +6380,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseCustomOpDomain$VH() {
-        return constants$57.const$2;
+        return constants$57.const$4;
     }
     /**
      * Getter for field:
@@ -6379,7 +6389,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseCustomOpDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$57.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$57.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6388,15 +6398,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseCustomOpDomain$set(MemorySegment seg, MemorySegment x) {
-        constants$57.const$2.set(seg, 0L, x);
+        constants$57.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseCustomOpDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$57.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$57.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseCustomOpDomain$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$57.const$2.set(seg, index * sizeof(), x);
+        constants$57.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseCustomOpDomain ReleaseCustomOpDomain(MemorySegment segment, Arena scope) {
@@ -6415,7 +6425,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetDenotationFromTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$57.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$57.const$5, fi, constants$15.const$0, scope);
         }
 
         static GetDenotationFromTypeInfo ofAddress(MemorySegment addr, Arena arena) {
@@ -6424,7 +6434,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6433,7 +6443,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetDenotationFromTypeInfo$VH() {
-        return constants$57.const$4;
+        return constants$58.const$0;
     }
     /**
      * Getter for field:
@@ -6442,7 +6452,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetDenotationFromTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$57.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$58.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6451,15 +6461,15 @@ public class OrtApi {
      * }
      */
     public static void GetDenotationFromTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$57.const$4.set(seg, 0L, x);
+        constants$58.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetDenotationFromTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$57.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$58.const$0.get(seg, index * sizeof());
     }
 
     public static void GetDenotationFromTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$57.const$4.set(seg, index * sizeof(), x);
+        constants$58.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetDenotationFromTypeInfo GetDenotationFromTypeInfo(MemorySegment segment, Arena scope) {
@@ -6475,14 +6485,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToMapTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$57.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$58.const$1, fi, constants$15.const$4, scope);
         }
 
         static CastTypeInfoToMapTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6491,7 +6501,7 @@ public class OrtApi {
     }
 
     public static VarHandle CastTypeInfoToMapTypeInfo$VH() {
-        return constants$58.const$0;
+        return constants$58.const$2;
     }
     /**
      * Getter for field:
@@ -6500,7 +6510,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CastTypeInfoToMapTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$58.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$58.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6509,15 +6519,15 @@ public class OrtApi {
      * }
      */
     public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$58.const$0.set(seg, 0L, x);
+        constants$58.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CastTypeInfoToMapTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$58.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$58.const$2.get(seg, index * sizeof());
     }
 
     public static void CastTypeInfoToMapTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$58.const$0.set(seg, index * sizeof(), x);
+        constants$58.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CastTypeInfoToMapTypeInfo CastTypeInfoToMapTypeInfo(MemorySegment segment, Arena scope) {
@@ -6533,14 +6543,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToSequenceTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$58.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$58.const$3, fi, constants$15.const$4, scope);
         }
 
         static CastTypeInfoToSequenceTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6549,7 +6559,7 @@ public class OrtApi {
     }
 
     public static VarHandle CastTypeInfoToSequenceTypeInfo$VH() {
-        return constants$58.const$2;
+        return constants$58.const$4;
     }
     /**
      * Getter for field:
@@ -6558,7 +6568,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$58.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$58.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6567,15 +6577,15 @@ public class OrtApi {
      * }
      */
     public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$58.const$2.set(seg, 0L, x);
+        constants$58.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CastTypeInfoToSequenceTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$58.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$58.const$4.get(seg, index * sizeof());
     }
 
     public static void CastTypeInfoToSequenceTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$58.const$2.set(seg, index * sizeof(), x);
+        constants$58.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CastTypeInfoToSequenceTypeInfo CastTypeInfoToSequenceTypeInfo(MemorySegment segment, Arena scope) {
@@ -6591,14 +6601,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetMapKeyType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$58.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$58.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetMapKeyType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6607,7 +6617,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetMapKeyType$VH() {
-        return constants$58.const$4;
+        return constants$59.const$0;
     }
     /**
      * Getter for field:
@@ -6616,7 +6626,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetMapKeyType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$58.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$59.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6625,15 +6635,15 @@ public class OrtApi {
      * }
      */
     public static void GetMapKeyType$set(MemorySegment seg, MemorySegment x) {
-        constants$58.const$4.set(seg, 0L, x);
+        constants$59.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetMapKeyType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$58.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$59.const$0.get(seg, index * sizeof());
     }
 
     public static void GetMapKeyType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$58.const$4.set(seg, index * sizeof(), x);
+        constants$59.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetMapKeyType GetMapKeyType(MemorySegment segment, Arena scope) {
@@ -6649,14 +6659,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetMapValueType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$58.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$59.const$1, fi, constants$15.const$4, scope);
         }
 
         static GetMapValueType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6665,7 +6675,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetMapValueType$VH() {
-        return constants$59.const$0;
+        return constants$59.const$2;
     }
     /**
      * Getter for field:
@@ -6674,7 +6684,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetMapValueType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$59.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$59.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6683,15 +6693,15 @@ public class OrtApi {
      * }
      */
     public static void GetMapValueType$set(MemorySegment seg, MemorySegment x) {
-        constants$59.const$0.set(seg, 0L, x);
+        constants$59.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetMapValueType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$59.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$59.const$2.get(seg, index * sizeof());
     }
 
     public static void GetMapValueType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$59.const$0.set(seg, index * sizeof(), x);
+        constants$59.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetMapValueType GetMapValueType(MemorySegment segment, Arena scope) {
@@ -6707,14 +6717,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSequenceElementType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$59.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$59.const$3, fi, constants$15.const$4, scope);
         }
 
         static GetSequenceElementType ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6723,7 +6733,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSequenceElementType$VH() {
-        return constants$59.const$2;
+        return constants$59.const$4;
     }
     /**
      * Getter for field:
@@ -6732,7 +6742,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSequenceElementType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$59.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$59.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6741,15 +6751,15 @@ public class OrtApi {
      * }
      */
     public static void GetSequenceElementType$set(MemorySegment seg, MemorySegment x) {
-        constants$59.const$2.set(seg, 0L, x);
+        constants$59.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSequenceElementType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$59.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$59.const$4.get(seg, index * sizeof());
     }
 
     public static void GetSequenceElementType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$59.const$2.set(seg, index * sizeof(), x);
+        constants$59.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetSequenceElementType GetSequenceElementType(MemorySegment segment, Arena scope) {
@@ -6765,14 +6775,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseMapTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$59.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$59.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseMapTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6781,7 +6791,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseMapTypeInfo$VH() {
-        return constants$59.const$4;
+        return constants$60.const$0;
     }
     /**
      * Getter for field:
@@ -6790,7 +6800,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseMapTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$59.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$60.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6799,15 +6809,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseMapTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$59.const$4.set(seg, 0L, x);
+        constants$60.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseMapTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$59.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$60.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseMapTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$59.const$4.set(seg, index * sizeof(), x);
+        constants$60.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseMapTypeInfo ReleaseMapTypeInfo(MemorySegment segment, Arena scope) {
@@ -6823,14 +6833,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseSequenceTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$59.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$60.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseSequenceTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6839,7 +6849,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseSequenceTypeInfo$VH() {
-        return constants$60.const$0;
+        return constants$60.const$2;
     }
     /**
      * Getter for field:
@@ -6848,7 +6858,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseSequenceTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$60.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$60.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6857,15 +6867,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$60.const$0.set(seg, 0L, x);
+        constants$60.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseSequenceTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$60.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$60.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseSequenceTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$60.const$0.set(seg, index * sizeof(), x);
+        constants$60.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseSequenceTypeInfo ReleaseSequenceTypeInfo(MemorySegment segment, Arena scope) {
@@ -6884,7 +6894,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(SessionEndProfiling fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$60.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$60.const$3, fi, constants$15.const$0, scope);
         }
 
         static SessionEndProfiling ofAddress(MemorySegment addr, Arena arena) {
@@ -6893,7 +6903,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6902,7 +6912,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionEndProfiling$VH() {
-        return constants$60.const$2;
+        return constants$60.const$4;
     }
     /**
      * Getter for field:
@@ -6911,7 +6921,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionEndProfiling$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$60.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$60.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6920,15 +6930,15 @@ public class OrtApi {
      * }
      */
     public static void SessionEndProfiling$set(MemorySegment seg, MemorySegment x) {
-        constants$60.const$2.set(seg, 0L, x);
+        constants$60.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionEndProfiling$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$60.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$60.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionEndProfiling$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$60.const$2.set(seg, index * sizeof(), x);
+        constants$60.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionEndProfiling SessionEndProfiling(MemorySegment segment, Arena scope) {
@@ -6944,14 +6954,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetModelMetadata fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$60.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$60.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionGetModelMetadata ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -6960,7 +6970,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetModelMetadata$VH() {
-        return constants$60.const$4;
+        return constants$61.const$0;
     }
     /**
      * Getter for field:
@@ -6969,7 +6979,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetModelMetadata$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$60.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$61.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -6978,15 +6988,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetModelMetadata$set(MemorySegment seg, MemorySegment x) {
-        constants$60.const$4.set(seg, 0L, x);
+        constants$61.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetModelMetadata$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$60.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$61.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionGetModelMetadata$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$60.const$4.set(seg, index * sizeof(), x);
+        constants$61.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetModelMetadata SessionGetModelMetadata(MemorySegment segment, Arena scope) {
@@ -7005,7 +7015,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetProducerName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$60.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$61.const$1, fi, constants$15.const$0, scope);
         }
 
         static ModelMetadataGetProducerName ofAddress(MemorySegment addr, Arena arena) {
@@ -7014,7 +7024,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7023,7 +7033,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetProducerName$VH() {
-        return constants$61.const$0;
+        return constants$61.const$2;
     }
     /**
      * Getter for field:
@@ -7032,7 +7042,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetProducerName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$61.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$61.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7041,15 +7051,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetProducerName$set(MemorySegment seg, MemorySegment x) {
-        constants$61.const$0.set(seg, 0L, x);
+        constants$61.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetProducerName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$61.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$61.const$2.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetProducerName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$61.const$0.set(seg, index * sizeof(), x);
+        constants$61.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetProducerName ModelMetadataGetProducerName(MemorySegment segment, Arena scope) {
@@ -7068,7 +7078,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetGraphName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$61.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$61.const$3, fi, constants$15.const$0, scope);
         }
 
         static ModelMetadataGetGraphName ofAddress(MemorySegment addr, Arena arena) {
@@ -7077,7 +7087,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7086,7 +7096,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetGraphName$VH() {
-        return constants$61.const$2;
+        return constants$61.const$4;
     }
     /**
      * Getter for field:
@@ -7095,7 +7105,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetGraphName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$61.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$61.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7104,15 +7114,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetGraphName$set(MemorySegment seg, MemorySegment x) {
-        constants$61.const$2.set(seg, 0L, x);
+        constants$61.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetGraphName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$61.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$61.const$4.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetGraphName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$61.const$2.set(seg, index * sizeof(), x);
+        constants$61.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetGraphName ModelMetadataGetGraphName(MemorySegment segment, Arena scope) {
@@ -7131,7 +7141,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetDomain fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$61.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$61.const$5, fi, constants$15.const$0, scope);
         }
 
         static ModelMetadataGetDomain ofAddress(MemorySegment addr, Arena arena) {
@@ -7140,7 +7150,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7149,7 +7159,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetDomain$VH() {
-        return constants$61.const$4;
+        return constants$62.const$0;
     }
     /**
      * Getter for field:
@@ -7158,7 +7168,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetDomain$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$61.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$62.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7167,15 +7177,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetDomain$set(MemorySegment seg, MemorySegment x) {
-        constants$61.const$4.set(seg, 0L, x);
+        constants$62.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetDomain$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$61.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$62.const$0.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetDomain$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$61.const$4.set(seg, index * sizeof(), x);
+        constants$62.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetDomain ModelMetadataGetDomain(MemorySegment segment, Arena scope) {
@@ -7194,7 +7204,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetDescription fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$61.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$62.const$1, fi, constants$15.const$0, scope);
         }
 
         static ModelMetadataGetDescription ofAddress(MemorySegment addr, Arena arena) {
@@ -7203,7 +7213,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7212,7 +7222,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetDescription$VH() {
-        return constants$62.const$0;
+        return constants$62.const$2;
     }
     /**
      * Getter for field:
@@ -7221,7 +7231,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetDescription$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$62.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$62.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7230,15 +7240,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetDescription$set(MemorySegment seg, MemorySegment x) {
-        constants$62.const$0.set(seg, 0L, x);
+        constants$62.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetDescription$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$62.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$62.const$2.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetDescription$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$62.const$0.set(seg, index * sizeof(), x);
+        constants$62.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetDescription ModelMetadataGetDescription(MemorySegment segment, Arena scope) {
@@ -7258,7 +7268,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(ModelMetadataLookupCustomMetadataMap fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$62.const$1, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$62.const$3, fi, constants$20.const$3, scope);
         }
 
         static ModelMetadataLookupCustomMetadataMap ofAddress(MemorySegment addr, Arena arena) {
@@ -7269,7 +7279,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7278,7 +7288,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataLookupCustomMetadataMap$VH() {
-        return constants$62.const$2;
+        return constants$62.const$4;
     }
     /**
      * Getter for field:
@@ -7287,7 +7297,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$62.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$62.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7296,15 +7306,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, MemorySegment x) {
-        constants$62.const$2.set(seg, 0L, x);
+        constants$62.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataLookupCustomMetadataMap$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$62.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$62.const$4.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataLookupCustomMetadataMap$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$62.const$2.set(seg, index * sizeof(), x);
+        constants$62.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataLookupCustomMetadataMap ModelMetadataLookupCustomMetadataMap(
@@ -7321,14 +7331,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(ModelMetadataGetVersion fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$62.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$62.const$5, fi, constants$15.const$4, scope);
         }
 
         static ModelMetadataGetVersion ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7337,7 +7347,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetVersion$VH() {
-        return constants$62.const$4;
+        return constants$63.const$0;
     }
     /**
      * Getter for field:
@@ -7346,7 +7356,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetVersion$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$62.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$63.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7355,15 +7365,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetVersion$set(MemorySegment seg, MemorySegment x) {
-        constants$62.const$4.set(seg, 0L, x);
+        constants$63.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetVersion$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$62.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$63.const$0.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetVersion$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$62.const$4.set(seg, index * sizeof(), x);
+        constants$63.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetVersion ModelMetadataGetVersion(MemorySegment segment, Arena scope) {
@@ -7379,14 +7389,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseModelMetadata fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$62.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$63.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseModelMetadata ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7395,7 +7405,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseModelMetadata$VH() {
-        return constants$63.const$0;
+        return constants$63.const$2;
     }
     /**
      * Getter for field:
@@ -7404,7 +7414,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseModelMetadata$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$63.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$63.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7413,15 +7423,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseModelMetadata$set(MemorySegment seg, MemorySegment x) {
-        constants$63.const$0.set(seg, 0L, x);
+        constants$63.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseModelMetadata$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$63.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$63.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseModelMetadata$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$63.const$0.set(seg, index * sizeof(), x);
+        constants$63.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseModelMetadata ReleaseModelMetadata(MemorySegment segment, Arena scope) {
@@ -7441,7 +7451,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateEnvWithGlobalThreadPools fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$63.const$2, fi, constants$63.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$63.const$4, fi, constants$63.const$3, scope);
         }
 
         static CreateEnvWithGlobalThreadPools ofAddress(MemorySegment addr, Arena arena) {
@@ -7452,7 +7462,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$63.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$63.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7461,7 +7471,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateEnvWithGlobalThreadPools$VH() {
-        return constants$63.const$4;
+        return constants$64.const$0;
     }
     /**
      * Getter for field:
@@ -7470,7 +7480,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateEnvWithGlobalThreadPools$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$63.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$64.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7479,15 +7489,15 @@ public class OrtApi {
      * }
      */
     public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, MemorySegment x) {
-        constants$63.const$4.set(seg, 0L, x);
+        constants$64.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateEnvWithGlobalThreadPools$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$63.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$64.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateEnvWithGlobalThreadPools$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$63.const$4.set(seg, index * sizeof(), x);
+        constants$64.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateEnvWithGlobalThreadPools CreateEnvWithGlobalThreadPools(MemorySegment segment, Arena scope) {
@@ -7503,7 +7513,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(DisablePerSessionThreads fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$63.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$64.const$1, fi, constants$1.const$4, scope);
         }
 
         static DisablePerSessionThreads ofAddress(MemorySegment addr, Arena arena) {
@@ -7519,7 +7529,7 @@ public class OrtApi {
     }
 
     public static VarHandle DisablePerSessionThreads$VH() {
-        return constants$64.const$0;
+        return constants$64.const$2;
     }
     /**
      * Getter for field:
@@ -7528,7 +7538,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment DisablePerSessionThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$64.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$64.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7537,15 +7547,15 @@ public class OrtApi {
      * }
      */
     public static void DisablePerSessionThreads$set(MemorySegment seg, MemorySegment x) {
-        constants$64.const$0.set(seg, 0L, x);
+        constants$64.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment DisablePerSessionThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$64.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$64.const$2.get(seg, index * sizeof());
     }
 
     public static void DisablePerSessionThreads$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$64.const$0.set(seg, index * sizeof(), x);
+        constants$64.const$2.set(seg, index * sizeof(), x);
     }
 
     public static DisablePerSessionThreads DisablePerSessionThreads(MemorySegment segment, Arena scope) {
@@ -7561,7 +7571,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateThreadingOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$64.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$64.const$3, fi, constants$1.const$4, scope);
         }
 
         static CreateThreadingOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -7577,7 +7587,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateThreadingOptions$VH() {
-        return constants$64.const$2;
+        return constants$64.const$4;
     }
     /**
      * Getter for field:
@@ -7586,7 +7596,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateThreadingOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$64.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$64.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7595,15 +7605,15 @@ public class OrtApi {
      * }
      */
     public static void CreateThreadingOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$64.const$2.set(seg, 0L, x);
+        constants$64.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateThreadingOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$64.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$64.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateThreadingOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$64.const$2.set(seg, index * sizeof(), x);
+        constants$64.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateThreadingOptions CreateThreadingOptions(MemorySegment segment, Arena scope) {
@@ -7619,14 +7629,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseThreadingOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$64.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$64.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseThreadingOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7635,7 +7645,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseThreadingOptions$VH() {
-        return constants$64.const$4;
+        return constants$65.const$0;
     }
     /**
      * Getter for field:
@@ -7644,7 +7654,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseThreadingOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$64.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$65.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7653,15 +7663,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseThreadingOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$64.const$4.set(seg, 0L, x);
+        constants$65.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseThreadingOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$64.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$65.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseThreadingOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$64.const$4.set(seg, index * sizeof(), x);
+        constants$65.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseThreadingOptions ReleaseThreadingOptions(MemorySegment segment, Arena scope) {
@@ -7681,7 +7691,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(ModelMetadataGetCustomMetadataMapKeys fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$64.const$5, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$65.const$1, fi, constants$20.const$3, scope);
         }
 
         static ModelMetadataGetCustomMetadataMapKeys ofAddress(MemorySegment addr, Arena arena) {
@@ -7692,7 +7702,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7701,7 +7711,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetCustomMetadataMapKeys$VH() {
-        return constants$65.const$0;
+        return constants$65.const$2;
     }
     /**
      * Getter for field:
@@ -7710,7 +7720,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$65.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$65.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7719,15 +7729,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, MemorySegment x) {
-        constants$65.const$0.set(seg, 0L, x);
+        constants$65.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetCustomMetadataMapKeys$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$65.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$65.const$2.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetCustomMetadataMapKeys$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$65.const$0.set(seg, index * sizeof(), x);
+        constants$65.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetCustomMetadataMapKeys ModelMetadataGetCustomMetadataMapKeys(
@@ -7746,14 +7756,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(AddFreeDimensionOverrideByName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$65.const$1, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$65.const$3, fi, constants$38.const$1, scope);
         }
 
         static AddFreeDimensionOverrideByName ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7762,7 +7772,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddFreeDimensionOverrideByName$VH() {
-        return constants$65.const$2;
+        return constants$65.const$4;
     }
     /**
      * Getter for field:
@@ -7771,7 +7781,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddFreeDimensionOverrideByName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$65.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$65.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7780,15 +7790,15 @@ public class OrtApi {
      * }
      */
     public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, MemorySegment x) {
-        constants$65.const$2.set(seg, 0L, x);
+        constants$65.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment AddFreeDimensionOverrideByName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$65.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$65.const$4.get(seg, index * sizeof());
     }
 
     public static void AddFreeDimensionOverrideByName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$65.const$2.set(seg, index * sizeof(), x);
+        constants$65.const$4.set(seg, index * sizeof(), x);
     }
 
     public static AddFreeDimensionOverrideByName AddFreeDimensionOverrideByName(MemorySegment segment, Arena scope) {
@@ -7804,14 +7814,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetAvailableProviders fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$65.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$65.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetAvailableProviders ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7820,7 +7830,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetAvailableProviders$VH() {
-        return constants$65.const$4;
+        return constants$66.const$0;
     }
     /**
      * Getter for field:
@@ -7829,7 +7839,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetAvailableProviders$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$65.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$66.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7838,15 +7848,15 @@ public class OrtApi {
      * }
      */
     public static void GetAvailableProviders$set(MemorySegment seg, MemorySegment x) {
-        constants$65.const$4.set(seg, 0L, x);
+        constants$66.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetAvailableProviders$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$65.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$66.const$0.get(seg, index * sizeof());
     }
 
     public static void GetAvailableProviders$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$65.const$4.set(seg, index * sizeof(), x);
+        constants$66.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetAvailableProviders GetAvailableProviders(MemorySegment segment, Arena scope) {
@@ -7862,14 +7872,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(ReleaseAvailableProviders fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$65.const$5, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$66.const$1, fi, constants$23.const$3, scope);
         }
 
         static ReleaseAvailableProviders ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7878,7 +7888,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseAvailableProviders$VH() {
-        return constants$66.const$0;
+        return constants$66.const$2;
     }
     /**
      * Getter for field:
@@ -7887,7 +7897,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseAvailableProviders$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$66.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$66.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7896,15 +7906,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseAvailableProviders$set(MemorySegment seg, MemorySegment x) {
-        constants$66.const$0.set(seg, 0L, x);
+        constants$66.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseAvailableProviders$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$66.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$66.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseAvailableProviders$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$66.const$0.set(seg, index * sizeof(), x);
+        constants$66.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseAvailableProviders ReleaseAvailableProviders(MemorySegment segment, Arena scope) {
@@ -7921,14 +7931,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetStringTensorElementLength fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$66.const$1, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$66.const$3, fi, constants$30.const$3, scope);
         }
 
         static GetStringTensorElementLength ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -7937,7 +7947,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetStringTensorElementLength$VH() {
-        return constants$66.const$2;
+        return constants$66.const$4;
     }
     /**
      * Getter for field:
@@ -7946,7 +7956,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetStringTensorElementLength$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$66.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$66.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -7955,15 +7965,15 @@ public class OrtApi {
      * }
      */
     public static void GetStringTensorElementLength$set(MemorySegment seg, MemorySegment x) {
-        constants$66.const$2.set(seg, 0L, x);
+        constants$66.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetStringTensorElementLength$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$66.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$66.const$4.get(seg, index * sizeof());
     }
 
     public static void GetStringTensorElementLength$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$66.const$2.set(seg, index * sizeof(), x);
+        constants$66.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetStringTensorElementLength GetStringTensorElementLength(MemorySegment segment, Arena scope) {
@@ -7980,7 +7990,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, long _x2, java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetStringTensorElement fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$66.const$4, fi, constants$66.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$67.const$0, fi, constants$66.const$5, scope);
         }
 
         static GetStringTensorElement ofAddress(MemorySegment addr, Arena arena) {
@@ -7991,7 +8001,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$66.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$67.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8000,7 +8010,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetStringTensorElement$VH() {
-        return constants$67.const$0;
+        return constants$67.const$2;
     }
     /**
      * Getter for field:
@@ -8009,7 +8019,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetStringTensorElement$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$67.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$67.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8018,15 +8028,15 @@ public class OrtApi {
      * }
      */
     public static void GetStringTensorElement$set(MemorySegment seg, MemorySegment x) {
-        constants$67.const$0.set(seg, 0L, x);
+        constants$67.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetStringTensorElement$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$67.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$67.const$2.get(seg, index * sizeof());
     }
 
     public static void GetStringTensorElement$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$67.const$0.set(seg, index * sizeof(), x);
+        constants$67.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetStringTensorElement GetStringTensorElement(MemorySegment segment, Arena scope) {
@@ -8043,14 +8053,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(FillStringTensorElement fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$67.const$1, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$67.const$3, fi, constants$38.const$1, scope);
         }
 
         static FillStringTensorElement ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8059,7 +8069,7 @@ public class OrtApi {
     }
 
     public static VarHandle FillStringTensorElement$VH() {
-        return constants$67.const$2;
+        return constants$67.const$4;
     }
     /**
      * Getter for field:
@@ -8068,7 +8078,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment FillStringTensorElement$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$67.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$67.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8077,15 +8087,15 @@ public class OrtApi {
      * }
      */
     public static void FillStringTensorElement$set(MemorySegment seg, MemorySegment x) {
-        constants$67.const$2.set(seg, 0L, x);
+        constants$67.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment FillStringTensorElement$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$67.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$67.const$4.get(seg, index * sizeof());
     }
 
     public static void FillStringTensorElement$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$67.const$2.set(seg, index * sizeof(), x);
+        constants$67.const$4.set(seg, index * sizeof(), x);
     }
 
     public static FillStringTensorElement FillStringTensorElement(MemorySegment segment, Arena scope) {
@@ -8104,7 +8114,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddSessionConfigEntry fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$67.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$67.const$5, fi, constants$15.const$0, scope);
         }
 
         static AddSessionConfigEntry ofAddress(MemorySegment addr, Arena arena) {
@@ -8113,7 +8123,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8122,7 +8132,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddSessionConfigEntry$VH() {
-        return constants$67.const$4;
+        return constants$68.const$0;
     }
     /**
      * Getter for field:
@@ -8131,7 +8141,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddSessionConfigEntry$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$67.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$68.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8140,15 +8150,15 @@ public class OrtApi {
      * }
      */
     public static void AddSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
-        constants$67.const$4.set(seg, 0L, x);
+        constants$68.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment AddSessionConfigEntry$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$67.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$68.const$0.get(seg, index * sizeof());
     }
 
     public static void AddSessionConfigEntry$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$67.const$4.set(seg, index * sizeof(), x);
+        constants$68.const$0.set(seg, index * sizeof(), x);
     }
 
     public static AddSessionConfigEntry AddSessionConfigEntry(MemorySegment segment, Arena scope) {
@@ -8167,7 +8177,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateAllocator fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$67.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$68.const$1, fi, constants$15.const$0, scope);
         }
 
         static CreateAllocator ofAddress(MemorySegment addr, Arena arena) {
@@ -8176,7 +8186,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8185,7 +8195,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateAllocator$VH() {
-        return constants$68.const$0;
+        return constants$68.const$2;
     }
     /**
      * Getter for field:
@@ -8194,7 +8204,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$68.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$68.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8203,15 +8213,15 @@ public class OrtApi {
      * }
      */
     public static void CreateAllocator$set(MemorySegment seg, MemorySegment x) {
-        constants$68.const$0.set(seg, 0L, x);
+        constants$68.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$68.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$68.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateAllocator$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$68.const$0.set(seg, index * sizeof(), x);
+        constants$68.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateAllocator CreateAllocator(MemorySegment segment, Arena scope) {
@@ -8227,14 +8237,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseAllocator fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$68.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$68.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8243,7 +8253,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseAllocator$VH() {
-        return constants$68.const$2;
+        return constants$68.const$4;
     }
     /**
      * Getter for field:
@@ -8252,7 +8262,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$68.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$68.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8261,15 +8271,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseAllocator$set(MemorySegment seg, MemorySegment x) {
-        constants$68.const$2.set(seg, 0L, x);
+        constants$68.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$68.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$68.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseAllocator$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$68.const$2.set(seg, index * sizeof(), x);
+        constants$68.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseAllocator ReleaseAllocator(MemorySegment segment, Arena scope) {
@@ -8288,7 +8298,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(RunWithBinding fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$68.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$68.const$5, fi, constants$15.const$0, scope);
         }
 
         static RunWithBinding ofAddress(MemorySegment addr, Arena arena) {
@@ -8297,7 +8307,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8306,7 +8316,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunWithBinding$VH() {
-        return constants$68.const$4;
+        return constants$69.const$0;
     }
     /**
      * Getter for field:
@@ -8315,7 +8325,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunWithBinding$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$68.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$69.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8324,15 +8334,15 @@ public class OrtApi {
      * }
      */
     public static void RunWithBinding$set(MemorySegment seg, MemorySegment x) {
-        constants$68.const$4.set(seg, 0L, x);
+        constants$69.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment RunWithBinding$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$68.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$69.const$0.get(seg, index * sizeof());
     }
 
     public static void RunWithBinding$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$68.const$4.set(seg, index * sizeof(), x);
+        constants$69.const$0.set(seg, index * sizeof(), x);
     }
 
     public static RunWithBinding RunWithBinding(MemorySegment segment, Arena scope) {
@@ -8348,14 +8358,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CreateIoBinding fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$68.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$69.const$1, fi, constants$15.const$4, scope);
         }
 
         static CreateIoBinding ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8364,7 +8374,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateIoBinding$VH() {
-        return constants$69.const$0;
+        return constants$69.const$2;
     }
     /**
      * Getter for field:
@@ -8373,7 +8383,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateIoBinding$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$69.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$69.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8382,15 +8392,15 @@ public class OrtApi {
      * }
      */
     public static void CreateIoBinding$set(MemorySegment seg, MemorySegment x) {
-        constants$69.const$0.set(seg, 0L, x);
+        constants$69.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateIoBinding$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$69.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$69.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateIoBinding$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$69.const$0.set(seg, index * sizeof(), x);
+        constants$69.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateIoBinding CreateIoBinding(MemorySegment segment, Arena scope) {
@@ -8406,14 +8416,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseIoBinding fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$69.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$69.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseIoBinding ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8422,7 +8432,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseIoBinding$VH() {
-        return constants$69.const$2;
+        return constants$69.const$4;
     }
     /**
      * Getter for field:
@@ -8431,7 +8441,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseIoBinding$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$69.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$69.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8440,15 +8450,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseIoBinding$set(MemorySegment seg, MemorySegment x) {
-        constants$69.const$2.set(seg, 0L, x);
+        constants$69.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseIoBinding$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$69.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$69.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseIoBinding$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$69.const$2.set(seg, index * sizeof(), x);
+        constants$69.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseIoBinding ReleaseIoBinding(MemorySegment segment, Arena scope) {
@@ -8467,7 +8477,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindInput fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$69.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$69.const$5, fi, constants$15.const$0, scope);
         }
 
         static BindInput ofAddress(MemorySegment addr, Arena arena) {
@@ -8476,7 +8486,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8485,7 +8495,7 @@ public class OrtApi {
     }
 
     public static VarHandle BindInput$VH() {
-        return constants$69.const$4;
+        return constants$70.const$0;
     }
     /**
      * Getter for field:
@@ -8494,7 +8504,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment BindInput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$69.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$70.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8503,15 +8513,15 @@ public class OrtApi {
      * }
      */
     public static void BindInput$set(MemorySegment seg, MemorySegment x) {
-        constants$69.const$4.set(seg, 0L, x);
+        constants$70.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment BindInput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$69.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$70.const$0.get(seg, index * sizeof());
     }
 
     public static void BindInput$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$69.const$4.set(seg, index * sizeof(), x);
+        constants$70.const$0.set(seg, index * sizeof(), x);
     }
 
     public static BindInput BindInput(MemorySegment segment, Arena scope) {
@@ -8530,7 +8540,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindOutput fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$69.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$70.const$1, fi, constants$15.const$0, scope);
         }
 
         static BindOutput ofAddress(MemorySegment addr, Arena arena) {
@@ -8539,7 +8549,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8548,7 +8558,7 @@ public class OrtApi {
     }
 
     public static VarHandle BindOutput$VH() {
-        return constants$70.const$0;
+        return constants$70.const$2;
     }
     /**
      * Getter for field:
@@ -8557,7 +8567,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment BindOutput$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$70.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$70.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8566,15 +8576,15 @@ public class OrtApi {
      * }
      */
     public static void BindOutput$set(MemorySegment seg, MemorySegment x) {
-        constants$70.const$0.set(seg, 0L, x);
+        constants$70.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment BindOutput$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$70.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$70.const$2.get(seg, index * sizeof());
     }
 
     public static void BindOutput$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$70.const$0.set(seg, index * sizeof(), x);
+        constants$70.const$2.set(seg, index * sizeof(), x);
     }
 
     public static BindOutput BindOutput(MemorySegment segment, Arena scope) {
@@ -8593,7 +8603,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(BindOutputToDevice fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$70.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$70.const$3, fi, constants$15.const$0, scope);
         }
 
         static BindOutputToDevice ofAddress(MemorySegment addr, Arena arena) {
@@ -8602,7 +8612,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8611,7 +8621,7 @@ public class OrtApi {
     }
 
     public static VarHandle BindOutputToDevice$VH() {
-        return constants$70.const$2;
+        return constants$70.const$4;
     }
     /**
      * Getter for field:
@@ -8620,7 +8630,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment BindOutputToDevice$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$70.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$70.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8629,15 +8639,15 @@ public class OrtApi {
      * }
      */
     public static void BindOutputToDevice$set(MemorySegment seg, MemorySegment x) {
-        constants$70.const$2.set(seg, 0L, x);
+        constants$70.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment BindOutputToDevice$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$70.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$70.const$4.get(seg, index * sizeof());
     }
 
     public static void BindOutputToDevice$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$70.const$2.set(seg, index * sizeof(), x);
+        constants$70.const$4.set(seg, index * sizeof(), x);
     }
 
     public static BindOutputToDevice BindOutputToDevice(MemorySegment segment, Arena scope) {
@@ -8658,7 +8668,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(GetBoundOutputNames fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$70.const$4, fi, constants$70.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$71.const$0, fi, constants$70.const$5, scope);
         }
 
         static GetBoundOutputNames ofAddress(MemorySegment addr, Arena arena) {
@@ -8670,7 +8680,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$70.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$71.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8679,7 +8689,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetBoundOutputNames$VH() {
-        return constants$71.const$0;
+        return constants$71.const$2;
     }
     /**
      * Getter for field:
@@ -8688,7 +8698,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetBoundOutputNames$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$71.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$71.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8697,15 +8707,15 @@ public class OrtApi {
      * }
      */
     public static void GetBoundOutputNames$set(MemorySegment seg, MemorySegment x) {
-        constants$71.const$0.set(seg, 0L, x);
+        constants$71.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetBoundOutputNames$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$71.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$71.const$2.get(seg, index * sizeof());
     }
 
     public static void GetBoundOutputNames$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$71.const$0.set(seg, index * sizeof(), x);
+        constants$71.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetBoundOutputNames GetBoundOutputNames(MemorySegment segment, Arena scope) {
@@ -8725,7 +8735,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetBoundOutputValues fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$71.const$1, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$71.const$3, fi, constants$20.const$3, scope);
         }
 
         static GetBoundOutputValues ofAddress(MemorySegment addr, Arena arena) {
@@ -8736,7 +8746,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8745,7 +8755,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetBoundOutputValues$VH() {
-        return constants$71.const$2;
+        return constants$71.const$4;
     }
     /**
      * Getter for field:
@@ -8754,7 +8764,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetBoundOutputValues$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$71.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$71.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8763,15 +8773,15 @@ public class OrtApi {
      * }
      */
     public static void GetBoundOutputValues$set(MemorySegment seg, MemorySegment x) {
-        constants$71.const$2.set(seg, 0L, x);
+        constants$71.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetBoundOutputValues$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$71.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$71.const$4.get(seg, index * sizeof());
     }
 
     public static void GetBoundOutputValues$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$71.const$2.set(seg, index * sizeof(), x);
+        constants$71.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetBoundOutputValues GetBoundOutputValues(MemorySegment segment, Arena scope) {
@@ -8787,14 +8797,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ClearBoundInputs fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$71.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$71.const$5, fi, constants$14.const$1, scope);
         }
 
         static ClearBoundInputs ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8803,7 +8813,7 @@ public class OrtApi {
     }
 
     public static VarHandle ClearBoundInputs$VH() {
-        return constants$71.const$4;
+        return constants$72.const$0;
     }
     /**
      * Getter for field:
@@ -8812,7 +8822,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ClearBoundInputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$71.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$72.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8821,15 +8831,15 @@ public class OrtApi {
      * }
      */
     public static void ClearBoundInputs$set(MemorySegment seg, MemorySegment x) {
-        constants$71.const$4.set(seg, 0L, x);
+        constants$72.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ClearBoundInputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$71.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$72.const$0.get(seg, index * sizeof());
     }
 
     public static void ClearBoundInputs$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$71.const$4.set(seg, index * sizeof(), x);
+        constants$72.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ClearBoundInputs ClearBoundInputs(MemorySegment segment, Arena scope) {
@@ -8845,14 +8855,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ClearBoundOutputs fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$71.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$72.const$1, fi, constants$14.const$1, scope);
         }
 
         static ClearBoundOutputs ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8861,7 +8871,7 @@ public class OrtApi {
     }
 
     public static VarHandle ClearBoundOutputs$VH() {
-        return constants$72.const$0;
+        return constants$72.const$2;
     }
     /**
      * Getter for field:
@@ -8870,7 +8880,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ClearBoundOutputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$72.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$72.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8879,15 +8889,15 @@ public class OrtApi {
      * }
      */
     public static void ClearBoundOutputs$set(MemorySegment seg, MemorySegment x) {
-        constants$72.const$0.set(seg, 0L, x);
+        constants$72.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ClearBoundOutputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$72.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$72.const$2.get(seg, index * sizeof());
     }
 
     public static void ClearBoundOutputs$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$72.const$0.set(seg, index * sizeof(), x);
+        constants$72.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ClearBoundOutputs ClearBoundOutputs(MemorySegment segment, Arena scope) {
@@ -8907,7 +8917,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(TensorAt fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$72.const$2, fi, constants$72.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$72.const$4, fi, constants$72.const$3, scope);
         }
 
         static TensorAt ofAddress(MemorySegment addr, Arena arena) {
@@ -8918,7 +8928,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$72.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$72.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8927,7 +8937,7 @@ public class OrtApi {
     }
 
     public static VarHandle TensorAt$VH() {
-        return constants$72.const$4;
+        return constants$73.const$0;
     }
     /**
      * Getter for field:
@@ -8936,7 +8946,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment TensorAt$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$72.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$73.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -8945,15 +8955,15 @@ public class OrtApi {
      * }
      */
     public static void TensorAt$set(MemorySegment seg, MemorySegment x) {
-        constants$72.const$4.set(seg, 0L, x);
+        constants$73.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment TensorAt$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$72.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$73.const$0.get(seg, index * sizeof());
     }
 
     public static void TensorAt$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$72.const$4.set(seg, index * sizeof(), x);
+        constants$73.const$0.set(seg, index * sizeof(), x);
     }
 
     public static TensorAt TensorAt(MemorySegment segment, Arena scope) {
@@ -8972,7 +8982,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(CreateAndRegisterAllocator fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$72.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$73.const$1, fi, constants$15.const$0, scope);
         }
 
         static CreateAndRegisterAllocator ofAddress(MemorySegment addr, Arena arena) {
@@ -8981,7 +8991,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -8990,7 +9000,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateAndRegisterAllocator$VH() {
-        return constants$73.const$0;
+        return constants$73.const$2;
     }
     /**
      * Getter for field:
@@ -8999,7 +9009,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateAndRegisterAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$73.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$73.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9008,15 +9018,15 @@ public class OrtApi {
      * }
      */
     public static void CreateAndRegisterAllocator$set(MemorySegment seg, MemorySegment x) {
-        constants$73.const$0.set(seg, 0L, x);
+        constants$73.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateAndRegisterAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$73.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$73.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateAndRegisterAllocator$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$73.const$0.set(seg, index * sizeof(), x);
+        constants$73.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateAndRegisterAllocator CreateAndRegisterAllocator(MemorySegment segment, Arena scope) {
@@ -9032,14 +9042,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetLanguageProjection fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$73.const$1, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$73.const$3, fi, constants$23.const$3, scope);
         }
 
         static SetLanguageProjection ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9048,7 +9058,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetLanguageProjection$VH() {
-        return constants$73.const$2;
+        return constants$73.const$4;
     }
     /**
      * Getter for field:
@@ -9057,7 +9067,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetLanguageProjection$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$73.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$73.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9066,15 +9076,15 @@ public class OrtApi {
      * }
      */
     public static void SetLanguageProjection$set(MemorySegment seg, MemorySegment x) {
-        constants$73.const$2.set(seg, 0L, x);
+        constants$73.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SetLanguageProjection$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$73.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$73.const$4.get(seg, index * sizeof());
     }
 
     public static void SetLanguageProjection$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$73.const$2.set(seg, index * sizeof(), x);
+        constants$73.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SetLanguageProjection SetLanguageProjection(MemorySegment segment, Arena scope) {
@@ -9090,14 +9100,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionGetProfilingStartTimeNs fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$73.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$73.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionGetProfilingStartTimeNs ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9106,7 +9116,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionGetProfilingStartTimeNs$VH() {
-        return constants$73.const$4;
+        return constants$74.const$0;
     }
     /**
      * Getter for field:
@@ -9115,7 +9125,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionGetProfilingStartTimeNs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$73.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$74.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9124,15 +9134,15 @@ public class OrtApi {
      * }
      */
     public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, MemorySegment x) {
-        constants$73.const$4.set(seg, 0L, x);
+        constants$74.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionGetProfilingStartTimeNs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$73.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$74.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionGetProfilingStartTimeNs$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$73.const$4.set(seg, index * sizeof(), x);
+        constants$74.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionGetProfilingStartTimeNs SessionGetProfilingStartTimeNs(MemorySegment segment, Arena scope) {
@@ -9148,14 +9158,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetGlobalIntraOpNumThreads fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$73.const$5, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$74.const$1, fi, constants$23.const$3, scope);
         }
 
         static SetGlobalIntraOpNumThreads ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9164,7 +9174,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalIntraOpNumThreads$VH() {
-        return constants$74.const$0;
+        return constants$74.const$2;
     }
     /**
      * Getter for field:
@@ -9173,7 +9183,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalIntraOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$74.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$74.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9182,15 +9192,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, MemorySegment x) {
-        constants$74.const$0.set(seg, 0L, x);
+        constants$74.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalIntraOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$74.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$74.const$2.get(seg, index * sizeof());
     }
 
     public static void SetGlobalIntraOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$74.const$0.set(seg, index * sizeof(), x);
+        constants$74.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalIntraOpNumThreads SetGlobalIntraOpNumThreads(MemorySegment segment, Arena scope) {
@@ -9206,14 +9216,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetGlobalInterOpNumThreads fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$74.const$1, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$74.const$3, fi, constants$23.const$3, scope);
         }
 
         static SetGlobalInterOpNumThreads ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9222,7 +9232,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalInterOpNumThreads$VH() {
-        return constants$74.const$2;
+        return constants$74.const$4;
     }
     /**
      * Getter for field:
@@ -9231,7 +9241,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalInterOpNumThreads$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$74.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$74.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9240,15 +9250,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, MemorySegment x) {
-        constants$74.const$2.set(seg, 0L, x);
+        constants$74.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalInterOpNumThreads$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$74.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$74.const$4.get(seg, index * sizeof());
     }
 
     public static void SetGlobalInterOpNumThreads$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$74.const$2.set(seg, index * sizeof(), x);
+        constants$74.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalInterOpNumThreads SetGlobalInterOpNumThreads(MemorySegment segment, Arena scope) {
@@ -9264,14 +9274,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(SetGlobalSpinControl fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$74.const$3, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$74.const$5, fi, constants$23.const$3, scope);
         }
 
         static SetGlobalSpinControl ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9280,7 +9290,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalSpinControl$VH() {
-        return constants$74.const$4;
+        return constants$75.const$0;
     }
     /**
      * Getter for field:
@@ -9289,7 +9299,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalSpinControl$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$74.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$75.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9298,15 +9308,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalSpinControl$set(MemorySegment seg, MemorySegment x) {
-        constants$74.const$4.set(seg, 0L, x);
+        constants$75.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalSpinControl$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$74.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$75.const$0.get(seg, index * sizeof());
     }
 
     public static void SetGlobalSpinControl$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$74.const$4.set(seg, index * sizeof(), x);
+        constants$75.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalSpinControl SetGlobalSpinControl(MemorySegment segment, Arena scope) {
@@ -9325,7 +9335,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddInitializer fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$74.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$75.const$1, fi, constants$15.const$0, scope);
         }
 
         static AddInitializer ofAddress(MemorySegment addr, Arena arena) {
@@ -9334,7 +9344,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9343,7 +9353,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddInitializer$VH() {
-        return constants$75.const$0;
+        return constants$75.const$2;
     }
     /**
      * Getter for field:
@@ -9352,7 +9362,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddInitializer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$75.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$75.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9361,15 +9371,15 @@ public class OrtApi {
      * }
      */
     public static void AddInitializer$set(MemorySegment seg, MemorySegment x) {
-        constants$75.const$0.set(seg, 0L, x);
+        constants$75.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment AddInitializer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$75.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$75.const$2.get(seg, index * sizeof());
     }
 
     public static void AddInitializer$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$75.const$0.set(seg, index * sizeof(), x);
+        constants$75.const$2.set(seg, index * sizeof(), x);
     }
 
     public static AddInitializer AddInitializer(MemorySegment segment, Arena scope) {
@@ -9391,7 +9401,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x5);
 
         static MemorySegment allocate(CreateEnvWithCustomLoggerAndGlobalThreadPools fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$75.const$2, fi, constants$75.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$75.const$4, fi, constants$75.const$3, scope);
         }
 
         static CreateEnvWithCustomLoggerAndGlobalThreadPools ofAddress(MemorySegment addr, Arena arena) {
@@ -9404,7 +9414,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x5) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$75.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
+                            constants$75.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9413,7 +9423,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateEnvWithCustomLoggerAndGlobalThreadPools$VH() {
-        return constants$75.const$4;
+        return constants$76.const$0;
     }
     /**
      * Getter for field:
@@ -9422,7 +9432,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$75.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$76.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9431,16 +9441,16 @@ public class OrtApi {
      * }
      */
     public static void CreateEnvWithCustomLoggerAndGlobalThreadPools$set(MemorySegment seg, MemorySegment x) {
-        constants$75.const$4.set(seg, 0L, x);
+        constants$76.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateEnvWithCustomLoggerAndGlobalThreadPools$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$75.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$76.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateEnvWithCustomLoggerAndGlobalThreadPools$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$75.const$4.set(seg, index * sizeof(), x);
+        constants$76.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateEnvWithCustomLoggerAndGlobalThreadPools CreateEnvWithCustomLoggerAndGlobalThreadPools(
@@ -9458,14 +9468,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$75.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$76.const$1, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_CUDA ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9474,7 +9484,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_CUDA$VH() {
-        return constants$76.const$0;
+        return constants$76.const$2;
     }
     /**
      * Getter for field:
@@ -9483,7 +9493,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$76.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$76.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9492,15 +9502,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, MemorySegment x) {
-        constants$76.const$0.set(seg, 0L, x);
+        constants$76.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$76.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$76.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_CUDA$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$76.const$0.set(seg, index * sizeof(), x);
+        constants$76.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_CUDA SessionOptionsAppendExecutionProvider_CUDA(
@@ -9518,14 +9528,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_ROCM fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$76.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$76.const$3, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_ROCM ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9534,7 +9544,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_ROCM$VH() {
-        return constants$76.const$2;
+        return constants$76.const$4;
     }
     /**
      * Getter for field:
@@ -9543,7 +9553,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$76.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$76.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9552,15 +9562,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, MemorySegment x) {
-        constants$76.const$2.set(seg, 0L, x);
+        constants$76.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_ROCM$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$76.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$76.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_ROCM$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$76.const$2.set(seg, index * sizeof(), x);
+        constants$76.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_ROCM SessionOptionsAppendExecutionProvider_ROCM(
@@ -9578,14 +9588,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_OpenVINO fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$76.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$76.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_OpenVINO ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9594,7 +9604,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_OpenVINO$VH() {
-        return constants$76.const$4;
+        return constants$77.const$0;
     }
     /**
      * Getter for field:
@@ -9603,7 +9613,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$76.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$77.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9612,16 +9622,16 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_OpenVINO$set(MemorySegment seg, MemorySegment x) {
-        constants$76.const$4.set(seg, 0L, x);
+        constants$77.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$76.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$77.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_OpenVINO$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$76.const$4.set(seg, index * sizeof(), x);
+        constants$77.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_OpenVINO SessionOptionsAppendExecutionProvider_OpenVINO(
@@ -9639,7 +9649,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(SetGlobalDenormalAsZero fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$76.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$77.const$1, fi, constants$1.const$4, scope);
         }
 
         static SetGlobalDenormalAsZero ofAddress(MemorySegment addr, Arena arena) {
@@ -9655,7 +9665,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalDenormalAsZero$VH() {
-        return constants$77.const$0;
+        return constants$77.const$2;
     }
     /**
      * Getter for field:
@@ -9664,7 +9674,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalDenormalAsZero$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$77.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$77.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9673,15 +9683,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalDenormalAsZero$set(MemorySegment seg, MemorySegment x) {
-        constants$77.const$0.set(seg, 0L, x);
+        constants$77.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalDenormalAsZero$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$77.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$77.const$2.get(seg, index * sizeof());
     }
 
     public static void SetGlobalDenormalAsZero$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$77.const$0.set(seg, index * sizeof(), x);
+        constants$77.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalDenormalAsZero SetGlobalDenormalAsZero(MemorySegment segment, Arena scope) {
@@ -9697,7 +9707,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(long _x0, int _x1, int _x2, int _x3, java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateArenaCfg fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$77.const$2, fi, constants$77.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$77.const$4, fi, constants$77.const$3, scope);
         }
 
         static CreateArenaCfg ofAddress(MemorySegment addr, Arena arena) {
@@ -9705,7 +9715,7 @@ public class OrtApi {
             return (long __x0, int __x1, int __x2, int __x3, java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$77.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$77.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9714,7 +9724,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateArenaCfg$VH() {
-        return constants$77.const$4;
+        return constants$78.const$0;
     }
     /**
      * Getter for field:
@@ -9723,7 +9733,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateArenaCfg$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$77.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$78.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9732,15 +9742,15 @@ public class OrtApi {
      * }
      */
     public static void CreateArenaCfg$set(MemorySegment seg, MemorySegment x) {
-        constants$77.const$4.set(seg, 0L, x);
+        constants$78.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateArenaCfg$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$77.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$78.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateArenaCfg$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$77.const$4.set(seg, index * sizeof(), x);
+        constants$78.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateArenaCfg CreateArenaCfg(MemorySegment segment, Arena scope) {
@@ -9756,14 +9766,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseArenaCfg fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$77.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$78.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseArenaCfg ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9772,7 +9782,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseArenaCfg$VH() {
-        return constants$78.const$0;
+        return constants$78.const$2;
     }
     /**
      * Getter for field:
@@ -9781,7 +9791,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseArenaCfg$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$78.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$78.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9790,15 +9800,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseArenaCfg$set(MemorySegment seg, MemorySegment x) {
-        constants$78.const$0.set(seg, 0L, x);
+        constants$78.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseArenaCfg$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$78.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$78.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseArenaCfg$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$78.const$0.set(seg, index * sizeof(), x);
+        constants$78.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseArenaCfg ReleaseArenaCfg(MemorySegment segment, Arena scope) {
@@ -9817,7 +9827,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(ModelMetadataGetGraphDescription fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$78.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$78.const$3, fi, constants$15.const$0, scope);
         }
 
         static ModelMetadataGetGraphDescription ofAddress(MemorySegment addr, Arena arena) {
@@ -9826,7 +9836,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9835,7 +9845,7 @@ public class OrtApi {
     }
 
     public static VarHandle ModelMetadataGetGraphDescription$VH() {
-        return constants$78.const$2;
+        return constants$78.const$4;
     }
     /**
      * Getter for field:
@@ -9844,7 +9854,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ModelMetadataGetGraphDescription$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$78.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$78.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9853,15 +9863,15 @@ public class OrtApi {
      * }
      */
     public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, MemorySegment x) {
-        constants$78.const$2.set(seg, 0L, x);
+        constants$78.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ModelMetadataGetGraphDescription$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$78.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$78.const$4.get(seg, index * sizeof());
     }
 
     public static void ModelMetadataGetGraphDescription$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$78.const$2.set(seg, index * sizeof(), x);
+        constants$78.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ModelMetadataGetGraphDescription ModelMetadataGetGraphDescription(
@@ -9878,14 +9888,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$78.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$78.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_TensorRT ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9894,7 +9904,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_TensorRT$VH() {
-        return constants$78.const$4;
+        return constants$79.const$0;
     }
     /**
      * Getter for field:
@@ -9903,7 +9913,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$78.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$79.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9912,16 +9922,16 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_TensorRT$set(MemorySegment seg, MemorySegment x) {
-        constants$78.const$4.set(seg, 0L, x);
+        constants$79.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$78.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$79.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_TensorRT$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$78.const$4.set(seg, index * sizeof(), x);
+        constants$79.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_TensorRT SessionOptionsAppendExecutionProvider_TensorRT(
@@ -9939,14 +9949,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(int _x0);
 
         static MemorySegment allocate(SetCurrentGpuDeviceId fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$78.const$5, fi, constants$12.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$79.const$1, fi, constants$12.const$4, scope);
         }
 
         static SetCurrentGpuDeviceId ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (int __x0) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$12.const$4.invokeExact(symbol, __x0);
+                    return (java.lang.foreign.MemorySegment) constants$13.const$0.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -9955,7 +9965,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetCurrentGpuDeviceId$VH() {
-        return constants$79.const$0;
+        return constants$79.const$2;
     }
     /**
      * Getter for field:
@@ -9964,7 +9974,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetCurrentGpuDeviceId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$79.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$79.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -9973,15 +9983,15 @@ public class OrtApi {
      * }
      */
     public static void SetCurrentGpuDeviceId$set(MemorySegment seg, MemorySegment x) {
-        constants$79.const$0.set(seg, 0L, x);
+        constants$79.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetCurrentGpuDeviceId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$79.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$79.const$2.get(seg, index * sizeof());
     }
 
     public static void SetCurrentGpuDeviceId$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$79.const$0.set(seg, index * sizeof(), x);
+        constants$79.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetCurrentGpuDeviceId SetCurrentGpuDeviceId(MemorySegment segment, Arena scope) {
@@ -9997,7 +10007,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(GetCurrentGpuDeviceId fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$79.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$79.const$3, fi, constants$1.const$4, scope);
         }
 
         static GetCurrentGpuDeviceId ofAddress(MemorySegment addr, Arena arena) {
@@ -10013,7 +10023,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetCurrentGpuDeviceId$VH() {
-        return constants$79.const$2;
+        return constants$79.const$4;
     }
     /**
      * Getter for field:
@@ -10022,7 +10032,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetCurrentGpuDeviceId$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$79.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$79.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10031,15 +10041,15 @@ public class OrtApi {
      * }
      */
     public static void GetCurrentGpuDeviceId$set(MemorySegment seg, MemorySegment x) {
-        constants$79.const$2.set(seg, 0L, x);
+        constants$79.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetCurrentGpuDeviceId$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$79.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$79.const$4.get(seg, index * sizeof());
     }
 
     public static void GetCurrentGpuDeviceId$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$79.const$2.set(seg, index * sizeof(), x);
+        constants$79.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetCurrentGpuDeviceId GetCurrentGpuDeviceId(MemorySegment segment, Arena scope) {
@@ -10059,7 +10069,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttributeArray_float fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$79.const$3, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$79.const$5, fi, constants$20.const$3, scope);
         }
 
         static KernelInfoGetAttributeArray_float ofAddress(MemorySegment addr, Arena arena) {
@@ -10070,7 +10080,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10079,7 +10089,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetAttributeArray_float$VH() {
-        return constants$79.const$4;
+        return constants$80.const$0;
     }
     /**
      * Getter for field:
@@ -10088,7 +10098,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetAttributeArray_float$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$79.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$80.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10097,15 +10107,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, MemorySegment x) {
-        constants$79.const$4.set(seg, 0L, x);
+        constants$80.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetAttributeArray_float$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$79.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$80.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetAttributeArray_float$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$79.const$4.set(seg, index * sizeof(), x);
+        constants$80.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetAttributeArray_float KernelInfoGetAttributeArray_float(
@@ -10126,7 +10136,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttributeArray_int64 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$79.const$5, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$80.const$1, fi, constants$20.const$3, scope);
         }
 
         static KernelInfoGetAttributeArray_int64 ofAddress(MemorySegment addr, Arena arena) {
@@ -10137,7 +10147,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10146,7 +10156,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetAttributeArray_int64$VH() {
-        return constants$80.const$0;
+        return constants$80.const$2;
     }
     /**
      * Getter for field:
@@ -10155,7 +10165,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetAttributeArray_int64$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$80.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$80.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10164,15 +10174,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, MemorySegment x) {
-        constants$80.const$0.set(seg, 0L, x);
+        constants$80.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetAttributeArray_int64$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$80.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$80.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetAttributeArray_int64$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$80.const$0.set(seg, index * sizeof(), x);
+        constants$80.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetAttributeArray_int64 KernelInfoGetAttributeArray_int64(
@@ -10193,7 +10203,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(CreateArenaCfgV2 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$80.const$1, fi, constants$72.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$80.const$3, fi, constants$72.const$3, scope);
         }
 
         static CreateArenaCfgV2 ofAddress(MemorySegment addr, Arena arena) {
@@ -10204,7 +10214,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$72.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$72.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10213,7 +10223,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateArenaCfgV2$VH() {
-        return constants$80.const$2;
+        return constants$80.const$4;
     }
     /**
      * Getter for field:
@@ -10222,7 +10232,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateArenaCfgV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$80.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$80.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10231,15 +10241,15 @@ public class OrtApi {
      * }
      */
     public static void CreateArenaCfgV2$set(MemorySegment seg, MemorySegment x) {
-        constants$80.const$2.set(seg, 0L, x);
+        constants$80.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateArenaCfgV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$80.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$80.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateArenaCfgV2$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$80.const$2.set(seg, index * sizeof(), x);
+        constants$80.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateArenaCfgV2 CreateArenaCfgV2(MemorySegment segment, Arena scope) {
@@ -10258,7 +10268,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(AddRunConfigEntry fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$80.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$80.const$5, fi, constants$15.const$0, scope);
         }
 
         static AddRunConfigEntry ofAddress(MemorySegment addr, Arena arena) {
@@ -10267,7 +10277,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10276,7 +10286,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddRunConfigEntry$VH() {
-        return constants$80.const$4;
+        return constants$81.const$0;
     }
     /**
      * Getter for field:
@@ -10285,7 +10295,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddRunConfigEntry$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$80.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$81.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10294,15 +10304,15 @@ public class OrtApi {
      * }
      */
     public static void AddRunConfigEntry$set(MemorySegment seg, MemorySegment x) {
-        constants$80.const$4.set(seg, 0L, x);
+        constants$81.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment AddRunConfigEntry$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$80.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$81.const$0.get(seg, index * sizeof());
     }
 
     public static void AddRunConfigEntry$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$80.const$4.set(seg, index * sizeof(), x);
+        constants$81.const$0.set(seg, index * sizeof(), x);
     }
 
     public static AddRunConfigEntry AddRunConfigEntry(MemorySegment segment, Arena scope) {
@@ -10318,7 +10328,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreatePrepackedWeightsContainer fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$80.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$81.const$1, fi, constants$1.const$4, scope);
         }
 
         static CreatePrepackedWeightsContainer ofAddress(MemorySegment addr, Arena arena) {
@@ -10334,7 +10344,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreatePrepackedWeightsContainer$VH() {
-        return constants$81.const$0;
+        return constants$81.const$2;
     }
     /**
      * Getter for field:
@@ -10343,7 +10353,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreatePrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$81.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$81.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10352,15 +10362,15 @@ public class OrtApi {
      * }
      */
     public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
-        constants$81.const$0.set(seg, 0L, x);
+        constants$81.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreatePrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$81.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$81.const$2.get(seg, index * sizeof());
     }
 
     public static void CreatePrepackedWeightsContainer$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$81.const$0.set(seg, index * sizeof(), x);
+        constants$81.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreatePrepackedWeightsContainer CreatePrepackedWeightsContainer(MemorySegment segment, Arena scope) {
@@ -10376,14 +10386,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleasePrepackedWeightsContainer fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$81.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$81.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleasePrepackedWeightsContainer ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10392,7 +10402,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleasePrepackedWeightsContainer$VH() {
-        return constants$81.const$2;
+        return constants$81.const$4;
     }
     /**
      * Getter for field:
@@ -10401,7 +10411,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleasePrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$81.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$81.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10410,15 +10420,15 @@ public class OrtApi {
      * }
      */
     public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
-        constants$81.const$2.set(seg, 0L, x);
+        constants$81.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleasePrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$81.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$81.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleasePrepackedWeightsContainer$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$81.const$2.set(seg, index * sizeof(), x);
+        constants$81.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleasePrepackedWeightsContainer ReleasePrepackedWeightsContainer(
@@ -10440,7 +10450,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateSessionWithPrepackedWeightsContainer fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$81.const$3, fi, constants$70.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$81.const$5, fi, constants$70.const$5, scope);
         }
 
         static CreateSessionWithPrepackedWeightsContainer ofAddress(MemorySegment addr, Arena arena) {
@@ -10452,7 +10462,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$70.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$71.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10461,7 +10471,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSessionWithPrepackedWeightsContainer$VH() {
-        return constants$81.const$4;
+        return constants$82.const$0;
     }
     /**
      * Getter for field:
@@ -10470,7 +10480,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$81.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$82.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10479,15 +10489,15 @@ public class OrtApi {
      * }
      */
     public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
-        constants$81.const$4.set(seg, 0L, x);
+        constants$82.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSessionWithPrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$81.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$82.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateSessionWithPrepackedWeightsContainer$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$81.const$4.set(seg, index * sizeof(), x);
+        constants$82.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateSessionWithPrepackedWeightsContainer CreateSessionWithPrepackedWeightsContainer(
@@ -10511,7 +10521,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x5);
 
         static MemorySegment allocate(CreateSessionFromArrayWithPrepackedWeightsContainer fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$82.const$0, fi, constants$81.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$82.const$2, fi, constants$82.const$1, scope);
         }
 
         static CreateSessionFromArrayWithPrepackedWeightsContainer ofAddress(MemorySegment addr, Arena arena) {
@@ -10524,7 +10534,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x5) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$82.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
+                            constants$82.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10533,7 +10543,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSessionFromArrayWithPrepackedWeightsContainer$VH() {
-        return constants$82.const$2;
+        return constants$82.const$4;
     }
     /**
      * Getter for field:
@@ -10542,7 +10552,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$82.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$82.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10551,16 +10561,16 @@ public class OrtApi {
      * }
      */
     public static void CreateSessionFromArrayWithPrepackedWeightsContainer$set(MemorySegment seg, MemorySegment x) {
-        constants$82.const$2.set(seg, 0L, x);
+        constants$82.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSessionFromArrayWithPrepackedWeightsContainer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$82.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$82.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateSessionFromArrayWithPrepackedWeightsContainer$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$82.const$2.set(seg, index * sizeof(), x);
+        constants$82.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateSessionFromArrayWithPrepackedWeightsContainer
@@ -10578,14 +10588,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_TensorRT_V2 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$82.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$82.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_TensorRT_V2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10594,7 +10604,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_TensorRT_V2$VH() {
-        return constants$82.const$4;
+        return constants$83.const$0;
     }
     /**
      * Getter for field:
@@ -10603,7 +10613,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$82.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$83.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10612,16 +10622,16 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_TensorRT_V2$set(MemorySegment seg, MemorySegment x) {
-        constants$82.const$4.set(seg, 0L, x);
+        constants$83.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_TensorRT_V2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$82.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$83.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_TensorRT_V2$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$82.const$4.set(seg, index * sizeof(), x);
+        constants$83.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_TensorRT_V2 SessionOptionsAppendExecutionProvider_TensorRT_V2(
@@ -10639,7 +10649,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateTensorRTProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$82.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$83.const$1, fi, constants$1.const$4, scope);
         }
 
         static CreateTensorRTProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -10655,7 +10665,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateTensorRTProviderOptions$VH() {
-        return constants$83.const$0;
+        return constants$83.const$2;
     }
     /**
      * Getter for field:
@@ -10664,7 +10674,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateTensorRTProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$83.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$83.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10673,15 +10683,15 @@ public class OrtApi {
      * }
      */
     public static void CreateTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$83.const$0.set(seg, 0L, x);
+        constants$83.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateTensorRTProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$83.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$83.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateTensorRTProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$83.const$0.set(seg, index * sizeof(), x);
+        constants$83.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateTensorRTProviderOptions CreateTensorRTProviderOptions(MemorySegment segment, Arena scope) {
@@ -10701,7 +10711,7 @@ public class OrtApi {
                 long _x3);
 
         static MemorySegment allocate(UpdateTensorRTProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$83.const$2, fi, constants$83.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$83.const$4, fi, constants$83.const$3, scope);
         }
 
         static UpdateTensorRTProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -10712,7 +10722,7 @@ public class OrtApi {
                     long __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$83.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10721,7 +10731,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateTensorRTProviderOptions$VH() {
-        return constants$83.const$4;
+        return constants$84.const$0;
     }
     /**
      * Getter for field:
@@ -10730,7 +10740,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateTensorRTProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$83.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$84.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10739,15 +10749,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$83.const$4.set(seg, 0L, x);
+        constants$84.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateTensorRTProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$83.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$84.const$0.get(seg, index * sizeof());
     }
 
     public static void UpdateTensorRTProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$83.const$4.set(seg, index * sizeof(), x);
+        constants$84.const$0.set(seg, index * sizeof(), x);
     }
 
     public static UpdateTensorRTProviderOptions UpdateTensorRTProviderOptions(MemorySegment segment, Arena scope) {
@@ -10766,7 +10776,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetTensorRTProviderOptionsAsString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$83.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$84.const$1, fi, constants$15.const$0, scope);
         }
 
         static GetTensorRTProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
@@ -10775,7 +10785,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10784,7 +10794,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorRTProviderOptionsAsString$VH() {
-        return constants$84.const$0;
+        return constants$84.const$2;
     }
     /**
      * Getter for field:
@@ -10793,7 +10803,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorRTProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$84.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$84.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10802,15 +10812,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
-        constants$84.const$0.set(seg, 0L, x);
+        constants$84.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorRTProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$84.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$84.const$2.get(seg, index * sizeof());
     }
 
     public static void GetTensorRTProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$84.const$0.set(seg, index * sizeof(), x);
+        constants$84.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorRTProviderOptionsAsString GetTensorRTProviderOptionsAsString(
@@ -10827,14 +10837,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseTensorRTProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$84.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$84.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseTensorRTProviderOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10843,7 +10853,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseTensorRTProviderOptions$VH() {
-        return constants$84.const$2;
+        return constants$84.const$4;
     }
     /**
      * Getter for field:
@@ -10852,7 +10862,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseTensorRTProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$84.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$84.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10861,15 +10871,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$84.const$2.set(seg, 0L, x);
+        constants$84.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseTensorRTProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$84.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$84.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseTensorRTProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$84.const$2.set(seg, index * sizeof(), x);
+        constants$84.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseTensorRTProviderOptions ReleaseTensorRTProviderOptions(MemorySegment segment, Arena scope) {
@@ -10885,7 +10895,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(EnableOrtCustomOps fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$84.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$84.const$5, fi, constants$1.const$4, scope);
         }
 
         static EnableOrtCustomOps ofAddress(MemorySegment addr, Arena arena) {
@@ -10901,7 +10911,7 @@ public class OrtApi {
     }
 
     public static VarHandle EnableOrtCustomOps$VH() {
-        return constants$84.const$4;
+        return constants$85.const$0;
     }
     /**
      * Getter for field:
@@ -10910,7 +10920,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment EnableOrtCustomOps$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$84.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$85.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10919,15 +10929,15 @@ public class OrtApi {
      * }
      */
     public static void EnableOrtCustomOps$set(MemorySegment seg, MemorySegment x) {
-        constants$84.const$4.set(seg, 0L, x);
+        constants$85.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment EnableOrtCustomOps$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$84.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$85.const$0.get(seg, index * sizeof());
     }
 
     public static void EnableOrtCustomOps$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$84.const$4.set(seg, index * sizeof(), x);
+        constants$85.const$0.set(seg, index * sizeof(), x);
     }
 
     public static EnableOrtCustomOps EnableOrtCustomOps(MemorySegment segment, Arena scope) {
@@ -10943,14 +10953,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterAllocator fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$84.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$85.const$1, fi, constants$15.const$4, scope);
         }
 
         static RegisterAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -10959,7 +10969,7 @@ public class OrtApi {
     }
 
     public static VarHandle RegisterAllocator$VH() {
-        return constants$85.const$0;
+        return constants$85.const$2;
     }
     /**
      * Getter for field:
@@ -10968,7 +10978,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RegisterAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$85.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$85.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -10977,15 +10987,15 @@ public class OrtApi {
      * }
      */
     public static void RegisterAllocator$set(MemorySegment seg, MemorySegment x) {
-        constants$85.const$0.set(seg, 0L, x);
+        constants$85.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment RegisterAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$85.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$85.const$2.get(seg, index * sizeof());
     }
 
     public static void RegisterAllocator$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$85.const$0.set(seg, index * sizeof(), x);
+        constants$85.const$2.set(seg, index * sizeof(), x);
     }
 
     public static RegisterAllocator RegisterAllocator(MemorySegment segment, Arena scope) {
@@ -11001,14 +11011,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(UnregisterAllocator fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$85.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$85.const$3, fi, constants$15.const$4, scope);
         }
 
         static UnregisterAllocator ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11017,7 +11027,7 @@ public class OrtApi {
     }
 
     public static VarHandle UnregisterAllocator$VH() {
-        return constants$85.const$2;
+        return constants$85.const$4;
     }
     /**
      * Getter for field:
@@ -11026,7 +11036,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UnregisterAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$85.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$85.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11035,15 +11045,15 @@ public class OrtApi {
      * }
      */
     public static void UnregisterAllocator$set(MemorySegment seg, MemorySegment x) {
-        constants$85.const$2.set(seg, 0L, x);
+        constants$85.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment UnregisterAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$85.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$85.const$4.get(seg, index * sizeof());
     }
 
     public static void UnregisterAllocator$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$85.const$2.set(seg, index * sizeof(), x);
+        constants$85.const$4.set(seg, index * sizeof(), x);
     }
 
     public static UnregisterAllocator UnregisterAllocator(MemorySegment segment, Arena scope) {
@@ -11059,14 +11069,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(IsSparseTensor fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$85.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$85.const$5, fi, constants$15.const$4, scope);
         }
 
         static IsSparseTensor ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11075,7 +11085,7 @@ public class OrtApi {
     }
 
     public static VarHandle IsSparseTensor$VH() {
-        return constants$85.const$4;
+        return constants$86.const$0;
     }
     /**
      * Getter for field:
@@ -11084,7 +11094,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment IsSparseTensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$85.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$86.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11093,15 +11103,15 @@ public class OrtApi {
      * }
      */
     public static void IsSparseTensor$set(MemorySegment seg, MemorySegment x) {
-        constants$85.const$4.set(seg, 0L, x);
+        constants$86.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment IsSparseTensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$85.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$86.const$0.get(seg, index * sizeof());
     }
 
     public static void IsSparseTensor$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$85.const$4.set(seg, index * sizeof(), x);
+        constants$86.const$0.set(seg, index * sizeof(), x);
     }
 
     public static IsSparseTensor IsSparseTensor(MemorySegment segment, Arena scope) {
@@ -11122,7 +11132,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateSparseTensorAsOrtValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$85.const$5, fi, constants$35.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$86.const$1, fi, constants$36.const$1, scope);
         }
 
         static CreateSparseTensorAsOrtValue ofAddress(MemorySegment addr, Arena arena) {
@@ -11134,7 +11144,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$36.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$36.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11143,7 +11153,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSparseTensorAsOrtValue$VH() {
-        return constants$86.const$0;
+        return constants$86.const$2;
     }
     /**
      * Getter for field:
@@ -11152,7 +11162,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSparseTensorAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$86.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$86.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11161,15 +11171,15 @@ public class OrtApi {
      * }
      */
     public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, MemorySegment x) {
-        constants$86.const$0.set(seg, 0L, x);
+        constants$86.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSparseTensorAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$86.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$86.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateSparseTensorAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$86.const$0.set(seg, index * sizeof(), x);
+        constants$86.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateSparseTensorAsOrtValue CreateSparseTensorAsOrtValue(MemorySegment segment, Arena scope) {
@@ -11192,7 +11202,7 @@ public class OrtApi {
                 long _x6);
 
         static MemorySegment allocate(FillSparseTensorCoo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$86.const$2, fi, constants$86.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$86.const$4, fi, constants$86.const$3, scope);
         }
 
         static FillSparseTensorCoo ofAddress(MemorySegment addr, Arena arena) {
@@ -11206,7 +11216,7 @@ public class OrtApi {
                     long __x6) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$86.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
+                            constants$86.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11215,7 +11225,7 @@ public class OrtApi {
     }
 
     public static VarHandle FillSparseTensorCoo$VH() {
-        return constants$86.const$4;
+        return constants$87.const$0;
     }
     /**
      * Getter for field:
@@ -11224,7 +11234,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment FillSparseTensorCoo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$86.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$87.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11233,15 +11243,15 @@ public class OrtApi {
      * }
      */
     public static void FillSparseTensorCoo$set(MemorySegment seg, MemorySegment x) {
-        constants$86.const$4.set(seg, 0L, x);
+        constants$87.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment FillSparseTensorCoo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$86.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$87.const$0.get(seg, index * sizeof());
     }
 
     public static void FillSparseTensorCoo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$86.const$4.set(seg, index * sizeof(), x);
+        constants$87.const$0.set(seg, index * sizeof(), x);
     }
 
     public static FillSparseTensorCoo FillSparseTensorCoo(MemorySegment segment, Arena scope) {
@@ -11266,7 +11276,7 @@ public class OrtApi {
                 long _x8);
 
         static MemorySegment allocate(FillSparseTensorCsr fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$87.const$0, fi, constants$86.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$87.const$2, fi, constants$87.const$1, scope);
         }
 
         static FillSparseTensorCsr ofAddress(MemorySegment addr, Arena arena) {
@@ -11281,7 +11291,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x7,
                     long __x8) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$87.const$1.invokeExact(
+                    return (java.lang.foreign.MemorySegment) constants$87.const$3.invokeExact(
                             symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7, __x8);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
@@ -11291,7 +11301,7 @@ public class OrtApi {
     }
 
     public static VarHandle FillSparseTensorCsr$VH() {
-        return constants$87.const$2;
+        return constants$87.const$4;
     }
     /**
      * Getter for field:
@@ -11300,7 +11310,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment FillSparseTensorCsr$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$87.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$87.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11309,15 +11319,15 @@ public class OrtApi {
      * }
      */
     public static void FillSparseTensorCsr$set(MemorySegment seg, MemorySegment x) {
-        constants$87.const$2.set(seg, 0L, x);
+        constants$87.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment FillSparseTensorCsr$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$87.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$87.const$4.get(seg, index * sizeof());
     }
 
     public static void FillSparseTensorCsr$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$87.const$2.set(seg, index * sizeof(), x);
+        constants$87.const$4.set(seg, index * sizeof(), x);
     }
 
     public static FillSparseTensorCsr FillSparseTensorCsr(MemorySegment segment, Arena scope) {
@@ -11341,7 +11351,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x7);
 
         static MemorySegment allocate(FillSparseTensorBlockSparse fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$87.const$4, fi, constants$87.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$88.const$0, fi, constants$87.const$5, scope);
         }
 
         static FillSparseTensorBlockSparse ofAddress(MemorySegment addr, Arena arena) {
@@ -11356,7 +11366,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x7) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$87.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
+                            constants$88.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11365,7 +11375,7 @@ public class OrtApi {
     }
 
     public static VarHandle FillSparseTensorBlockSparse$VH() {
-        return constants$88.const$0;
+        return constants$88.const$2;
     }
     /**
      * Getter for field:
@@ -11374,7 +11384,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment FillSparseTensorBlockSparse$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$88.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$88.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11383,15 +11393,15 @@ public class OrtApi {
      * }
      */
     public static void FillSparseTensorBlockSparse$set(MemorySegment seg, MemorySegment x) {
-        constants$88.const$0.set(seg, 0L, x);
+        constants$88.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment FillSparseTensorBlockSparse$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$88.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$88.const$2.get(seg, index * sizeof());
     }
 
     public static void FillSparseTensorBlockSparse$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$88.const$0.set(seg, index * sizeof(), x);
+        constants$88.const$2.set(seg, index * sizeof(), x);
     }
 
     public static FillSparseTensorBlockSparse FillSparseTensorBlockSparse(MemorySegment segment, Arena scope) {
@@ -11415,7 +11425,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x7);
 
         static MemorySegment allocate(CreateSparseTensorWithValuesAsOrtValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$88.const$2, fi, constants$88.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$88.const$4, fi, constants$88.const$3, scope);
         }
 
         static CreateSparseTensorWithValuesAsOrtValue ofAddress(MemorySegment addr, Arena arena) {
@@ -11430,7 +11440,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x7) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$88.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
+                            constants$88.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11439,7 +11449,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateSparseTensorWithValuesAsOrtValue$VH() {
-        return constants$88.const$4;
+        return constants$89.const$0;
     }
     /**
      * Getter for field:
@@ -11448,7 +11458,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$88.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$89.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11457,15 +11467,15 @@ public class OrtApi {
      * }
      */
     public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, MemorySegment x) {
-        constants$88.const$4.set(seg, 0L, x);
+        constants$89.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateSparseTensorWithValuesAsOrtValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$88.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$89.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateSparseTensorWithValuesAsOrtValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$88.const$4.set(seg, index * sizeof(), x);
+        constants$89.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateSparseTensorWithValuesAsOrtValue CreateSparseTensorWithValuesAsOrtValue(
@@ -11484,14 +11494,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
 
         static MemorySegment allocate(UseCooIndices fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$88.const$5, fi, constants$37.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$89.const$1, fi, constants$38.const$1, scope);
         }
 
         static UseCooIndices ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$38.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11500,7 +11510,7 @@ public class OrtApi {
     }
 
     public static VarHandle UseCooIndices$VH() {
-        return constants$89.const$0;
+        return constants$89.const$2;
     }
     /**
      * Getter for field:
@@ -11509,7 +11519,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UseCooIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$89.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$89.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11518,15 +11528,15 @@ public class OrtApi {
      * }
      */
     public static void UseCooIndices$set(MemorySegment seg, MemorySegment x) {
-        constants$89.const$0.set(seg, 0L, x);
+        constants$89.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment UseCooIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$89.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$89.const$2.get(seg, index * sizeof());
     }
 
     public static void UseCooIndices$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$89.const$0.set(seg, index * sizeof(), x);
+        constants$89.const$2.set(seg, index * sizeof(), x);
     }
 
     public static UseCooIndices UseCooIndices(MemorySegment segment, Arena scope) {
@@ -11547,7 +11557,7 @@ public class OrtApi {
                 long _x4);
 
         static MemorySegment allocate(UseCsrIndices fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$89.const$1, fi, constants$38.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$89.const$3, fi, constants$39.const$1, scope);
         }
 
         static UseCsrIndices ofAddress(MemorySegment addr, Arena arena) {
@@ -11559,7 +11569,7 @@ public class OrtApi {
                     long __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$39.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$39.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11568,7 +11578,7 @@ public class OrtApi {
     }
 
     public static VarHandle UseCsrIndices$VH() {
-        return constants$89.const$2;
+        return constants$89.const$4;
     }
     /**
      * Getter for field:
@@ -11577,7 +11587,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UseCsrIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$89.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$89.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11586,15 +11596,15 @@ public class OrtApi {
      * }
      */
     public static void UseCsrIndices$set(MemorySegment seg, MemorySegment x) {
-        constants$89.const$2.set(seg, 0L, x);
+        constants$89.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment UseCsrIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$89.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$89.const$4.get(seg, index * sizeof());
     }
 
     public static void UseCsrIndices$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$89.const$2.set(seg, index * sizeof(), x);
+        constants$89.const$4.set(seg, index * sizeof(), x);
     }
 
     public static UseCsrIndices UseCsrIndices(MemorySegment segment, Arena scope) {
@@ -11614,7 +11624,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(UseBlockSparseIndices fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$89.const$3, fi, constants$72.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$89.const$5, fi, constants$72.const$3, scope);
         }
 
         static UseBlockSparseIndices ofAddress(MemorySegment addr, Arena arena) {
@@ -11625,7 +11635,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$72.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$72.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11634,7 +11644,7 @@ public class OrtApi {
     }
 
     public static VarHandle UseBlockSparseIndices$VH() {
-        return constants$89.const$4;
+        return constants$90.const$0;
     }
     /**
      * Getter for field:
@@ -11643,7 +11653,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UseBlockSparseIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$89.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$90.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11652,15 +11662,15 @@ public class OrtApi {
      * }
      */
     public static void UseBlockSparseIndices$set(MemorySegment seg, MemorySegment x) {
-        constants$89.const$4.set(seg, 0L, x);
+        constants$90.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment UseBlockSparseIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$89.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$90.const$0.get(seg, index * sizeof());
     }
 
     public static void UseBlockSparseIndices$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$89.const$4.set(seg, index * sizeof(), x);
+        constants$90.const$0.set(seg, index * sizeof(), x);
     }
 
     public static UseBlockSparseIndices UseBlockSparseIndices(MemorySegment segment, Arena scope) {
@@ -11676,14 +11686,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorFormat fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$89.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$90.const$1, fi, constants$15.const$4, scope);
         }
 
         static GetSparseTensorFormat ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11692,7 +11702,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSparseTensorFormat$VH() {
-        return constants$90.const$0;
+        return constants$90.const$2;
     }
     /**
      * Getter for field:
@@ -11701,7 +11711,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSparseTensorFormat$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$90.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$90.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11710,15 +11720,15 @@ public class OrtApi {
      * }
      */
     public static void GetSparseTensorFormat$set(MemorySegment seg, MemorySegment x) {
-        constants$90.const$0.set(seg, 0L, x);
+        constants$90.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSparseTensorFormat$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$90.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$90.const$2.get(seg, index * sizeof());
     }
 
     public static void GetSparseTensorFormat$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$90.const$0.set(seg, index * sizeof(), x);
+        constants$90.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetSparseTensorFormat GetSparseTensorFormat(MemorySegment segment, Arena scope) {
@@ -11734,14 +11744,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorValuesTypeAndShape fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$90.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$90.const$3, fi, constants$15.const$4, scope);
         }
 
         static GetSparseTensorValuesTypeAndShape ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11750,7 +11760,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSparseTensorValuesTypeAndShape$VH() {
-        return constants$90.const$2;
+        return constants$90.const$4;
     }
     /**
      * Getter for field:
@@ -11759,7 +11769,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSparseTensorValuesTypeAndShape$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$90.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$90.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11768,15 +11778,15 @@ public class OrtApi {
      * }
      */
     public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, MemorySegment x) {
-        constants$90.const$2.set(seg, 0L, x);
+        constants$90.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSparseTensorValuesTypeAndShape$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$90.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$90.const$4.get(seg, index * sizeof());
     }
 
     public static void GetSparseTensorValuesTypeAndShape$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$90.const$2.set(seg, index * sizeof(), x);
+        constants$90.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetSparseTensorValuesTypeAndShape GetSparseTensorValuesTypeAndShape(
@@ -11793,14 +11803,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetSparseTensorValues fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$90.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$90.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetSparseTensorValues ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11809,7 +11819,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSparseTensorValues$VH() {
-        return constants$90.const$4;
+        return constants$91.const$0;
     }
     /**
      * Getter for field:
@@ -11818,7 +11828,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSparseTensorValues$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$90.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$91.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11827,15 +11837,15 @@ public class OrtApi {
      * }
      */
     public static void GetSparseTensorValues$set(MemorySegment seg, MemorySegment x) {
-        constants$90.const$4.set(seg, 0L, x);
+        constants$91.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSparseTensorValues$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$90.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$91.const$0.get(seg, index * sizeof());
     }
 
     public static void GetSparseTensorValues$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$90.const$4.set(seg, index * sizeof(), x);
+        constants$91.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetSparseTensorValues GetSparseTensorValues(MemorySegment segment, Arena scope) {
@@ -11852,14 +11862,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetSparseTensorIndicesTypeShape fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$91.const$0, fi, constants$90.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$91.const$2, fi, constants$91.const$1, scope);
         }
 
         static GetSparseTensorIndicesTypeShape ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$91.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$91.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11868,7 +11878,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSparseTensorIndicesTypeShape$VH() {
-        return constants$91.const$2;
+        return constants$91.const$4;
     }
     /**
      * Getter for field:
@@ -11877,7 +11887,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSparseTensorIndicesTypeShape$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$91.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$91.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11886,15 +11896,15 @@ public class OrtApi {
      * }
      */
     public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, MemorySegment x) {
-        constants$91.const$2.set(seg, 0L, x);
+        constants$91.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSparseTensorIndicesTypeShape$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$91.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$91.const$4.get(seg, index * sizeof());
     }
 
     public static void GetSparseTensorIndicesTypeShape$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$91.const$2.set(seg, index * sizeof(), x);
+        constants$91.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetSparseTensorIndicesTypeShape GetSparseTensorIndicesTypeShape(MemorySegment segment, Arena scope) {
@@ -11914,7 +11924,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetSparseTensorIndices fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$91.const$3, fi, constants$48.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$91.const$5, fi, constants$48.const$5, scope);
         }
 
         static GetSparseTensorIndices ofAddress(MemorySegment addr, Arena arena) {
@@ -11925,7 +11935,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$48.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$49.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11934,7 +11944,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSparseTensorIndices$VH() {
-        return constants$91.const$4;
+        return constants$92.const$0;
     }
     /**
      * Getter for field:
@@ -11943,7 +11953,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSparseTensorIndices$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$91.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$92.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -11952,15 +11962,15 @@ public class OrtApi {
      * }
      */
     public static void GetSparseTensorIndices$set(MemorySegment seg, MemorySegment x) {
-        constants$91.const$4.set(seg, 0L, x);
+        constants$92.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSparseTensorIndices$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$91.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$92.const$0.get(seg, index * sizeof());
     }
 
     public static void GetSparseTensorIndices$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$91.const$4.set(seg, index * sizeof(), x);
+        constants$92.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetSparseTensorIndices GetSparseTensorIndices(MemorySegment segment, Arena scope) {
@@ -11976,14 +11986,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(HasValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$91.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$92.const$1, fi, constants$15.const$4, scope);
         }
 
         static HasValue ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -11992,7 +12002,7 @@ public class OrtApi {
     }
 
     public static VarHandle HasValue$VH() {
-        return constants$92.const$0;
+        return constants$92.const$2;
     }
     /**
      * Getter for field:
@@ -12001,7 +12011,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment HasValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$92.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$92.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12010,15 +12020,15 @@ public class OrtApi {
      * }
      */
     public static void HasValue$set(MemorySegment seg, MemorySegment x) {
-        constants$92.const$0.set(seg, 0L, x);
+        constants$92.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment HasValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$92.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$92.const$2.get(seg, index * sizeof());
     }
 
     public static void HasValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$92.const$0.set(seg, index * sizeof(), x);
+        constants$92.const$2.set(seg, index * sizeof(), x);
     }
 
     public static HasValue HasValue(MemorySegment segment, Arena scope) {
@@ -12034,14 +12044,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetGPUComputeStream fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$92.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$92.const$3, fi, constants$15.const$4, scope);
         }
 
         static KernelContext_GetGPUComputeStream ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12050,7 +12060,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetGPUComputeStream$VH() {
-        return constants$92.const$2;
+        return constants$92.const$4;
     }
     /**
      * Getter for field:
@@ -12059,7 +12069,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetGPUComputeStream$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$92.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$92.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12068,15 +12078,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, MemorySegment x) {
-        constants$92.const$2.set(seg, 0L, x);
+        constants$92.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetGPUComputeStream$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$92.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$92.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetGPUComputeStream$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$92.const$2.set(seg, index * sizeof(), x);
+        constants$92.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetGPUComputeStream KernelContext_GetGPUComputeStream(
@@ -12093,14 +12103,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetTensorMemoryInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$92.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$92.const$5, fi, constants$15.const$4, scope);
         }
 
         static GetTensorMemoryInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12109,7 +12119,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorMemoryInfo$VH() {
-        return constants$92.const$4;
+        return constants$93.const$0;
     }
     /**
      * Getter for field:
@@ -12118,7 +12128,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorMemoryInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$92.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$93.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12127,15 +12137,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorMemoryInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$92.const$4.set(seg, 0L, x);
+        constants$93.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorMemoryInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$92.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$93.const$0.get(seg, index * sizeof());
     }
 
     public static void GetTensorMemoryInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$92.const$4.set(seg, index * sizeof(), x);
+        constants$93.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorMemoryInfo GetTensorMemoryInfo(MemorySegment segment, Arena scope) {
@@ -12152,14 +12162,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, int _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetExecutionProviderApi fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$92.const$5, fi, constants$90.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$93.const$1, fi, constants$91.const$1, scope);
         }
 
         static GetExecutionProviderApi ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$91.const$1.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$91.const$3.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12168,7 +12178,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetExecutionProviderApi$VH() {
-        return constants$93.const$0;
+        return constants$93.const$2;
     }
     /**
      * Getter for field:
@@ -12177,7 +12187,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetExecutionProviderApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$93.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$93.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12186,15 +12196,15 @@ public class OrtApi {
      * }
      */
     public static void GetExecutionProviderApi$set(MemorySegment seg, MemorySegment x) {
-        constants$93.const$0.set(seg, 0L, x);
+        constants$93.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetExecutionProviderApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$93.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$93.const$2.get(seg, index * sizeof());
     }
 
     public static void GetExecutionProviderApi$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$93.const$0.set(seg, index * sizeof(), x);
+        constants$93.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetExecutionProviderApi GetExecutionProviderApi(MemorySegment segment, Arena scope) {
@@ -12210,14 +12220,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomCreateThreadFn fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$93.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$93.const$3, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsSetCustomCreateThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12226,7 +12236,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsSetCustomCreateThreadFn$VH() {
-        return constants$93.const$2;
+        return constants$93.const$4;
     }
     /**
      * Getter for field:
@@ -12235,7 +12245,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$93.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$93.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12244,15 +12254,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, MemorySegment x) {
-        constants$93.const$2.set(seg, 0L, x);
+        constants$93.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsSetCustomCreateThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$93.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$93.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsSetCustomCreateThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$93.const$2.set(seg, index * sizeof(), x);
+        constants$93.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsSetCustomCreateThreadFn SessionOptionsSetCustomCreateThreadFn(
@@ -12270,14 +12280,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomThreadCreationOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$93.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$93.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsSetCustomThreadCreationOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12286,7 +12296,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsSetCustomThreadCreationOptions$VH() {
-        return constants$93.const$4;
+        return constants$94.const$0;
     }
     /**
      * Getter for field:
@@ -12295,7 +12305,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$93.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$94.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12304,16 +12314,16 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsSetCustomThreadCreationOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$93.const$4.set(seg, 0L, x);
+        constants$94.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsSetCustomThreadCreationOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$93.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$94.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsSetCustomThreadCreationOptions$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$93.const$4.set(seg, index * sizeof(), x);
+        constants$94.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsSetCustomThreadCreationOptions SessionOptionsSetCustomThreadCreationOptions(
@@ -12331,14 +12341,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsSetCustomJoinThreadFn fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$93.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$94.const$1, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsSetCustomJoinThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12347,7 +12357,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsSetCustomJoinThreadFn$VH() {
-        return constants$94.const$0;
+        return constants$94.const$2;
     }
     /**
      * Getter for field:
@@ -12356,7 +12366,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$94.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$94.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12365,15 +12375,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, MemorySegment x) {
-        constants$94.const$0.set(seg, 0L, x);
+        constants$94.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsSetCustomJoinThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$94.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$94.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsSetCustomJoinThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$94.const$0.set(seg, index * sizeof(), x);
+        constants$94.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsSetCustomJoinThreadFn SessionOptionsSetCustomJoinThreadFn(
@@ -12390,14 +12400,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomCreateThreadFn fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$94.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$94.const$3, fi, constants$15.const$4, scope);
         }
 
         static SetGlobalCustomCreateThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12406,7 +12416,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalCustomCreateThreadFn$VH() {
-        return constants$94.const$2;
+        return constants$94.const$4;
     }
     /**
      * Getter for field:
@@ -12415,7 +12425,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalCustomCreateThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$94.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$94.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12424,15 +12434,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, MemorySegment x) {
-        constants$94.const$2.set(seg, 0L, x);
+        constants$94.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalCustomCreateThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$94.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$94.const$4.get(seg, index * sizeof());
     }
 
     public static void SetGlobalCustomCreateThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$94.const$2.set(seg, index * sizeof(), x);
+        constants$94.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalCustomCreateThreadFn SetGlobalCustomCreateThreadFn(MemorySegment segment, Arena scope) {
@@ -12448,14 +12458,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomThreadCreationOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$94.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$94.const$5, fi, constants$15.const$4, scope);
         }
 
         static SetGlobalCustomThreadCreationOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12464,7 +12474,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalCustomThreadCreationOptions$VH() {
-        return constants$94.const$4;
+        return constants$95.const$0;
     }
     /**
      * Getter for field:
@@ -12473,7 +12483,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalCustomThreadCreationOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$94.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$95.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12482,15 +12492,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$94.const$4.set(seg, 0L, x);
+        constants$95.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalCustomThreadCreationOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$94.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$95.const$0.get(seg, index * sizeof());
     }
 
     public static void SetGlobalCustomThreadCreationOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$94.const$4.set(seg, index * sizeof(), x);
+        constants$95.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalCustomThreadCreationOptions SetGlobalCustomThreadCreationOptions(
@@ -12507,14 +12517,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalCustomJoinThreadFn fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$94.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$95.const$1, fi, constants$15.const$4, scope);
         }
 
         static SetGlobalCustomJoinThreadFn ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12523,7 +12533,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalCustomJoinThreadFn$VH() {
-        return constants$95.const$0;
+        return constants$95.const$2;
     }
     /**
      * Getter for field:
@@ -12532,7 +12542,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalCustomJoinThreadFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$95.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$95.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12541,15 +12551,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, MemorySegment x) {
-        constants$95.const$0.set(seg, 0L, x);
+        constants$95.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalCustomJoinThreadFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$95.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$95.const$2.get(seg, index * sizeof());
     }
 
     public static void SetGlobalCustomJoinThreadFn$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$95.const$0.set(seg, index * sizeof(), x);
+        constants$95.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalCustomJoinThreadFn SetGlobalCustomJoinThreadFn(MemorySegment segment, Arena scope) {
@@ -12565,7 +12575,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(SynchronizeBoundInputs fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$95.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$95.const$3, fi, constants$1.const$4, scope);
         }
 
         static SynchronizeBoundInputs ofAddress(MemorySegment addr, Arena arena) {
@@ -12581,7 +12591,7 @@ public class OrtApi {
     }
 
     public static VarHandle SynchronizeBoundInputs$VH() {
-        return constants$95.const$2;
+        return constants$95.const$4;
     }
     /**
      * Getter for field:
@@ -12590,7 +12600,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SynchronizeBoundInputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$95.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$95.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12599,15 +12609,15 @@ public class OrtApi {
      * }
      */
     public static void SynchronizeBoundInputs$set(MemorySegment seg, MemorySegment x) {
-        constants$95.const$2.set(seg, 0L, x);
+        constants$95.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SynchronizeBoundInputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$95.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$95.const$4.get(seg, index * sizeof());
     }
 
     public static void SynchronizeBoundInputs$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$95.const$2.set(seg, index * sizeof(), x);
+        constants$95.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SynchronizeBoundInputs SynchronizeBoundInputs(MemorySegment segment, Arena scope) {
@@ -12623,7 +12633,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(SynchronizeBoundOutputs fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$95.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$95.const$5, fi, constants$1.const$4, scope);
         }
 
         static SynchronizeBoundOutputs ofAddress(MemorySegment addr, Arena arena) {
@@ -12639,7 +12649,7 @@ public class OrtApi {
     }
 
     public static VarHandle SynchronizeBoundOutputs$VH() {
-        return constants$95.const$4;
+        return constants$96.const$0;
     }
     /**
      * Getter for field:
@@ -12648,7 +12658,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SynchronizeBoundOutputs$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$95.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$96.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12657,15 +12667,15 @@ public class OrtApi {
      * }
      */
     public static void SynchronizeBoundOutputs$set(MemorySegment seg, MemorySegment x) {
-        constants$95.const$4.set(seg, 0L, x);
+        constants$96.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SynchronizeBoundOutputs$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$95.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$96.const$0.get(seg, index * sizeof());
     }
 
     public static void SynchronizeBoundOutputs$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$95.const$4.set(seg, index * sizeof(), x);
+        constants$96.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SynchronizeBoundOutputs SynchronizeBoundOutputs(MemorySegment segment, Arena scope) {
@@ -12681,14 +12691,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CUDA_V2 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$95.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$96.const$1, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_CUDA_V2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12697,7 +12707,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_CUDA_V2$VH() {
-        return constants$96.const$0;
+        return constants$96.const$2;
     }
     /**
      * Getter for field:
@@ -12706,7 +12716,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$96.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$96.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12715,16 +12725,16 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(MemorySegment seg, MemorySegment x) {
-        constants$96.const$0.set(seg, 0L, x);
+        constants$96.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_CUDA_V2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$96.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$96.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_CUDA_V2$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$96.const$0.set(seg, index * sizeof(), x);
+        constants$96.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_CUDA_V2 SessionOptionsAppendExecutionProvider_CUDA_V2(
@@ -12742,7 +12752,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateCUDAProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$96.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$96.const$3, fi, constants$1.const$4, scope);
         }
 
         static CreateCUDAProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -12758,7 +12768,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateCUDAProviderOptions$VH() {
-        return constants$96.const$2;
+        return constants$96.const$4;
     }
     /**
      * Getter for field:
@@ -12767,7 +12777,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateCUDAProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$96.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$96.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12776,15 +12786,15 @@ public class OrtApi {
      * }
      */
     public static void CreateCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$96.const$2.set(seg, 0L, x);
+        constants$96.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateCUDAProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$96.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$96.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateCUDAProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$96.const$2.set(seg, index * sizeof(), x);
+        constants$96.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateCUDAProviderOptions CreateCUDAProviderOptions(MemorySegment segment, Arena scope) {
@@ -12804,7 +12814,7 @@ public class OrtApi {
                 long _x3);
 
         static MemorySegment allocate(UpdateCUDAProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$96.const$3, fi, constants$83.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$96.const$5, fi, constants$83.const$3, scope);
         }
 
         static UpdateCUDAProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -12815,7 +12825,7 @@ public class OrtApi {
                     long __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$83.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12824,7 +12834,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateCUDAProviderOptions$VH() {
-        return constants$96.const$4;
+        return constants$97.const$0;
     }
     /**
      * Getter for field:
@@ -12833,7 +12843,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateCUDAProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$96.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$97.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12842,15 +12852,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$96.const$4.set(seg, 0L, x);
+        constants$97.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateCUDAProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$96.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$97.const$0.get(seg, index * sizeof());
     }
 
     public static void UpdateCUDAProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$96.const$4.set(seg, index * sizeof(), x);
+        constants$97.const$0.set(seg, index * sizeof(), x);
     }
 
     public static UpdateCUDAProviderOptions UpdateCUDAProviderOptions(MemorySegment segment, Arena scope) {
@@ -12869,7 +12879,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCUDAProviderOptionsAsString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$96.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$97.const$1, fi, constants$15.const$0, scope);
         }
 
         static GetCUDAProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
@@ -12878,7 +12888,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12887,7 +12897,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetCUDAProviderOptionsAsString$VH() {
-        return constants$97.const$0;
+        return constants$97.const$2;
     }
     /**
      * Getter for field:
@@ -12896,7 +12906,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetCUDAProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$97.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$97.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12905,15 +12915,15 @@ public class OrtApi {
      * }
      */
     public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
-        constants$97.const$0.set(seg, 0L, x);
+        constants$97.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetCUDAProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$97.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$97.const$2.get(seg, index * sizeof());
     }
 
     public static void GetCUDAProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$97.const$0.set(seg, index * sizeof(), x);
+        constants$97.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetCUDAProviderOptionsAsString GetCUDAProviderOptionsAsString(MemorySegment segment, Arena scope) {
@@ -12929,14 +12939,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseCUDAProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$97.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$97.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseCUDAProviderOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -12945,7 +12955,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseCUDAProviderOptions$VH() {
-        return constants$97.const$2;
+        return constants$97.const$4;
     }
     /**
      * Getter for field:
@@ -12954,7 +12964,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseCUDAProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$97.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$97.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -12963,15 +12973,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$97.const$2.set(seg, 0L, x);
+        constants$97.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseCUDAProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$97.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$97.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseCUDAProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$97.const$2.set(seg, index * sizeof(), x);
+        constants$97.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseCUDAProviderOptions ReleaseCUDAProviderOptions(MemorySegment segment, Arena scope) {
@@ -12987,14 +12997,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_MIGraphX fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$97.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$97.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_MIGraphX ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13003,7 +13013,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_MIGraphX$VH() {
-        return constants$97.const$4;
+        return constants$98.const$0;
     }
     /**
      * Getter for field:
@@ -13012,7 +13022,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$97.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$98.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13021,16 +13031,16 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(MemorySegment seg, MemorySegment x) {
-        constants$97.const$4.set(seg, 0L, x);
+        constants$98.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_MIGraphX$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$97.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$98.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_MIGraphX$set(
             MemorySegment seg, long index, MemorySegment x) {
-        constants$97.const$4.set(seg, index * sizeof(), x);
+        constants$98.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_MIGraphX SessionOptionsAppendExecutionProvider_MIGraphX(
@@ -13052,7 +13062,7 @@ public class OrtApi {
                 long _x3);
 
         static MemorySegment allocate(AddExternalInitializers fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$97.const$5, fi, constants$83.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$98.const$1, fi, constants$83.const$3, scope);
         }
 
         static AddExternalInitializers ofAddress(MemorySegment addr, Arena arena) {
@@ -13063,7 +13073,7 @@ public class OrtApi {
                     long __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$83.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13072,7 +13082,7 @@ public class OrtApi {
     }
 
     public static VarHandle AddExternalInitializers$VH() {
-        return constants$98.const$0;
+        return constants$98.const$2;
     }
     /**
      * Getter for field:
@@ -13081,7 +13091,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment AddExternalInitializers$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$98.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$98.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13090,15 +13100,15 @@ public class OrtApi {
      * }
      */
     public static void AddExternalInitializers$set(MemorySegment seg, MemorySegment x) {
-        constants$98.const$0.set(seg, 0L, x);
+        constants$98.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment AddExternalInitializers$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$98.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$98.const$2.get(seg, index * sizeof());
     }
 
     public static void AddExternalInitializers$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$98.const$0.set(seg, index * sizeof(), x);
+        constants$98.const$2.set(seg, index * sizeof(), x);
     }
 
     public static AddExternalInitializers AddExternalInitializers(MemorySegment segment, Arena scope) {
@@ -13119,7 +13129,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x4);
 
         static MemorySegment allocate(CreateOpAttr fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$98.const$2, fi, constants$98.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$98.const$4, fi, constants$98.const$3, scope);
         }
 
         static CreateOpAttr ofAddress(MemorySegment addr, Arena arena) {
@@ -13131,7 +13141,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$98.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$98.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13140,7 +13150,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateOpAttr$VH() {
-        return constants$98.const$4;
+        return constants$99.const$0;
     }
     /**
      * Getter for field:
@@ -13149,7 +13159,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateOpAttr$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$98.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$99.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13158,15 +13168,15 @@ public class OrtApi {
      * }
      */
     public static void CreateOpAttr$set(MemorySegment seg, MemorySegment x) {
-        constants$98.const$4.set(seg, 0L, x);
+        constants$99.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateOpAttr$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$98.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$99.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateOpAttr$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$98.const$4.set(seg, index * sizeof(), x);
+        constants$99.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateOpAttr CreateOpAttr(MemorySegment segment, Arena scope) {
@@ -13182,14 +13192,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseOpAttr fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$98.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$99.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseOpAttr ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13198,7 +13208,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseOpAttr$VH() {
-        return constants$99.const$0;
+        return constants$99.const$2;
     }
     /**
      * Getter for field:
@@ -13207,7 +13217,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseOpAttr$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$99.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$99.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13216,15 +13226,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseOpAttr$set(MemorySegment seg, MemorySegment x) {
-        constants$99.const$0.set(seg, 0L, x);
+        constants$99.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseOpAttr$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$99.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$99.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseOpAttr$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$99.const$0.set(seg, index * sizeof(), x);
+        constants$99.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseOpAttr ReleaseOpAttr(MemorySegment segment, Arena scope) {
@@ -13252,7 +13262,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x11);
 
         static MemorySegment allocate(CreateOp fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$99.const$2, fi, constants$99.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$99.const$4, fi, constants$99.const$3, scope);
         }
 
         static CreateOp ofAddress(MemorySegment addr, Arena arena) {
@@ -13270,7 +13280,7 @@ public class OrtApi {
                     int __x10,
                     java.lang.foreign.MemorySegment __x11) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$99.const$3.invokeExact(
+                    return (java.lang.foreign.MemorySegment) constants$99.const$5.invokeExact(
                             symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7, __x8, __x9, __x10, __x11);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
@@ -13280,7 +13290,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateOp$VH() {
-        return constants$99.const$4;
+        return constants$100.const$0;
     }
     /**
      * Getter for field:
@@ -13289,7 +13299,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateOp$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$99.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$100.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13298,15 +13308,15 @@ public class OrtApi {
      * }
      */
     public static void CreateOp$set(MemorySegment seg, MemorySegment x) {
-        constants$99.const$4.set(seg, 0L, x);
+        constants$100.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateOp$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$99.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$100.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateOp$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$99.const$4.set(seg, index * sizeof(), x);
+        constants$100.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateOp CreateOp(MemorySegment segment, Arena scope) {
@@ -13328,7 +13338,7 @@ public class OrtApi {
                 int _x5);
 
         static MemorySegment allocate(InvokeOp fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$100.const$0, fi, constants$99.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$100.const$2, fi, constants$100.const$1, scope);
         }
 
         static InvokeOp ofAddress(MemorySegment addr, Arena arena) {
@@ -13341,7 +13351,7 @@ public class OrtApi {
                     int __x5) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$100.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
+                            constants$100.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13350,7 +13360,7 @@ public class OrtApi {
     }
 
     public static VarHandle InvokeOp$VH() {
-        return constants$100.const$2;
+        return constants$100.const$4;
     }
     /**
      * Getter for field:
@@ -13359,7 +13369,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment InvokeOp$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$100.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$100.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13368,15 +13378,15 @@ public class OrtApi {
      * }
      */
     public static void InvokeOp$set(MemorySegment seg, MemorySegment x) {
-        constants$100.const$2.set(seg, 0L, x);
+        constants$100.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment InvokeOp$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$100.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$100.const$4.get(seg, index * sizeof());
     }
 
     public static void InvokeOp$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$100.const$2.set(seg, index * sizeof(), x);
+        constants$100.const$4.set(seg, index * sizeof(), x);
     }
 
     public static InvokeOp InvokeOp(MemorySegment segment, Arena scope) {
@@ -13392,14 +13402,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseOp fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$100.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$100.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseOp ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13408,7 +13418,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseOp$VH() {
-        return constants$100.const$4;
+        return constants$101.const$0;
     }
     /**
      * Getter for field:
@@ -13417,7 +13427,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseOp$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$100.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$101.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13426,15 +13436,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseOp$set(MemorySegment seg, MemorySegment x) {
-        constants$100.const$4.set(seg, 0L, x);
+        constants$101.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseOp$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$100.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$101.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseOp$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$100.const$4.set(seg, index * sizeof(), x);
+        constants$101.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseOp ReleaseOp(MemorySegment segment, Arena scope) {
@@ -13455,7 +13465,7 @@ public class OrtApi {
                 long _x4);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$100.const$5, fi, constants$50.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$101.const$1, fi, constants$51.const$1, scope);
         }
 
         static SessionOptionsAppendExecutionProvider ofAddress(MemorySegment addr, Arena arena) {
@@ -13467,7 +13477,7 @@ public class OrtApi {
                     long __x4) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$51.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                            constants$51.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13476,7 +13486,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider$VH() {
-        return constants$101.const$0;
+        return constants$101.const$2;
     }
     /**
      * Getter for field:
@@ -13485,7 +13495,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$101.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$101.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13494,15 +13504,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, MemorySegment x) {
-        constants$101.const$0.set(seg, 0L, x);
+        constants$101.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$101.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$101.const$2.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$101.const$0.set(seg, index * sizeof(), x);
+        constants$101.const$2.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider SessionOptionsAppendExecutionProvider(
@@ -13520,14 +13530,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CopyKernelInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$101.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$101.const$3, fi, constants$15.const$4, scope);
         }
 
         static CopyKernelInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13536,7 +13546,7 @@ public class OrtApi {
     }
 
     public static VarHandle CopyKernelInfo$VH() {
-        return constants$101.const$2;
+        return constants$101.const$4;
     }
     /**
      * Getter for field:
@@ -13545,7 +13555,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CopyKernelInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$101.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$101.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13554,15 +13564,15 @@ public class OrtApi {
      * }
      */
     public static void CopyKernelInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$101.const$2.set(seg, 0L, x);
+        constants$101.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CopyKernelInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$101.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$101.const$4.get(seg, index * sizeof());
     }
 
     public static void CopyKernelInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$101.const$2.set(seg, index * sizeof(), x);
+        constants$101.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CopyKernelInfo CopyKernelInfo(MemorySegment segment, Arena scope) {
@@ -13578,14 +13588,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseKernelInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$101.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$101.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseKernelInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13594,7 +13604,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseKernelInfo$VH() {
-        return constants$101.const$4;
+        return constants$102.const$0;
     }
     /**
      * Getter for field:
@@ -13603,7 +13613,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseKernelInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$101.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$102.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13612,15 +13622,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseKernelInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$101.const$4.set(seg, 0L, x);
+        constants$102.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseKernelInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$101.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$102.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseKernelInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$101.const$4.set(seg, index * sizeof(), x);
+        constants$102.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseKernelInfo ReleaseKernelInfo(MemorySegment segment, Arena scope) {
@@ -13636,14 +13646,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(int _x0);
 
         static MemorySegment allocate(GetTrainingApi fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$101.const$5, fi, constants$12.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$102.const$1, fi, constants$12.const$4, scope);
         }
 
         static GetTrainingApi ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (int __x0) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$12.const$4.invokeExact(symbol, __x0);
+                    return (java.lang.foreign.MemorySegment) constants$13.const$0.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13652,7 +13662,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTrainingApi$VH() {
-        return constants$102.const$0;
+        return constants$102.const$2;
     }
     /**
      * Getter for field:
@@ -13661,7 +13671,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTrainingApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$102.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$102.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13670,15 +13680,15 @@ public class OrtApi {
      * }
      */
     public static void GetTrainingApi$set(MemorySegment seg, MemorySegment x) {
-        constants$102.const$0.set(seg, 0L, x);
+        constants$102.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTrainingApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$102.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$102.const$2.get(seg, index * sizeof());
     }
 
     public static void GetTrainingApi$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$102.const$0.set(seg, index * sizeof(), x);
+        constants$102.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetTrainingApi GetTrainingApi(MemorySegment segment, Arena scope) {
@@ -13694,14 +13704,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_CANN fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$102.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$102.const$3, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_CANN ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13710,7 +13720,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_CANN$VH() {
-        return constants$102.const$2;
+        return constants$102.const$4;
     }
     /**
      * Getter for field:
@@ -13719,7 +13729,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$102.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$102.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13728,15 +13738,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, MemorySegment x) {
-        constants$102.const$2.set(seg, 0L, x);
+        constants$102.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_CANN$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$102.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$102.const$4.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_CANN$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$102.const$2.set(seg, index * sizeof(), x);
+        constants$102.const$4.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_CANN SessionOptionsAppendExecutionProvider_CANN(
@@ -13754,7 +13764,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateCANNProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$102.const$3, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$102.const$5, fi, constants$1.const$4, scope);
         }
 
         static CreateCANNProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -13770,7 +13780,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateCANNProviderOptions$VH() {
-        return constants$102.const$4;
+        return constants$103.const$0;
     }
     /**
      * Getter for field:
@@ -13779,7 +13789,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateCANNProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$102.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$103.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13788,15 +13798,15 @@ public class OrtApi {
      * }
      */
     public static void CreateCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$102.const$4.set(seg, 0L, x);
+        constants$103.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateCANNProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$102.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$103.const$0.get(seg, index * sizeof());
     }
 
     public static void CreateCANNProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$102.const$4.set(seg, index * sizeof(), x);
+        constants$103.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CreateCANNProviderOptions CreateCANNProviderOptions(MemorySegment segment, Arena scope) {
@@ -13816,7 +13826,7 @@ public class OrtApi {
                 long _x3);
 
         static MemorySegment allocate(UpdateCANNProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$102.const$5, fi, constants$83.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$103.const$1, fi, constants$83.const$3, scope);
         }
 
         static UpdateCANNProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -13827,7 +13837,7 @@ public class OrtApi {
                     long __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$83.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13836,7 +13846,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateCANNProviderOptions$VH() {
-        return constants$103.const$0;
+        return constants$103.const$2;
     }
     /**
      * Getter for field:
@@ -13845,7 +13855,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateCANNProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$103.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$103.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13854,15 +13864,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$103.const$0.set(seg, 0L, x);
+        constants$103.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateCANNProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$103.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$103.const$2.get(seg, index * sizeof());
     }
 
     public static void UpdateCANNProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$103.const$0.set(seg, index * sizeof(), x);
+        constants$103.const$2.set(seg, index * sizeof(), x);
     }
 
     public static UpdateCANNProviderOptions UpdateCANNProviderOptions(MemorySegment segment, Arena scope) {
@@ -13881,7 +13891,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCANNProviderOptionsAsString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$103.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$103.const$3, fi, constants$15.const$0, scope);
         }
 
         static GetCANNProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
@@ -13890,7 +13900,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13899,7 +13909,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetCANNProviderOptionsAsString$VH() {
-        return constants$103.const$2;
+        return constants$103.const$4;
     }
     /**
      * Getter for field:
@@ -13908,7 +13918,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetCANNProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$103.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$103.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13917,15 +13927,15 @@ public class OrtApi {
      * }
      */
     public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
-        constants$103.const$2.set(seg, 0L, x);
+        constants$103.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetCANNProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$103.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$103.const$4.get(seg, index * sizeof());
     }
 
     public static void GetCANNProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$103.const$2.set(seg, index * sizeof(), x);
+        constants$103.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetCANNProviderOptionsAsString GetCANNProviderOptionsAsString(MemorySegment segment, Arena scope) {
@@ -13941,14 +13951,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseCANNProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$103.const$3, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$103.const$5, fi, constants$14.const$1, scope);
         }
 
         static ReleaseCANNProviderOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -13957,7 +13967,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseCANNProviderOptions$VH() {
-        return constants$103.const$4;
+        return constants$104.const$0;
     }
     /**
      * Getter for field:
@@ -13966,7 +13976,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseCANNProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$103.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$104.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -13975,15 +13985,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseCANNProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$103.const$4.set(seg, 0L, x);
+        constants$104.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseCANNProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$103.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$104.const$0.get(seg, index * sizeof());
     }
 
     public static void ReleaseCANNProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$103.const$4.set(seg, index * sizeof(), x);
+        constants$104.const$0.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseCANNProviderOptions ReleaseCANNProviderOptions(MemorySegment segment, Arena scope) {
@@ -13999,7 +14009,7 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(MemoryInfoGetDeviceType fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$103.const$5, fi, constants$1.const$0, scope);
+            return RuntimeHelper.upcallStub(constants$104.const$1, fi, constants$1.const$0, scope);
         }
 
         static MemoryInfoGetDeviceType ofAddress(MemorySegment addr, Arena arena) {
@@ -14015,7 +14025,7 @@ public class OrtApi {
     }
 
     public static VarHandle MemoryInfoGetDeviceType$VH() {
-        return constants$104.const$0;
+        return constants$104.const$2;
     }
     /**
      * Getter for field:
@@ -14024,7 +14034,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment MemoryInfoGetDeviceType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$104.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$104.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14033,15 +14043,15 @@ public class OrtApi {
      * }
      */
     public static void MemoryInfoGetDeviceType$set(MemorySegment seg, MemorySegment x) {
-        constants$104.const$0.set(seg, 0L, x);
+        constants$104.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment MemoryInfoGetDeviceType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$104.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$104.const$2.get(seg, index * sizeof());
     }
 
     public static void MemoryInfoGetDeviceType$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$104.const$0.set(seg, index * sizeof(), x);
+        constants$104.const$2.set(seg, index * sizeof(), x);
     }
 
     public static MemoryInfoGetDeviceType MemoryInfoGetDeviceType(MemorySegment segment, Arena scope) {
@@ -14057,14 +14067,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, int _x1);
 
         static MemorySegment allocate(UpdateEnvWithCustomLogLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$104.const$1, fi, constants$23.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$104.const$3, fi, constants$23.const$3, scope);
         }
 
         static UpdateEnvWithCustomLogLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, int __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$23.const$3.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$23.const$5.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14073,7 +14083,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateEnvWithCustomLogLevel$VH() {
-        return constants$104.const$2;
+        return constants$104.const$4;
     }
     /**
      * Getter for field:
@@ -14082,7 +14092,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateEnvWithCustomLogLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$104.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$104.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14091,15 +14101,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateEnvWithCustomLogLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$104.const$2.set(seg, 0L, x);
+        constants$104.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateEnvWithCustomLogLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$104.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$104.const$4.get(seg, index * sizeof());
     }
 
     public static void UpdateEnvWithCustomLogLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$104.const$2.set(seg, index * sizeof(), x);
+        constants$104.const$4.set(seg, index * sizeof(), x);
     }
 
     public static UpdateEnvWithCustomLogLevel UpdateEnvWithCustomLogLevel(MemorySegment segment, Arena scope) {
@@ -14115,14 +14125,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SetGlobalIntraOpThreadAffinity fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$104.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$104.const$5, fi, constants$15.const$4, scope);
         }
 
         static SetGlobalIntraOpThreadAffinity ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14131,7 +14141,7 @@ public class OrtApi {
     }
 
     public static VarHandle SetGlobalIntraOpThreadAffinity$VH() {
-        return constants$104.const$4;
+        return constants$105.const$0;
     }
     /**
      * Getter for field:
@@ -14140,7 +14150,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SetGlobalIntraOpThreadAffinity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$104.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$105.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14149,15 +14159,15 @@ public class OrtApi {
      * }
      */
     public static void SetGlobalIntraOpThreadAffinity$set(MemorySegment seg, MemorySegment x) {
-        constants$104.const$4.set(seg, 0L, x);
+        constants$105.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SetGlobalIntraOpThreadAffinity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$104.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$105.const$0.get(seg, index * sizeof());
     }
 
     public static void SetGlobalIntraOpThreadAffinity$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$104.const$4.set(seg, index * sizeof(), x);
+        constants$105.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SetGlobalIntraOpThreadAffinity SetGlobalIntraOpThreadAffinity(MemorySegment segment, Arena scope) {
@@ -14173,14 +14183,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterCustomOpsLibrary_V2 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$104.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$105.const$1, fi, constants$15.const$4, scope);
         }
 
         static RegisterCustomOpsLibrary_V2 ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14189,7 +14199,7 @@ public class OrtApi {
     }
 
     public static VarHandle RegisterCustomOpsLibrary_V2$VH() {
-        return constants$105.const$0;
+        return constants$105.const$2;
     }
     /**
      * Getter for field:
@@ -14198,7 +14208,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RegisterCustomOpsLibrary_V2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$105.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$105.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14207,15 +14217,15 @@ public class OrtApi {
      * }
      */
     public static void RegisterCustomOpsLibrary_V2$set(MemorySegment seg, MemorySegment x) {
-        constants$105.const$0.set(seg, 0L, x);
+        constants$105.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment RegisterCustomOpsLibrary_V2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$105.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$105.const$2.get(seg, index * sizeof());
     }
 
     public static void RegisterCustomOpsLibrary_V2$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$105.const$0.set(seg, index * sizeof(), x);
+        constants$105.const$2.set(seg, index * sizeof(), x);
     }
 
     public static RegisterCustomOpsLibrary_V2 RegisterCustomOpsLibrary_V2(MemorySegment segment, Arena scope) {
@@ -14231,14 +14241,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(RegisterCustomOpsUsingFunction fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$105.const$1, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$105.const$3, fi, constants$15.const$4, scope);
         }
 
         static RegisterCustomOpsUsingFunction ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14247,7 +14257,7 @@ public class OrtApi {
     }
 
     public static VarHandle RegisterCustomOpsUsingFunction$VH() {
-        return constants$105.const$2;
+        return constants$105.const$4;
     }
     /**
      * Getter for field:
@@ -14256,7 +14266,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RegisterCustomOpsUsingFunction$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$105.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$105.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14265,15 +14275,15 @@ public class OrtApi {
      * }
      */
     public static void RegisterCustomOpsUsingFunction$set(MemorySegment seg, MemorySegment x) {
-        constants$105.const$2.set(seg, 0L, x);
+        constants$105.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment RegisterCustomOpsUsingFunction$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$105.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$105.const$4.get(seg, index * sizeof());
     }
 
     public static void RegisterCustomOpsUsingFunction$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$105.const$2.set(seg, index * sizeof(), x);
+        constants$105.const$4.set(seg, index * sizeof(), x);
     }
 
     public static RegisterCustomOpsUsingFunction RegisterCustomOpsUsingFunction(MemorySegment segment, Arena scope) {
@@ -14289,14 +14299,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelInfo_GetInputCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$105.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$105.const$5, fi, constants$15.const$4, scope);
         }
 
         static KernelInfo_GetInputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14305,7 +14315,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetInputCount$VH() {
-        return constants$105.const$4;
+        return constants$106.const$0;
     }
     /**
      * Getter for field:
@@ -14314,7 +14324,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetInputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$105.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$106.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14323,15 +14333,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetInputCount$set(MemorySegment seg, MemorySegment x) {
-        constants$105.const$4.set(seg, 0L, x);
+        constants$106.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetInputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$105.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$106.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetInputCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$105.const$4.set(seg, index * sizeof(), x);
+        constants$106.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetInputCount KernelInfo_GetInputCount(MemorySegment segment, Arena scope) {
@@ -14347,14 +14357,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelInfo_GetOutputCount fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$105.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$106.const$1, fi, constants$15.const$4, scope);
         }
 
         static KernelInfo_GetOutputCount ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14363,7 +14373,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetOutputCount$VH() {
-        return constants$106.const$0;
+        return constants$106.const$2;
     }
     /**
      * Getter for field:
@@ -14372,7 +14382,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetOutputCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$106.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$106.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14381,15 +14391,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetOutputCount$set(MemorySegment seg, MemorySegment x) {
-        constants$106.const$0.set(seg, 0L, x);
+        constants$106.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetOutputCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$106.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$106.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetOutputCount$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$106.const$0.set(seg, index * sizeof(), x);
+        constants$106.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetOutputCount KernelInfo_GetOutputCount(MemorySegment segment, Arena scope) {
@@ -14409,7 +14419,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfo_GetInputName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$106.const$1, fi, constants$31.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$106.const$3, fi, constants$31.const$5, scope);
         }
 
         static KernelInfo_GetInputName ofAddress(MemorySegment addr, Arena arena) {
@@ -14420,7 +14430,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$31.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$32.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14429,7 +14439,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetInputName$VH() {
-        return constants$106.const$2;
+        return constants$106.const$4;
     }
     /**
      * Getter for field:
@@ -14438,7 +14448,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetInputName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$106.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$106.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14447,15 +14457,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetInputName$set(MemorySegment seg, MemorySegment x) {
-        constants$106.const$2.set(seg, 0L, x);
+        constants$106.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetInputName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$106.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$106.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetInputName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$106.const$2.set(seg, index * sizeof(), x);
+        constants$106.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetInputName KernelInfo_GetInputName(MemorySegment segment, Arena scope) {
@@ -14475,7 +14485,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfo_GetOutputName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$106.const$3, fi, constants$31.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$106.const$5, fi, constants$31.const$5, scope);
         }
 
         static KernelInfo_GetOutputName ofAddress(MemorySegment addr, Arena arena) {
@@ -14486,7 +14496,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$31.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$32.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14495,7 +14505,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetOutputName$VH() {
-        return constants$106.const$4;
+        return constants$107.const$0;
     }
     /**
      * Getter for field:
@@ -14504,7 +14514,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetOutputName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$106.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$107.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14513,15 +14523,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetOutputName$set(MemorySegment seg, MemorySegment x) {
-        constants$106.const$4.set(seg, 0L, x);
+        constants$107.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetOutputName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$106.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$107.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetOutputName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$106.const$4.set(seg, index * sizeof(), x);
+        constants$107.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetOutputName KernelInfo_GetOutputName(MemorySegment segment, Arena scope) {
@@ -14538,14 +14548,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfo_GetInputTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$106.const$5, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$107.const$1, fi, constants$30.const$3, scope);
         }
 
         static KernelInfo_GetInputTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14554,7 +14564,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetInputTypeInfo$VH() {
-        return constants$107.const$0;
+        return constants$107.const$2;
     }
     /**
      * Getter for field:
@@ -14563,7 +14573,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetInputTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$107.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$107.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14572,15 +14582,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetInputTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$107.const$0.set(seg, 0L, x);
+        constants$107.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetInputTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$107.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$107.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetInputTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$107.const$0.set(seg, index * sizeof(), x);
+        constants$107.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetInputTypeInfo KernelInfo_GetInputTypeInfo(MemorySegment segment, Arena scope) {
@@ -14597,14 +14607,14 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfo_GetOutputTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$107.const$1, fi, constants$30.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$107.const$3, fi, constants$30.const$3, scope);
         }
 
         static KernelInfo_GetOutputTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$30.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14613,7 +14623,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetOutputTypeInfo$VH() {
-        return constants$107.const$2;
+        return constants$107.const$4;
     }
     /**
      * Getter for field:
@@ -14622,7 +14632,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetOutputTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$107.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$107.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14631,15 +14641,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetOutputTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$107.const$2.set(seg, 0L, x);
+        constants$107.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetOutputTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$107.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$107.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetOutputTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$107.const$2.set(seg, index * sizeof(), x);
+        constants$107.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetOutputTypeInfo KernelInfo_GetOutputTypeInfo(MemorySegment segment, Arena scope) {
@@ -14659,7 +14669,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetAttribute_tensor fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$107.const$3, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$107.const$5, fi, constants$20.const$3, scope);
         }
 
         static KernelInfoGetAttribute_tensor ofAddress(MemorySegment addr, Arena arena) {
@@ -14670,7 +14680,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14679,7 +14689,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetAttribute_tensor$VH() {
-        return constants$107.const$4;
+        return constants$108.const$0;
     }
     /**
      * Getter for field:
@@ -14688,7 +14698,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetAttribute_tensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$107.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$108.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14697,15 +14707,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetAttribute_tensor$set(MemorySegment seg, MemorySegment x) {
-        constants$107.const$4.set(seg, 0L, x);
+        constants$108.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetAttribute_tensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$107.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$108.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetAttribute_tensor$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$107.const$4.set(seg, index * sizeof(), x);
+        constants$108.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetAttribute_tensor KernelInfoGetAttribute_tensor(MemorySegment segment, Arena scope) {
@@ -14724,7 +14734,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(HasSessionConfigEntry fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$107.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$108.const$1, fi, constants$15.const$0, scope);
         }
 
         static HasSessionConfigEntry ofAddress(MemorySegment addr, Arena arena) {
@@ -14733,7 +14743,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14742,7 +14752,7 @@ public class OrtApi {
     }
 
     public static VarHandle HasSessionConfigEntry$VH() {
-        return constants$108.const$0;
+        return constants$108.const$2;
     }
     /**
      * Getter for field:
@@ -14751,7 +14761,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment HasSessionConfigEntry$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$108.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$108.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14760,15 +14770,15 @@ public class OrtApi {
      * }
      */
     public static void HasSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
-        constants$108.const$0.set(seg, 0L, x);
+        constants$108.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment HasSessionConfigEntry$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$108.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$108.const$2.get(seg, index * sizeof());
     }
 
     public static void HasSessionConfigEntry$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$108.const$0.set(seg, index * sizeof(), x);
+        constants$108.const$2.set(seg, index * sizeof(), x);
     }
 
     public static HasSessionConfigEntry HasSessionConfigEntry(MemorySegment segment, Arena scope) {
@@ -14788,7 +14798,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetSessionConfigEntry fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$108.const$1, fi, constants$20.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$108.const$3, fi, constants$20.const$3, scope);
         }
 
         static GetSessionConfigEntry ofAddress(MemorySegment addr, Arena arena) {
@@ -14799,7 +14809,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$20.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$20.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14808,7 +14818,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetSessionConfigEntry$VH() {
-        return constants$108.const$2;
+        return constants$108.const$4;
     }
     /**
      * Getter for field:
@@ -14817,7 +14827,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetSessionConfigEntry$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$108.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$108.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14826,15 +14836,15 @@ public class OrtApi {
      * }
      */
     public static void GetSessionConfigEntry$set(MemorySegment seg, MemorySegment x) {
-        constants$108.const$2.set(seg, 0L, x);
+        constants$108.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetSessionConfigEntry$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$108.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$108.const$4.get(seg, index * sizeof());
     }
 
     public static void GetSessionConfigEntry$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$108.const$2.set(seg, index * sizeof(), x);
+        constants$108.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetSessionConfigEntry GetSessionConfigEntry(MemorySegment segment, Arena scope) {
@@ -14850,14 +14860,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(SessionOptionsAppendExecutionProvider_Dnnl fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$108.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$108.const$5, fi, constants$15.const$4, scope);
         }
 
         static SessionOptionsAppendExecutionProvider_Dnnl ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14866,7 +14876,7 @@ public class OrtApi {
     }
 
     public static VarHandle SessionOptionsAppendExecutionProvider_Dnnl$VH() {
-        return constants$108.const$4;
+        return constants$109.const$0;
     }
     /**
      * Getter for field:
@@ -14875,7 +14885,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment SessionOptionsAppendExecutionProvider_Dnnl$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$108.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$109.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14884,15 +14894,15 @@ public class OrtApi {
      * }
      */
     public static void SessionOptionsAppendExecutionProvider_Dnnl$set(MemorySegment seg, MemorySegment x) {
-        constants$108.const$4.set(seg, 0L, x);
+        constants$109.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment SessionOptionsAppendExecutionProvider_Dnnl$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$108.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$109.const$0.get(seg, index * sizeof());
     }
 
     public static void SessionOptionsAppendExecutionProvider_Dnnl$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$108.const$4.set(seg, index * sizeof(), x);
+        constants$109.const$0.set(seg, index * sizeof(), x);
     }
 
     public static SessionOptionsAppendExecutionProvider_Dnnl SessionOptionsAppendExecutionProvider_Dnnl(
@@ -14910,7 +14920,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateDnnlProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$108.const$5, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$109.const$1, fi, constants$1.const$4, scope);
         }
 
         static CreateDnnlProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -14926,7 +14936,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateDnnlProviderOptions$VH() {
-        return constants$109.const$0;
+        return constants$109.const$2;
     }
     /**
      * Getter for field:
@@ -14935,7 +14945,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateDnnlProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$109.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$109.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -14944,15 +14954,15 @@ public class OrtApi {
      * }
      */
     public static void CreateDnnlProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$109.const$0.set(seg, 0L, x);
+        constants$109.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateDnnlProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$109.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$109.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateDnnlProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$109.const$0.set(seg, index * sizeof(), x);
+        constants$109.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateDnnlProviderOptions CreateDnnlProviderOptions(MemorySegment segment, Arena scope) {
@@ -14972,7 +14982,7 @@ public class OrtApi {
                 long _x3);
 
         static MemorySegment allocate(UpdateDnnlProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$109.const$1, fi, constants$83.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$109.const$3, fi, constants$83.const$3, scope);
         }
 
         static UpdateDnnlProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -14983,7 +14993,7 @@ public class OrtApi {
                     long __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$83.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -14992,7 +15002,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateDnnlProviderOptions$VH() {
-        return constants$109.const$2;
+        return constants$109.const$4;
     }
     /**
      * Getter for field:
@@ -15001,7 +15011,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateDnnlProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$109.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$109.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15010,15 +15020,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateDnnlProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$109.const$2.set(seg, 0L, x);
+        constants$109.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateDnnlProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$109.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$109.const$4.get(seg, index * sizeof());
     }
 
     public static void UpdateDnnlProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$109.const$2.set(seg, index * sizeof(), x);
+        constants$109.const$4.set(seg, index * sizeof(), x);
     }
 
     public static UpdateDnnlProviderOptions UpdateDnnlProviderOptions(MemorySegment segment, Arena scope) {
@@ -15037,7 +15047,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetDnnlProviderOptionsAsString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$109.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$109.const$5, fi, constants$15.const$0, scope);
         }
 
         static GetDnnlProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
@@ -15046,7 +15056,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15055,7 +15065,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetDnnlProviderOptionsAsString$VH() {
-        return constants$109.const$4;
+        return constants$110.const$0;
     }
     /**
      * Getter for field:
@@ -15064,7 +15074,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetDnnlProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$109.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$110.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15073,15 +15083,15 @@ public class OrtApi {
      * }
      */
     public static void GetDnnlProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
-        constants$109.const$4.set(seg, 0L, x);
+        constants$110.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment GetDnnlProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$109.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$110.const$0.get(seg, index * sizeof());
     }
 
     public static void GetDnnlProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$109.const$4.set(seg, index * sizeof(), x);
+        constants$110.const$0.set(seg, index * sizeof(), x);
     }
 
     public static GetDnnlProviderOptionsAsString GetDnnlProviderOptionsAsString(MemorySegment segment, Arena scope) {
@@ -15097,14 +15107,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseDnnlProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$109.const$5, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$110.const$1, fi, constants$14.const$1, scope);
         }
 
         static ReleaseDnnlProviderOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15113,7 +15123,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseDnnlProviderOptions$VH() {
-        return constants$110.const$0;
+        return constants$110.const$2;
     }
     /**
      * Getter for field:
@@ -15122,7 +15132,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseDnnlProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$110.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$110.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15131,15 +15141,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseDnnlProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$110.const$0.set(seg, 0L, x);
+        constants$110.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseDnnlProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$110.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$110.const$2.get(seg, index * sizeof());
     }
 
     public static void ReleaseDnnlProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$110.const$0.set(seg, index * sizeof(), x);
+        constants$110.const$2.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseDnnlProviderOptions ReleaseDnnlProviderOptions(MemorySegment segment, Arena scope) {
@@ -15158,7 +15168,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelInfo_GetNodeName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$110.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$110.const$3, fi, constants$15.const$0, scope);
         }
 
         static KernelInfo_GetNodeName ofAddress(MemorySegment addr, Arena arena) {
@@ -15167,7 +15177,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15176,7 +15186,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetNodeName$VH() {
-        return constants$110.const$2;
+        return constants$110.const$4;
     }
     /**
      * Getter for field:
@@ -15185,7 +15195,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetNodeName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$110.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$110.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15194,15 +15204,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetNodeName$set(MemorySegment seg, MemorySegment x) {
-        constants$110.const$2.set(seg, 0L, x);
+        constants$110.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetNodeName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$110.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$110.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetNodeName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$110.const$2.set(seg, index * sizeof(), x);
+        constants$110.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetNodeName KernelInfo_GetNodeName(MemorySegment segment, Arena scope) {
@@ -15218,14 +15228,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelInfo_GetLogger fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$110.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$110.const$5, fi, constants$15.const$4, scope);
         }
 
         static KernelInfo_GetLogger ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15234,7 +15244,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfo_GetLogger$VH() {
-        return constants$110.const$4;
+        return constants$111.const$0;
     }
     /**
      * Getter for field:
@@ -15243,7 +15253,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfo_GetLogger$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$110.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$111.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15252,15 +15262,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfo_GetLogger$set(MemorySegment seg, MemorySegment x) {
-        constants$110.const$4.set(seg, 0L, x);
+        constants$111.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfo_GetLogger$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$110.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$111.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelInfo_GetLogger$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$110.const$4.set(seg, index * sizeof(), x);
+        constants$111.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfo_GetLogger KernelInfo_GetLogger(MemorySegment segment, Arena scope) {
@@ -15276,14 +15286,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(KernelContext_GetLogger fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$110.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$111.const$1, fi, constants$15.const$4, scope);
         }
 
         static KernelContext_GetLogger ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15292,7 +15302,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetLogger$VH() {
-        return constants$111.const$0;
+        return constants$111.const$2;
     }
     /**
      * Getter for field:
@@ -15301,7 +15311,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetLogger$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$111.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$111.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15310,15 +15320,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetLogger$set(MemorySegment seg, MemorySegment x) {
-        constants$111.const$0.set(seg, 0L, x);
+        constants$111.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetLogger$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$111.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$111.const$2.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetLogger$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$111.const$0.set(seg, index * sizeof(), x);
+        constants$111.const$2.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetLogger KernelContext_GetLogger(MemorySegment segment, Arena scope) {
@@ -15340,7 +15350,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x5);
 
         static MemorySegment allocate(Logger_LogMessage fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$111.const$2, fi, constants$111.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$111.const$4, fi, constants$111.const$3, scope);
         }
 
         static Logger_LogMessage ofAddress(MemorySegment addr, Arena arena) {
@@ -15353,7 +15363,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x5) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$111.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
+                            constants$111.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15362,7 +15372,7 @@ public class OrtApi {
     }
 
     public static VarHandle Logger_LogMessage$VH() {
-        return constants$111.const$4;
+        return constants$112.const$0;
     }
     /**
      * Getter for field:
@@ -15371,7 +15381,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment Logger_LogMessage$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$111.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$112.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15380,15 +15390,15 @@ public class OrtApi {
      * }
      */
     public static void Logger_LogMessage$set(MemorySegment seg, MemorySegment x) {
-        constants$111.const$4.set(seg, 0L, x);
+        constants$112.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment Logger_LogMessage$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$111.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$112.const$0.get(seg, index * sizeof());
     }
 
     public static void Logger_LogMessage$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$111.const$4.set(seg, index * sizeof(), x);
+        constants$112.const$0.set(seg, index * sizeof(), x);
     }
 
     public static Logger_LogMessage Logger_LogMessage(MemorySegment segment, Arena scope) {
@@ -15404,14 +15414,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(Logger_GetLoggingSeverityLevel fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$111.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$112.const$1, fi, constants$15.const$4, scope);
         }
 
         static Logger_GetLoggingSeverityLevel ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15420,7 +15430,7 @@ public class OrtApi {
     }
 
     public static VarHandle Logger_GetLoggingSeverityLevel$VH() {
-        return constants$112.const$0;
+        return constants$112.const$2;
     }
     /**
      * Getter for field:
@@ -15429,7 +15439,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment Logger_GetLoggingSeverityLevel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$112.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$112.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15438,15 +15448,15 @@ public class OrtApi {
      * }
      */
     public static void Logger_GetLoggingSeverityLevel$set(MemorySegment seg, MemorySegment x) {
-        constants$112.const$0.set(seg, 0L, x);
+        constants$112.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment Logger_GetLoggingSeverityLevel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$112.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$112.const$2.get(seg, index * sizeof());
     }
 
     public static void Logger_GetLoggingSeverityLevel$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$112.const$0.set(seg, index * sizeof(), x);
+        constants$112.const$2.set(seg, index * sizeof(), x);
     }
 
     public static Logger_GetLoggingSeverityLevel Logger_GetLoggingSeverityLevel(MemorySegment segment, Arena scope) {
@@ -15466,7 +15476,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelInfoGetConstantInput_tensor fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$112.const$1, fi, constants$31.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$112.const$3, fi, constants$31.const$5, scope);
         }
 
         static KernelInfoGetConstantInput_tensor ofAddress(MemorySegment addr, Arena arena) {
@@ -15477,7 +15487,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$31.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$32.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15486,7 +15496,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelInfoGetConstantInput_tensor$VH() {
-        return constants$112.const$2;
+        return constants$112.const$4;
     }
     /**
      * Getter for field:
@@ -15495,7 +15505,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelInfoGetConstantInput_tensor$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$112.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$112.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15504,15 +15514,15 @@ public class OrtApi {
      * }
      */
     public static void KernelInfoGetConstantInput_tensor$set(MemorySegment seg, MemorySegment x) {
-        constants$112.const$2.set(seg, 0L, x);
+        constants$112.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelInfoGetConstantInput_tensor$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$112.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$112.const$4.get(seg, index * sizeof());
     }
 
     public static void KernelInfoGetConstantInput_tensor$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$112.const$2.set(seg, index * sizeof(), x);
+        constants$112.const$4.set(seg, index * sizeof(), x);
     }
 
     public static KernelInfoGetConstantInput_tensor KernelInfoGetConstantInput_tensor(
@@ -15529,14 +15539,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(CastTypeInfoToOptionalTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$112.const$3, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$112.const$5, fi, constants$15.const$4, scope);
         }
 
         static CastTypeInfoToOptionalTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15545,7 +15555,7 @@ public class OrtApi {
     }
 
     public static VarHandle CastTypeInfoToOptionalTypeInfo$VH() {
-        return constants$112.const$4;
+        return constants$113.const$0;
     }
     /**
      * Getter for field:
@@ -15554,7 +15564,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CastTypeInfoToOptionalTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$112.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$113.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15563,15 +15573,15 @@ public class OrtApi {
      * }
      */
     public static void CastTypeInfoToOptionalTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$112.const$4.set(seg, 0L, x);
+        constants$113.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment CastTypeInfoToOptionalTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$112.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$113.const$0.get(seg, index * sizeof());
     }
 
     public static void CastTypeInfoToOptionalTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$112.const$4.set(seg, index * sizeof(), x);
+        constants$113.const$0.set(seg, index * sizeof(), x);
     }
 
     public static CastTypeInfoToOptionalTypeInfo CastTypeInfoToOptionalTypeInfo(MemorySegment segment, Arena scope) {
@@ -15587,14 +15597,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
         static MemorySegment allocate(GetOptionalContainedTypeInfo fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$112.const$5, fi, constants$15.const$2, scope);
+            return RuntimeHelper.upcallStub(constants$113.const$1, fi, constants$15.const$4, scope);
         }
 
         static GetOptionalContainedTypeInfo ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$4.invokeExact(symbol, __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15603,7 +15613,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetOptionalContainedTypeInfo$VH() {
-        return constants$113.const$0;
+        return constants$113.const$2;
     }
     /**
      * Getter for field:
@@ -15612,7 +15622,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetOptionalContainedTypeInfo$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$113.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$113.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15621,15 +15631,15 @@ public class OrtApi {
      * }
      */
     public static void GetOptionalContainedTypeInfo$set(MemorySegment seg, MemorySegment x) {
-        constants$113.const$0.set(seg, 0L, x);
+        constants$113.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetOptionalContainedTypeInfo$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$113.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$113.const$2.get(seg, index * sizeof());
     }
 
     public static void GetOptionalContainedTypeInfo$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$113.const$0.set(seg, index * sizeof(), x);
+        constants$113.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetOptionalContainedTypeInfo GetOptionalContainedTypeInfo(MemorySegment segment, Arena scope) {
@@ -15646,7 +15656,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, long _x1, long _x2, java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(GetResizedStringTensorElementBuffer fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$113.const$1, fi, constants$66.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$113.const$3, fi, constants$66.const$5, scope);
         }
 
         static GetResizedStringTensorElementBuffer ofAddress(MemorySegment addr, Arena arena) {
@@ -15657,7 +15667,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$66.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$67.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15666,7 +15676,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetResizedStringTensorElementBuffer$VH() {
-        return constants$113.const$2;
+        return constants$113.const$4;
     }
     /**
      * Getter for field:
@@ -15675,7 +15685,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetResizedStringTensorElementBuffer$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$113.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$113.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15684,15 +15694,15 @@ public class OrtApi {
      * }
      */
     public static void GetResizedStringTensorElementBuffer$set(MemorySegment seg, MemorySegment x) {
-        constants$113.const$2.set(seg, 0L, x);
+        constants$113.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetResizedStringTensorElementBuffer$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$113.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$113.const$4.get(seg, index * sizeof());
     }
 
     public static void GetResizedStringTensorElementBuffer$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$113.const$2.set(seg, index * sizeof(), x);
+        constants$113.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetResizedStringTensorElementBuffer GetResizedStringTensorElementBuffer(
@@ -15712,7 +15722,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(KernelContext_GetAllocator fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$113.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$113.const$5, fi, constants$15.const$0, scope);
         }
 
         static KernelContext_GetAllocator ofAddress(MemorySegment addr, Arena arena) {
@@ -15721,7 +15731,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15730,7 +15740,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetAllocator$VH() {
-        return constants$113.const$4;
+        return constants$114.const$0;
     }
     /**
      * Getter for field:
@@ -15739,7 +15749,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetAllocator$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$113.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$114.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15748,15 +15758,15 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetAllocator$set(MemorySegment seg, MemorySegment x) {
-        constants$113.const$4.set(seg, 0L, x);
+        constants$114.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetAllocator$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$113.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$114.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetAllocator$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$113.const$4.set(seg, index * sizeof(), x);
+        constants$114.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetAllocator KernelContext_GetAllocator(MemorySegment segment, Arena scope) {
@@ -15772,14 +15782,14 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply();
 
         static MemorySegment allocate(GetBuildInfoString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$113.const$5, fi, constants$13.const$0, scope);
+            return RuntimeHelper.upcallStub(constants$114.const$1, fi, constants$13.const$2, scope);
         }
 
         static GetBuildInfoString ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return () -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$13.const$2.invokeExact(symbol);
+                    return (java.lang.foreign.MemorySegment) constants$13.const$4.invokeExact(symbol);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15788,7 +15798,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetBuildInfoString$VH() {
-        return constants$114.const$0;
+        return constants$114.const$2;
     }
     /**
      * Getter for field:
@@ -15797,7 +15807,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetBuildInfoString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$114.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$114.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15806,15 +15816,15 @@ public class OrtApi {
      * }
      */
     public static void GetBuildInfoString$set(MemorySegment seg, MemorySegment x) {
-        constants$114.const$0.set(seg, 0L, x);
+        constants$114.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetBuildInfoString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$114.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$114.const$2.get(seg, index * sizeof());
     }
 
     public static void GetBuildInfoString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$114.const$0.set(seg, index * sizeof(), x);
+        constants$114.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetBuildInfoString GetBuildInfoString(MemorySegment segment, Arena scope) {
@@ -15830,7 +15840,7 @@ public class OrtApi {
         java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
         static MemorySegment allocate(CreateROCMProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$114.const$1, fi, constants$1.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$114.const$3, fi, constants$1.const$4, scope);
         }
 
         static CreateROCMProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -15846,7 +15856,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateROCMProviderOptions$VH() {
-        return constants$114.const$2;
+        return constants$114.const$4;
     }
     /**
      * Getter for field:
@@ -15855,7 +15865,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateROCMProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$114.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$114.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15864,15 +15874,15 @@ public class OrtApi {
      * }
      */
     public static void CreateROCMProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$114.const$2.set(seg, 0L, x);
+        constants$114.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateROCMProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$114.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$114.const$4.get(seg, index * sizeof());
     }
 
     public static void CreateROCMProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$114.const$2.set(seg, index * sizeof(), x);
+        constants$114.const$4.set(seg, index * sizeof(), x);
     }
 
     public static CreateROCMProviderOptions CreateROCMProviderOptions(MemorySegment segment, Arena scope) {
@@ -15892,7 +15902,7 @@ public class OrtApi {
                 long _x3);
 
         static MemorySegment allocate(UpdateROCMProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$114.const$3, fi, constants$83.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$114.const$5, fi, constants$83.const$3, scope);
         }
 
         static UpdateROCMProviderOptions ofAddress(MemorySegment addr, Arena arena) {
@@ -15903,7 +15913,7 @@ public class OrtApi {
                     long __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$83.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15912,7 +15922,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateROCMProviderOptions$VH() {
-        return constants$114.const$4;
+        return constants$115.const$0;
     }
     /**
      * Getter for field:
@@ -15921,7 +15931,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateROCMProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$114.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$115.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15930,15 +15940,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateROCMProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$114.const$4.set(seg, 0L, x);
+        constants$115.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateROCMProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$114.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$115.const$0.get(seg, index * sizeof());
     }
 
     public static void UpdateROCMProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$114.const$4.set(seg, index * sizeof(), x);
+        constants$115.const$0.set(seg, index * sizeof(), x);
     }
 
     public static UpdateROCMProviderOptions UpdateROCMProviderOptions(MemorySegment segment, Arena scope) {
@@ -15957,7 +15967,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetROCMProviderOptionsAsString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$114.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$115.const$1, fi, constants$15.const$0, scope);
         }
 
         static GetROCMProviderOptionsAsString ofAddress(MemorySegment addr, Arena arena) {
@@ -15966,7 +15976,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -15975,7 +15985,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetROCMProviderOptionsAsString$VH() {
-        return constants$115.const$0;
+        return constants$115.const$2;
     }
     /**
      * Getter for field:
@@ -15984,7 +15994,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetROCMProviderOptionsAsString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$115.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$115.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -15993,15 +16003,15 @@ public class OrtApi {
      * }
      */
     public static void GetROCMProviderOptionsAsString$set(MemorySegment seg, MemorySegment x) {
-        constants$115.const$0.set(seg, 0L, x);
+        constants$115.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetROCMProviderOptionsAsString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$115.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$115.const$2.get(seg, index * sizeof());
     }
 
     public static void GetROCMProviderOptionsAsString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$115.const$0.set(seg, index * sizeof(), x);
+        constants$115.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetROCMProviderOptionsAsString GetROCMProviderOptionsAsString(MemorySegment segment, Arena scope) {
@@ -16017,14 +16027,14 @@ public class OrtApi {
         void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
         static MemorySegment allocate(ReleaseROCMProviderOptions fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$115.const$1, fi, constants$13.const$5, scope);
+            return RuntimeHelper.upcallStub(constants$115.const$3, fi, constants$14.const$1, scope);
         }
 
         static ReleaseROCMProviderOptions ofAddress(MemorySegment addr, Arena arena) {
             MemorySegment symbol = addr.reinterpret(arena, null);
             return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
                 try {
-                    constants$14.const$1.invokeExact(symbol, _ort_custom_thread_handle);
+                    constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16033,7 +16043,7 @@ public class OrtApi {
     }
 
     public static VarHandle ReleaseROCMProviderOptions$VH() {
-        return constants$115.const$2;
+        return constants$115.const$4;
     }
     /**
      * Getter for field:
@@ -16042,7 +16052,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment ReleaseROCMProviderOptions$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$115.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$115.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16051,15 +16061,15 @@ public class OrtApi {
      * }
      */
     public static void ReleaseROCMProviderOptions$set(MemorySegment seg, MemorySegment x) {
-        constants$115.const$2.set(seg, 0L, x);
+        constants$115.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment ReleaseROCMProviderOptions$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$115.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$115.const$4.get(seg, index * sizeof());
     }
 
     public static void ReleaseROCMProviderOptions$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$115.const$2.set(seg, index * sizeof(), x);
+        constants$115.const$4.set(seg, index * sizeof(), x);
     }
 
     public static ReleaseROCMProviderOptions ReleaseROCMProviderOptions(MemorySegment segment, Arena scope) {
@@ -16082,7 +16092,7 @@ public class OrtApi {
                 long _x6);
 
         static MemorySegment allocate(CreateAndRegisterAllocatorV2 fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$115.const$4, fi, constants$115.const$3, scope);
+            return RuntimeHelper.upcallStub(constants$116.const$0, fi, constants$115.const$5, scope);
         }
 
         static CreateAndRegisterAllocatorV2 ofAddress(MemorySegment addr, Arena arena) {
@@ -16096,7 +16106,7 @@ public class OrtApi {
                     long __x6) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$115.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
+                            constants$116.const$1.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16105,7 +16115,7 @@ public class OrtApi {
     }
 
     public static VarHandle CreateAndRegisterAllocatorV2$VH() {
-        return constants$116.const$0;
+        return constants$116.const$2;
     }
     /**
      * Getter for field:
@@ -16114,7 +16124,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment CreateAndRegisterAllocatorV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$116.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$116.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16123,15 +16133,15 @@ public class OrtApi {
      * }
      */
     public static void CreateAndRegisterAllocatorV2$set(MemorySegment seg, MemorySegment x) {
-        constants$116.const$0.set(seg, 0L, x);
+        constants$116.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment CreateAndRegisterAllocatorV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$116.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$116.const$2.get(seg, index * sizeof());
     }
 
     public static void CreateAndRegisterAllocatorV2$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$116.const$0.set(seg, index * sizeof(), x);
+        constants$116.const$2.set(seg, index * sizeof(), x);
     }
 
     public static CreateAndRegisterAllocatorV2 CreateAndRegisterAllocatorV2(MemorySegment segment, Arena scope) {
@@ -16157,7 +16167,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x9);
 
         static MemorySegment allocate(RunAsync fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$116.const$2, fi, constants$116.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$116.const$4, fi, constants$116.const$3, scope);
         }
 
         static RunAsync ofAddress(MemorySegment addr, Arena arena) {
@@ -16173,7 +16183,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x8,
                     java.lang.foreign.MemorySegment __x9) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$116.const$3.invokeExact(
+                    return (java.lang.foreign.MemorySegment) constants$116.const$5.invokeExact(
                             symbol, __x0, __x1, __x2, __x3, __x4, __x5, __x6, __x7, __x8, __x9);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
@@ -16183,7 +16193,7 @@ public class OrtApi {
     }
 
     public static VarHandle RunAsync$VH() {
-        return constants$116.const$4;
+        return constants$117.const$0;
     }
     /**
      * Getter for field:
@@ -16192,7 +16202,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment RunAsync$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$116.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$117.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16201,15 +16211,15 @@ public class OrtApi {
      * }
      */
     public static void RunAsync$set(MemorySegment seg, MemorySegment x) {
-        constants$116.const$4.set(seg, 0L, x);
+        constants$117.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment RunAsync$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$116.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$117.const$0.get(seg, index * sizeof());
     }
 
     public static void RunAsync$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$116.const$4.set(seg, index * sizeof(), x);
+        constants$117.const$0.set(seg, index * sizeof(), x);
     }
 
     public static RunAsync RunAsync(MemorySegment segment, Arena scope) {
@@ -16228,7 +16238,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(UpdateTensorRTProviderOptionsWithValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$116.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$117.const$1, fi, constants$15.const$0, scope);
         }
 
         static UpdateTensorRTProviderOptionsWithValue ofAddress(MemorySegment addr, Arena arena) {
@@ -16237,7 +16247,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16246,7 +16256,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateTensorRTProviderOptionsWithValue$VH() {
-        return constants$117.const$0;
+        return constants$117.const$2;
     }
     /**
      * Getter for field:
@@ -16255,7 +16265,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateTensorRTProviderOptionsWithValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$117.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$117.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16264,15 +16274,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateTensorRTProviderOptionsWithValue$set(MemorySegment seg, MemorySegment x) {
-        constants$117.const$0.set(seg, 0L, x);
+        constants$117.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateTensorRTProviderOptionsWithValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$117.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$117.const$2.get(seg, index * sizeof());
     }
 
     public static void UpdateTensorRTProviderOptionsWithValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$117.const$0.set(seg, index * sizeof(), x);
+        constants$117.const$2.set(seg, index * sizeof(), x);
     }
 
     public static UpdateTensorRTProviderOptionsWithValue UpdateTensorRTProviderOptionsWithValue(
@@ -16293,7 +16303,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetTensorRTProviderOptionsByName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$117.const$1, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$117.const$3, fi, constants$15.const$0, scope);
         }
 
         static GetTensorRTProviderOptionsByName ofAddress(MemorySegment addr, Arena arena) {
@@ -16302,7 +16312,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16311,7 +16321,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetTensorRTProviderOptionsByName$VH() {
-        return constants$117.const$2;
+        return constants$117.const$4;
     }
     /**
      * Getter for field:
@@ -16320,7 +16330,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetTensorRTProviderOptionsByName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$117.const$2.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$117.const$4.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16329,15 +16339,15 @@ public class OrtApi {
      * }
      */
     public static void GetTensorRTProviderOptionsByName$set(MemorySegment seg, MemorySegment x) {
-        constants$117.const$2.set(seg, 0L, x);
+        constants$117.const$4.set(seg, 0L, x);
     }
 
     public static MemorySegment GetTensorRTProviderOptionsByName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$117.const$2.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$117.const$4.get(seg, index * sizeof());
     }
 
     public static void GetTensorRTProviderOptionsByName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$117.const$2.set(seg, index * sizeof(), x);
+        constants$117.const$4.set(seg, index * sizeof(), x);
     }
 
     public static GetTensorRTProviderOptionsByName GetTensorRTProviderOptionsByName(
@@ -16357,7 +16367,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(UpdateCUDAProviderOptionsWithValue fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$117.const$3, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$117.const$5, fi, constants$15.const$0, scope);
         }
 
         static UpdateCUDAProviderOptionsWithValue ofAddress(MemorySegment addr, Arena arena) {
@@ -16366,7 +16376,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16375,7 +16385,7 @@ public class OrtApi {
     }
 
     public static VarHandle UpdateCUDAProviderOptionsWithValue$VH() {
-        return constants$117.const$4;
+        return constants$118.const$0;
     }
     /**
      * Getter for field:
@@ -16384,7 +16394,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment UpdateCUDAProviderOptionsWithValue$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$117.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$118.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16393,15 +16403,15 @@ public class OrtApi {
      * }
      */
     public static void UpdateCUDAProviderOptionsWithValue$set(MemorySegment seg, MemorySegment x) {
-        constants$117.const$4.set(seg, 0L, x);
+        constants$118.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment UpdateCUDAProviderOptionsWithValue$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$117.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$118.const$0.get(seg, index * sizeof());
     }
 
     public static void UpdateCUDAProviderOptionsWithValue$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$117.const$4.set(seg, index * sizeof(), x);
+        constants$118.const$0.set(seg, index * sizeof(), x);
     }
 
     public static UpdateCUDAProviderOptionsWithValue UpdateCUDAProviderOptionsWithValue(
@@ -16421,7 +16431,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x2);
 
         static MemorySegment allocate(GetCUDAProviderOptionsByName fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$117.const$5, fi, constants$14.const$4, scope);
+            return RuntimeHelper.upcallStub(constants$118.const$1, fi, constants$15.const$0, scope);
         }
 
         static GetCUDAProviderOptionsByName ofAddress(MemorySegment addr, Arena arena) {
@@ -16430,7 +16440,7 @@ public class OrtApi {
                     java.lang.foreign.MemorySegment __x1,
                     java.lang.foreign.MemorySegment __x2) -> {
                 try {
-                    return (java.lang.foreign.MemorySegment) constants$15.const$0.invokeExact(symbol, __x0, __x1, __x2);
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16439,7 +16449,7 @@ public class OrtApi {
     }
 
     public static VarHandle GetCUDAProviderOptionsByName$VH() {
-        return constants$118.const$0;
+        return constants$118.const$2;
     }
     /**
      * Getter for field:
@@ -16448,7 +16458,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment GetCUDAProviderOptionsByName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$118.const$0.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$118.const$2.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16457,15 +16467,15 @@ public class OrtApi {
      * }
      */
     public static void GetCUDAProviderOptionsByName$set(MemorySegment seg, MemorySegment x) {
-        constants$118.const$0.set(seg, 0L, x);
+        constants$118.const$2.set(seg, 0L, x);
     }
 
     public static MemorySegment GetCUDAProviderOptionsByName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$118.const$0.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$118.const$2.get(seg, index * sizeof());
     }
 
     public static void GetCUDAProviderOptionsByName$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$118.const$0.set(seg, index * sizeof(), x);
+        constants$118.const$2.set(seg, index * sizeof(), x);
     }
 
     public static GetCUDAProviderOptionsByName GetCUDAProviderOptionsByName(MemorySegment segment, Arena scope) {
@@ -16482,7 +16492,7 @@ public class OrtApi {
                 java.lang.foreign.MemorySegment _x0, int _x1, int _x2, java.lang.foreign.MemorySegment _x3);
 
         static MemorySegment allocate(KernelContext_GetResource fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$118.const$2, fi, constants$118.const$1, scope);
+            return RuntimeHelper.upcallStub(constants$118.const$4, fi, constants$118.const$3, scope);
         }
 
         static KernelContext_GetResource ofAddress(MemorySegment addr, Arena arena) {
@@ -16490,7 +16500,7 @@ public class OrtApi {
             return (java.lang.foreign.MemorySegment __x0, int __x1, int __x2, java.lang.foreign.MemorySegment __x3) -> {
                 try {
                     return (java.lang.foreign.MemorySegment)
-                            constants$118.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                            constants$118.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -16499,7 +16509,7 @@ public class OrtApi {
     }
 
     public static VarHandle KernelContext_GetResource$VH() {
-        return constants$118.const$4;
+        return constants$119.const$0;
     }
     /**
      * Getter for field:
@@ -16508,7 +16518,7 @@ public class OrtApi {
      * }
      */
     public static MemorySegment KernelContext_GetResource$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$118.const$4.get(seg, 0L);
+        return (java.lang.foreign.MemorySegment) constants$119.const$0.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -16517,19 +16527,645 @@ public class OrtApi {
      * }
      */
     public static void KernelContext_GetResource$set(MemorySegment seg, MemorySegment x) {
-        constants$118.const$4.set(seg, 0L, x);
+        constants$119.const$0.set(seg, 0L, x);
     }
 
     public static MemorySegment KernelContext_GetResource$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$118.const$4.get(seg, index * sizeof());
+        return (java.lang.foreign.MemorySegment) constants$119.const$0.get(seg, index * sizeof());
     }
 
     public static void KernelContext_GetResource$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$118.const$4.set(seg, index * sizeof(), x);
+        constants$119.const$0.set(seg, index * sizeof(), x);
     }
 
     public static KernelContext_GetResource KernelContext_GetResource(MemorySegment segment, Arena scope) {
         return KernelContext_GetResource.ofAddress(KernelContext_GetResource$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetUserLoggingFunction)(OrtSessionOptions*,OrtLoggingFunction,void*);
+     * }
+     */
+    public interface SetUserLoggingFunction {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
+
+        static MemorySegment allocate(SetUserLoggingFunction fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$119.const$1, fi, constants$15.const$0, scope);
+        }
+
+        static SetUserLoggingFunction ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle SetUserLoggingFunction$VH() {
+        return constants$119.const$2;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetUserLoggingFunction)(OrtSessionOptions*,OrtLoggingFunction,void*);
+     * }
+     */
+    public static MemorySegment SetUserLoggingFunction$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$119.const$2.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetUserLoggingFunction)(OrtSessionOptions*,OrtLoggingFunction,void*);
+     * }
+     */
+    public static void SetUserLoggingFunction$set(MemorySegment seg, MemorySegment x) {
+        constants$119.const$2.set(seg, 0L, x);
+    }
+
+    public static MemorySegment SetUserLoggingFunction$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$119.const$2.get(seg, index * sizeof());
+    }
+
+    public static void SetUserLoggingFunction$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$119.const$2.set(seg, index * sizeof(), x);
+    }
+
+    public static SetUserLoggingFunction SetUserLoggingFunction(MemorySegment segment, Arena scope) {
+        return SetUserLoggingFunction.ofAddress(SetUserLoggingFunction$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetInputCount)(const OrtShapeInferContext*,size_t*);
+     * }
+     */
+    public interface ShapeInferContext_GetInputCount {
+
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
+
+        static MemorySegment allocate(ShapeInferContext_GetInputCount fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$119.const$3, fi, constants$15.const$4, scope);
+        }
+
+        static ShapeInferContext_GetInputCount ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$16.const$0.invokeExact(symbol, __x0, __x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle ShapeInferContext_GetInputCount$VH() {
+        return constants$119.const$4;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetInputCount)(const OrtShapeInferContext*,size_t*);
+     * }
+     */
+    public static MemorySegment ShapeInferContext_GetInputCount$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$119.const$4.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetInputCount)(const OrtShapeInferContext*,size_t*);
+     * }
+     */
+    public static void ShapeInferContext_GetInputCount$set(MemorySegment seg, MemorySegment x) {
+        constants$119.const$4.set(seg, 0L, x);
+    }
+
+    public static MemorySegment ShapeInferContext_GetInputCount$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$119.const$4.get(seg, index * sizeof());
+    }
+
+    public static void ShapeInferContext_GetInputCount$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$119.const$4.set(seg, index * sizeof(), x);
+    }
+
+    public static ShapeInferContext_GetInputCount ShapeInferContext_GetInputCount(MemorySegment segment, Arena scope) {
+        return ShapeInferContext_GetInputCount.ofAddress(ShapeInferContext_GetInputCount$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetInputTypeShape)(const OrtShapeInferContext*,size_t,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public interface ShapeInferContext_GetInputTypeShape {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
+
+        static MemorySegment allocate(ShapeInferContext_GetInputTypeShape fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$119.const$5, fi, constants$30.const$3, scope);
+        }
+
+        static ShapeInferContext_GetInputTypeShape ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle ShapeInferContext_GetInputTypeShape$VH() {
+        return constants$120.const$0;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetInputTypeShape)(const OrtShapeInferContext*,size_t,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static MemorySegment ShapeInferContext_GetInputTypeShape$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$120.const$0.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetInputTypeShape)(const OrtShapeInferContext*,size_t,OrtTensorTypeAndShapeInfo**);
+     * }
+     */
+    public static void ShapeInferContext_GetInputTypeShape$set(MemorySegment seg, MemorySegment x) {
+        constants$120.const$0.set(seg, 0L, x);
+    }
+
+    public static MemorySegment ShapeInferContext_GetInputTypeShape$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$120.const$0.get(seg, index * sizeof());
+    }
+
+    public static void ShapeInferContext_GetInputTypeShape$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$120.const$0.set(seg, index * sizeof(), x);
+    }
+
+    public static ShapeInferContext_GetInputTypeShape ShapeInferContext_GetInputTypeShape(
+            MemorySegment segment, Arena scope) {
+        return ShapeInferContext_GetInputTypeShape.ofAddress(ShapeInferContext_GetInputTypeShape$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetAttribute)(const OrtShapeInferContext*,char*,const OrtOpAttr**);
+     * }
+     */
+    public interface ShapeInferContext_GetAttribute {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2);
+
+        static MemorySegment allocate(ShapeInferContext_GetAttribute fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$120.const$1, fi, constants$15.const$0, scope);
+        }
+
+        static ShapeInferContext_GetAttribute ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$15.const$2.invokeExact(symbol, __x0, __x1, __x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle ShapeInferContext_GetAttribute$VH() {
+        return constants$120.const$2;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetAttribute)(const OrtShapeInferContext*,char*,const OrtOpAttr**);
+     * }
+     */
+    public static MemorySegment ShapeInferContext_GetAttribute$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$120.const$2.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_GetAttribute)(const OrtShapeInferContext*,char*,const OrtOpAttr**);
+     * }
+     */
+    public static void ShapeInferContext_GetAttribute$set(MemorySegment seg, MemorySegment x) {
+        constants$120.const$2.set(seg, 0L, x);
+    }
+
+    public static MemorySegment ShapeInferContext_GetAttribute$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$120.const$2.get(seg, index * sizeof());
+    }
+
+    public static void ShapeInferContext_GetAttribute$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$120.const$2.set(seg, index * sizeof(), x);
+    }
+
+    public static ShapeInferContext_GetAttribute ShapeInferContext_GetAttribute(MemorySegment segment, Arena scope) {
+        return ShapeInferContext_GetAttribute.ofAddress(ShapeInferContext_GetAttribute$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_SetOutputTypeShape)(const OrtShapeInferContext*,size_t,const OrtTensorTypeAndShapeInfo*);
+     * }
+     */
+    public interface ShapeInferContext_SetOutputTypeShape {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, long _x1, java.lang.foreign.MemorySegment _x2);
+
+        static MemorySegment allocate(ShapeInferContext_SetOutputTypeShape fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$120.const$3, fi, constants$30.const$3, scope);
+        }
+
+        static ShapeInferContext_SetOutputTypeShape ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, long __x1, java.lang.foreign.MemorySegment __x2) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$30.const$5.invokeExact(symbol, __x0, __x1, __x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle ShapeInferContext_SetOutputTypeShape$VH() {
+        return constants$120.const$4;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_SetOutputTypeShape)(const OrtShapeInferContext*,size_t,const OrtTensorTypeAndShapeInfo*);
+     * }
+     */
+    public static MemorySegment ShapeInferContext_SetOutputTypeShape$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$120.const$4.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ShapeInferContext_SetOutputTypeShape)(const OrtShapeInferContext*,size_t,const OrtTensorTypeAndShapeInfo*);
+     * }
+     */
+    public static void ShapeInferContext_SetOutputTypeShape$set(MemorySegment seg, MemorySegment x) {
+        constants$120.const$4.set(seg, 0L, x);
+    }
+
+    public static MemorySegment ShapeInferContext_SetOutputTypeShape$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$120.const$4.get(seg, index * sizeof());
+    }
+
+    public static void ShapeInferContext_SetOutputTypeShape$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$120.const$4.set(seg, index * sizeof(), x);
+    }
+
+    public static ShapeInferContext_SetOutputTypeShape ShapeInferContext_SetOutputTypeShape(
+            MemorySegment segment, Arena scope) {
+        return ShapeInferContext_SetOutputTypeShape.ofAddress(ShapeInferContext_SetOutputTypeShape$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetSymbolicDimensions)(OrtTensorTypeAndShapeInfo*,char**,size_t);
+     * }
+     */
+    public interface SetSymbolicDimensions {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1, long _x2);
+
+        static MemorySegment allocate(SetSymbolicDimensions fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$120.const$5, fi, constants$38.const$1, scope);
+        }
+
+        static SetSymbolicDimensions ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1, long __x2) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$38.const$3.invokeExact(symbol, __x0, __x1, __x2);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle SetSymbolicDimensions$VH() {
+        return constants$121.const$0;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSymbolicDimensions)(OrtTensorTypeAndShapeInfo*,char**,size_t);
+     * }
+     */
+    public static MemorySegment SetSymbolicDimensions$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$121.const$0.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetSymbolicDimensions)(OrtTensorTypeAndShapeInfo*,char**,size_t);
+     * }
+     */
+    public static void SetSymbolicDimensions$set(MemorySegment seg, MemorySegment x) {
+        constants$121.const$0.set(seg, 0L, x);
+    }
+
+    public static MemorySegment SetSymbolicDimensions$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$121.const$0.get(seg, index * sizeof());
+    }
+
+    public static void SetSymbolicDimensions$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$121.const$0.set(seg, index * sizeof(), x);
+    }
+
+    public static SetSymbolicDimensions SetSymbolicDimensions(MemorySegment segment, Arena scope) {
+        return SetSymbolicDimensions.ofAddress(SetSymbolicDimensions$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*ReadOpAttr)(const OrtOpAttr*,OrtOpAttrType,void*,size_t,size_t*);
+     * }
+     */
+    public interface ReadOpAttr {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                int _x1,
+                java.lang.foreign.MemorySegment _x2,
+                long _x3,
+                java.lang.foreign.MemorySegment _x4);
+
+        static MemorySegment allocate(ReadOpAttr fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$121.const$2, fi, constants$121.const$1, scope);
+        }
+
+        static ReadOpAttr ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0,
+                    int __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    long __x3,
+                    java.lang.foreign.MemorySegment __x4) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment)
+                            constants$121.const$3.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle ReadOpAttr$VH() {
+        return constants$121.const$4;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ReadOpAttr)(const OrtOpAttr*,OrtOpAttrType,void*,size_t,size_t*);
+     * }
+     */
+    public static MemorySegment ReadOpAttr$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$121.const$4.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*ReadOpAttr)(const OrtOpAttr*,OrtOpAttrType,void*,size_t,size_t*);
+     * }
+     */
+    public static void ReadOpAttr$set(MemorySegment seg, MemorySegment x) {
+        constants$121.const$4.set(seg, 0L, x);
+    }
+
+    public static MemorySegment ReadOpAttr$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$121.const$4.get(seg, index * sizeof());
+    }
+
+    public static void ReadOpAttr$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$121.const$4.set(seg, index * sizeof(), x);
+    }
+
+    public static ReadOpAttr ReadOpAttr(MemorySegment segment, Arena scope) {
+        return ReadOpAttr.ofAddress(ReadOpAttr$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SetDeterministicCompute)(OrtSessionOptions*,_Bool);
+     * }
+     */
+    public interface SetDeterministicCompute {
+
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, boolean _x1);
+
+        static MemorySegment allocate(SetDeterministicCompute fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$122.const$0, fi, constants$121.const$5, scope);
+        }
+
+        static SetDeterministicCompute ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, boolean __x1) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment) constants$122.const$1.invokeExact(symbol, __x0, __x1);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle SetDeterministicCompute$VH() {
+        return constants$122.const$2;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetDeterministicCompute)(OrtSessionOptions*,_Bool);
+     * }
+     */
+    public static MemorySegment SetDeterministicCompute$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$122.const$2.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SetDeterministicCompute)(OrtSessionOptions*,_Bool);
+     * }
+     */
+    public static void SetDeterministicCompute$set(MemorySegment seg, MemorySegment x) {
+        constants$122.const$2.set(seg, 0L, x);
+    }
+
+    public static MemorySegment SetDeterministicCompute$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$122.const$2.get(seg, index * sizeof());
+    }
+
+    public static void SetDeterministicCompute$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$122.const$2.set(seg, index * sizeof(), x);
+    }
+
+    public static SetDeterministicCompute SetDeterministicCompute(MemorySegment segment, Arena scope) {
+        return SetDeterministicCompute.ofAddress(SetDeterministicCompute$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_ParallelFor)(const OrtKernelContext*,void (*)(void*,size_t),size_t,size_t,void*);
+     * }
+     */
+    public interface KernelContext_ParallelFor {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                long _x2,
+                long _x3,
+                java.lang.foreign.MemorySegment _x4);
+
+        static MemorySegment allocate(KernelContext_ParallelFor fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$122.const$4, fi, constants$122.const$3, scope);
+        }
+
+        static KernelContext_ParallelFor ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    long __x2,
+                    long __x3,
+                    java.lang.foreign.MemorySegment __x4) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment)
+                            constants$122.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3, __x4);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle KernelContext_ParallelFor$VH() {
+        return constants$123.const$0;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_ParallelFor)(const OrtKernelContext*,void (*)(void*,size_t),size_t,size_t,void*);
+     * }
+     */
+    public static MemorySegment KernelContext_ParallelFor$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$123.const$0.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*KernelContext_ParallelFor)(const OrtKernelContext*,void (*)(void*,size_t),size_t,size_t,void*);
+     * }
+     */
+    public static void KernelContext_ParallelFor$set(MemorySegment seg, MemorySegment x) {
+        constants$123.const$0.set(seg, 0L, x);
+    }
+
+    public static MemorySegment KernelContext_ParallelFor$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$123.const$0.get(seg, index * sizeof());
+    }
+
+    public static void KernelContext_ParallelFor$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$123.const$0.set(seg, index * sizeof(), x);
+    }
+
+    public static KernelContext_ParallelFor KernelContext_ParallelFor(MemorySegment segment, Arena scope) {
+        return KernelContext_ParallelFor.ofAddress(KernelContext_ParallelFor$get(segment), scope);
+    }
+    /**
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO_V2)(OrtSessionOptions*,char**,char**,size_t);
+     * }
+     */
+    public interface SessionOptionsAppendExecutionProvider_OpenVINO_V2 {
+
+        java.lang.foreign.MemorySegment apply(
+                java.lang.foreign.MemorySegment _x0,
+                java.lang.foreign.MemorySegment _x1,
+                java.lang.foreign.MemorySegment _x2,
+                long _x3);
+
+        static MemorySegment allocate(SessionOptionsAppendExecutionProvider_OpenVINO_V2 fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$123.const$1, fi, constants$83.const$3, scope);
+        }
+
+        static SessionOptionsAppendExecutionProvider_OpenVINO_V2 ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0,
+                    java.lang.foreign.MemorySegment __x1,
+                    java.lang.foreign.MemorySegment __x2,
+                    long __x3) -> {
+                try {
+                    return (java.lang.foreign.MemorySegment)
+                            constants$83.const$5.invokeExact(symbol, __x0, __x1, __x2, __x3);
+                } catch (Throwable ex$) {
+                    throw new AssertionError("should not reach here", ex$);
+                }
+            };
+        }
+    }
+
+    public static VarHandle SessionOptionsAppendExecutionProvider_OpenVINO_V2$VH() {
+        return constants$123.const$2;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO_V2)(OrtSessionOptions*,char**,char**,size_t);
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO_V2$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$123.const$2.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO_V2)(OrtSessionOptions*,char**,char**,size_t);
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_OpenVINO_V2$set(MemorySegment seg, MemorySegment x) {
+        constants$123.const$2.set(seg, 0L, x);
+    }
+
+    public static MemorySegment SessionOptionsAppendExecutionProvider_OpenVINO_V2$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$123.const$2.get(seg, index * sizeof());
+    }
+
+    public static void SessionOptionsAppendExecutionProvider_OpenVINO_V2$set(
+            MemorySegment seg, long index, MemorySegment x) {
+        constants$123.const$2.set(seg, index * sizeof(), x);
+    }
+
+    public static SessionOptionsAppendExecutionProvider_OpenVINO_V2 SessionOptionsAppendExecutionProvider_OpenVINO_V2(
+            MemorySegment segment, Arena scope) {
+        return SessionOptionsAppendExecutionProvider_OpenVINO_V2.ofAddress(
+                SessionOptionsAppendExecutionProvider_OpenVINO_V2$get(segment), scope);
     }
 
     public static long sizeof() {

@@ -15,12 +15,21 @@ final class constants$36 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$36() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateTensorAsOrtValue.class, "apply", constants$35.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$35.const$5);
-    static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateTensorAsOrtValue"));
-    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+    static final VarHandle const$0 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("RunOptionsUnsetTerminate"));
+    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            RuntimeHelper.POINTER,
+            JAVA_LONG,
+            JAVA_INT,
+            RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateTensorAsOrtValue.class, "apply", constants$36.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$36.const$1);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateTensorAsOrtValue"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
@@ -29,7 +38,4 @@ final class constants$36 {
             JAVA_LONG,
             JAVA_INT,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.CreateTensorWithDataAsOrtValue.class, "apply", constants$36.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$36.const$3);
 }

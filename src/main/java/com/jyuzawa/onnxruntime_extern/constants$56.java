@@ -16,15 +16,15 @@ final class constants$56 {
     private constants$56() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseRunOptions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseValue"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseTypeInfo.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseRunOptions.class, "apply", constants$14.const$1);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseTypeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseRunOptions"));
     static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseTensorTypeAndShapeInfo.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseTypeInfo.class, "apply", constants$14.const$1);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("ReleaseTensorTypeAndShapeInfo"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("ReleaseTypeInfo"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.ReleaseSessionOptions.class, "apply", constants$13.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.ReleaseTensorTypeAndShapeInfo.class, "apply", constants$14.const$1);
 }

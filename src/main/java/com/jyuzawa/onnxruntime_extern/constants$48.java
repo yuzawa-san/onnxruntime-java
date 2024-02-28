@@ -16,14 +16,15 @@ final class constants$48 {
     private constants$48() {}
 
     static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetAllocatorWithDefaultOptions"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AllocatorGetInfo"));
     static final MethodHandle const$1 =
-            RuntimeHelper.upcallHandle(OrtApi.AddFreeDimensionOverride.class, "apply", constants$37.const$5);
+            RuntimeHelper.upcallHandle(OrtApi.GetAllocatorWithDefaultOptions.class, "apply", constants$1.const$4);
     static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("AddFreeDimensionOverride"));
-    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetAllocatorWithDefaultOptions"));
+    static final MethodHandle const$3 =
+            RuntimeHelper.upcallHandle(OrtApi.AddFreeDimensionOverride.class, "apply", constants$38.const$1);
+    static final VarHandle const$4 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("AddFreeDimensionOverride"));
+    static final FunctionDescriptor const$5 = FunctionDescriptor.of(
             RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_INT, RuntimeHelper.POINTER, RuntimeHelper.POINTER);
-    static final MethodHandle const$4 =
-            RuntimeHelper.upcallHandle(OrtApi.GetValue.class, "apply", constants$48.const$3);
-    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$48.const$3);
 }

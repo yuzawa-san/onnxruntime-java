@@ -15,15 +15,15 @@ final class constants$91 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$91() {}
 
-    static final MethodHandle const$0 =
-            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorIndicesTypeShape.class, "apply", constants$90.const$5);
-    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$90.const$5);
-    static final VarHandle const$2 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorIndicesTypeShape"));
-    static final MethodHandle const$3 =
-            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorIndices.class, "apply", constants$48.const$3);
+    static final VarHandle const$0 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorValues"));
+    static final FunctionDescriptor const$1 =
+            FunctionDescriptor.of(RuntimeHelper.POINTER, RuntimeHelper.POINTER, JAVA_INT, RuntimeHelper.POINTER);
+    static final MethodHandle const$2 =
+            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorIndicesTypeShape.class, "apply", constants$91.const$1);
+    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$91.const$1);
     static final VarHandle const$4 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorIndices"));
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("GetSparseTensorIndicesTypeShape"));
     static final MethodHandle const$5 =
-            RuntimeHelper.upcallHandle(OrtApi.HasValue.class, "apply", constants$15.const$2);
+            RuntimeHelper.upcallHandle(OrtApi.GetSparseTensorIndices.class, "apply", constants$48.const$5);
 }

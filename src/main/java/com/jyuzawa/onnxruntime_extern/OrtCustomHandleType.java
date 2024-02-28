@@ -19,11 +19,11 @@ import java.lang.invoke.VarHandle;
 public class OrtCustomHandleType {
 
     public static MemoryLayout $LAYOUT() {
-        return constants$14.const$2;
+        return constants$14.const$4;
     }
 
     public static VarHandle __place_holder$VH() {
-        return constants$14.const$3;
+        return constants$14.const$5;
     }
     /**
      * Getter for field:
@@ -32,7 +32,7 @@ public class OrtCustomHandleType {
      * }
      */
     public static byte __place_holder$get(MemorySegment seg) {
-        return (byte) constants$14.const$3.get(seg, 0L);
+        return (byte) constants$14.const$5.get(seg, 0L);
     }
     /**
      * Setter for field:
@@ -41,15 +41,15 @@ public class OrtCustomHandleType {
      * }
      */
     public static void __place_holder$set(MemorySegment seg, byte x) {
-        constants$14.const$3.set(seg, 0L, x);
+        constants$14.const$5.set(seg, 0L, x);
     }
 
     public static byte __place_holder$get(MemorySegment seg, long index) {
-        return (byte) constants$14.const$3.get(seg, index * sizeof());
+        return (byte) constants$14.const$5.get(seg, index * sizeof());
     }
 
     public static void __place_holder$set(MemorySegment seg, long index, byte x) {
-        constants$14.const$3.set(seg, index * sizeof(), x);
+        constants$14.const$5.set(seg, index * sizeof(), x);
     }
 
     public static long sizeof() {

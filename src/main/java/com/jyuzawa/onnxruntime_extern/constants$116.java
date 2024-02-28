@@ -15,9 +15,12 @@ final class constants$116 {
     // Suppresses default constructor, ensuring non-instantiability.
     private constants$116() {}
 
-    static final VarHandle const$0 =
-            constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("CreateAndRegisterAllocatorV2"));
-    static final FunctionDescriptor const$1 = FunctionDescriptor.of(
+    static final MethodHandle const$0 =
+            RuntimeHelper.upcallHandle(OrtApi.CreateAndRegisterAllocatorV2.class, "apply", constants$115.const$5);
+    static final MethodHandle const$1 = RuntimeHelper.downcallHandle(constants$115.const$5);
+    static final VarHandle const$2 =
+            constants$16.const$4.varHandle(MemoryLayout.PathElement.groupElement("CreateAndRegisterAllocatorV2"));
+    static final FunctionDescriptor const$3 = FunctionDescriptor.of(
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
@@ -29,10 +32,7 @@ final class constants$116 {
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER,
             RuntimeHelper.POINTER);
-    static final MethodHandle const$2 =
-            RuntimeHelper.upcallHandle(OrtApi.RunAsync.class, "apply", constants$116.const$1);
-    static final MethodHandle const$3 = RuntimeHelper.downcallHandle(constants$116.const$1);
-    static final VarHandle const$4 = constants$16.const$2.varHandle(MemoryLayout.PathElement.groupElement("RunAsync"));
-    static final MethodHandle const$5 = RuntimeHelper.upcallHandle(
-            OrtApi.UpdateTensorRTProviderOptionsWithValue.class, "apply", constants$14.const$4);
+    static final MethodHandle const$4 =
+            RuntimeHelper.upcallHandle(OrtApi.RunAsync.class, "apply", constants$116.const$3);
+    static final MethodHandle const$5 = RuntimeHelper.downcallHandle(constants$116.const$3);
 }
