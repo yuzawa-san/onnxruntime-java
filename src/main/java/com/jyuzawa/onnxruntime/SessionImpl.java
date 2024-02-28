@@ -245,7 +245,7 @@ final class SessionImpl extends ManagedImpl implements Session {
         private OnnxRuntimeOptimizationLevel optimizationLevel;
         private Map<ExecutionProvider, ExecutionProviderConfig> executionProviderAppenders;
         private List<Path> customOpsLibraries;
-        private MemorySegment libraryHandle;
+        private boolean deterministicCompute;
 
         Builder(EnvironmentImpl environment) {
             this.api = environment.api;
@@ -345,6 +345,12 @@ final class SessionImpl extends ManagedImpl implements Session {
         }
 
         @Override
+        public Builder setDeterministicCompute(boolean value) {
+            this.deterministicCompute = value;
+            return this;
+        }
+
+        @Override
         public Builder addProvider(ExecutionProvider provider, Map<String, String> properties) {
             if (!provider.isSupported()) {
                 throw new UnsupportedOperationException("Provider " + provider + " not implemented.");
@@ -392,6 +398,9 @@ final class SessionImpl extends ManagedImpl implements Session {
             if (optimizationLevel != null) {
                 api.checkStatus(
                         api.SetSessionGraphOptimizationLevel.apply(sessionOptions, optimizationLevel.getNumber()));
+            }
+            if (deterministicCompute) {
+                api.checkStatus(api.SetDeterministicCompute.apply(sessionOptions, deterministicCompute));
             }
             if (optimizedFilePath != null) {
                 api.checkStatus(api.SetOptimizedModelFilePath.apply(
