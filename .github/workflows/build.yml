@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [19]
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        os: ['ubuntu-latest', 'macos-latest', 'macos-13-arm64' 'windows-latest']
     runs-on: ${{ matrix.os }}
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
     steps:
