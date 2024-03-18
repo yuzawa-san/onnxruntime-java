@@ -4,7 +4,7 @@ plugins {
 apply plugin: "java-library"
 
 dependencies {
-	api 'com.google.protobuf:protobuf-java:3.25.3'
+	api 'com.google.protobuf:protobuf-java:4.26.0'
 }
 
 protobuf {
