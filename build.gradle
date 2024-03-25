@@ -68,8 +68,6 @@ gitHooks {
 }
 
 jacoco {
-	// TODO: use gradle specified version
-	toolVersion = "0.8.11"
 }
 
 jacocoTestReport {
