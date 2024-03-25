@@ -31,6 +31,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: oracle
+          # TODO: remove once gradle can run in java 22
           # NOTE: we need to install this for gradle, so it can bootstrap and find 22
           java-version: 21
       - name: Setup Gradle
