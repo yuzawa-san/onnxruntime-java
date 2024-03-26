@@ -4,15 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 
 final class NodeInfoImpl implements NodeInfo {
 
     private final String name;
-    final MemoryAddress nameSegment;
+    final MemorySegment nameSegment;
     private final TypeInfoImpl typeInfo;
 
-    NodeInfoImpl(String name, MemoryAddress nameSegment, TypeInfoImpl typeInfo) {
+    NodeInfoImpl(String name, MemorySegment nameSegment, TypeInfoImpl typeInfo) {
         this.name = name;
         this.nameSegment = nameSegment;
         this.typeInfo = typeInfo;

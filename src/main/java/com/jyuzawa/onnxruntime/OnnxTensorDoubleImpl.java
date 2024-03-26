@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.util.Collection;
@@ -15,7 +15,7 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
 
     private static final Function<ByteBuffer, DoubleBuffer> CONVERT = ByteBuffer::asDoubleBuffer;
 
-    OnnxTensorDoubleImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+    OnnxTensorDoubleImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
         super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 

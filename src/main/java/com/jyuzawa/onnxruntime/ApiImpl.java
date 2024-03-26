@@ -12,10 +12,8 @@ import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApi.*;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -157,7 +155,7 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
-        MemorySession memorySession = MemorySession.global();
+        Arena memorySession = Arena.global();
         this.AddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment, memorySession);
         this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment, memorySession);
         this.AllocatorFree = OrtApi.AllocatorFree(memorySegment, memorySession);
@@ -300,27 +298,32 @@ final class ApiImpl implements Api {
         this.UpdateDnnlProviderOptions = OrtApi.UpdateDnnlProviderOptions(memorySegment, memorySession);
         this.UpdateTensorRTProviderOptions = OrtApi.UpdateTensorRTProviderOptions(memorySegment, memorySession);
 
-        try (MemorySession session = MemorySession.openConfined()) {
+        try (Arena session = Arena.ofConfined()) {
             Set<ExecutionProvider> providers = EnumSet.noneOf(ExecutionProvider.class);
-            MemorySegment pointer = memorySession.allocate(C_POINTER);
-            MemorySegment countPointer = memorySession.allocate(C_INT);
-            checkStatus(GetAvailableProviders.apply(pointer.address(), countPointer.address()));
+            MemorySegment pointer = session.allocate(C_POINTER);
+            MemorySegment countPointer = session.allocate(C_INT);
+            checkStatus(GetAvailableProviders.apply(pointer, countPointer));
             int numProviders = countPointer.getAtIndex(C_INT, 0);
-            MemorySegment providersArray = MemorySegment.ofAddress(
-                    pointer.getAtIndex(C_POINTER, 0), numProviders * C_POINTER.byteSize(), session);
-            for (int i = 0; i < numProviders; i++) {
-                MemoryAddress providerAddress = providersArray.getAtIndex(C_POINTER, i);
-                String identifier = providerAddress.getUtf8String(0);
-                ExecutionProvider provider = ExecutionProvider.of(identifier);
-                if (provider == null) {
-                    LOG.log(Level.WARNING, "Unknown available provider " + identifier);
-                } else if (!provider.isSupported()) {
-                    LOG.log(Level.WARNING, "Provider " + provider + " is available, but not supported by this library");
-                } else {
-                    providers.add(provider);
+            MemorySegment providersArray =
+                    pointer.getAtIndex(C_POINTER, 0).reinterpret(numProviders * C_POINTER.byteSize());
+            try {
+                for (int i = 0; i < numProviders; i++) {
+                    MemorySegment providerAddress = providersArray.getAtIndex(C_POINTER, i);
+                    String identifier = providerAddress.getString(0);
+                    ExecutionProvider provider = ExecutionProvider.of(identifier);
+                    if (provider == null) {
+                        LOG.log(Level.WARNING, "Unknown available provider " + identifier);
+                    } else if (!provider.isSupported()) {
+                        LOG.log(
+                                Level.WARNING,
+                                "Provider " + provider + " is available, but not supported by this library");
+                    } else {
+                        providers.add(provider);
+                    }
                 }
+            } finally {
+                checkStatus(ReleaseAvailableProviders.apply(providersArray, numProviders));
             }
-            checkStatus(ReleaseAvailableProviders.apply(providersArray.address(), numProviders));
             this.providers = Collections.unmodifiableSet(providers);
             LOG.log(Level.DEBUG, "Available providers: " + providers);
         }
@@ -328,7 +331,7 @@ final class ApiImpl implements Api {
 
     @Override
     public String getBuildString() {
-        return GetBuildInfoString.apply().address().getUtf8String(0);
+        return GetBuildInfoString.apply().getString(0);
     }
 
     @Override
@@ -341,32 +344,34 @@ final class ApiImpl implements Api {
         return providers;
     }
 
-    void checkStatus(Addressable rawAddress) {
-        MemoryAddress status = rawAddress.address();
-        if (MemoryAddress.NULL.equals(status)) {
-            return;
+    void checkStatus(MemorySegment status) {
+        try {
+            if (MemorySegment.NULL.address() == status.address()) {
+                return;
+            }
+            int code = GetErrorCode.apply(status);
+            String message = GetErrorMessage.apply(status).getString(0);
+            throw new OnnxRuntimeException(code, message);
+        } finally {
+            ReleaseStatus.apply(status);
         }
-        int code = GetErrorCode.apply(status);
-        String message = GetErrorMessage.apply(status).address().getUtf8String(0);
-        ReleaseStatus.apply(status);
-        throw new OnnxRuntimeException(code, message);
     }
 
-    MemoryAddress create(SegmentAllocator allocator, Function<MemoryAddress, Addressable> constructor) {
+    MemorySegment create(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> constructor) {
         MemorySegment pointer = allocator.allocate(C_POINTER);
-        checkStatus(constructor.apply(pointer.address()));
+        checkStatus(constructor.apply(pointer));
         return pointer.getAtIndex(C_POINTER, 0);
     }
 
-    int extractInt(SegmentAllocator allocator, Function<MemoryAddress, Addressable> method) {
+    int extractInt(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> method) {
         MemorySegment pointer = allocator.allocate(C_INT);
-        checkStatus(method.apply(pointer.address()));
+        checkStatus(method.apply(pointer));
         return pointer.getAtIndex(C_INT, 0);
     }
 
-    long extractLong(SegmentAllocator allocator, Function<MemoryAddress, Addressable> method) {
+    long extractLong(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> method) {
         MemorySegment pointer = allocator.allocate(C_LONG);
-        checkStatus(method.apply(pointer.address()));
+        checkStatus(method.apply(pointer));
         return pointer.getAtIndex(C_LONG, 0);
     }
 }

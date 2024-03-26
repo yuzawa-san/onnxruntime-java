@@ -9,37 +9,47 @@ import static java.lang.foreign.ValueLayout.*;
 import java.lang.foreign.*;
 import java.lang.invoke.VarHandle;
 
+/**
+ * {@snippet :
+ * struct OrtCustomHandleType {
+ *     char __place_holder;
+ * };
+ * }
+ */
 public class OrtCustomHandleType {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    Constants$root.C_CHAR$LAYOUT.withName("__place_holder"))
-            .withName("OrtCustomHandleType");
-
     public static MemoryLayout $LAYOUT() {
-        return OrtCustomHandleType.$struct$LAYOUT;
+        return constants$14.const$4;
     }
-
-    static final VarHandle __place_holder$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("__place_holder"));
 
     public static VarHandle __place_holder$VH() {
-        return OrtCustomHandleType.__place_holder$VH;
+        return constants$14.const$5;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * char __place_holder;
+     * }
+     */
     public static byte __place_holder$get(MemorySegment seg) {
-        return (byte) OrtCustomHandleType.__place_holder$VH.get(seg);
+        return (byte) constants$14.const$5.get(seg, 0L);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * char __place_holder;
+     * }
+     */
     public static void __place_holder$set(MemorySegment seg, byte x) {
-        OrtCustomHandleType.__place_holder$VH.set(seg, x);
+        constants$14.const$5.set(seg, 0L, x);
     }
 
     public static byte __place_holder$get(MemorySegment seg, long index) {
-        return (byte) OrtCustomHandleType.__place_holder$VH.get(seg.asSlice(index * sizeof()));
+        return (byte) constants$14.const$5.get(seg, index * sizeof());
     }
 
     public static void __place_holder$set(MemorySegment seg, long index, byte x) {
-        OrtCustomHandleType.__place_holder$VH.set(seg.asSlice(index * sizeof()), x);
+        constants$14.const$5.set(seg, index * sizeof(), x);
     }
 
     public static long sizeof() {
@@ -50,11 +60,11 @@ public class OrtCustomHandleType {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
+    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    public static MemorySegment ofAddress(MemorySegment addr, Arena scope) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
     }
 }

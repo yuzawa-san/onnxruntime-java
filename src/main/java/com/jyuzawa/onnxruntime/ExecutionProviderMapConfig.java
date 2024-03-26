@@ -6,9 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.util.Map;
 
 abstract class ExecutionProviderMapConfig extends ExecutionProviderConfig {
@@ -18,24 +17,24 @@ abstract class ExecutionProviderMapConfig extends ExecutionProviderConfig {
     }
 
     protected abstract void appendToSessionOptions(
-            MemorySession memorySession,
+            Arena memorySession,
             ApiImpl api,
-            MemoryAddress sessionOptions,
-            MemoryAddress keys,
-            MemoryAddress values,
+            MemorySegment sessionOptions,
+            MemorySegment keys,
+            MemorySegment values,
             int numProperties);
 
     @Override
-    final void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
+    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         int numProps = properties.size();
-        MemorySegment keys = memorySession.allocateArray(C_POINTER, numProps);
-        MemorySegment values = memorySession.allocateArray(C_POINTER, numProps);
+        MemorySegment keys = memorySession.allocate(C_POINTER, numProps);
+        MemorySegment values = memorySession.allocate(C_POINTER, numProps);
         int i = 0;
         for (Map.Entry<String, String> entry : properties.entrySet()) {
-            keys.setAtIndex(C_POINTER, i, memorySession.allocateUtf8String(entry.getKey()));
-            values.setAtIndex(C_POINTER, i, memorySession.allocateUtf8String(entry.getValue()));
+            keys.setAtIndex(C_POINTER, i, memorySession.allocateFrom(entry.getKey()));
+            values.setAtIndex(C_POINTER, i, memorySession.allocateFrom(entry.getValue()));
             i++;
         }
-        appendToSessionOptions(memorySession, api, sessionOptions, keys.address(), values.address(), numProps);
+        appendToSessionOptions(memorySession, api, sessionOptions, keys, values, numProps);
     }
 }

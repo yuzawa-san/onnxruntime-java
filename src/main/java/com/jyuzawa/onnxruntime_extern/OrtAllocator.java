@@ -7,168 +7,187 @@ package com.jyuzawa.onnxruntime_extern;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
 
+/**
+ * {@snippet :
+ * struct OrtAllocator {
+ *     uint32_t version;
+ *     void* (*Alloc)(struct OrtAllocator*,size_t);
+ *     void (*Free)(struct OrtAllocator*,void*);
+ *     struct OrtMemoryInfo* (*Info)(struct OrtAllocator*);
+ * };
+ * }
+ */
 public class OrtAllocator {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    Constants$root.C_INT$LAYOUT.withName("version"),
-                    MemoryLayout.paddingLayout(32),
-                    Constants$root.C_POINTER$LAYOUT.withName("Alloc"),
-                    Constants$root.C_POINTER$LAYOUT.withName("Free"),
-                    Constants$root.C_POINTER$LAYOUT.withName("Info"))
-            .withName("OrtAllocator");
-
     public static MemoryLayout $LAYOUT() {
-        return OrtAllocator.$struct$LAYOUT;
+        return constants$0.const$0;
     }
-
-    static final VarHandle version$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("version"));
 
     public static VarHandle version$VH() {
-        return OrtAllocator.version$VH;
+        return constants$0.const$1;
     }
-
+    /**
+     * Getter for field:
+     * {@snippet :
+     * uint32_t version;
+     * }
+     */
     public static int version$get(MemorySegment seg) {
-        return (int) OrtAllocator.version$VH.get(seg);
+        return (int) constants$0.const$1.get(seg, 0L);
     }
-
+    /**
+     * Setter for field:
+     * {@snippet :
+     * uint32_t version;
+     * }
+     */
     public static void version$set(MemorySegment seg, int x) {
-        OrtAllocator.version$VH.set(seg, x);
+        constants$0.const$1.set(seg, 0L, x);
     }
 
     public static int version$get(MemorySegment seg, long index) {
-        return (int) OrtAllocator.version$VH.get(seg.asSlice(index * sizeof()));
+        return (int) constants$0.const$1.get(seg, index * sizeof());
     }
 
     public static void version$set(MemorySegment seg, long index, int x) {
-        OrtAllocator.version$VH.set(seg.asSlice(index * sizeof()), x);
+        constants$0.const$1.set(seg, index * sizeof(), x);
     }
-
-    static final FunctionDescriptor Alloc$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
-    static final MethodHandle Alloc$MH = RuntimeHelper.downcallHandle(OrtAllocator.Alloc$FUNC);
-
+    /**
+     * {@snippet :
+     * void* (*Alloc)(struct OrtAllocator*,size_t);
+     * }
+     */
     public interface Alloc {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, long _x1);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0, long _x1);
 
-        static MemorySegment allocate(Alloc fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Alloc.class, fi, OrtAllocator.Alloc$FUNC, session);
+        static MemorySegment allocate(Alloc fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$0.const$3, fi, constants$0.const$2, scope);
         }
 
-        static Alloc ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
+        static Alloc ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, long __x1) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtAllocator.Alloc$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
+                    return (java.lang.foreign.MemorySegment) constants$0.const$4.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
             };
         }
     }
-
-    static final VarHandle Alloc$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("Alloc"));
 
     public static VarHandle Alloc$VH() {
-        return OrtAllocator.Alloc$VH;
+        return constants$0.const$5;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void* (*Alloc)(struct OrtAllocator*,size_t);
+     * }
+     */
+    public static MemorySegment Alloc$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$0.const$5.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void* (*Alloc)(struct OrtAllocator*,size_t);
+     * }
+     */
+    public static void Alloc$set(MemorySegment seg, MemorySegment x) {
+        constants$0.const$5.set(seg, 0L, x);
     }
 
-    public static MemoryAddress Alloc$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtAllocator.Alloc$VH.get(seg);
+    public static MemorySegment Alloc$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$0.const$5.get(seg, index * sizeof());
     }
 
-    public static void Alloc$set(MemorySegment seg, MemoryAddress x) {
-        OrtAllocator.Alloc$VH.set(seg, x);
+    public static void Alloc$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$0.const$5.set(seg, index * sizeof(), x);
     }
 
-    public static MemoryAddress Alloc$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtAllocator.Alloc$VH.get(seg.asSlice(index * sizeof()));
+    public static Alloc Alloc(MemorySegment segment, Arena scope) {
+        return Alloc.ofAddress(Alloc$get(segment), scope);
     }
-
-    public static void Alloc$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtAllocator.Alloc$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static Alloc Alloc(MemorySegment segment, MemorySession session) {
-        return Alloc.ofAddress(Alloc$get(segment), session);
-    }
-
-    static final FunctionDescriptor Free$FUNC =
-            FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle Free$MH = RuntimeHelper.downcallHandle(OrtAllocator.Free$FUNC);
-
+    /**
+     * {@snippet :
+     * void (*Free)(struct OrtAllocator*,void*);
+     * }
+     */
     public interface Free {
 
-        void apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
+        void apply(java.lang.foreign.MemorySegment _x0, java.lang.foreign.MemorySegment _x1);
 
-        static MemorySegment allocate(Free fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Free.class, fi, OrtAllocator.Free$FUNC, session);
+        static MemorySegment allocate(Free fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$1.const$1, fi, constants$1.const$0, scope);
         }
 
-        static Free ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
+        static Free ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0, java.lang.foreign.MemorySegment __x1) -> {
                 try {
-                    OrtAllocator.Free$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, (java.lang.foreign.Addressable)
-                                    __x1);
+                    constants$1.const$2.invokeExact(symbol, __x0, __x1);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
             };
         }
     }
-
-    static final VarHandle Free$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("Free"));
 
     public static VarHandle Free$VH() {
-        return OrtAllocator.Free$VH;
+        return constants$1.const$3;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * void (*Free)(struct OrtAllocator*,void*);
+     * }
+     */
+    public static MemorySegment Free$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$1.const$3.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * void (*Free)(struct OrtAllocator*,void*);
+     * }
+     */
+    public static void Free$set(MemorySegment seg, MemorySegment x) {
+        constants$1.const$3.set(seg, 0L, x);
     }
 
-    public static MemoryAddress Free$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtAllocator.Free$VH.get(seg);
+    public static MemorySegment Free$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$1.const$3.get(seg, index * sizeof());
     }
 
-    public static void Free$set(MemorySegment seg, MemoryAddress x) {
-        OrtAllocator.Free$VH.set(seg, x);
+    public static void Free$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$1.const$3.set(seg, index * sizeof(), x);
     }
 
-    public static MemoryAddress Free$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtAllocator.Free$VH.get(seg.asSlice(index * sizeof()));
+    public static Free Free(MemorySegment segment, Arena scope) {
+        return Free.ofAddress(Free$get(segment), scope);
     }
-
-    public static void Free$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtAllocator.Free$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static Free Free(MemorySegment segment, MemorySession session) {
-        return Free.ofAddress(Free$get(segment), session);
-    }
-
-    static final FunctionDescriptor Info$FUNC =
-            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle Info$MH = RuntimeHelper.downcallHandle(OrtAllocator.Info$FUNC);
-
+    /**
+     * {@snippet :
+     * struct OrtMemoryInfo* (*Info)(struct OrtAllocator*);
+     * }
+     */
     public interface Info {
 
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
+        java.lang.foreign.MemorySegment apply(java.lang.foreign.MemorySegment _x0);
 
-        static MemorySegment allocate(Info fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(Info.class, fi, OrtAllocator.Info$FUNC, session);
+        static MemorySegment allocate(Info fi, Arena scope) {
+            return RuntimeHelper.upcallStub(constants$1.const$5, fi, constants$1.const$4, scope);
         }
 
-        static Info ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
+        static Info ofAddress(MemorySegment addr, Arena arena) {
+            MemorySegment symbol = addr.reinterpret(arena, null);
+            return (java.lang.foreign.MemorySegment __x0) -> {
                 try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtAllocator.Info$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
+                    return (java.lang.foreign.MemorySegment) constants$2.const$0.invokeExact(symbol, __x0);
                 } catch (Throwable ex$) {
                     throw new AssertionError("should not reach here", ex$);
                 }
@@ -176,30 +195,38 @@ public class OrtAllocator {
         }
     }
 
-    static final VarHandle Info$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("Info"));
-
     public static VarHandle Info$VH() {
-        return OrtAllocator.Info$VH;
+        return constants$2.const$1;
+    }
+    /**
+     * Getter for field:
+     * {@snippet :
+     * struct OrtMemoryInfo* (*Info)(struct OrtAllocator*);
+     * }
+     */
+    public static MemorySegment Info$get(MemorySegment seg) {
+        return (java.lang.foreign.MemorySegment) constants$2.const$1.get(seg, 0L);
+    }
+    /**
+     * Setter for field:
+     * {@snippet :
+     * struct OrtMemoryInfo* (*Info)(struct OrtAllocator*);
+     * }
+     */
+    public static void Info$set(MemorySegment seg, MemorySegment x) {
+        constants$2.const$1.set(seg, 0L, x);
     }
 
-    public static MemoryAddress Info$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtAllocator.Info$VH.get(seg);
+    public static MemorySegment Info$get(MemorySegment seg, long index) {
+        return (java.lang.foreign.MemorySegment) constants$2.const$1.get(seg, index * sizeof());
     }
 
-    public static void Info$set(MemorySegment seg, MemoryAddress x) {
-        OrtAllocator.Info$VH.set(seg, x);
+    public static void Info$set(MemorySegment seg, long index, MemorySegment x) {
+        constants$2.const$1.set(seg, index * sizeof(), x);
     }
 
-    public static MemoryAddress Info$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtAllocator.Info$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void Info$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtAllocator.Info$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static Info Info(MemorySegment segment, MemorySession session) {
-        return Info.ofAddress(Info$get(segment), session);
+    public static Info Info(MemorySegment segment, Arena scope) {
+        return Info.ofAddress(Info$get(segment), scope);
     }
 
     public static long sizeof() {
@@ -210,11 +237,11 @@ public class OrtAllocator {
         return allocator.allocate($LAYOUT());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
+    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    public static MemorySegment ofAddress(MemorySegment addr, Arena scope) {
+        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
     }
 }

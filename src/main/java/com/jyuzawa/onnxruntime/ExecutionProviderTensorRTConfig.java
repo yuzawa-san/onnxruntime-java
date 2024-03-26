@@ -4,8 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.util.Map;
 
 final class ExecutionProviderTensorRTConfig extends ExecutionProviderObjectConfig {
@@ -15,23 +14,23 @@ final class ExecutionProviderTensorRTConfig extends ExecutionProviderObjectConfi
     }
 
     @Override
-    protected Addressable create(ApiImpl api, MemoryAddress out) {
+    protected MemorySegment create(ApiImpl api, MemorySegment out) {
         return api.CreateTensorRTProviderOptions.apply(out);
     }
 
     @Override
-    protected void release(ApiImpl api, MemoryAddress config) {
+    protected void release(ApiImpl api, MemorySegment config) {
         api.ReleaseTensorRTProviderOptions.apply(config);
     }
 
     @Override
-    protected Addressable update(
-            ApiImpl api, MemoryAddress config, MemoryAddress keys, MemoryAddress values, int numProperties) {
+    protected MemorySegment update(
+            ApiImpl api, MemorySegment config, MemorySegment keys, MemorySegment values, int numProperties) {
         return api.UpdateTensorRTProviderOptions.apply(config, keys, values, numProperties);
     }
 
     @Override
-    protected Addressable append(ApiImpl api, MemoryAddress sessionOptions, MemoryAddress config) {
+    protected MemorySegment append(ApiImpl api, MemorySegment sessionOptions, MemorySegment config) {
         return api.SessionOptionsAppendExecutionProvider_TensorRT_V2.apply(sessionOptions, config);
     }
 }

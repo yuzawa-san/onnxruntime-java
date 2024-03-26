@@ -4,7 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.nio.ShortBuffer;
 import java.util.Collection;
@@ -15,7 +15,7 @@ final class OnnxTensorShortImpl extends OnnxTensorBufferImpl<ShortBuffer> {
 
     private static final Function<ByteBuffer, ShortBuffer> CONVERT = ByteBuffer::asShortBuffer;
 
-    OnnxTensorShortImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemoryAddress ortValueAddress) {
+    OnnxTensorShortImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
         super(tensorInfo, valueContext, ortValueAddress, CONVERT);
     }
 

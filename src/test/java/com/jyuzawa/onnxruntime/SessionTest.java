@@ -17,7 +17,6 @@ import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -242,12 +241,12 @@ public class SessionTest {
             OnnxValue outputValue1 = output.get(0);
             OnnxTensor outputTensor1 = outputValue1.asTensor();
             outputTensor1.getFloatBuffer().get(rawOutput1);
-            assertTrue(Arrays.equals(rawInput1, rawOutput1));
+            assertArrayEquals(rawInput1, rawOutput1);
             float[] rawOutput2 = new float[3];
             OnnxValue outputValue2 = output.get(1);
             OnnxTensor outputTensor2 = outputValue2.asTensor();
             outputTensor2.getFloatBuffer().get(rawOutput2);
-            assertTrue(Arrays.equals(rawInput2, rawOutput2));
+            assertArrayEquals(rawInput2, rawOutput2);
         }
     }
 
@@ -280,7 +279,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> outputTensor.getDoubleBuffer());
             assertThrows(NoSuchElementException.class, () -> outputTensor.getLongBuffer());
             outputTensor.getFloatBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -305,7 +304,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             double[] rawOutput = new double[3];
             output.get(0).asTensor().getDoubleBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -330,7 +329,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             byte[] rawOutput = new byte[3];
             output.get(0).asTensor().getByteBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -355,7 +354,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             short[] rawOutput = new short[3];
             output.get(0).asTensor().getShortBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -380,7 +379,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             int[] rawOutput = new int[3];
             output.get(0).asTensor().getIntBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -405,7 +404,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             long[] rawOutput = new long[3];
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -431,7 +430,7 @@ public class SessionTest {
             txn.addOutput(0);
             NamedCollection<OnnxValue> output = txn.run();
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -492,9 +491,9 @@ public class SessionTest {
             assertTrue(outputSequence.listIterator(0).hasNext());
             assertFalse(outputSequence.subList(0, 1).isEmpty());
             outputSequence.get(0).asTensor().getFloatBuffer().get(outputBuffer);
-            assertTrue(Arrays.equals(rawInput1, outputBuffer));
+            assertArrayEquals(rawInput1, outputBuffer);
             outputSequence.get(1).asTensor().getFloatBuffer().get(outputBuffer);
-            assertTrue(Arrays.equals(rawInput2, outputBuffer));
+            assertArrayEquals(rawInput2, outputBuffer);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -571,7 +570,7 @@ public class SessionTest {
             rawOutput[0] = outputMap.get(1435L).asTensor().getFloatBuffer().get();
             rawOutput[1] = outputMap.get(35234L).asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get(572457L).asTensor().getFloatBuffer().get();
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -668,7 +667,7 @@ public class SessionTest {
             rawOutput[0] = outputMap.get("foo").asTensor().getFloatBuffer().get();
             rawOutput[1] = outputMap.get("bazz").asTensor().getFloatBuffer().get();
             rawOutput[2] = outputMap.get("barss").asTensor().getFloatBuffer().get();
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -725,7 +724,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             String[] orderedOut = new String[] {"ab", "xr", "fe", "fsaf", "fa3sf"};
-            assertTrue(Arrays.equals(orderedOut, rawOutput));
+            assertArrayEquals(orderedOut, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -784,7 +783,7 @@ public class SessionTest {
             long[] rawOutput = new long[5];
             output.get(0).asTensor().getLongBuffer().get(rawOutput);
             long[] orderedOut = new long[] {10, 902, 53, 1092, 20932};
-            assertTrue(Arrays.equals(orderedOut, rawOutput));
+            assertArrayEquals(orderedOut, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -842,7 +841,7 @@ public class SessionTest {
             float[] rawOutput = new float[5];
             output.get(0).asTensor().getFloatBuffer().get(rawOutput);
             float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
-            assertTrue(Arrays.equals(orderedOut, rawOutput));
+            assertArrayEquals(orderedOut, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }
@@ -938,7 +937,7 @@ public class SessionTest {
             OnnxValue outputValue = output.get(0);
             OnnxTensor outputTensor = outputValue.asTensor();
             outputTensor.getFloatBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
 
             assertThrows(IllegalArgumentException.class, () -> {
@@ -1031,7 +1030,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
             OnnxTensor outputTensor = outputValue.asTensor();
             outputTensor.getFloatBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
             long startNs = session.getProfilingStartTimeInNs();
             assertTrue(startNs > 0L);
             File out = session.endProfiling().toFile();
@@ -1059,7 +1058,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
             OnnxTensor outputTensor = outputValue.asTensor();
             outputTensor.getFloatBuffer().get(rawOutput);
-            assertTrue(Arrays.equals(rawInput, rawOutput));
+            assertArrayEquals(rawInput, rawOutput);
         }
     }
 

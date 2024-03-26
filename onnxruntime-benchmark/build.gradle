@@ -4,6 +4,17 @@ plugins {
 }
 apply plugin: "application"
 
+sourceSets {
+	jmh {
+		compileClasspath += sourceSets.main.output
+		runtimeClasspath += sourceSets.main.output
+	}
+}
+
+configurations {
+	jmhImplementation.extendsFrom implementation
+	jmhRuntimeOnly.extendsFrom runtimeOnly
+}
 
 dependencies {
 	implementation project(":")
@@ -17,7 +28,7 @@ dependencies {
 
 application {
 	mainClass = 'com.jyuzawa.onnxruntime_benchmark.Benchmark'
-	applicationDefaultJvmArgs = ['--enable-preview', '--enable-native-access=ALL-UNNAMED']
+	applicationDefaultJvmArgs = ['--enable-native-access=ALL-UNNAMED']
 }
 
 task benchmark(type: Exec) {

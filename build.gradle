@@ -26,10 +26,9 @@ allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
 	java {
-		sourceCompatibility = targetCompatibility = 19
-	}
-	tasks.withType(JavaCompile) {
-		options.compilerArgs += "--enable-preview"
+		toolchain {
+			languageVersion = JavaLanguageVersion.of(22)
+		}
 	}
 	repositories {
 		mavenCentral()
@@ -66,6 +65,9 @@ allprojects {
 
 gitHooks {
 	hooks = ['pre-push': 'spotlessCheck']
+}
+
+jacoco {
 }
 
 jacocoTestReport {
@@ -365,8 +367,7 @@ java {
 javadoc {
 }
 javadoc.options {
-	addBooleanOption('-enable-preview', true)
-	addStringOption('-release', '19')
+	addStringOption('-release', '22')
 }
 
 def moduleName = "com.jyuzawa.onnxruntime"
@@ -393,6 +394,6 @@ tasks.named('compileJava') {
 
 test {
 	useJUnitPlatform()
-	jvmArgs '--enable-preview', '--enable-native-access=ALL-UNNAMED'
+	jvmArgs '--enable-native-access=ALL-UNNAMED'
 	finalizedBy jacocoTestReport
 }

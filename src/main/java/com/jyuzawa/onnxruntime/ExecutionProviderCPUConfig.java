@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.Map;
 
 final class ExecutionProviderCPUConfig extends ExecutionProviderConfig {
@@ -17,7 +17,7 @@ final class ExecutionProviderCPUConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    void appendToSessionOptions(MemorySession memorySession, ApiImpl api, MemoryAddress sessionOptions) {
+    void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         // default is true
         // https://github.com/microsoft/onnxruntime/blob/fb85b31facb9fb3fc99c76f99c93ea8f06ada39b/onnxruntime/core/providers/cpu/cpu_execution_provider.h#L14
         String useArena = properties.getOrDefault(USE_ARENA, "1");

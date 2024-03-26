@@ -8,21 +8,24 @@ import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
 
+/**
+ * {@snippet :
+ * void (*OrtCustomJoinThreadFn)(struct OrtCustomHandleType* ort_custom_thread_handle);
+ * }
+ */
 public interface OrtCustomJoinThreadFn {
 
-    void apply(java.lang.foreign.MemoryAddress ort_custom_thread_handle);
+    void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
 
-    static MemorySegment allocate(OrtCustomJoinThreadFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(
-                OrtCustomJoinThreadFn.class, fi, constants$1.OrtCustomJoinThreadFn$FUNC, session);
+    static MemorySegment allocate(OrtCustomJoinThreadFn fi, Arena scope) {
+        return RuntimeHelper.upcallStub(constants$15.const$3, fi, constants$14.const$1, scope);
     }
 
-    static OrtCustomJoinThreadFn ofAddress(MemoryAddress addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-        return (java.lang.foreign.MemoryAddress _ort_custom_thread_handle) -> {
+    static OrtCustomJoinThreadFn ofAddress(MemorySegment addr, Arena arena) {
+        MemorySegment symbol = addr.reinterpret(arena, null);
+        return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
             try {
-                constants$1.OrtCustomJoinThreadFn$MH.invokeExact(
-                        (Addressable) symbol, (java.lang.foreign.Addressable) _ort_custom_thread_handle);
+                constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
