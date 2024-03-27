@@ -4,154 +4,286 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
- * {@snippet :
+ * {@snippet lang=c :
  * struct OrtApiBase {
- *     const OrtApi* (*GetApi)(uint32_t);
- *     char* (*GetVersionString)();
- * };
+ *     const OrtApi *(*GetApi)(uint32_t);
+ *     const char *(*GetVersionString)(void);
+ * }
  * }
  */
 public class OrtApiBase {
 
-    public static MemoryLayout $LAYOUT() {
-        return constants$12.const$3;
+    OrtApiBase() {
+        // Should not be called directly
     }
+
+    private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
+                    onnxruntime_all_h.C_POINTER.withName("GetApi"),
+                    onnxruntime_all_h.C_POINTER.withName("GetVersionString"))
+            .withName("OrtApiBase");
+
     /**
-     * {@snippet :
-     * const OrtApi* (*GetApi)(uint32_t);
+     * The layout of this struct
+     */
+    public static final GroupLayout layout() {
+        return $LAYOUT;
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
      * }
      */
-    public interface GetApi {
+    public class GetApi {
 
-        java.lang.foreign.MemorySegment apply(int _x0);
-
-        static MemorySegment allocate(GetApi fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$12.const$5, fi, constants$12.const$4, scope);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(int _x0);
         }
 
-        static GetApi ofAddress(MemorySegment addr, Arena arena) {
-            MemorySegment symbol = addr.reinterpret(arena, null);
-            return (int __x0) -> {
-                try {
-                    return (java.lang.foreign.MemorySegment) constants$13.const$0.invokeExact(symbol, __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(GetApi.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetApi.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, int _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        public static GetApi.Function invoker(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
-    public static VarHandle GetApi$VH() {
-        return constants$13.const$1;
+    private static final AddressLayout GetApi$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetApi"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static final AddressLayout GetApi$layout() {
+        return GetApi$LAYOUT;
     }
+
+    private static final long GetApi$OFFSET = 0;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static final long GetApi$offset() {
+        return GetApi$OFFSET;
+    }
+
     /**
      * Getter for field:
-     * {@snippet :
-     * const OrtApi* (*GetApi)(uint32_t);
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
      * }
      */
-    public static MemorySegment GetApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$13.const$1.get(seg, 0L);
+    public static MemorySegment GetApi(MemorySegment struct) {
+        return struct.get(GetApi$LAYOUT, GetApi$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * const OrtApi* (*GetApi)(uint32_t);
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
      * }
      */
-    public static void GetApi$set(MemorySegment seg, MemorySegment x) {
-        constants$13.const$1.set(seg, 0L, x);
+    public static void GetApi(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetApi$LAYOUT, GetApi$OFFSET, fieldValue);
     }
 
-    public static MemorySegment GetApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$13.const$1.get(seg, index * sizeof());
+    public static GetApi.Function GetApiFunction(MemorySegment struct) {
+        return GetApi.invoker(GetApi(struct));
     }
 
-    public static void GetApi$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$13.const$1.set(seg, index * sizeof(), x);
-    }
-
-    public static GetApi GetApi(MemorySegment segment, Arena scope) {
-        return GetApi.ofAddress(GetApi$get(segment), scope);
-    }
     /**
-     * {@snippet :
-     * char* (*GetVersionString)();
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
      * }
      */
-    public interface GetVersionString {
+    public class GetVersionString {
 
-        java.lang.foreign.MemorySegment apply();
-
-        static MemorySegment allocate(GetVersionString fi, Arena scope) {
-            return RuntimeHelper.upcallStub(constants$13.const$3, fi, constants$13.const$2, scope);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply();
         }
 
-        static GetVersionString ofAddress(MemorySegment addr, Arena arena) {
-            MemorySegment symbol = addr.reinterpret(arena, null);
-            return () -> {
-                try {
-                    return (java.lang.foreign.MemorySegment) constants$13.const$4.invokeExact(symbol);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetVersionString.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetVersionString.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        public static GetVersionString.Function invoker(MemorySegment funcPtr) {
+            return () -> invoke(funcPtr);
         }
     }
 
-    public static VarHandle GetVersionString$VH() {
-        return constants$13.const$5;
+    private static final AddressLayout GetVersionString$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetVersionString"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static final AddressLayout GetVersionString$layout() {
+        return GetVersionString$LAYOUT;
     }
+
+    private static final long GetVersionString$OFFSET = 8;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static final long GetVersionString$offset() {
+        return GetVersionString$OFFSET;
+    }
+
     /**
      * Getter for field:
-     * {@snippet :
-     * char* (*GetVersionString)();
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
      * }
      */
-    public static MemorySegment GetVersionString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$13.const$5.get(seg, 0L);
+    public static MemorySegment GetVersionString(MemorySegment struct) {
+        return struct.get(GetVersionString$LAYOUT, GetVersionString$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * char* (*GetVersionString)();
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
      * }
      */
-    public static void GetVersionString$set(MemorySegment seg, MemorySegment x) {
-        constants$13.const$5.set(seg, 0L, x);
+    public static void GetVersionString(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetVersionString$LAYOUT, GetVersionString$OFFSET, fieldValue);
     }
 
-    public static MemorySegment GetVersionString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$13.const$5.get(seg, index * sizeof());
+    public static GetVersionString.Function GetVersionStringFunction(MemorySegment struct) {
+        return GetVersionString.invoker(GetVersionString(struct));
     }
 
-    public static void GetVersionString$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$13.const$5.set(seg, index * sizeof(), x);
+    /**
+     * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
+     * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
+     */
+    public static MemorySegment asSlice(MemorySegment array, long index) {
+        return array.asSlice(layout().byteSize() * index);
     }
 
-    public static GetVersionString GetVersionString(MemorySegment segment, Arena scope) {
-        return GetVersionString.ofAddress(GetVersionString$get(segment), scope);
-    }
-
+    /**
+     * The size (in bytes) of this struct
+     */
     public static long sizeof() {
-        return $LAYOUT().byteSize();
+        return layout().byteSize();
     }
 
+    /**
+     * Allocate a segment of size {@code layout().byteSize()} using {@code allocator}
+     */
     public static MemorySegment allocate(SegmentAllocator allocator) {
-        return allocator.allocate($LAYOUT());
+        return allocator.allocate(layout());
     }
 
-    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
-        return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
+    /**
+     * Allocate an array of size {@code elementCount} using {@code allocator}.
+     * The returned segment has size {@code elementCount * layout().byteSize()}.
+     */
+    public static MemorySegment allocateArray(long elementCount, SegmentAllocator allocator) {
+        return allocator.allocate(MemoryLayout.sequenceLayout(elementCount, layout()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, Arena scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
+        return reinterpret(addr, 1, arena, cleanup);
+    }
+
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code elementCount * layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(
+            MemorySegment addr, long elementCount, Arena arena, Consumer<MemorySegment> cleanup) {
+        return addr.reinterpret(layout().byteSize() * elementCount, arena, cleanup);
     }
 }

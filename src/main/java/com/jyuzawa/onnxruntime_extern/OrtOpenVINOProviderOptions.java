@@ -4,284 +4,454 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
- * {@snippet :
+ * {@snippet lang=c :
  * struct OrtOpenVINOProviderOptions {
- *     char* device_type;
+ *     const char *device_type;
  *     unsigned char enable_npu_fast_compile;
- *     char* device_id;
+ *     const char *device_id;
  *     size_t num_of_threads;
- *     char* cache_dir;
- *     void* context;
+ *     const char *cache_dir;
+ *     void *context;
  *     unsigned char enable_opencl_throttling;
  *     unsigned char enable_dynamic_shapes;
- * };
+ * }
  * }
  */
 public class OrtOpenVINOProviderOptions {
 
-    public static MemoryLayout $LAYOUT() {
-        return constants$11.const$0;
+    OrtOpenVINOProviderOptions() {
+        // Should not be called directly
     }
 
-    public static VarHandle device_type$VH() {
-        return constants$11.const$1;
+    private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
+                    onnxruntime_all_h.C_POINTER.withName("device_type"),
+                    onnxruntime_all_h.C_CHAR.withName("enable_npu_fast_compile"),
+                    MemoryLayout.paddingLayout(7),
+                    onnxruntime_all_h.C_POINTER.withName("device_id"),
+                    onnxruntime_all_h.C_LONG.withName("num_of_threads"),
+                    onnxruntime_all_h.C_POINTER.withName("cache_dir"),
+                    onnxruntime_all_h.C_POINTER.withName("context"),
+                    onnxruntime_all_h.C_CHAR.withName("enable_opencl_throttling"),
+                    onnxruntime_all_h.C_CHAR.withName("enable_dynamic_shapes"),
+                    MemoryLayout.paddingLayout(6))
+            .withName("OrtOpenVINOProviderOptions");
+
+    /**
+     * The layout of this struct
+     */
+    public static final GroupLayout layout() {
+        return $LAYOUT;
     }
+
+    private static final AddressLayout device_type$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("device_type"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *device_type
+     * }
+     */
+    public static final AddressLayout device_type$layout() {
+        return device_type$LAYOUT;
+    }
+
+    private static final long device_type$OFFSET = 0;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *device_type
+     * }
+     */
+    public static final long device_type$offset() {
+        return device_type$OFFSET;
+    }
+
     /**
      * Getter for field:
-     * {@snippet :
-     * char* device_type;
+     * {@snippet lang=c :
+     * const char *device_type
      * }
      */
-    public static MemorySegment device_type$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$1.get(seg, 0L);
+    public static MemorySegment device_type(MemorySegment struct) {
+        return struct.get(device_type$LAYOUT, device_type$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * char* device_type;
+     * {@snippet lang=c :
+     * const char *device_type
      * }
      */
-    public static void device_type$set(MemorySegment seg, MemorySegment x) {
-        constants$11.const$1.set(seg, 0L, x);
+    public static void device_type(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(device_type$LAYOUT, device_type$OFFSET, fieldValue);
     }
 
-    public static MemorySegment device_type$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$1.get(seg, index * sizeof());
+    private static final OfByte enable_npu_fast_compile$LAYOUT =
+            (OfByte) $LAYOUT.select(groupElement("enable_npu_fast_compile"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * unsigned char enable_npu_fast_compile
+     * }
+     */
+    public static final OfByte enable_npu_fast_compile$layout() {
+        return enable_npu_fast_compile$LAYOUT;
     }
 
-    public static void device_type$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$11.const$1.set(seg, index * sizeof(), x);
+    private static final long enable_npu_fast_compile$OFFSET = 8;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * unsigned char enable_npu_fast_compile
+     * }
+     */
+    public static final long enable_npu_fast_compile$offset() {
+        return enable_npu_fast_compile$OFFSET;
     }
 
-    public static VarHandle enable_npu_fast_compile$VH() {
-        return constants$11.const$2;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * unsigned char enable_npu_fast_compile;
+     * {@snippet lang=c :
+     * unsigned char enable_npu_fast_compile
      * }
      */
-    public static byte enable_npu_fast_compile$get(MemorySegment seg) {
-        return (byte) constants$11.const$2.get(seg, 0L);
+    public static byte enable_npu_fast_compile(MemorySegment struct) {
+        return struct.get(enable_npu_fast_compile$LAYOUT, enable_npu_fast_compile$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * unsigned char enable_npu_fast_compile;
+     * {@snippet lang=c :
+     * unsigned char enable_npu_fast_compile
      * }
      */
-    public static void enable_npu_fast_compile$set(MemorySegment seg, byte x) {
-        constants$11.const$2.set(seg, 0L, x);
+    public static void enable_npu_fast_compile(MemorySegment struct, byte fieldValue) {
+        struct.set(enable_npu_fast_compile$LAYOUT, enable_npu_fast_compile$OFFSET, fieldValue);
     }
 
-    public static byte enable_npu_fast_compile$get(MemorySegment seg, long index) {
-        return (byte) constants$11.const$2.get(seg, index * sizeof());
+    private static final AddressLayout device_id$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("device_id"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *device_id
+     * }
+     */
+    public static final AddressLayout device_id$layout() {
+        return device_id$LAYOUT;
     }
 
-    public static void enable_npu_fast_compile$set(MemorySegment seg, long index, byte x) {
-        constants$11.const$2.set(seg, index * sizeof(), x);
+    private static final long device_id$OFFSET = 16;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *device_id
+     * }
+     */
+    public static final long device_id$offset() {
+        return device_id$OFFSET;
     }
 
-    public static VarHandle device_id$VH() {
-        return constants$11.const$3;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * char* device_id;
+     * {@snippet lang=c :
+     * const char *device_id
      * }
      */
-    public static MemorySegment device_id$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$3.get(seg, 0L);
+    public static MemorySegment device_id(MemorySegment struct) {
+        return struct.get(device_id$LAYOUT, device_id$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * char* device_id;
+     * {@snippet lang=c :
+     * const char *device_id
      * }
      */
-    public static void device_id$set(MemorySegment seg, MemorySegment x) {
-        constants$11.const$3.set(seg, 0L, x);
+    public static void device_id(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(device_id$LAYOUT, device_id$OFFSET, fieldValue);
     }
 
-    public static MemorySegment device_id$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$3.get(seg, index * sizeof());
+    private static final OfLong num_of_threads$LAYOUT = (OfLong) $LAYOUT.select(groupElement("num_of_threads"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t num_of_threads
+     * }
+     */
+    public static final OfLong num_of_threads$layout() {
+        return num_of_threads$LAYOUT;
     }
 
-    public static void device_id$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$11.const$3.set(seg, index * sizeof(), x);
+    private static final long num_of_threads$OFFSET = 24;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t num_of_threads
+     * }
+     */
+    public static final long num_of_threads$offset() {
+        return num_of_threads$OFFSET;
     }
 
-    public static VarHandle num_of_threads$VH() {
-        return constants$11.const$4;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * size_t num_of_threads;
+     * {@snippet lang=c :
+     * size_t num_of_threads
      * }
      */
-    public static long num_of_threads$get(MemorySegment seg) {
-        return (long) constants$11.const$4.get(seg, 0L);
+    public static long num_of_threads(MemorySegment struct) {
+        return struct.get(num_of_threads$LAYOUT, num_of_threads$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * size_t num_of_threads;
+     * {@snippet lang=c :
+     * size_t num_of_threads
      * }
      */
-    public static void num_of_threads$set(MemorySegment seg, long x) {
-        constants$11.const$4.set(seg, 0L, x);
+    public static void num_of_threads(MemorySegment struct, long fieldValue) {
+        struct.set(num_of_threads$LAYOUT, num_of_threads$OFFSET, fieldValue);
     }
 
-    public static long num_of_threads$get(MemorySegment seg, long index) {
-        return (long) constants$11.const$4.get(seg, index * sizeof());
+    private static final AddressLayout cache_dir$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("cache_dir"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *cache_dir
+     * }
+     */
+    public static final AddressLayout cache_dir$layout() {
+        return cache_dir$LAYOUT;
     }
 
-    public static void num_of_threads$set(MemorySegment seg, long index, long x) {
-        constants$11.const$4.set(seg, index * sizeof(), x);
+    private static final long cache_dir$OFFSET = 32;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *cache_dir
+     * }
+     */
+    public static final long cache_dir$offset() {
+        return cache_dir$OFFSET;
     }
 
-    public static VarHandle cache_dir$VH() {
-        return constants$11.const$5;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * char* cache_dir;
+     * {@snippet lang=c :
+     * const char *cache_dir
      * }
      */
-    public static MemorySegment cache_dir$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$5.get(seg, 0L);
+    public static MemorySegment cache_dir(MemorySegment struct) {
+        return struct.get(cache_dir$LAYOUT, cache_dir$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * char* cache_dir;
+     * {@snippet lang=c :
+     * const char *cache_dir
      * }
      */
-    public static void cache_dir$set(MemorySegment seg, MemorySegment x) {
-        constants$11.const$5.set(seg, 0L, x);
+    public static void cache_dir(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(cache_dir$LAYOUT, cache_dir$OFFSET, fieldValue);
     }
 
-    public static MemorySegment cache_dir$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$11.const$5.get(seg, index * sizeof());
+    private static final AddressLayout context$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("context"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void *context
+     * }
+     */
+    public static final AddressLayout context$layout() {
+        return context$LAYOUT;
     }
 
-    public static void cache_dir$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$11.const$5.set(seg, index * sizeof(), x);
+    private static final long context$OFFSET = 40;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void *context
+     * }
+     */
+    public static final long context$offset() {
+        return context$OFFSET;
     }
 
-    public static VarHandle context$VH() {
-        return constants$12.const$0;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * void* context;
+     * {@snippet lang=c :
+     * void *context
      * }
      */
-    public static MemorySegment context$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$12.const$0.get(seg, 0L);
+    public static MemorySegment context(MemorySegment struct) {
+        return struct.get(context$LAYOUT, context$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * void* context;
+     * {@snippet lang=c :
+     * void *context
      * }
      */
-    public static void context$set(MemorySegment seg, MemorySegment x) {
-        constants$12.const$0.set(seg, 0L, x);
+    public static void context(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(context$LAYOUT, context$OFFSET, fieldValue);
     }
 
-    public static MemorySegment context$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$12.const$0.get(seg, index * sizeof());
+    private static final OfByte enable_opencl_throttling$LAYOUT =
+            (OfByte) $LAYOUT.select(groupElement("enable_opencl_throttling"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * unsigned char enable_opencl_throttling
+     * }
+     */
+    public static final OfByte enable_opencl_throttling$layout() {
+        return enable_opencl_throttling$LAYOUT;
     }
 
-    public static void context$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$12.const$0.set(seg, index * sizeof(), x);
+    private static final long enable_opencl_throttling$OFFSET = 48;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * unsigned char enable_opencl_throttling
+     * }
+     */
+    public static final long enable_opencl_throttling$offset() {
+        return enable_opencl_throttling$OFFSET;
     }
 
-    public static VarHandle enable_opencl_throttling$VH() {
-        return constants$12.const$1;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * unsigned char enable_opencl_throttling;
+     * {@snippet lang=c :
+     * unsigned char enable_opencl_throttling
      * }
      */
-    public static byte enable_opencl_throttling$get(MemorySegment seg) {
-        return (byte) constants$12.const$1.get(seg, 0L);
+    public static byte enable_opencl_throttling(MemorySegment struct) {
+        return struct.get(enable_opencl_throttling$LAYOUT, enable_opencl_throttling$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * unsigned char enable_opencl_throttling;
+     * {@snippet lang=c :
+     * unsigned char enable_opencl_throttling
      * }
      */
-    public static void enable_opencl_throttling$set(MemorySegment seg, byte x) {
-        constants$12.const$1.set(seg, 0L, x);
+    public static void enable_opencl_throttling(MemorySegment struct, byte fieldValue) {
+        struct.set(enable_opencl_throttling$LAYOUT, enable_opencl_throttling$OFFSET, fieldValue);
     }
 
-    public static byte enable_opencl_throttling$get(MemorySegment seg, long index) {
-        return (byte) constants$12.const$1.get(seg, index * sizeof());
+    private static final OfByte enable_dynamic_shapes$LAYOUT =
+            (OfByte) $LAYOUT.select(groupElement("enable_dynamic_shapes"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * unsigned char enable_dynamic_shapes
+     * }
+     */
+    public static final OfByte enable_dynamic_shapes$layout() {
+        return enable_dynamic_shapes$LAYOUT;
     }
 
-    public static void enable_opencl_throttling$set(MemorySegment seg, long index, byte x) {
-        constants$12.const$1.set(seg, index * sizeof(), x);
+    private static final long enable_dynamic_shapes$OFFSET = 49;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * unsigned char enable_dynamic_shapes
+     * }
+     */
+    public static final long enable_dynamic_shapes$offset() {
+        return enable_dynamic_shapes$OFFSET;
     }
 
-    public static VarHandle enable_dynamic_shapes$VH() {
-        return constants$12.const$2;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * unsigned char enable_dynamic_shapes;
+     * {@snippet lang=c :
+     * unsigned char enable_dynamic_shapes
      * }
      */
-    public static byte enable_dynamic_shapes$get(MemorySegment seg) {
-        return (byte) constants$12.const$2.get(seg, 0L);
+    public static byte enable_dynamic_shapes(MemorySegment struct) {
+        return struct.get(enable_dynamic_shapes$LAYOUT, enable_dynamic_shapes$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * unsigned char enable_dynamic_shapes;
+     * {@snippet lang=c :
+     * unsigned char enable_dynamic_shapes
      * }
      */
-    public static void enable_dynamic_shapes$set(MemorySegment seg, byte x) {
-        constants$12.const$2.set(seg, 0L, x);
+    public static void enable_dynamic_shapes(MemorySegment struct, byte fieldValue) {
+        struct.set(enable_dynamic_shapes$LAYOUT, enable_dynamic_shapes$OFFSET, fieldValue);
     }
 
-    public static byte enable_dynamic_shapes$get(MemorySegment seg, long index) {
-        return (byte) constants$12.const$2.get(seg, index * sizeof());
+    /**
+     * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
+     * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
+     */
+    public static MemorySegment asSlice(MemorySegment array, long index) {
+        return array.asSlice(layout().byteSize() * index);
     }
 
-    public static void enable_dynamic_shapes$set(MemorySegment seg, long index, byte x) {
-        constants$12.const$2.set(seg, index * sizeof(), x);
-    }
-
+    /**
+     * The size (in bytes) of this struct
+     */
     public static long sizeof() {
-        return $LAYOUT().byteSize();
+        return layout().byteSize();
     }
 
+    /**
+     * Allocate a segment of size {@code layout().byteSize()} using {@code allocator}
+     */
     public static MemorySegment allocate(SegmentAllocator allocator) {
-        return allocator.allocate($LAYOUT());
+        return allocator.allocate(layout());
     }
 
-    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
-        return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
+    /**
+     * Allocate an array of size {@code elementCount} using {@code allocator}.
+     * The returned segment has size {@code elementCount * layout().byteSize()}.
+     */
+    public static MemorySegment allocateArray(long elementCount, SegmentAllocator allocator) {
+        return allocator.allocate(MemoryLayout.sequenceLayout(elementCount, layout()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, Arena scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
+        return reinterpret(addr, 1, arena, cleanup);
+    }
+
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code elementCount * layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(
+            MemorySegment addr, long elementCount, Arena arena, Consumer<MemorySegment> cleanup) {
+        return addr.reinterpret(layout().byteSize() * elementCount, arena, cleanup);
     }
 }

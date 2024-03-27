@@ -4,38 +4,72 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
- * {@snippet :
- * void (*RunAsyncCallbackFn)(void* user_data,struct OrtValue** outputs,unsigned long num_outputs,struct OrtStatus* status);
+ * {@snippet lang=c :
+ * typedef void (*RunAsyncCallbackFn)(void *, OrtValue **, size_t, OrtStatusPtr)
  * }
  */
-public interface RunAsyncCallbackFn {
+public class RunAsyncCallbackFn {
 
-    void apply(
-            java.lang.foreign.MemorySegment user_data,
-            java.lang.foreign.MemorySegment outputs,
-            long num_outputs,
-            java.lang.foreign.MemorySegment status);
-
-    static MemorySegment allocate(RunAsyncCallbackFn fi, Arena scope) {
-        return RuntimeHelper.upcallStub(constants$16.const$2, fi, constants$16.const$1, scope);
+    /**
+     * The function pointer signature, expressed as a functional interface
+     */
+    public interface Function {
+        void apply(MemorySegment user_data, MemorySegment outputs, long num_outputs, MemorySegment status);
     }
 
-    static RunAsyncCallbackFn ofAddress(MemorySegment addr, Arena arena) {
-        MemorySegment symbol = addr.reinterpret(arena, null);
-        return (java.lang.foreign.MemorySegment _user_data,
-                java.lang.foreign.MemorySegment _outputs,
-                long _num_outputs,
-                java.lang.foreign.MemorySegment _status) -> {
-            try {
-                constants$16.const$3.invokeExact(symbol, _user_data, _outputs, _num_outputs, _status);
-            } catch (Throwable ex$) {
-                throw new AssertionError("should not reach here", ex$);
-            }
-        };
+    private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
+            onnxruntime_all_h.C_POINTER,
+            onnxruntime_all_h.C_POINTER,
+            onnxruntime_all_h.C_LONG,
+            onnxruntime_all_h.C_POINTER);
+
+    /**
+     * The descriptor of this function pointer
+     */
+    public static FunctionDescriptor descriptor() {
+        return $DESC;
+    }
+
+    private static final MethodHandle UP$MH =
+            onnxruntime_all_h.upcallHandle(RunAsyncCallbackFn.Function.class, "apply", $DESC);
+
+    /**
+     * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+     * The lifetime of the returned segment is managed by {@code arena}
+     */
+    public static MemorySegment allocate(RunAsyncCallbackFn.Function fi, Arena arena) {
+        return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+    }
+
+    private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+    /**
+     * Invoke the upcall stub {@code funcPtr}, with given parameters
+     */
+    public static void invoke(
+            MemorySegment funcPtr,
+            MemorySegment user_data,
+            MemorySegment outputs,
+            long num_outputs,
+            MemorySegment status) {
+        try {
+            DOWN$MH.invokeExact(funcPtr, user_data, outputs, num_outputs, status);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static RunAsyncCallbackFn.Function invoker(MemorySegment funcPtr) {
+        return (user_data, outputs, num_outputs, status) -> invoke(funcPtr, user_data, outputs, num_outputs, status);
     }
 }

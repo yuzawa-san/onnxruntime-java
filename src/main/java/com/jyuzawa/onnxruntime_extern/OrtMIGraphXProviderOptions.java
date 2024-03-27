@@ -4,191 +4,317 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
- * {@snippet :
+ * {@snippet lang=c :
  * struct OrtMIGraphXProviderOptions {
  *     int device_id;
  *     int migraphx_fp16_enable;
  *     int migraphx_int8_enable;
  *     int migraphx_use_native_calibration_table;
- *     char* migraphx_int8_calibration_table_name;
- * };
+ *     const char *migraphx_int8_calibration_table_name;
+ * }
  * }
  */
 public class OrtMIGraphXProviderOptions {
 
-    public static MemoryLayout $LAYOUT() {
-        return constants$10.const$0;
+    OrtMIGraphXProviderOptions() {
+        // Should not be called directly
     }
 
-    public static VarHandle device_id$VH() {
-        return constants$10.const$1;
+    private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
+                    onnxruntime_all_h.C_INT.withName("device_id"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_fp16_enable"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_int8_enable"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_use_native_calibration_table"),
+                    onnxruntime_all_h.C_POINTER.withName("migraphx_int8_calibration_table_name"))
+            .withName("OrtMIGraphXProviderOptions");
+
+    /**
+     * The layout of this struct
+     */
+    public static final GroupLayout layout() {
+        return $LAYOUT;
     }
+
+    private static final OfInt device_id$LAYOUT = (OfInt) $LAYOUT.select(groupElement("device_id"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int device_id
+     * }
+     */
+    public static final OfInt device_id$layout() {
+        return device_id$LAYOUT;
+    }
+
+    private static final long device_id$OFFSET = 0;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int device_id
+     * }
+     */
+    public static final long device_id$offset() {
+        return device_id$OFFSET;
+    }
+
     /**
      * Getter for field:
-     * {@snippet :
-     * int device_id;
+     * {@snippet lang=c :
+     * int device_id
      * }
      */
-    public static int device_id$get(MemorySegment seg) {
-        return (int) constants$10.const$1.get(seg, 0L);
+    public static int device_id(MemorySegment struct) {
+        return struct.get(device_id$LAYOUT, device_id$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * int device_id;
+     * {@snippet lang=c :
+     * int device_id
      * }
      */
-    public static void device_id$set(MemorySegment seg, int x) {
-        constants$10.const$1.set(seg, 0L, x);
+    public static void device_id(MemorySegment struct, int fieldValue) {
+        struct.set(device_id$LAYOUT, device_id$OFFSET, fieldValue);
     }
 
-    public static int device_id$get(MemorySegment seg, long index) {
-        return (int) constants$10.const$1.get(seg, index * sizeof());
+    private static final OfInt migraphx_fp16_enable$LAYOUT =
+            (OfInt) $LAYOUT.select(groupElement("migraphx_fp16_enable"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_fp16_enable
+     * }
+     */
+    public static final OfInt migraphx_fp16_enable$layout() {
+        return migraphx_fp16_enable$LAYOUT;
     }
 
-    public static void device_id$set(MemorySegment seg, long index, int x) {
-        constants$10.const$1.set(seg, index * sizeof(), x);
+    private static final long migraphx_fp16_enable$OFFSET = 4;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_fp16_enable
+     * }
+     */
+    public static final long migraphx_fp16_enable$offset() {
+        return migraphx_fp16_enable$OFFSET;
     }
 
-    public static VarHandle migraphx_fp16_enable$VH() {
-        return constants$10.const$2;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * int migraphx_fp16_enable;
+     * {@snippet lang=c :
+     * int migraphx_fp16_enable
      * }
      */
-    public static int migraphx_fp16_enable$get(MemorySegment seg) {
-        return (int) constants$10.const$2.get(seg, 0L);
+    public static int migraphx_fp16_enable(MemorySegment struct) {
+        return struct.get(migraphx_fp16_enable$LAYOUT, migraphx_fp16_enable$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * int migraphx_fp16_enable;
+     * {@snippet lang=c :
+     * int migraphx_fp16_enable
      * }
      */
-    public static void migraphx_fp16_enable$set(MemorySegment seg, int x) {
-        constants$10.const$2.set(seg, 0L, x);
+    public static void migraphx_fp16_enable(MemorySegment struct, int fieldValue) {
+        struct.set(migraphx_fp16_enable$LAYOUT, migraphx_fp16_enable$OFFSET, fieldValue);
     }
 
-    public static int migraphx_fp16_enable$get(MemorySegment seg, long index) {
-        return (int) constants$10.const$2.get(seg, index * sizeof());
+    private static final OfInt migraphx_int8_enable$LAYOUT =
+            (OfInt) $LAYOUT.select(groupElement("migraphx_int8_enable"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_int8_enable
+     * }
+     */
+    public static final OfInt migraphx_int8_enable$layout() {
+        return migraphx_int8_enable$LAYOUT;
     }
 
-    public static void migraphx_fp16_enable$set(MemorySegment seg, long index, int x) {
-        constants$10.const$2.set(seg, index * sizeof(), x);
+    private static final long migraphx_int8_enable$OFFSET = 8;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_int8_enable
+     * }
+     */
+    public static final long migraphx_int8_enable$offset() {
+        return migraphx_int8_enable$OFFSET;
     }
 
-    public static VarHandle migraphx_int8_enable$VH() {
-        return constants$10.const$3;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * int migraphx_int8_enable;
+     * {@snippet lang=c :
+     * int migraphx_int8_enable
      * }
      */
-    public static int migraphx_int8_enable$get(MemorySegment seg) {
-        return (int) constants$10.const$3.get(seg, 0L);
+    public static int migraphx_int8_enable(MemorySegment struct) {
+        return struct.get(migraphx_int8_enable$LAYOUT, migraphx_int8_enable$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * int migraphx_int8_enable;
+     * {@snippet lang=c :
+     * int migraphx_int8_enable
      * }
      */
-    public static void migraphx_int8_enable$set(MemorySegment seg, int x) {
-        constants$10.const$3.set(seg, 0L, x);
+    public static void migraphx_int8_enable(MemorySegment struct, int fieldValue) {
+        struct.set(migraphx_int8_enable$LAYOUT, migraphx_int8_enable$OFFSET, fieldValue);
     }
 
-    public static int migraphx_int8_enable$get(MemorySegment seg, long index) {
-        return (int) constants$10.const$3.get(seg, index * sizeof());
+    private static final OfInt migraphx_use_native_calibration_table$LAYOUT =
+            (OfInt) $LAYOUT.select(groupElement("migraphx_use_native_calibration_table"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_use_native_calibration_table
+     * }
+     */
+    public static final OfInt migraphx_use_native_calibration_table$layout() {
+        return migraphx_use_native_calibration_table$LAYOUT;
     }
 
-    public static void migraphx_int8_enable$set(MemorySegment seg, long index, int x) {
-        constants$10.const$3.set(seg, index * sizeof(), x);
+    private static final long migraphx_use_native_calibration_table$OFFSET = 12;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_use_native_calibration_table
+     * }
+     */
+    public static final long migraphx_use_native_calibration_table$offset() {
+        return migraphx_use_native_calibration_table$OFFSET;
     }
 
-    public static VarHandle migraphx_use_native_calibration_table$VH() {
-        return constants$10.const$4;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * int migraphx_use_native_calibration_table;
+     * {@snippet lang=c :
+     * int migraphx_use_native_calibration_table
      * }
      */
-    public static int migraphx_use_native_calibration_table$get(MemorySegment seg) {
-        return (int) constants$10.const$4.get(seg, 0L);
+    public static int migraphx_use_native_calibration_table(MemorySegment struct) {
+        return struct.get(migraphx_use_native_calibration_table$LAYOUT, migraphx_use_native_calibration_table$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * int migraphx_use_native_calibration_table;
+     * {@snippet lang=c :
+     * int migraphx_use_native_calibration_table
      * }
      */
-    public static void migraphx_use_native_calibration_table$set(MemorySegment seg, int x) {
-        constants$10.const$4.set(seg, 0L, x);
+    public static void migraphx_use_native_calibration_table(MemorySegment struct, int fieldValue) {
+        struct.set(
+                migraphx_use_native_calibration_table$LAYOUT, migraphx_use_native_calibration_table$OFFSET, fieldValue);
     }
 
-    public static int migraphx_use_native_calibration_table$get(MemorySegment seg, long index) {
-        return (int) constants$10.const$4.get(seg, index * sizeof());
+    private static final AddressLayout migraphx_int8_calibration_table_name$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("migraphx_int8_calibration_table_name"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *migraphx_int8_calibration_table_name
+     * }
+     */
+    public static final AddressLayout migraphx_int8_calibration_table_name$layout() {
+        return migraphx_int8_calibration_table_name$LAYOUT;
     }
 
-    public static void migraphx_use_native_calibration_table$set(MemorySegment seg, long index, int x) {
-        constants$10.const$4.set(seg, index * sizeof(), x);
+    private static final long migraphx_int8_calibration_table_name$OFFSET = 16;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *migraphx_int8_calibration_table_name
+     * }
+     */
+    public static final long migraphx_int8_calibration_table_name$offset() {
+        return migraphx_int8_calibration_table_name$OFFSET;
     }
 
-    public static VarHandle migraphx_int8_calibration_table_name$VH() {
-        return constants$10.const$5;
-    }
     /**
      * Getter for field:
-     * {@snippet :
-     * char* migraphx_int8_calibration_table_name;
+     * {@snippet lang=c :
+     * const char *migraphx_int8_calibration_table_name
      * }
      */
-    public static MemorySegment migraphx_int8_calibration_table_name$get(MemorySegment seg) {
-        return (java.lang.foreign.MemorySegment) constants$10.const$5.get(seg, 0L);
+    public static MemorySegment migraphx_int8_calibration_table_name(MemorySegment struct) {
+        return struct.get(migraphx_int8_calibration_table_name$LAYOUT, migraphx_int8_calibration_table_name$OFFSET);
     }
+
     /**
      * Setter for field:
-     * {@snippet :
-     * char* migraphx_int8_calibration_table_name;
+     * {@snippet lang=c :
+     * const char *migraphx_int8_calibration_table_name
      * }
      */
-    public static void migraphx_int8_calibration_table_name$set(MemorySegment seg, MemorySegment x) {
-        constants$10.const$5.set(seg, 0L, x);
+    public static void migraphx_int8_calibration_table_name(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                migraphx_int8_calibration_table_name$LAYOUT, migraphx_int8_calibration_table_name$OFFSET, fieldValue);
     }
 
-    public static MemorySegment migraphx_int8_calibration_table_name$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemorySegment) constants$10.const$5.get(seg, index * sizeof());
+    /**
+     * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
+     * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
+     */
+    public static MemorySegment asSlice(MemorySegment array, long index) {
+        return array.asSlice(layout().byteSize() * index);
     }
 
-    public static void migraphx_int8_calibration_table_name$set(MemorySegment seg, long index, MemorySegment x) {
-        constants$10.const$5.set(seg, index * sizeof(), x);
-    }
-
+    /**
+     * The size (in bytes) of this struct
+     */
     public static long sizeof() {
-        return $LAYOUT().byteSize();
+        return layout().byteSize();
     }
 
+    /**
+     * Allocate a segment of size {@code layout().byteSize()} using {@code allocator}
+     */
     public static MemorySegment allocate(SegmentAllocator allocator) {
-        return allocator.allocate($LAYOUT());
+        return allocator.allocate(layout());
     }
 
-    public static MemorySegment allocateArray(long len, SegmentAllocator allocator) {
-        return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
+    /**
+     * Allocate an array of size {@code elementCount} using {@code allocator}.
+     * The returned segment has size {@code elementCount * layout().byteSize()}.
+     */
+    public static MemorySegment allocateArray(long elementCount, SegmentAllocator allocator) {
+        return allocator.allocate(MemoryLayout.sequenceLayout(elementCount, layout()));
     }
 
-    public static MemorySegment ofAddress(MemorySegment addr, Arena scope) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope);
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
+        return reinterpret(addr, 1, arena, cleanup);
+    }
+
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code elementCount * layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(
+            MemorySegment addr, long elementCount, Arena arena, Consumer<MemorySegment> cleanup) {
+        return addr.reinterpret(layout().byteSize() * elementCount, arena, cleanup);
     }
 }

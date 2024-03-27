@@ -4,31 +4,63 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
- * {@snippet :
- * void (*OrtCustomJoinThreadFn)(struct OrtCustomHandleType* ort_custom_thread_handle);
+ * {@snippet lang=c :
+ * typedef void (*OrtCustomJoinThreadFn)(OrtCustomThreadHandle)
  * }
  */
-public interface OrtCustomJoinThreadFn {
+public class OrtCustomJoinThreadFn {
 
-    void apply(java.lang.foreign.MemorySegment ort_custom_thread_handle);
-
-    static MemorySegment allocate(OrtCustomJoinThreadFn fi, Arena scope) {
-        return RuntimeHelper.upcallStub(constants$15.const$3, fi, constants$14.const$1, scope);
+    /**
+     * The function pointer signature, expressed as a functional interface
+     */
+    public interface Function {
+        void apply(MemorySegment ort_custom_thread_handle);
     }
 
-    static OrtCustomJoinThreadFn ofAddress(MemorySegment addr, Arena arena) {
-        MemorySegment symbol = addr.reinterpret(arena, null);
-        return (java.lang.foreign.MemorySegment _ort_custom_thread_handle) -> {
-            try {
-                constants$14.const$3.invokeExact(symbol, _ort_custom_thread_handle);
-            } catch (Throwable ex$) {
-                throw new AssertionError("should not reach here", ex$);
-            }
-        };
+    private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+    /**
+     * The descriptor of this function pointer
+     */
+    public static FunctionDescriptor descriptor() {
+        return $DESC;
+    }
+
+    private static final MethodHandle UP$MH =
+            onnxruntime_all_h.upcallHandle(OrtCustomJoinThreadFn.Function.class, "apply", $DESC);
+
+    /**
+     * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+     * The lifetime of the returned segment is managed by {@code arena}
+     */
+    public static MemorySegment allocate(OrtCustomJoinThreadFn.Function fi, Arena arena) {
+        return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+    }
+
+    private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+    /**
+     * Invoke the upcall stub {@code funcPtr}, with given parameters
+     */
+    public static void invoke(MemorySegment funcPtr, MemorySegment ort_custom_thread_handle) {
+        try {
+            DOWN$MH.invokeExact(funcPtr, ort_custom_thread_handle);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    public static OrtCustomJoinThreadFn.Function invoker(MemorySegment funcPtr) {
+        return (ort_custom_thread_handle) -> invoke(funcPtr, ort_custom_thread_handle);
     }
 }

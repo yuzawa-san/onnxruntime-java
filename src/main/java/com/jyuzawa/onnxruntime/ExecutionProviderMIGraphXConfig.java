@@ -18,18 +18,18 @@ final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
     @Override
     final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
         MemorySegment config = OrtMIGraphXProviderOptions.allocate(memorySession);
-        copyInteger("device_id", config, OrtMIGraphXProviderOptions::device_id$set);
-        copyInteger("migraphx_fp16_enable", config, OrtMIGraphXProviderOptions::migraphx_fp16_enable$set);
-        copyInteger("migraphx_int8_enable", config, OrtMIGraphXProviderOptions::migraphx_int8_enable$set);
+        copyInteger("device_id", config, OrtMIGraphXProviderOptions::device_id);
+        copyInteger("migraphx_fp16_enable", config, OrtMIGraphXProviderOptions::migraphx_fp16_enable);
+        copyInteger("migraphx_int8_enable", config, OrtMIGraphXProviderOptions::migraphx_int8_enable);
         copyInteger(
                 "migraphx_use_native_calibration_table",
                 config,
-                OrtMIGraphXProviderOptions::migraphx_use_native_calibration_table$set);
+                OrtMIGraphXProviderOptions::migraphx_use_native_calibration_table);
         copyString(
                 "migraphx_int8_calibration_table_name",
                 config,
                 memorySession,
-                OrtMIGraphXProviderOptions::migraphx_int8_calibration_table_name$set);
+                OrtMIGraphXProviderOptions::migraphx_int8_calibration_table_name);
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_MIGraphX.apply(sessionOptions, config));
     }
 }
