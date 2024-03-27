@@ -16,3 +16,8 @@ csplit symbols.conf "/headers/"
 rm xx00
 mv xx01 symbols.conf
 docker run --rm -v `pwd`:/workdir onnxruntime-jextract --output ${GENERATED_DIR} -l onnxruntime --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I /usr/include/x86_64-linux-gnu -I ${HEADER_DIR} @symbols.conf ${HEADER_FILE}
+ # strip out loads since we'll manage load
+ RUNTIME_HELPER=${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java
+ grep -v "System.loadLibrary" < ${RUNTIME_HELPER} > ${RUNTIME_HELPER}.bak
+ mv ${RUNTIME_HELPER}.bak ${RUNTIME_HELPER}
+ 
