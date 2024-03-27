@@ -5,9 +5,9 @@ RUN apt-get update && apt-get install -y -q \
   xz-utils \
 && apt-get clean
 RUN tar xvf clang_llvm.tar.xz && rm clang_llvm.tar.xz && mv clang* clang_llvm
-ADD https://download.java.net/java/early_access/jdk22/30/GPL/openjdk-22-ea+30_linux-x64_bin.tar.gz openjdk.tar.gz
+ADD https://download.java.net/java/GA/jdk22/830ec9fcccef480bb3e73fb7ecafe059/36/GPL/openjdk-22_linux-x64_bin.tar.gz openjdk.tar.gz
 RUN tar xvxf openjdk.tar.gz && rm openjdk.tar.gz
-ADD https://github.com/openjdk/jextract/archive/0aaf75cdfe14df6f3a3f4e3d80f5384414a78ade.tar.gz jextract.tar.gz
+ADD https://github.com/openjdk/jextract/archive/bd45c8b5449cc2df7e59b729bc1cf8402030ce50.tar.gz jextract.tar.gz
 RUN tar xvzf jextract.tar.gz && \
 	rm jextract.tar.gz && \
 	mv jextract-* jextract
