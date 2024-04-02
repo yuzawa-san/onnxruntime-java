@@ -39,6 +39,21 @@ public class onnxruntime_all_h {
         }
     }
 
+    static MemoryLayout align(MemoryLayout layout, long align) {
+        return switch (layout) {
+            case PaddingLayout p -> p;
+            case ValueLayout v -> v.withByteAlignment(align);
+            case GroupLayout g -> {
+                MemoryLayout[] alignedMembers =
+                        g.memberLayouts().stream().map(m -> align(m, align)).toArray(MemoryLayout[]::new);
+                yield g instanceof StructLayout
+                        ? MemoryLayout.structLayout(alignedMembers)
+                        : MemoryLayout.unionLayout(alignedMembers);
+            }
+            case SequenceLayout s -> MemoryLayout.sequenceLayout(s.elementCount(), align(s.elementLayout(), align));
+        };
+    }
+
     static {
     }
 
@@ -1342,13 +1357,13 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5388632510910069834.h"
+     * #define ORT_FILE "/tmp/jextract$1030025776792091248.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
-            static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
-                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5388632510910069834.h");
+            static final MemorySegment ORT_FILE =
+                    onnxruntime_all_h.LIBRARY_ARENA.allocateFrom("/tmp/jextract$1030025776792091248.h");
         }
         return Holder.ORT_FILE;
     }

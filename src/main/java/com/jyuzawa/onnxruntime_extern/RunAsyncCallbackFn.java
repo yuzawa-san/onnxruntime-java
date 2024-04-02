@@ -20,6 +20,10 @@ import java.util.stream.*;
  */
 public class RunAsyncCallbackFn {
 
+    RunAsyncCallbackFn() {
+        // Should not be called directly
+    }
+
     /**
      * The function pointer signature, expressed as a functional interface
      */
@@ -67,9 +71,5 @@ public class RunAsyncCallbackFn {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    public static RunAsyncCallbackFn.Function invoker(MemorySegment funcPtr) {
-        return (user_data, outputs, num_outputs, status) -> invoke(funcPtr, user_data, outputs, num_outputs, status);
     }
 }

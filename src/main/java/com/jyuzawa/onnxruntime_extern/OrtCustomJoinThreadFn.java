@@ -20,6 +20,10 @@ import java.util.stream.*;
  */
 public class OrtCustomJoinThreadFn {
 
+    OrtCustomJoinThreadFn() {
+        // Should not be called directly
+    }
+
     /**
      * The function pointer signature, expressed as a functional interface
      */
@@ -58,9 +62,5 @@ public class OrtCustomJoinThreadFn {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    public static OrtCustomJoinThreadFn.Function invoker(MemorySegment funcPtr) {
-        return (ort_custom_thread_handle) -> invoke(funcPtr, ort_custom_thread_handle);
     }
 }

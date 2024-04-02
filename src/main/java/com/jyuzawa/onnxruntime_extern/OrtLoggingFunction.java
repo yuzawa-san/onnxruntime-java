@@ -20,6 +20,10 @@ import java.util.stream.*;
  */
 public class OrtLoggingFunction {
 
+    OrtLoggingFunction() {
+        // Should not be called directly
+    }
+
     /**
      * The function pointer signature, expressed as a functional interface
      */
@@ -77,10 +81,5 @@ public class OrtLoggingFunction {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    public static OrtLoggingFunction.Function invoker(MemorySegment funcPtr) {
-        return (param, severity, category, logid, code_location, message) ->
-                invoke(funcPtr, param, severity, category, logid, code_location, message);
     }
 }

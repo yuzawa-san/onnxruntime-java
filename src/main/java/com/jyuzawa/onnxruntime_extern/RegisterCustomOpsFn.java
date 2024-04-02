@@ -20,6 +20,10 @@ import java.util.stream.*;
  */
 public class RegisterCustomOpsFn {
 
+    RegisterCustomOpsFn() {
+        // Should not be called directly
+    }
+
     /**
      * The function pointer signature, expressed as a functional interface
      */
@@ -59,9 +63,5 @@ public class RegisterCustomOpsFn {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    public static RegisterCustomOpsFn.Function invoker(MemorySegment funcPtr) {
-        return (options, api) -> invoke(funcPtr, options, api);
     }
 }

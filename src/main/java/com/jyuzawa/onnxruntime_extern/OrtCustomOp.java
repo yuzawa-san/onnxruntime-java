@@ -129,7 +129,11 @@ public class OrtCustomOp {
      * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
      * }
      */
-    public class CreateKernel {
+    public static class CreateKernel {
+
+        CreateKernel() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -174,10 +178,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static CreateKernel.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
         }
     }
 
@@ -226,16 +226,16 @@ public class OrtCustomOp {
         struct.set(CreateKernel$LAYOUT, CreateKernel$OFFSET, fieldValue);
     }
 
-    public static CreateKernel.Function CreateKernelFunction(MemorySegment struct) {
-        return CreateKernel.invoker(CreateKernel(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * const char *(*GetName)(const struct OrtCustomOp *)
      * }
      */
-    public class GetName {
+    public static class GetName {
+
+        GetName() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -276,10 +276,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetName.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -327,16 +323,16 @@ public class OrtCustomOp {
         struct.set(GetName$LAYOUT, GetName$OFFSET, fieldValue);
     }
 
-    public static GetName.Function GetNameFunction(MemorySegment struct) {
-        return GetName.invoker(GetName(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
      * }
      */
-    public class GetExecutionProviderType {
+    public static class GetExecutionProviderType {
+
+        GetExecutionProviderType() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -377,10 +373,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetExecutionProviderType.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -429,16 +421,16 @@ public class OrtCustomOp {
         struct.set(GetExecutionProviderType$LAYOUT, GetExecutionProviderType$OFFSET, fieldValue);
     }
 
-    public static GetExecutionProviderType.Function GetExecutionProviderTypeFunction(MemorySegment struct) {
-        return GetExecutionProviderType.invoker(GetExecutionProviderType(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public class GetInputType {
+    public static class GetInputType {
+
+        GetInputType() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -479,10 +471,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetInputType.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -531,16 +519,16 @@ public class OrtCustomOp {
         struct.set(GetInputType$LAYOUT, GetInputType$OFFSET, fieldValue);
     }
 
-    public static GetInputType.Function GetInputTypeFunction(MemorySegment struct) {
-        return GetInputType.invoker(GetInputType(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
      * }
      */
-    public class GetInputTypeCount {
+    public static class GetInputTypeCount {
+
+        GetInputTypeCount() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -581,10 +569,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetInputTypeCount.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -633,16 +617,16 @@ public class OrtCustomOp {
         struct.set(GetInputTypeCount$LAYOUT, GetInputTypeCount$OFFSET, fieldValue);
     }
 
-    public static GetInputTypeCount.Function GetInputTypeCountFunction(MemorySegment struct) {
-        return GetInputTypeCount.invoker(GetInputTypeCount(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public class GetOutputType {
+    public static class GetOutputType {
+
+        GetOutputType() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -683,10 +667,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetOutputType.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -735,16 +715,16 @@ public class OrtCustomOp {
         struct.set(GetOutputType$LAYOUT, GetOutputType$OFFSET, fieldValue);
     }
 
-    public static GetOutputType.Function GetOutputTypeFunction(MemorySegment struct) {
-        return GetOutputType.invoker(GetOutputType(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
      * }
      */
-    public class GetOutputTypeCount {
+    public static class GetOutputTypeCount {
+
+        GetOutputTypeCount() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -785,10 +765,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetOutputTypeCount.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -837,16 +813,16 @@ public class OrtCustomOp {
         struct.set(GetOutputTypeCount$LAYOUT, GetOutputTypeCount$OFFSET, fieldValue);
     }
 
-    public static GetOutputTypeCount.Function GetOutputTypeCountFunction(MemorySegment struct) {
-        return GetOutputTypeCount.invoker(GetOutputTypeCount(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * void (*KernelCompute)(void *, OrtKernelContext *)
      * }
      */
-    public class KernelCompute {
+    public static class KernelCompute {
+
+        KernelCompute() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -887,10 +863,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static KernelCompute.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -939,16 +911,16 @@ public class OrtCustomOp {
         struct.set(KernelCompute$LAYOUT, KernelCompute$OFFSET, fieldValue);
     }
 
-    public static KernelCompute.Function KernelComputeFunction(MemorySegment struct) {
-        return KernelCompute.invoker(KernelCompute(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * void (*KernelDestroy)(void *)
      * }
      */
-    public class KernelDestroy {
+    public static class KernelDestroy {
+
+        KernelDestroy() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -988,10 +960,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static KernelDestroy.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1040,16 +1008,16 @@ public class OrtCustomOp {
         struct.set(KernelDestroy$LAYOUT, KernelDestroy$OFFSET, fieldValue);
     }
 
-    public static KernelDestroy.Function KernelDestroyFunction(MemorySegment struct) {
-        return KernelDestroy.invoker(KernelDestroy(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public class GetInputCharacteristic {
+    public static class GetInputCharacteristic {
+
+        GetInputCharacteristic() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1090,10 +1058,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetInputCharacteristic.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1142,16 +1106,16 @@ public class OrtCustomOp {
         struct.set(GetInputCharacteristic$LAYOUT, GetInputCharacteristic$OFFSET, fieldValue);
     }
 
-    public static GetInputCharacteristic.Function GetInputCharacteristicFunction(MemorySegment struct) {
-        return GetInputCharacteristic.invoker(GetInputCharacteristic(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public class GetOutputCharacteristic {
+    public static class GetOutputCharacteristic {
+
+        GetOutputCharacteristic() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1192,10 +1156,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetOutputCharacteristic.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1244,16 +1204,16 @@ public class OrtCustomOp {
         struct.set(GetOutputCharacteristic$LAYOUT, GetOutputCharacteristic$OFFSET, fieldValue);
     }
 
-    public static GetOutputCharacteristic.Function GetOutputCharacteristicFunction(MemorySegment struct) {
-        return GetOutputCharacteristic.invoker(GetOutputCharacteristic(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public class GetInputMemoryType {
+    public static class GetInputMemoryType {
+
+        GetInputMemoryType() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1294,10 +1254,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetInputMemoryType.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1346,16 +1302,16 @@ public class OrtCustomOp {
         struct.set(GetInputMemoryType$LAYOUT, GetInputMemoryType$OFFSET, fieldValue);
     }
 
-    public static GetInputMemoryType.Function GetInputMemoryTypeFunction(MemorySegment struct) {
-        return GetInputMemoryType.invoker(GetInputMemoryType(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
      * }
      */
-    public class GetVariadicInputMinArity {
+    public static class GetVariadicInputMinArity {
+
+        GetVariadicInputMinArity() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1396,10 +1352,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetVariadicInputMinArity.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1448,16 +1400,16 @@ public class OrtCustomOp {
         struct.set(GetVariadicInputMinArity$LAYOUT, GetVariadicInputMinArity$OFFSET, fieldValue);
     }
 
-    public static GetVariadicInputMinArity.Function GetVariadicInputMinArityFunction(MemorySegment struct) {
-        return GetVariadicInputMinArity.invoker(GetVariadicInputMinArity(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
      * }
      */
-    public class GetVariadicInputHomogeneity {
+    public static class GetVariadicInputHomogeneity {
+
+        GetVariadicInputHomogeneity() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1498,10 +1450,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetVariadicInputHomogeneity.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1550,16 +1498,16 @@ public class OrtCustomOp {
         struct.set(GetVariadicInputHomogeneity$LAYOUT, GetVariadicInputHomogeneity$OFFSET, fieldValue);
     }
 
-    public static GetVariadicInputHomogeneity.Function GetVariadicInputHomogeneityFunction(MemorySegment struct) {
-        return GetVariadicInputHomogeneity.invoker(GetVariadicInputHomogeneity(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
      * }
      */
-    public class GetVariadicOutputMinArity {
+    public static class GetVariadicOutputMinArity {
+
+        GetVariadicOutputMinArity() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1600,10 +1548,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetVariadicOutputMinArity.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1652,16 +1596,16 @@ public class OrtCustomOp {
         struct.set(GetVariadicOutputMinArity$LAYOUT, GetVariadicOutputMinArity$OFFSET, fieldValue);
     }
 
-    public static GetVariadicOutputMinArity.Function GetVariadicOutputMinArityFunction(MemorySegment struct) {
-        return GetVariadicOutputMinArity.invoker(GetVariadicOutputMinArity(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
      * }
      */
-    public class GetVariadicOutputHomogeneity {
+    public static class GetVariadicOutputHomogeneity {
+
+        GetVariadicOutputHomogeneity() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1702,10 +1646,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetVariadicOutputHomogeneity.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1754,16 +1694,16 @@ public class OrtCustomOp {
         struct.set(GetVariadicOutputHomogeneity$LAYOUT, GetVariadicOutputHomogeneity$OFFSET, fieldValue);
     }
 
-    public static GetVariadicOutputHomogeneity.Function GetVariadicOutputHomogeneityFunction(MemorySegment struct) {
-        return GetVariadicOutputHomogeneity.invoker(GetVariadicOutputHomogeneity(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
      * }
      */
-    public class CreateKernelV2 {
+    public static class CreateKernelV2 {
+
+        CreateKernelV2() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1809,10 +1749,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static CreateKernelV2.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
         }
     }
 
@@ -1861,16 +1797,16 @@ public class OrtCustomOp {
         struct.set(CreateKernelV2$LAYOUT, CreateKernelV2$OFFSET, fieldValue);
     }
 
-    public static CreateKernelV2.Function CreateKernelV2Function(MemorySegment struct) {
-        return CreateKernelV2.invoker(CreateKernelV2(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
      * }
      */
-    public class KernelComputeV2 {
+    public static class KernelComputeV2 {
+
+        KernelComputeV2() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -1911,10 +1847,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static KernelComputeV2.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1963,16 +1895,16 @@ public class OrtCustomOp {
         struct.set(KernelComputeV2$LAYOUT, KernelComputeV2$OFFSET, fieldValue);
     }
 
-    public static KernelComputeV2.Function KernelComputeV2Function(MemorySegment struct) {
-        return KernelComputeV2.invoker(KernelComputeV2(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
      * }
      */
-    public class InferOutputShapeFn {
+    public static class InferOutputShapeFn {
+
+        InferOutputShapeFn() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -2013,10 +1945,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static InferOutputShapeFn.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2065,16 +1993,16 @@ public class OrtCustomOp {
         struct.set(InferOutputShapeFn$LAYOUT, InferOutputShapeFn$OFFSET, fieldValue);
     }
 
-    public static InferOutputShapeFn.Function InferOutputShapeFnFunction(MemorySegment struct) {
-        return InferOutputShapeFn.invoker(InferOutputShapeFn(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * int (*GetStartVersion)(const struct OrtCustomOp *)
      * }
      */
-    public class GetStartVersion {
+    public static class GetStartVersion {
+
+        GetStartVersion() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -2115,10 +2043,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetStartVersion.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -2167,16 +2091,16 @@ public class OrtCustomOp {
         struct.set(GetStartVersion$LAYOUT, GetStartVersion$OFFSET, fieldValue);
     }
 
-    public static GetStartVersion.Function GetStartVersionFunction(MemorySegment struct) {
-        return GetStartVersion.invoker(GetStartVersion(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * int (*GetEndVersion)(const struct OrtCustomOp *)
      * }
      */
-    public class GetEndVersion {
+    public static class GetEndVersion {
+
+        GetEndVersion() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -2217,10 +2141,6 @@ public class OrtCustomOp {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetEndVersion.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -2269,10 +2189,6 @@ public class OrtCustomOp {
         struct.set(GetEndVersion$LAYOUT, GetEndVersion$OFFSET, fieldValue);
     }
 
-    public static GetEndVersion.Function GetEndVersionFunction(MemorySegment struct) {
-        return GetEndVersion.invoker(GetEndVersion(struct));
-    }
-
     /**
      * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
      * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
@@ -2304,7 +2220,7 @@ public class OrtCustomOp {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
      * The returned segment has size {@code layout().byteSize()}
      */
     public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
@@ -2312,7 +2228,7 @@ public class OrtCustomOp {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
      * The returned segment has size {@code elementCount * layout().byteSize()}
      */
     public static MemorySegment reinterpret(

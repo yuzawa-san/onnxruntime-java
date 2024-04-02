@@ -44,7 +44,11 @@ public class OrtApiBase {
      * const OrtApi *(*GetApi)(uint32_t)
      * }
      */
-    public class GetApi {
+    public static class GetApi {
+
+        GetApi() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -84,10 +88,6 @@ public class OrtApiBase {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetApi.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -135,16 +135,16 @@ public class OrtApiBase {
         struct.set(GetApi$LAYOUT, GetApi$OFFSET, fieldValue);
     }
 
-    public static GetApi.Function GetApiFunction(MemorySegment struct) {
-        return GetApi.invoker(GetApi(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * const char *(*GetVersionString)(void)
      * }
      */
-    public class GetVersionString {
+    public static class GetVersionString {
+
+        GetVersionString() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -184,10 +184,6 @@ public class OrtApiBase {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static GetVersionString.Function invoker(MemorySegment funcPtr) {
-            return () -> invoke(funcPtr);
         }
     }
 
@@ -236,10 +232,6 @@ public class OrtApiBase {
         struct.set(GetVersionString$LAYOUT, GetVersionString$OFFSET, fieldValue);
     }
 
-    public static GetVersionString.Function GetVersionStringFunction(MemorySegment struct) {
-        return GetVersionString.invoker(GetVersionString(struct));
-    }
-
     /**
      * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
      * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
@@ -271,7 +263,7 @@ public class OrtApiBase {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
      * The returned segment has size {@code layout().byteSize()}
      */
     public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
@@ -279,7 +271,7 @@ public class OrtApiBase {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
      * The returned segment has size {@code elementCount * layout().byteSize()}
      */
     public static MemorySegment reinterpret(

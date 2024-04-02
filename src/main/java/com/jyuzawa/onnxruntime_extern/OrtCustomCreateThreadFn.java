@@ -20,6 +20,10 @@ import java.util.stream.*;
  */
 public class OrtCustomCreateThreadFn {
 
+    OrtCustomCreateThreadFn() {
+        // Should not be called directly
+    }
+
     /**
      * The function pointer signature, expressed as a functional interface
      */
@@ -70,10 +74,5 @@ public class OrtCustomCreateThreadFn {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    public static OrtCustomCreateThreadFn.Function invoker(MemorySegment funcPtr) {
-        return (ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param) ->
-                invoke(funcPtr, ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param);
     }
 }

@@ -20,6 +20,10 @@ import java.util.stream.*;
  */
 public class OrtThreadWorkerFn {
 
+    OrtThreadWorkerFn() {
+        // Should not be called directly
+    }
+
     /**
      * The function pointer signature, expressed as a functional interface
      */
@@ -58,9 +62,5 @@ public class OrtThreadWorkerFn {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    public static OrtThreadWorkerFn.Function invoker(MemorySegment funcPtr) {
-        return (ort_worker_fn_param) -> invoke(funcPtr, ort_worker_fn_param);
     }
 }

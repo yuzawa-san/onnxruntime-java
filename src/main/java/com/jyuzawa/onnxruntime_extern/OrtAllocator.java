@@ -93,7 +93,11 @@ public class OrtAllocator {
      * void *(*Alloc)(struct OrtAllocator *, size_t)
      * }
      */
-    public class Alloc {
+    public static class Alloc {
+
+        Alloc() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -133,10 +137,6 @@ public class OrtAllocator {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static Alloc.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -184,16 +184,16 @@ public class OrtAllocator {
         struct.set(Alloc$LAYOUT, Alloc$OFFSET, fieldValue);
     }
 
-    public static Alloc.Function AllocFunction(MemorySegment struct) {
-        return Alloc.invoker(Alloc(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * void (*Free)(struct OrtAllocator *, void *)
      * }
      */
-    public class Free {
+    public static class Free {
+
+        Free() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -233,10 +233,6 @@ public class OrtAllocator {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static Free.Function invoker(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -284,16 +280,16 @@ public class OrtAllocator {
         struct.set(Free$LAYOUT, Free$OFFSET, fieldValue);
     }
 
-    public static Free.Function FreeFunction(MemorySegment struct) {
-        return Free.invoker(Free(struct));
-    }
-
     /**
      * {@snippet lang=c :
      * const struct OrtMemoryInfo *(*Info)(const struct OrtAllocator *)
      * }
      */
-    public class Info {
+    public static class Info {
+
+        Info() {
+            // Should not be called directly
+        }
 
         /**
          * The function pointer signature, expressed as a functional interface
@@ -333,10 +329,6 @@ public class OrtAllocator {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        public static Info.Function invoker(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -384,10 +376,6 @@ public class OrtAllocator {
         struct.set(Info$LAYOUT, Info$OFFSET, fieldValue);
     }
 
-    public static Info.Function InfoFunction(MemorySegment struct) {
-        return Info.invoker(Info(struct));
-    }
-
     /**
      * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
      * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
@@ -419,7 +407,7 @@ public class OrtAllocator {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
      * The returned segment has size {@code layout().byteSize()}
      */
     public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
@@ -427,7 +415,7 @@ public class OrtAllocator {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
      * The returned segment has size {@code elementCount * layout().byteSize()}
      */
     public static MemorySegment reinterpret(
