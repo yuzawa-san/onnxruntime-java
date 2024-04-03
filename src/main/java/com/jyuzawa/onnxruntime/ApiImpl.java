@@ -155,8 +155,7 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
-        this.AddRunConfigEntry =
-                (a, b, c) -> OrtApi.AddRunConfigEntry.invoke(OrtApi.AddRunConfigEntry(memorySegment), a, b, c);
+        this.AddRunConfigEntry = OrtApi.AddRunConfigEntryFunction(memorySegment);
         this.AddSessionConfigEntry = OrtApi.AddSessionConfigEntryFunction(memorySegment);
         this.AllocatorFree = OrtApi.AllocatorFreeFunction(memorySegment);
         this.BindInput = OrtApi.BindInputFunction(memorySegment);

@@ -365,7 +365,6 @@ java {
 }
 
 javadoc {
-	exclude 'com/jyuzawa/onnxruntime_extern/**'
 }
 javadoc.options {
 	addStringOption('-release', '22')

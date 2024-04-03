@@ -638,6 +638,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateStatus.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CreateStatus$LAYOUT =
@@ -683,6 +690,16 @@ public class OrtApi {
      */
     public static void CreateStatus(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateStatus$LAYOUT, CreateStatus$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatus *(*CreateStatus)(OrtErrorCode, const char *)
+     * }
+     */
+    public static CreateStatus.Function CreateStatusFunction(MemorySegment struct) {
+        return CreateStatus.function(CreateStatus(struct));
     }
 
     /**
@@ -736,6 +753,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetErrorCode.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout GetErrorCode$LAYOUT =
@@ -781,6 +805,16 @@ public class OrtApi {
      */
     public static void GetErrorCode(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetErrorCode$LAYOUT, GetErrorCode$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtErrorCode (*GetErrorCode)(const OrtStatus *)
+     * }
+     */
+    public static GetErrorCode.Function GetErrorCodeFunction(MemorySegment struct) {
+        return GetErrorCode.function(GetErrorCode(struct));
     }
 
     /**
@@ -834,6 +868,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetErrorMessage.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout GetErrorMessage$LAYOUT =
@@ -879,6 +920,16 @@ public class OrtApi {
      */
     public static void GetErrorMessage(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetErrorMessage$LAYOUT, GetErrorMessage$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetErrorMessage)(const OrtStatus *)
+     * }
+     */
+    public static GetErrorMessage.Function GetErrorMessageFunction(MemorySegment struct) {
+        return GetErrorMessage.function(GetErrorMessage(struct));
     }
 
     /**
@@ -935,6 +986,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateEnv.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout CreateEnv$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CreateEnv"));
@@ -979,6 +1037,16 @@ public class OrtApi {
      */
     public static void CreateEnv(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateEnv$LAYOUT, CreateEnv$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateEnv)(OrtLoggingLevel, const char *, OrtEnv **)
+     * }
+     */
+    public static CreateEnv.Function CreateEnvFunction(MemorySegment struct) {
+        return CreateEnv.function(CreateEnv(struct));
     }
 
     /**
@@ -1043,6 +1111,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateEnvWithCustomLogger.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateEnvWithCustomLogger$LAYOUT =
@@ -1088,6 +1163,16 @@ public class OrtApi {
      */
     public static void CreateEnvWithCustomLogger(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateEnvWithCustomLogger$LAYOUT, CreateEnvWithCustomLogger$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateEnvWithCustomLogger)(OrtLoggingFunction, void *, OrtLoggingLevel, const char *, OrtEnv **)
+     * }
+     */
+    public static CreateEnvWithCustomLogger.Function CreateEnvWithCustomLoggerFunction(MemorySegment struct) {
+        return CreateEnvWithCustomLogger.function(CreateEnvWithCustomLogger(struct));
     }
 
     /**
@@ -1141,6 +1226,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static EnableTelemetryEvents.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout EnableTelemetryEvents$LAYOUT =
@@ -1186,6 +1278,16 @@ public class OrtApi {
      */
     public static void EnableTelemetryEvents(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(EnableTelemetryEvents$LAYOUT, EnableTelemetryEvents$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EnableTelemetryEvents)(const OrtEnv *)
+     * }
+     */
+    public static EnableTelemetryEvents.Function EnableTelemetryEventsFunction(MemorySegment struct) {
+        return EnableTelemetryEvents.function(EnableTelemetryEvents(struct));
     }
 
     /**
@@ -1239,6 +1341,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static DisableTelemetryEvents.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout DisableTelemetryEvents$LAYOUT =
@@ -1284,6 +1393,16 @@ public class OrtApi {
      */
     public static void DisableTelemetryEvents(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(DisableTelemetryEvents$LAYOUT, DisableTelemetryEvents$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DisableTelemetryEvents)(const OrtEnv *)
+     * }
+     */
+    public static DisableTelemetryEvents.Function DisableTelemetryEventsFunction(MemorySegment struct) {
+        return DisableTelemetryEvents.function(DisableTelemetryEvents(struct));
     }
 
     /**
@@ -1342,6 +1461,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSession.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout CreateSession$LAYOUT =
@@ -1387,6 +1513,16 @@ public class OrtApi {
      */
     public static void CreateSession(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateSession$LAYOUT, CreateSession$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSession)(const OrtEnv *, const char *, const OrtSessionOptions *, OrtSession **)
+     * }
+     */
+    public static CreateSession.Function CreateSessionFunction(MemorySegment struct) {
+        return CreateSession.function(CreateSession(struct));
     }
 
     /**
@@ -1451,6 +1587,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSessionFromArray.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateSessionFromArray$LAYOUT =
@@ -1496,6 +1639,16 @@ public class OrtApi {
      */
     public static void CreateSessionFromArray(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateSessionFromArray$LAYOUT, CreateSessionFromArray$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSessionFromArray)(const OrtEnv *, const void *, size_t, const OrtSessionOptions *, OrtSession **)
+     * }
+     */
+    public static CreateSessionFromArray.Function CreateSessionFromArrayFunction(MemorySegment struct) {
+        return CreateSessionFromArray.function(CreateSessionFromArray(struct));
     }
 
     /**
@@ -1573,6 +1726,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Run.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7);
+        }
     }
 
     private static final AddressLayout Run$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Run"));
@@ -1617,6 +1777,16 @@ public class OrtApi {
      */
     public static void Run(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Run$LAYOUT, Run$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Run)(OrtSession *, const OrtRunOptions *, const char *const *, const OrtValue *const *, size_t, const char *const *, size_t, OrtValue **)
+     * }
+     */
+    public static Run.Function RunFunction(MemorySegment struct) {
+        return Run.function(Run(struct));
     }
 
     /**
@@ -1670,6 +1840,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSessionOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateSessionOptions$LAYOUT =
@@ -1715,6 +1892,16 @@ public class OrtApi {
      */
     public static void CreateSessionOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateSessionOptions$LAYOUT, CreateSessionOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSessionOptions)(OrtSessionOptions **)
+     * }
+     */
+    public static CreateSessionOptions.Function CreateSessionOptionsFunction(MemorySegment struct) {
+        return CreateSessionOptions.function(CreateSessionOptions(struct));
     }
 
     /**
@@ -1768,6 +1955,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetOptimizedModelFilePath.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetOptimizedModelFilePath$LAYOUT =
@@ -1813,6 +2007,16 @@ public class OrtApi {
      */
     public static void SetOptimizedModelFilePath(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetOptimizedModelFilePath$LAYOUT, SetOptimizedModelFilePath$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetOptimizedModelFilePath)(OrtSessionOptions *, const char *)
+     * }
+     */
+    public static SetOptimizedModelFilePath.Function SetOptimizedModelFilePathFunction(MemorySegment struct) {
+        return SetOptimizedModelFilePath.function(SetOptimizedModelFilePath(struct));
     }
 
     /**
@@ -1866,6 +2070,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CloneSessionOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CloneSessionOptions$LAYOUT =
@@ -1911,6 +2122,16 @@ public class OrtApi {
      */
     public static void CloneSessionOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CloneSessionOptions$LAYOUT, CloneSessionOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CloneSessionOptions)(const OrtSessionOptions *, OrtSessionOptions **)
+     * }
+     */
+    public static CloneSessionOptions.Function CloneSessionOptionsFunction(MemorySegment struct) {
+        return CloneSessionOptions.function(CloneSessionOptions(struct));
     }
 
     /**
@@ -1964,6 +2185,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetSessionExecutionMode.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetSessionExecutionMode$LAYOUT =
@@ -2009,6 +2237,16 @@ public class OrtApi {
      */
     public static void SetSessionExecutionMode(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetSessionExecutionMode$LAYOUT, SetSessionExecutionMode$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSessionExecutionMode)(OrtSessionOptions *, ExecutionMode)
+     * }
+     */
+    public static SetSessionExecutionMode.Function SetSessionExecutionModeFunction(MemorySegment struct) {
+        return SetSessionExecutionMode.function(SetSessionExecutionMode(struct));
     }
 
     /**
@@ -2062,6 +2300,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static EnableProfiling.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout EnableProfiling$LAYOUT =
@@ -2107,6 +2352,16 @@ public class OrtApi {
      */
     public static void EnableProfiling(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(EnableProfiling$LAYOUT, EnableProfiling$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EnableProfiling)(OrtSessionOptions *, const char *)
+     * }
+     */
+    public static EnableProfiling.Function EnableProfilingFunction(MemorySegment struct) {
+        return EnableProfiling.function(EnableProfiling(struct));
     }
 
     /**
@@ -2160,6 +2415,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static DisableProfiling.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout DisableProfiling$LAYOUT =
@@ -2205,6 +2467,16 @@ public class OrtApi {
      */
     public static void DisableProfiling(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(DisableProfiling$LAYOUT, DisableProfiling$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DisableProfiling)(OrtSessionOptions *)
+     * }
+     */
+    public static DisableProfiling.Function DisableProfilingFunction(MemorySegment struct) {
+        return DisableProfiling.function(DisableProfiling(struct));
     }
 
     /**
@@ -2258,6 +2530,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static EnableMemPattern.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout EnableMemPattern$LAYOUT =
@@ -2303,6 +2582,16 @@ public class OrtApi {
      */
     public static void EnableMemPattern(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(EnableMemPattern$LAYOUT, EnableMemPattern$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EnableMemPattern)(OrtSessionOptions *)
+     * }
+     */
+    public static EnableMemPattern.Function EnableMemPatternFunction(MemorySegment struct) {
+        return EnableMemPattern.function(EnableMemPattern(struct));
     }
 
     /**
@@ -2356,6 +2645,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static DisableMemPattern.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout DisableMemPattern$LAYOUT =
@@ -2401,6 +2697,16 @@ public class OrtApi {
      */
     public static void DisableMemPattern(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(DisableMemPattern$LAYOUT, DisableMemPattern$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DisableMemPattern)(OrtSessionOptions *)
+     * }
+     */
+    public static DisableMemPattern.Function DisableMemPatternFunction(MemorySegment struct) {
+        return DisableMemPattern.function(DisableMemPattern(struct));
     }
 
     /**
@@ -2454,6 +2760,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static EnableCpuMemArena.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout EnableCpuMemArena$LAYOUT =
@@ -2499,6 +2812,16 @@ public class OrtApi {
      */
     public static void EnableCpuMemArena(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(EnableCpuMemArena$LAYOUT, EnableCpuMemArena$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EnableCpuMemArena)(OrtSessionOptions *)
+     * }
+     */
+    public static EnableCpuMemArena.Function EnableCpuMemArenaFunction(MemorySegment struct) {
+        return EnableCpuMemArena.function(EnableCpuMemArena(struct));
     }
 
     /**
@@ -2552,6 +2875,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static DisableCpuMemArena.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout DisableCpuMemArena$LAYOUT =
@@ -2597,6 +2927,16 @@ public class OrtApi {
      */
     public static void DisableCpuMemArena(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(DisableCpuMemArena$LAYOUT, DisableCpuMemArena$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DisableCpuMemArena)(OrtSessionOptions *)
+     * }
+     */
+    public static DisableCpuMemArena.Function DisableCpuMemArenaFunction(MemorySegment struct) {
+        return DisableCpuMemArena.function(DisableCpuMemArena(struct));
     }
 
     /**
@@ -2650,6 +2990,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetSessionLogId.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetSessionLogId$LAYOUT =
@@ -2695,6 +3042,16 @@ public class OrtApi {
      */
     public static void SetSessionLogId(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetSessionLogId$LAYOUT, SetSessionLogId$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSessionLogId)(OrtSessionOptions *, const char *)
+     * }
+     */
+    public static SetSessionLogId.Function SetSessionLogIdFunction(MemorySegment struct) {
+        return SetSessionLogId.function(SetSessionLogId(struct));
     }
 
     /**
@@ -2748,6 +3105,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetSessionLogVerbosityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetSessionLogVerbosityLevel$LAYOUT =
@@ -2793,6 +3157,16 @@ public class OrtApi {
      */
     public static void SetSessionLogVerbosityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetSessionLogVerbosityLevel$LAYOUT, SetSessionLogVerbosityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSessionLogVerbosityLevel)(OrtSessionOptions *, int)
+     * }
+     */
+    public static SetSessionLogVerbosityLevel.Function SetSessionLogVerbosityLevelFunction(MemorySegment struct) {
+        return SetSessionLogVerbosityLevel.function(SetSessionLogVerbosityLevel(struct));
     }
 
     /**
@@ -2846,6 +3220,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetSessionLogSeverityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetSessionLogSeverityLevel$LAYOUT =
@@ -2891,6 +3272,16 @@ public class OrtApi {
      */
     public static void SetSessionLogSeverityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetSessionLogSeverityLevel$LAYOUT, SetSessionLogSeverityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSessionLogSeverityLevel)(OrtSessionOptions *, int)
+     * }
+     */
+    public static SetSessionLogSeverityLevel.Function SetSessionLogSeverityLevelFunction(MemorySegment struct) {
+        return SetSessionLogSeverityLevel.function(SetSessionLogSeverityLevel(struct));
     }
 
     /**
@@ -2944,6 +3335,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetSessionGraphOptimizationLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetSessionGraphOptimizationLevel$LAYOUT =
@@ -2989,6 +3387,17 @@ public class OrtApi {
      */
     public static void SetSessionGraphOptimizationLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetSessionGraphOptimizationLevel$LAYOUT, SetSessionGraphOptimizationLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSessionGraphOptimizationLevel)(OrtSessionOptions *, GraphOptimizationLevel)
+     * }
+     */
+    public static SetSessionGraphOptimizationLevel.Function SetSessionGraphOptimizationLevelFunction(
+            MemorySegment struct) {
+        return SetSessionGraphOptimizationLevel.function(SetSessionGraphOptimizationLevel(struct));
     }
 
     /**
@@ -3042,6 +3451,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetIntraOpNumThreads.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetIntraOpNumThreads$LAYOUT =
@@ -3087,6 +3503,16 @@ public class OrtApi {
      */
     public static void SetIntraOpNumThreads(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetIntraOpNumThreads$LAYOUT, SetIntraOpNumThreads$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetIntraOpNumThreads)(OrtSessionOptions *, int)
+     * }
+     */
+    public static SetIntraOpNumThreads.Function SetIntraOpNumThreadsFunction(MemorySegment struct) {
+        return SetIntraOpNumThreads.function(SetIntraOpNumThreads(struct));
     }
 
     /**
@@ -3140,6 +3566,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetInterOpNumThreads.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetInterOpNumThreads$LAYOUT =
@@ -3185,6 +3618,16 @@ public class OrtApi {
      */
     public static void SetInterOpNumThreads(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetInterOpNumThreads$LAYOUT, SetInterOpNumThreads$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetInterOpNumThreads)(OrtSessionOptions *, int)
+     * }
+     */
+    public static SetInterOpNumThreads.Function SetInterOpNumThreadsFunction(MemorySegment struct) {
+        return SetInterOpNumThreads.function(SetInterOpNumThreads(struct));
     }
 
     /**
@@ -3238,6 +3681,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateCustomOpDomain.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CreateCustomOpDomain$LAYOUT =
@@ -3283,6 +3733,16 @@ public class OrtApi {
      */
     public static void CreateCustomOpDomain(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateCustomOpDomain$LAYOUT, CreateCustomOpDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateCustomOpDomain)(const char *, OrtCustomOpDomain **)
+     * }
+     */
+    public static CreateCustomOpDomain.Function CreateCustomOpDomainFunction(MemorySegment struct) {
+        return CreateCustomOpDomain.function(CreateCustomOpDomain(struct));
     }
 
     /**
@@ -3336,6 +3796,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CustomOpDomain_Add.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CustomOpDomain_Add$LAYOUT =
@@ -3381,6 +3848,16 @@ public class OrtApi {
      */
     public static void CustomOpDomain_Add(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CustomOpDomain_Add$LAYOUT, CustomOpDomain_Add$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CustomOpDomain_Add)(OrtCustomOpDomain *, const OrtCustomOp *)
+     * }
+     */
+    public static CustomOpDomain_Add.Function CustomOpDomain_AddFunction(MemorySegment struct) {
+        return CustomOpDomain_Add.function(CustomOpDomain_Add(struct));
     }
 
     /**
@@ -3434,6 +3911,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddCustomOpDomain.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout AddCustomOpDomain$LAYOUT =
@@ -3479,6 +3963,16 @@ public class OrtApi {
      */
     public static void AddCustomOpDomain(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddCustomOpDomain$LAYOUT, AddCustomOpDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddCustomOpDomain)(OrtSessionOptions *, OrtCustomOpDomain *)
+     * }
+     */
+    public static AddCustomOpDomain.Function AddCustomOpDomainFunction(MemorySegment struct) {
+        return AddCustomOpDomain.function(AddCustomOpDomain(struct));
     }
 
     /**
@@ -3536,6 +4030,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RegisterCustomOpsLibrary.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout RegisterCustomOpsLibrary$LAYOUT =
@@ -3581,6 +4082,16 @@ public class OrtApi {
      */
     public static void RegisterCustomOpsLibrary(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RegisterCustomOpsLibrary$LAYOUT, RegisterCustomOpsLibrary$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterCustomOpsLibrary)(OrtSessionOptions *, const char *, void **)
+     * }
+     */
+    public static RegisterCustomOpsLibrary.Function RegisterCustomOpsLibraryFunction(MemorySegment struct) {
+        return RegisterCustomOpsLibrary.function(RegisterCustomOpsLibrary(struct));
     }
 
     /**
@@ -3634,6 +4145,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetInputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionGetInputCount$LAYOUT =
@@ -3679,6 +4197,16 @@ public class OrtApi {
      */
     public static void SessionGetInputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetInputCount$LAYOUT, SessionGetInputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetInputCount)(const OrtSession *, size_t *)
+     * }
+     */
+    public static SessionGetInputCount.Function SessionGetInputCountFunction(MemorySegment struct) {
+        return SessionGetInputCount.function(SessionGetInputCount(struct));
     }
 
     /**
@@ -3732,6 +4260,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetOutputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionGetOutputCount$LAYOUT =
@@ -3777,6 +4312,16 @@ public class OrtApi {
      */
     public static void SessionGetOutputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetOutputCount$LAYOUT, SessionGetOutputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetOutputCount)(const OrtSession *, size_t *)
+     * }
+     */
+    public static SessionGetOutputCount.Function SessionGetOutputCountFunction(MemorySegment struct) {
+        return SessionGetOutputCount.function(SessionGetOutputCount(struct));
     }
 
     /**
@@ -3830,6 +4375,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetOverridableInitializerCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionGetOverridableInitializerCount$LAYOUT =
@@ -3876,6 +4428,17 @@ public class OrtApi {
     public static void SessionGetOverridableInitializerCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 SessionGetOverridableInitializerCount$LAYOUT, SessionGetOverridableInitializerCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetOverridableInitializerCount)(const OrtSession *, size_t *)
+     * }
+     */
+    public static SessionGetOverridableInitializerCount.Function SessionGetOverridableInitializerCountFunction(
+            MemorySegment struct) {
+        return SessionGetOverridableInitializerCount.function(SessionGetOverridableInitializerCount(struct));
     }
 
     /**
@@ -3932,6 +4495,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetInputTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SessionGetInputTypeInfo$LAYOUT =
@@ -3977,6 +4547,16 @@ public class OrtApi {
      */
     public static void SessionGetInputTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetInputTypeInfo$LAYOUT, SessionGetInputTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetInputTypeInfo)(const OrtSession *, size_t, OrtTypeInfo **)
+     * }
+     */
+    public static SessionGetInputTypeInfo.Function SessionGetInputTypeInfoFunction(MemorySegment struct) {
+        return SessionGetInputTypeInfo.function(SessionGetInputTypeInfo(struct));
     }
 
     /**
@@ -4033,6 +4613,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetOutputTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SessionGetOutputTypeInfo$LAYOUT =
@@ -4078,6 +4665,16 @@ public class OrtApi {
      */
     public static void SessionGetOutputTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetOutputTypeInfo$LAYOUT, SessionGetOutputTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetOutputTypeInfo)(const OrtSession *, size_t, OrtTypeInfo **)
+     * }
+     */
+    public static SessionGetOutputTypeInfo.Function SessionGetOutputTypeInfoFunction(MemorySegment struct) {
+        return SessionGetOutputTypeInfo.function(SessionGetOutputTypeInfo(struct));
     }
 
     /**
@@ -4134,6 +4731,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetOverridableInitializerTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SessionGetOverridableInitializerTypeInfo$LAYOUT =
@@ -4183,6 +4787,17 @@ public class OrtApi {
                 SessionGetOverridableInitializerTypeInfo$LAYOUT,
                 SessionGetOverridableInitializerTypeInfo$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetOverridableInitializerTypeInfo)(const OrtSession *, size_t, OrtTypeInfo **)
+     * }
+     */
+    public static SessionGetOverridableInitializerTypeInfo.Function SessionGetOverridableInitializerTypeInfoFunction(
+            MemorySegment struct) {
+        return SessionGetOverridableInitializerTypeInfo.function(SessionGetOverridableInitializerTypeInfo(struct));
     }
 
     /**
@@ -4241,6 +4856,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetInputName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout SessionGetInputName$LAYOUT =
@@ -4286,6 +4908,16 @@ public class OrtApi {
      */
     public static void SessionGetInputName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetInputName$LAYOUT, SessionGetInputName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetInputName)(const OrtSession *, size_t, OrtAllocator *, char **)
+     * }
+     */
+    public static SessionGetInputName.Function SessionGetInputNameFunction(MemorySegment struct) {
+        return SessionGetInputName.function(SessionGetInputName(struct));
     }
 
     /**
@@ -4344,6 +4976,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetOutputName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout SessionGetOutputName$LAYOUT =
@@ -4389,6 +5028,16 @@ public class OrtApi {
      */
     public static void SessionGetOutputName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetOutputName$LAYOUT, SessionGetOutputName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetOutputName)(const OrtSession *, size_t, OrtAllocator *, char **)
+     * }
+     */
+    public static SessionGetOutputName.Function SessionGetOutputNameFunction(MemorySegment struct) {
+        return SessionGetOutputName.function(SessionGetOutputName(struct));
     }
 
     /**
@@ -4447,6 +5096,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetOverridableInitializerName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout SessionGetOverridableInitializerName$LAYOUT =
@@ -4493,6 +5149,17 @@ public class OrtApi {
     public static void SessionGetOverridableInitializerName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 SessionGetOverridableInitializerName$LAYOUT, SessionGetOverridableInitializerName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetOverridableInitializerName)(const OrtSession *, size_t, OrtAllocator *, char **)
+     * }
+     */
+    public static SessionGetOverridableInitializerName.Function SessionGetOverridableInitializerNameFunction(
+            MemorySegment struct) {
+        return SessionGetOverridableInitializerName.function(SessionGetOverridableInitializerName(struct));
     }
 
     /**
@@ -4546,6 +5213,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateRunOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateRunOptions$LAYOUT =
@@ -4591,6 +5265,16 @@ public class OrtApi {
      */
     public static void CreateRunOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateRunOptions$LAYOUT, CreateRunOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateRunOptions)(OrtRunOptions **)
+     * }
+     */
+    public static CreateRunOptions.Function CreateRunOptionsFunction(MemorySegment struct) {
+        return CreateRunOptions.function(CreateRunOptions(struct));
     }
 
     /**
@@ -4644,6 +5328,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsSetRunLogVerbosityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RunOptionsSetRunLogVerbosityLevel$LAYOUT =
@@ -4689,6 +5380,17 @@ public class OrtApi {
      */
     public static void RunOptionsSetRunLogVerbosityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsSetRunLogVerbosityLevel$LAYOUT, RunOptionsSetRunLogVerbosityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsSetRunLogVerbosityLevel)(OrtRunOptions *, int)
+     * }
+     */
+    public static RunOptionsSetRunLogVerbosityLevel.Function RunOptionsSetRunLogVerbosityLevelFunction(
+            MemorySegment struct) {
+        return RunOptionsSetRunLogVerbosityLevel.function(RunOptionsSetRunLogVerbosityLevel(struct));
     }
 
     /**
@@ -4742,6 +5444,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsSetRunLogSeverityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RunOptionsSetRunLogSeverityLevel$LAYOUT =
@@ -4787,6 +5496,17 @@ public class OrtApi {
      */
     public static void RunOptionsSetRunLogSeverityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsSetRunLogSeverityLevel$LAYOUT, RunOptionsSetRunLogSeverityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsSetRunLogSeverityLevel)(OrtRunOptions *, int)
+     * }
+     */
+    public static RunOptionsSetRunLogSeverityLevel.Function RunOptionsSetRunLogSeverityLevelFunction(
+            MemorySegment struct) {
+        return RunOptionsSetRunLogSeverityLevel.function(RunOptionsSetRunLogSeverityLevel(struct));
     }
 
     /**
@@ -4840,6 +5560,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsSetRunTag.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RunOptionsSetRunTag$LAYOUT =
@@ -4885,6 +5612,16 @@ public class OrtApi {
      */
     public static void RunOptionsSetRunTag(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsSetRunTag$LAYOUT, RunOptionsSetRunTag$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsSetRunTag)(OrtRunOptions *, const char *)
+     * }
+     */
+    public static RunOptionsSetRunTag.Function RunOptionsSetRunTagFunction(MemorySegment struct) {
+        return RunOptionsSetRunTag.function(RunOptionsSetRunTag(struct));
     }
 
     /**
@@ -4938,6 +5675,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsGetRunLogVerbosityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RunOptionsGetRunLogVerbosityLevel$LAYOUT =
@@ -4983,6 +5727,17 @@ public class OrtApi {
      */
     public static void RunOptionsGetRunLogVerbosityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsGetRunLogVerbosityLevel$LAYOUT, RunOptionsGetRunLogVerbosityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsGetRunLogVerbosityLevel)(const OrtRunOptions *, int *)
+     * }
+     */
+    public static RunOptionsGetRunLogVerbosityLevel.Function RunOptionsGetRunLogVerbosityLevelFunction(
+            MemorySegment struct) {
+        return RunOptionsGetRunLogVerbosityLevel.function(RunOptionsGetRunLogVerbosityLevel(struct));
     }
 
     /**
@@ -5036,6 +5791,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsGetRunLogSeverityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RunOptionsGetRunLogSeverityLevel$LAYOUT =
@@ -5081,6 +5843,17 @@ public class OrtApi {
      */
     public static void RunOptionsGetRunLogSeverityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsGetRunLogSeverityLevel$LAYOUT, RunOptionsGetRunLogSeverityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsGetRunLogSeverityLevel)(const OrtRunOptions *, int *)
+     * }
+     */
+    public static RunOptionsGetRunLogSeverityLevel.Function RunOptionsGetRunLogSeverityLevelFunction(
+            MemorySegment struct) {
+        return RunOptionsGetRunLogSeverityLevel.function(RunOptionsGetRunLogSeverityLevel(struct));
     }
 
     /**
@@ -5134,6 +5907,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsGetRunTag.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RunOptionsGetRunTag$LAYOUT =
@@ -5179,6 +5959,16 @@ public class OrtApi {
      */
     public static void RunOptionsGetRunTag(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsGetRunTag$LAYOUT, RunOptionsGetRunTag$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsGetRunTag)(const OrtRunOptions *, const char **)
+     * }
+     */
+    public static RunOptionsGetRunTag.Function RunOptionsGetRunTagFunction(MemorySegment struct) {
+        return RunOptionsGetRunTag.function(RunOptionsGetRunTag(struct));
     }
 
     /**
@@ -5232,6 +6022,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsSetTerminate.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout RunOptionsSetTerminate$LAYOUT =
@@ -5277,6 +6074,16 @@ public class OrtApi {
      */
     public static void RunOptionsSetTerminate(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsSetTerminate$LAYOUT, RunOptionsSetTerminate$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsSetTerminate)(OrtRunOptions *)
+     * }
+     */
+    public static RunOptionsSetTerminate.Function RunOptionsSetTerminateFunction(MemorySegment struct) {
+        return RunOptionsSetTerminate.function(RunOptionsSetTerminate(struct));
     }
 
     /**
@@ -5330,6 +6137,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsUnsetTerminate.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout RunOptionsUnsetTerminate$LAYOUT =
@@ -5375,6 +6189,16 @@ public class OrtApi {
      */
     public static void RunOptionsUnsetTerminate(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunOptionsUnsetTerminate$LAYOUT, RunOptionsUnsetTerminate$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsUnsetTerminate)(OrtRunOptions *)
+     * }
+     */
+    public static RunOptionsUnsetTerminate.Function RunOptionsUnsetTerminateFunction(MemorySegment struct) {
+        return RunOptionsUnsetTerminate.function(RunOptionsUnsetTerminate(struct));
     }
 
     /**
@@ -5434,6 +6258,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateTensorAsOrtValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateTensorAsOrtValue$LAYOUT =
@@ -5479,6 +6310,16 @@ public class OrtApi {
      */
     public static void CreateTensorAsOrtValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateTensorAsOrtValue$LAYOUT, CreateTensorAsOrtValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorAsOrtValue)(OrtAllocator *, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static CreateTensorAsOrtValue.Function CreateTensorAsOrtValueFunction(MemorySegment struct) {
+        return CreateTensorAsOrtValue.function(CreateTensorAsOrtValue(struct));
     }
 
     /**
@@ -5554,6 +6395,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateTensorWithDataAsOrtValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6);
+        }
     }
 
     private static final AddressLayout CreateTensorWithDataAsOrtValue$LAYOUT =
@@ -5599,6 +6447,16 @@ public class OrtApi {
      */
     public static void CreateTensorWithDataAsOrtValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateTensorWithDataAsOrtValue$LAYOUT, CreateTensorWithDataAsOrtValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorWithDataAsOrtValue)(const OrtMemoryInfo *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static CreateTensorWithDataAsOrtValue.Function CreateTensorWithDataAsOrtValueFunction(MemorySegment struct) {
+        return CreateTensorWithDataAsOrtValue.function(CreateTensorWithDataAsOrtValue(struct));
     }
 
     /**
@@ -5652,6 +6510,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static IsTensor.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout IsTensor$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("IsTensor"));
@@ -5696,6 +6561,16 @@ public class OrtApi {
      */
     public static void IsTensor(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(IsTensor$LAYOUT, IsTensor$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsTensor)(const OrtValue *, int *)
+     * }
+     */
+    public static IsTensor.Function IsTensorFunction(MemorySegment struct) {
+        return IsTensor.function(IsTensor(struct));
     }
 
     /**
@@ -5749,6 +6624,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorMutableData.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetTensorMutableData$LAYOUT =
@@ -5794,6 +6676,16 @@ public class OrtApi {
      */
     public static void GetTensorMutableData(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorMutableData$LAYOUT, GetTensorMutableData$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorMutableData)(OrtValue *, void **)
+     * }
+     */
+    public static GetTensorMutableData.Function GetTensorMutableDataFunction(MemorySegment struct) {
+        return GetTensorMutableData.function(GetTensorMutableData(struct));
     }
 
     /**
@@ -5850,6 +6742,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static FillStringTensor.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout FillStringTensor$LAYOUT =
@@ -5895,6 +6794,16 @@ public class OrtApi {
      */
     public static void FillStringTensor(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(FillStringTensor$LAYOUT, FillStringTensor$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*FillStringTensor)(OrtValue *, const char *const *, size_t)
+     * }
+     */
+    public static FillStringTensor.Function FillStringTensorFunction(MemorySegment struct) {
+        return FillStringTensor.function(FillStringTensor(struct));
     }
 
     /**
@@ -5948,6 +6857,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetStringTensorDataLength.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetStringTensorDataLength$LAYOUT =
@@ -5993,6 +6909,16 @@ public class OrtApi {
      */
     public static void GetStringTensorDataLength(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetStringTensorDataLength$LAYOUT, GetStringTensorDataLength$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStringTensorDataLength)(const OrtValue *, size_t *)
+     * }
+     */
+    public static GetStringTensorDataLength.Function GetStringTensorDataLengthFunction(MemorySegment struct) {
+        return GetStringTensorDataLength.function(GetStringTensorDataLength(struct));
     }
 
     /**
@@ -6052,6 +6978,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetStringTensorContent.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout GetStringTensorContent$LAYOUT =
@@ -6097,6 +7030,16 @@ public class OrtApi {
      */
     public static void GetStringTensorContent(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetStringTensorContent$LAYOUT, GetStringTensorContent$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStringTensorContent)(const OrtValue *, void *, size_t, size_t *, size_t)
+     * }
+     */
+    public static GetStringTensorContent.Function GetStringTensorContentFunction(MemorySegment struct) {
+        return GetStringTensorContent.function(GetStringTensorContent(struct));
     }
 
     /**
@@ -6150,6 +7093,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CastTypeInfoToTensorInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CastTypeInfoToTensorInfo$LAYOUT =
@@ -6195,6 +7145,16 @@ public class OrtApi {
      */
     public static void CastTypeInfoToTensorInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CastTypeInfoToTensorInfo$LAYOUT, CastTypeInfoToTensorInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CastTypeInfoToTensorInfo)(const OrtTypeInfo *, const OrtTensorTypeAndShapeInfo **)
+     * }
+     */
+    public static CastTypeInfoToTensorInfo.Function CastTypeInfoToTensorInfoFunction(MemorySegment struct) {
+        return CastTypeInfoToTensorInfo.function(CastTypeInfoToTensorInfo(struct));
     }
 
     /**
@@ -6248,6 +7208,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetOnnxTypeFromTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetOnnxTypeFromTypeInfo$LAYOUT =
@@ -6293,6 +7260,16 @@ public class OrtApi {
      */
     public static void GetOnnxTypeFromTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetOnnxTypeFromTypeInfo$LAYOUT, GetOnnxTypeFromTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetOnnxTypeFromTypeInfo)(const OrtTypeInfo *, enum ONNXType *)
+     * }
+     */
+    public static GetOnnxTypeFromTypeInfo.Function GetOnnxTypeFromTypeInfoFunction(MemorySegment struct) {
+        return GetOnnxTypeFromTypeInfo.function(GetOnnxTypeFromTypeInfo(struct));
     }
 
     /**
@@ -6346,6 +7323,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateTensorTypeAndShapeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateTensorTypeAndShapeInfo$LAYOUT =
@@ -6391,6 +7375,16 @@ public class OrtApi {
      */
     public static void CreateTensorTypeAndShapeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateTensorTypeAndShapeInfo$LAYOUT, CreateTensorTypeAndShapeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo **)
+     * }
+     */
+    public static CreateTensorTypeAndShapeInfo.Function CreateTensorTypeAndShapeInfoFunction(MemorySegment struct) {
+        return CreateTensorTypeAndShapeInfo.function(CreateTensorTypeAndShapeInfo(struct));
     }
 
     /**
@@ -6444,6 +7438,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetTensorElementType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetTensorElementType$LAYOUT =
@@ -6489,6 +7490,16 @@ public class OrtApi {
      */
     public static void SetTensorElementType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetTensorElementType$LAYOUT, SetTensorElementType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetTensorElementType)(OrtTensorTypeAndShapeInfo *, enum ONNXTensorElementDataType)
+     * }
+     */
+    public static SetTensorElementType.Function SetTensorElementTypeFunction(MemorySegment struct) {
+        return SetTensorElementType.function(SetTensorElementType(struct));
     }
 
     /**
@@ -6545,6 +7556,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetDimensions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SetDimensions$LAYOUT =
@@ -6590,6 +7608,16 @@ public class OrtApi {
      */
     public static void SetDimensions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetDimensions$LAYOUT, SetDimensions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetDimensions)(OrtTensorTypeAndShapeInfo *, const int64_t *, size_t)
+     * }
+     */
+    public static SetDimensions.Function SetDimensionsFunction(MemorySegment struct) {
+        return SetDimensions.function(SetDimensions(struct));
     }
 
     /**
@@ -6643,6 +7671,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorElementType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetTensorElementType$LAYOUT =
@@ -6688,6 +7723,16 @@ public class OrtApi {
      */
     public static void GetTensorElementType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorElementType$LAYOUT, GetTensorElementType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorElementType)(const OrtTensorTypeAndShapeInfo *, enum ONNXTensorElementDataType *)
+     * }
+     */
+    public static GetTensorElementType.Function GetTensorElementTypeFunction(MemorySegment struct) {
+        return GetTensorElementType.function(GetTensorElementType(struct));
     }
 
     /**
@@ -6741,6 +7786,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetDimensionsCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetDimensionsCount$LAYOUT =
@@ -6786,6 +7838,16 @@ public class OrtApi {
      */
     public static void GetDimensionsCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetDimensionsCount$LAYOUT, GetDimensionsCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDimensionsCount)(const OrtTensorTypeAndShapeInfo *, size_t *)
+     * }
+     */
+    public static GetDimensionsCount.Function GetDimensionsCountFunction(MemorySegment struct) {
+        return GetDimensionsCount.function(GetDimensionsCount(struct));
     }
 
     /**
@@ -6842,6 +7904,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetDimensions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetDimensions$LAYOUT =
@@ -6887,6 +7956,16 @@ public class OrtApi {
      */
     public static void GetDimensions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetDimensions$LAYOUT, GetDimensions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDimensions)(const OrtTensorTypeAndShapeInfo *, int64_t *, size_t)
+     * }
+     */
+    public static GetDimensions.Function GetDimensionsFunction(MemorySegment struct) {
+        return GetDimensions.function(GetDimensions(struct));
     }
 
     /**
@@ -6943,6 +8022,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSymbolicDimensions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetSymbolicDimensions$LAYOUT =
@@ -6988,6 +8074,16 @@ public class OrtApi {
      */
     public static void GetSymbolicDimensions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSymbolicDimensions$LAYOUT, GetSymbolicDimensions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSymbolicDimensions)(const OrtTensorTypeAndShapeInfo *, const char **, size_t)
+     * }
+     */
+    public static GetSymbolicDimensions.Function GetSymbolicDimensionsFunction(MemorySegment struct) {
+        return GetSymbolicDimensions.function(GetSymbolicDimensions(struct));
     }
 
     /**
@@ -7041,6 +8137,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorShapeElementCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetTensorShapeElementCount$LAYOUT =
@@ -7086,6 +8189,16 @@ public class OrtApi {
      */
     public static void GetTensorShapeElementCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorShapeElementCount$LAYOUT, GetTensorShapeElementCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorShapeElementCount)(const OrtTensorTypeAndShapeInfo *, size_t *)
+     * }
+     */
+    public static GetTensorShapeElementCount.Function GetTensorShapeElementCountFunction(MemorySegment struct) {
+        return GetTensorShapeElementCount.function(GetTensorShapeElementCount(struct));
     }
 
     /**
@@ -7139,6 +8252,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorTypeAndShape.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetTensorTypeAndShape$LAYOUT =
@@ -7184,6 +8304,16 @@ public class OrtApi {
      */
     public static void GetTensorTypeAndShape(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorTypeAndShape$LAYOUT, GetTensorTypeAndShape$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorTypeAndShape)(const OrtValue *, OrtTensorTypeAndShapeInfo **)
+     * }
+     */
+    public static GetTensorTypeAndShape.Function GetTensorTypeAndShapeFunction(MemorySegment struct) {
+        return GetTensorTypeAndShape.function(GetTensorTypeAndShape(struct));
     }
 
     /**
@@ -7237,6 +8367,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetTypeInfo$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetTypeInfo"));
@@ -7281,6 +8418,16 @@ public class OrtApi {
      */
     public static void GetTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTypeInfo$LAYOUT, GetTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTypeInfo)(const OrtValue *, OrtTypeInfo **)
+     * }
+     */
+    public static GetTypeInfo.Function GetTypeInfoFunction(MemorySegment struct) {
+        return GetTypeInfo.function(GetTypeInfo(struct));
     }
 
     /**
@@ -7334,6 +8481,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetValueType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetValueType$LAYOUT =
@@ -7379,6 +8533,16 @@ public class OrtApi {
      */
     public static void GetValueType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetValueType$LAYOUT, GetValueType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueType)(const OrtValue *, enum ONNXType *)
+     * }
+     */
+    public static GetValueType.Function GetValueTypeFunction(MemorySegment struct) {
+        return GetValueType.function(GetValueType(struct));
     }
 
     /**
@@ -7438,6 +8602,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateMemoryInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateMemoryInfo$LAYOUT =
@@ -7483,6 +8654,16 @@ public class OrtApi {
      */
     public static void CreateMemoryInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateMemoryInfo$LAYOUT, CreateMemoryInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateMemoryInfo)(const char *, enum OrtAllocatorType, int, enum OrtMemType, OrtMemoryInfo **)
+     * }
+     */
+    public static CreateMemoryInfo.Function CreateMemoryInfoFunction(MemorySegment struct) {
+        return CreateMemoryInfo.function(CreateMemoryInfo(struct));
     }
 
     /**
@@ -7539,6 +8720,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateCpuMemoryInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout CreateCpuMemoryInfo$LAYOUT =
@@ -7584,6 +8772,16 @@ public class OrtApi {
      */
     public static void CreateCpuMemoryInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateCpuMemoryInfo$LAYOUT, CreateCpuMemoryInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateCpuMemoryInfo)(enum OrtAllocatorType, enum OrtMemType, OrtMemoryInfo **)
+     * }
+     */
+    public static CreateCpuMemoryInfo.Function CreateCpuMemoryInfoFunction(MemorySegment struct) {
+        return CreateCpuMemoryInfo.function(CreateCpuMemoryInfo(struct));
     }
 
     /**
@@ -7641,6 +8839,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CompareMemoryInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout CompareMemoryInfo$LAYOUT =
@@ -7686,6 +8891,16 @@ public class OrtApi {
      */
     public static void CompareMemoryInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CompareMemoryInfo$LAYOUT, CompareMemoryInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CompareMemoryInfo)(const OrtMemoryInfo *, const OrtMemoryInfo *, int *)
+     * }
+     */
+    public static CompareMemoryInfo.Function CompareMemoryInfoFunction(MemorySegment struct) {
+        return CompareMemoryInfo.function(CompareMemoryInfo(struct));
     }
 
     /**
@@ -7739,6 +8954,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static MemoryInfoGetName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout MemoryInfoGetName$LAYOUT =
@@ -7784,6 +9006,16 @@ public class OrtApi {
      */
     public static void MemoryInfoGetName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(MemoryInfoGetName$LAYOUT, MemoryInfoGetName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*MemoryInfoGetName)(const OrtMemoryInfo *, const char **)
+     * }
+     */
+    public static MemoryInfoGetName.Function MemoryInfoGetNameFunction(MemorySegment struct) {
+        return MemoryInfoGetName.function(MemoryInfoGetName(struct));
     }
 
     /**
@@ -7837,6 +9069,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static MemoryInfoGetId.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout MemoryInfoGetId$LAYOUT =
@@ -7882,6 +9121,16 @@ public class OrtApi {
      */
     public static void MemoryInfoGetId(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(MemoryInfoGetId$LAYOUT, MemoryInfoGetId$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*MemoryInfoGetId)(const OrtMemoryInfo *, int *)
+     * }
+     */
+    public static MemoryInfoGetId.Function MemoryInfoGetIdFunction(MemorySegment struct) {
+        return MemoryInfoGetId.function(MemoryInfoGetId(struct));
     }
 
     /**
@@ -7935,6 +9184,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static MemoryInfoGetMemType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout MemoryInfoGetMemType$LAYOUT =
@@ -7980,6 +9236,16 @@ public class OrtApi {
      */
     public static void MemoryInfoGetMemType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(MemoryInfoGetMemType$LAYOUT, MemoryInfoGetMemType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*MemoryInfoGetMemType)(const OrtMemoryInfo *, OrtMemType *)
+     * }
+     */
+    public static MemoryInfoGetMemType.Function MemoryInfoGetMemTypeFunction(MemorySegment struct) {
+        return MemoryInfoGetMemType.function(MemoryInfoGetMemType(struct));
     }
 
     /**
@@ -8033,6 +9299,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static MemoryInfoGetType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout MemoryInfoGetType$LAYOUT =
@@ -8078,6 +9351,16 @@ public class OrtApi {
      */
     public static void MemoryInfoGetType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(MemoryInfoGetType$LAYOUT, MemoryInfoGetType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*MemoryInfoGetType)(const OrtMemoryInfo *, OrtAllocatorType *)
+     * }
+     */
+    public static MemoryInfoGetType.Function MemoryInfoGetTypeFunction(MemorySegment struct) {
+        return MemoryInfoGetType.function(MemoryInfoGetType(struct));
     }
 
     /**
@@ -8134,6 +9417,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AllocatorAlloc.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout AllocatorAlloc$LAYOUT =
@@ -8179,6 +9469,16 @@ public class OrtApi {
      */
     public static void AllocatorAlloc(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AllocatorAlloc$LAYOUT, AllocatorAlloc$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorAlloc)(OrtAllocator *, size_t, void **)
+     * }
+     */
+    public static AllocatorAlloc.Function AllocatorAllocFunction(MemorySegment struct) {
+        return AllocatorAlloc.function(AllocatorAlloc(struct));
     }
 
     /**
@@ -8232,6 +9532,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AllocatorFree.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout AllocatorFree$LAYOUT =
@@ -8277,6 +9584,16 @@ public class OrtApi {
      */
     public static void AllocatorFree(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AllocatorFree$LAYOUT, AllocatorFree$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorFree)(OrtAllocator *, void *)
+     * }
+     */
+    public static AllocatorFree.Function AllocatorFreeFunction(MemorySegment struct) {
+        return AllocatorFree.function(AllocatorFree(struct));
     }
 
     /**
@@ -8330,6 +9647,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AllocatorGetInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout AllocatorGetInfo$LAYOUT =
@@ -8375,6 +9699,16 @@ public class OrtApi {
      */
     public static void AllocatorGetInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AllocatorGetInfo$LAYOUT, AllocatorGetInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorGetInfo)(const OrtAllocator *, const struct OrtMemoryInfo **)
+     * }
+     */
+    public static AllocatorGetInfo.Function AllocatorGetInfoFunction(MemorySegment struct) {
+        return AllocatorGetInfo.function(AllocatorGetInfo(struct));
     }
 
     /**
@@ -8428,6 +9762,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetAllocatorWithDefaultOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout GetAllocatorWithDefaultOptions$LAYOUT =
@@ -8476,6 +9817,16 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAllocatorWithDefaultOptions)(OrtAllocator **)
+     * }
+     */
+    public static GetAllocatorWithDefaultOptions.Function GetAllocatorWithDefaultOptionsFunction(MemorySegment struct) {
+        return GetAllocatorWithDefaultOptions.function(GetAllocatorWithDefaultOptions(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions *, const char *, int64_t)
      * }
@@ -8497,7 +9848,7 @@ public class OrtApi {
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_LONG);
+                onnxruntime_all_h.C_LONG_LONG);
 
         /**
          * The descriptor of this function pointer
@@ -8528,6 +9879,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddFreeDimensionOverride.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
         }
     }
 
@@ -8574,6 +9932,16 @@ public class OrtApi {
      */
     public static void AddFreeDimensionOverride(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddFreeDimensionOverride$LAYOUT, AddFreeDimensionOverride$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddFreeDimensionOverride)(OrtSessionOptions *, const char *, int64_t)
+     * }
+     */
+    public static AddFreeDimensionOverride.Function AddFreeDimensionOverrideFunction(MemorySegment struct) {
+        return AddFreeDimensionOverride.function(AddFreeDimensionOverride(struct));
     }
 
     /**
@@ -8632,6 +10000,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout GetValue$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetValue"));
@@ -8676,6 +10051,16 @@ public class OrtApi {
      */
     public static void GetValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetValue$LAYOUT, GetValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValue)(const OrtValue *, int, OrtAllocator *, OrtValue **)
+     * }
+     */
+    public static GetValue.Function GetValueFunction(MemorySegment struct) {
+        return GetValue.function(GetValue(struct));
     }
 
     /**
@@ -8729,6 +10114,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetValueCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetValueCount$LAYOUT =
@@ -8774,6 +10166,16 @@ public class OrtApi {
      */
     public static void GetValueCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetValueCount$LAYOUT, GetValueCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueCount)(const OrtValue *, size_t *)
+     * }
+     */
+    public static GetValueCount.Function GetValueCountFunction(MemorySegment struct) {
+        return GetValueCount.function(GetValueCount(struct));
     }
 
     /**
@@ -8832,6 +10234,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout CreateValue$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CreateValue"));
@@ -8876,6 +10285,16 @@ public class OrtApi {
      */
     public static void CreateValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateValue$LAYOUT, CreateValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateValue)(const OrtValue *const *, size_t, enum ONNXType, OrtValue **)
+     * }
+     */
+    public static CreateValue.Function CreateValueFunction(MemorySegment struct) {
+        return CreateValue.function(CreateValue(struct));
     }
 
     /**
@@ -8940,6 +10359,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateOpaqueValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateOpaqueValue$LAYOUT =
@@ -8985,6 +10411,16 @@ public class OrtApi {
      */
     public static void CreateOpaqueValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateOpaqueValue$LAYOUT, CreateOpaqueValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateOpaqueValue)(const char *, const char *, const void *, size_t, OrtValue **)
+     * }
+     */
+    public static CreateOpaqueValue.Function CreateOpaqueValueFunction(MemorySegment struct) {
+        return CreateOpaqueValue.function(CreateOpaqueValue(struct));
     }
 
     /**
@@ -9049,6 +10485,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetOpaqueValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout GetOpaqueValue$LAYOUT =
@@ -9094,6 +10537,16 @@ public class OrtApi {
      */
     public static void GetOpaqueValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetOpaqueValue$LAYOUT, GetOpaqueValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetOpaqueValue)(const char *, const char *, const OrtValue *, void *, size_t)
+     * }
+     */
+    public static GetOpaqueValue.Function GetOpaqueValueFunction(MemorySegment struct) {
+        return GetOpaqueValue.function(GetOpaqueValue(struct));
     }
 
     /**
@@ -9151,6 +10604,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAttribute_float.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelInfoGetAttribute_float$LAYOUT =
@@ -9196,6 +10656,16 @@ public class OrtApi {
      */
     public static void KernelInfoGetAttribute_float(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetAttribute_float$LAYOUT, KernelInfoGetAttribute_float$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttribute_float)(const OrtKernelInfo *, const char *, float *)
+     * }
+     */
+    public static KernelInfoGetAttribute_float.Function KernelInfoGetAttribute_floatFunction(MemorySegment struct) {
+        return KernelInfoGetAttribute_float.function(KernelInfoGetAttribute_float(struct));
     }
 
     /**
@@ -9253,6 +10723,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAttribute_int64.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelInfoGetAttribute_int64$LAYOUT =
@@ -9298,6 +10775,16 @@ public class OrtApi {
      */
     public static void KernelInfoGetAttribute_int64(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetAttribute_int64$LAYOUT, KernelInfoGetAttribute_int64$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttribute_int64)(const OrtKernelInfo *, const char *, int64_t *)
+     * }
+     */
+    public static KernelInfoGetAttribute_int64.Function KernelInfoGetAttribute_int64Function(MemorySegment struct) {
+        return KernelInfoGetAttribute_int64.function(KernelInfoGetAttribute_int64(struct));
     }
 
     /**
@@ -9356,6 +10843,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAttribute_string.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfoGetAttribute_string$LAYOUT =
@@ -9401,6 +10895,16 @@ public class OrtApi {
      */
     public static void KernelInfoGetAttribute_string(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetAttribute_string$LAYOUT, KernelInfoGetAttribute_string$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttribute_string)(const OrtKernelInfo *, const char *, char *, size_t *)
+     * }
+     */
+    public static KernelInfoGetAttribute_string.Function KernelInfoGetAttribute_stringFunction(MemorySegment struct) {
+        return KernelInfoGetAttribute_string.function(KernelInfoGetAttribute_string(struct));
     }
 
     /**
@@ -9454,6 +10958,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetInputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelContext_GetInputCount$LAYOUT =
@@ -9499,6 +11010,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetInputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetInputCount$LAYOUT, KernelContext_GetInputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetInputCount)(const OrtKernelContext *, size_t *)
+     * }
+     */
+    public static KernelContext_GetInputCount.Function KernelContext_GetInputCountFunction(MemorySegment struct) {
+        return KernelContext_GetInputCount.function(KernelContext_GetInputCount(struct));
     }
 
     /**
@@ -9552,6 +11073,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetOutputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelContext_GetOutputCount$LAYOUT =
@@ -9597,6 +11125,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetOutputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetOutputCount$LAYOUT, KernelContext_GetOutputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetOutputCount)(const OrtKernelContext *, size_t *)
+     * }
+     */
+    public static KernelContext_GetOutputCount.Function KernelContext_GetOutputCountFunction(MemorySegment struct) {
+        return KernelContext_GetOutputCount.function(KernelContext_GetOutputCount(struct));
     }
 
     /**
@@ -9653,6 +11191,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetInput.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelContext_GetInput$LAYOUT =
@@ -9698,6 +11243,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetInput(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetInput$LAYOUT, KernelContext_GetInput$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetInput)(const OrtKernelContext *, size_t, const OrtValue **)
+     * }
+     */
+    public static KernelContext_GetInput.Function KernelContext_GetInputFunction(MemorySegment struct) {
+        return KernelContext_GetInput.function(KernelContext_GetInput(struct));
     }
 
     /**
@@ -9757,6 +11312,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetOutput.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout KernelContext_GetOutput$LAYOUT =
@@ -9802,6 +11364,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetOutput(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetOutput$LAYOUT, KernelContext_GetOutput$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetOutput)(OrtKernelContext *, size_t, const int64_t *, size_t, OrtValue **)
+     * }
+     */
+    public static KernelContext_GetOutput.Function KernelContext_GetOutputFunction(MemorySegment struct) {
+        return KernelContext_GetOutput.function(KernelContext_GetOutput(struct));
     }
 
     /**
@@ -9854,6 +11426,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseEnv.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseEnv$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("ReleaseEnv"));
@@ -9898,6 +11477,16 @@ public class OrtApi {
      */
     public static void ReleaseEnv(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseEnv$LAYOUT, ReleaseEnv$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseEnv)(OrtEnv *)
+     * }
+     */
+    public static ReleaseEnv.Function ReleaseEnvFunction(MemorySegment struct) {
+        return ReleaseEnv.function(ReleaseEnv(struct));
     }
 
     /**
@@ -9950,6 +11539,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseStatus.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseStatus$LAYOUT =
@@ -9995,6 +11591,16 @@ public class OrtApi {
      */
     public static void ReleaseStatus(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseStatus$LAYOUT, ReleaseStatus$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseStatus)(OrtStatus *)
+     * }
+     */
+    public static ReleaseStatus.Function ReleaseStatusFunction(MemorySegment struct) {
+        return ReleaseStatus.function(ReleaseStatus(struct));
     }
 
     /**
@@ -10047,6 +11653,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseMemoryInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseMemoryInfo$LAYOUT =
@@ -10092,6 +11705,16 @@ public class OrtApi {
      */
     public static void ReleaseMemoryInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseMemoryInfo$LAYOUT, ReleaseMemoryInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMemoryInfo)(OrtMemoryInfo *)
+     * }
+     */
+    public static ReleaseMemoryInfo.Function ReleaseMemoryInfoFunction(MemorySegment struct) {
+        return ReleaseMemoryInfo.function(ReleaseMemoryInfo(struct));
     }
 
     /**
@@ -10144,6 +11767,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseSession.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseSession$LAYOUT =
@@ -10189,6 +11819,16 @@ public class OrtApi {
      */
     public static void ReleaseSession(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseSession$LAYOUT, ReleaseSession$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSession)(OrtSession *)
+     * }
+     */
+    public static ReleaseSession.Function ReleaseSessionFunction(MemorySegment struct) {
+        return ReleaseSession.function(ReleaseSession(struct));
     }
 
     /**
@@ -10241,6 +11881,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseValue.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseValue$LAYOUT =
@@ -10286,6 +11933,16 @@ public class OrtApi {
      */
     public static void ReleaseValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseValue$LAYOUT, ReleaseValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseValue)(OrtValue *)
+     * }
+     */
+    public static ReleaseValue.Function ReleaseValueFunction(MemorySegment struct) {
+        return ReleaseValue.function(ReleaseValue(struct));
     }
 
     /**
@@ -10338,6 +11995,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseRunOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseRunOptions$LAYOUT =
@@ -10383,6 +12047,16 @@ public class OrtApi {
      */
     public static void ReleaseRunOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseRunOptions$LAYOUT, ReleaseRunOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseRunOptions)(OrtRunOptions *)
+     * }
+     */
+    public static ReleaseRunOptions.Function ReleaseRunOptionsFunction(MemorySegment struct) {
+        return ReleaseRunOptions.function(ReleaseRunOptions(struct));
     }
 
     /**
@@ -10435,6 +12109,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseTypeInfo$LAYOUT =
@@ -10480,6 +12161,16 @@ public class OrtApi {
      */
     public static void ReleaseTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseTypeInfo$LAYOUT, ReleaseTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseTypeInfo)(OrtTypeInfo *)
+     * }
+     */
+    public static ReleaseTypeInfo.Function ReleaseTypeInfoFunction(MemorySegment struct) {
+        return ReleaseTypeInfo.function(ReleaseTypeInfo(struct));
     }
 
     /**
@@ -10532,6 +12223,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseTensorTypeAndShapeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseTensorTypeAndShapeInfo$LAYOUT =
@@ -10577,6 +12275,16 @@ public class OrtApi {
      */
     public static void ReleaseTensorTypeAndShapeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseTensorTypeAndShapeInfo$LAYOUT, ReleaseTensorTypeAndShapeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseTensorTypeAndShapeInfo)(OrtTensorTypeAndShapeInfo *)
+     * }
+     */
+    public static ReleaseTensorTypeAndShapeInfo.Function ReleaseTensorTypeAndShapeInfoFunction(MemorySegment struct) {
+        return ReleaseTensorTypeAndShapeInfo.function(ReleaseTensorTypeAndShapeInfo(struct));
     }
 
     /**
@@ -10629,6 +12337,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseSessionOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseSessionOptions$LAYOUT =
@@ -10674,6 +12389,16 @@ public class OrtApi {
      */
     public static void ReleaseSessionOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseSessionOptions$LAYOUT, ReleaseSessionOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSessionOptions)(OrtSessionOptions *)
+     * }
+     */
+    public static ReleaseSessionOptions.Function ReleaseSessionOptionsFunction(MemorySegment struct) {
+        return ReleaseSessionOptions.function(ReleaseSessionOptions(struct));
     }
 
     /**
@@ -10726,6 +12451,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseCustomOpDomain.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseCustomOpDomain$LAYOUT =
@@ -10771,6 +12503,16 @@ public class OrtApi {
      */
     public static void ReleaseCustomOpDomain(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseCustomOpDomain$LAYOUT, ReleaseCustomOpDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseCustomOpDomain)(OrtCustomOpDomain *)
+     * }
+     */
+    public static ReleaseCustomOpDomain.Function ReleaseCustomOpDomainFunction(MemorySegment struct) {
+        return ReleaseCustomOpDomain.function(ReleaseCustomOpDomain(struct));
     }
 
     /**
@@ -10828,6 +12570,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetDenotationFromTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetDenotationFromTypeInfo$LAYOUT =
@@ -10873,6 +12622,16 @@ public class OrtApi {
      */
     public static void GetDenotationFromTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetDenotationFromTypeInfo$LAYOUT, GetDenotationFromTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDenotationFromTypeInfo)(const OrtTypeInfo *, const char **const, size_t *)
+     * }
+     */
+    public static GetDenotationFromTypeInfo.Function GetDenotationFromTypeInfoFunction(MemorySegment struct) {
+        return GetDenotationFromTypeInfo.function(GetDenotationFromTypeInfo(struct));
     }
 
     /**
@@ -10926,6 +12685,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CastTypeInfoToMapTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CastTypeInfoToMapTypeInfo$LAYOUT =
@@ -10971,6 +12737,16 @@ public class OrtApi {
      */
     public static void CastTypeInfoToMapTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CastTypeInfoToMapTypeInfo$LAYOUT, CastTypeInfoToMapTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CastTypeInfoToMapTypeInfo)(const OrtTypeInfo *, const OrtMapTypeInfo **)
+     * }
+     */
+    public static CastTypeInfoToMapTypeInfo.Function CastTypeInfoToMapTypeInfoFunction(MemorySegment struct) {
+        return CastTypeInfoToMapTypeInfo.function(CastTypeInfoToMapTypeInfo(struct));
     }
 
     /**
@@ -11024,6 +12800,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CastTypeInfoToSequenceTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CastTypeInfoToSequenceTypeInfo$LAYOUT =
@@ -11069,6 +12852,16 @@ public class OrtApi {
      */
     public static void CastTypeInfoToSequenceTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CastTypeInfoToSequenceTypeInfo$LAYOUT, CastTypeInfoToSequenceTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CastTypeInfoToSequenceTypeInfo)(const OrtTypeInfo *, const OrtSequenceTypeInfo **)
+     * }
+     */
+    public static CastTypeInfoToSequenceTypeInfo.Function CastTypeInfoToSequenceTypeInfoFunction(MemorySegment struct) {
+        return CastTypeInfoToSequenceTypeInfo.function(CastTypeInfoToSequenceTypeInfo(struct));
     }
 
     /**
@@ -11122,6 +12915,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetMapKeyType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetMapKeyType$LAYOUT =
@@ -11167,6 +12967,16 @@ public class OrtApi {
      */
     public static void GetMapKeyType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetMapKeyType$LAYOUT, GetMapKeyType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMapKeyType)(const OrtMapTypeInfo *, enum ONNXTensorElementDataType *)
+     * }
+     */
+    public static GetMapKeyType.Function GetMapKeyTypeFunction(MemorySegment struct) {
+        return GetMapKeyType.function(GetMapKeyType(struct));
     }
 
     /**
@@ -11220,6 +13030,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetMapValueType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetMapValueType$LAYOUT =
@@ -11265,6 +13082,16 @@ public class OrtApi {
      */
     public static void GetMapValueType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetMapValueType$LAYOUT, GetMapValueType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMapValueType)(const OrtMapTypeInfo *, OrtTypeInfo **)
+     * }
+     */
+    public static GetMapValueType.Function GetMapValueTypeFunction(MemorySegment struct) {
+        return GetMapValueType.function(GetMapValueType(struct));
     }
 
     /**
@@ -11318,6 +13145,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSequenceElementType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetSequenceElementType$LAYOUT =
@@ -11363,6 +13197,16 @@ public class OrtApi {
      */
     public static void GetSequenceElementType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSequenceElementType$LAYOUT, GetSequenceElementType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSequenceElementType)(const OrtSequenceTypeInfo *, OrtTypeInfo **)
+     * }
+     */
+    public static GetSequenceElementType.Function GetSequenceElementTypeFunction(MemorySegment struct) {
+        return GetSequenceElementType.function(GetSequenceElementType(struct));
     }
 
     /**
@@ -11415,6 +13259,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseMapTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseMapTypeInfo$LAYOUT =
@@ -11460,6 +13311,16 @@ public class OrtApi {
      */
     public static void ReleaseMapTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseMapTypeInfo$LAYOUT, ReleaseMapTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMapTypeInfo)(OrtMapTypeInfo *)
+     * }
+     */
+    public static ReleaseMapTypeInfo.Function ReleaseMapTypeInfoFunction(MemorySegment struct) {
+        return ReleaseMapTypeInfo.function(ReleaseMapTypeInfo(struct));
     }
 
     /**
@@ -11512,6 +13373,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseSequenceTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseSequenceTypeInfo$LAYOUT =
@@ -11557,6 +13425,16 @@ public class OrtApi {
      */
     public static void ReleaseSequenceTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseSequenceTypeInfo$LAYOUT, ReleaseSequenceTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSequenceTypeInfo)(OrtSequenceTypeInfo *)
+     * }
+     */
+    public static ReleaseSequenceTypeInfo.Function ReleaseSequenceTypeInfoFunction(MemorySegment struct) {
+        return ReleaseSequenceTypeInfo.function(ReleaseSequenceTypeInfo(struct));
     }
 
     /**
@@ -11614,6 +13492,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionEndProfiling.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SessionEndProfiling$LAYOUT =
@@ -11659,6 +13544,16 @@ public class OrtApi {
      */
     public static void SessionEndProfiling(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionEndProfiling$LAYOUT, SessionEndProfiling$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionEndProfiling)(OrtSession *, OrtAllocator *, char **)
+     * }
+     */
+    public static SessionEndProfiling.Function SessionEndProfilingFunction(MemorySegment struct) {
+        return SessionEndProfiling.function(SessionEndProfiling(struct));
     }
 
     /**
@@ -11712,6 +13607,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetModelMetadata.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionGetModelMetadata$LAYOUT =
@@ -11757,6 +13659,16 @@ public class OrtApi {
      */
     public static void SessionGetModelMetadata(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetModelMetadata$LAYOUT, SessionGetModelMetadata$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetModelMetadata)(const OrtSession *, OrtModelMetadata **)
+     * }
+     */
+    public static SessionGetModelMetadata.Function SessionGetModelMetadataFunction(MemorySegment struct) {
+        return SessionGetModelMetadata.function(SessionGetModelMetadata(struct));
     }
 
     /**
@@ -11814,6 +13726,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetProducerName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetProducerName$LAYOUT =
@@ -11859,6 +13778,16 @@ public class OrtApi {
      */
     public static void ModelMetadataGetProducerName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ModelMetadataGetProducerName$LAYOUT, ModelMetadataGetProducerName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetProducerName)(const OrtModelMetadata *, OrtAllocator *, char **)
+     * }
+     */
+    public static ModelMetadataGetProducerName.Function ModelMetadataGetProducerNameFunction(MemorySegment struct) {
+        return ModelMetadataGetProducerName.function(ModelMetadataGetProducerName(struct));
     }
 
     /**
@@ -11916,6 +13845,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetGraphName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetGraphName$LAYOUT =
@@ -11961,6 +13897,16 @@ public class OrtApi {
      */
     public static void ModelMetadataGetGraphName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ModelMetadataGetGraphName$LAYOUT, ModelMetadataGetGraphName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetGraphName)(const OrtModelMetadata *, OrtAllocator *, char **)
+     * }
+     */
+    public static ModelMetadataGetGraphName.Function ModelMetadataGetGraphNameFunction(MemorySegment struct) {
+        return ModelMetadataGetGraphName.function(ModelMetadataGetGraphName(struct));
     }
 
     /**
@@ -12018,6 +13964,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetDomain.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetDomain$LAYOUT =
@@ -12063,6 +14016,16 @@ public class OrtApi {
      */
     public static void ModelMetadataGetDomain(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ModelMetadataGetDomain$LAYOUT, ModelMetadataGetDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetDomain)(const OrtModelMetadata *, OrtAllocator *, char **)
+     * }
+     */
+    public static ModelMetadataGetDomain.Function ModelMetadataGetDomainFunction(MemorySegment struct) {
+        return ModelMetadataGetDomain.function(ModelMetadataGetDomain(struct));
     }
 
     /**
@@ -12120,6 +14083,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetDescription.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetDescription$LAYOUT =
@@ -12165,6 +14135,16 @@ public class OrtApi {
      */
     public static void ModelMetadataGetDescription(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ModelMetadataGetDescription$LAYOUT, ModelMetadataGetDescription$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetDescription)(const OrtModelMetadata *, OrtAllocator *, char **)
+     * }
+     */
+    public static ModelMetadataGetDescription.Function ModelMetadataGetDescriptionFunction(MemorySegment struct) {
+        return ModelMetadataGetDescription.function(ModelMetadataGetDescription(struct));
     }
 
     /**
@@ -12223,6 +14203,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataLookupCustomMetadataMap.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout ModelMetadataLookupCustomMetadataMap$LAYOUT =
@@ -12269,6 +14256,17 @@ public class OrtApi {
     public static void ModelMetadataLookupCustomMetadataMap(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 ModelMetadataLookupCustomMetadataMap$LAYOUT, ModelMetadataLookupCustomMetadataMap$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataLookupCustomMetadataMap)(const OrtModelMetadata *, OrtAllocator *, const char *, char **)
+     * }
+     */
+    public static ModelMetadataLookupCustomMetadataMap.Function ModelMetadataLookupCustomMetadataMapFunction(
+            MemorySegment struct) {
+        return ModelMetadataLookupCustomMetadataMap.function(ModelMetadataLookupCustomMetadataMap(struct));
     }
 
     /**
@@ -12322,6 +14320,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetVersion.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetVersion$LAYOUT =
@@ -12367,6 +14372,16 @@ public class OrtApi {
      */
     public static void ModelMetadataGetVersion(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ModelMetadataGetVersion$LAYOUT, ModelMetadataGetVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetVersion)(const OrtModelMetadata *, int64_t *)
+     * }
+     */
+    public static ModelMetadataGetVersion.Function ModelMetadataGetVersionFunction(MemorySegment struct) {
+        return ModelMetadataGetVersion.function(ModelMetadataGetVersion(struct));
     }
 
     /**
@@ -12419,6 +14434,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseModelMetadata.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseModelMetadata$LAYOUT =
@@ -12464,6 +14486,16 @@ public class OrtApi {
      */
     public static void ReleaseModelMetadata(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseModelMetadata$LAYOUT, ReleaseModelMetadata$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseModelMetadata)(OrtModelMetadata *)
+     * }
+     */
+    public static ReleaseModelMetadata.Function ReleaseModelMetadataFunction(MemorySegment struct) {
+        return ReleaseModelMetadata.function(ReleaseModelMetadata(struct));
     }
 
     /**
@@ -12522,6 +14554,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateEnvWithGlobalThreadPools.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout CreateEnvWithGlobalThreadPools$LAYOUT =
@@ -12567,6 +14606,16 @@ public class OrtApi {
      */
     public static void CreateEnvWithGlobalThreadPools(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateEnvWithGlobalThreadPools$LAYOUT, CreateEnvWithGlobalThreadPools$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateEnvWithGlobalThreadPools)(OrtLoggingLevel, const char *, const OrtThreadingOptions *, OrtEnv **)
+     * }
+     */
+    public static CreateEnvWithGlobalThreadPools.Function CreateEnvWithGlobalThreadPoolsFunction(MemorySegment struct) {
+        return CreateEnvWithGlobalThreadPools.function(CreateEnvWithGlobalThreadPools(struct));
     }
 
     /**
@@ -12620,6 +14669,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static DisablePerSessionThreads.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout DisablePerSessionThreads$LAYOUT =
@@ -12665,6 +14721,16 @@ public class OrtApi {
      */
     public static void DisablePerSessionThreads(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(DisablePerSessionThreads$LAYOUT, DisablePerSessionThreads$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DisablePerSessionThreads)(OrtSessionOptions *)
+     * }
+     */
+    public static DisablePerSessionThreads.Function DisablePerSessionThreadsFunction(MemorySegment struct) {
+        return DisablePerSessionThreads.function(DisablePerSessionThreads(struct));
     }
 
     /**
@@ -12718,6 +14784,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateThreadingOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateThreadingOptions$LAYOUT =
@@ -12763,6 +14836,16 @@ public class OrtApi {
      */
     public static void CreateThreadingOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateThreadingOptions$LAYOUT, CreateThreadingOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateThreadingOptions)(OrtThreadingOptions **)
+     * }
+     */
+    public static CreateThreadingOptions.Function CreateThreadingOptionsFunction(MemorySegment struct) {
+        return CreateThreadingOptions.function(CreateThreadingOptions(struct));
     }
 
     /**
@@ -12815,6 +14898,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseThreadingOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseThreadingOptions$LAYOUT =
@@ -12860,6 +14950,16 @@ public class OrtApi {
      */
     public static void ReleaseThreadingOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseThreadingOptions$LAYOUT, ReleaseThreadingOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseThreadingOptions)(OrtThreadingOptions *)
+     * }
+     */
+    public static ReleaseThreadingOptions.Function ReleaseThreadingOptionsFunction(MemorySegment struct) {
+        return ReleaseThreadingOptions.function(ReleaseThreadingOptions(struct));
     }
 
     /**
@@ -12918,6 +15018,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetCustomMetadataMapKeys.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetCustomMetadataMapKeys$LAYOUT =
@@ -12967,6 +15074,17 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetCustomMetadataMapKeys)(const OrtModelMetadata *, OrtAllocator *, char ***, int64_t *)
+     * }
+     */
+    public static ModelMetadataGetCustomMetadataMapKeys.Function ModelMetadataGetCustomMetadataMapKeysFunction(
+            MemorySegment struct) {
+        return ModelMetadataGetCustomMetadataMapKeys.function(ModelMetadataGetCustomMetadataMapKeys(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions *, const char *, int64_t)
      * }
@@ -12988,7 +15106,7 @@ public class OrtApi {
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_LONG);
+                onnxruntime_all_h.C_LONG_LONG);
 
         /**
          * The descriptor of this function pointer
@@ -13019,6 +15137,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddFreeDimensionOverrideByName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
         }
     }
 
@@ -13065,6 +15190,16 @@ public class OrtApi {
      */
     public static void AddFreeDimensionOverrideByName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddFreeDimensionOverrideByName$LAYOUT, AddFreeDimensionOverrideByName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddFreeDimensionOverrideByName)(OrtSessionOptions *, const char *, int64_t)
+     * }
+     */
+    public static AddFreeDimensionOverrideByName.Function AddFreeDimensionOverrideByNameFunction(MemorySegment struct) {
+        return AddFreeDimensionOverrideByName.function(AddFreeDimensionOverrideByName(struct));
     }
 
     /**
@@ -13118,6 +15253,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetAvailableProviders.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetAvailableProviders$LAYOUT =
@@ -13163,6 +15305,16 @@ public class OrtApi {
      */
     public static void GetAvailableProviders(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetAvailableProviders$LAYOUT, GetAvailableProviders$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAvailableProviders)(char ***, int *)
+     * }
+     */
+    public static GetAvailableProviders.Function GetAvailableProvidersFunction(MemorySegment struct) {
+        return GetAvailableProviders.function(GetAvailableProviders(struct));
     }
 
     /**
@@ -13216,6 +15368,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseAvailableProviders.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout ReleaseAvailableProviders$LAYOUT =
@@ -13261,6 +15420,16 @@ public class OrtApi {
      */
     public static void ReleaseAvailableProviders(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseAvailableProviders$LAYOUT, ReleaseAvailableProviders$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReleaseAvailableProviders)(char **, int)
+     * }
+     */
+    public static ReleaseAvailableProviders.Function ReleaseAvailableProvidersFunction(MemorySegment struct) {
+        return ReleaseAvailableProviders.function(ReleaseAvailableProviders(struct));
     }
 
     /**
@@ -13317,6 +15486,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetStringTensorElementLength.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetStringTensorElementLength$LAYOUT =
@@ -13362,6 +15538,16 @@ public class OrtApi {
      */
     public static void GetStringTensorElementLength(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetStringTensorElementLength$LAYOUT, GetStringTensorElementLength$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStringTensorElementLength)(const OrtValue *, size_t, size_t *)
+     * }
+     */
+    public static GetStringTensorElementLength.Function GetStringTensorElementLengthFunction(MemorySegment struct) {
+        return GetStringTensorElementLength.function(GetStringTensorElementLength(struct));
     }
 
     /**
@@ -13420,6 +15606,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetStringTensorElement.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout GetStringTensorElement$LAYOUT =
@@ -13465,6 +15658,16 @@ public class OrtApi {
      */
     public static void GetStringTensorElement(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetStringTensorElement$LAYOUT, GetStringTensorElement$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStringTensorElement)(const OrtValue *, size_t, size_t, void *)
+     * }
+     */
+    public static GetStringTensorElement.Function GetStringTensorElementFunction(MemorySegment struct) {
+        return GetStringTensorElement.function(GetStringTensorElement(struct));
     }
 
     /**
@@ -13521,6 +15724,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static FillStringTensorElement.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout FillStringTensorElement$LAYOUT =
@@ -13566,6 +15776,16 @@ public class OrtApi {
      */
     public static void FillStringTensorElement(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(FillStringTensorElement$LAYOUT, FillStringTensorElement$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*FillStringTensorElement)(OrtValue *, const char *, size_t)
+     * }
+     */
+    public static FillStringTensorElement.Function FillStringTensorElementFunction(MemorySegment struct) {
+        return FillStringTensorElement.function(FillStringTensorElement(struct));
     }
 
     /**
@@ -13623,6 +15843,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddSessionConfigEntry.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout AddSessionConfigEntry$LAYOUT =
@@ -13668,6 +15895,16 @@ public class OrtApi {
      */
     public static void AddSessionConfigEntry(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddSessionConfigEntry$LAYOUT, AddSessionConfigEntry$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddSessionConfigEntry)(OrtSessionOptions *, const char *, const char *)
+     * }
+     */
+    public static AddSessionConfigEntry.Function AddSessionConfigEntryFunction(MemorySegment struct) {
+        return AddSessionConfigEntry.function(AddSessionConfigEntry(struct));
     }
 
     /**
@@ -13725,6 +15962,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout CreateAllocator$LAYOUT =
@@ -13770,6 +16014,16 @@ public class OrtApi {
      */
     public static void CreateAllocator(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateAllocator$LAYOUT, CreateAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateAllocator)(const OrtSession *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static CreateAllocator.Function CreateAllocatorFunction(MemorySegment struct) {
+        return CreateAllocator.function(CreateAllocator(struct));
     }
 
     /**
@@ -13822,6 +16076,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseAllocator$LAYOUT =
@@ -13867,6 +16128,16 @@ public class OrtApi {
      */
     public static void ReleaseAllocator(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseAllocator$LAYOUT, ReleaseAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseAllocator)(OrtAllocator *)
+     * }
+     */
+    public static ReleaseAllocator.Function ReleaseAllocatorFunction(MemorySegment struct) {
+        return ReleaseAllocator.function(ReleaseAllocator(struct));
     }
 
     /**
@@ -13924,6 +16195,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunWithBinding.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout RunWithBinding$LAYOUT =
@@ -13969,6 +16247,16 @@ public class OrtApi {
      */
     public static void RunWithBinding(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunWithBinding$LAYOUT, RunWithBinding$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunWithBinding)(OrtSession *, const OrtRunOptions *, const OrtIoBinding *)
+     * }
+     */
+    public static RunWithBinding.Function RunWithBindingFunction(MemorySegment struct) {
+        return RunWithBinding.function(RunWithBinding(struct));
     }
 
     /**
@@ -14022,6 +16310,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateIoBinding.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CreateIoBinding$LAYOUT =
@@ -14067,6 +16362,16 @@ public class OrtApi {
      */
     public static void CreateIoBinding(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateIoBinding$LAYOUT, CreateIoBinding$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateIoBinding)(OrtSession *, OrtIoBinding **)
+     * }
+     */
+    public static CreateIoBinding.Function CreateIoBindingFunction(MemorySegment struct) {
+        return CreateIoBinding.function(CreateIoBinding(struct));
     }
 
     /**
@@ -14119,6 +16424,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseIoBinding.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseIoBinding$LAYOUT =
@@ -14164,6 +16476,16 @@ public class OrtApi {
      */
     public static void ReleaseIoBinding(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseIoBinding$LAYOUT, ReleaseIoBinding$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseIoBinding)(OrtIoBinding *)
+     * }
+     */
+    public static ReleaseIoBinding.Function ReleaseIoBindingFunction(MemorySegment struct) {
+        return ReleaseIoBinding.function(ReleaseIoBinding(struct));
     }
 
     /**
@@ -14221,6 +16543,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static BindInput.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout BindInput$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("BindInput"));
@@ -14265,6 +16594,16 @@ public class OrtApi {
      */
     public static void BindInput(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(BindInput$LAYOUT, BindInput$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*BindInput)(OrtIoBinding *, const char *, const OrtValue *)
+     * }
+     */
+    public static BindInput.Function BindInputFunction(MemorySegment struct) {
+        return BindInput.function(BindInput(struct));
     }
 
     /**
@@ -14322,6 +16661,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static BindOutput.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout BindOutput$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("BindOutput"));
@@ -14366,6 +16712,16 @@ public class OrtApi {
      */
     public static void BindOutput(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(BindOutput$LAYOUT, BindOutput$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*BindOutput)(OrtIoBinding *, const char *, const OrtValue *)
+     * }
+     */
+    public static BindOutput.Function BindOutputFunction(MemorySegment struct) {
+        return BindOutput.function(BindOutput(struct));
     }
 
     /**
@@ -14423,6 +16779,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static BindOutputToDevice.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout BindOutputToDevice$LAYOUT =
@@ -14468,6 +16831,16 @@ public class OrtApi {
      */
     public static void BindOutputToDevice(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(BindOutputToDevice$LAYOUT, BindOutputToDevice$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*BindOutputToDevice)(OrtIoBinding *, const char *, const OrtMemoryInfo *)
+     * }
+     */
+    public static BindOutputToDevice.Function BindOutputToDeviceFunction(MemorySegment struct) {
+        return BindOutputToDevice.function(BindOutputToDevice(struct));
     }
 
     /**
@@ -14533,6 +16906,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetBoundOutputNames.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout GetBoundOutputNames$LAYOUT =
@@ -14578,6 +16958,16 @@ public class OrtApi {
      */
     public static void GetBoundOutputNames(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetBoundOutputNames$LAYOUT, GetBoundOutputNames$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetBoundOutputNames)(const OrtIoBinding *, OrtAllocator *, char **, size_t **, size_t *)
+     * }
+     */
+    public static GetBoundOutputNames.Function GetBoundOutputNamesFunction(MemorySegment struct) {
+        return GetBoundOutputNames.function(GetBoundOutputNames(struct));
     }
 
     /**
@@ -14636,6 +17026,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetBoundOutputValues.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout GetBoundOutputValues$LAYOUT =
@@ -14681,6 +17078,16 @@ public class OrtApi {
      */
     public static void GetBoundOutputValues(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetBoundOutputValues$LAYOUT, GetBoundOutputValues$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetBoundOutputValues)(const OrtIoBinding *, OrtAllocator *, OrtValue ***, size_t *)
+     * }
+     */
+    public static GetBoundOutputValues.Function GetBoundOutputValuesFunction(MemorySegment struct) {
+        return GetBoundOutputValues.function(GetBoundOutputValues(struct));
     }
 
     /**
@@ -14733,6 +17140,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ClearBoundInputs.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ClearBoundInputs$LAYOUT =
@@ -14778,6 +17192,16 @@ public class OrtApi {
      */
     public static void ClearBoundInputs(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ClearBoundInputs$LAYOUT, ClearBoundInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ClearBoundInputs)(OrtIoBinding *)
+     * }
+     */
+    public static ClearBoundInputs.Function ClearBoundInputsFunction(MemorySegment struct) {
+        return ClearBoundInputs.function(ClearBoundInputs(struct));
     }
 
     /**
@@ -14830,6 +17254,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ClearBoundOutputs.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ClearBoundOutputs$LAYOUT =
@@ -14875,6 +17306,16 @@ public class OrtApi {
      */
     public static void ClearBoundOutputs(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ClearBoundOutputs$LAYOUT, ClearBoundOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ClearBoundOutputs)(OrtIoBinding *)
+     * }
+     */
+    public static ClearBoundOutputs.Function ClearBoundOutputsFunction(MemorySegment struct) {
+        return ClearBoundOutputs.function(ClearBoundOutputs(struct));
     }
 
     /**
@@ -14933,6 +17374,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static TensorAt.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout TensorAt$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("TensorAt"));
@@ -14977,6 +17425,16 @@ public class OrtApi {
      */
     public static void TensorAt(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(TensorAt$LAYOUT, TensorAt$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*TensorAt)(OrtValue *, const int64_t *, size_t, void **)
+     * }
+     */
+    public static TensorAt.Function TensorAtFunction(MemorySegment struct) {
+        return TensorAt.function(TensorAt(struct));
     }
 
     /**
@@ -15034,6 +17492,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateAndRegisterAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout CreateAndRegisterAllocator$LAYOUT =
@@ -15079,6 +17544,16 @@ public class OrtApi {
      */
     public static void CreateAndRegisterAllocator(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateAndRegisterAllocator$LAYOUT, CreateAndRegisterAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateAndRegisterAllocator)(OrtEnv *, const OrtMemoryInfo *, const OrtArenaCfg *)
+     * }
+     */
+    public static CreateAndRegisterAllocator.Function CreateAndRegisterAllocatorFunction(MemorySegment struct) {
+        return CreateAndRegisterAllocator.function(CreateAndRegisterAllocator(struct));
     }
 
     /**
@@ -15132,6 +17607,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetLanguageProjection.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetLanguageProjection$LAYOUT =
@@ -15177,6 +17659,16 @@ public class OrtApi {
      */
     public static void SetLanguageProjection(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetLanguageProjection$LAYOUT, SetLanguageProjection$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetLanguageProjection)(const OrtEnv *, OrtLanguageProjection)
+     * }
+     */
+    public static SetLanguageProjection.Function SetLanguageProjectionFunction(MemorySegment struct) {
+        return SetLanguageProjection.function(SetLanguageProjection(struct));
     }
 
     /**
@@ -15230,6 +17722,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionGetProfilingStartTimeNs.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionGetProfilingStartTimeNs$LAYOUT =
@@ -15275,6 +17774,16 @@ public class OrtApi {
      */
     public static void SessionGetProfilingStartTimeNs(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionGetProfilingStartTimeNs$LAYOUT, SessionGetProfilingStartTimeNs$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetProfilingStartTimeNs)(const OrtSession *, uint64_t *)
+     * }
+     */
+    public static SessionGetProfilingStartTimeNs.Function SessionGetProfilingStartTimeNsFunction(MemorySegment struct) {
+        return SessionGetProfilingStartTimeNs.function(SessionGetProfilingStartTimeNs(struct));
     }
 
     /**
@@ -15328,6 +17837,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalIntraOpNumThreads.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalIntraOpNumThreads$LAYOUT =
@@ -15373,6 +17889,16 @@ public class OrtApi {
      */
     public static void SetGlobalIntraOpNumThreads(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalIntraOpNumThreads$LAYOUT, SetGlobalIntraOpNumThreads$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalIntraOpNumThreads)(OrtThreadingOptions *, int)
+     * }
+     */
+    public static SetGlobalIntraOpNumThreads.Function SetGlobalIntraOpNumThreadsFunction(MemorySegment struct) {
+        return SetGlobalIntraOpNumThreads.function(SetGlobalIntraOpNumThreads(struct));
     }
 
     /**
@@ -15426,6 +17952,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalInterOpNumThreads.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalInterOpNumThreads$LAYOUT =
@@ -15471,6 +18004,16 @@ public class OrtApi {
      */
     public static void SetGlobalInterOpNumThreads(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalInterOpNumThreads$LAYOUT, SetGlobalInterOpNumThreads$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalInterOpNumThreads)(OrtThreadingOptions *, int)
+     * }
+     */
+    public static SetGlobalInterOpNumThreads.Function SetGlobalInterOpNumThreadsFunction(MemorySegment struct) {
+        return SetGlobalInterOpNumThreads.function(SetGlobalInterOpNumThreads(struct));
     }
 
     /**
@@ -15524,6 +18067,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalSpinControl.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalSpinControl$LAYOUT =
@@ -15569,6 +18119,16 @@ public class OrtApi {
      */
     public static void SetGlobalSpinControl(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalSpinControl$LAYOUT, SetGlobalSpinControl$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalSpinControl)(OrtThreadingOptions *, int)
+     * }
+     */
+    public static SetGlobalSpinControl.Function SetGlobalSpinControlFunction(MemorySegment struct) {
+        return SetGlobalSpinControl.function(SetGlobalSpinControl(struct));
     }
 
     /**
@@ -15626,6 +18186,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddInitializer.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout AddInitializer$LAYOUT =
@@ -15671,6 +18238,16 @@ public class OrtApi {
      */
     public static void AddInitializer(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddInitializer$LAYOUT, AddInitializer$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddInitializer)(OrtSessionOptions *, const char *, const OrtValue *)
+     * }
+     */
+    public static AddInitializer.Function AddInitializerFunction(MemorySegment struct) {
+        return AddInitializer.function(AddInitializer(struct));
     }
 
     /**
@@ -15743,6 +18320,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateEnvWithCustomLoggerAndGlobalThreadPools.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+        }
     }
 
     private static final AddressLayout CreateEnvWithCustomLoggerAndGlobalThreadPools$LAYOUT =
@@ -15796,6 +18380,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateEnvWithCustomLoggerAndGlobalThreadPools)(OrtLoggingFunction, void *, OrtLoggingLevel, const char *, const struct OrtThreadingOptions *, OrtEnv **)
+     * }
+     */
+    public static CreateEnvWithCustomLoggerAndGlobalThreadPools.Function
+            CreateEnvWithCustomLoggerAndGlobalThreadPoolsFunction(MemorySegment struct) {
+        return CreateEnvWithCustomLoggerAndGlobalThreadPools.function(
+                CreateEnvWithCustomLoggerAndGlobalThreadPools(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions *, const OrtCUDAProviderOptions *)
      * }
@@ -15845,6 +18441,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_CUDA.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -15898,6 +18501,17 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA)(OrtSessionOptions *, const OrtCUDAProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_CUDA.Function
+            SessionOptionsAppendExecutionProvider_CUDAFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_CUDA.function(SessionOptionsAppendExecutionProvider_CUDA(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions *, const OrtROCMProviderOptions *)
      * }
@@ -15947,6 +18561,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_ROCM.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -16000,6 +18621,17 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_ROCM)(OrtSessionOptions *, const OrtROCMProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_ROCM.Function
+            SessionOptionsAppendExecutionProvider_ROCMFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_ROCM.function(SessionOptionsAppendExecutionProvider_ROCM(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions *, const OrtOpenVINOProviderOptions *)
      * }
@@ -16049,6 +18681,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_OpenVINO.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -16103,6 +18742,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO)(OrtSessionOptions *, const OrtOpenVINOProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_OpenVINO.Function
+            SessionOptionsAppendExecutionProvider_OpenVINOFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_OpenVINO.function(
+                SessionOptionsAppendExecutionProvider_OpenVINO(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions *)
      * }
@@ -16153,6 +18804,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalDenormalAsZero.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout SetGlobalDenormalAsZero$LAYOUT =
@@ -16198,6 +18856,16 @@ public class OrtApi {
      */
     public static void SetGlobalDenormalAsZero(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalDenormalAsZero$LAYOUT, SetGlobalDenormalAsZero$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalDenormalAsZero)(OrtThreadingOptions *)
+     * }
+     */
+    public static SetGlobalDenormalAsZero.Function SetGlobalDenormalAsZeroFunction(MemorySegment struct) {
+        return SetGlobalDenormalAsZero.function(SetGlobalDenormalAsZero(struct));
     }
 
     /**
@@ -16257,6 +18925,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateArenaCfg.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateArenaCfg$LAYOUT =
@@ -16302,6 +18977,16 @@ public class OrtApi {
      */
     public static void CreateArenaCfg(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateArenaCfg$LAYOUT, CreateArenaCfg$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateArenaCfg)(size_t, int, int, int, OrtArenaCfg **)
+     * }
+     */
+    public static CreateArenaCfg.Function CreateArenaCfgFunction(MemorySegment struct) {
+        return CreateArenaCfg.function(CreateArenaCfg(struct));
     }
 
     /**
@@ -16354,6 +19039,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseArenaCfg.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseArenaCfg$LAYOUT =
@@ -16399,6 +19091,16 @@ public class OrtApi {
      */
     public static void ReleaseArenaCfg(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseArenaCfg$LAYOUT, ReleaseArenaCfg$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseArenaCfg)(OrtArenaCfg *)
+     * }
+     */
+    public static ReleaseArenaCfg.Function ReleaseArenaCfgFunction(MemorySegment struct) {
+        return ReleaseArenaCfg.function(ReleaseArenaCfg(struct));
     }
 
     /**
@@ -16456,6 +19158,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ModelMetadataGetGraphDescription.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ModelMetadataGetGraphDescription$LAYOUT =
@@ -16501,6 +19210,17 @@ public class OrtApi {
      */
     public static void ModelMetadataGetGraphDescription(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ModelMetadataGetGraphDescription$LAYOUT, ModelMetadataGetGraphDescription$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelMetadataGetGraphDescription)(const OrtModelMetadata *, OrtAllocator *, char **)
+     * }
+     */
+    public static ModelMetadataGetGraphDescription.Function ModelMetadataGetGraphDescriptionFunction(
+            MemorySegment struct) {
+        return ModelMetadataGetGraphDescription.function(ModelMetadataGetGraphDescription(struct));
     }
 
     /**
@@ -16553,6 +19273,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_TensorRT.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -16607,6 +19334,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT)(OrtSessionOptions *, const OrtTensorRTProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_TensorRT.Function
+            SessionOptionsAppendExecutionProvider_TensorRTFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_TensorRT.function(
+                SessionOptionsAppendExecutionProvider_TensorRT(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SetCurrentGpuDeviceId)(int)
      * }
@@ -16657,6 +19396,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetCurrentGpuDeviceId.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout SetCurrentGpuDeviceId$LAYOUT =
@@ -16702,6 +19448,16 @@ public class OrtApi {
      */
     public static void SetCurrentGpuDeviceId(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetCurrentGpuDeviceId$LAYOUT, SetCurrentGpuDeviceId$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetCurrentGpuDeviceId)(int)
+     * }
+     */
+    public static SetCurrentGpuDeviceId.Function SetCurrentGpuDeviceIdFunction(MemorySegment struct) {
+        return SetCurrentGpuDeviceId.function(SetCurrentGpuDeviceId(struct));
     }
 
     /**
@@ -16755,6 +19511,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetCurrentGpuDeviceId.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout GetCurrentGpuDeviceId$LAYOUT =
@@ -16800,6 +19563,16 @@ public class OrtApi {
      */
     public static void GetCurrentGpuDeviceId(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetCurrentGpuDeviceId$LAYOUT, GetCurrentGpuDeviceId$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCurrentGpuDeviceId)(int *)
+     * }
+     */
+    public static GetCurrentGpuDeviceId.Function GetCurrentGpuDeviceIdFunction(MemorySegment struct) {
+        return GetCurrentGpuDeviceId.function(GetCurrentGpuDeviceId(struct));
     }
 
     /**
@@ -16858,6 +19631,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAttributeArray_float.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfoGetAttributeArray_float$LAYOUT =
@@ -16903,6 +19683,17 @@ public class OrtApi {
      */
     public static void KernelInfoGetAttributeArray_float(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetAttributeArray_float$LAYOUT, KernelInfoGetAttributeArray_float$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_float)(const OrtKernelInfo *, const char *, float *, size_t *)
+     * }
+     */
+    public static KernelInfoGetAttributeArray_float.Function KernelInfoGetAttributeArray_floatFunction(
+            MemorySegment struct) {
+        return KernelInfoGetAttributeArray_float.function(KernelInfoGetAttributeArray_float(struct));
     }
 
     /**
@@ -16961,6 +19752,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAttributeArray_int64.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfoGetAttributeArray_int64$LAYOUT =
@@ -17006,6 +19804,17 @@ public class OrtApi {
      */
     public static void KernelInfoGetAttributeArray_int64(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetAttributeArray_int64$LAYOUT, KernelInfoGetAttributeArray_int64$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_int64)(const OrtKernelInfo *, const char *, int64_t *, size_t *)
+     * }
+     */
+    public static KernelInfoGetAttributeArray_int64.Function KernelInfoGetAttributeArray_int64Function(
+            MemorySegment struct) {
+        return KernelInfoGetAttributeArray_int64.function(KernelInfoGetAttributeArray_int64(struct));
     }
 
     /**
@@ -17064,6 +19873,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateArenaCfgV2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout CreateArenaCfgV2$LAYOUT =
@@ -17109,6 +19925,16 @@ public class OrtApi {
      */
     public static void CreateArenaCfgV2(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateArenaCfgV2$LAYOUT, CreateArenaCfgV2$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateArenaCfgV2)(const char *const *, const size_t *, size_t, OrtArenaCfg **)
+     * }
+     */
+    public static CreateArenaCfgV2.Function CreateArenaCfgV2Function(MemorySegment struct) {
+        return CreateArenaCfgV2.function(CreateArenaCfgV2(struct));
     }
 
     /**
@@ -17166,6 +19992,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddRunConfigEntry.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout AddRunConfigEntry$LAYOUT =
@@ -17211,6 +20044,16 @@ public class OrtApi {
      */
     public static void AddRunConfigEntry(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddRunConfigEntry$LAYOUT, AddRunConfigEntry$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddRunConfigEntry)(OrtRunOptions *, const char *, const char *)
+     * }
+     */
+    public static AddRunConfigEntry.Function AddRunConfigEntryFunction(MemorySegment struct) {
+        return AddRunConfigEntry.function(AddRunConfigEntry(struct));
     }
 
     /**
@@ -17264,6 +20107,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreatePrepackedWeightsContainer.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreatePrepackedWeightsContainer$LAYOUT =
@@ -17309,6 +20159,17 @@ public class OrtApi {
      */
     public static void CreatePrepackedWeightsContainer(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreatePrepackedWeightsContainer$LAYOUT, CreatePrepackedWeightsContainer$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreatePrepackedWeightsContainer)(OrtPrepackedWeightsContainer **)
+     * }
+     */
+    public static CreatePrepackedWeightsContainer.Function CreatePrepackedWeightsContainerFunction(
+            MemorySegment struct) {
+        return CreatePrepackedWeightsContainer.function(CreatePrepackedWeightsContainer(struct));
     }
 
     /**
@@ -17361,6 +20222,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleasePrepackedWeightsContainer.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleasePrepackedWeightsContainer$LAYOUT =
@@ -17406,6 +20274,17 @@ public class OrtApi {
      */
     public static void ReleasePrepackedWeightsContainer(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleasePrepackedWeightsContainer$LAYOUT, ReleasePrepackedWeightsContainer$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleasePrepackedWeightsContainer)(OrtPrepackedWeightsContainer *)
+     * }
+     */
+    public static ReleasePrepackedWeightsContainer.Function ReleasePrepackedWeightsContainerFunction(
+            MemorySegment struct) {
+        return ReleasePrepackedWeightsContainer.function(ReleasePrepackedWeightsContainer(struct));
     }
 
     /**
@@ -17471,6 +20350,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSessionWithPrepackedWeightsContainer.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateSessionWithPrepackedWeightsContainer$LAYOUT =
@@ -17520,6 +20406,17 @@ public class OrtApi {
                 CreateSessionWithPrepackedWeightsContainer$LAYOUT,
                 CreateSessionWithPrepackedWeightsContainer$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSessionWithPrepackedWeightsContainer)(const OrtEnv *, const char *, const OrtSessionOptions *, OrtPrepackedWeightsContainer *, OrtSession **)
+     * }
+     */
+    public static CreateSessionWithPrepackedWeightsContainer.Function
+            CreateSessionWithPrepackedWeightsContainerFunction(MemorySegment struct) {
+        return CreateSessionWithPrepackedWeightsContainer.function(CreateSessionWithPrepackedWeightsContainer(struct));
     }
 
     /**
@@ -17593,6 +20490,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSessionFromArrayWithPrepackedWeightsContainer.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+        }
     }
 
     private static final AddressLayout CreateSessionFromArrayWithPrepackedWeightsContainer$LAYOUT =
@@ -17647,6 +20551,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSessionFromArrayWithPrepackedWeightsContainer)(const OrtEnv *, const void *, size_t, const OrtSessionOptions *, OrtPrepackedWeightsContainer *, OrtSession **)
+     * }
+     */
+    public static CreateSessionFromArrayWithPrepackedWeightsContainer.Function
+            CreateSessionFromArrayWithPrepackedWeightsContainerFunction(MemorySegment struct) {
+        return CreateSessionFromArrayWithPrepackedWeightsContainer.function(
+                CreateSessionFromArrayWithPrepackedWeightsContainer(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions *, const OrtTensorRTProviderOptionsV2 *)
      * }
@@ -17697,6 +20613,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_TensorRT_V2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -17752,6 +20675,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_TensorRT_V2)(OrtSessionOptions *, const OrtTensorRTProviderOptionsV2 *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_TensorRT_V2.Function
+            SessionOptionsAppendExecutionProvider_TensorRT_V2Function(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_TensorRT_V2.function(
+                SessionOptionsAppendExecutionProvider_TensorRT_V2(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2 **)
      * }
@@ -17802,6 +20737,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateTensorRTProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateTensorRTProviderOptions$LAYOUT =
@@ -17847,6 +20789,16 @@ public class OrtApi {
      */
     public static void CreateTensorRTProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateTensorRTProviderOptions$LAYOUT, CreateTensorRTProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2 **)
+     * }
+     */
+    public static CreateTensorRTProviderOptions.Function CreateTensorRTProviderOptionsFunction(MemorySegment struct) {
+        return CreateTensorRTProviderOptions.function(CreateTensorRTProviderOptions(struct));
     }
 
     /**
@@ -17905,6 +20857,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateTensorRTProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout UpdateTensorRTProviderOptions$LAYOUT =
@@ -17950,6 +20909,16 @@ public class OrtApi {
      */
     public static void UpdateTensorRTProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateTensorRTProviderOptions$LAYOUT, UpdateTensorRTProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2 *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static UpdateTensorRTProviderOptions.Function UpdateTensorRTProviderOptionsFunction(MemorySegment struct) {
+        return UpdateTensorRTProviderOptions.function(UpdateTensorRTProviderOptions(struct));
     }
 
     /**
@@ -18007,6 +20976,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorRTProviderOptionsAsString.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetTensorRTProviderOptionsAsString$LAYOUT =
@@ -18052,6 +21028,17 @@ public class OrtApi {
      */
     public static void GetTensorRTProviderOptionsAsString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorRTProviderOptionsAsString$LAYOUT, GetTensorRTProviderOptionsAsString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorRTProviderOptionsAsString)(const OrtTensorRTProviderOptionsV2 *, OrtAllocator *, char **)
+     * }
+     */
+    public static GetTensorRTProviderOptionsAsString.Function GetTensorRTProviderOptionsAsStringFunction(
+            MemorySegment struct) {
+        return GetTensorRTProviderOptionsAsString.function(GetTensorRTProviderOptionsAsString(struct));
     }
 
     /**
@@ -18104,6 +21091,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseTensorRTProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseTensorRTProviderOptions$LAYOUT =
@@ -18149,6 +21143,16 @@ public class OrtApi {
      */
     public static void ReleaseTensorRTProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseTensorRTProviderOptions$LAYOUT, ReleaseTensorRTProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseTensorRTProviderOptions)(OrtTensorRTProviderOptionsV2 *)
+     * }
+     */
+    public static ReleaseTensorRTProviderOptions.Function ReleaseTensorRTProviderOptionsFunction(MemorySegment struct) {
+        return ReleaseTensorRTProviderOptions.function(ReleaseTensorRTProviderOptions(struct));
     }
 
     /**
@@ -18202,6 +21206,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static EnableOrtCustomOps.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout EnableOrtCustomOps$LAYOUT =
@@ -18247,6 +21258,16 @@ public class OrtApi {
      */
     public static void EnableOrtCustomOps(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(EnableOrtCustomOps$LAYOUT, EnableOrtCustomOps$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EnableOrtCustomOps)(OrtSessionOptions *)
+     * }
+     */
+    public static EnableOrtCustomOps.Function EnableOrtCustomOpsFunction(MemorySegment struct) {
+        return EnableOrtCustomOps.function(EnableOrtCustomOps(struct));
     }
 
     /**
@@ -18300,6 +21321,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RegisterAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RegisterAllocator$LAYOUT =
@@ -18345,6 +21373,16 @@ public class OrtApi {
      */
     public static void RegisterAllocator(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RegisterAllocator$LAYOUT, RegisterAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterAllocator)(OrtEnv *, OrtAllocator *)
+     * }
+     */
+    public static RegisterAllocator.Function RegisterAllocatorFunction(MemorySegment struct) {
+        return RegisterAllocator.function(RegisterAllocator(struct));
     }
 
     /**
@@ -18398,6 +21436,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UnregisterAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout UnregisterAllocator$LAYOUT =
@@ -18443,6 +21488,16 @@ public class OrtApi {
      */
     public static void UnregisterAllocator(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UnregisterAllocator$LAYOUT, UnregisterAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UnregisterAllocator)(OrtEnv *, const OrtMemoryInfo *)
+     * }
+     */
+    public static UnregisterAllocator.Function UnregisterAllocatorFunction(MemorySegment struct) {
+        return UnregisterAllocator.function(UnregisterAllocator(struct));
     }
 
     /**
@@ -18496,6 +21551,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static IsSparseTensor.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout IsSparseTensor$LAYOUT =
@@ -18541,6 +21603,16 @@ public class OrtApi {
      */
     public static void IsSparseTensor(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(IsSparseTensor$LAYOUT, IsSparseTensor$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsSparseTensor)(const OrtValue *, int *)
+     * }
+     */
+    public static IsSparseTensor.Function IsSparseTensorFunction(MemorySegment struct) {
+        return IsSparseTensor.function(IsSparseTensor(struct));
     }
 
     /**
@@ -18600,6 +21672,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSparseTensorAsOrtValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateSparseTensorAsOrtValue$LAYOUT =
@@ -18645,6 +21724,16 @@ public class OrtApi {
      */
     public static void CreateSparseTensorAsOrtValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateSparseTensorAsOrtValue$LAYOUT, CreateSparseTensorAsOrtValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSparseTensorAsOrtValue)(OrtAllocator *, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static CreateSparseTensorAsOrtValue.Function CreateSparseTensorAsOrtValueFunction(MemorySegment struct) {
+        return CreateSparseTensorAsOrtValue.function(CreateSparseTensorAsOrtValue(struct));
     }
 
     /**
@@ -18720,6 +21809,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static FillSparseTensorCoo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6);
+        }
     }
 
     private static final AddressLayout FillSparseTensorCoo$LAYOUT =
@@ -18765,6 +21861,16 @@ public class OrtApi {
      */
     public static void FillSparseTensorCoo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(FillSparseTensorCoo$LAYOUT, FillSparseTensorCoo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*FillSparseTensorCoo)(OrtValue *, const OrtMemoryInfo *, const int64_t *, size_t, const void *, const int64_t *, size_t)
+     * }
+     */
+    public static FillSparseTensorCoo.Function FillSparseTensorCooFunction(MemorySegment struct) {
+        return FillSparseTensorCoo.function(FillSparseTensorCoo(struct));
     }
 
     /**
@@ -18846,6 +21952,14 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static FillSparseTensorCsr.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8) ->
+                    invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8);
+        }
     }
 
     private static final AddressLayout FillSparseTensorCsr$LAYOUT =
@@ -18891,6 +22005,16 @@ public class OrtApi {
      */
     public static void FillSparseTensorCsr(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(FillSparseTensorCsr$LAYOUT, FillSparseTensorCsr$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*FillSparseTensorCsr)(OrtValue *, const OrtMemoryInfo *, const int64_t *, size_t, const void *, const int64_t *, size_t, const int64_t *, size_t)
+     * }
+     */
+    public static FillSparseTensorCsr.Function FillSparseTensorCsrFunction(MemorySegment struct) {
+        return FillSparseTensorCsr.function(FillSparseTensorCsr(struct));
     }
 
     /**
@@ -18969,6 +22093,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static FillSparseTensorBlockSparse.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7);
+        }
     }
 
     private static final AddressLayout FillSparseTensorBlockSparse$LAYOUT =
@@ -19014,6 +22145,16 @@ public class OrtApi {
      */
     public static void FillSparseTensorBlockSparse(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(FillSparseTensorBlockSparse$LAYOUT, FillSparseTensorBlockSparse$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*FillSparseTensorBlockSparse)(OrtValue *, const OrtMemoryInfo *, const int64_t *, size_t, const void *, const int64_t *, size_t, const int32_t *)
+     * }
+     */
+    public static FillSparseTensorBlockSparse.Function FillSparseTensorBlockSparseFunction(MemorySegment struct) {
+        return FillSparseTensorBlockSparse.function(FillSparseTensorBlockSparse(struct));
     }
 
     /**
@@ -19092,6 +22233,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateSparseTensorWithValuesAsOrtValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7);
+        }
     }
 
     private static final AddressLayout CreateSparseTensorWithValuesAsOrtValue$LAYOUT =
@@ -19140,6 +22288,17 @@ public class OrtApi {
                 CreateSparseTensorWithValuesAsOrtValue$LAYOUT,
                 CreateSparseTensorWithValuesAsOrtValue$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSparseTensorWithValuesAsOrtValue)(const OrtMemoryInfo *, void *, const int64_t *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static CreateSparseTensorWithValuesAsOrtValue.Function CreateSparseTensorWithValuesAsOrtValueFunction(
+            MemorySegment struct) {
+        return CreateSparseTensorWithValuesAsOrtValue.function(CreateSparseTensorWithValuesAsOrtValue(struct));
     }
 
     /**
@@ -19196,6 +22355,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UseCooIndices.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout UseCooIndices$LAYOUT =
@@ -19241,6 +22407,16 @@ public class OrtApi {
      */
     public static void UseCooIndices(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UseCooIndices$LAYOUT, UseCooIndices$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UseCooIndices)(OrtValue *, int64_t *, size_t)
+     * }
+     */
+    public static UseCooIndices.Function UseCooIndicesFunction(MemorySegment struct) {
+        return UseCooIndices.function(UseCooIndices(struct));
     }
 
     /**
@@ -19300,6 +22476,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UseCsrIndices.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout UseCsrIndices$LAYOUT =
@@ -19345,6 +22528,16 @@ public class OrtApi {
      */
     public static void UseCsrIndices(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UseCsrIndices$LAYOUT, UseCsrIndices$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UseCsrIndices)(OrtValue *, int64_t *, size_t, int64_t *, size_t)
+     * }
+     */
+    public static UseCsrIndices.Function UseCsrIndicesFunction(MemorySegment struct) {
+        return UseCsrIndices.function(UseCsrIndices(struct));
     }
 
     /**
@@ -19403,6 +22596,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UseBlockSparseIndices.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout UseBlockSparseIndices$LAYOUT =
@@ -19448,6 +22648,16 @@ public class OrtApi {
      */
     public static void UseBlockSparseIndices(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UseBlockSparseIndices$LAYOUT, UseBlockSparseIndices$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UseBlockSparseIndices)(OrtValue *, const int64_t *, size_t, int32_t *)
+     * }
+     */
+    public static UseBlockSparseIndices.Function UseBlockSparseIndicesFunction(MemorySegment struct) {
+        return UseBlockSparseIndices.function(UseBlockSparseIndices(struct));
     }
 
     /**
@@ -19501,6 +22711,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSparseTensorFormat.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetSparseTensorFormat$LAYOUT =
@@ -19546,6 +22763,16 @@ public class OrtApi {
      */
     public static void GetSparseTensorFormat(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSparseTensorFormat$LAYOUT, GetSparseTensorFormat$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSparseTensorFormat)(const OrtValue *, enum OrtSparseFormat *)
+     * }
+     */
+    public static GetSparseTensorFormat.Function GetSparseTensorFormatFunction(MemorySegment struct) {
+        return GetSparseTensorFormat.function(GetSparseTensorFormat(struct));
     }
 
     /**
@@ -19599,6 +22826,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSparseTensorValuesTypeAndShape.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetSparseTensorValuesTypeAndShape$LAYOUT =
@@ -19644,6 +22878,17 @@ public class OrtApi {
      */
     public static void GetSparseTensorValuesTypeAndShape(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSparseTensorValuesTypeAndShape$LAYOUT, GetSparseTensorValuesTypeAndShape$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSparseTensorValuesTypeAndShape)(const OrtValue *, OrtTensorTypeAndShapeInfo **)
+     * }
+     */
+    public static GetSparseTensorValuesTypeAndShape.Function GetSparseTensorValuesTypeAndShapeFunction(
+            MemorySegment struct) {
+        return GetSparseTensorValuesTypeAndShape.function(GetSparseTensorValuesTypeAndShape(struct));
     }
 
     /**
@@ -19697,6 +22942,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSparseTensorValues.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetSparseTensorValues$LAYOUT =
@@ -19742,6 +22994,16 @@ public class OrtApi {
      */
     public static void GetSparseTensorValues(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSparseTensorValues$LAYOUT, GetSparseTensorValues$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSparseTensorValues)(const OrtValue *, const void **)
+     * }
+     */
+    public static GetSparseTensorValues.Function GetSparseTensorValuesFunction(MemorySegment struct) {
+        return GetSparseTensorValues.function(GetSparseTensorValues(struct));
     }
 
     /**
@@ -19798,6 +23060,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSparseTensorIndicesTypeShape.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetSparseTensorIndicesTypeShape$LAYOUT =
@@ -19843,6 +23112,17 @@ public class OrtApi {
      */
     public static void GetSparseTensorIndicesTypeShape(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSparseTensorIndicesTypeShape$LAYOUT, GetSparseTensorIndicesTypeShape$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSparseTensorIndicesTypeShape)(const OrtValue *, enum OrtSparseIndicesFormat, OrtTensorTypeAndShapeInfo **)
+     * }
+     */
+    public static GetSparseTensorIndicesTypeShape.Function GetSparseTensorIndicesTypeShapeFunction(
+            MemorySegment struct) {
+        return GetSparseTensorIndicesTypeShape.function(GetSparseTensorIndicesTypeShape(struct));
     }
 
     /**
@@ -19901,6 +23181,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSparseTensorIndices.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout GetSparseTensorIndices$LAYOUT =
@@ -19946,6 +23233,16 @@ public class OrtApi {
      */
     public static void GetSparseTensorIndices(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSparseTensorIndices$LAYOUT, GetSparseTensorIndices$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSparseTensorIndices)(const OrtValue *, enum OrtSparseIndicesFormat, size_t *, const void **)
+     * }
+     */
+    public static GetSparseTensorIndices.Function GetSparseTensorIndicesFunction(MemorySegment struct) {
+        return GetSparseTensorIndices.function(GetSparseTensorIndices(struct));
     }
 
     /**
@@ -19999,6 +23296,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static HasValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout HasValue$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("HasValue"));
@@ -20043,6 +23347,16 @@ public class OrtApi {
      */
     public static void HasValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(HasValue$LAYOUT, HasValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*HasValue)(const OrtValue *, int *)
+     * }
+     */
+    public static HasValue.Function HasValueFunction(MemorySegment struct) {
+        return HasValue.function(HasValue(struct));
     }
 
     /**
@@ -20096,6 +23410,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetGPUComputeStream.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelContext_GetGPUComputeStream$LAYOUT =
@@ -20141,6 +23462,17 @@ public class OrtApi {
      */
     public static void KernelContext_GetGPUComputeStream(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetGPUComputeStream$LAYOUT, KernelContext_GetGPUComputeStream$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetGPUComputeStream)(const OrtKernelContext *, void **)
+     * }
+     */
+    public static KernelContext_GetGPUComputeStream.Function KernelContext_GetGPUComputeStreamFunction(
+            MemorySegment struct) {
+        return KernelContext_GetGPUComputeStream.function(KernelContext_GetGPUComputeStream(struct));
     }
 
     /**
@@ -20194,6 +23526,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorMemoryInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetTensorMemoryInfo$LAYOUT =
@@ -20239,6 +23578,16 @@ public class OrtApi {
      */
     public static void GetTensorMemoryInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorMemoryInfo$LAYOUT, GetTensorMemoryInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorMemoryInfo)(const OrtValue *, const OrtMemoryInfo **)
+     * }
+     */
+    public static GetTensorMemoryInfo.Function GetTensorMemoryInfoFunction(MemorySegment struct) {
+        return GetTensorMemoryInfo.function(GetTensorMemoryInfo(struct));
     }
 
     /**
@@ -20295,6 +23644,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetExecutionProviderApi.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetExecutionProviderApi$LAYOUT =
@@ -20340,6 +23696,16 @@ public class OrtApi {
      */
     public static void GetExecutionProviderApi(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetExecutionProviderApi$LAYOUT, GetExecutionProviderApi$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetExecutionProviderApi)(const char *, uint32_t, const void **)
+     * }
+     */
+    public static GetExecutionProviderApi.Function GetExecutionProviderApiFunction(MemorySegment struct) {
+        return GetExecutionProviderApi.function(GetExecutionProviderApi(struct));
     }
 
     /**
@@ -20393,6 +23759,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsSetCustomCreateThreadFn.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionOptionsSetCustomCreateThreadFn$LAYOUT =
@@ -20439,6 +23812,17 @@ public class OrtApi {
     public static void SessionOptionsSetCustomCreateThreadFn(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 SessionOptionsSetCustomCreateThreadFn$LAYOUT, SessionOptionsSetCustomCreateThreadFn$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetCustomCreateThreadFn)(OrtSessionOptions *, OrtCustomCreateThreadFn)
+     * }
+     */
+    public static SessionOptionsSetCustomCreateThreadFn.Function SessionOptionsSetCustomCreateThreadFnFunction(
+            MemorySegment struct) {
+        return SessionOptionsSetCustomCreateThreadFn.function(SessionOptionsSetCustomCreateThreadFn(struct));
     }
 
     /**
@@ -20491,6 +23875,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsSetCustomThreadCreationOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -20545,6 +23936,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetCustomThreadCreationOptions)(OrtSessionOptions *, void *)
+     * }
+     */
+    public static SessionOptionsSetCustomThreadCreationOptions.Function
+            SessionOptionsSetCustomThreadCreationOptionsFunction(MemorySegment struct) {
+        return SessionOptionsSetCustomThreadCreationOptions.function(
+                SessionOptionsSetCustomThreadCreationOptions(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions *, OrtCustomJoinThreadFn)
      * }
@@ -20595,6 +23998,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsSetCustomJoinThreadFn.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionOptionsSetCustomJoinThreadFn$LAYOUT =
@@ -20640,6 +24050,17 @@ public class OrtApi {
      */
     public static void SessionOptionsSetCustomJoinThreadFn(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SessionOptionsSetCustomJoinThreadFn$LAYOUT, SessionOptionsSetCustomJoinThreadFn$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetCustomJoinThreadFn)(OrtSessionOptions *, OrtCustomJoinThreadFn)
+     * }
+     */
+    public static SessionOptionsSetCustomJoinThreadFn.Function SessionOptionsSetCustomJoinThreadFnFunction(
+            MemorySegment struct) {
+        return SessionOptionsSetCustomJoinThreadFn.function(SessionOptionsSetCustomJoinThreadFn(struct));
     }
 
     /**
@@ -20693,6 +24114,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalCustomCreateThreadFn.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalCustomCreateThreadFn$LAYOUT =
@@ -20738,6 +24166,16 @@ public class OrtApi {
      */
     public static void SetGlobalCustomCreateThreadFn(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalCustomCreateThreadFn$LAYOUT, SetGlobalCustomCreateThreadFn$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalCustomCreateThreadFn)(OrtThreadingOptions *, OrtCustomCreateThreadFn)
+     * }
+     */
+    public static SetGlobalCustomCreateThreadFn.Function SetGlobalCustomCreateThreadFnFunction(MemorySegment struct) {
+        return SetGlobalCustomCreateThreadFn.function(SetGlobalCustomCreateThreadFn(struct));
     }
 
     /**
@@ -20791,6 +24229,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalCustomThreadCreationOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalCustomThreadCreationOptions$LAYOUT =
@@ -20837,6 +24282,17 @@ public class OrtApi {
     public static void SetGlobalCustomThreadCreationOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 SetGlobalCustomThreadCreationOptions$LAYOUT, SetGlobalCustomThreadCreationOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalCustomThreadCreationOptions)(OrtThreadingOptions *, void *)
+     * }
+     */
+    public static SetGlobalCustomThreadCreationOptions.Function SetGlobalCustomThreadCreationOptionsFunction(
+            MemorySegment struct) {
+        return SetGlobalCustomThreadCreationOptions.function(SetGlobalCustomThreadCreationOptions(struct));
     }
 
     /**
@@ -20890,6 +24346,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalCustomJoinThreadFn.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalCustomJoinThreadFn$LAYOUT =
@@ -20935,6 +24398,16 @@ public class OrtApi {
      */
     public static void SetGlobalCustomJoinThreadFn(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalCustomJoinThreadFn$LAYOUT, SetGlobalCustomJoinThreadFn$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalCustomJoinThreadFn)(OrtThreadingOptions *, OrtCustomJoinThreadFn)
+     * }
+     */
+    public static SetGlobalCustomJoinThreadFn.Function SetGlobalCustomJoinThreadFnFunction(MemorySegment struct) {
+        return SetGlobalCustomJoinThreadFn.function(SetGlobalCustomJoinThreadFn(struct));
     }
 
     /**
@@ -20988,6 +24461,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SynchronizeBoundInputs.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout SynchronizeBoundInputs$LAYOUT =
@@ -21033,6 +24513,16 @@ public class OrtApi {
      */
     public static void SynchronizeBoundInputs(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SynchronizeBoundInputs$LAYOUT, SynchronizeBoundInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SynchronizeBoundInputs)(OrtIoBinding *)
+     * }
+     */
+    public static SynchronizeBoundInputs.Function SynchronizeBoundInputsFunction(MemorySegment struct) {
+        return SynchronizeBoundInputs.function(SynchronizeBoundInputs(struct));
     }
 
     /**
@@ -21086,6 +24576,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SynchronizeBoundOutputs.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout SynchronizeBoundOutputs$LAYOUT =
@@ -21131,6 +24628,16 @@ public class OrtApi {
      */
     public static void SynchronizeBoundOutputs(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SynchronizeBoundOutputs$LAYOUT, SynchronizeBoundOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SynchronizeBoundOutputs)(OrtIoBinding *)
+     * }
+     */
+    public static SynchronizeBoundOutputs.Function SynchronizeBoundOutputsFunction(MemorySegment struct) {
+        return SynchronizeBoundOutputs.function(SynchronizeBoundOutputs(struct));
     }
 
     /**
@@ -21183,6 +24690,13 @@ public class OrtApi {
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_CUDA_V2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -21237,6 +24751,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CUDA_V2)(OrtSessionOptions *, const OrtCUDAProviderOptionsV2 *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_CUDA_V2.Function
+            SessionOptionsAppendExecutionProvider_CUDA_V2Function(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_CUDA_V2.function(
+                SessionOptionsAppendExecutionProvider_CUDA_V2(struct));
+    }
+
+    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2 **)
      * }
@@ -21287,6 +24813,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateCUDAProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateCUDAProviderOptions$LAYOUT =
@@ -21332,6 +24865,16 @@ public class OrtApi {
      */
     public static void CreateCUDAProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateCUDAProviderOptions$LAYOUT, CreateCUDAProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateCUDAProviderOptions)(OrtCUDAProviderOptionsV2 **)
+     * }
+     */
+    public static CreateCUDAProviderOptions.Function CreateCUDAProviderOptionsFunction(MemorySegment struct) {
+        return CreateCUDAProviderOptions.function(CreateCUDAProviderOptions(struct));
     }
 
     /**
@@ -21390,6 +24933,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateCUDAProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout UpdateCUDAProviderOptions$LAYOUT =
@@ -21435,6 +24985,16 @@ public class OrtApi {
      */
     public static void UpdateCUDAProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateCUDAProviderOptions$LAYOUT, UpdateCUDAProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateCUDAProviderOptions)(OrtCUDAProviderOptionsV2 *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static UpdateCUDAProviderOptions.Function UpdateCUDAProviderOptionsFunction(MemorySegment struct) {
+        return UpdateCUDAProviderOptions.function(UpdateCUDAProviderOptions(struct));
     }
 
     /**
@@ -21492,6 +25052,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetCUDAProviderOptionsAsString.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetCUDAProviderOptionsAsString$LAYOUT =
@@ -21537,6 +25104,16 @@ public class OrtApi {
      */
     public static void GetCUDAProviderOptionsAsString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetCUDAProviderOptionsAsString$LAYOUT, GetCUDAProviderOptionsAsString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCUDAProviderOptionsAsString)(const OrtCUDAProviderOptionsV2 *, OrtAllocator *, char **)
+     * }
+     */
+    public static GetCUDAProviderOptionsAsString.Function GetCUDAProviderOptionsAsStringFunction(MemorySegment struct) {
+        return GetCUDAProviderOptionsAsString.function(GetCUDAProviderOptionsAsString(struct));
     }
 
     /**
@@ -21589,6 +25166,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseCUDAProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseCUDAProviderOptions$LAYOUT =
@@ -21634,6 +25218,16 @@ public class OrtApi {
      */
     public static void ReleaseCUDAProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseCUDAProviderOptions$LAYOUT, ReleaseCUDAProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseCUDAProviderOptions)(OrtCUDAProviderOptionsV2 *)
+     * }
+     */
+    public static ReleaseCUDAProviderOptions.Function ReleaseCUDAProviderOptionsFunction(MemorySegment struct) {
+        return ReleaseCUDAProviderOptions.function(ReleaseCUDAProviderOptions(struct));
     }
 
     /**
@@ -21687,6 +25281,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_MIGraphX.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionOptionsAppendExecutionProvider_MIGraphX$LAYOUT =
@@ -21737,6 +25338,18 @@ public class OrtApi {
                 SessionOptionsAppendExecutionProvider_MIGraphX$LAYOUT,
                 SessionOptionsAppendExecutionProvider_MIGraphX$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_MIGraphX)(OrtSessionOptions *, const OrtMIGraphXProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_MIGraphX.Function
+            SessionOptionsAppendExecutionProvider_MIGraphXFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_MIGraphX.function(
+                SessionOptionsAppendExecutionProvider_MIGraphX(struct));
     }
 
     /**
@@ -21795,6 +25408,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddExternalInitializers.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout AddExternalInitializers$LAYOUT =
@@ -21840,6 +25460,16 @@ public class OrtApi {
      */
     public static void AddExternalInitializers(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AddExternalInitializers$LAYOUT, AddExternalInitializers$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializers)(OrtSessionOptions *, const char *const *, const OrtValue *const *, size_t)
+     * }
+     */
+    public static AddExternalInitializers.Function AddExternalInitializersFunction(MemorySegment struct) {
+        return AddExternalInitializers.function(AddExternalInitializers(struct));
     }
 
     /**
@@ -21899,6 +25529,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateOpAttr.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout CreateOpAttr$LAYOUT =
@@ -21944,6 +25581,16 @@ public class OrtApi {
      */
     public static void CreateOpAttr(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateOpAttr$LAYOUT, CreateOpAttr$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateOpAttr)(const char *, const void *, int, OrtOpAttrType, OrtOpAttr **)
+     * }
+     */
+    public static CreateOpAttr.Function CreateOpAttrFunction(MemorySegment struct) {
+        return CreateOpAttr.function(CreateOpAttr(struct));
     }
 
     /**
@@ -21996,6 +25643,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseOpAttr.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseOpAttr$LAYOUT =
@@ -22041,6 +25695,16 @@ public class OrtApi {
      */
     public static void ReleaseOpAttr(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseOpAttr$LAYOUT, ReleaseOpAttr$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseOpAttr)(OrtOpAttr *)
+     * }
+     */
+    public static ReleaseOpAttr.Function ReleaseOpAttrFunction(MemorySegment struct) {
+        return ReleaseOpAttr.function(ReleaseOpAttr(struct));
     }
 
     /**
@@ -22132,6 +25796,14 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateOp.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11) ->
+                    invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9, _x10, _x11);
+        }
     }
 
     private static final AddressLayout CreateOp$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CreateOp"));
@@ -22176,6 +25848,16 @@ public class OrtApi {
      */
     public static void CreateOp(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateOp$LAYOUT, CreateOp$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateOp)(const OrtKernelInfo *, const char *, const char *, int, const char **, const ONNXTensorElementDataType *, int, const OrtOpAttr *const *, int, int, int, OrtOp **)
+     * }
+     */
+    public static CreateOp.Function CreateOpFunction(MemorySegment struct) {
+        return CreateOp.function(CreateOp(struct));
     }
 
     /**
@@ -22243,6 +25925,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static InvokeOp.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+        }
     }
 
     private static final AddressLayout InvokeOp$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("InvokeOp"));
@@ -22287,6 +25976,16 @@ public class OrtApi {
      */
     public static void InvokeOp(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(InvokeOp$LAYOUT, InvokeOp$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InvokeOp)(const OrtKernelContext *, const OrtOp *, const OrtValue *const *, int, OrtValue *const *, int)
+     * }
+     */
+    public static InvokeOp.Function InvokeOpFunction(MemorySegment struct) {
+        return InvokeOp.function(InvokeOp(struct));
     }
 
     /**
@@ -22339,6 +26038,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseOp.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseOp$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("ReleaseOp"));
@@ -22383,6 +26089,16 @@ public class OrtApi {
      */
     public static void ReleaseOp(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseOp$LAYOUT, ReleaseOp$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseOp)(OrtOp *)
+     * }
+     */
+    public static ReleaseOp.Function ReleaseOpFunction(MemorySegment struct) {
+        return ReleaseOp.function(ReleaseOp(struct));
     }
 
     /**
@@ -22447,6 +26163,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout SessionOptionsAppendExecutionProvider$LAYOUT =
@@ -22493,6 +26216,17 @@ public class OrtApi {
     public static void SessionOptionsAppendExecutionProvider(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 SessionOptionsAppendExecutionProvider$LAYOUT, SessionOptionsAppendExecutionProvider$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider)(OrtSessionOptions *, const char *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider.Function SessionOptionsAppendExecutionProviderFunction(
+            MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider.function(SessionOptionsAppendExecutionProvider(struct));
     }
 
     /**
@@ -22546,6 +26280,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CopyKernelInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CopyKernelInfo$LAYOUT =
@@ -22591,6 +26332,16 @@ public class OrtApi {
      */
     public static void CopyKernelInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CopyKernelInfo$LAYOUT, CopyKernelInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CopyKernelInfo)(const OrtKernelInfo *, OrtKernelInfo **)
+     * }
+     */
+    public static CopyKernelInfo.Function CopyKernelInfoFunction(MemorySegment struct) {
+        return CopyKernelInfo.function(CopyKernelInfo(struct));
     }
 
     /**
@@ -22643,6 +26394,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseKernelInfo.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseKernelInfo$LAYOUT =
@@ -22688,6 +26446,16 @@ public class OrtApi {
      */
     public static void ReleaseKernelInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseKernelInfo$LAYOUT, ReleaseKernelInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelInfo)(OrtKernelInfo *)
+     * }
+     */
+    public static ReleaseKernelInfo.Function ReleaseKernelInfoFunction(MemorySegment struct) {
+        return ReleaseKernelInfo.function(ReleaseKernelInfo(struct));
     }
 
     /**
@@ -22741,6 +26509,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTrainingApi.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout GetTrainingApi$LAYOUT =
@@ -22786,6 +26561,16 @@ public class OrtApi {
      */
     public static void GetTrainingApi(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTrainingApi$LAYOUT, GetTrainingApi$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const OrtTrainingApi *(*GetTrainingApi)(uint32_t)
+     * }
+     */
+    public static GetTrainingApi.Function GetTrainingApiFunction(MemorySegment struct) {
+        return GetTrainingApi.function(GetTrainingApi(struct));
     }
 
     /**
@@ -22839,6 +26624,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_CANN.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionOptionsAppendExecutionProvider_CANN$LAYOUT =
@@ -22888,6 +26680,17 @@ public class OrtApi {
                 SessionOptionsAppendExecutionProvider_CANN$LAYOUT,
                 SessionOptionsAppendExecutionProvider_CANN$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_CANN)(OrtSessionOptions *, const OrtCANNProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_CANN.Function
+            SessionOptionsAppendExecutionProvider_CANNFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_CANN.function(SessionOptionsAppendExecutionProvider_CANN(struct));
     }
 
     /**
@@ -22941,6 +26744,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateCANNProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateCANNProviderOptions$LAYOUT =
@@ -22986,6 +26796,16 @@ public class OrtApi {
      */
     public static void CreateCANNProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateCANNProviderOptions$LAYOUT, CreateCANNProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateCANNProviderOptions)(OrtCANNProviderOptions **)
+     * }
+     */
+    public static CreateCANNProviderOptions.Function CreateCANNProviderOptionsFunction(MemorySegment struct) {
+        return CreateCANNProviderOptions.function(CreateCANNProviderOptions(struct));
     }
 
     /**
@@ -23044,6 +26864,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateCANNProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout UpdateCANNProviderOptions$LAYOUT =
@@ -23089,6 +26916,16 @@ public class OrtApi {
      */
     public static void UpdateCANNProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateCANNProviderOptions$LAYOUT, UpdateCANNProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateCANNProviderOptions)(OrtCANNProviderOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static UpdateCANNProviderOptions.Function UpdateCANNProviderOptionsFunction(MemorySegment struct) {
+        return UpdateCANNProviderOptions.function(UpdateCANNProviderOptions(struct));
     }
 
     /**
@@ -23146,6 +26983,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetCANNProviderOptionsAsString.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetCANNProviderOptionsAsString$LAYOUT =
@@ -23191,6 +27035,16 @@ public class OrtApi {
      */
     public static void GetCANNProviderOptionsAsString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetCANNProviderOptionsAsString$LAYOUT, GetCANNProviderOptionsAsString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCANNProviderOptionsAsString)(const OrtCANNProviderOptions *, OrtAllocator *, char **)
+     * }
+     */
+    public static GetCANNProviderOptionsAsString.Function GetCANNProviderOptionsAsStringFunction(MemorySegment struct) {
+        return GetCANNProviderOptionsAsString.function(GetCANNProviderOptionsAsString(struct));
     }
 
     /**
@@ -23243,6 +27097,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseCANNProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseCANNProviderOptions$LAYOUT =
@@ -23288,6 +27149,16 @@ public class OrtApi {
      */
     public static void ReleaseCANNProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseCANNProviderOptions$LAYOUT, ReleaseCANNProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseCANNProviderOptions)(OrtCANNProviderOptions *)
+     * }
+     */
+    public static ReleaseCANNProviderOptions.Function ReleaseCANNProviderOptionsFunction(MemorySegment struct) {
+        return ReleaseCANNProviderOptions.function(ReleaseCANNProviderOptions(struct));
     }
 
     /**
@@ -23341,6 +27212,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static MemoryInfoGetDeviceType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout MemoryInfoGetDeviceType$LAYOUT =
@@ -23386,6 +27264,16 @@ public class OrtApi {
      */
     public static void MemoryInfoGetDeviceType(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(MemoryInfoGetDeviceType$LAYOUT, MemoryInfoGetDeviceType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*MemoryInfoGetDeviceType)(const OrtMemoryInfo *, OrtMemoryInfoDeviceType *)
+     * }
+     */
+    public static MemoryInfoGetDeviceType.Function MemoryInfoGetDeviceTypeFunction(MemorySegment struct) {
+        return MemoryInfoGetDeviceType.function(MemoryInfoGetDeviceType(struct));
     }
 
     /**
@@ -23439,6 +27327,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateEnvWithCustomLogLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout UpdateEnvWithCustomLogLevel$LAYOUT =
@@ -23484,6 +27379,16 @@ public class OrtApi {
      */
     public static void UpdateEnvWithCustomLogLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateEnvWithCustomLogLevel$LAYOUT, UpdateEnvWithCustomLogLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateEnvWithCustomLogLevel)(OrtEnv *, OrtLoggingLevel)
+     * }
+     */
+    public static UpdateEnvWithCustomLogLevel.Function UpdateEnvWithCustomLogLevelFunction(MemorySegment struct) {
+        return UpdateEnvWithCustomLogLevel.function(UpdateEnvWithCustomLogLevel(struct));
     }
 
     /**
@@ -23537,6 +27442,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetGlobalIntraOpThreadAffinity.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetGlobalIntraOpThreadAffinity$LAYOUT =
@@ -23582,6 +27494,16 @@ public class OrtApi {
      */
     public static void SetGlobalIntraOpThreadAffinity(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetGlobalIntraOpThreadAffinity$LAYOUT, SetGlobalIntraOpThreadAffinity$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetGlobalIntraOpThreadAffinity)(OrtThreadingOptions *, const char *)
+     * }
+     */
+    public static SetGlobalIntraOpThreadAffinity.Function SetGlobalIntraOpThreadAffinityFunction(MemorySegment struct) {
+        return SetGlobalIntraOpThreadAffinity.function(SetGlobalIntraOpThreadAffinity(struct));
     }
 
     /**
@@ -23635,6 +27557,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RegisterCustomOpsLibrary_V2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RegisterCustomOpsLibrary_V2$LAYOUT =
@@ -23680,6 +27609,16 @@ public class OrtApi {
      */
     public static void RegisterCustomOpsLibrary_V2(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RegisterCustomOpsLibrary_V2$LAYOUT, RegisterCustomOpsLibrary_V2$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterCustomOpsLibrary_V2)(OrtSessionOptions *, const char *)
+     * }
+     */
+    public static RegisterCustomOpsLibrary_V2.Function RegisterCustomOpsLibrary_V2Function(MemorySegment struct) {
+        return RegisterCustomOpsLibrary_V2.function(RegisterCustomOpsLibrary_V2(struct));
     }
 
     /**
@@ -23733,6 +27672,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RegisterCustomOpsUsingFunction.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout RegisterCustomOpsUsingFunction$LAYOUT =
@@ -23778,6 +27724,16 @@ public class OrtApi {
      */
     public static void RegisterCustomOpsUsingFunction(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RegisterCustomOpsUsingFunction$LAYOUT, RegisterCustomOpsUsingFunction$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterCustomOpsUsingFunction)(OrtSessionOptions *, const char *)
+     * }
+     */
+    public static RegisterCustomOpsUsingFunction.Function RegisterCustomOpsUsingFunctionFunction(MemorySegment struct) {
+        return RegisterCustomOpsUsingFunction.function(RegisterCustomOpsUsingFunction(struct));
     }
 
     /**
@@ -23831,6 +27787,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetInputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetInputCount$LAYOUT =
@@ -23876,6 +27839,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetInputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetInputCount$LAYOUT, KernelInfo_GetInputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetInputCount)(const OrtKernelInfo *, size_t *)
+     * }
+     */
+    public static KernelInfo_GetInputCount.Function KernelInfo_GetInputCountFunction(MemorySegment struct) {
+        return KernelInfo_GetInputCount.function(KernelInfo_GetInputCount(struct));
     }
 
     /**
@@ -23929,6 +27902,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetOutputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetOutputCount$LAYOUT =
@@ -23974,6 +27954,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetOutputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetOutputCount$LAYOUT, KernelInfo_GetOutputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetOutputCount)(const OrtKernelInfo *, size_t *)
+     * }
+     */
+    public static KernelInfo_GetOutputCount.Function KernelInfo_GetOutputCountFunction(MemorySegment struct) {
+        return KernelInfo_GetOutputCount.function(KernelInfo_GetOutputCount(struct));
     }
 
     /**
@@ -24032,6 +28022,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetInputName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetInputName$LAYOUT =
@@ -24077,6 +28074,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetInputName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetInputName$LAYOUT, KernelInfo_GetInputName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetInputName)(const OrtKernelInfo *, size_t, char *, size_t *)
+     * }
+     */
+    public static KernelInfo_GetInputName.Function KernelInfo_GetInputNameFunction(MemorySegment struct) {
+        return KernelInfo_GetInputName.function(KernelInfo_GetInputName(struct));
     }
 
     /**
@@ -24135,6 +28142,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetOutputName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetOutputName$LAYOUT =
@@ -24180,6 +28194,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetOutputName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetOutputName$LAYOUT, KernelInfo_GetOutputName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetOutputName)(const OrtKernelInfo *, size_t, char *, size_t *)
+     * }
+     */
+    public static KernelInfo_GetOutputName.Function KernelInfo_GetOutputNameFunction(MemorySegment struct) {
+        return KernelInfo_GetOutputName.function(KernelInfo_GetOutputName(struct));
     }
 
     /**
@@ -24236,6 +28260,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetInputTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetInputTypeInfo$LAYOUT =
@@ -24281,6 +28312,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetInputTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetInputTypeInfo$LAYOUT, KernelInfo_GetInputTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetInputTypeInfo)(const OrtKernelInfo *, size_t, OrtTypeInfo **)
+     * }
+     */
+    public static KernelInfo_GetInputTypeInfo.Function KernelInfo_GetInputTypeInfoFunction(MemorySegment struct) {
+        return KernelInfo_GetInputTypeInfo.function(KernelInfo_GetInputTypeInfo(struct));
     }
 
     /**
@@ -24337,6 +28378,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetOutputTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetOutputTypeInfo$LAYOUT =
@@ -24382,6 +28430,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetOutputTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetOutputTypeInfo$LAYOUT, KernelInfo_GetOutputTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetOutputTypeInfo)(const OrtKernelInfo *, size_t, OrtTypeInfo **)
+     * }
+     */
+    public static KernelInfo_GetOutputTypeInfo.Function KernelInfo_GetOutputTypeInfoFunction(MemorySegment struct) {
+        return KernelInfo_GetOutputTypeInfo.function(KernelInfo_GetOutputTypeInfo(struct));
     }
 
     /**
@@ -24440,6 +28498,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAttribute_tensor.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfoGetAttribute_tensor$LAYOUT =
@@ -24485,6 +28550,16 @@ public class OrtApi {
      */
     public static void KernelInfoGetAttribute_tensor(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetAttribute_tensor$LAYOUT, KernelInfoGetAttribute_tensor$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttribute_tensor)(const OrtKernelInfo *, const char *, OrtAllocator *, OrtValue **)
+     * }
+     */
+    public static KernelInfoGetAttribute_tensor.Function KernelInfoGetAttribute_tensorFunction(MemorySegment struct) {
+        return KernelInfoGetAttribute_tensor.function(KernelInfoGetAttribute_tensor(struct));
     }
 
     /**
@@ -24542,6 +28617,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static HasSessionConfigEntry.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout HasSessionConfigEntry$LAYOUT =
@@ -24587,6 +28669,16 @@ public class OrtApi {
      */
     public static void HasSessionConfigEntry(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(HasSessionConfigEntry$LAYOUT, HasSessionConfigEntry$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*HasSessionConfigEntry)(const OrtSessionOptions *, const char *, int *)
+     * }
+     */
+    public static HasSessionConfigEntry.Function HasSessionConfigEntryFunction(MemorySegment struct) {
+        return HasSessionConfigEntry.function(HasSessionConfigEntry(struct));
     }
 
     /**
@@ -24645,6 +28737,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetSessionConfigEntry.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout GetSessionConfigEntry$LAYOUT =
@@ -24690,6 +28789,16 @@ public class OrtApi {
      */
     public static void GetSessionConfigEntry(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSessionConfigEntry$LAYOUT, GetSessionConfigEntry$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionConfigEntry)(const OrtSessionOptions *, const char *, char *, size_t *)
+     * }
+     */
+    public static GetSessionConfigEntry.Function GetSessionConfigEntryFunction(MemorySegment struct) {
+        return GetSessionConfigEntry.function(GetSessionConfigEntry(struct));
     }
 
     /**
@@ -24743,6 +28852,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_Dnnl.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SessionOptionsAppendExecutionProvider_Dnnl$LAYOUT =
@@ -24792,6 +28908,17 @@ public class OrtApi {
                 SessionOptionsAppendExecutionProvider_Dnnl$LAYOUT,
                 SessionOptionsAppendExecutionProvider_Dnnl$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_Dnnl)(OrtSessionOptions *, const OrtDnnlProviderOptions *)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_Dnnl.Function
+            SessionOptionsAppendExecutionProvider_DnnlFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_Dnnl.function(SessionOptionsAppendExecutionProvider_Dnnl(struct));
     }
 
     /**
@@ -24845,6 +28972,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateDnnlProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateDnnlProviderOptions$LAYOUT =
@@ -24890,6 +29024,16 @@ public class OrtApi {
      */
     public static void CreateDnnlProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateDnnlProviderOptions$LAYOUT, CreateDnnlProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateDnnlProviderOptions)(OrtDnnlProviderOptions **)
+     * }
+     */
+    public static CreateDnnlProviderOptions.Function CreateDnnlProviderOptionsFunction(MemorySegment struct) {
+        return CreateDnnlProviderOptions.function(CreateDnnlProviderOptions(struct));
     }
 
     /**
@@ -24948,6 +29092,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateDnnlProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout UpdateDnnlProviderOptions$LAYOUT =
@@ -24993,6 +29144,16 @@ public class OrtApi {
      */
     public static void UpdateDnnlProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateDnnlProviderOptions$LAYOUT, UpdateDnnlProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateDnnlProviderOptions)(OrtDnnlProviderOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static UpdateDnnlProviderOptions.Function UpdateDnnlProviderOptionsFunction(MemorySegment struct) {
+        return UpdateDnnlProviderOptions.function(UpdateDnnlProviderOptions(struct));
     }
 
     /**
@@ -25050,6 +29211,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetDnnlProviderOptionsAsString.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetDnnlProviderOptionsAsString$LAYOUT =
@@ -25095,6 +29263,16 @@ public class OrtApi {
      */
     public static void GetDnnlProviderOptionsAsString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetDnnlProviderOptionsAsString$LAYOUT, GetDnnlProviderOptionsAsString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDnnlProviderOptionsAsString)(const OrtDnnlProviderOptions *, OrtAllocator *, char **)
+     * }
+     */
+    public static GetDnnlProviderOptionsAsString.Function GetDnnlProviderOptionsAsStringFunction(MemorySegment struct) {
+        return GetDnnlProviderOptionsAsString.function(GetDnnlProviderOptionsAsString(struct));
     }
 
     /**
@@ -25147,6 +29325,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseDnnlProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseDnnlProviderOptions$LAYOUT =
@@ -25192,6 +29377,16 @@ public class OrtApi {
      */
     public static void ReleaseDnnlProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseDnnlProviderOptions$LAYOUT, ReleaseDnnlProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseDnnlProviderOptions)(OrtDnnlProviderOptions *)
+     * }
+     */
+    public static ReleaseDnnlProviderOptions.Function ReleaseDnnlProviderOptionsFunction(MemorySegment struct) {
+        return ReleaseDnnlProviderOptions.function(ReleaseDnnlProviderOptions(struct));
     }
 
     /**
@@ -25249,6 +29444,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetNodeName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetNodeName$LAYOUT =
@@ -25294,6 +29496,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetNodeName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetNodeName$LAYOUT, KernelInfo_GetNodeName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetNodeName)(const OrtKernelInfo *, char *, size_t *)
+     * }
+     */
+    public static KernelInfo_GetNodeName.Function KernelInfo_GetNodeNameFunction(MemorySegment struct) {
+        return KernelInfo_GetNodeName.function(KernelInfo_GetNodeName(struct));
     }
 
     /**
@@ -25347,6 +29559,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfo_GetLogger.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelInfo_GetLogger$LAYOUT =
@@ -25392,6 +29611,16 @@ public class OrtApi {
      */
     public static void KernelInfo_GetLogger(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfo_GetLogger$LAYOUT, KernelInfo_GetLogger$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetLogger)(const OrtKernelInfo *, const OrtLogger **)
+     * }
+     */
+    public static KernelInfo_GetLogger.Function KernelInfo_GetLoggerFunction(MemorySegment struct) {
+        return KernelInfo_GetLogger.function(KernelInfo_GetLogger(struct));
     }
 
     /**
@@ -25445,6 +29674,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetLogger.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout KernelContext_GetLogger$LAYOUT =
@@ -25490,6 +29726,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetLogger(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetLogger$LAYOUT, KernelContext_GetLogger$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetLogger)(const OrtKernelContext *, const OrtLogger **)
+     * }
+     */
+    public static KernelContext_GetLogger.Function KernelContext_GetLoggerFunction(MemorySegment struct) {
+        return KernelContext_GetLogger.function(KernelContext_GetLogger(struct));
     }
 
     /**
@@ -25557,6 +29803,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Logger_LogMessage.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+        }
     }
 
     private static final AddressLayout Logger_LogMessage$LAYOUT =
@@ -25602,6 +29855,16 @@ public class OrtApi {
      */
     public static void Logger_LogMessage(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Logger_LogMessage$LAYOUT, Logger_LogMessage$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Logger_LogMessage)(const OrtLogger *, OrtLoggingLevel, const char *, const char *, int, const char *)
+     * }
+     */
+    public static Logger_LogMessage.Function Logger_LogMessageFunction(MemorySegment struct) {
+        return Logger_LogMessage.function(Logger_LogMessage(struct));
     }
 
     /**
@@ -25655,6 +29918,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Logger_GetLoggingSeverityLevel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout Logger_GetLoggingSeverityLevel$LAYOUT =
@@ -25700,6 +29970,16 @@ public class OrtApi {
      */
     public static void Logger_GetLoggingSeverityLevel(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Logger_GetLoggingSeverityLevel$LAYOUT, Logger_GetLoggingSeverityLevel$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Logger_GetLoggingSeverityLevel)(const OrtLogger *, OrtLoggingLevel *)
+     * }
+     */
+    public static Logger_GetLoggingSeverityLevel.Function Logger_GetLoggingSeverityLevelFunction(MemorySegment struct) {
+        return Logger_GetLoggingSeverityLevel.function(Logger_GetLoggingSeverityLevel(struct));
     }
 
     /**
@@ -25758,6 +30038,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetConstantInput_tensor.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelInfoGetConstantInput_tensor$LAYOUT =
@@ -25803,6 +30090,17 @@ public class OrtApi {
      */
     public static void KernelInfoGetConstantInput_tensor(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelInfoGetConstantInput_tensor$LAYOUT, KernelInfoGetConstantInput_tensor$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetConstantInput_tensor)(const OrtKernelInfo *, size_t, int *, const OrtValue **)
+     * }
+     */
+    public static KernelInfoGetConstantInput_tensor.Function KernelInfoGetConstantInput_tensorFunction(
+            MemorySegment struct) {
+        return KernelInfoGetConstantInput_tensor.function(KernelInfoGetConstantInput_tensor(struct));
     }
 
     /**
@@ -25856,6 +30154,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CastTypeInfoToOptionalTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout CastTypeInfoToOptionalTypeInfo$LAYOUT =
@@ -25901,6 +30206,16 @@ public class OrtApi {
      */
     public static void CastTypeInfoToOptionalTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CastTypeInfoToOptionalTypeInfo$LAYOUT, CastTypeInfoToOptionalTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CastTypeInfoToOptionalTypeInfo)(const OrtTypeInfo *, const OrtOptionalTypeInfo **)
+     * }
+     */
+    public static CastTypeInfoToOptionalTypeInfo.Function CastTypeInfoToOptionalTypeInfoFunction(MemorySegment struct) {
+        return CastTypeInfoToOptionalTypeInfo.function(CastTypeInfoToOptionalTypeInfo(struct));
     }
 
     /**
@@ -25954,6 +30269,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetOptionalContainedTypeInfo.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout GetOptionalContainedTypeInfo$LAYOUT =
@@ -25999,6 +30321,16 @@ public class OrtApi {
      */
     public static void GetOptionalContainedTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetOptionalContainedTypeInfo$LAYOUT, GetOptionalContainedTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetOptionalContainedTypeInfo)(const OrtOptionalTypeInfo *, OrtTypeInfo **)
+     * }
+     */
+    public static GetOptionalContainedTypeInfo.Function GetOptionalContainedTypeInfoFunction(MemorySegment struct) {
+        return GetOptionalContainedTypeInfo.function(GetOptionalContainedTypeInfo(struct));
     }
 
     /**
@@ -26057,6 +30389,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetResizedStringTensorElementBuffer.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout GetResizedStringTensorElementBuffer$LAYOUT =
@@ -26102,6 +30441,17 @@ public class OrtApi {
      */
     public static void GetResizedStringTensorElementBuffer(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetResizedStringTensorElementBuffer$LAYOUT, GetResizedStringTensorElementBuffer$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetResizedStringTensorElementBuffer)(OrtValue *, size_t, size_t, char **)
+     * }
+     */
+    public static GetResizedStringTensorElementBuffer.Function GetResizedStringTensorElementBufferFunction(
+            MemorySegment struct) {
+        return GetResizedStringTensorElementBuffer.function(GetResizedStringTensorElementBuffer(struct));
     }
 
     /**
@@ -26159,6 +30509,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout KernelContext_GetAllocator$LAYOUT =
@@ -26204,6 +30561,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetAllocator(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetAllocator$LAYOUT, KernelContext_GetAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetAllocator)(const OrtKernelContext *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static KernelContext_GetAllocator.Function KernelContext_GetAllocatorFunction(MemorySegment struct) {
+        return KernelContext_GetAllocator.function(KernelContext_GetAllocator(struct));
     }
 
     /**
@@ -26256,6 +30623,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetBuildInfoString.Function function(MemorySegment funcPtr) {
+            return () -> invoke(funcPtr);
+        }
     }
 
     private static final AddressLayout GetBuildInfoString$LAYOUT =
@@ -26301,6 +30675,16 @@ public class OrtApi {
      */
     public static void GetBuildInfoString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetBuildInfoString$LAYOUT, GetBuildInfoString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetBuildInfoString)(void)
+     * }
+     */
+    public static GetBuildInfoString.Function GetBuildInfoStringFunction(MemorySegment struct) {
+        return GetBuildInfoString.function(GetBuildInfoString(struct));
     }
 
     /**
@@ -26354,6 +30738,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateROCMProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout CreateROCMProviderOptions$LAYOUT =
@@ -26399,6 +30790,16 @@ public class OrtApi {
      */
     public static void CreateROCMProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateROCMProviderOptions$LAYOUT, CreateROCMProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateROCMProviderOptions)(OrtROCMProviderOptions **)
+     * }
+     */
+    public static CreateROCMProviderOptions.Function CreateROCMProviderOptionsFunction(MemorySegment struct) {
+        return CreateROCMProviderOptions.function(CreateROCMProviderOptions(struct));
     }
 
     /**
@@ -26457,6 +30858,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateROCMProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout UpdateROCMProviderOptions$LAYOUT =
@@ -26502,6 +30910,16 @@ public class OrtApi {
      */
     public static void UpdateROCMProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateROCMProviderOptions$LAYOUT, UpdateROCMProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateROCMProviderOptions)(OrtROCMProviderOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static UpdateROCMProviderOptions.Function UpdateROCMProviderOptionsFunction(MemorySegment struct) {
+        return UpdateROCMProviderOptions.function(UpdateROCMProviderOptions(struct));
     }
 
     /**
@@ -26559,6 +30977,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetROCMProviderOptionsAsString.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetROCMProviderOptionsAsString$LAYOUT =
@@ -26604,6 +31029,16 @@ public class OrtApi {
      */
     public static void GetROCMProviderOptionsAsString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetROCMProviderOptionsAsString$LAYOUT, GetROCMProviderOptionsAsString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetROCMProviderOptionsAsString)(const OrtROCMProviderOptions *, OrtAllocator *, char **)
+     * }
+     */
+    public static GetROCMProviderOptionsAsString.Function GetROCMProviderOptionsAsStringFunction(MemorySegment struct) {
+        return GetROCMProviderOptionsAsString.function(GetROCMProviderOptionsAsString(struct));
     }
 
     /**
@@ -26656,6 +31091,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseROCMProviderOptions.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout ReleaseROCMProviderOptions$LAYOUT =
@@ -26701,6 +31143,16 @@ public class OrtApi {
      */
     public static void ReleaseROCMProviderOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseROCMProviderOptions$LAYOUT, ReleaseROCMProviderOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseROCMProviderOptions)(OrtROCMProviderOptions *)
+     * }
+     */
+    public static ReleaseROCMProviderOptions.Function ReleaseROCMProviderOptionsFunction(MemorySegment struct) {
+        return ReleaseROCMProviderOptions.function(ReleaseROCMProviderOptions(struct));
     }
 
     /**
@@ -26776,6 +31228,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateAndRegisterAllocatorV2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6);
+        }
     }
 
     private static final AddressLayout CreateAndRegisterAllocatorV2$LAYOUT =
@@ -26821,6 +31280,16 @@ public class OrtApi {
      */
     public static void CreateAndRegisterAllocatorV2(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateAndRegisterAllocatorV2$LAYOUT, CreateAndRegisterAllocatorV2$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateAndRegisterAllocatorV2)(OrtEnv *, const char *, const OrtMemoryInfo *, const OrtArenaCfg *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static CreateAndRegisterAllocatorV2.Function CreateAndRegisterAllocatorV2Function(MemorySegment struct) {
+        return CreateAndRegisterAllocatorV2.function(CreateAndRegisterAllocatorV2(struct));
     }
 
     /**
@@ -26905,6 +31374,14 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunAsync.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9) ->
+                    invoke(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7, _x8, _x9);
+        }
     }
 
     private static final AddressLayout RunAsync$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("RunAsync"));
@@ -26949,6 +31426,16 @@ public class OrtApi {
      */
     public static void RunAsync(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(RunAsync$LAYOUT, RunAsync$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunAsync)(OrtSession *, const OrtRunOptions *, const char *const *, const OrtValue *const *, size_t, const char *const *, size_t, OrtValue **, RunAsyncCallbackFn, void *)
+     * }
+     */
+    public static RunAsync.Function RunAsyncFunction(MemorySegment struct) {
+        return RunAsync.function(RunAsync(struct));
     }
 
     /**
@@ -27006,6 +31493,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateTensorRTProviderOptionsWithValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout UpdateTensorRTProviderOptionsWithValue$LAYOUT =
@@ -27054,6 +31548,17 @@ public class OrtApi {
                 UpdateTensorRTProviderOptionsWithValue$LAYOUT,
                 UpdateTensorRTProviderOptionsWithValue$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateTensorRTProviderOptionsWithValue)(OrtTensorRTProviderOptionsV2 *, const char *, void *)
+     * }
+     */
+    public static UpdateTensorRTProviderOptionsWithValue.Function UpdateTensorRTProviderOptionsWithValueFunction(
+            MemorySegment struct) {
+        return UpdateTensorRTProviderOptionsWithValue.function(UpdateTensorRTProviderOptionsWithValue(struct));
     }
 
     /**
@@ -27111,6 +31616,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetTensorRTProviderOptionsByName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetTensorRTProviderOptionsByName$LAYOUT =
@@ -27156,6 +31668,17 @@ public class OrtApi {
      */
     public static void GetTensorRTProviderOptionsByName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetTensorRTProviderOptionsByName$LAYOUT, GetTensorRTProviderOptionsByName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorRTProviderOptionsByName)(const OrtTensorRTProviderOptionsV2 *, const char *, void **)
+     * }
+     */
+    public static GetTensorRTProviderOptionsByName.Function GetTensorRTProviderOptionsByNameFunction(
+            MemorySegment struct) {
+        return GetTensorRTProviderOptionsByName.function(GetTensorRTProviderOptionsByName(struct));
     }
 
     /**
@@ -27213,6 +31736,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static UpdateCUDAProviderOptionsWithValue.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout UpdateCUDAProviderOptionsWithValue$LAYOUT =
@@ -27258,6 +31788,17 @@ public class OrtApi {
      */
     public static void UpdateCUDAProviderOptionsWithValue(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(UpdateCUDAProviderOptionsWithValue$LAYOUT, UpdateCUDAProviderOptionsWithValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UpdateCUDAProviderOptionsWithValue)(OrtCUDAProviderOptionsV2 *, const char *, void *)
+     * }
+     */
+    public static UpdateCUDAProviderOptionsWithValue.Function UpdateCUDAProviderOptionsWithValueFunction(
+            MemorySegment struct) {
+        return UpdateCUDAProviderOptionsWithValue.function(UpdateCUDAProviderOptionsWithValue(struct));
     }
 
     /**
@@ -27315,6 +31856,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetCUDAProviderOptionsByName.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout GetCUDAProviderOptionsByName$LAYOUT =
@@ -27360,6 +31908,16 @@ public class OrtApi {
      */
     public static void GetCUDAProviderOptionsByName(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetCUDAProviderOptionsByName$LAYOUT, GetCUDAProviderOptionsByName$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCUDAProviderOptionsByName)(const OrtCUDAProviderOptionsV2 *, const char *, void **)
+     * }
+     */
+    public static GetCUDAProviderOptionsByName.Function GetCUDAProviderOptionsByNameFunction(MemorySegment struct) {
+        return GetCUDAProviderOptionsByName.function(GetCUDAProviderOptionsByName(struct));
     }
 
     /**
@@ -27418,6 +31976,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetResource.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout KernelContext_GetResource$LAYOUT =
@@ -27463,6 +32028,16 @@ public class OrtApi {
      */
     public static void KernelContext_GetResource(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetResource$LAYOUT, KernelContext_GetResource$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetResource)(const OrtKernelContext *, int, int, void **)
+     * }
+     */
+    public static KernelContext_GetResource.Function KernelContext_GetResourceFunction(MemorySegment struct) {
+        return KernelContext_GetResource.function(KernelContext_GetResource(struct));
     }
 
     /**
@@ -27520,6 +32095,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetUserLoggingFunction.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SetUserLoggingFunction$LAYOUT =
@@ -27565,6 +32147,16 @@ public class OrtApi {
      */
     public static void SetUserLoggingFunction(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetUserLoggingFunction$LAYOUT, SetUserLoggingFunction$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetUserLoggingFunction)(OrtSessionOptions *, OrtLoggingFunction, void *)
+     * }
+     */
+    public static SetUserLoggingFunction.Function SetUserLoggingFunctionFunction(MemorySegment struct) {
+        return SetUserLoggingFunction.function(SetUserLoggingFunction(struct));
     }
 
     /**
@@ -27618,6 +32210,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ShapeInferContext_GetInputCount.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout ShapeInferContext_GetInputCount$LAYOUT =
@@ -27663,6 +32262,17 @@ public class OrtApi {
      */
     public static void ShapeInferContext_GetInputCount(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ShapeInferContext_GetInputCount$LAYOUT, ShapeInferContext_GetInputCount$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ShapeInferContext_GetInputCount)(const OrtShapeInferContext *, size_t *)
+     * }
+     */
+    public static ShapeInferContext_GetInputCount.Function ShapeInferContext_GetInputCountFunction(
+            MemorySegment struct) {
+        return ShapeInferContext_GetInputCount.function(ShapeInferContext_GetInputCount(struct));
     }
 
     /**
@@ -27719,6 +32329,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ShapeInferContext_GetInputTypeShape.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ShapeInferContext_GetInputTypeShape$LAYOUT =
@@ -27764,6 +32381,17 @@ public class OrtApi {
      */
     public static void ShapeInferContext_GetInputTypeShape(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ShapeInferContext_GetInputTypeShape$LAYOUT, ShapeInferContext_GetInputTypeShape$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ShapeInferContext_GetInputTypeShape)(const OrtShapeInferContext *, size_t, OrtTensorTypeAndShapeInfo **)
+     * }
+     */
+    public static ShapeInferContext_GetInputTypeShape.Function ShapeInferContext_GetInputTypeShapeFunction(
+            MemorySegment struct) {
+        return ShapeInferContext_GetInputTypeShape.function(ShapeInferContext_GetInputTypeShape(struct));
     }
 
     /**
@@ -27821,6 +32449,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ShapeInferContext_GetAttribute.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ShapeInferContext_GetAttribute$LAYOUT =
@@ -27866,6 +32501,16 @@ public class OrtApi {
      */
     public static void ShapeInferContext_GetAttribute(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ShapeInferContext_GetAttribute$LAYOUT, ShapeInferContext_GetAttribute$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ShapeInferContext_GetAttribute)(const OrtShapeInferContext *, const char *, const OrtOpAttr **)
+     * }
+     */
+    public static ShapeInferContext_GetAttribute.Function ShapeInferContext_GetAttributeFunction(MemorySegment struct) {
+        return ShapeInferContext_GetAttribute.function(ShapeInferContext_GetAttribute(struct));
     }
 
     /**
@@ -27922,6 +32567,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ShapeInferContext_SetOutputTypeShape.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout ShapeInferContext_SetOutputTypeShape$LAYOUT =
@@ -27968,6 +32620,17 @@ public class OrtApi {
     public static void ShapeInferContext_SetOutputTypeShape(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 ShapeInferContext_SetOutputTypeShape$LAYOUT, ShapeInferContext_SetOutputTypeShape$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ShapeInferContext_SetOutputTypeShape)(const OrtShapeInferContext *, size_t, const OrtTensorTypeAndShapeInfo *)
+     * }
+     */
+    public static ShapeInferContext_SetOutputTypeShape.Function ShapeInferContext_SetOutputTypeShapeFunction(
+            MemorySegment struct) {
+        return ShapeInferContext_SetOutputTypeShape.function(ShapeInferContext_SetOutputTypeShape(struct));
     }
 
     /**
@@ -28024,6 +32687,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetSymbolicDimensions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
     }
 
     private static final AddressLayout SetSymbolicDimensions$LAYOUT =
@@ -28069,6 +32739,16 @@ public class OrtApi {
      */
     public static void SetSymbolicDimensions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetSymbolicDimensions$LAYOUT, SetSymbolicDimensions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSymbolicDimensions)(OrtTensorTypeAndShapeInfo *, const char **, size_t)
+     * }
+     */
+    public static SetSymbolicDimensions.Function SetSymbolicDimensionsFunction(MemorySegment struct) {
+        return SetSymbolicDimensions.function(SetSymbolicDimensions(struct));
     }
 
     /**
@@ -28128,6 +32808,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReadOpAttr.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout ReadOpAttr$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("ReadOpAttr"));
@@ -28172,6 +32859,16 @@ public class OrtApi {
      */
     public static void ReadOpAttr(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReadOpAttr$LAYOUT, ReadOpAttr$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReadOpAttr)(const OrtOpAttr *, OrtOpAttrType, void *, size_t, size_t *)
+     * }
+     */
+    public static ReadOpAttr.Function ReadOpAttrFunction(MemorySegment struct) {
+        return ReadOpAttr.function(ReadOpAttr(struct));
     }
 
     /**
@@ -28225,6 +32922,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetDeterministicCompute.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout SetDeterministicCompute$LAYOUT =
@@ -28270,6 +32974,16 @@ public class OrtApi {
      */
     public static void SetDeterministicCompute(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetDeterministicCompute$LAYOUT, SetDeterministicCompute$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetDeterministicCompute)(OrtSessionOptions *, bool)
+     * }
+     */
+    public static SetDeterministicCompute.Function SetDeterministicComputeFunction(MemorySegment struct) {
+        return SetDeterministicCompute.function(SetDeterministicCompute(struct));
     }
 
     /**
@@ -28329,6 +33043,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_ParallelFor.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
     }
 
     private static final AddressLayout KernelContext_ParallelFor$LAYOUT =
@@ -28374,6 +33095,16 @@ public class OrtApi {
      */
     public static void KernelContext_ParallelFor(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_ParallelFor$LAYOUT, KernelContext_ParallelFor$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_ParallelFor)(const OrtKernelContext *, void (*)(void *, size_t), size_t, size_t, void *)
+     * }
+     */
+    public static KernelContext_ParallelFor.Function KernelContext_ParallelForFunction(MemorySegment struct) {
+        return KernelContext_ParallelFor.function(KernelContext_ParallelFor(struct));
     }
 
     /**
@@ -28433,6 +33164,13 @@ public class OrtApi {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_OpenVINO_V2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
     }
 
     private static final AddressLayout SessionOptionsAppendExecutionProvider_OpenVINO_V2$LAYOUT =
@@ -28487,6 +33225,18 @@ public class OrtApi {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO_V2)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_OpenVINO_V2.Function
+            SessionOptionsAppendExecutionProvider_OpenVINO_V2Function(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_OpenVINO_V2.function(
+                SessionOptionsAppendExecutionProvider_OpenVINO_V2(struct));
+    }
+
+    /**
      * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
      * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
      */
@@ -28517,7 +33267,7 @@ public class OrtApi {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
      * The returned segment has size {@code layout().byteSize()}
      */
     public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
@@ -28525,7 +33275,7 @@ public class OrtApi {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
      * The returned segment has size {@code elementCount * layout().byteSize()}
      */
     public static MemorySegment reinterpret(

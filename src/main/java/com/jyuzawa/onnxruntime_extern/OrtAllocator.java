@@ -138,6 +138,13 @@ public class OrtAllocator {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Alloc.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout Alloc$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Alloc"));
@@ -182,6 +189,16 @@ public class OrtAllocator {
      */
     public static void Alloc(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Alloc$LAYOUT, Alloc$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void *(*Alloc)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static Alloc.Function AllocFunction(MemorySegment struct) {
+        return Alloc.function(Alloc(struct));
     }
 
     /**
@@ -234,6 +251,13 @@ public class OrtAllocator {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Free.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
     }
 
     private static final AddressLayout Free$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Free"));
@@ -278,6 +302,16 @@ public class OrtAllocator {
      */
     public static void Free(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Free$LAYOUT, Free$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*Free)(struct OrtAllocator *, void *)
+     * }
+     */
+    public static Free.Function FreeFunction(MemorySegment struct) {
+        return Free.function(Free(struct));
     }
 
     /**
@@ -330,6 +364,13 @@ public class OrtAllocator {
                 throw new AssertionError("should not reach here", ex$);
             }
         }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Info.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
     private static final AddressLayout Info$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Info"));
@@ -377,6 +418,16 @@ public class OrtAllocator {
     }
 
     /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const struct OrtMemoryInfo *(*Info)(const struct OrtAllocator *)
+     * }
+     */
+    public static Info.Function InfoFunction(MemorySegment struct) {
+        return Info.function(Info(struct));
+    }
+
+    /**
      * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
      * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
      */
@@ -407,7 +458,7 @@ public class OrtAllocator {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
      * The returned segment has size {@code layout().byteSize()}
      */
     public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
@@ -415,7 +466,7 @@ public class OrtAllocator {
     }
 
     /**
-     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction) (if any).
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
      * The returned segment has size {@code elementCount * layout().byteSize()}
      */
     public static MemorySegment reinterpret(
