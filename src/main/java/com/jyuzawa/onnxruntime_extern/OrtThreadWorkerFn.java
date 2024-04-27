@@ -63,4 +63,11 @@ public class OrtThreadWorkerFn {
             throw new AssertionError("should not reach here", ex$);
         }
     }
+
+    /**
+     * Get an implementation of the function interface from a function pointer.
+     */
+    public static OrtThreadWorkerFn.Function function(MemorySegment funcPtr) {
+        return (ort_worker_fn_param) -> invoke(funcPtr, ort_worker_fn_param);
+    }
 }

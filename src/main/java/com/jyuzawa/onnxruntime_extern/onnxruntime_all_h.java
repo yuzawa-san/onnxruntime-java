@@ -949,8 +949,9 @@ public class onnxruntime_all_h {
     private static class OrtGetApiBase {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
 
-        public static final MethodHandle HANDLE =
-                Linker.nativeLinker().downcallHandle(onnxruntime_all_h.findOrThrow("OrtGetApiBase"), DESC);
+        public static final MemorySegment ADDR = onnxruntime_all_h.findOrThrow("OrtGetApiBase");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -972,6 +973,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtGetApiBase$handle() {
         return OrtGetApiBase.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * const OrtApiBase *OrtGetApiBase(void)
+     * }
+     */
+    public static MemorySegment OrtGetApiBase$address() {
+        return OrtGetApiBase.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * const OrtApiBase *OrtGetApiBase(void)
@@ -1031,8 +1043,10 @@ public class onnxruntime_all_h {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker()
-                .downcallHandle(onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CUDA"), DESC);
+        public static final MemorySegment ADDR =
+                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CUDA");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -1054,6 +1068,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CUDA$handle() {
         return OrtSessionOptionsAppendExecutionProvider_CUDA.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CUDA(OrtSessionOptions *options, int device_id)
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_CUDA$address() {
+        return OrtSessionOptionsAppendExecutionProvider_CUDA.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CUDA(OrtSessionOptions *options, int device_id)
@@ -1075,8 +1100,10 @@ public class onnxruntime_all_h {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker()
-                .downcallHandle(onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_ROCM"), DESC);
+        public static final MemorySegment ADDR =
+                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_ROCM");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -1098,6 +1125,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_ROCM$handle() {
         return OrtSessionOptionsAppendExecutionProvider_ROCM.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_ROCM(OrtSessionOptions *options, int device_id)
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_ROCM$address() {
+        return OrtSessionOptionsAppendExecutionProvider_ROCM.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_ROCM(OrtSessionOptions *options, int device_id)
@@ -1119,9 +1157,10 @@ public class onnxruntime_all_h {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker()
-                .downcallHandle(
-                        onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_MIGraphX"), DESC);
+        public static final MemorySegment ADDR =
+                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -1143,6 +1182,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_MIGraphX$handle() {
         return OrtSessionOptionsAppendExecutionProvider_MIGraphX.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_MIGraphX(OrtSessionOptions *options, int device_id)
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_MIGraphX$address() {
+        return OrtSessionOptionsAppendExecutionProvider_MIGraphX.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_MIGraphX(OrtSessionOptions *options, int device_id)
@@ -1165,8 +1215,10 @@ public class onnxruntime_all_h {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker()
-                .downcallHandle(onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Dnnl"), DESC);
+        public static final MemorySegment ADDR =
+                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Dnnl");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -1188,6 +1240,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Dnnl$handle() {
         return OrtSessionOptionsAppendExecutionProvider_Dnnl.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_Dnnl(OrtSessionOptions *options, int use_arena)
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_Dnnl$address() {
+        return OrtSessionOptionsAppendExecutionProvider_Dnnl.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_Dnnl(OrtSessionOptions *options, int use_arena)
@@ -1209,9 +1272,10 @@ public class onnxruntime_all_h {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker()
-                .downcallHandle(
-                        onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Tensorrt"), DESC);
+        public static final MemorySegment ADDR =
+                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Tensorrt");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -1233,6 +1297,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_Tensorrt$handle() {
         return OrtSessionOptionsAppendExecutionProvider_Tensorrt.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_Tensorrt(OrtSessionOptions *options, int device_id)
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_Tensorrt$address() {
+        return OrtSessionOptionsAppendExecutionProvider_Tensorrt.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_Tensorrt(OrtSessionOptions *options, int device_id)
@@ -1315,8 +1390,10 @@ public class onnxruntime_all_h {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
-        public static final MethodHandle HANDLE = Linker.nativeLinker()
-                .downcallHandle(onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CoreML"), DESC);
+        public static final MemorySegment ADDR =
+                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CoreML");
+
+        public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
 
     /**
@@ -1338,6 +1415,17 @@ public class onnxruntime_all_h {
     public static MethodHandle OrtSessionOptionsAppendExecutionProvider_CoreML$handle() {
         return OrtSessionOptionsAppendExecutionProvider_CoreML.HANDLE;
     }
+
+    /**
+     * Address for:
+     * {@snippet lang=c :
+     * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CoreML(OrtSessionOptions *options, uint32_t coreml_flags)
+     * }
+     */
+    public static MemorySegment OrtSessionOptionsAppendExecutionProvider_CoreML$address() {
+        return OrtSessionOptionsAppendExecutionProvider_CoreML.ADDR;
+    }
+
     /**
      * {@snippet lang=c :
      * OrtStatusPtr OrtSessionOptionsAppendExecutionProvider_CoreML(OrtSessionOptions *options, uint32_t coreml_flags)
@@ -1357,13 +1445,13 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/tmp/jextract$10599843785841005648.h"
+     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5143095224000310261.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
-            static final MemorySegment ORT_FILE =
-                    onnxruntime_all_h.LIBRARY_ARENA.allocateFrom("/tmp/jextract$10599843785841005648.h");
+            static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
+                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5143095224000310261.h");
         }
         return Holder.ORT_FILE;
     }

@@ -82,4 +82,12 @@ public class OrtLoggingFunction {
             throw new AssertionError("should not reach here", ex$);
         }
     }
+
+    /**
+     * Get an implementation of the function interface from a function pointer.
+     */
+    public static OrtLoggingFunction.Function function(MemorySegment funcPtr) {
+        return (param, severity, category, logid, code_location, message) ->
+                invoke(funcPtr, param, severity, category, logid, code_location, message);
+    }
 }

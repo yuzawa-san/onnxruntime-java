@@ -72,4 +72,11 @@ public class RunAsyncCallbackFn {
             throw new AssertionError("should not reach here", ex$);
         }
     }
+
+    /**
+     * Get an implementation of the function interface from a function pointer.
+     */
+    public static RunAsyncCallbackFn.Function function(MemorySegment funcPtr) {
+        return (user_data, outputs, num_outputs, status) -> invoke(funcPtr, user_data, outputs, num_outputs, status);
+    }
 }

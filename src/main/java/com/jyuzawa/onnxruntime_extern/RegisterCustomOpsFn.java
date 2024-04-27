@@ -64,4 +64,11 @@ public class RegisterCustomOpsFn {
             throw new AssertionError("should not reach here", ex$);
         }
     }
+
+    /**
+     * Get an implementation of the function interface from a function pointer.
+     */
+    public static RegisterCustomOpsFn.Function function(MemorySegment funcPtr) {
+        return (options, api) -> invoke(funcPtr, options, api);
+    }
 }
