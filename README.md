@@ -15,7 +15,7 @@ There are [other](https://github.com/bytedeco/javacpp-presets/tree/master/onnxru
 ## Usage
 
 
-This project is released to [Maven Central](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) and can be used in your project. 
+This project is released to [Maven Central](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) and can be used in your project.
 
 ### Artifacts
 
@@ -87,4 +87,3 @@ Minor version will be bumped for smaller, but compatible changes.
 Upstream minor version changes will typically be minor version changes here.
 
 The `onnxruntime-cpu` and `onnxruntime-gpu` artifacts are versioned to match the upstream versions and depend on a minimum compatible `onnxruntime` version.
-
