@@ -11,10 +11,8 @@ import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -30,85 +28,93 @@ final class SessionImpl extends ManagedImpl implements Session {
     private static final boolean IS_WINDOWS =
             System.getProperty("os.name").toLowerCase().contains("windows");
 
-    private final MemoryAddress address;
+    private final MemorySegment address;
     private final NamedCollection<NodeInfoImpl> overridableInitializers;
     final NamedCollection<NodeInfoImpl> inputs;
     final NamedCollection<NodeInfoImpl> outputs;
     final EnvironmentImpl environment;
     private final ModelMetadata modelMetadata;
-    private final MemoryAddress ortAllocator;
+    private final MemorySegment ortAllocator;
 
     SessionImpl(Builder builder) throws IOException {
-        super(builder.api, MemorySession.openShared());
-        try (MemorySession tempMemorySession = MemorySession.openConfined()) {
+        super(builder.api, Arena.ofShared());
+        try (Arena tempMemorySession = Arena.ofConfined()) {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
-            MemoryAddress sessionOptions = builder.newSessionOptions(tempMemorySession);
+            MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
+            try {
+                final MemorySegment mappedBuf;
+                ByteBuffer buffer = builder.buffer;
+                byte[] bytes = builder.bytes;
+                Path path = builder.path;
+                if (path != null) {
+                    LOG.log(Level.DEBUG, "Loading session from " + path);
+                    this.address = api.create(
+                            memorySession,
+                            out -> api.CreateSession.apply(
+                                    environment.address(), createPath(tempMemorySession, path), sessionOptions, out));
 
-            final MemorySegment mappedBuf;
-            ByteBuffer buffer = builder.buffer;
-            byte[] bytes = builder.bytes;
-            Path path = builder.path;
-            if (path != null) {
-                LOG.log(Level.DEBUG, "Loading session from " + path);
-                this.address = api.create(
-                        memorySession,
-                        out -> api.CreateSession.apply(
-                                environment.address(), createPath(tempMemorySession, path), sessionOptions, out));
-            } else {
-                if (buffer != null) {
-                    if (buffer.isDirect()) {
-                        mappedBuf = MemorySegment.ofBuffer(buffer);
-
-                    } else {
-                        mappedBuf = tempMemorySession.allocateArray(C_CHAR, buffer.remaining());
-                        mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
-                    }
-                } else if (bytes != null) {
-                    mappedBuf = tempMemorySession.allocateArray(C_CHAR, bytes);
                 } else {
-                    throw new IllegalArgumentException("missing model source");
+                    if (buffer != null) {
+                        if (buffer.isDirect()) {
+                            mappedBuf = MemorySegment.ofBuffer(buffer);
+
+                        } else {
+                            mappedBuf = tempMemorySession.allocate(C_CHAR, buffer.remaining());
+                            mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
+                        }
+                    } else if (bytes != null) {
+                        mappedBuf = tempMemorySession.allocateFrom(C_CHAR, bytes);
+                    } else {
+                        throw new IllegalArgumentException("missing model source");
+                    }
+                    this.address = api.create(
+                            memorySession,
+                            out -> api.CreateSessionFromArray.apply(
+                                    environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
                 }
-                this.address = api.create(
+
+                this.overridableInitializers = createMap(
+                        api,
+                        tempMemorySession,
                         memorySession,
-                        out -> api.CreateSessionFromArray.apply(
-                                environment.address(), mappedBuf.address(), mappedBuf.byteSize(), sessionOptions, out));
+                        ortAllocator,
+                        address,
+                        api.SessionGetOverridableInitializerCount::apply,
+                        api.SessionGetOverridableInitializerName::apply,
+                        api.SessionGetOverridableInitializerTypeInfo::apply);
+                this.inputs = createMap(
+                        api,
+                        tempMemorySession,
+                        memorySession,
+                        ortAllocator,
+                        address,
+                        api.SessionGetInputCount::apply,
+                        api.SessionGetInputName::apply,
+                        api.SessionGetInputTypeInfo::apply);
+                this.outputs = createMap(
+                        api,
+                        tempMemorySession,
+                        memorySession,
+                        ortAllocator,
+                        address,
+                        api.SessionGetOutputCount::apply,
+                        api.SessionGetOutputName::apply,
+                        api.SessionGetOutputTypeInfo::apply);
+                MemorySegment metadataAddress =
+                        api.create(memorySession, out -> api.SessionGetModelMetadata.apply(address, out));
+                try {
+                    this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, metadataAddress, ortAllocator);
+                } finally {
+                    api.ReleaseModelMetadata.apply(metadataAddress);
+                }
+            } finally {
+                api.ReleaseSessionOptions.apply(sessionOptions);
             }
-
-            memorySession.addCloseAction(() -> api.ReleaseSession.apply(address));
-
-            this.overridableInitializers = createMap(
-                    api,
-                    tempMemorySession,
-                    memorySession,
-                    ortAllocator,
-                    address,
-                    api.SessionGetOverridableInitializerCount::apply,
-                    api.SessionGetOverridableInitializerName::apply,
-                    api.SessionGetOverridableInitializerTypeInfo::apply);
-            this.inputs = createMap(
-                    api,
-                    tempMemorySession,
-                    memorySession,
-                    ortAllocator,
-                    address,
-                    api.SessionGetInputCount::apply,
-                    api.SessionGetInputName::apply,
-                    api.SessionGetInputTypeInfo::apply);
-            this.outputs = createMap(
-                    api,
-                    tempMemorySession,
-                    memorySession,
-                    ortAllocator,
-                    address,
-                    api.SessionGetOutputCount::apply,
-                    api.SessionGetOutputName::apply,
-                    api.SessionGetOutputTypeInfo::apply);
-            this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, address, ortAllocator);
         }
     }
 
-    private static final MemoryAddress createPath(SegmentAllocator segmentAllocator, Path path) {
+    private static final MemorySegment createPath(SegmentAllocator segmentAllocator, Path path) {
         String pathString = path.toAbsolutePath().toString();
         if (IS_WINDOWS) {
             // treat segment as wchar_t
@@ -118,68 +124,71 @@ final class SessionImpl extends ManagedImpl implements Session {
             addr.copyFrom(heapSegment);
             addr.set(JAVA_BYTE, bytes.length, (byte) 0);
             addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
-            return addr.address();
+            return addr;
         }
-        return segmentAllocator.allocateUtf8String(pathString).address();
+        return segmentAllocator.allocateFrom(pathString);
     }
 
     @Override
-    MemoryAddress address() {
+    public void close() {
+        api.ReleaseSession.apply(address);
+        super.close();
+    }
+
+    @Override
+    MemorySegment address() {
         return address;
     }
 
     private interface GetCount {
-        Addressable apply(MemoryAddress session, MemoryAddress out);
+        MemorySegment apply(MemorySegment session, MemorySegment out);
     }
 
     private interface GetName {
-        Addressable apply(MemoryAddress session, long idx, MemoryAddress ortAllocator, MemoryAddress out);
+        MemorySegment apply(MemorySegment session, long idx, MemorySegment ortAllocator, MemorySegment out);
     }
 
     private interface GetTypeInfo {
-        Addressable apply(MemoryAddress session, long idx, MemoryAddress out);
+        MemorySegment apply(MemorySegment session, long idx, MemorySegment out);
     }
 
     private static NamedCollection<NodeInfoImpl> createMap(
             ApiImpl api,
-            MemorySession allocator,
-            MemorySession sessionAllocator,
-            MemoryAddress ortAllocator,
-            MemoryAddress session,
+            Arena allocator,
+            Arena sessionAllocator,
+            MemorySegment ortAllocator,
+            MemorySegment session,
             GetCount getCount,
             GetName getName,
             GetTypeInfo getTypeInfo) {
         MemorySegment numInputsSegment = allocator.allocate(C_LONG);
-        api.checkStatus(getCount.apply(session, numInputsSegment.address()));
+        api.checkStatus(getCount.apply(session, numInputsSegment));
         long numInputs = numInputsSegment.getAtIndex(C_LONG, 0);
         LinkedHashMap<String, NodeInfoImpl> inputs = new LinkedHashMap<>();
         for (long i = 0; i < numInputs; i++) {
             final long j = i;
-            MemoryAddress nameSegment = api.create(allocator, out -> getName.apply(session, j, ortAllocator, out));
-            String name = nameSegment.getUtf8String(0);
+            MemorySegment nameSegment = api.create(allocator, out -> getName.apply(session, j, ortAllocator, out));
+            String name = nameSegment.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
-            MemoryAddress typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
+            MemorySegment typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
             TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
-            inputs.put(
-                    name,
-                    new NodeInfoImpl(
-                            name, sessionAllocator.allocateUtf8String(name).address(), typeInfo));
+            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateFrom(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
 
     @Override
     public long getProfilingStartTimeInNs() {
-        try (MemorySession session = MemorySession.openConfined()) {
+        try (Arena session = Arena.ofConfined()) {
             return api.extractLong(session, out -> api.SessionGetProfilingStartTimeNs.apply(address, out));
         }
     }
 
     @Override
     public Path endProfiling() {
-        try (MemorySession session = MemorySession.openConfined()) {
-            MemoryAddress path = api.create(session, out -> api.SessionEndProfiling.apply(address, ortAllocator, out));
-            return Path.of(path.getUtf8String(0));
+        try (Arena session = Arena.ofConfined()) {
+            MemorySegment path = api.create(session, out -> api.SessionEndProfiling.apply(address, ortAllocator, out));
+            return Path.of(path.getString(0));
         }
     }
 
@@ -356,9 +365,8 @@ final class SessionImpl extends ManagedImpl implements Session {
             return this;
         }
 
-        private MemoryAddress newSessionOptions(MemorySession memorySession) {
-            MemoryAddress sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
-            memorySession.addCloseAction(() -> api.ReleaseSessionOptions.apply(sessionOptions));
+        private MemorySegment newSessionOptions(Arena memorySession) {
+            MemorySegment sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
             }
@@ -366,9 +374,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                 api.checkStatus(api.SetSessionLogVerbosityLevel.apply(sessionOptions, logVerbosityLevel));
             }
             if (loggerId != null) {
-                api.checkStatus(api.SetSessionLogId.apply(
-                        sessionOptions,
-                        memorySession.allocateUtf8String(loggerId).address()));
+                api.checkStatus(api.SetSessionLogId.apply(sessionOptions, memorySession.allocateFrom(loggerId)));
             }
             if (memoryPatternOptimization != null) {
                 if (memoryPatternOptimization) {
@@ -407,8 +413,8 @@ final class SessionImpl extends ManagedImpl implements Session {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddSessionConfigEntry.apply(
                             sessionOptions,
-                            memorySession.allocateUtf8String(entry.getKey()).address(),
-                            memorySession.allocateUtf8String(entry.getValue()).address()));
+                            memorySession.allocateFrom(entry.getKey()),
+                            memorySession.allocateFrom(entry.getValue())));
                 }
             }
 
@@ -422,6 +428,21 @@ final class SessionImpl extends ManagedImpl implements Session {
                         sessionOptions, createPath(memorySession, customOpsLibrary)));
             }
             return sessionOptions;
+        }
+
+        private static final MemorySegment createPath(SegmentAllocator segmentAllocator, Path path) {
+            String pathString = path.toAbsolutePath().toString();
+            if (IS_WINDOWS) {
+                // treat segment as wchar_t
+                byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
+                MemorySegment addr = segmentAllocator.allocate(bytes.length + 2);
+                MemorySegment heapSegment = MemorySegment.ofArray(bytes);
+                addr.copyFrom(heapSegment);
+                addr.set(JAVA_BYTE, bytes.length, (byte) 0);
+                addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
+                return addr;
+            }
+            return segmentAllocator.allocateFrom(pathString);
         }
 
         @Override

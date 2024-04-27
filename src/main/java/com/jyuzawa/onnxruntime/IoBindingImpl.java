@@ -4,10 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.Addressable;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,16 +13,17 @@ import java.util.Map;
 
 final class IoBindingImpl implements IoBinding {
     private final ApiImpl api;
-    private final MemorySession memorySession;
-    private final MemoryAddress ioBinding;
-    private final MemoryAddress runOptions;
+    private final Arena memorySession;
+    private final MemorySegment ioBinding;
+    private final MemorySegment runOptions;
     private final NamedCollectionImpl<OnnxValue> inputs;
     private final NamedCollectionImpl<OnnxValue> outputs;
-    private final MemoryAddress session;
+    private final List<Runnable> closeables;
+    private final MemorySegment session;
 
     IoBindingImpl(Builder builder) {
         // NOTE: this is shared since we want to allow closing from another thread.
-        this.memorySession = MemorySession.openShared();
+        this.memorySession = Arena.ofShared();
         this.api = builder.api;
         this.session = builder.session.address();
         this.ioBinding = builder.api.create(memorySession, out -> builder.api.CreateIoBinding.apply(session, out));
@@ -34,34 +33,38 @@ final class IoBindingImpl implements IoBinding {
             for (Map.Entry<String, String> entry : config.entrySet()) {
                 api.checkStatus(api.AddRunConfigEntry.apply(
                         runOptions,
-                        memorySession.allocateUtf8String(entry.getKey()).address(),
-                        memorySession.allocateUtf8String(entry.getValue()).address()));
+                        memorySession.allocateFrom(entry.getKey()),
+                        memorySession.allocateFrom(entry.getValue())));
             }
         }
+        List<NodeInfoImpl> rawInputs = builder.inputs;
+        List<NodeInfoImpl> rawOutputs = builder.outputs;
+        this.closeables = new ArrayList<>(rawInputs.size() + rawOutputs.size());
         ValueContext valueContext = new ValueContext(
                 builder.api,
                 memorySession,
                 memorySession,
                 builder.session.environment.ortAllocator,
-                builder.session.environment.memoryInfo);
-        this.inputs = add(builder.inputs, valueContext, memorySession, api, ioBinding, true);
-        this.outputs = add(builder.outputs, valueContext, memorySession, api, ioBinding, false);
+                builder.session.environment.memoryInfo,
+                closeables);
+        this.inputs = add(rawInputs, valueContext, memorySession, api, ioBinding, true);
+        this.outputs = add(rawOutputs, valueContext, memorySession, api, ioBinding, false);
     }
 
     private static final NamedCollectionImpl<OnnxValue> add(
             List<NodeInfoImpl> nodes,
             ValueContext valueContext,
-            MemorySession memorySession,
+            Arena memorySession,
             ApiImpl api,
-            MemoryAddress ioBinding,
+            MemorySegment ioBinding,
             boolean isInput) {
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(nodes.size());
         for (NodeInfoImpl node : nodes) {
             OnnxValueImpl output = node.getTypeInfo().newValue(valueContext, null);
-            MemoryAddress valueAddress = output.toNative();
-            memorySession.addCloseAction(() -> api.ReleaseValue.apply(valueAddress));
+            MemorySegment valueAddress = output.toNative();
+            valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
             out.put(node.getName(), output);
-            final Addressable result;
+            final MemorySegment result;
             if (isInput) {
                 result = api.BindInput.apply(ioBinding, node.nameSegment, valueAddress);
             } else {
@@ -76,6 +79,9 @@ final class IoBindingImpl implements IoBinding {
     public void close() {
         api.ReleaseIoBinding.apply(ioBinding);
         api.ReleaseRunOptions.apply(runOptions);
+        for (Runnable closeable : closeables) {
+            closeable.run();
+        }
         memorySession.close();
     }
 
@@ -162,9 +168,9 @@ final class IoBindingImpl implements IoBinding {
 
     @Override
     public IoBinding setRunTag(String runTag) {
-        try (MemorySession allocator = MemorySession.openConfined()) {
-            MemorySegment segment = allocator.allocateUtf8String(runTag);
-            api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, segment.address()));
+        try (Arena allocator = Arena.ofConfined()) {
+            MemorySegment segment = allocator.allocateFrom(runTag);
+            api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, segment));
         }
         return this;
     }

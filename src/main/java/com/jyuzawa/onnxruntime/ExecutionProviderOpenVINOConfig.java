@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.util.Map;
 
 final class ExecutionProviderOpenVINOConfig extends ExecutionProviderMapConfig {
@@ -16,11 +16,11 @@ final class ExecutionProviderOpenVINOConfig extends ExecutionProviderMapConfig {
 
     @Override
     protected void appendToSessionOptions(
-            MemorySession memorySession,
+            Arena memorySession,
             ApiImpl api,
-            MemoryAddress sessionOptions,
-            MemoryAddress keys,
-            MemoryAddress values,
+            MemorySegment sessionOptions,
+            MemorySegment keys,
+            MemorySegment values,
             int numProperties) {
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_OpenVINO_V2.apply(
                 sessionOptions, keys, values, numProperties));

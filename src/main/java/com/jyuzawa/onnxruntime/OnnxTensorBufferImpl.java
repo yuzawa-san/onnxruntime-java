@@ -4,7 +4,6 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.foreign.SegmentAllocator;
 import java.nio.Buffer;
@@ -20,19 +19,18 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     protected OnnxTensorBufferImpl(
             TensorInfoImpl tensorInfo,
             ValueContext valueContext,
-            MemoryAddress ortValueAddress,
+            MemorySegment ortValueAddress,
             Function<ByteBuffer, T> convert) {
         super(tensorInfo, valueContext);
         SegmentAllocator segmentAllocator = valueContext.segmentAllocator();
         if (ortValueAddress == null) {
             this.memorySegment =
-                    segmentAllocator.allocateArray(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
+                    segmentAllocator.allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
         } else {
             ApiImpl api = valueContext.api();
-            MemoryAddress floatOutput =
+            MemorySegment floatOutput =
                     api.create(segmentAllocator, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
-            this.memorySegment =
-                    MemorySegment.ofAddress(floatOutput, tensorInfo.getByteCount(), valueContext.memorySession());
+            this.memorySegment = floatOutput.reinterpret(tensorInfo.getByteCount());
         }
         this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
     }
@@ -43,15 +41,15 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     }
 
     @Override
-    public final MemoryAddress toNative() {
+    public final MemorySegment toNative() {
         ApiImpl api = valueContext.api();
         return api.create(
                 valueContext.segmentAllocator(),
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
                         valueContext.memoryInfoAddress(),
-                        memorySegment.address(),
+                        memorySegment,
                         memorySegment.byteSize(),
-                        tensorInfo.shapeData.address(),
+                        tensorInfo.shapeData,
                         tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
                         out));

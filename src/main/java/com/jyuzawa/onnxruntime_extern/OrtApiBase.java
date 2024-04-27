@@ -4,138 +4,312 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
+/**
+ * {@snippet lang=c :
+ * struct OrtApiBase {
+ *     const OrtApi *(*GetApi)(uint32_t);
+ *     const char *(*GetVersionString)(void);
+ * }
+ * }
+ */
 public class OrtApiBase {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    Constants$root.C_POINTER$LAYOUT.withName("GetApi"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetVersionString"))
+    OrtApiBase() {
+        // Should not be called directly
+    }
+
+    private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
+                    onnxruntime_all_h.C_POINTER.withName("GetApi"),
+                    onnxruntime_all_h.C_POINTER.withName("GetVersionString"))
             .withName("OrtApiBase");
 
-    public static MemoryLayout $LAYOUT() {
-        return OrtApiBase.$struct$LAYOUT;
+    /**
+     * The layout of this struct
+     */
+    public static final GroupLayout layout() {
+        return $LAYOUT;
     }
 
-    static final FunctionDescriptor GetApi$FUNC =
-            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_INT$LAYOUT);
-    static final MethodHandle GetApi$MH = RuntimeHelper.downcallHandle(OrtApiBase.GetApi$FUNC);
+    /**
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static class GetApi {
 
-    public interface GetApi {
-
-        java.lang.foreign.Addressable apply(int _x0);
-
-        static MemorySegment allocate(GetApi fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetApi.class, fi, OrtApiBase.GetApi$FUNC, session);
+        GetApi() {
+            // Should not be called directly
         }
 
-        static GetApi ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (int __x0) -> {
-                try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApiBase.GetApi$MH.invokeExact((Addressable) symbol, __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle GetApi$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetApi"));
-
-    public static VarHandle GetApi$VH() {
-        return OrtApiBase.GetApi$VH;
-    }
-
-    public static MemoryAddress GetApi$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetApi$VH.get(seg);
-    }
-
-    public static void GetApi$set(MemorySegment seg, MemoryAddress x) {
-        OrtApiBase.GetApi$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetApi$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetApi$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetApi$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtApiBase.GetApi$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetApi GetApi(MemorySegment segment, MemorySession session) {
-        return GetApi.ofAddress(GetApi$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetVersionString$FUNC = FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetVersionString$MH = RuntimeHelper.downcallHandle(OrtApiBase.GetVersionString$FUNC);
-
-    public interface GetVersionString {
-
-        java.lang.foreign.Addressable apply();
-
-        static MemorySegment allocate(GetVersionString fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetVersionString.class, fi, OrtApiBase.GetVersionString$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(int _x0);
         }
 
-        static GetVersionString ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return () -> {
-                try {
-                    return (java.lang.foreign.Addressable) (java.lang.foreign.MemoryAddress)
-                            OrtApiBase.GetVersionString$MH.invokeExact((Addressable) symbol);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(GetApi.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetApi.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, int _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetApi.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
-    static final VarHandle GetVersionString$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVersionString"));
+    private static final AddressLayout GetApi$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetApi"));
 
-    public static VarHandle GetVersionString$VH() {
-        return OrtApiBase.GetVersionString$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static final AddressLayout GetApi$layout() {
+        return GetApi$LAYOUT;
     }
 
-    public static MemoryAddress GetVersionString$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetVersionString$VH.get(seg);
+    private static final long GetApi$OFFSET = 0;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static final long GetApi$offset() {
+        return GetApi$OFFSET;
     }
 
-    public static void GetVersionString$set(MemorySegment seg, MemoryAddress x) {
-        OrtApiBase.GetVersionString$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static MemorySegment GetApi(MemorySegment struct) {
+        return struct.get(GetApi$LAYOUT, GetApi$OFFSET);
     }
 
-    public static MemoryAddress GetVersionString$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtApiBase.GetVersionString$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static void GetApi(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetApi$LAYOUT, GetApi$OFFSET, fieldValue);
     }
 
-    public static void GetVersionString$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtApiBase.GetVersionString$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const OrtApi *(*GetApi)(uint32_t)
+     * }
+     */
+    public static GetApi.Function GetApiFunction(MemorySegment struct) {
+        return GetApi.function(GetApi(struct));
     }
 
-    public static GetVersionString GetVersionString(MemorySegment segment, MemorySession session) {
-        return GetVersionString.ofAddress(GetVersionString$get(segment), session);
+    /**
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static class GetVersionString {
+
+        GetVersionString() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply();
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetVersionString.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetVersionString.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetVersionString.Function function(MemorySegment funcPtr) {
+            return () -> invoke(funcPtr);
+        }
     }
 
+    private static final AddressLayout GetVersionString$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetVersionString"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static final AddressLayout GetVersionString$layout() {
+        return GetVersionString$LAYOUT;
+    }
+
+    private static final long GetVersionString$OFFSET = 8;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static final long GetVersionString$offset() {
+        return GetVersionString$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static MemorySegment GetVersionString(MemorySegment struct) {
+        return struct.get(GetVersionString$LAYOUT, GetVersionString$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static void GetVersionString(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetVersionString$LAYOUT, GetVersionString$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetVersionString)(void)
+     * }
+     */
+    public static GetVersionString.Function GetVersionStringFunction(MemorySegment struct) {
+        return GetVersionString.function(GetVersionString(struct));
+    }
+
+    /**
+     * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
+     * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
+     */
+    public static MemorySegment asSlice(MemorySegment array, long index) {
+        return array.asSlice(layout().byteSize() * index);
+    }
+
+    /**
+     * The size (in bytes) of this struct
+     */
     public static long sizeof() {
-        return $LAYOUT().byteSize();
+        return layout().byteSize();
     }
 
+    /**
+     * Allocate a segment of size {@code layout().byteSize()} using {@code allocator}
+     */
     public static MemorySegment allocate(SegmentAllocator allocator) {
-        return allocator.allocate($LAYOUT());
+        return allocator.allocate(layout());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
-        return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
+    /**
+     * Allocate an array of size {@code elementCount} using {@code allocator}.
+     * The returned segment has size {@code elementCount * layout().byteSize()}.
+     */
+    public static MemorySegment allocateArray(long elementCount, SegmentAllocator allocator) {
+        return allocator.allocate(MemoryLayout.sequenceLayout(elementCount, layout()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
+        return reinterpret(addr, 1, arena, cleanup);
+    }
+
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code elementCount * layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(
+            MemorySegment addr, long elementCount, Arena arena, Consumer<MemorySegment> cleanup) {
+        return addr.reinterpret(layout().byteSize() * elementCount, arena, cleanup);
     }
 }

@@ -7,9 +7,8 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,37 +23,35 @@ final class ModelMetadataImpl implements ModelMetadata {
     private final long version;
     private final Map<String, String> customMetadata;
 
-    ModelMetadataImpl(ApiImpl api, MemorySession memorySession, MemoryAddress session, MemoryAddress ortAllocator) {
-        MemoryAddress metadata = api.create(memorySession, out -> api.SessionGetModelMetadata.apply(session, out));
-        memorySession.addCloseAction(() -> api.ReleaseModelMetadata.apply(metadata));
+    ModelMetadataImpl(ApiImpl api, Arena memorySession, MemorySegment metadata, MemorySegment ortAllocator) {
         {
-            MemoryAddress pointer = api.create(
+            MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));
-            this.description = pointer.getUtf8String(0);
+            this.description = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            MemoryAddress pointer =
+            MemorySegment pointer =
                     api.create(memorySession, out -> api.ModelMetadataGetDomain.apply(metadata, ortAllocator, out));
-            this.domain = pointer.getUtf8String(0);
+            this.domain = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            MemoryAddress pointer = api.create(
+            MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetGraphDescription.apply(metadata, ortAllocator, out));
-            this.graphDescription = pointer.getUtf8String(0);
+            this.graphDescription = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            MemoryAddress pointer =
+            MemorySegment pointer =
                     api.create(memorySession, out -> api.ModelMetadataGetGraphName.apply(metadata, ortAllocator, out));
-            this.graphName = pointer.getUtf8String(0);
+            this.graphName = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            MemoryAddress pointer = api.create(
+            MemorySegment pointer = api.create(
                     memorySession, out -> api.ModelMetadataGetProducerName.apply(metadata, ortAllocator, out));
-            this.producerName = pointer.getUtf8String(0);
+            this.producerName = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
@@ -62,21 +59,20 @@ final class ModelMetadataImpl implements ModelMetadata {
         }
         {
             MemorySegment count = memorySession.allocate(C_LONG);
-            MemoryAddress keys = api.create(
+            MemorySegment keys = api.create(
                     memorySession,
-                    out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(
-                            metadata, ortAllocator, out, count.address()));
+                    out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(metadata, ortAllocator, out, count));
             long numKeys = count.getAtIndex(C_LONG, 0);
             if (numKeys == 0) {
                 this.customMetadata = Collections.emptyMap();
             } else {
                 Map<String, String> customMetadata = new LinkedHashMap<>(Math.toIntExact(numKeys));
                 for (long i = 0; i < numKeys; i++) {
-                    MemoryAddress key = keys.getAtIndex(C_POINTER, i);
-                    MemoryAddress value = api.create(
+                    MemorySegment key = keys.getAtIndex(C_POINTER, i);
+                    MemorySegment value = api.create(
                             memorySession,
                             out -> api.ModelMetadataLookupCustomMetadataMap.apply(metadata, ortAllocator, key, out));
-                    customMetadata.put(key.getUtf8String(0), value.getUtf8String(0));
+                    customMetadata.put(key.getString(0), value.getString(0));
                     api.checkStatus(api.AllocatorFree.apply(ortAllocator, key));
                     api.checkStatus(api.AllocatorFree.apply(ortAllocator, value));
                 }

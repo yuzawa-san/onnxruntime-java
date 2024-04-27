@@ -4,27 +4,70 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-public interface OrtThreadWorkerFn {
+/**
+ * {@snippet lang=c :
+ * typedef void (*OrtThreadWorkerFn)(void *)
+ * }
+ */
+public class OrtThreadWorkerFn {
 
-    void apply(java.lang.foreign.MemoryAddress ort_worker_fn_param);
-
-    static MemorySegment allocate(OrtThreadWorkerFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(OrtThreadWorkerFn.class, fi, constants$0.OrtThreadWorkerFn$FUNC, session);
+    OrtThreadWorkerFn() {
+        // Should not be called directly
     }
 
-    static OrtThreadWorkerFn ofAddress(MemoryAddress addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-        return (java.lang.foreign.MemoryAddress _ort_worker_fn_param) -> {
-            try {
-                constants$0.OrtThreadWorkerFn$MH.invokeExact(
-                        (Addressable) symbol, (java.lang.foreign.Addressable) _ort_worker_fn_param);
-            } catch (Throwable ex$) {
-                throw new AssertionError("should not reach here", ex$);
-            }
-        };
+    /**
+     * The function pointer signature, expressed as a functional interface
+     */
+    public interface Function {
+        void apply(MemorySegment ort_worker_fn_param);
+    }
+
+    private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+    /**
+     * The descriptor of this function pointer
+     */
+    public static FunctionDescriptor descriptor() {
+        return $DESC;
+    }
+
+    private static final MethodHandle UP$MH =
+            onnxruntime_all_h.upcallHandle(OrtThreadWorkerFn.Function.class, "apply", $DESC);
+
+    /**
+     * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+     * The lifetime of the returned segment is managed by {@code arena}
+     */
+    public static MemorySegment allocate(OrtThreadWorkerFn.Function fi, Arena arena) {
+        return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+    }
+
+    private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+    /**
+     * Invoke the upcall stub {@code funcPtr}, with given parameters
+     */
+    public static void invoke(MemorySegment funcPtr, MemorySegment ort_worker_fn_param) {
+        try {
+            DOWN$MH.invokeExact(funcPtr, ort_worker_fn_param);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    /**
+     * Get an implementation of the function interface from a function pointer.
+     */
+    public static OrtThreadWorkerFn.Function function(MemorySegment funcPtr) {
+        return (ort_worker_fn_param) -> invoke(funcPtr, ort_worker_fn_param);
     }
 }

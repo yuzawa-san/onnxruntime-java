@@ -7,12 +7,10 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_API_VERSION;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
 
-import com.jyuzawa.onnxruntime_extern.OrtApi;
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.MemoryAddress;
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
 
 // NOTE: this class actually is more like OrtApiBase
 enum OnnxRuntimeImpl implements OnnxRuntime {
@@ -24,18 +22,17 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private OnnxRuntimeImpl() {
         Loader.load();
-        MemorySession scope = MemorySession.global();
-        MemorySegment segment = MemorySegment.ofAddress(OrtGetApiBase(), OrtApiBase.sizeof(), scope);
+        Arena scope = Arena.global();
+        MemorySegment segment = OrtGetApiBase();
         this.ortApiVersion = ORT_API_VERSION();
-        MemoryAddress apiAddress =
-                OrtApiBase.GetApi(segment, scope).apply(ortApiVersion).address();
-        if (apiAddress == MemoryAddress.NULL) {
+        MemorySegment apiAddress = OrtApiBase.GetApiFunction(segment).apply(ortApiVersion);
+        if (MemorySegment.NULL.address() == apiAddress.address()) {
             throw new UnsatisfiedLinkError(
                     "Onnxruntime native library present, but does not provide API version " + ortApiVersion);
         }
-        this.version =
-                OrtApiBase.GetVersionString(segment, scope).apply().address().getUtf8String(0);
-        this.api = new ApiImpl(MemorySegment.ofAddress(apiAddress, OrtApi.sizeof(), scope));
+        this.version = OrtApiBase.GetVersionStringFunction(segment).apply().getString(0);
+        MemorySegment apiSegment = OrtApiBase.GetApiFunction(segment).apply(ORT_API_VERSION());
+        this.api = new ApiImpl(apiSegment);
         System.getLogger(OnnxRuntimeImpl.class.getName())
                 .log(
                         Level.DEBUG,

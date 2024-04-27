@@ -4,1229 +4,2592 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.VarHandle;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
+/**
+ * {@snippet lang=c :
+ * struct OrtCustomOp {
+ *     uint32_t version;
+ *     void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *);
+ *     const char *(*GetName)(const struct OrtCustomOp *);
+ *     const char *(*GetExecutionProviderType)(const struct OrtCustomOp *);
+ *     ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t);
+ *     size_t (*GetInputTypeCount)(const struct OrtCustomOp *);
+ *     ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t);
+ *     size_t (*GetOutputTypeCount)(const struct OrtCustomOp *);
+ *     void (*KernelCompute)(void *, OrtKernelContext *);
+ *     void (*KernelDestroy)(void *);
+ *     OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t);
+ *     OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t);
+ *     OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t);
+ *     int (*GetVariadicInputMinArity)(const struct OrtCustomOp *);
+ *     int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *);
+ *     int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *);
+ *     int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *);
+ *     OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **);
+ *     OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *);
+ *     OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *);
+ *     int (*GetStartVersion)(const struct OrtCustomOp *);
+ *     int (*GetEndVersion)(const struct OrtCustomOp *);
+ * }
+ * }
+ */
 public class OrtCustomOp {
 
-    static final GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
-                    Constants$root.C_INT$LAYOUT.withName("version"),
-                    MemoryLayout.paddingLayout(32),
-                    Constants$root.C_POINTER$LAYOUT.withName("CreateKernel"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetName"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetExecutionProviderType"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetInputType"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetInputTypeCount"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetOutputType"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetOutputTypeCount"),
-                    Constants$root.C_POINTER$LAYOUT.withName("KernelCompute"),
-                    Constants$root.C_POINTER$LAYOUT.withName("KernelDestroy"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetInputCharacteristic"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetOutputCharacteristic"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetInputMemoryType"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicInputMinArity"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicInputHomogeneity"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputMinArity"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetVariadicOutputHomogeneity"),
-                    Constants$root.C_POINTER$LAYOUT.withName("CreateKernelV2"),
-                    Constants$root.C_POINTER$LAYOUT.withName("KernelComputeV2"),
-                    Constants$root.C_POINTER$LAYOUT.withName("InferOutputShapeFn"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetStartVersion"),
-                    Constants$root.C_POINTER$LAYOUT.withName("GetEndVersion"))
+    OrtCustomOp() {
+        // Should not be called directly
+    }
+
+    private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
+                    onnxruntime_all_h.C_INT.withName("version"),
+                    MemoryLayout.paddingLayout(4),
+                    onnxruntime_all_h.C_POINTER.withName("CreateKernel"),
+                    onnxruntime_all_h.C_POINTER.withName("GetName"),
+                    onnxruntime_all_h.C_POINTER.withName("GetExecutionProviderType"),
+                    onnxruntime_all_h.C_POINTER.withName("GetInputType"),
+                    onnxruntime_all_h.C_POINTER.withName("GetInputTypeCount"),
+                    onnxruntime_all_h.C_POINTER.withName("GetOutputType"),
+                    onnxruntime_all_h.C_POINTER.withName("GetOutputTypeCount"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelCompute"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDestroy"),
+                    onnxruntime_all_h.C_POINTER.withName("GetInputCharacteristic"),
+                    onnxruntime_all_h.C_POINTER.withName("GetOutputCharacteristic"),
+                    onnxruntime_all_h.C_POINTER.withName("GetInputMemoryType"),
+                    onnxruntime_all_h.C_POINTER.withName("GetVariadicInputMinArity"),
+                    onnxruntime_all_h.C_POINTER.withName("GetVariadicInputHomogeneity"),
+                    onnxruntime_all_h.C_POINTER.withName("GetVariadicOutputMinArity"),
+                    onnxruntime_all_h.C_POINTER.withName("GetVariadicOutputHomogeneity"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateKernelV2"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelComputeV2"),
+                    onnxruntime_all_h.C_POINTER.withName("InferOutputShapeFn"),
+                    onnxruntime_all_h.C_POINTER.withName("GetStartVersion"),
+                    onnxruntime_all_h.C_POINTER.withName("GetEndVersion"))
             .withName("OrtCustomOp");
 
-    public static MemoryLayout $LAYOUT() {
-        return OrtCustomOp.$struct$LAYOUT;
+    /**
+     * The layout of this struct
+     */
+    public static final GroupLayout layout() {
+        return $LAYOUT;
     }
 
-    static final VarHandle version$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("version"));
+    private static final OfInt version$LAYOUT = (OfInt) $LAYOUT.select(groupElement("version"));
 
-    public static VarHandle version$VH() {
-        return OrtCustomOp.version$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * uint32_t version
+     * }
+     */
+    public static final OfInt version$layout() {
+        return version$LAYOUT;
     }
 
-    public static int version$get(MemorySegment seg) {
-        return (int) OrtCustomOp.version$VH.get(seg);
+    private static final long version$OFFSET = 0;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * uint32_t version
+     * }
+     */
+    public static final long version$offset() {
+        return version$OFFSET;
     }
 
-    public static void version$set(MemorySegment seg, int x) {
-        OrtCustomOp.version$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * uint32_t version
+     * }
+     */
+    public static int version(MemorySegment struct) {
+        return struct.get(version$LAYOUT, version$OFFSET);
     }
 
-    public static int version$get(MemorySegment seg, long index) {
-        return (int) OrtCustomOp.version$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * uint32_t version
+     * }
+     */
+    public static void version(MemorySegment struct, int fieldValue) {
+        struct.set(version$LAYOUT, version$OFFSET, fieldValue);
     }
 
-    public static void version$set(MemorySegment seg, long index, int x) {
-        OrtCustomOp.version$VH.set(seg.asSlice(index * sizeof()), x);
-    }
+    /**
+     * {@snippet lang=c :
+     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
+     * }
+     */
+    public static class CreateKernel {
 
-    static final FunctionDescriptor CreateKernel$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle CreateKernel$MH = RuntimeHelper.downcallHandle(OrtCustomOp.CreateKernel$FUNC);
-
-    public interface CreateKernel {
-
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2);
-
-        static MemorySegment allocate(CreateKernel fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateKernel.class, fi, OrtCustomOp.CreateKernel$FUNC, session);
+        CreateKernel() {
+            // Should not be called directly
         }
 
-        static CreateKernel ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2) -> {
-                try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernel$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle CreateKernel$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("CreateKernel"));
-
-    public static VarHandle CreateKernel$VH() {
-        return OrtCustomOp.CreateKernel$VH;
-    }
-
-    public static MemoryAddress CreateKernel$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernel$VH.get(seg);
-    }
-
-    public static void CreateKernel$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.CreateKernel$VH.set(seg, x);
-    }
-
-    public static MemoryAddress CreateKernel$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernel$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void CreateKernel$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.CreateKernel$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static CreateKernel CreateKernel(MemorySegment segment, MemorySession session) {
-        return CreateKernel.ofAddress(CreateKernel$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetName$FUNC =
-            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetName$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetName$FUNC);
-
-    public interface GetName {
-
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetName fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetName.class, fi, OrtCustomOp.GetName$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
         }
 
-        static GetName ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtCustomOp.GetName$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
 
-    static final VarHandle GetName$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetName"));
-
-    public static VarHandle GetName$VH() {
-        return OrtCustomOp.GetName$VH;
-    }
-
-    public static MemoryAddress GetName$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetName$VH.get(seg);
-    }
-
-    public static void GetName$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetName$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetName$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetName$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetName$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetName$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetName GetName(MemorySegment segment, MemorySession session) {
-        return GetName.ofAddress(GetName$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetExecutionProviderType$FUNC =
-            FunctionDescriptor.of(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetExecutionProviderType$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetExecutionProviderType$FUNC);
-
-    public interface GetExecutionProviderType {
-
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetExecutionProviderType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetExecutionProviderType.class, fi, OrtCustomOp.GetExecutionProviderType$FUNC, session);
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
         }
 
-        static GetExecutionProviderType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtCustomOp.GetExecutionProviderType$MH.invokeExact(
-                                    (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateKernel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateKernel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateKernel.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
         }
     }
 
-    static final VarHandle GetExecutionProviderType$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetExecutionProviderType"));
+    private static final AddressLayout CreateKernel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateKernel"));
 
-    public static VarHandle GetExecutionProviderType$VH() {
-        return OrtCustomOp.GetExecutionProviderType$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
+     * }
+     */
+    public static final AddressLayout CreateKernel$layout() {
+        return CreateKernel$LAYOUT;
     }
 
-    public static MemoryAddress GetExecutionProviderType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetExecutionProviderType$VH.get(seg);
+    private static final long CreateKernel$OFFSET = 8;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
+     * }
+     */
+    public static final long CreateKernel$offset() {
+        return CreateKernel$OFFSET;
     }
 
-    public static void GetExecutionProviderType$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetExecutionProviderType$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
+     * }
+     */
+    public static MemorySegment CreateKernel(MemorySegment struct) {
+        return struct.get(CreateKernel$LAYOUT, CreateKernel$OFFSET);
     }
 
-    public static MemoryAddress GetExecutionProviderType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetExecutionProviderType$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
+     * }
+     */
+    public static void CreateKernel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateKernel$LAYOUT, CreateKernel$OFFSET, fieldValue);
     }
 
-    public static void GetExecutionProviderType$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetExecutionProviderType$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
+     * }
+     */
+    public static CreateKernel.Function CreateKernelFunction(MemorySegment struct) {
+        return CreateKernel.function(CreateKernel(struct));
     }
 
-    public static GetExecutionProviderType GetExecutionProviderType(MemorySegment segment, MemorySession session) {
-        return GetExecutionProviderType.ofAddress(GetExecutionProviderType$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * const char *(*GetName)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetName {
 
-    static final FunctionDescriptor GetInputType$FUNC = FunctionDescriptor.of(
-            Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
-    static final MethodHandle GetInputType$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetInputType$FUNC);
-
-    public interface GetInputType {
-
-        int apply(java.lang.foreign.MemoryAddress _x0, long _x1);
-
-        static MemorySegment allocate(GetInputType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetInputType.class, fi, OrtCustomOp.GetInputType$FUNC, session);
+        GetName() {
+            // Should not be called directly
         }
 
-        static GetInputType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
-                try {
-                    return (int) OrtCustomOp.GetInputType$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle GetInputType$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetInputType"));
-
-    public static VarHandle GetInputType$VH() {
-        return OrtCustomOp.GetInputType$VH;
-    }
-
-    public static MemoryAddress GetInputType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputType$VH.get(seg);
-    }
-
-    public static void GetInputType$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetInputType$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetInputType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputType$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetInputType$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetInputType$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetInputType GetInputType(MemorySegment segment, MemorySession session) {
-        return GetInputType.ofAddress(GetInputType$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetInputTypeCount$FUNC =
-            FunctionDescriptor.of(Constants$root.C_LONG_LONG$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetInputTypeCount$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetInputTypeCount$FUNC);
-
-    public interface GetInputTypeCount {
-
-        long apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetInputTypeCount fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetInputTypeCount.class, fi, OrtCustomOp.GetInputTypeCount$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
         }
 
-        static GetInputTypeCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (long) OrtCustomOp.GetInputTypeCount$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
 
-    static final VarHandle GetInputTypeCount$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetInputTypeCount"));
-
-    public static VarHandle GetInputTypeCount$VH() {
-        return OrtCustomOp.GetInputTypeCount$VH;
-    }
-
-    public static MemoryAddress GetInputTypeCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputTypeCount$VH.get(seg);
-    }
-
-    public static void GetInputTypeCount$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetInputTypeCount$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetInputTypeCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputTypeCount$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetInputTypeCount$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetInputTypeCount$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetInputTypeCount GetInputTypeCount(MemorySegment segment, MemorySession session) {
-        return GetInputTypeCount.ofAddress(GetInputTypeCount$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetOutputType$FUNC = FunctionDescriptor.of(
-            Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
-    static final MethodHandle GetOutputType$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetOutputType$FUNC);
-
-    public interface GetOutputType {
-
-        int apply(java.lang.foreign.MemoryAddress _x0, long _x1);
-
-        static MemorySegment allocate(GetOutputType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetOutputType.class, fi, OrtCustomOp.GetOutputType$FUNC, session);
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
         }
 
-        static GetOutputType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
-                try {
-                    return (int) OrtCustomOp.GetOutputType$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetName.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
-    static final VarHandle GetOutputType$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetOutputType"));
+    private static final AddressLayout GetName$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetName"));
 
-    public static VarHandle GetOutputType$VH() {
-        return OrtCustomOp.GetOutputType$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*GetName)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetName$layout() {
+        return GetName$LAYOUT;
     }
 
-    public static MemoryAddress GetOutputType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetOutputType$VH.get(seg);
+    private static final long GetName$OFFSET = 16;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*GetName)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetName$offset() {
+        return GetName$OFFSET;
     }
 
-    public static void GetOutputType$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetOutputType$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetName)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetName(MemorySegment struct) {
+        return struct.get(GetName$LAYOUT, GetName$OFFSET);
     }
 
-    public static MemoryAddress GetOutputType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetOutputType$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*GetName)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetName$LAYOUT, GetName$OFFSET, fieldValue);
     }
 
-    public static void GetOutputType$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetOutputType$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetName)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetName.Function GetNameFunction(MemorySegment struct) {
+        return GetName.function(GetName(struct));
     }
 
-    public static GetOutputType GetOutputType(MemorySegment segment, MemorySession session) {
-        return GetOutputType.ofAddress(GetOutputType$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetExecutionProviderType {
 
-    static final FunctionDescriptor GetOutputTypeCount$FUNC =
-            FunctionDescriptor.of(Constants$root.C_LONG_LONG$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetOutputTypeCount$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetOutputTypeCount$FUNC);
-
-    public interface GetOutputTypeCount {
-
-        long apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetOutputTypeCount fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetOutputTypeCount.class, fi, OrtCustomOp.GetOutputTypeCount$FUNC, session);
+        GetExecutionProviderType() {
+            // Should not be called directly
         }
 
-        static GetOutputTypeCount ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (long) OrtCustomOp.GetOutputTypeCount$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle GetOutputTypeCount$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetOutputTypeCount"));
-
-    public static VarHandle GetOutputTypeCount$VH() {
-        return OrtCustomOp.GetOutputTypeCount$VH;
-    }
-
-    public static MemoryAddress GetOutputTypeCount$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetOutputTypeCount$VH.get(seg);
-    }
-
-    public static void GetOutputTypeCount$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetOutputTypeCount$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetOutputTypeCount$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetOutputTypeCount$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetOutputTypeCount$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetOutputTypeCount$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetOutputTypeCount GetOutputTypeCount(MemorySegment segment, MemorySession session) {
-        return GetOutputTypeCount.ofAddress(GetOutputTypeCount$get(segment), session);
-    }
-
-    static final FunctionDescriptor KernelCompute$FUNC =
-            FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle KernelCompute$MH = RuntimeHelper.downcallHandle(OrtCustomOp.KernelCompute$FUNC);
-
-    public interface KernelCompute {
-
-        void apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
-
-        static MemorySegment allocate(KernelCompute fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(KernelCompute.class, fi, OrtCustomOp.KernelCompute$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
         }
 
-        static KernelCompute ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
-                try {
-                    OrtCustomOp.KernelCompute$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, (java.lang.foreign.Addressable)
-                                    __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
 
-    static final VarHandle KernelCompute$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("KernelCompute"));
-
-    public static VarHandle KernelCompute$VH() {
-        return OrtCustomOp.KernelCompute$VH;
-    }
-
-    public static MemoryAddress KernelCompute$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelCompute$VH.get(seg);
-    }
-
-    public static void KernelCompute$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.KernelCompute$VH.set(seg, x);
-    }
-
-    public static MemoryAddress KernelCompute$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelCompute$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void KernelCompute$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.KernelCompute$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static KernelCompute KernelCompute(MemorySegment segment, MemorySession session) {
-        return KernelCompute.ofAddress(KernelCompute$get(segment), session);
-    }
-
-    static final FunctionDescriptor KernelDestroy$FUNC = FunctionDescriptor.ofVoid(Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle KernelDestroy$MH = RuntimeHelper.downcallHandle(OrtCustomOp.KernelDestroy$FUNC);
-
-    public interface KernelDestroy {
-
-        void apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(KernelDestroy fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(KernelDestroy.class, fi, OrtCustomOp.KernelDestroy$FUNC, session);
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
         }
 
-        static KernelDestroy ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    OrtCustomOp.KernelDestroy$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetExecutionProviderType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetExecutionProviderType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetExecutionProviderType.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
-    static final VarHandle KernelDestroy$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("KernelDestroy"));
+    private static final AddressLayout GetExecutionProviderType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetExecutionProviderType"));
 
-    public static VarHandle KernelDestroy$VH() {
-        return OrtCustomOp.KernelDestroy$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetExecutionProviderType$layout() {
+        return GetExecutionProviderType$LAYOUT;
     }
 
-    public static MemoryAddress KernelDestroy$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelDestroy$VH.get(seg);
+    private static final long GetExecutionProviderType$OFFSET = 24;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetExecutionProviderType$offset() {
+        return GetExecutionProviderType$OFFSET;
     }
 
-    public static void KernelDestroy$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.KernelDestroy$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetExecutionProviderType(MemorySegment struct) {
+        return struct.get(GetExecutionProviderType$LAYOUT, GetExecutionProviderType$OFFSET);
     }
 
-    public static MemoryAddress KernelDestroy$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelDestroy$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetExecutionProviderType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetExecutionProviderType$LAYOUT, GetExecutionProviderType$OFFSET, fieldValue);
     }
 
-    public static void KernelDestroy$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.KernelDestroy$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetExecutionProviderType.Function GetExecutionProviderTypeFunction(MemorySegment struct) {
+        return GetExecutionProviderType.function(GetExecutionProviderType(struct));
     }
 
-    public static KernelDestroy KernelDestroy(MemorySegment segment, MemorySession session) {
-        return KernelDestroy.ofAddress(KernelDestroy$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static class GetInputType {
 
-    static final FunctionDescriptor GetInputCharacteristic$FUNC = FunctionDescriptor.of(
-            Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
-    static final MethodHandle GetInputCharacteristic$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetInputCharacteristic$FUNC);
-
-    public interface GetInputCharacteristic {
-
-        int apply(java.lang.foreign.MemoryAddress _x0, long _x1);
-
-        static MemorySegment allocate(GetInputCharacteristic fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetInputCharacteristic.class, fi, OrtCustomOp.GetInputCharacteristic$FUNC, session);
+        GetInputType() {
+            // Should not be called directly
         }
 
-        static GetInputCharacteristic ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
-                try {
-                    return (int) OrtCustomOp.GetInputCharacteristic$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle GetInputCharacteristic$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetInputCharacteristic"));
-
-    public static VarHandle GetInputCharacteristic$VH() {
-        return OrtCustomOp.GetInputCharacteristic$VH;
-    }
-
-    public static MemoryAddress GetInputCharacteristic$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputCharacteristic$VH.get(seg);
-    }
-
-    public static void GetInputCharacteristic$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetInputCharacteristic$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetInputCharacteristic$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetInputCharacteristic$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetInputCharacteristic$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetInputCharacteristic$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetInputCharacteristic GetInputCharacteristic(MemorySegment segment, MemorySession session) {
-        return GetInputCharacteristic.ofAddress(GetInputCharacteristic$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetOutputCharacteristic$FUNC = FunctionDescriptor.of(
-            Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
-    static final MethodHandle GetOutputCharacteristic$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetOutputCharacteristic$FUNC);
-
-    public interface GetOutputCharacteristic {
-
-        int apply(java.lang.foreign.MemoryAddress _x0, long _x1);
-
-        static MemorySegment allocate(GetOutputCharacteristic fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetOutputCharacteristic.class, fi, OrtCustomOp.GetOutputCharacteristic$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0, long _x1);
         }
 
-        static GetOutputCharacteristic ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
-                try {
-                    return (int) OrtCustomOp.GetOutputCharacteristic$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_LONG);
 
-    static final VarHandle GetOutputCharacteristic$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetOutputCharacteristic"));
-
-    public static VarHandle GetOutputCharacteristic$VH() {
-        return OrtCustomOp.GetOutputCharacteristic$VH;
-    }
-
-    public static MemoryAddress GetOutputCharacteristic$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetOutputCharacteristic$VH.get(seg);
-    }
-
-    public static void GetOutputCharacteristic$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetOutputCharacteristic$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetOutputCharacteristic$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetOutputCharacteristic$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetOutputCharacteristic$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetOutputCharacteristic$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetOutputCharacteristic GetOutputCharacteristic(MemorySegment segment, MemorySession session) {
-        return GetOutputCharacteristic.ofAddress(GetOutputCharacteristic$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetInputMemoryType$FUNC = FunctionDescriptor.of(
-            Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_LONG_LONG$LAYOUT);
-    static final MethodHandle GetInputMemoryType$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetInputMemoryType$FUNC);
-
-    public interface GetInputMemoryType {
-
-        int apply(java.lang.foreign.MemoryAddress _x0, long _x1);
-
-        static MemorySegment allocate(GetInputMemoryType fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetInputMemoryType.class, fi, OrtCustomOp.GetInputMemoryType$FUNC, session);
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
         }
 
-        static GetInputMemoryType ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, long __x1) -> {
-                try {
-                    return (int) OrtCustomOp.GetInputMemoryType$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0, __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetInputType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetInputType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetInputType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
-    static final VarHandle GetInputMemoryType$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetInputMemoryType"));
+    private static final AddressLayout GetInputType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetInputType"));
 
-    public static VarHandle GetInputMemoryType$VH() {
-        return OrtCustomOp.GetInputMemoryType$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final AddressLayout GetInputType$layout() {
+        return GetInputType$LAYOUT;
     }
 
-    public static MemoryAddress GetInputMemoryType$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputMemoryType$VH.get(seg);
+    private static final long GetInputType$OFFSET = 32;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final long GetInputType$offset() {
+        return GetInputType$OFFSET;
     }
 
-    public static void GetInputMemoryType$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetInputMemoryType$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static MemorySegment GetInputType(MemorySegment struct) {
+        return struct.get(GetInputType$LAYOUT, GetInputType$OFFSET);
     }
 
-    public static MemoryAddress GetInputMemoryType$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetInputMemoryType$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static void GetInputType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetInputType$LAYOUT, GetInputType$OFFSET, fieldValue);
     }
 
-    public static void GetInputMemoryType$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetInputMemoryType$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static GetInputType.Function GetInputTypeFunction(MemorySegment struct) {
+        return GetInputType.function(GetInputType(struct));
     }
 
-    public static GetInputMemoryType GetInputMemoryType(MemorySegment segment, MemorySession session) {
-        return GetInputMemoryType.ofAddress(GetInputMemoryType$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetInputTypeCount {
 
-    static final FunctionDescriptor GetVariadicInputMinArity$FUNC =
-            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetVariadicInputMinArity$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicInputMinArity$FUNC);
-
-    public interface GetVariadicInputMinArity {
-
-        int apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetVariadicInputMinArity fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetVariadicInputMinArity.class, fi, OrtCustomOp.GetVariadicInputMinArity$FUNC, session);
+        GetInputTypeCount() {
+            // Should not be called directly
         }
 
-        static GetVariadicInputMinArity ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (int) OrtCustomOp.GetVariadicInputMinArity$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle GetVariadicInputMinArity$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicInputMinArity"));
-
-    public static VarHandle GetVariadicInputMinArity$VH() {
-        return OrtCustomOp.GetVariadicInputMinArity$VH;
-    }
-
-    public static MemoryAddress GetVariadicInputMinArity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicInputMinArity$VH.get(seg);
-    }
-
-    public static void GetVariadicInputMinArity$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetVariadicInputMinArity$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetVariadicInputMinArity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetVariadicInputMinArity$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetVariadicInputMinArity$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetVariadicInputMinArity$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetVariadicInputMinArity GetVariadicInputMinArity(MemorySegment segment, MemorySession session) {
-        return GetVariadicInputMinArity.ofAddress(GetVariadicInputMinArity$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetVariadicInputHomogeneity$FUNC =
-            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetVariadicInputHomogeneity$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicInputHomogeneity$FUNC);
-
-    public interface GetVariadicInputHomogeneity {
-
-        int apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetVariadicInputHomogeneity fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetVariadicInputHomogeneity.class, fi, OrtCustomOp.GetVariadicInputHomogeneity$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            long apply(MemorySegment _x0);
         }
 
-        static GetVariadicInputHomogeneity ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (int) OrtCustomOp.GetVariadicInputHomogeneity$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_LONG, onnxruntime_all_h.C_POINTER);
 
-    static final VarHandle GetVariadicInputHomogeneity$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicInputHomogeneity"));
-
-    public static VarHandle GetVariadicInputHomogeneity$VH() {
-        return OrtCustomOp.GetVariadicInputHomogeneity$VH;
-    }
-
-    public static MemoryAddress GetVariadicInputHomogeneity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicInputHomogeneity$VH.get(seg);
-    }
-
-    public static void GetVariadicInputHomogeneity$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetVariadicInputHomogeneity$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetVariadicInputHomogeneity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetVariadicInputHomogeneity$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetVariadicInputHomogeneity$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetVariadicInputHomogeneity$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetVariadicInputHomogeneity GetVariadicInputHomogeneity(
-            MemorySegment segment, MemorySession session) {
-        return GetVariadicInputHomogeneity.ofAddress(GetVariadicInputHomogeneity$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetVariadicOutputMinArity$FUNC =
-            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetVariadicOutputMinArity$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicOutputMinArity$FUNC);
-
-    public interface GetVariadicOutputMinArity {
-
-        int apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetVariadicOutputMinArity fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetVariadicOutputMinArity.class, fi, OrtCustomOp.GetVariadicOutputMinArity$FUNC, session);
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
         }
 
-        static GetVariadicOutputMinArity ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (int) OrtCustomOp.GetVariadicOutputMinArity$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetInputTypeCount.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetInputTypeCount.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static long invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (long) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetInputTypeCount.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
-    static final VarHandle GetVariadicOutputMinArity$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicOutputMinArity"));
+    private static final AddressLayout GetInputTypeCount$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetInputTypeCount"));
 
-    public static VarHandle GetVariadicOutputMinArity$VH() {
-        return OrtCustomOp.GetVariadicOutputMinArity$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetInputTypeCount$layout() {
+        return GetInputTypeCount$LAYOUT;
     }
 
-    public static MemoryAddress GetVariadicOutputMinArity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicOutputMinArity$VH.get(seg);
+    private static final long GetInputTypeCount$OFFSET = 40;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetInputTypeCount$offset() {
+        return GetInputTypeCount$OFFSET;
     }
 
-    public static void GetVariadicOutputMinArity$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetVariadicOutputMinArity$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetInputTypeCount(MemorySegment struct) {
+        return struct.get(GetInputTypeCount$LAYOUT, GetInputTypeCount$OFFSET);
     }
 
-    public static MemoryAddress GetVariadicOutputMinArity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetVariadicOutputMinArity$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetInputTypeCount(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetInputTypeCount$LAYOUT, GetInputTypeCount$OFFSET, fieldValue);
     }
 
-    public static void GetVariadicOutputMinArity$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetVariadicOutputMinArity$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetInputTypeCount.Function GetInputTypeCountFunction(MemorySegment struct) {
+        return GetInputTypeCount.function(GetInputTypeCount(struct));
     }
 
-    public static GetVariadicOutputMinArity GetVariadicOutputMinArity(MemorySegment segment, MemorySession session) {
-        return GetVariadicOutputMinArity.ofAddress(GetVariadicOutputMinArity$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static class GetOutputType {
 
-    static final FunctionDescriptor GetVariadicOutputHomogeneity$FUNC =
-            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetVariadicOutputHomogeneity$MH =
-            RuntimeHelper.downcallHandle(OrtCustomOp.GetVariadicOutputHomogeneity$FUNC);
-
-    public interface GetVariadicOutputHomogeneity {
-
-        int apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetVariadicOutputHomogeneity fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(
-                    GetVariadicOutputHomogeneity.class, fi, OrtCustomOp.GetVariadicOutputHomogeneity$FUNC, session);
+        GetOutputType() {
+            // Should not be called directly
         }
 
-        static GetVariadicOutputHomogeneity ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (int) OrtCustomOp.GetVariadicOutputHomogeneity$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle GetVariadicOutputHomogeneity$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetVariadicOutputHomogeneity"));
-
-    public static VarHandle GetVariadicOutputHomogeneity$VH() {
-        return OrtCustomOp.GetVariadicOutputHomogeneity$VH;
-    }
-
-    public static MemoryAddress GetVariadicOutputHomogeneity$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetVariadicOutputHomogeneity$VH.get(seg);
-    }
-
-    public static void GetVariadicOutputHomogeneity$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetVariadicOutputHomogeneity$VH.set(seg, x);
-    }
-
-    public static MemoryAddress GetVariadicOutputHomogeneity$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress)
-                OrtCustomOp.GetVariadicOutputHomogeneity$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void GetVariadicOutputHomogeneity$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetVariadicOutputHomogeneity$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static GetVariadicOutputHomogeneity GetVariadicOutputHomogeneity(
-            MemorySegment segment, MemorySession session) {
-        return GetVariadicOutputHomogeneity.ofAddress(GetVariadicOutputHomogeneity$get(segment), session);
-    }
-
-    static final FunctionDescriptor CreateKernelV2$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT,
-            Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle CreateKernelV2$MH = RuntimeHelper.downcallHandle(OrtCustomOp.CreateKernelV2$FUNC);
-
-    public interface CreateKernelV2 {
-
-        java.lang.foreign.Addressable apply(
-                java.lang.foreign.MemoryAddress _x0,
-                java.lang.foreign.MemoryAddress _x1,
-                java.lang.foreign.MemoryAddress _x2,
-                java.lang.foreign.MemoryAddress _x3);
-
-        static MemorySegment allocate(CreateKernelV2 fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(CreateKernelV2.class, fi, OrtCustomOp.CreateKernelV2$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0, long _x1);
         }
 
-        static CreateKernelV2 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0,
-                    java.lang.foreign.MemoryAddress __x1,
-                    java.lang.foreign.MemoryAddress __x2,
-                    java.lang.foreign.MemoryAddress __x3) -> {
-                try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernelV2$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1,
-                                    (java.lang.foreign.Addressable) __x2,
-                                    (java.lang.foreign.Addressable) __x3);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetOutputType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetOutputType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetOutputType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
-    static final VarHandle CreateKernelV2$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("CreateKernelV2"));
+    private static final AddressLayout GetOutputType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetOutputType"));
 
-    public static VarHandle CreateKernelV2$VH() {
-        return OrtCustomOp.CreateKernelV2$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final AddressLayout GetOutputType$layout() {
+        return GetOutputType$LAYOUT;
     }
 
-    public static MemoryAddress CreateKernelV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernelV2$VH.get(seg);
+    private static final long GetOutputType$OFFSET = 48;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final long GetOutputType$offset() {
+        return GetOutputType$OFFSET;
     }
 
-    public static void CreateKernelV2$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.CreateKernelV2$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static MemorySegment GetOutputType(MemorySegment struct) {
+        return struct.get(GetOutputType$LAYOUT, GetOutputType$OFFSET);
     }
 
-    public static MemoryAddress CreateKernelV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.CreateKernelV2$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static void GetOutputType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetOutputType$LAYOUT, GetOutputType$OFFSET, fieldValue);
     }
 
-    public static void CreateKernelV2$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.CreateKernelV2$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static GetOutputType.Function GetOutputTypeFunction(MemorySegment struct) {
+        return GetOutputType.function(GetOutputType(struct));
     }
 
-    public static CreateKernelV2 CreateKernelV2(MemorySegment segment, MemorySession session) {
-        return CreateKernelV2.ofAddress(CreateKernelV2$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetOutputTypeCount {
 
-    static final FunctionDescriptor KernelComputeV2$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle KernelComputeV2$MH = RuntimeHelper.downcallHandle(OrtCustomOp.KernelComputeV2$FUNC);
-
-    public interface KernelComputeV2 {
-
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
-
-        static MemorySegment allocate(KernelComputeV2 fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(KernelComputeV2.class, fi, OrtCustomOp.KernelComputeV2$FUNC, session);
+        GetOutputTypeCount() {
+            // Should not be called directly
         }
 
-        static KernelComputeV2 ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
-                try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelComputeV2$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
-
-    static final VarHandle KernelComputeV2$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("KernelComputeV2"));
-
-    public static VarHandle KernelComputeV2$VH() {
-        return OrtCustomOp.KernelComputeV2$VH;
-    }
-
-    public static MemoryAddress KernelComputeV2$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelComputeV2$VH.get(seg);
-    }
-
-    public static void KernelComputeV2$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.KernelComputeV2$VH.set(seg, x);
-    }
-
-    public static MemoryAddress KernelComputeV2$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.KernelComputeV2$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void KernelComputeV2$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.KernelComputeV2$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static KernelComputeV2 KernelComputeV2(MemorySegment segment, MemorySession session) {
-        return KernelComputeV2.ofAddress(KernelComputeV2$get(segment), session);
-    }
-
-    static final FunctionDescriptor InferOutputShapeFn$FUNC = FunctionDescriptor.of(
-            Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle InferOutputShapeFn$MH = RuntimeHelper.downcallHandle(OrtCustomOp.InferOutputShapeFn$FUNC);
-
-    public interface InferOutputShapeFn {
-
-        java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress _x0, java.lang.foreign.MemoryAddress _x1);
-
-        static MemorySegment allocate(InferOutputShapeFn fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(InferOutputShapeFn.class, fi, OrtCustomOp.InferOutputShapeFn$FUNC, session);
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            long apply(MemorySegment _x0);
         }
 
-        static InferOutputShapeFn ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0, java.lang.foreign.MemoryAddress __x1) -> {
-                try {
-                    return (java.lang.foreign.Addressable)
-                            (java.lang.foreign.MemoryAddress) OrtCustomOp.InferOutputShapeFn$MH.invokeExact(
-                                    (Addressable) symbol,
-                                    (java.lang.foreign.Addressable) __x0,
-                                    (java.lang.foreign.Addressable) __x1);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
-        }
-    }
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_LONG, onnxruntime_all_h.C_POINTER);
 
-    static final VarHandle InferOutputShapeFn$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("InferOutputShapeFn"));
-
-    public static VarHandle InferOutputShapeFn$VH() {
-        return OrtCustomOp.InferOutputShapeFn$VH;
-    }
-
-    public static MemoryAddress InferOutputShapeFn$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.InferOutputShapeFn$VH.get(seg);
-    }
-
-    public static void InferOutputShapeFn$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.InferOutputShapeFn$VH.set(seg, x);
-    }
-
-    public static MemoryAddress InferOutputShapeFn$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.InferOutputShapeFn$VH.get(seg.asSlice(index * sizeof()));
-    }
-
-    public static void InferOutputShapeFn$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.InferOutputShapeFn$VH.set(seg.asSlice(index * sizeof()), x);
-    }
-
-    public static InferOutputShapeFn InferOutputShapeFn(MemorySegment segment, MemorySession session) {
-        return InferOutputShapeFn.ofAddress(InferOutputShapeFn$get(segment), session);
-    }
-
-    static final FunctionDescriptor GetStartVersion$FUNC =
-            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetStartVersion$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetStartVersion$FUNC);
-
-    public interface GetStartVersion {
-
-        int apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetStartVersion fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetStartVersion.class, fi, OrtCustomOp.GetStartVersion$FUNC, session);
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
         }
 
-        static GetStartVersion ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (int) OrtCustomOp.GetStartVersion$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetOutputTypeCount.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetOutputTypeCount.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static long invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (long) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetOutputTypeCount.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
-    static final VarHandle GetStartVersion$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetStartVersion"));
+    private static final AddressLayout GetOutputTypeCount$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetOutputTypeCount"));
 
-    public static VarHandle GetStartVersion$VH() {
-        return OrtCustomOp.GetStartVersion$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetOutputTypeCount$layout() {
+        return GetOutputTypeCount$LAYOUT;
     }
 
-    public static MemoryAddress GetStartVersion$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetStartVersion$VH.get(seg);
+    private static final long GetOutputTypeCount$OFFSET = 56;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetOutputTypeCount$offset() {
+        return GetOutputTypeCount$OFFSET;
     }
 
-    public static void GetStartVersion$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetStartVersion$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetOutputTypeCount(MemorySegment struct) {
+        return struct.get(GetOutputTypeCount$LAYOUT, GetOutputTypeCount$OFFSET);
     }
 
-    public static MemoryAddress GetStartVersion$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetStartVersion$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetOutputTypeCount(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetOutputTypeCount$LAYOUT, GetOutputTypeCount$OFFSET, fieldValue);
     }
 
-    public static void GetStartVersion$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetStartVersion$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetOutputTypeCount.Function GetOutputTypeCountFunction(MemorySegment struct) {
+        return GetOutputTypeCount.function(GetOutputTypeCount(struct));
     }
 
-    public static GetStartVersion GetStartVersion(MemorySegment segment, MemorySession session) {
-        return GetStartVersion.ofAddress(GetStartVersion$get(segment), session);
-    }
+    /**
+     * {@snippet lang=c :
+     * void (*KernelCompute)(void *, OrtKernelContext *)
+     * }
+     */
+    public static class KernelCompute {
 
-    static final FunctionDescriptor GetEndVersion$FUNC =
-            FunctionDescriptor.of(Constants$root.C_INT$LAYOUT, Constants$root.C_POINTER$LAYOUT);
-    static final MethodHandle GetEndVersion$MH = RuntimeHelper.downcallHandle(OrtCustomOp.GetEndVersion$FUNC);
-
-    public interface GetEndVersion {
-
-        int apply(java.lang.foreign.MemoryAddress _x0);
-
-        static MemorySegment allocate(GetEndVersion fi, MemorySession session) {
-            return RuntimeHelper.upcallStub(GetEndVersion.class, fi, OrtCustomOp.GetEndVersion$FUNC, session);
+        KernelCompute() {
+            // Should not be called directly
         }
 
-        static GetEndVersion ofAddress(MemoryAddress addr, MemorySession session) {
-            MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-            return (java.lang.foreign.MemoryAddress __x0) -> {
-                try {
-                    return (int) OrtCustomOp.GetEndVersion$MH.invokeExact(
-                            (Addressable) symbol, (java.lang.foreign.Addressable) __x0);
-                } catch (Throwable ex$) {
-                    throw new AssertionError("should not reach here", ex$);
-                }
-            };
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelCompute.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelCompute.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelCompute.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
-    static final VarHandle GetEndVersion$VH =
-            $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("GetEndVersion"));
+    private static final AddressLayout KernelCompute$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelCompute"));
 
-    public static VarHandle GetEndVersion$VH() {
-        return OrtCustomOp.GetEndVersion$VH;
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*KernelCompute)(void *, OrtKernelContext *)
+     * }
+     */
+    public static final AddressLayout KernelCompute$layout() {
+        return KernelCompute$LAYOUT;
     }
 
-    public static MemoryAddress GetEndVersion$get(MemorySegment seg) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetEndVersion$VH.get(seg);
+    private static final long KernelCompute$OFFSET = 64;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*KernelCompute)(void *, OrtKernelContext *)
+     * }
+     */
+    public static final long KernelCompute$offset() {
+        return KernelCompute$OFFSET;
     }
 
-    public static void GetEndVersion$set(MemorySegment seg, MemoryAddress x) {
-        OrtCustomOp.GetEndVersion$VH.set(seg, x);
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*KernelCompute)(void *, OrtKernelContext *)
+     * }
+     */
+    public static MemorySegment KernelCompute(MemorySegment struct) {
+        return struct.get(KernelCompute$LAYOUT, KernelCompute$OFFSET);
     }
 
-    public static MemoryAddress GetEndVersion$get(MemorySegment seg, long index) {
-        return (java.lang.foreign.MemoryAddress) OrtCustomOp.GetEndVersion$VH.get(seg.asSlice(index * sizeof()));
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*KernelCompute)(void *, OrtKernelContext *)
+     * }
+     */
+    public static void KernelCompute(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelCompute$LAYOUT, KernelCompute$OFFSET, fieldValue);
     }
 
-    public static void GetEndVersion$set(MemorySegment seg, long index, MemoryAddress x) {
-        OrtCustomOp.GetEndVersion$VH.set(seg.asSlice(index * sizeof()), x);
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*KernelCompute)(void *, OrtKernelContext *)
+     * }
+     */
+    public static KernelCompute.Function KernelComputeFunction(MemorySegment struct) {
+        return KernelCompute.function(KernelCompute(struct));
     }
 
-    public static GetEndVersion GetEndVersion(MemorySegment segment, MemorySession session) {
-        return GetEndVersion.ofAddress(GetEndVersion$get(segment), session);
+    /**
+     * {@snippet lang=c :
+     * void (*KernelDestroy)(void *)
+     * }
+     */
+    public static class KernelDestroy {
+
+        KernelDestroy() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDestroy.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDestroy.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelDestroy.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
     }
 
+    private static final AddressLayout KernelDestroy$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDestroy"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*KernelDestroy)(void *)
+     * }
+     */
+    public static final AddressLayout KernelDestroy$layout() {
+        return KernelDestroy$LAYOUT;
+    }
+
+    private static final long KernelDestroy$OFFSET = 72;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*KernelDestroy)(void *)
+     * }
+     */
+    public static final long KernelDestroy$offset() {
+        return KernelDestroy$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*KernelDestroy)(void *)
+     * }
+     */
+    public static MemorySegment KernelDestroy(MemorySegment struct) {
+        return struct.get(KernelDestroy$LAYOUT, KernelDestroy$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*KernelDestroy)(void *)
+     * }
+     */
+    public static void KernelDestroy(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDestroy$LAYOUT, KernelDestroy$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*KernelDestroy)(void *)
+     * }
+     */
+    public static KernelDestroy.Function KernelDestroyFunction(MemorySegment struct) {
+        return KernelDestroy.function(KernelDestroy(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static class GetInputCharacteristic {
+
+        GetInputCharacteristic() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0, long _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetInputCharacteristic.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetInputCharacteristic.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetInputCharacteristic.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout GetInputCharacteristic$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetInputCharacteristic"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final AddressLayout GetInputCharacteristic$layout() {
+        return GetInputCharacteristic$LAYOUT;
+    }
+
+    private static final long GetInputCharacteristic$OFFSET = 80;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final long GetInputCharacteristic$offset() {
+        return GetInputCharacteristic$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static MemorySegment GetInputCharacteristic(MemorySegment struct) {
+        return struct.get(GetInputCharacteristic$LAYOUT, GetInputCharacteristic$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static void GetInputCharacteristic(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetInputCharacteristic$LAYOUT, GetInputCharacteristic$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static GetInputCharacteristic.Function GetInputCharacteristicFunction(MemorySegment struct) {
+        return GetInputCharacteristic.function(GetInputCharacteristic(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static class GetOutputCharacteristic {
+
+        GetOutputCharacteristic() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0, long _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetOutputCharacteristic.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetOutputCharacteristic.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetOutputCharacteristic.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout GetOutputCharacteristic$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetOutputCharacteristic"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final AddressLayout GetOutputCharacteristic$layout() {
+        return GetOutputCharacteristic$LAYOUT;
+    }
+
+    private static final long GetOutputCharacteristic$OFFSET = 88;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final long GetOutputCharacteristic$offset() {
+        return GetOutputCharacteristic$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static MemorySegment GetOutputCharacteristic(MemorySegment struct) {
+        return struct.get(GetOutputCharacteristic$LAYOUT, GetOutputCharacteristic$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static void GetOutputCharacteristic(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetOutputCharacteristic$LAYOUT, GetOutputCharacteristic$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static GetOutputCharacteristic.Function GetOutputCharacteristicFunction(MemorySegment struct) {
+        return GetOutputCharacteristic.function(GetOutputCharacteristic(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static class GetInputMemoryType {
+
+        GetInputMemoryType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0, long _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetInputMemoryType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetInputMemoryType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetInputMemoryType.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout GetInputMemoryType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetInputMemoryType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final AddressLayout GetInputMemoryType$layout() {
+        return GetInputMemoryType$LAYOUT;
+    }
+
+    private static final long GetInputMemoryType$OFFSET = 96;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static final long GetInputMemoryType$offset() {
+        return GetInputMemoryType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static MemorySegment GetInputMemoryType(MemorySegment struct) {
+        return struct.get(GetInputMemoryType$LAYOUT, GetInputMemoryType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static void GetInputMemoryType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetInputMemoryType$LAYOUT, GetInputMemoryType$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
+     * }
+     */
+    public static GetInputMemoryType.Function GetInputMemoryTypeFunction(MemorySegment struct) {
+        return GetInputMemoryType.function(GetInputMemoryType(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetVariadicInputMinArity {
+
+        GetVariadicInputMinArity() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetVariadicInputMinArity.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetVariadicInputMinArity.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetVariadicInputMinArity.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout GetVariadicInputMinArity$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetVariadicInputMinArity"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetVariadicInputMinArity$layout() {
+        return GetVariadicInputMinArity$LAYOUT;
+    }
+
+    private static final long GetVariadicInputMinArity$OFFSET = 104;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetVariadicInputMinArity$offset() {
+        return GetVariadicInputMinArity$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetVariadicInputMinArity(MemorySegment struct) {
+        return struct.get(GetVariadicInputMinArity$LAYOUT, GetVariadicInputMinArity$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetVariadicInputMinArity(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetVariadicInputMinArity$LAYOUT, GetVariadicInputMinArity$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetVariadicInputMinArity.Function GetVariadicInputMinArityFunction(MemorySegment struct) {
+        return GetVariadicInputMinArity.function(GetVariadicInputMinArity(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetVariadicInputHomogeneity {
+
+        GetVariadicInputHomogeneity() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetVariadicInputHomogeneity.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetVariadicInputHomogeneity.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetVariadicInputHomogeneity.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout GetVariadicInputHomogeneity$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetVariadicInputHomogeneity"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetVariadicInputHomogeneity$layout() {
+        return GetVariadicInputHomogeneity$LAYOUT;
+    }
+
+    private static final long GetVariadicInputHomogeneity$OFFSET = 112;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetVariadicInputHomogeneity$offset() {
+        return GetVariadicInputHomogeneity$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetVariadicInputHomogeneity(MemorySegment struct) {
+        return struct.get(GetVariadicInputHomogeneity$LAYOUT, GetVariadicInputHomogeneity$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetVariadicInputHomogeneity(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetVariadicInputHomogeneity$LAYOUT, GetVariadicInputHomogeneity$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetVariadicInputHomogeneity.Function GetVariadicInputHomogeneityFunction(MemorySegment struct) {
+        return GetVariadicInputHomogeneity.function(GetVariadicInputHomogeneity(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetVariadicOutputMinArity {
+
+        GetVariadicOutputMinArity() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetVariadicOutputMinArity.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetVariadicOutputMinArity.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetVariadicOutputMinArity.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout GetVariadicOutputMinArity$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetVariadicOutputMinArity"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetVariadicOutputMinArity$layout() {
+        return GetVariadicOutputMinArity$LAYOUT;
+    }
+
+    private static final long GetVariadicOutputMinArity$OFFSET = 120;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetVariadicOutputMinArity$offset() {
+        return GetVariadicOutputMinArity$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetVariadicOutputMinArity(MemorySegment struct) {
+        return struct.get(GetVariadicOutputMinArity$LAYOUT, GetVariadicOutputMinArity$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetVariadicOutputMinArity(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetVariadicOutputMinArity$LAYOUT, GetVariadicOutputMinArity$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetVariadicOutputMinArity.Function GetVariadicOutputMinArityFunction(MemorySegment struct) {
+        return GetVariadicOutputMinArity.function(GetVariadicOutputMinArity(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetVariadicOutputHomogeneity {
+
+        GetVariadicOutputHomogeneity() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetVariadicOutputHomogeneity.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetVariadicOutputHomogeneity.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetVariadicOutputHomogeneity.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout GetVariadicOutputHomogeneity$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetVariadicOutputHomogeneity"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetVariadicOutputHomogeneity$layout() {
+        return GetVariadicOutputHomogeneity$LAYOUT;
+    }
+
+    private static final long GetVariadicOutputHomogeneity$OFFSET = 128;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetVariadicOutputHomogeneity$offset() {
+        return GetVariadicOutputHomogeneity$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetVariadicOutputHomogeneity(MemorySegment struct) {
+        return struct.get(GetVariadicOutputHomogeneity$LAYOUT, GetVariadicOutputHomogeneity$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetVariadicOutputHomogeneity(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetVariadicOutputHomogeneity$LAYOUT, GetVariadicOutputHomogeneity$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetVariadicOutputHomogeneity.Function GetVariadicOutputHomogeneityFunction(MemorySegment struct) {
+        return GetVariadicOutputHomogeneity.function(GetVariadicOutputHomogeneity(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
+     * }
+     */
+    public static class CreateKernelV2 {
+
+        CreateKernelV2() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateKernelV2.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateKernelV2.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateKernelV2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
+    }
+
+    private static final AddressLayout CreateKernelV2$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateKernelV2"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
+     * }
+     */
+    public static final AddressLayout CreateKernelV2$layout() {
+        return CreateKernelV2$LAYOUT;
+    }
+
+    private static final long CreateKernelV2$OFFSET = 136;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
+     * }
+     */
+    public static final long CreateKernelV2$offset() {
+        return CreateKernelV2$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
+     * }
+     */
+    public static MemorySegment CreateKernelV2(MemorySegment struct) {
+        return struct.get(CreateKernelV2$LAYOUT, CreateKernelV2$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
+     * }
+     */
+    public static void CreateKernelV2(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateKernelV2$LAYOUT, CreateKernelV2$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
+     * }
+     */
+    public static CreateKernelV2.Function CreateKernelV2Function(MemorySegment struct) {
+        return CreateKernelV2.function(CreateKernelV2(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
+     * }
+     */
+    public static class KernelComputeV2 {
+
+        KernelComputeV2() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelComputeV2.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelComputeV2.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelComputeV2.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout KernelComputeV2$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelComputeV2"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
+     * }
+     */
+    public static final AddressLayout KernelComputeV2$layout() {
+        return KernelComputeV2$LAYOUT;
+    }
+
+    private static final long KernelComputeV2$OFFSET = 144;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
+     * }
+     */
+    public static final long KernelComputeV2$offset() {
+        return KernelComputeV2$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
+     * }
+     */
+    public static MemorySegment KernelComputeV2(MemorySegment struct) {
+        return struct.get(KernelComputeV2$LAYOUT, KernelComputeV2$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
+     * }
+     */
+    public static void KernelComputeV2(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelComputeV2$LAYOUT, KernelComputeV2$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
+     * }
+     */
+    public static KernelComputeV2.Function KernelComputeV2Function(MemorySegment struct) {
+        return KernelComputeV2.function(KernelComputeV2(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
+     * }
+     */
+    public static class InferOutputShapeFn {
+
+        InferOutputShapeFn() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(InferOutputShapeFn.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(InferOutputShapeFn.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static InferOutputShapeFn.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout InferOutputShapeFn$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("InferOutputShapeFn"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
+     * }
+     */
+    public static final AddressLayout InferOutputShapeFn$layout() {
+        return InferOutputShapeFn$LAYOUT;
+    }
+
+    private static final long InferOutputShapeFn$OFFSET = 152;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
+     * }
+     */
+    public static final long InferOutputShapeFn$offset() {
+        return InferOutputShapeFn$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
+     * }
+     */
+    public static MemorySegment InferOutputShapeFn(MemorySegment struct) {
+        return struct.get(InferOutputShapeFn$LAYOUT, InferOutputShapeFn$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
+     * }
+     */
+    public static void InferOutputShapeFn(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(InferOutputShapeFn$LAYOUT, InferOutputShapeFn$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
+     * }
+     */
+    public static InferOutputShapeFn.Function InferOutputShapeFnFunction(MemorySegment struct) {
+        return InferOutputShapeFn.function(InferOutputShapeFn(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int (*GetStartVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetStartVersion {
+
+        GetStartVersion() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetStartVersion.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetStartVersion.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetStartVersion.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout GetStartVersion$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetStartVersion"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int (*GetStartVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetStartVersion$layout() {
+        return GetStartVersion$LAYOUT;
+    }
+
+    private static final long GetStartVersion$OFFSET = 160;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int (*GetStartVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetStartVersion$offset() {
+        return GetStartVersion$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int (*GetStartVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetStartVersion(MemorySegment struct) {
+        return struct.get(GetStartVersion$LAYOUT, GetStartVersion$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int (*GetStartVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetStartVersion(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetStartVersion$LAYOUT, GetStartVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * int (*GetStartVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetStartVersion.Function GetStartVersionFunction(MemorySegment struct) {
+        return GetStartVersion.function(GetStartVersion(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int (*GetEndVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static class GetEndVersion {
+
+        GetEndVersion() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetEndVersion.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetEndVersion.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetEndVersion.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout GetEndVersion$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetEndVersion"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int (*GetEndVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final AddressLayout GetEndVersion$layout() {
+        return GetEndVersion$LAYOUT;
+    }
+
+    private static final long GetEndVersion$OFFSET = 168;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int (*GetEndVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static final long GetEndVersion$offset() {
+        return GetEndVersion$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int (*GetEndVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static MemorySegment GetEndVersion(MemorySegment struct) {
+        return struct.get(GetEndVersion$LAYOUT, GetEndVersion$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int (*GetEndVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static void GetEndVersion(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetEndVersion$LAYOUT, GetEndVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * int (*GetEndVersion)(const struct OrtCustomOp *)
+     * }
+     */
+    public static GetEndVersion.Function GetEndVersionFunction(MemorySegment struct) {
+        return GetEndVersion.function(GetEndVersion(struct));
+    }
+
+    /**
+     * Obtains a slice of {@code arrayParam} which selects the array element at {@code index}.
+     * The returned segment has address {@code arrayParam.address() + index * layout().byteSize()}
+     */
+    public static MemorySegment asSlice(MemorySegment array, long index) {
+        return array.asSlice(layout().byteSize() * index);
+    }
+
+    /**
+     * The size (in bytes) of this struct
+     */
     public static long sizeof() {
-        return $LAYOUT().byteSize();
+        return layout().byteSize();
     }
 
+    /**
+     * Allocate a segment of size {@code layout().byteSize()} using {@code allocator}
+     */
     public static MemorySegment allocate(SegmentAllocator allocator) {
-        return allocator.allocate($LAYOUT());
+        return allocator.allocate(layout());
     }
 
-    public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
-        return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
+    /**
+     * Allocate an array of size {@code elementCount} using {@code allocator}.
+     * The returned segment has size {@code elementCount * layout().byteSize()}.
+     */
+    public static MemorySegment allocateArray(long elementCount, SegmentAllocator allocator) {
+        return allocator.allocate(MemoryLayout.sequenceLayout(elementCount, layout()));
     }
 
-    public static MemorySegment ofAddress(MemoryAddress addr, MemorySession session) {
-        return RuntimeHelper.asArray(addr, $LAYOUT(), 1, session);
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(MemorySegment addr, Arena arena, Consumer<MemorySegment> cleanup) {
+        return reinterpret(addr, 1, arena, cleanup);
+    }
+
+    /**
+     * Reinterprets {@code addr} using target {@code arena} and {@code cleanupAction} (if any).
+     * The returned segment has size {@code elementCount * layout().byteSize()}
+     */
+    public static MemorySegment reinterpret(
+            MemorySegment addr, long elementCount, Arena arena, Consumer<MemorySegment> cleanup) {
+        return addr.reinterpret(layout().byteSize() * elementCount, arena, cleanup);
     }
 }

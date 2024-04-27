@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [19]
+        java: [22]
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
     runs-on: ${{ matrix.os }}
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
@@ -25,7 +25,7 @@ jobs:
       - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: oracle
           java-version: ${{ matrix.java }}
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -33,8 +33,10 @@ jobs:
         run: |
           ./gradlew --no-daemon -s :build
       - name: Upload coverage to Codecov
-        if: ${{ matrix.java == '19' && matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.java == '22' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v4.3.0
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Save reports
         uses: actions/upload-artifact@v4
         if: ${{ failure() }}

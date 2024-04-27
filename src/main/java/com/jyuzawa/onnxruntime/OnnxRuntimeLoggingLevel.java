@@ -9,10 +9,10 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.lang.foreign.Arena;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
-import java.lang.foreign.MemoryAddress;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.MemorySegment;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
@@ -31,7 +31,7 @@ public enum OnnxRuntimeLoggingLevel {
 
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
-    static final MemoryAddress LOG_CALLBACK = createCallback();
+    static final MemorySegment LOG_CALLBACK = createCallback();
     static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
 
     private final int number;
@@ -62,12 +62,12 @@ public enum OnnxRuntimeLoggingLevel {
 
     @SuppressWarnings("unused")
     private static final void logCallback(
-            MemoryAddress parameterAddress,
+            MemorySegment parameterAddress,
             int level,
-            MemoryAddress categoryAddress,
-            MemoryAddress idAddress,
-            MemoryAddress locationAddress,
-            MemoryAddress messageAddress) {
+            MemorySegment categoryAddress,
+            MemorySegment idAddress,
+            MemorySegment locationAddress,
+            MemorySegment messageAddress) {
         Level theLevel =
                 switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
                     case VERBOSE -> Level.DEBUG;
@@ -76,10 +76,10 @@ public enum OnnxRuntimeLoggingLevel {
                     case FATAL, ERROR -> Level.ERROR;
                 };
         if (LOG.isLoggable(theLevel)) {
-            String category = categoryAddress.address().getUtf8String(0);
-            String id = idAddress.address().getUtf8String(0);
-            String location = locationAddress.address().getUtf8String(0);
-            String message = messageAddress.address().getUtf8String(0);
+            String category = categoryAddress.getString(0);
+            String id = idAddress.getString(0);
+            String location = locationAddress.getString(0);
+            String message = messageAddress.getString(0);
             LOG.log(theLevel, category + ' ' + id + ' ' + location + ' ' + message);
         }
     }
@@ -100,7 +100,7 @@ public enum OnnxRuntimeLoggingLevel {
         return FATAL;
     }
 
-    private static final MemoryAddress createCallback() {
+    private static final MemorySegment createCallback() {
         try {
             FunctionDescriptor LOG_CALLBACK_DESCRIPTOR =
                     FunctionDescriptor.ofVoid(C_POINTER, C_INT, C_POINTER, C_POINTER, C_POINTER, C_POINTER);
@@ -110,15 +110,13 @@ public enum OnnxRuntimeLoggingLevel {
                             "logCallback",
                             MethodType.methodType(
                                     void.class,
-                                    MemoryAddress.class,
+                                    MemorySegment.class,
                                     int.class,
-                                    MemoryAddress.class,
-                                    MemoryAddress.class,
-                                    MemoryAddress.class,
-                                    MemoryAddress.class));
-            return Linker.nativeLinker()
-                    .upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, MemorySession.global())
-                    .address();
+                                    MemorySegment.class,
+                                    MemorySegment.class,
+                                    MemorySegment.class,
+                                    MemorySegment.class));
+            return Linker.nativeLinker().upcallStub(LOG_CALLBACK_HANDLE, LOG_CALLBACK_DESCRIPTOR, Arena.global());
         } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new OnnxRuntimeException("failed to initialize logger", e);
         }

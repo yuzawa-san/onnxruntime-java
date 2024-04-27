@@ -4,30 +4,71 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
 import static java.lang.foreign.ValueLayout.*;
 
 import java.lang.foreign.*;
+import java.lang.invoke.*;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
-public interface RegisterCustomOpsFn {
+/**
+ * {@snippet lang=c :
+ * typedef OrtStatus *(*RegisterCustomOpsFn)(OrtSessionOptions *, const OrtApiBase *)
+ * }
+ */
+public class RegisterCustomOpsFn {
 
-    java.lang.foreign.Addressable apply(java.lang.foreign.MemoryAddress options, java.lang.foreign.MemoryAddress api);
-
-    static MemorySegment allocate(RegisterCustomOpsFn fi, MemorySession session) {
-        return RuntimeHelper.upcallStub(RegisterCustomOpsFn.class, fi, constants$1.RegisterCustomOpsFn$FUNC, session);
+    RegisterCustomOpsFn() {
+        // Should not be called directly
     }
 
-    static RegisterCustomOpsFn ofAddress(MemoryAddress addr, MemorySession session) {
-        MemorySegment symbol = MemorySegment.ofAddress(addr, 0, session);
-        return (java.lang.foreign.MemoryAddress _options, java.lang.foreign.MemoryAddress _api) -> {
-            try {
-                return (java.lang.foreign.Addressable)
-                        (java.lang.foreign.MemoryAddress) constants$1.RegisterCustomOpsFn$MH.invokeExact(
-                                (Addressable) symbol,
-                                (java.lang.foreign.Addressable) _options,
-                                (java.lang.foreign.Addressable) _api);
-            } catch (Throwable ex$) {
-                throw new AssertionError("should not reach here", ex$);
-            }
-        };
+    /**
+     * The function pointer signature, expressed as a functional interface
+     */
+    public interface Function {
+        MemorySegment apply(MemorySegment options, MemorySegment api);
+    }
+
+    private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+            onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+    /**
+     * The descriptor of this function pointer
+     */
+    public static FunctionDescriptor descriptor() {
+        return $DESC;
+    }
+
+    private static final MethodHandle UP$MH =
+            onnxruntime_all_h.upcallHandle(RegisterCustomOpsFn.Function.class, "apply", $DESC);
+
+    /**
+     * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+     * The lifetime of the returned segment is managed by {@code arena}
+     */
+    public static MemorySegment allocate(RegisterCustomOpsFn.Function fi, Arena arena) {
+        return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+    }
+
+    private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+    /**
+     * Invoke the upcall stub {@code funcPtr}, with given parameters
+     */
+    public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment options, MemorySegment api) {
+        try {
+            return (MemorySegment) DOWN$MH.invokeExact(funcPtr, options, api);
+        } catch (Throwable ex$) {
+            throw new AssertionError("should not reach here", ex$);
+        }
+    }
+
+    /**
+     * Get an implementation of the function interface from a function pointer.
+     */
+    public static RegisterCustomOpsFn.Function function(MemorySegment funcPtr) {
+        return (options, api) -> invoke(funcPtr, options, api);
     }
 }
