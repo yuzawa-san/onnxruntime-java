@@ -75,12 +75,4 @@ public class OrtCustomCreateThreadFn {
             throw new AssertionError("should not reach here", ex$);
         }
     }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static OrtCustomCreateThreadFn.Function function(MemorySegment funcPtr) {
-        return (ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param) ->
-                invoke(funcPtr, ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param);
-    }
 }

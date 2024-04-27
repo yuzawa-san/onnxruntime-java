@@ -12,7 +12,7 @@ case ${answer:0:1} in
 esac
 git checkout ort/$NEW_VERSION && echo "please delete existing branch ort/$NEW_VERSION" && exit 1
 
-git checkout jdk22 && \
+git checkout master && \
 git pull && \
 git checkout -b ort/$NEW_VERSION && \
 sed -i '' "s/^com.jyuzawa.onnxruntime.library_version=.*/com.jyuzawa.onnxruntime.library_version=$NEW_VERSION/" gradle.properties && \

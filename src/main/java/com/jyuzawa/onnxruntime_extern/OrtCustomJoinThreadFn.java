@@ -63,11 +63,4 @@ public class OrtCustomJoinThreadFn {
             throw new AssertionError("should not reach here", ex$);
         }
     }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static OrtCustomJoinThreadFn.Function function(MemorySegment funcPtr) {
-        return (ort_custom_thread_handle) -> invoke(funcPtr, ort_custom_thread_handle);
-    }
 }
