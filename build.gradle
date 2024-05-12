@@ -317,7 +317,7 @@ publishing {
 					developer {
 						id = 'yuzawa-san'
 						name = 'James Yuzawa'
-						email = 'jtyuzawa@gmail.com'
+						email = 'jtyuzawa+onnxruntime-java@gmail.com'
 					}
 				}
 				scm {
