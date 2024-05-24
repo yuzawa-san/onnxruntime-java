@@ -146,6 +146,7 @@ final class ApiImpl implements Api {
     final SessionOptionsAppendExecutionProvider_OpenVINO_V2.Function SessionOptionsAppendExecutionProvider_OpenVINO_V2;
     final SessionOptionsAppendExecutionProvider_ROCM.Function SessionOptionsAppendExecutionProvider_ROCM;
     final SessionOptionsAppendExecutionProvider_TensorRT_V2.Function SessionOptionsAppendExecutionProvider_TensorRT_V2;
+    final SessionOptionsAppendExecutionProvider_VitisAI.Function SessionOptionsAppendExecutionProvider_VitisAI;
     final SynchronizeBoundInputs.Function SynchronizeBoundInputs;
     final SynchronizeBoundOutputs.Function SynchronizeBoundOutputs;
     final UpdateCUDAProviderOptions.Function UpdateCUDAProviderOptions;
@@ -289,6 +290,8 @@ final class ApiImpl implements Api {
                 OrtApi.SessionOptionsAppendExecutionProvider_ROCMFunction(memorySegment);
         this.SessionOptionsAppendExecutionProvider_TensorRT_V2 =
                 OrtApi.SessionOptionsAppendExecutionProvider_TensorRT_V2Function(memorySegment);
+        this.SessionOptionsAppendExecutionProvider_VitisAI =
+                OrtApi.SessionOptionsAppendExecutionProvider_VitisAIFunction(memorySegment);
         this.SynchronizeBoundInputs = OrtApi.SynchronizeBoundInputsFunction(memorySegment);
         this.SynchronizeBoundOutputs = OrtApi.SynchronizeBoundOutputsFunction(memorySegment);
         this.UpdateCUDAProviderOptions = OrtApi.UpdateCUDAProviderOptionsFunction(memorySegment);

@@ -26,6 +26,7 @@ final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
         copyInteger("has_user_compute_stream", config, OrtROCMProviderOptions::has_user_compute_stream);
         // TODO: user_compute_stream
         // TODO: default_memory_arena_cfg
+        copyInteger("enable_hip_graph", config, OrtROCMProviderOptions::enable_hip_graph);
         copyInteger("tunable_op_enable", config, OrtROCMProviderOptions::tunable_op_enable);
         copyInteger("tunable_op_tuning_enable", config, OrtROCMProviderOptions::tunable_op_tuning_enable);
         copyInteger(

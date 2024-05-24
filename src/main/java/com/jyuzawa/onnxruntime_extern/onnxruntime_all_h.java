@@ -70,10 +70,10 @@ public class onnxruntime_all_h {
     public static final AddressLayout C_POINTER =
             ValueLayout.ADDRESS.withTargetLayout(MemoryLayout.sequenceLayout(java.lang.Long.MAX_VALUE, JAVA_BYTE));
     public static final ValueLayout.OfLong C_LONG = ValueLayout.JAVA_LONG;
-    private static final int ORT_API_VERSION = (int) 17L;
+    private static final int ORT_API_VERSION = (int) 18L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 17
+     * #define ORT_API_VERSION 18
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1376,10 +1376,20 @@ public class onnxruntime_all_h {
         return COREML_FLAG_ONLY_ALLOW_STATIC_INPUT_SHAPES;
     }
 
-    private static final int COREML_FLAG_LAST = (int) 8L;
+    private static final int COREML_FLAG_CREATE_MLPROGRAM = (int) 16L;
     /**
      * {@snippet lang=c :
-     * enum COREMLFlags.COREML_FLAG_LAST = 8
+     * enum COREMLFlags.COREML_FLAG_CREATE_MLPROGRAM = 16
+     * }
+     */
+    public static int COREML_FLAG_CREATE_MLPROGRAM() {
+        return COREML_FLAG_CREATE_MLPROGRAM;
+    }
+
+    private static final int COREML_FLAG_LAST = (int) 16L;
+    /**
+     * {@snippet lang=c :
+     * enum COREMLFlags.COREML_FLAG_LAST = 16
      * }
      */
     public static int COREML_FLAG_LAST() {
@@ -1445,13 +1455,13 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5143095224000310261.h"
+     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$4081472262398012960.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
             static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
-                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5143095224000310261.h");
+                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$4081472262398012960.h");
         }
         return Holder.ORT_FILE;
     }

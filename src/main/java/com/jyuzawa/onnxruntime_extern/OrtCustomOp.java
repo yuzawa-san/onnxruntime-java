@@ -38,6 +38,10 @@ import java.util.stream.*;
  *     OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *);
  *     int (*GetStartVersion)(const struct OrtCustomOp *);
  *     int (*GetEndVersion)(const struct OrtCustomOp *);
+ *     size_t (*GetMayInplace)(int **, int **);
+ *     void (*ReleaseMayInplace)(int *, int *);
+ *     size_t (*GetAliasMap)(int **, int **);
+ *     void (*ReleaseAliasMap)(int *, int *);
  * }
  * }
  */
@@ -70,7 +74,11 @@ public class OrtCustomOp {
                     onnxruntime_all_h.C_POINTER.withName("KernelComputeV2"),
                     onnxruntime_all_h.C_POINTER.withName("InferOutputShapeFn"),
                     onnxruntime_all_h.C_POINTER.withName("GetStartVersion"),
-                    onnxruntime_all_h.C_POINTER.withName("GetEndVersion"))
+                    onnxruntime_all_h.C_POINTER.withName("GetEndVersion"),
+                    onnxruntime_all_h.C_POINTER.withName("GetMayInplace"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseMayInplace"),
+                    onnxruntime_all_h.C_POINTER.withName("GetAliasMap"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseAliasMap"))
             .withName("OrtCustomOp");
 
     /**
@@ -2544,6 +2552,465 @@ public class OrtCustomOp {
      */
     public static GetEndVersion.Function GetEndVersionFunction(MemorySegment struct) {
         return GetEndVersion.function(GetEndVersion(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * size_t (*GetMayInplace)(int **, int **)
+     * }
+     */
+    public static class GetMayInplace {
+
+        GetMayInplace() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            long apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_LONG, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetMayInplace.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetMayInplace.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static long invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (long) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetMayInplace.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout GetMayInplace$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetMayInplace"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t (*GetMayInplace)(int **, int **)
+     * }
+     */
+    public static final AddressLayout GetMayInplace$layout() {
+        return GetMayInplace$LAYOUT;
+    }
+
+    private static final long GetMayInplace$OFFSET = 176;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t (*GetMayInplace)(int **, int **)
+     * }
+     */
+    public static final long GetMayInplace$offset() {
+        return GetMayInplace$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetMayInplace)(int **, int **)
+     * }
+     */
+    public static MemorySegment GetMayInplace(MemorySegment struct) {
+        return struct.get(GetMayInplace$LAYOUT, GetMayInplace$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * size_t (*GetMayInplace)(int **, int **)
+     * }
+     */
+    public static void GetMayInplace(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetMayInplace$LAYOUT, GetMayInplace$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetMayInplace)(int **, int **)
+     * }
+     */
+    public static GetMayInplace.Function GetMayInplaceFunction(MemorySegment struct) {
+        return GetMayInplace.function(GetMayInplace(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseMayInplace)(int *, int *)
+     * }
+     */
+    public static class ReleaseMayInplace {
+
+        ReleaseMayInplace() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseMayInplace.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseMayInplace.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseMayInplace.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout ReleaseMayInplace$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseMayInplace"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMayInplace)(int *, int *)
+     * }
+     */
+    public static final AddressLayout ReleaseMayInplace$layout() {
+        return ReleaseMayInplace$LAYOUT;
+    }
+
+    private static final long ReleaseMayInplace$OFFSET = 184;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMayInplace)(int *, int *)
+     * }
+     */
+    public static final long ReleaseMayInplace$offset() {
+        return ReleaseMayInplace$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMayInplace)(int *, int *)
+     * }
+     */
+    public static MemorySegment ReleaseMayInplace(MemorySegment struct) {
+        return struct.get(ReleaseMayInplace$LAYOUT, ReleaseMayInplace$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMayInplace)(int *, int *)
+     * }
+     */
+    public static void ReleaseMayInplace(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseMayInplace$LAYOUT, ReleaseMayInplace$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseMayInplace)(int *, int *)
+     * }
+     */
+    public static ReleaseMayInplace.Function ReleaseMayInplaceFunction(MemorySegment struct) {
+        return ReleaseMayInplace.function(ReleaseMayInplace(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * size_t (*GetAliasMap)(int **, int **)
+     * }
+     */
+    public static class GetAliasMap {
+
+        GetAliasMap() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            long apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_LONG, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetAliasMap.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetAliasMap.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static long invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (long) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static GetAliasMap.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout GetAliasMap$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetAliasMap"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t (*GetAliasMap)(int **, int **)
+     * }
+     */
+    public static final AddressLayout GetAliasMap$layout() {
+        return GetAliasMap$LAYOUT;
+    }
+
+    private static final long GetAliasMap$OFFSET = 192;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t (*GetAliasMap)(int **, int **)
+     * }
+     */
+    public static final long GetAliasMap$offset() {
+        return GetAliasMap$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetAliasMap)(int **, int **)
+     * }
+     */
+    public static MemorySegment GetAliasMap(MemorySegment struct) {
+        return struct.get(GetAliasMap$LAYOUT, GetAliasMap$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * size_t (*GetAliasMap)(int **, int **)
+     * }
+     */
+    public static void GetAliasMap(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetAliasMap$LAYOUT, GetAliasMap$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * size_t (*GetAliasMap)(int **, int **)
+     * }
+     */
+    public static GetAliasMap.Function GetAliasMapFunction(MemorySegment struct) {
+        return GetAliasMap.function(GetAliasMap(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseAliasMap)(int *, int *)
+     * }
+     */
+    public static class ReleaseAliasMap {
+
+        ReleaseAliasMap() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseAliasMap.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseAliasMap.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseAliasMap.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout ReleaseAliasMap$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseAliasMap"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseAliasMap)(int *, int *)
+     * }
+     */
+    public static final AddressLayout ReleaseAliasMap$layout() {
+        return ReleaseAliasMap$LAYOUT;
+    }
+
+    private static final long ReleaseAliasMap$OFFSET = 200;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseAliasMap)(int *, int *)
+     * }
+     */
+    public static final long ReleaseAliasMap$offset() {
+        return ReleaseAliasMap$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseAliasMap)(int *, int *)
+     * }
+     */
+    public static MemorySegment ReleaseAliasMap(MemorySegment struct) {
+        return struct.get(ReleaseAliasMap$LAYOUT, ReleaseAliasMap$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseAliasMap)(int *, int *)
+     * }
+     */
+    public static void ReleaseAliasMap(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseAliasMap$LAYOUT, ReleaseAliasMap$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseAliasMap)(int *, int *)
+     * }
+     */
+    public static ReleaseAliasMap.Function ReleaseAliasMapFunction(MemorySegment struct) {
+        return ReleaseAliasMap.function(ReleaseAliasMap(struct));
     }
 
     /**
