@@ -20,6 +20,7 @@ import java.util.stream.*;
  *     void *(*Alloc)(struct OrtAllocator *, size_t);
  *     void (*Free)(struct OrtAllocator *, void *);
  *     const struct OrtMemoryInfo *(*Info)(const struct OrtAllocator *);
+ *     void *(*Reserve)(struct OrtAllocator *, size_t);
  * }
  * }
  */
@@ -34,7 +35,8 @@ public class OrtAllocator {
                     MemoryLayout.paddingLayout(4),
                     onnxruntime_all_h.C_POINTER.withName("Alloc"),
                     onnxruntime_all_h.C_POINTER.withName("Free"),
-                    onnxruntime_all_h.C_POINTER.withName("Info"))
+                    onnxruntime_all_h.C_POINTER.withName("Info"),
+                    onnxruntime_all_h.C_POINTER.withName("Reserve"))
             .withName("OrtAllocator");
 
     /**
@@ -425,6 +427,120 @@ public class OrtAllocator {
      */
     public static Info.Function InfoFunction(MemorySegment struct) {
         return Info.function(Info(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void *(*Reserve)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static class Reserve {
+
+        Reserve() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Reserve.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Reserve.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static Reserve.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout Reserve$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Reserve"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void *(*Reserve)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static final AddressLayout Reserve$layout() {
+        return Reserve$LAYOUT;
+    }
+
+    private static final long Reserve$OFFSET = 32;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void *(*Reserve)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static final long Reserve$offset() {
+        return Reserve$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void *(*Reserve)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static MemorySegment Reserve(MemorySegment struct) {
+        return struct.get(Reserve$LAYOUT, Reserve$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void *(*Reserve)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static void Reserve(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Reserve$LAYOUT, Reserve$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void *(*Reserve)(struct OrtAllocator *, size_t)
+     * }
+     */
+    public static Reserve.Function ReserveFunction(MemorySegment struct) {
+        return Reserve.function(Reserve(struct));
     }
 
     /**

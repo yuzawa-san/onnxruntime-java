@@ -24,6 +24,7 @@ import java.util.stream.*;
  *     int has_user_compute_stream;
  *     void *user_compute_stream;
  *     OrtArenaCfg *default_memory_arena_cfg;
+ *     int enable_hip_graph;
  *     int tunable_op_enable;
  *     int tunable_op_tuning_enable;
  *     int tunable_op_max_tuning_duration_ms;
@@ -46,10 +47,10 @@ public class OrtROCMProviderOptions {
                     MemoryLayout.paddingLayout(4),
                     onnxruntime_all_h.C_POINTER.withName("user_compute_stream"),
                     onnxruntime_all_h.C_POINTER.withName("default_memory_arena_cfg"),
+                    onnxruntime_all_h.C_INT.withName("enable_hip_graph"),
                     onnxruntime_all_h.C_INT.withName("tunable_op_enable"),
                     onnxruntime_all_h.C_INT.withName("tunable_op_tuning_enable"),
-                    onnxruntime_all_h.C_INT.withName("tunable_op_max_tuning_duration_ms"),
-                    MemoryLayout.paddingLayout(4))
+                    onnxruntime_all_h.C_INT.withName("tunable_op_max_tuning_duration_ms"))
             .withName("OrtROCMProviderOptions");
 
     /**
@@ -417,6 +418,50 @@ public class OrtROCMProviderOptions {
         struct.set(default_memory_arena_cfg$LAYOUT, default_memory_arena_cfg$OFFSET, fieldValue);
     }
 
+    private static final OfInt enable_hip_graph$LAYOUT = (OfInt) $LAYOUT.select(groupElement("enable_hip_graph"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int enable_hip_graph
+     * }
+     */
+    public static final OfInt enable_hip_graph$layout() {
+        return enable_hip_graph$LAYOUT;
+    }
+
+    private static final long enable_hip_graph$OFFSET = 48;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int enable_hip_graph
+     * }
+     */
+    public static final long enable_hip_graph$offset() {
+        return enable_hip_graph$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int enable_hip_graph
+     * }
+     */
+    public static int enable_hip_graph(MemorySegment struct) {
+        return struct.get(enable_hip_graph$LAYOUT, enable_hip_graph$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int enable_hip_graph
+     * }
+     */
+    public static void enable_hip_graph(MemorySegment struct, int fieldValue) {
+        struct.set(enable_hip_graph$LAYOUT, enable_hip_graph$OFFSET, fieldValue);
+    }
+
     private static final OfInt tunable_op_enable$LAYOUT = (OfInt) $LAYOUT.select(groupElement("tunable_op_enable"));
 
     /**
@@ -429,7 +474,7 @@ public class OrtROCMProviderOptions {
         return tunable_op_enable$LAYOUT;
     }
 
-    private static final long tunable_op_enable$OFFSET = 48;
+    private static final long tunable_op_enable$OFFSET = 52;
 
     /**
      * Offset for field:
@@ -474,7 +519,7 @@ public class OrtROCMProviderOptions {
         return tunable_op_tuning_enable$LAYOUT;
     }
 
-    private static final long tunable_op_tuning_enable$OFFSET = 52;
+    private static final long tunable_op_tuning_enable$OFFSET = 56;
 
     /**
      * Offset for field:
@@ -519,7 +564,7 @@ public class OrtROCMProviderOptions {
         return tunable_op_max_tuning_duration_ms$LAYOUT;
     }
 
-    private static final long tunable_op_max_tuning_duration_ms$OFFSET = 56;
+    private static final long tunable_op_max_tuning_duration_ms$OFFSET = 60;
 
     /**
      * Offset for field:

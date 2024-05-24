@@ -292,6 +292,10 @@ import java.util.stream.*;
  *     OrtStatusPtr (*SetDeterministicCompute)(OrtSessionOptions *, bool);
  *     OrtStatusPtr (*KernelContext_ParallelFor)(const OrtKernelContext *, void (*)(void *, size_t), size_t, size_t, void *);
  *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_OpenVINO_V2)(OrtSessionOptions *, const char *const *, const char *const *, size_t);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t);
+ *     OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **);
+ *     OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **);
+ *     OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t);
  * }
  * }
  */
@@ -577,7 +581,11 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("ReadOpAttr"),
                     onnxruntime_all_h.C_POINTER.withName("SetDeterministicCompute"),
                     onnxruntime_all_h.C_POINTER.withName("KernelContext_ParallelFor"),
-                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsAppendExecutionProvider_OpenVINO_V2"))
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsAppendExecutionProvider_OpenVINO_V2"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsAppendExecutionProvider_VitisAI"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelContext_GetScratchBuffer"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelInfoGetAllocator"),
+                    onnxruntime_all_h.C_POINTER.withName("AddExternalInitializersFromFilesInMemory"))
             .withName("OrtApi");
 
     /**
@@ -33234,6 +33242,502 @@ public class OrtApi {
             SessionOptionsAppendExecutionProvider_OpenVINO_V2Function(MemorySegment struct) {
         return SessionOptionsAppendExecutionProvider_OpenVINO_V2.function(
                 SessionOptionsAppendExecutionProvider_OpenVINO_V2(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static class SessionOptionsAppendExecutionProvider_VitisAI {
+
+        SessionOptionsAppendExecutionProvider_VitisAI() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                SessionOptionsAppendExecutionProvider_VitisAI.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsAppendExecutionProvider_VitisAI.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SessionOptionsAppendExecutionProvider_VitisAI.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
+    }
+
+    private static final AddressLayout SessionOptionsAppendExecutionProvider_VitisAI$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsAppendExecutionProvider_VitisAI"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final AddressLayout SessionOptionsAppendExecutionProvider_VitisAI$layout() {
+        return SessionOptionsAppendExecutionProvider_VitisAI$LAYOUT;
+    }
+
+    private static final long SessionOptionsAppendExecutionProvider_VitisAI$OFFSET = 2208;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final long SessionOptionsAppendExecutionProvider_VitisAI$offset() {
+        return SessionOptionsAppendExecutionProvider_VitisAI$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_VitisAI(MemorySegment struct) {
+        return struct.get(
+                SessionOptionsAppendExecutionProvider_VitisAI$LAYOUT,
+                SessionOptionsAppendExecutionProvider_VitisAI$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_VitisAI(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                SessionOptionsAppendExecutionProvider_VitisAI$LAYOUT,
+                SessionOptionsAppendExecutionProvider_VitisAI$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_VitisAI)(OrtSessionOptions *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static SessionOptionsAppendExecutionProvider_VitisAI.Function
+            SessionOptionsAppendExecutionProvider_VitisAIFunction(MemorySegment struct) {
+        return SessionOptionsAppendExecutionProvider_VitisAI.function(
+                SessionOptionsAppendExecutionProvider_VitisAI(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **)
+     * }
+     */
+    public static class KernelContext_GetScratchBuffer {
+
+        KernelContext_GetScratchBuffer() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelContext_GetScratchBuffer.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelContext_GetScratchBuffer.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelContext_GetScratchBuffer.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
+    }
+
+    private static final AddressLayout KernelContext_GetScratchBuffer$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelContext_GetScratchBuffer"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **)
+     * }
+     */
+    public static final AddressLayout KernelContext_GetScratchBuffer$layout() {
+        return KernelContext_GetScratchBuffer$LAYOUT;
+    }
+
+    private static final long KernelContext_GetScratchBuffer$OFFSET = 2216;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **)
+     * }
+     */
+    public static final long KernelContext_GetScratchBuffer$offset() {
+        return KernelContext_GetScratchBuffer$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **)
+     * }
+     */
+    public static MemorySegment KernelContext_GetScratchBuffer(MemorySegment struct) {
+        return struct.get(KernelContext_GetScratchBuffer$LAYOUT, KernelContext_GetScratchBuffer$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **)
+     * }
+     */
+    public static void KernelContext_GetScratchBuffer(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelContext_GetScratchBuffer$LAYOUT, KernelContext_GetScratchBuffer$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **)
+     * }
+     */
+    public static KernelContext_GetScratchBuffer.Function KernelContext_GetScratchBufferFunction(MemorySegment struct) {
+        return KernelContext_GetScratchBuffer.function(KernelContext_GetScratchBuffer(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **)
+     * }
+     */
+    public static class KernelInfoGetAllocator {
+
+        KernelInfoGetAllocator() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelInfoGetAllocator.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelInfoGetAllocator.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static KernelInfoGetAllocator.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
+    }
+
+    private static final AddressLayout KernelInfoGetAllocator$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelInfoGetAllocator"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **)
+     * }
+     */
+    public static final AddressLayout KernelInfoGetAllocator$layout() {
+        return KernelInfoGetAllocator$LAYOUT;
+    }
+
+    private static final long KernelInfoGetAllocator$OFFSET = 2224;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **)
+     * }
+     */
+    public static final long KernelInfoGetAllocator$offset() {
+        return KernelInfoGetAllocator$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **)
+     * }
+     */
+    public static MemorySegment KernelInfoGetAllocator(MemorySegment struct) {
+        return struct.get(KernelInfoGetAllocator$LAYOUT, KernelInfoGetAllocator$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **)
+     * }
+     */
+    public static void KernelInfoGetAllocator(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelInfoGetAllocator$LAYOUT, KernelInfoGetAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **)
+     * }
+     */
+    public static KernelInfoGetAllocator.Function KernelInfoGetAllocatorFunction(MemorySegment struct) {
+        return KernelInfoGetAllocator.function(KernelInfoGetAllocator(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t)
+     * }
+     */
+    public static class AddExternalInitializersFromFilesInMemory {
+
+        AddExternalInitializersFromFilesInMemory() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3, long _x4);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(AddExternalInitializersFromFilesInMemory.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(AddExternalInitializersFromFilesInMemory.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                MemorySegment _x2,
+                MemorySegment _x3,
+                long _x4) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static AddExternalInitializersFromFilesInMemory.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3, _x4) -> invoke(funcPtr, _x0, _x1, _x2, _x3, _x4);
+        }
+    }
+
+    private static final AddressLayout AddExternalInitializersFromFilesInMemory$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("AddExternalInitializersFromFilesInMemory"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t)
+     * }
+     */
+    public static final AddressLayout AddExternalInitializersFromFilesInMemory$layout() {
+        return AddExternalInitializersFromFilesInMemory$LAYOUT;
+    }
+
+    private static final long AddExternalInitializersFromFilesInMemory$OFFSET = 2232;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t)
+     * }
+     */
+    public static final long AddExternalInitializersFromFilesInMemory$offset() {
+        return AddExternalInitializersFromFilesInMemory$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t)
+     * }
+     */
+    public static MemorySegment AddExternalInitializersFromFilesInMemory(MemorySegment struct) {
+        return struct.get(
+                AddExternalInitializersFromFilesInMemory$LAYOUT, AddExternalInitializersFromFilesInMemory$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t)
+     * }
+     */
+    public static void AddExternalInitializersFromFilesInMemory(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                AddExternalInitializersFromFilesInMemory$LAYOUT,
+                AddExternalInitializersFromFilesInMemory$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t)
+     * }
+     */
+    public static AddExternalInitializersFromFilesInMemory.Function AddExternalInitializersFromFilesInMemoryFunction(
+            MemorySegment struct) {
+        return AddExternalInitializersFromFilesInMemory.function(AddExternalInitializersFromFilesInMemory(struct));
     }
 
     /**

@@ -31,9 +31,9 @@ public enum ExecutionProvider {
      */
     OPENVINO_EXECUTION_PROVIDER("OpenVINOExecutionProvider", ExecutionProviderOpenVINOConfig::new),
     /**
-     * VitisAI: not supported
+     * VitisAI: supported
      */
-    VITISAI_EXECUTION_PROVIDER("VitisAIExecutionProvider"),
+    VITISAI_EXECUTION_PROVIDER("VitisAIExecutionProvider", ExecutionProviderVitisAIConfig::new),
     /**
      * TensorRT: supported
      */
