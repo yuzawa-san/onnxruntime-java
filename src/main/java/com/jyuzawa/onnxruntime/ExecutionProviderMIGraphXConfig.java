@@ -30,6 +30,19 @@ final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
                 config,
                 memorySession,
                 OrtMIGraphXProviderOptions::migraphx_int8_calibration_table_name);
+        copyInteger("migraphx_save_compiled_model", config, OrtMIGraphXProviderOptions::migraphx_save_compiled_model);
+        copyString(
+                "migraphx_save_model_path",
+                config,
+                memorySession,
+                OrtMIGraphXProviderOptions::migraphx_save_model_path);
+
+        copyInteger("migraphx_load_compiled_model", config, OrtMIGraphXProviderOptions::migraphx_load_compiled_model);
+        copyString(
+                "migraphx_load_model_path",
+                config,
+                memorySession,
+                OrtMIGraphXProviderOptions::migraphx_load_model_path);
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_MIGraphX.apply(sessionOptions, config));
     }
 }
