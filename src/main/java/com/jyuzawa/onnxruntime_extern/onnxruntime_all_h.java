@@ -70,10 +70,10 @@ public class onnxruntime_all_h {
     public static final AddressLayout C_POINTER =
             ValueLayout.ADDRESS.withTargetLayout(MemoryLayout.sequenceLayout(java.lang.Long.MAX_VALUE, JAVA_BYTE));
     public static final ValueLayout.OfLong C_LONG = ValueLayout.JAVA_LONG;
-    private static final int ORT_API_VERSION = (int) 18L;
+    private static final int ORT_API_VERSION = (int) 19L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 18
+     * #define ORT_API_VERSION 19
      * }
      */
     public static int ORT_API_VERSION() {
@@ -288,6 +288,26 @@ public class onnxruntime_all_h {
      */
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2FNUZ() {
         return ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2FNUZ;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT4 = (int) 21L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT4 = 21
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT4() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT4;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4 = (int) 22L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4 = 22
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4;
     }
 
     private static final int ONNX_TYPE_UNKNOWN = (int) 0L;
@@ -1455,13 +1475,13 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$4081472262398012960.h"
+     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5688440738678244154.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
             static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
-                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$4081472262398012960.h");
+                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5688440738678244154.h");
         }
         return Holder.ORT_FILE;
     }

@@ -21,6 +21,10 @@ import java.util.stream.*;
  *     int migraphx_int8_enable;
  *     int migraphx_use_native_calibration_table;
  *     const char *migraphx_int8_calibration_table_name;
+ *     int migraphx_save_compiled_model;
+ *     const char *migraphx_save_model_path;
+ *     int migraphx_load_compiled_model;
+ *     const char *migraphx_load_model_path;
  * }
  * }
  */
@@ -35,7 +39,13 @@ public class OrtMIGraphXProviderOptions {
                     onnxruntime_all_h.C_INT.withName("migraphx_fp16_enable"),
                     onnxruntime_all_h.C_INT.withName("migraphx_int8_enable"),
                     onnxruntime_all_h.C_INT.withName("migraphx_use_native_calibration_table"),
-                    onnxruntime_all_h.C_POINTER.withName("migraphx_int8_calibration_table_name"))
+                    onnxruntime_all_h.C_POINTER.withName("migraphx_int8_calibration_table_name"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_save_compiled_model"),
+                    MemoryLayout.paddingLayout(4),
+                    onnxruntime_all_h.C_POINTER.withName("migraphx_save_model_path"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_load_compiled_model"),
+                    MemoryLayout.paddingLayout(4),
+                    onnxruntime_all_h.C_POINTER.withName("migraphx_load_model_path"))
             .withName("OrtMIGraphXProviderOptions");
 
     /**
@@ -269,6 +279,186 @@ public class OrtMIGraphXProviderOptions {
     public static void migraphx_int8_calibration_table_name(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(
                 migraphx_int8_calibration_table_name$LAYOUT, migraphx_int8_calibration_table_name$OFFSET, fieldValue);
+    }
+
+    private static final OfInt migraphx_save_compiled_model$LAYOUT =
+            (OfInt) $LAYOUT.select(groupElement("migraphx_save_compiled_model"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_save_compiled_model
+     * }
+     */
+    public static final OfInt migraphx_save_compiled_model$layout() {
+        return migraphx_save_compiled_model$LAYOUT;
+    }
+
+    private static final long migraphx_save_compiled_model$OFFSET = 24;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_save_compiled_model
+     * }
+     */
+    public static final long migraphx_save_compiled_model$offset() {
+        return migraphx_save_compiled_model$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int migraphx_save_compiled_model
+     * }
+     */
+    public static int migraphx_save_compiled_model(MemorySegment struct) {
+        return struct.get(migraphx_save_compiled_model$LAYOUT, migraphx_save_compiled_model$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int migraphx_save_compiled_model
+     * }
+     */
+    public static void migraphx_save_compiled_model(MemorySegment struct, int fieldValue) {
+        struct.set(migraphx_save_compiled_model$LAYOUT, migraphx_save_compiled_model$OFFSET, fieldValue);
+    }
+
+    private static final AddressLayout migraphx_save_model_path$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("migraphx_save_model_path"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *migraphx_save_model_path
+     * }
+     */
+    public static final AddressLayout migraphx_save_model_path$layout() {
+        return migraphx_save_model_path$LAYOUT;
+    }
+
+    private static final long migraphx_save_model_path$OFFSET = 32;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *migraphx_save_model_path
+     * }
+     */
+    public static final long migraphx_save_model_path$offset() {
+        return migraphx_save_model_path$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *migraphx_save_model_path
+     * }
+     */
+    public static MemorySegment migraphx_save_model_path(MemorySegment struct) {
+        return struct.get(migraphx_save_model_path$LAYOUT, migraphx_save_model_path$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *migraphx_save_model_path
+     * }
+     */
+    public static void migraphx_save_model_path(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(migraphx_save_model_path$LAYOUT, migraphx_save_model_path$OFFSET, fieldValue);
+    }
+
+    private static final OfInt migraphx_load_compiled_model$LAYOUT =
+            (OfInt) $LAYOUT.select(groupElement("migraphx_load_compiled_model"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_load_compiled_model
+     * }
+     */
+    public static final OfInt migraphx_load_compiled_model$layout() {
+        return migraphx_load_compiled_model$LAYOUT;
+    }
+
+    private static final long migraphx_load_compiled_model$OFFSET = 40;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_load_compiled_model
+     * }
+     */
+    public static final long migraphx_load_compiled_model$offset() {
+        return migraphx_load_compiled_model$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int migraphx_load_compiled_model
+     * }
+     */
+    public static int migraphx_load_compiled_model(MemorySegment struct) {
+        return struct.get(migraphx_load_compiled_model$LAYOUT, migraphx_load_compiled_model$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int migraphx_load_compiled_model
+     * }
+     */
+    public static void migraphx_load_compiled_model(MemorySegment struct, int fieldValue) {
+        struct.set(migraphx_load_compiled_model$LAYOUT, migraphx_load_compiled_model$OFFSET, fieldValue);
+    }
+
+    private static final AddressLayout migraphx_load_model_path$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("migraphx_load_model_path"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *migraphx_load_model_path
+     * }
+     */
+    public static final AddressLayout migraphx_load_model_path$layout() {
+        return migraphx_load_model_path$LAYOUT;
+    }
+
+    private static final long migraphx_load_model_path$OFFSET = 48;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *migraphx_load_model_path
+     * }
+     */
+    public static final long migraphx_load_model_path$offset() {
+        return migraphx_load_model_path$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *migraphx_load_model_path
+     * }
+     */
+    public static MemorySegment migraphx_load_model_path(MemorySegment struct) {
+        return struct.get(migraphx_load_model_path$LAYOUT, migraphx_load_model_path$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *migraphx_load_model_path
+     * }
+     */
+    public static void migraphx_load_model_path(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(migraphx_load_model_path$LAYOUT, migraphx_load_model_path$OFFSET, fieldValue);
     }
 
     /**
