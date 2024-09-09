@@ -1475,13 +1475,13 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5688440738678244154.h"
+     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$17781887571071996272.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
             static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
-                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$5688440738678244154.h");
+                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$17781887571071996272.h");
         }
         return Holder.ORT_FILE;
     }
