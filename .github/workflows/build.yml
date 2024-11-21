@@ -15,8 +15,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # baseline version
         java: [22]
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        include:
+        # latest version
+        - java: 23
+          os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
     steps:
