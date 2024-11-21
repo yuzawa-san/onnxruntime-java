@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 
 import java.io.IOException;
@@ -223,6 +224,22 @@ final class SessionImpl extends ManagedImpl implements Session {
     @Override
     public IoBinding.Builder newIoBinding() {
         return new IoBindingImpl.Builder(this);
+    }
+
+    @Override
+    public void setEpDynamicOptions(Map<String, String> epDynamicOptions) {
+        try (Arena tmpArena = Arena.ofConfined()) {
+            int size = epDynamicOptions.size();
+            MemorySegment keyArray = tmpArena.allocate(C_POINTER, size);
+            MemorySegment valueArray = tmpArena.allocate(C_POINTER, size);
+            int i = 0;
+            for (Map.Entry<String, String> entry : epDynamicOptions.entrySet()) {
+                keyArray.setAtIndex(C_POINTER, i, tmpArena.allocateFrom(entry.getKey()));
+                valueArray.setAtIndex(C_POINTER, i, tmpArena.allocateFrom(entry.getValue()));
+                i++;
+            }
+            api.checkStatus(api.SetEpDynamicOptions.apply(address, keyArray, valueArray, size));
+        }
     }
 
     static final class Builder implements Session.Builder {

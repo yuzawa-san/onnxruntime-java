@@ -121,6 +121,7 @@ final class ApiImpl implements Api {
     final SetLanguageProjection.Function SetLanguageProjection;
     final SetOptimizedModelFilePath.Function SetOptimizedModelFilePath;
     final SetDeterministicCompute.Function SetDeterministicCompute;
+    final SetEpDynamicOptions.Function SetEpDynamicOptions;
     final SetSessionExecutionMode.Function SetSessionExecutionMode;
     final SetSessionGraphOptimizationLevel.Function SetSessionGraphOptimizationLevel;
     final SetSessionLogId.Function SetSessionLogId;
@@ -255,6 +256,7 @@ final class ApiImpl implements Api {
         this.SetLanguageProjection = OrtApi.SetLanguageProjectionFunction(memorySegment);
         this.SetOptimizedModelFilePath = OrtApi.SetOptimizedModelFilePathFunction(memorySegment);
         this.SetDeterministicCompute = OrtApi.SetDeterministicComputeFunction(memorySegment);
+        this.SetEpDynamicOptions = OrtApi.SetEpDynamicOptionsFunction(memorySegment);
         this.SetSessionExecutionMode = OrtApi.SetSessionExecutionModeFunction(memorySegment);
         this.SetSessionGraphOptimizationLevel = OrtApi.SetSessionGraphOptimizationLevelFunction(memorySegment);
         this.SetSessionLogId = OrtApi.SetSessionLogIdFunction(memorySegment);
