@@ -25,6 +25,7 @@ import java.util.stream.*;
  *     const char *migraphx_save_model_path;
  *     int migraphx_load_compiled_model;
  *     const char *migraphx_load_model_path;
+ *     bool migraphx_exhaustive_tune;
  * }
  * }
  */
@@ -45,7 +46,9 @@ public class OrtMIGraphXProviderOptions {
                     onnxruntime_all_h.C_POINTER.withName("migraphx_save_model_path"),
                     onnxruntime_all_h.C_INT.withName("migraphx_load_compiled_model"),
                     MemoryLayout.paddingLayout(4),
-                    onnxruntime_all_h.C_POINTER.withName("migraphx_load_model_path"))
+                    onnxruntime_all_h.C_POINTER.withName("migraphx_load_model_path"),
+                    onnxruntime_all_h.C_BOOL.withName("migraphx_exhaustive_tune"),
+                    MemoryLayout.paddingLayout(7))
             .withName("OrtMIGraphXProviderOptions");
 
     /**
@@ -459,6 +462,51 @@ public class OrtMIGraphXProviderOptions {
      */
     public static void migraphx_load_model_path(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(migraphx_load_model_path$LAYOUT, migraphx_load_model_path$OFFSET, fieldValue);
+    }
+
+    private static final OfBoolean migraphx_exhaustive_tune$LAYOUT =
+            (OfBoolean) $LAYOUT.select(groupElement("migraphx_exhaustive_tune"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * bool migraphx_exhaustive_tune
+     * }
+     */
+    public static final OfBoolean migraphx_exhaustive_tune$layout() {
+        return migraphx_exhaustive_tune$LAYOUT;
+    }
+
+    private static final long migraphx_exhaustive_tune$OFFSET = 56;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * bool migraphx_exhaustive_tune
+     * }
+     */
+    public static final long migraphx_exhaustive_tune$offset() {
+        return migraphx_exhaustive_tune$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * bool migraphx_exhaustive_tune
+     * }
+     */
+    public static boolean migraphx_exhaustive_tune(MemorySegment struct) {
+        return struct.get(migraphx_exhaustive_tune$LAYOUT, migraphx_exhaustive_tune$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * bool migraphx_exhaustive_tune
+     * }
+     */
+    public static void migraphx_exhaustive_tune(MemorySegment struct, boolean fieldValue) {
+        struct.set(migraphx_exhaustive_tune$LAYOUT, migraphx_exhaustive_tune$OFFSET, fieldValue);
     }
 
     /**

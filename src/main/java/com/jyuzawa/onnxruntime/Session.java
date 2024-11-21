@@ -65,7 +65,19 @@ public interface Session extends AutoCloseable {
      */
     Transaction.Builder newTransaction();
 
+    /**
+     * Create a new I/O Binding.
+     * @return a builder
+     * @since v1.4.0
+     */
     IoBinding.Builder newIoBinding();
+
+    /**
+     * Set DynamicOptions for EPs (Execution Providers)
+     * @param epDynamicOptions
+     * @since 2.0.0
+     */
+    void setEpDynamicOptions(Map<String, String> epDynamicOptions);
 
     /**
      * A builder of a {@link Session}. Must provide either bytes or a path.

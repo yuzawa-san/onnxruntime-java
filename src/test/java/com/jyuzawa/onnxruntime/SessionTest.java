@@ -929,6 +929,7 @@ public class SessionTest {
                         .setRunTag("LOGGER")
                         .setConfigMap(Map.of("foo", "bar", "baz", "boom"))
                         .build()) {
+            session.setEpDynamicOptions(Map.of("blah", "wham", "whizz", "bang"));
             float[] rawInput = new float[] {554354, 52345234, 143646};
             txn.addInput("input").asTensor().getFloatBuffer().put(rawInput);
             txn.addOutput("output");
