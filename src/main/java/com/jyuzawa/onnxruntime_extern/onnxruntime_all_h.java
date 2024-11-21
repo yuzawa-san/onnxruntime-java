@@ -70,10 +70,10 @@ public class onnxruntime_all_h {
     public static final AddressLayout C_POINTER =
             ValueLayout.ADDRESS.withTargetLayout(MemoryLayout.sequenceLayout(java.lang.Long.MAX_VALUE, JAVA_BYTE));
     public static final ValueLayout.OfLong C_LONG = ValueLayout.JAVA_LONG;
-    private static final int ORT_API_VERSION = (int) 19L;
+    private static final int ORT_API_VERSION = (int) 20L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 19
+     * #define ORT_API_VERSION 20
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1406,10 +1406,20 @@ public class onnxruntime_all_h {
         return COREML_FLAG_CREATE_MLPROGRAM;
     }
 
-    private static final int COREML_FLAG_LAST = (int) 16L;
+    private static final int COREML_FLAG_USE_CPU_AND_GPU = (int) 32L;
     /**
      * {@snippet lang=c :
-     * enum COREMLFlags.COREML_FLAG_LAST = 16
+     * enum COREMLFlags.COREML_FLAG_USE_CPU_AND_GPU = 32
+     * }
+     */
+    public static int COREML_FLAG_USE_CPU_AND_GPU() {
+        return COREML_FLAG_USE_CPU_AND_GPU;
+    }
+
+    private static final int COREML_FLAG_LAST = (int) 32L;
+    /**
+     * {@snippet lang=c :
+     * enum COREMLFlags.COREML_FLAG_LAST = 32
      * }
      */
     public static int COREML_FLAG_LAST() {
@@ -1475,13 +1485,13 @@ public class onnxruntime_all_h {
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$17781887571071996272.h"
+     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$8967177121571697683.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
             static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
-                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$17781887571071996272.h");
+                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$8967177121571697683.h");
         }
         return Holder.ORT_FILE;
     }

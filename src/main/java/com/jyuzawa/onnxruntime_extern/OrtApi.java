@@ -296,6 +296,11 @@ import java.util.stream.*;
  *     OrtStatusPtr (*KernelContext_GetScratchBuffer)(const OrtKernelContext *, const OrtMemoryInfo *, size_t, void **);
  *     OrtStatusPtr (*KernelInfoGetAllocator)(const OrtKernelInfo *, OrtMemType, OrtAllocator **);
  *     OrtStatusPtr (*AddExternalInitializersFromFilesInMemory)(OrtSessionOptions *, const char *const *, char *const *, const size_t *, size_t);
+ *     OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **);
+ *     OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **);
+ *     void (*ReleaseLoraAdapter)(OrtLoraAdapter *);
+ *     OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *);
+ *     OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t);
  * }
  * }
  */
@@ -585,7 +590,12 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("SessionOptionsAppendExecutionProvider_VitisAI"),
                     onnxruntime_all_h.C_POINTER.withName("KernelContext_GetScratchBuffer"),
                     onnxruntime_all_h.C_POINTER.withName("KernelInfoGetAllocator"),
-                    onnxruntime_all_h.C_POINTER.withName("AddExternalInitializersFromFilesInMemory"))
+                    onnxruntime_all_h.C_POINTER.withName("AddExternalInitializersFromFilesInMemory"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateLoraAdapter"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateLoraAdapterFromArray"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseLoraAdapter"),
+                    onnxruntime_all_h.C_POINTER.withName("RunOptionsAddActiveLoraAdapter"),
+                    onnxruntime_all_h.C_POINTER.withName("SetEpDynamicOptions"))
             .withName("OrtApi");
 
     /**
@@ -33738,6 +33748,594 @@ public class OrtApi {
     public static AddExternalInitializersFromFilesInMemory.Function AddExternalInitializersFromFilesInMemoryFunction(
             MemorySegment struct) {
         return AddExternalInitializersFromFilesInMemory.function(AddExternalInitializersFromFilesInMemory(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static class CreateLoraAdapter {
+
+        CreateLoraAdapter() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateLoraAdapter.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateLoraAdapter.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateLoraAdapter.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
+        }
+    }
+
+    private static final AddressLayout CreateLoraAdapter$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateLoraAdapter"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static final AddressLayout CreateLoraAdapter$layout() {
+        return CreateLoraAdapter$LAYOUT;
+    }
+
+    private static final long CreateLoraAdapter$OFFSET = 2240;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static final long CreateLoraAdapter$offset() {
+        return CreateLoraAdapter$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static MemorySegment CreateLoraAdapter(MemorySegment struct) {
+        return struct.get(CreateLoraAdapter$LAYOUT, CreateLoraAdapter$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static void CreateLoraAdapter(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateLoraAdapter$LAYOUT, CreateLoraAdapter$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapter)(const char *, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static CreateLoraAdapter.Function CreateLoraAdapterFunction(MemorySegment struct) {
+        return CreateLoraAdapter.function(CreateLoraAdapter(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static class CreateLoraAdapterFromArray {
+
+        CreateLoraAdapterFromArray() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, MemorySegment _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateLoraAdapterFromArray.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateLoraAdapterFromArray.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, long _x1, MemorySegment _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static CreateLoraAdapterFromArray.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
+    }
+
+    private static final AddressLayout CreateLoraAdapterFromArray$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateLoraAdapterFromArray"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static final AddressLayout CreateLoraAdapterFromArray$layout() {
+        return CreateLoraAdapterFromArray$LAYOUT;
+    }
+
+    private static final long CreateLoraAdapterFromArray$OFFSET = 2248;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static final long CreateLoraAdapterFromArray$offset() {
+        return CreateLoraAdapterFromArray$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static MemorySegment CreateLoraAdapterFromArray(MemorySegment struct) {
+        return struct.get(CreateLoraAdapterFromArray$LAYOUT, CreateLoraAdapterFromArray$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static void CreateLoraAdapterFromArray(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateLoraAdapterFromArray$LAYOUT, CreateLoraAdapterFromArray$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoraAdapterFromArray)(const void *, size_t, OrtAllocator *, OrtLoraAdapter **)
+     * }
+     */
+    public static CreateLoraAdapterFromArray.Function CreateLoraAdapterFromArrayFunction(MemorySegment struct) {
+        return CreateLoraAdapterFromArray.function(CreateLoraAdapterFromArray(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseLoraAdapter)(OrtLoraAdapter *)
+     * }
+     */
+    public static class ReleaseLoraAdapter {
+
+        ReleaseLoraAdapter() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseLoraAdapter.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseLoraAdapter.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static ReleaseLoraAdapter.Function function(MemorySegment funcPtr) {
+            return (_x0) -> invoke(funcPtr, _x0);
+        }
+    }
+
+    private static final AddressLayout ReleaseLoraAdapter$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseLoraAdapter"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseLoraAdapter)(OrtLoraAdapter *)
+     * }
+     */
+    public static final AddressLayout ReleaseLoraAdapter$layout() {
+        return ReleaseLoraAdapter$LAYOUT;
+    }
+
+    private static final long ReleaseLoraAdapter$OFFSET = 2256;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseLoraAdapter)(OrtLoraAdapter *)
+     * }
+     */
+    public static final long ReleaseLoraAdapter$offset() {
+        return ReleaseLoraAdapter$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseLoraAdapter)(OrtLoraAdapter *)
+     * }
+     */
+    public static MemorySegment ReleaseLoraAdapter(MemorySegment struct) {
+        return struct.get(ReleaseLoraAdapter$LAYOUT, ReleaseLoraAdapter$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseLoraAdapter)(OrtLoraAdapter *)
+     * }
+     */
+    public static void ReleaseLoraAdapter(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseLoraAdapter$LAYOUT, ReleaseLoraAdapter$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseLoraAdapter)(OrtLoraAdapter *)
+     * }
+     */
+    public static ReleaseLoraAdapter.Function ReleaseLoraAdapterFunction(MemorySegment struct) {
+        return ReleaseLoraAdapter.function(ReleaseLoraAdapter(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *)
+     * }
+     */
+    public static class RunOptionsAddActiveLoraAdapter {
+
+        RunOptionsAddActiveLoraAdapter() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(RunOptionsAddActiveLoraAdapter.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(RunOptionsAddActiveLoraAdapter.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static RunOptionsAddActiveLoraAdapter.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
+        }
+    }
+
+    private static final AddressLayout RunOptionsAddActiveLoraAdapter$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("RunOptionsAddActiveLoraAdapter"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *)
+     * }
+     */
+    public static final AddressLayout RunOptionsAddActiveLoraAdapter$layout() {
+        return RunOptionsAddActiveLoraAdapter$LAYOUT;
+    }
+
+    private static final long RunOptionsAddActiveLoraAdapter$OFFSET = 2264;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *)
+     * }
+     */
+    public static final long RunOptionsAddActiveLoraAdapter$offset() {
+        return RunOptionsAddActiveLoraAdapter$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *)
+     * }
+     */
+    public static MemorySegment RunOptionsAddActiveLoraAdapter(MemorySegment struct) {
+        return struct.get(RunOptionsAddActiveLoraAdapter$LAYOUT, RunOptionsAddActiveLoraAdapter$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *)
+     * }
+     */
+    public static void RunOptionsAddActiveLoraAdapter(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(RunOptionsAddActiveLoraAdapter$LAYOUT, RunOptionsAddActiveLoraAdapter$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *)
+     * }
+     */
+    public static RunOptionsAddActiveLoraAdapter.Function RunOptionsAddActiveLoraAdapterFunction(MemorySegment struct) {
+        return RunOptionsAddActiveLoraAdapter.function(RunOptionsAddActiveLoraAdapter(struct));
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static class SetEpDynamicOptions {
+
+        SetEpDynamicOptions() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SetEpDynamicOptions.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SetEpDynamicOptions.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+
+        /**
+         * Get an implementation of the function interface from a function pointer.
+         */
+        public static SetEpDynamicOptions.Function function(MemorySegment funcPtr) {
+            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
+        }
+    }
+
+    private static final AddressLayout SetEpDynamicOptions$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SetEpDynamicOptions"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final AddressLayout SetEpDynamicOptions$layout() {
+        return SetEpDynamicOptions$LAYOUT;
+    }
+
+    private static final long SetEpDynamicOptions$OFFSET = 2272;
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final long SetEpDynamicOptions$offset() {
+        return SetEpDynamicOptions$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static MemorySegment SetEpDynamicOptions(MemorySegment struct) {
+        return struct.get(SetEpDynamicOptions$LAYOUT, SetEpDynamicOptions$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static void SetEpDynamicOptions(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SetEpDynamicOptions$LAYOUT, SetEpDynamicOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * Functional interface getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static SetEpDynamicOptions.Function SetEpDynamicOptionsFunction(MemorySegment struct) {
+        return SetEpDynamicOptions.function(SetEpDynamicOptions(struct));
     }
 
     /**
