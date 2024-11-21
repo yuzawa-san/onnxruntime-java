@@ -11,8 +11,6 @@ import java.util.Map;
 
 final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
 
-    private static final String TRUE_VALUE = "1";
-
     protected ExecutionProviderCoreMLConfig(Map<String, String> properties) {
         super(properties);
     }
@@ -31,6 +29,9 @@ final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
         }
         if (TRUE_VALUE.equals(properties.get("allow_static_input_shapes"))) {
             flags |= onnxruntime_all_h.COREML_FLAG_ONLY_ALLOW_STATIC_INPUT_SHAPES();
+        }
+        if (TRUE_VALUE.equals(properties.get("use_cpu_and_cpu"))) {
+            flags |= onnxruntime_all_h.COREML_FLAG_USE_CPU_AND_GPU();
         }
         try {
             api.checkStatus(onnxruntime_all_h.OrtSessionOptionsAppendExecutionProvider_CoreML(sessionOptions, flags));

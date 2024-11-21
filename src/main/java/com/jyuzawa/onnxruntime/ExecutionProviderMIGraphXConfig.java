@@ -43,6 +43,7 @@ final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
                 config,
                 memorySession,
                 OrtMIGraphXProviderOptions::migraphx_load_model_path);
+        copyBoolean("migraphx_exhaustive_tune", config, OrtMIGraphXProviderOptions::migraphx_exhaustive_tune);
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_MIGraphX.apply(sessionOptions, config));
     }
 }

@@ -13,6 +13,8 @@ import java.util.function.BiConsumer;
 
 abstract class ExecutionProviderConfig {
 
+    protected static final String TRUE_VALUE = "1";
+
     protected final Map<String, String> properties;
 
     protected ExecutionProviderConfig(Map<String, String> properties) {
@@ -34,6 +36,10 @@ abstract class ExecutionProviderConfig {
 
     protected void copyInteger(String key, MemorySegment config, BiConsumer<MemorySegment, Integer> consumer) {
         get(key).ifPresent(val -> consumer.accept(config, Integer.parseInt(val)));
+    }
+
+    protected void copyBoolean(String key, MemorySegment config, BiConsumer<MemorySegment, Boolean> consumer) {
+        get(key).ifPresent(val -> consumer.accept(config, TRUE_VALUE.equals(val) || Boolean.valueOf(val)));
     }
 
     protected void copyLong(String key, MemorySegment config, BiConsumer<MemorySegment, Long> consumer) {
