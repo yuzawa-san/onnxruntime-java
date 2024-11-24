@@ -14,7 +14,6 @@ import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -39,10 +38,10 @@ final class SessionImpl extends ManagedImpl implements Session {
 
     SessionImpl(Builder builder) throws IOException {
         super(builder.api, Arena.ofShared());
-        try (Arena tempMemorySession = Arena.ofConfined()) {
+        try (Arena tempArena = Arena.ofConfined()) {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
-            MemorySegment sessionOptions = builder.newSessionOptions(tempMemorySession);
+            MemorySegment sessionOptions = builder.newSessionOptions(tempArena);
             try {
                 final MemorySegment mappedBuf;
                 ByteBuffer buffer = builder.buffer;
@@ -51,9 +50,9 @@ final class SessionImpl extends ManagedImpl implements Session {
                 if (path != null) {
                     LOG.log(Level.DEBUG, "Loading session from " + path);
                     this.address = api.create(
-                            memorySession,
+                            arena,
                             out -> api.CreateSession.apply(
-                                    environment.address(), createPath(tempMemorySession, path), sessionOptions, out));
+                                    environment.address(), createPath(tempArena, path), sessionOptions, out));
 
                 } else {
                     if (buffer != null) {
@@ -61,24 +60,24 @@ final class SessionImpl extends ManagedImpl implements Session {
                             mappedBuf = MemorySegment.ofBuffer(buffer);
 
                         } else {
-                            mappedBuf = tempMemorySession.allocate(C_CHAR, buffer.remaining());
+                            mappedBuf = tempArena.allocate(C_CHAR, buffer.remaining());
                             mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
                         }
                     } else if (bytes != null) {
-                        mappedBuf = tempMemorySession.allocateFrom(C_CHAR, bytes);
+                        mappedBuf = tempArena.allocateFrom(C_CHAR, bytes);
                     } else {
                         throw new IllegalArgumentException("missing model source");
                     }
                     this.address = api.create(
-                            memorySession,
+                            arena,
                             out -> api.CreateSessionFromArray.apply(
                                     environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
                 }
 
                 this.overridableInitializers = createMap(
                         api,
-                        tempMemorySession,
-                        memorySession,
+                        tempArena,
+                        arena,
                         ortAllocator,
                         address,
                         api.SessionGetOverridableInitializerCount::apply,
@@ -86,8 +85,8 @@ final class SessionImpl extends ManagedImpl implements Session {
                         api.SessionGetOverridableInitializerTypeInfo::apply);
                 this.inputs = createMap(
                         api,
-                        tempMemorySession,
-                        memorySession,
+                        tempArena,
+                        arena,
                         ortAllocator,
                         address,
                         api.SessionGetInputCount::apply,
@@ -95,17 +94,17 @@ final class SessionImpl extends ManagedImpl implements Session {
                         api.SessionGetInputTypeInfo::apply);
                 this.outputs = createMap(
                         api,
-                        tempMemorySession,
-                        memorySession,
+                        tempArena,
+                        arena,
                         ortAllocator,
                         address,
                         api.SessionGetOutputCount::apply,
                         api.SessionGetOutputName::apply,
                         api.SessionGetOutputTypeInfo::apply);
                 MemorySegment metadataAddress =
-                        api.create(memorySession, out -> api.SessionGetModelMetadata.apply(address, out));
+                        api.create(arena, out -> api.SessionGetModelMetadata.apply(address, out));
                 try {
-                    this.modelMetadata = new ModelMetadataImpl(api, tempMemorySession, metadataAddress, ortAllocator);
+                    this.modelMetadata = new ModelMetadataImpl(api, tempArena, metadataAddress, ortAllocator);
                 } finally {
                     api.ReleaseModelMetadata.apply(metadataAddress);
                 }
@@ -115,19 +114,19 @@ final class SessionImpl extends ManagedImpl implements Session {
         }
     }
 
-    private static final MemorySegment createPath(SegmentAllocator segmentAllocator, Path path) {
+    private static final MemorySegment createPath(Arena arena, Path path) {
         String pathString = path.toAbsolutePath().toString();
         if (IS_WINDOWS) {
             // treat segment as wchar_t
             byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
-            MemorySegment addr = segmentAllocator.allocate(bytes.length + 2);
+            MemorySegment addr = arena.allocate(bytes.length + 2);
             MemorySegment heapSegment = MemorySegment.ofArray(bytes);
             addr.copyFrom(heapSegment);
             addr.set(JAVA_BYTE, bytes.length, (byte) 0);
             addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
             return addr;
         }
-        return segmentAllocator.allocateFrom(pathString);
+        return arena.allocateFrom(pathString);
     }
 
     @Override
@@ -155,25 +154,25 @@ final class SessionImpl extends ManagedImpl implements Session {
 
     private static NamedCollection<NodeInfoImpl> createMap(
             ApiImpl api,
-            Arena allocator,
-            Arena sessionAllocator,
+            Arena arena,
+            Arena sessionArena,
             MemorySegment ortAllocator,
             MemorySegment session,
             GetCount getCount,
             GetName getName,
             GetTypeInfo getTypeInfo) {
-        MemorySegment numInputsSegment = allocator.allocate(C_LONG);
+        MemorySegment numInputsSegment = arena.allocate(C_LONG);
         api.checkStatus(getCount.apply(session, numInputsSegment));
         long numInputs = numInputsSegment.getAtIndex(C_LONG, 0);
         LinkedHashMap<String, NodeInfoImpl> inputs = new LinkedHashMap<>();
         for (long i = 0; i < numInputs; i++) {
             final long j = i;
-            MemorySegment nameSegment = api.create(allocator, out -> getName.apply(session, j, ortAllocator, out));
+            MemorySegment nameSegment = api.create(arena, out -> getName.apply(session, j, ortAllocator, out));
             String name = nameSegment.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
-            MemorySegment typeInfoAddress = api.create(allocator, out -> getTypeInfo.apply(session, j, out));
-            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, allocator, sessionAllocator, ortAllocator);
-            inputs.put(name, new NodeInfoImpl(name, sessionAllocator.allocateFrom(name), typeInfo));
+            MemorySegment typeInfoAddress = api.create(arena, out -> getTypeInfo.apply(session, j, out));
+            TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, arena, sessionArena, ortAllocator);
+            inputs.put(name, new NodeInfoImpl(name, sessionArena.allocateFrom(name), typeInfo));
         }
         return new NamedCollectionImpl<>(inputs);
     }
@@ -382,8 +381,8 @@ final class SessionImpl extends ManagedImpl implements Session {
             return this;
         }
 
-        private MemorySegment newSessionOptions(Arena memorySession) {
-            MemorySegment sessionOptions = api.create(memorySession, out -> api.CreateSessionOptions.apply(out));
+        private MemorySegment newSessionOptions(Arena arena) {
+            MemorySegment sessionOptions = api.create(arena, out -> api.CreateSessionOptions.apply(out));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
             }
@@ -391,7 +390,7 @@ final class SessionImpl extends ManagedImpl implements Session {
                 api.checkStatus(api.SetSessionLogVerbosityLevel.apply(sessionOptions, logVerbosityLevel));
             }
             if (loggerId != null) {
-                api.checkStatus(api.SetSessionLogId.apply(sessionOptions, memorySession.allocateFrom(loggerId)));
+                api.checkStatus(api.SetSessionLogId.apply(sessionOptions, arena.allocateFrom(loggerId)));
             }
             if (memoryPatternOptimization != null) {
                 if (memoryPatternOptimization) {
@@ -420,46 +419,44 @@ final class SessionImpl extends ManagedImpl implements Session {
                 api.checkStatus(api.SetDeterministicCompute.apply(sessionOptions, deterministicCompute));
             }
             if (optimizedFilePath != null) {
-                api.checkStatus(api.SetOptimizedModelFilePath.apply(
-                        sessionOptions, createPath(memorySession, optimizedFilePath)));
+                api.checkStatus(
+                        api.SetOptimizedModelFilePath.apply(sessionOptions, createPath(arena, optimizedFilePath)));
             }
             if (profilingOutput != null) {
-                api.checkStatus(api.EnableProfiling.apply(sessionOptions, createPath(memorySession, profilingOutput)));
+                api.checkStatus(api.EnableProfiling.apply(sessionOptions, createPath(arena, profilingOutput)));
             }
             if (config != null && !config.isEmpty()) {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddSessionConfigEntry.apply(
-                            sessionOptions,
-                            memorySession.allocateFrom(entry.getKey()),
-                            memorySession.allocateFrom(entry.getValue())));
+                            sessionOptions, arena.allocateFrom(entry.getKey()), arena.allocateFrom(entry.getValue())));
                 }
             }
 
             LOG.log(Level.DEBUG, "Execution Providers: " + executionProviderAppenders);
             for (ExecutionProviderConfig executionProviderAppender : executionProviderAppenders.values()) {
-                executionProviderAppender.appendToSessionOptions(memorySession, api, sessionOptions);
+                executionProviderAppender.appendToSessionOptions(arena, api, sessionOptions);
             }
             for (Path customOpsLibrary : customOpsLibraries) {
                 LOG.log(Level.DEBUG, "Adding custom op library: " + customOpsLibrary);
-                api.checkStatus(api.RegisterCustomOpsLibrary_V2.apply(
-                        sessionOptions, createPath(memorySession, customOpsLibrary)));
+                api.checkStatus(
+                        api.RegisterCustomOpsLibrary_V2.apply(sessionOptions, createPath(arena, customOpsLibrary)));
             }
             return sessionOptions;
         }
 
-        private static final MemorySegment createPath(SegmentAllocator segmentAllocator, Path path) {
+        private static final MemorySegment createPath(Arena arena, Path path) {
             String pathString = path.toAbsolutePath().toString();
             if (IS_WINDOWS) {
                 // treat segment as wchar_t
                 byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
-                MemorySegment addr = segmentAllocator.allocate(bytes.length + 2);
+                MemorySegment addr = arena.allocate(bytes.length + 2);
                 MemorySegment heapSegment = MemorySegment.ofArray(bytes);
                 addr.copyFrom(heapSegment);
                 addr.set(JAVA_BYTE, bytes.length, (byte) 0);
                 addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
                 return addr;
             }
-            return segmentAllocator.allocateFrom(pathString);
+            return arena.allocateFrom(pathString);
         }
 
         @Override

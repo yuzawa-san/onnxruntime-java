@@ -6,8 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -28,17 +28,17 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
         this.mapInfo = mapInfo;
         if (ortValueAddress != null) {
             ApiImpl api = valueContext.api();
-            SegmentAllocator allocator = valueContext.segmentAllocator();
+            Arena arena = valueContext.arena();
             MemorySegment ortAllocator = valueContext.ortAllocatorAddress();
             MemorySegment keyAddress =
-                    api.create(allocator, out -> api.GetValue.apply(ortValueAddress, 0, ortAllocator, out));
+                    api.create(arena, out -> api.GetValue.apply(ortValueAddress, 0, ortAllocator, out));
             valueContext.closeables().add(() -> api.ReleaseValue.apply(keyAddress));
             MemorySegment valueAddress =
-                    api.create(allocator, out -> api.GetValue.apply(ortValueAddress, 1, ortAllocator, out));
+                    api.create(arena, out -> api.GetValue.apply(ortValueAddress, 1, ortAllocator, out));
             valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
-            MemorySegment keyInfo = api.create(allocator, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
-            int size = Math.toIntExact(
-                    api.extractLong(allocator, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
+            MemorySegment keyInfo = api.create(arena, out -> api.GetTensorTypeAndShape.apply(keyAddress, out));
+            int size =
+                    Math.toIntExact(api.extractLong(arena, out -> api.GetTensorShapeElementCount.apply(keyInfo, out)));
             api.ReleaseTensorTypeAndShapeInfo.apply(keyInfo);
             T keyVector = newKeyVector(size, keyAddress);
             OnnxTensorImpl valueVector = newValueVector(size, valueAddress);
@@ -48,13 +48,12 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
     }
 
     private final OnnxTensorImpl newValueVector(int size, MemorySegment valueAddress) {
-        return TensorInfoImpl.of(
-                        mapInfo.getValueType().getTensorInfo().getType(), size, valueContext.segmentAllocator())
+        return TensorInfoImpl.of(mapInfo.getValueType().getTensorInfo().getType(), size, valueContext.arena())
                 .newValue(valueContext, valueAddress);
     }
 
     private final T newKeyVector(int size, MemorySegment keyAddress) {
-        return newKeyVector(TensorInfoImpl.of(mapInfo.getKeyType(), size, valueContext.segmentAllocator()), keyAddress);
+        return newKeyVector(TensorInfoImpl.of(mapInfo.getKeyType(), size, valueContext.arena()), keyAddress);
     }
 
     protected abstract T newKeyVector(TensorInfoImpl tensorInfo, MemorySegment keyAddress);
@@ -95,18 +94,18 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
     @Override
     public MemorySegment toNative() {
         ApiImpl api = valueContext.api();
-        SegmentAllocator allocator = valueContext.segmentAllocator();
+        Arena arena = valueContext.arena();
         int size = data.size();
         T keyVector = newKeyVector(size, null);
         implodeKeyVector(keyVector, data.keySet());
         OnnxTensorImpl valueVector = TensorInfoImpl.of(
-                        mapInfo.getValueType().getTensorInfo().getType(), size, allocator)
+                        mapInfo.getValueType().getTensorInfo().getType(), size, arena)
                 .newValue(valueContext, null);
         valueVector.putScalars(data.values());
-        MemorySegment kvArray = allocator.allocate(C_POINTER, 2);
+        MemorySegment kvArray = arena.allocate(C_POINTER, 2);
         kvArray.setAtIndex(C_POINTER, 0, keyVector.toNative());
         kvArray.setAtIndex(C_POINTER, 1, valueVector.toNative());
-        return api.create(allocator, out -> api.CreateValue.apply(kvArray, 2, OnnxType.MAP.getNumber(), out));
+        return api.create(arena, out -> api.CreateValue.apply(kvArray, 2, OnnxType.MAP.getNumber(), out));
     }
 
     @Override

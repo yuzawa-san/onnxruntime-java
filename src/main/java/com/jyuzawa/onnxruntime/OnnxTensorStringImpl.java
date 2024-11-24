@@ -7,8 +7,8 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -23,14 +23,14 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         this.buffer = new String[Math.toIntExact(tensorInfo.getElementCount())];
         if (ortValueAddress != null) {
             ApiImpl api = valueContext.api();
-            SegmentAllocator segmentAllocator = valueContext.segmentAllocator();
+            Arena arena = valueContext.arena();
             int numOutputs = buffer.length;
             for (int i = 0; i < numOutputs; i++) {
                 final long index = i;
                 long length = api.extractLong(
-                        segmentAllocator, out -> api.GetStringTensorElementLength.apply(ortValueAddress, index, out));
+                        arena, out -> api.GetStringTensorElementLength.apply(ortValueAddress, index, out));
                 // add a byte for the null termination
-                MemorySegment output = segmentAllocator.allocate(C_CHAR, length + 1);
+                MemorySegment output = arena.allocate(C_CHAR, length + 1);
                 api.checkStatus(api.GetStringTensorElement.apply(ortValueAddress, length, index, output));
                 buffer[i] = output.getString(0);
             }
@@ -51,13 +51,13 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     public MemorySegment toNative() {
         int numOutputs = buffer.length;
         ApiImpl api = valueContext.api();
-        SegmentAllocator allocator = valueContext.segmentAllocator();
-        MemorySegment stringArray = allocator.allocate(C_POINTER, numOutputs);
+        Arena arena = valueContext.arena();
+        MemorySegment stringArray = arena.allocate(C_POINTER, numOutputs);
         for (int i = 0; i < numOutputs; i++) {
-            stringArray.setAtIndex(C_POINTER, i, allocator.allocateFrom(buffer[i]));
+            stringArray.setAtIndex(C_POINTER, i, arena.allocateFrom(buffer[i]));
         }
         MemorySegment tensor = api.create(
-                allocator,
+                arena,
                 out -> api.CreateTensorAsOrtValue.apply(
                         valueContext.ortAllocatorAddress(),
                         tensorInfo.shapeData,

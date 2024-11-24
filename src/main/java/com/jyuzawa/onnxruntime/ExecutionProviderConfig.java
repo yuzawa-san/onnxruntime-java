@@ -6,7 +6,6 @@ package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -47,12 +46,9 @@ abstract class ExecutionProviderConfig {
     }
 
     protected void copyString(
-            String key,
-            MemorySegment config,
-            SegmentAllocator allocator,
-            BiConsumer<MemorySegment, MemorySegment> consumer) {
-        get(key).ifPresent(val -> consumer.accept(config, allocator.allocateFrom(val)));
+            String key, MemorySegment config, Arena arena, BiConsumer<MemorySegment, MemorySegment> consumer) {
+        get(key).ifPresent(val -> consumer.accept(config, arena.allocateFrom(val)));
     }
 
-    abstract void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions);
+    abstract void appendToSessionOptions(Arena arena, ApiImpl api, MemorySegment sessionOptions);
 }

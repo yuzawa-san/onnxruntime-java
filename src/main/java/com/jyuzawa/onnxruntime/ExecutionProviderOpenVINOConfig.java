@@ -16,7 +16,7 @@ final class ExecutionProviderOpenVINOConfig extends ExecutionProviderMapConfig {
 
     @Override
     protected void appendToSessionOptions(
-            Arena memorySession,
+            Arena arena,
             ApiImpl api,
             MemorySegment sessionOptions,
             MemorySegment keys,

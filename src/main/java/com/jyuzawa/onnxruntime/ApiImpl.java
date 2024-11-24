@@ -14,7 +14,6 @@ import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
@@ -359,20 +358,20 @@ final class ApiImpl implements Api {
         }
     }
 
-    MemorySegment create(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> constructor) {
-        MemorySegment pointer = allocator.allocate(C_POINTER);
+    MemorySegment create(Arena arena, Function<MemorySegment, MemorySegment> constructor) {
+        MemorySegment pointer = arena.allocate(C_POINTER);
         checkStatus(constructor.apply(pointer));
         return pointer.getAtIndex(C_POINTER, 0);
     }
 
-    int extractInt(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> method) {
-        MemorySegment pointer = allocator.allocate(C_INT);
+    int extractInt(Arena arena, Function<MemorySegment, MemorySegment> method) {
+        MemorySegment pointer = arena.allocate(C_INT);
         checkStatus(method.apply(pointer));
         return pointer.getAtIndex(C_INT, 0);
     }
 
-    long extractLong(SegmentAllocator allocator, Function<MemorySegment, MemorySegment> method) {
-        MemorySegment pointer = allocator.allocate(C_LONG);
+    long extractLong(Arena arena, Function<MemorySegment, MemorySegment> method) {
+        MemorySegment pointer = arena.allocate(C_LONG);
         checkStatus(method.apply(pointer));
         return pointer.getAtIndex(C_LONG, 0);
     }

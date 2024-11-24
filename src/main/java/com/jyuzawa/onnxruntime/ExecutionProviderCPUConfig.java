@@ -17,7 +17,7 @@ final class ExecutionProviderCPUConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
+    void appendToSessionOptions(Arena arena, ApiImpl api, MemorySegment sessionOptions) {
         // default is true
         // https://github.com/microsoft/onnxruntime/blob/fb85b31facb9fb3fc99c76f99c93ea8f06ada39b/onnxruntime/core/providers/cpu/cpu_execution_provider.h#L14
         String useArena = properties.getOrDefault(USE_ARENA, "1");

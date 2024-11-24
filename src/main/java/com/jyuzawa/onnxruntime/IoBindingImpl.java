@@ -13,7 +13,7 @@ import java.util.Map;
 
 final class IoBindingImpl implements IoBinding {
     private final ApiImpl api;
-    private final Arena memorySession;
+    private final Arena arena;
     private final MemorySegment ioBinding;
     private final MemorySegment runOptions;
     private final NamedCollectionImpl<OnnxValue> inputs;
@@ -23,18 +23,16 @@ final class IoBindingImpl implements IoBinding {
 
     IoBindingImpl(Builder builder) {
         // NOTE: this is shared since we want to allow closing from another thread.
-        this.memorySession = Arena.ofShared();
+        this.arena = Arena.ofShared();
         this.api = builder.api;
         this.session = builder.session.address();
-        this.ioBinding = builder.api.create(memorySession, out -> builder.api.CreateIoBinding.apply(session, out));
-        this.runOptions = api.create(memorySession, out -> api.CreateRunOptions.apply(out));
+        this.ioBinding = builder.api.create(arena, out -> builder.api.CreateIoBinding.apply(session, out));
+        this.runOptions = api.create(arena, out -> api.CreateRunOptions.apply(out));
         Map<String, String> config = builder.config;
         if (config != null && !config.isEmpty()) {
             for (Map.Entry<String, String> entry : config.entrySet()) {
                 api.checkStatus(api.AddRunConfigEntry.apply(
-                        runOptions,
-                        memorySession.allocateFrom(entry.getKey()),
-                        memorySession.allocateFrom(entry.getValue())));
+                        runOptions, arena.allocateFrom(entry.getKey()), arena.allocateFrom(entry.getValue())));
             }
         }
         List<NodeInfoImpl> rawInputs = builder.inputs;
@@ -42,19 +40,17 @@ final class IoBindingImpl implements IoBinding {
         this.closeables = new ArrayList<>(rawInputs.size() + rawOutputs.size());
         ValueContext valueContext = new ValueContext(
                 builder.api,
-                memorySession,
-                memorySession,
+                arena,
                 builder.session.environment.ortAllocator,
                 builder.session.environment.memoryInfo,
                 closeables);
-        this.inputs = add(rawInputs, valueContext, memorySession, api, ioBinding, true);
-        this.outputs = add(rawOutputs, valueContext, memorySession, api, ioBinding, false);
+        this.inputs = add(rawInputs, valueContext, api, ioBinding, true);
+        this.outputs = add(rawOutputs, valueContext, api, ioBinding, false);
     }
 
     private static final NamedCollectionImpl<OnnxValue> add(
             List<NodeInfoImpl> nodes,
             ValueContext valueContext,
-            Arena memorySession,
             ApiImpl api,
             MemorySegment ioBinding,
             boolean isInput) {
@@ -82,7 +78,7 @@ final class IoBindingImpl implements IoBinding {
         for (Runnable closeable : closeables) {
             closeable.run();
         }
-        memorySession.close();
+        arena.close();
     }
 
     @Override
@@ -168,8 +164,8 @@ final class IoBindingImpl implements IoBinding {
 
     @Override
     public IoBinding setRunTag(String runTag) {
-        try (Arena allocator = Arena.ofConfined()) {
-            MemorySegment segment = allocator.allocateFrom(runTag);
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment segment = arena.allocateFrom(runTag);
             api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, segment));
         }
         return this;

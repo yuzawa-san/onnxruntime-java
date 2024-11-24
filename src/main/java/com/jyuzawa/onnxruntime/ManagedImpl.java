@@ -10,16 +10,16 @@ import java.lang.foreign.MemorySegment;
 abstract class ManagedImpl implements AutoCloseable {
 
     protected final ApiImpl api;
-    protected final Arena memorySession;
+    protected final Arena arena;
 
-    protected ManagedImpl(ApiImpl api, Arena memorySession) {
+    protected ManagedImpl(ApiImpl api, Arena arena) {
         this.api = api;
-        this.memorySession = memorySession;
+        this.arena = arena;
     }
 
     @Override
     public void close() {
-        memorySession.close();
+        arena.close();
     }
 
     abstract MemorySegment address();

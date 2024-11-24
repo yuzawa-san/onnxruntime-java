@@ -18,41 +18,38 @@ final class TypeInfoImpl implements TypeInfo {
     private final MapInfoImpl mapInfo;
     private final TypeInfoImpl sequenceInfo;
 
-    TypeInfoImpl(
-            ApiImpl api, MemorySegment typeInfo, Arena allocator, Arena sessionAllocator, MemorySegment ortAllocator) {
+    TypeInfoImpl(ApiImpl api, MemorySegment typeInfo, Arena arena, Arena sessionArena, MemorySegment ortAllocator) {
         try {
-            this.type = OnnxType.forNumber(
-                    api.extractInt(allocator, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
+            this.type =
+                    OnnxType.forNumber(api.extractInt(arena, out -> api.GetOnnxTypeFromTypeInfo.apply(typeInfo, out)));
             TensorInfoImpl tensorInfo = null;
             MapInfoImpl mapInfo = null;
             TypeInfoImpl sequenceInfo = null;
 
             if (type == OnnxType.TENSOR || type == OnnxType.SPARSETENSOR) {
                 MemorySegment ortTensorInfo =
-                        api.create(allocator, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
+                        api.create(arena, out -> api.CastTypeInfoToTensorInfo.apply(typeInfo, out));
                 OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
-                        api.extractInt(allocator, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
-                int dimCount = api.extractInt(allocator, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = sessionAllocator.allocate(C_LONG, dimCount);
+                        api.extractInt(arena, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
+                int dimCount = api.extractInt(arena, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
+                MemorySegment dims = sessionArena.allocate(C_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
                 long elementCount =
-                        api.extractInt(allocator, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
+                        api.extractInt(arena, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
                 tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
             } else if (type == OnnxType.MAP) {
-                MemorySegment ortMapInfo =
-                        api.create(allocator, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
+                MemorySegment ortMapInfo = api.create(arena, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));
                 OnnxTensorElementDataType keyType = OnnxTensorElementDataType.forNumber(
-                        api.extractInt(allocator, out -> api.GetMapKeyType.apply(ortMapInfo, out)));
-                MemorySegment valueTypeAddress =
-                        api.create(allocator, out -> api.GetMapValueType.apply(ortMapInfo, out));
+                        api.extractInt(arena, out -> api.GetMapKeyType.apply(ortMapInfo, out)));
+                MemorySegment valueTypeAddress = api.create(arena, out -> api.GetMapValueType.apply(ortMapInfo, out));
                 mapInfo = new MapInfoImpl(
-                        keyType, new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator));
+                        keyType, new TypeInfoImpl(api, valueTypeAddress, arena, sessionArena, ortAllocator));
             } else if (type == OnnxType.SEQUENCE) {
                 MemorySegment ortSequenceInfo =
-                        api.create(allocator, out -> api.CastTypeInfoToSequenceTypeInfo.apply(typeInfo, out));
+                        api.create(arena, out -> api.CastTypeInfoToSequenceTypeInfo.apply(typeInfo, out));
                 MemorySegment valueTypeAddress =
-                        api.create(allocator, out -> api.GetSequenceElementType.apply(ortSequenceInfo, out));
-                sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, allocator, sessionAllocator, ortAllocator);
+                        api.create(arena, out -> api.GetSequenceElementType.apply(ortSequenceInfo, out));
+                sequenceInfo = new TypeInfoImpl(api, valueTypeAddress, arena, sessionArena, ortAllocator);
             } else {
                 throw new UnsupportedOperationException("unsupported type: " + type);
             }
