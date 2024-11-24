@@ -23,13 +23,13 @@ final class ExecutionProviderSimpleMapConfig extends ExecutionProviderMapConfig 
 
     @Override
     protected void appendToSessionOptions(
-            Arena memorySession,
+            Arena arena,
             ApiImpl api,
             MemorySegment sessionOptions,
             MemorySegment keys,
             MemorySegment values,
             int numProperties) {
         api.checkStatus(api.SessionOptionsAppendExecutionProvider.apply(
-                sessionOptions, memorySession.allocateFrom(name), keys, values, numProperties));
+                sessionOptions, arena.allocateFrom(name), keys, values, numProperties));
     }
 }

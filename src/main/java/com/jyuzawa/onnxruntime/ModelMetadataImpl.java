@@ -23,45 +23,44 @@ final class ModelMetadataImpl implements ModelMetadata {
     private final long version;
     private final Map<String, String> customMetadata;
 
-    ModelMetadataImpl(ApiImpl api, Arena memorySession, MemorySegment metadata, MemorySegment ortAllocator) {
+    ModelMetadataImpl(ApiImpl api, Arena arena, MemorySegment metadata, MemorySegment ortAllocator) {
         {
-            MemorySegment pointer = api.create(
-                    memorySession, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));
+            MemorySegment pointer =
+                    api.create(arena, out -> api.ModelMetadataGetDescription.apply(metadata, ortAllocator, out));
             this.description = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
             MemorySegment pointer =
-                    api.create(memorySession, out -> api.ModelMetadataGetDomain.apply(metadata, ortAllocator, out));
+                    api.create(arena, out -> api.ModelMetadataGetDomain.apply(metadata, ortAllocator, out));
             this.domain = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            MemorySegment pointer = api.create(
-                    memorySession, out -> api.ModelMetadataGetGraphDescription.apply(metadata, ortAllocator, out));
+            MemorySegment pointer =
+                    api.create(arena, out -> api.ModelMetadataGetGraphDescription.apply(metadata, ortAllocator, out));
             this.graphDescription = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
             MemorySegment pointer =
-                    api.create(memorySession, out -> api.ModelMetadataGetGraphName.apply(metadata, ortAllocator, out));
+                    api.create(arena, out -> api.ModelMetadataGetGraphName.apply(metadata, ortAllocator, out));
             this.graphName = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            MemorySegment pointer = api.create(
-                    memorySession, out -> api.ModelMetadataGetProducerName.apply(metadata, ortAllocator, out));
+            MemorySegment pointer =
+                    api.create(arena, out -> api.ModelMetadataGetProducerName.apply(metadata, ortAllocator, out));
             this.producerName = pointer.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, pointer));
         }
         {
-            this.version = api.extractLong(memorySession, out -> api.ModelMetadataGetVersion.apply(metadata, out));
+            this.version = api.extractLong(arena, out -> api.ModelMetadataGetVersion.apply(metadata, out));
         }
         {
-            MemorySegment count = memorySession.allocate(C_LONG);
+            MemorySegment count = arena.allocate(C_LONG);
             MemorySegment keys = api.create(
-                    memorySession,
-                    out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(metadata, ortAllocator, out, count));
+                    arena, out -> api.ModelMetadataGetCustomMetadataMapKeys.apply(metadata, ortAllocator, out, count));
             long numKeys = count.getAtIndex(C_LONG, 0);
             if (numKeys == 0) {
                 this.customMetadata = Collections.emptyMap();
@@ -70,7 +69,7 @@ final class ModelMetadataImpl implements ModelMetadata {
                 for (long i = 0; i < numKeys; i++) {
                     MemorySegment key = keys.getAtIndex(C_POINTER, i);
                     MemorySegment value = api.create(
-                            memorySession,
+                            arena,
                             out -> api.ModelMetadataLookupCustomMetadataMap.apply(metadata, ortAllocator, key, out));
                     customMetadata.put(key.getString(0), value.getString(0));
                     api.checkStatus(api.AllocatorFree.apply(ortAllocator, key));

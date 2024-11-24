@@ -16,8 +16,8 @@ final class ExecutionProviderROCMConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
-        MemorySegment config = OrtROCMProviderOptions.allocate(memorySession);
+    final void appendToSessionOptions(Arena arena, ApiImpl api, MemorySegment sessionOptions) {
+        MemorySegment config = OrtROCMProviderOptions.allocate(arena);
         copyInteger("device_id", config, OrtROCMProviderOptions::device_id);
         copyInteger("miopen_conv_exhaustive_search", config, OrtROCMProviderOptions::miopen_conv_exhaustive_search);
         copyLong("gpu_mem_limit", config, OrtROCMProviderOptions::gpu_mem_limit);

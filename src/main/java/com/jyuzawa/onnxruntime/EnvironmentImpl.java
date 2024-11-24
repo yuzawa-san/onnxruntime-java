@@ -28,7 +28,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                 MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
                 try {
                     this.address = api.create(
-                            memorySession,
+                            arena,
                             out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
                                     OnnxRuntimeLoggingLevel.LOG_CALLBACK,
                                     MemorySegment.NULL,
@@ -41,7 +41,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                 }
             } else {
                 this.address = api.create(
-                        memorySession,
+                        arena,
                         out -> api.CreateEnvWithCustomLogger.apply(
                                 OnnxRuntimeLoggingLevel.LOG_CALLBACK,
                                 MemorySegment.NULL,
@@ -51,8 +51,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             }
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
-                    memorySession, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            this.ortAllocator = api.create(memorySession, out -> api.GetAllocatorWithDefaultOptions.apply(out));
+                    arena, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
+            this.ortAllocator = api.create(arena, out -> api.GetAllocatorWithDefaultOptions.apply(out));
             Map<String, Long> arenaConfig = builder.arenaConfig;
             if (arenaConfig == null) {
                 api.RegisterAllocator.apply(address, ortAllocator);
@@ -163,8 +163,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             return this;
         }
 
-        private MemorySegment newThreadingOptions(Arena memorySession) {
-            MemorySegment threadingOptions = api.create(memorySession, out -> api.CreateThreadingOptions.apply(out));
+        private MemorySegment newThreadingOptions(Arena arena) {
+            MemorySegment threadingOptions = api.create(arena, out -> api.CreateThreadingOptions.apply(out));
             if (globalDenormalAsZero != null && globalSpinControl) {
                 api.checkStatus(api.SetGlobalDenormalAsZero.apply(threadingOptions));
             }

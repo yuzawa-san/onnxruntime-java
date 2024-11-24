@@ -68,7 +68,7 @@ public interface Session extends AutoCloseable {
     /**
      * Create a new I/O Binding.
      * @return a builder
-     * @since v1.4.0
+     * @since 1.4.0
      */
     IoBinding.Builder newIoBinding();
 

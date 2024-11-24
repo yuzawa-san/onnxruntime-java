@@ -4,8 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -22,14 +22,12 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
             MemorySegment ortValueAddress,
             Function<ByteBuffer, T> convert) {
         super(tensorInfo, valueContext);
-        SegmentAllocator segmentAllocator = valueContext.segmentAllocator();
+        Arena arena = valueContext.arena();
         if (ortValueAddress == null) {
-            this.memorySegment =
-                    segmentAllocator.allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
+            this.memorySegment = arena.allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
         } else {
             ApiImpl api = valueContext.api();
-            MemorySegment floatOutput =
-                    api.create(segmentAllocator, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
+            MemorySegment floatOutput = api.create(arena, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
             this.memorySegment = floatOutput.reinterpret(tensorInfo.getByteCount());
         }
         this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
@@ -44,7 +42,7 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     public final MemorySegment toNative() {
         ApiImpl api = valueContext.api();
         return api.create(
-                valueContext.segmentAllocator(),
+                valueContext.arena(),
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
                         valueContext.memoryInfoAddress(),
                         memorySegment,

@@ -6,8 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,14 +27,13 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
             this.data = new ArrayList<>();
         } else {
             ApiImpl api = valueContext.api();
-            SegmentAllocator allocator = valueContext.segmentAllocator();
-            int outputs =
-                    Math.toIntExact(api.extractLong(allocator, out -> api.GetValueCount.apply(ortValueAddress, out)));
+            Arena arena = valueContext.arena();
+            int outputs = Math.toIntExact(api.extractLong(arena, out -> api.GetValueCount.apply(ortValueAddress, out)));
             this.data = new ArrayList<>(outputs);
             for (int i = 0; i < outputs; i++) {
                 final int index = i;
                 MemorySegment valueAddress = api.create(
-                        allocator,
+                        arena,
                         out -> api.GetValue.apply(ortValueAddress, index, valueContext.ortAllocatorAddress(), out));
                 valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
                 OnnxValueImpl value = typeInfo.newValue(valueContext, valueAddress);
@@ -74,15 +73,14 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     @Override
     public MemorySegment toNative() {
         ApiImpl api = valueContext.api();
-        SegmentAllocator allocator = valueContext.segmentAllocator();
+        Arena arena = valueContext.arena();
         int size = data.size();
-        MemorySegment valuesArray = allocator.allocate(C_POINTER, size);
+        MemorySegment valuesArray = arena.allocate(C_POINTER, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
             valuesArray.setAtIndex(C_POINTER, i, value.toNative());
         }
-        return api.create(
-                allocator, out -> api.CreateValue.apply(valuesArray, size, OnnxType.SEQUENCE.getNumber(), out));
+        return api.create(arena, out -> api.CreateValue.apply(valuesArray, size, OnnxType.SEQUENCE.getNumber(), out));
     }
 
     @Override

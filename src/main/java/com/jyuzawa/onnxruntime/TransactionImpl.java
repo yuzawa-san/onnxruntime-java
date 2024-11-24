@@ -8,7 +8,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -19,23 +18,20 @@ final class TransactionImpl implements Transaction {
     // private final Object cancelLock;
     // private MemoryAddress runOptions;
 
-    private final Arena memorySession;
-    private final SegmentAllocator allocator;
+    private final Arena arena;
     private final Builder builder;
     private final List<InputTuple> inputs;
     private final List<NodeInfoImpl> outputs;
     private final ValueContext valueContext;
 
     TransactionImpl(Builder builder) {
-        this.memorySession = Arena.ofConfined();
-        this.allocator = memorySession;
+        this.arena = Arena.ofConfined();
         this.builder = builder;
         this.inputs = new ArrayList<>(builder.session.inputs.size());
         this.outputs = new ArrayList<>(builder.session.outputs.size());
         this.valueContext = new ValueContext(
                 builder.api,
-                allocator,
-                memorySession,
+                arena,
                 builder.session.environment.ortAllocator,
                 builder.session.environment.memoryInfo,
                 new LinkedList<>());
@@ -47,7 +43,7 @@ final class TransactionImpl implements Transaction {
         for (Runnable closeables : valueContext.closeables()) {
             closeables.run();
         }
-        memorySession.close();
+        arena.close();
     }
 
     private OnnxValue addInput(NodeInfoImpl node) {
@@ -98,10 +94,10 @@ final class TransactionImpl implements Transaction {
         SessionImpl sessionImpl = builder.session;
         int numInputs = inputs.size();
         int numOutputs = outputs.size();
-        MemorySegment inputNames = allocator.allocate(C_POINTER, numInputs);
-        MemorySegment inputValues = allocator.allocate(C_POINTER, numInputs);
-        MemorySegment outputNames = allocator.allocate(C_POINTER, numOutputs);
-        MemorySegment outputValues = allocator.allocate(C_POINTER, numOutputs);
+        MemorySegment inputNames = arena.allocate(C_POINTER, numInputs);
+        MemorySegment inputValues = arena.allocate(C_POINTER, numInputs);
+        MemorySegment outputNames = arena.allocate(C_POINTER, numOutputs);
+        MemorySegment outputValues = arena.allocate(C_POINTER, numOutputs);
         for (int i = 0; i < numInputs; i++) {
             InputTuple inputTuple = inputs.get(i);
             inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
@@ -114,7 +110,7 @@ final class TransactionImpl implements Transaction {
             outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
         }
 
-        MemorySegment runOptionsAddress = builder.newRunOptions(allocator);
+        MemorySegment runOptionsAddress = builder.newRunOptions(arena);
         // synchronized (cancelLock) {
         // this.runOptions = runOptionsAddress;
         // }
@@ -190,8 +186,8 @@ final class TransactionImpl implements Transaction {
             return this;
         }
 
-        private MemorySegment newRunOptions(SegmentAllocator scope) {
-            MemorySegment runOptions = api.create(scope, out -> api.CreateRunOptions.apply(out));
+        private MemorySegment newRunOptions(Arena arena) {
+            MemorySegment runOptions = api.create(arena, out -> api.CreateRunOptions.apply(out));
             if (logSeverityLevel != null) {
                 api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
             }
@@ -199,12 +195,12 @@ final class TransactionImpl implements Transaction {
                 api.checkStatus(api.RunOptionsSetRunLogVerbosityLevel.apply(runOptions, logVerbosityLevel));
             }
             if (runTag != null) {
-                api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, scope.allocateFrom(runTag)));
+                api.checkStatus(api.RunOptionsSetRunTag.apply(runOptions, arena.allocateFrom(runTag)));
             }
             if (config != null && !config.isEmpty()) {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddRunConfigEntry.apply(
-                            runOptions, scope.allocateFrom(entry.getKey()), scope.allocateFrom(entry.getValue())));
+                            runOptions, arena.allocateFrom(entry.getKey()), arena.allocateFrom(entry.getValue())));
                 }
             }
             return runOptions;

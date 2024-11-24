@@ -16,13 +16,13 @@ abstract class ExecutionProviderObjectConfig extends ExecutionProviderMapConfig 
 
     @Override
     protected final void appendToSessionOptions(
-            Arena memorySession,
+            Arena arena,
             ApiImpl api,
             MemorySegment sessionOptions,
             MemorySegment keys,
             MemorySegment values,
             int numProperties) {
-        MemorySegment config = api.create(memorySession, out -> create(api, out));
+        MemorySegment config = api.create(arena, out -> create(api, out));
         try {
             api.checkStatus(update(api, config, keys, values, numProperties));
             api.checkStatus(append(api, sessionOptions, config));

@@ -17,7 +17,7 @@ abstract class ExecutionProviderMapConfig extends ExecutionProviderConfig {
     }
 
     protected abstract void appendToSessionOptions(
-            Arena memorySession,
+            Arena arena,
             ApiImpl api,
             MemorySegment sessionOptions,
             MemorySegment keys,
@@ -25,16 +25,16 @@ abstract class ExecutionProviderMapConfig extends ExecutionProviderConfig {
             int numProperties);
 
     @Override
-    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
+    final void appendToSessionOptions(Arena arena, ApiImpl api, MemorySegment sessionOptions) {
         int numProps = properties.size();
-        MemorySegment keys = memorySession.allocate(C_POINTER, numProps);
-        MemorySegment values = memorySession.allocate(C_POINTER, numProps);
+        MemorySegment keys = arena.allocate(C_POINTER, numProps);
+        MemorySegment values = arena.allocate(C_POINTER, numProps);
         int i = 0;
         for (Map.Entry<String, String> entry : properties.entrySet()) {
-            keys.setAtIndex(C_POINTER, i, memorySession.allocateFrom(entry.getKey()));
-            values.setAtIndex(C_POINTER, i, memorySession.allocateFrom(entry.getValue()));
+            keys.setAtIndex(C_POINTER, i, arena.allocateFrom(entry.getKey()));
+            values.setAtIndex(C_POINTER, i, arena.allocateFrom(entry.getValue()));
             i++;
         }
-        appendToSessionOptions(memorySession, api, sessionOptions, keys, values, numProps);
+        appendToSessionOptions(arena, api, sessionOptions, keys, values, numProps);
     }
 }

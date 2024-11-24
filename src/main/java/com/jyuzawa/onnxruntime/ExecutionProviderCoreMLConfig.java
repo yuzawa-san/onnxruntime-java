@@ -16,7 +16,7 @@ final class ExecutionProviderCoreMLConfig extends ExecutionProviderConfig {
     }
 
     @Override
-    final void appendToSessionOptions(Arena memorySession, ApiImpl api, MemorySegment sessionOptions) {
+    final void appendToSessionOptions(Arena arena, ApiImpl api, MemorySegment sessionOptions) {
         int flags = 0;
         if (TRUE_VALUE.equals(properties.get("use_cpu_only"))) {
             flags |= onnxruntime_all_h.COREML_FLAG_USE_CPU_ONLY();

@@ -6,8 +6,8 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentAllocator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,8 +31,8 @@ final class TensorInfoImpl implements TensorInfo {
         this.elementCount = elementCount;
     }
 
-    static TensorInfoImpl of(OnnxTensorElementDataType type, long elementCount, SegmentAllocator scope) {
-        MemorySegment shapeData = scope.allocateFrom(C_LONG, new long[] {elementCount});
+    static TensorInfoImpl of(OnnxTensorElementDataType type, long elementCount, Arena arena) {
+        MemorySegment shapeData = arena.allocateFrom(C_LONG, new long[] {elementCount});
         return new TensorInfoImpl(type, shapeData, 1, elementCount);
     }
 
