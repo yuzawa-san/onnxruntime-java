@@ -282,6 +282,7 @@ publishing {
 				artifact tasks.named("osArchJar${it}")
 			}
 		}
+		/*
 		onnxruntimeGpu(MavenPublication) {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-gpu"
@@ -293,6 +294,7 @@ publishing {
 				artifact tasks.named("osArchJar${it}")
 			}
 		}
+		*/
 		onnxruntime(MavenPublication) {
 			from components.java
 			pom {
