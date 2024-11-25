@@ -9,7 +9,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtGetApiBase;
 
 import com.jyuzawa.onnxruntime_extern.OrtApiBase;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 
 // NOTE: this class actually is more like OrtApiBase
@@ -22,7 +21,6 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
 
     private OnnxRuntimeImpl() {
         Loader.load();
-        Arena scope = Arena.global();
         MemorySegment segment = OrtGetApiBase();
         this.ortApiVersion = ORT_API_VERSION();
         MemorySegment apiAddress = OrtApiBase.GetApiFunction(segment).apply(ortApiVersion);
