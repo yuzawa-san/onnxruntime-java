@@ -85,4 +85,14 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
             scalar.getStringBuffer()[0] = buffer[i++];
         }
     }
+
+    @Override
+    public MemorySegment getMemorySegment() {
+        throw new IllegalArgumentException("String tensor does not suppory MemorySegment");
+    }
+
+    @Override
+    public OnnxTensorStringImpl wrap(MemorySegment memorySegment) {
+        throw new IllegalArgumentException("String tensor does not suppory MemorySegment");
+    }
 }

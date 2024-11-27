@@ -6,6 +6,7 @@ package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,8 +36,8 @@ final class IoBindingImpl implements IoBinding {
                         runOptions, arena.allocateFrom(entry.getKey()), arena.allocateFrom(entry.getValue())));
             }
         }
-        List<NodeInfoImpl> rawInputs = builder.inputs;
-        List<NodeInfoImpl> rawOutputs = builder.outputs;
+        List<Builder.BindingBuilderImpl> rawInputs = builder.inputs;
+        List<Builder.BindingBuilderImpl> rawOutputs = builder.outputs;
         this.closeables = new ArrayList<>(rawInputs.size() + rawOutputs.size());
         ValueContext valueContext = new ValueContext(
                 builder.api,
@@ -49,14 +50,22 @@ final class IoBindingImpl implements IoBinding {
     }
 
     private static final NamedCollectionImpl<OnnxValue> add(
-            List<NodeInfoImpl> nodes,
+            List<Builder.BindingBuilderImpl> bindingTuples,
             ValueContext valueContext,
             ApiImpl api,
             MemorySegment ioBinding,
             boolean isInput) {
-        LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(nodes.size());
-        for (NodeInfoImpl node : nodes) {
+        LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(bindingTuples.size());
+        for (Builder.BindingBuilderImpl bindingTuple : bindingTuples) {
+            NodeInfoImpl node = bindingTuple.node;
             OnnxValueImpl output = node.getTypeInfo().newValue(valueContext, null);
+            MemorySegment memorySegment = bindingTuple.memorySegment;
+            Buffer buffer = bindingTuple.buffer;
+            if (memorySegment != null) {
+                output.asTensor().wrap(memorySegment);
+            } else if (buffer != null) {
+                output.asTensor().wrap(buffer);
+            }
             MemorySegment valueAddress = output.toNative();
             valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
             out.put(node.getName(), output);
@@ -91,8 +100,8 @@ final class IoBindingImpl implements IoBinding {
         final ApiImpl api;
         final SessionImpl session;
         private Map<String, String> config;
-        final List<NodeInfoImpl> inputs;
-        final List<NodeInfoImpl> outputs;
+        final List<BindingBuilderImpl> inputs;
+        final List<BindingBuilderImpl> outputs;
 
         public Builder(SessionImpl session) {
             this.api = session.api;
@@ -118,35 +127,75 @@ final class IoBindingImpl implements IoBinding {
             return this;
         }
 
-        private void accumulate(List<NodeInfoImpl> list, NodeInfoImpl nodeInfo) {
-            if (nodeInfo == null) {
-                throw new IllegalArgumentException("node info missing");
+        @Override
+        public BindingBuilder newInput() {
+            BindingBuilderImpl bindingBuilder = new BindingBuilderImpl(session.inputs);
+            inputs.add(bindingBuilder);
+            return bindingBuilder;
+        }
+
+        @Override
+        public BindingBuilder newOutput() {
+            BindingBuilderImpl bindingBuilder = new BindingBuilderImpl(session.outputs);
+            outputs.add(bindingBuilder);
+            return bindingBuilder;
+        }
+
+        private class BindingBuilderImpl implements BindingBuilder {
+
+            private NodeInfoImpl node;
+            private MemorySegment memorySegment;
+            private Buffer buffer;
+
+            private final NamedCollection<NodeInfoImpl> nodes;
+
+            private BindingBuilderImpl(NamedCollection<NodeInfoImpl> nodes) {
+                this.nodes = nodes;
             }
-            list.add(nodeInfo);
-        }
 
-        @Override
-        public Builder bindInput(String name) {
-            accumulate(inputs, session.inputs.get(name));
-            return this;
-        }
+            private BindingBuilder setNode(NodeInfoImpl theNode) {
+                if (theNode == null) {
+                    throw new IllegalArgumentException("node info not found");
+                }
+                if (theNode.getTypeInfo().getType() != OnnxType.TENSOR) {
+                    throw new IllegalArgumentException("Only tensors are supported");
+                }
+                this.node = theNode;
+                return this;
+            }
 
-        @Override
-        public Builder bindInput(int index) {
-            accumulate(inputs, session.inputs.get(index));
-            return this;
-        }
+            @Override
+            public BindingBuilder index(int index) {
+                return setNode(nodes.get(index));
+            }
 
-        @Override
-        public Builder bindOutput(String name) {
-            accumulate(outputs, session.outputs.get(name));
-            return this;
-        }
+            @Override
+            public BindingBuilder name(String name) {
+                return setNode(nodes.get(name));
+            }
 
-        @Override
-        public Builder bindOutput(int index) {
-            accumulate(outputs, session.outputs.get(index));
-            return this;
+            @Override
+            public BindingBuilder memorySegment(MemorySegment newMemorySegment) {
+                this.memorySegment = newMemorySegment;
+                return this;
+            }
+
+            @Override
+            public BindingBuilder buffer(Buffer newBuffer) {
+                this.buffer = newBuffer;
+                return this;
+            }
+
+            @Override
+            public Builder bind() {
+                if (node == null) {
+                    throw new IllegalStateException("node is missing");
+                }
+                if (memorySegment != null && buffer != null) {
+                    throw new IllegalStateException("both MemorySegment and Buffer are present");
+                }
+                return Builder.this;
+            }
         }
     }
 

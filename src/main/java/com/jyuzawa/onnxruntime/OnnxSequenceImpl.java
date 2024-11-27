@@ -50,7 +50,7 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     }
 
     @Override
-    public OnnxSequence asSequence() {
+    public OnnxSequenceImpl asSequence() {
         return this;
     }
 

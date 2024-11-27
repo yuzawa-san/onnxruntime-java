@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -967,8 +968,12 @@ public class SessionTest {
                         .setByteBuffer(identityModel(type))
                         .build();
                 IoBinding txn = session.newIoBinding()
-                        .bindInput(0)
-                        .bindOutput(0)
+                        .newInput()
+                        .index(0)
+                        .bind()
+                        .newOutput()
+                        .index(0)
+                        .bind()
                         .setConfigMap(Map.of("foo", "bar"))
                         .build()) {
             txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.INFO);
@@ -989,6 +994,58 @@ public class SessionTest {
                 txn.synchronizeBoundOutputs();
                 outputBuf.rewind().get(rawOutput);
                 assertArrayEquals(rawInput, rawOutput);
+            }
+        }
+    }
+
+    @Test
+    public void ioBindingUnownedTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.INT32_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        ByteBuffer srcBuf = ByteBuffer.allocateDirect(12);
+        IntBuffer rootInputBuf = srcBuf.order(ByteOrder.nativeOrder()).asIntBuffer();
+        ByteBuffer dstBuf = ByteBuffer.allocateDirect(12);
+        IntBuffer rootOutputBuf = dstBuf.order(ByteOrder.nativeOrder()).asIntBuffer();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                IoBinding txn = session.newIoBinding()
+                        .newInput()
+                        .name("input")
+                        .buffer(rootInputBuf)
+                        .bind()
+                        .newOutput()
+                        .name("output")
+                        .buffer(rootOutputBuf)
+                        .bind()
+                        .setConfigMap(Map.of("foo", "bar"))
+                        .build()) {
+            txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.INFO);
+            txn.setLogVerbosityLevel(0);
+            txn.setRunTag("foo");
+            IntBuffer inputBuf = txn.getInputs().get(0).asTensor().getIntBuffer();
+            IntBuffer outputBuf = txn.getOutputs().get(0).asTensor().getIntBuffer();
+            int[] rawOutput = new int[3];
+            for (int i = 0; i < 100; i++) {
+                int[] rawInput = new int[] {
+                    ThreadLocalRandom.current().nextInt(),
+                    ThreadLocalRandom.current().nextInt(),
+                    ThreadLocalRandom.current().nextInt()
+                };
+                inputBuf.clear().put(rawInput);
+                assertEquals(rootInputBuf.get(0), inputBuf.get(0));
+                txn.synchronizeBoundInputs();
+                txn.run();
+                txn.synchronizeBoundOutputs();
+                outputBuf.rewind().get(rawOutput);
+                assertArrayEquals(rawInput, rawOutput);
+                assertEquals(rootOutputBuf.get(0), outputBuf.get(0));
             }
         }
     }

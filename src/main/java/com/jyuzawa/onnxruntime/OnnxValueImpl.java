@@ -23,17 +23,17 @@ abstract class OnnxValueImpl implements OnnxValue {
     }
 
     @Override
-    public OnnxTensor asTensor() {
+    public OnnxTensorImpl asTensor() {
         throw new NoSuchElementException("OnnxValue is not a tensor");
     }
 
     @Override
-    public OnnxSequence asSequence() {
+    public OnnxSequenceImpl asSequence() {
         throw new NoSuchElementException("OnnxValue is not a sequence");
     }
 
     @Override
-    public OnnxMap asMap() {
+    public OnnxMapImpl<?, ?> asMap() {
         throw new NoSuchElementException("OnnxValue is not a map");
     }
 

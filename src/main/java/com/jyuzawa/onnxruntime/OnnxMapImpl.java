@@ -73,7 +73,7 @@ abstract class OnnxMapImpl<K, T extends OnnxTensorImpl> extends OnnxValueImpl im
     }
 
     @Override
-    public final OnnxMap asMap() {
+    public final OnnxMapImpl<?, ?> asMap() {
         return this;
     }
 

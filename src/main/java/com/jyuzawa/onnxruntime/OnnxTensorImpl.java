@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemorySegment;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
@@ -24,7 +26,7 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
     }
 
     @Override
-    public final OnnxTensor asTensor() {
+    public final OnnxTensorImpl asTensor() {
         return this;
     }
 
@@ -75,4 +77,15 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
     abstract void putScalars(Collection<OnnxTensorImpl> scalars);
 
     abstract void getScalars(Stream<OnnxTensorImpl> scalars);
+
+    abstract MemorySegment getMemorySegment();
+
+    abstract OnnxTensorImpl wrap(MemorySegment newMemorySegment);
+
+    final OnnxTensor wrap(Buffer newBuffer) {
+        if (!newBuffer.isDirect()) {
+            throw new IllegalArgumentException("Only direct buffers may be wrapped");
+        }
+        return wrap(MemorySegment.ofBuffer(newBuffer));
+    }
 }

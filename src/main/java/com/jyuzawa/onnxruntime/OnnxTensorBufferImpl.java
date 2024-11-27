@@ -13,8 +13,9 @@ import java.util.function.Function;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
-    private final MemorySegment memorySegment;
-    protected final T buffer;
+    private MemorySegment memorySegment;
+    private T buffer;
+    private final Function<ByteBuffer, T> convert;
 
     protected OnnxTensorBufferImpl(
             TensorInfoImpl tensorInfo,
@@ -22,15 +23,13 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
             MemorySegment ortValueAddress,
             Function<ByteBuffer, T> convert) {
         super(tensorInfo, valueContext);
-        Arena arena = valueContext.arena();
-        if (ortValueAddress == null) {
-            this.memorySegment = arena.allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
-        } else {
+        this.convert = convert;
+        if (ortValueAddress != null) {
+            Arena arena = valueContext.arena();
             ApiImpl api = valueContext.api();
             MemorySegment floatOutput = api.create(arena, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
             this.memorySegment = floatOutput.reinterpret(tensorInfo.getByteCount());
         }
-        this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
     }
 
     @Override
@@ -41,15 +40,44 @@ abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
     @Override
     public final MemorySegment toNative() {
         ApiImpl api = valueContext.api();
+        MemorySegment theMemorySegment = getMemorySegment();
         return api.create(
                 valueContext.arena(),
                 out -> api.CreateTensorWithDataAsOrtValue.apply(
                         valueContext.memoryInfoAddress(),
-                        memorySegment,
-                        memorySegment.byteSize(),
+                        theMemorySegment,
+                        theMemorySegment.byteSize(),
                         tensorInfo.shapeData,
                         tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
                         out));
+    }
+
+    @Override
+    final MemorySegment getMemorySegment() {
+        if (memorySegment == null) {
+            this.memorySegment =
+                    valueContext.arena().allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
+        }
+        return memorySegment;
+    }
+
+    protected final T getBuffer() {
+        if (buffer == null) {
+            this.buffer = convert.apply(getMemorySegment().asByteBuffer().order(ByteOrder.nativeOrder()));
+        }
+        return buffer;
+    }
+
+    @Override
+    final OnnxTensorBufferImpl<T> wrap(MemorySegment newMemorySegment) {
+        if (this.memorySegment != null) {
+            throw new IllegalStateException("Cannot replace existing MemorySegment " + memorySegment);
+        }
+        if (newMemorySegment.byteSize() != tensorInfo.getByteCount()) {
+            throw new IllegalArgumentException("MemorySegment size mismatch");
+        }
+        this.memorySegment = newMemorySegment;
+        return this;
     }
 }

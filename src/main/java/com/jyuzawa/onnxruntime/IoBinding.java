@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemorySegment;
+import java.nio.Buffer;
 import java.util.Map;
 
 /**
@@ -61,31 +63,9 @@ public interface IoBinding extends AutoCloseable {
      * @since 1.0.0
      */
     public interface Builder {
-        /**
-         * Add an input and get an OnnxValue to populate.
-         * @param name
-         * @return the value to be populated
-         */
-        Builder bindInput(String name);
+        BindingBuilder newInput();
 
-        /**
-         * Add an input and get an OnnxValue to populate.
-         * @param index
-         * @return the value to be populated
-         */
-        Builder bindInput(int index);
-
-        /**
-         * Request a specific output to be produced.
-         * @param name
-         */
-        Builder bindOutput(String name);
-
-        /**
-         * Request a specific output to be produced.
-         * @param index
-         */
-        Builder bindOutput(int index);
+        BindingBuilder newOutput();
 
         /**
          * Set custom parameters for this transaction.
@@ -100,5 +80,27 @@ public interface IoBinding extends AutoCloseable {
          * @return a new instance
          */
         IoBinding build();
+    }
+
+    public interface BindingBuilder {
+        BindingBuilder index(int index);
+
+        BindingBuilder name(String name);
+
+        /**
+         * Bind an externally managed MemorySegment. Must be a off-heap with proper endian.
+         * @param memorySegment
+         * @return
+         */
+        BindingBuilder memorySegment(MemorySegment memorySegment);
+
+        /**
+         * Bind an externally managed buffer. Must be a off-heap with proper endian.
+         * @param buffer
+         * @return
+         */
+        BindingBuilder buffer(Buffer buffer);
+
+        Builder bind();
     }
 }
