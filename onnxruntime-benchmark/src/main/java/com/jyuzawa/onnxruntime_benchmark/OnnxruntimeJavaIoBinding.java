@@ -16,7 +16,14 @@ final class OnnxruntimeJavaIoBinding extends OnnxruntimeJava {
 
     OnnxruntimeJavaIoBinding(byte[] bytes, boolean arena, int size) throws IOException {
         super(bytes, arena, size);
-        this.ioBinding = session.newIoBinding().bindInput(0).bindOutput(0).build();
+        this.ioBinding = session.newIoBinding()
+                .newInput()
+                .index(0)
+                .bind()
+                .newOutput()
+                .index(0)
+                .bind()
+                .build();
         this.inputBuf = ioBinding.getInputs().get(0).asTensor().getLongBuffer();
         this.outputBuf = ioBinding.getOutputs().get(0).asTensor().getLongBuffer();
     }
