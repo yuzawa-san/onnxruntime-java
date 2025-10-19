@@ -89,13 +89,8 @@ def ORT_BASELINE = project.findProperty('com.jyuzawa.onnxruntime.library_baselin
 def ORT_JAR_VERSION = ORT_BASELINE.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
 // NOTE: publish tasks are: publishOnnxruntimeCpuPublicationToMavenRepository publishOnnxruntimeGpuPublicationToMavenRepository
 
-def getGitHash = { ->
-	def stdout = new ByteArrayOutputStream()
-	exec {
-		commandLine 'git', 'rev-parse', 'HEAD'
-		standardOutput = stdout
-	}
-	return stdout.toString().trim()
+def gitVersionProvider = providers.exec {
+	commandLine 'git', 'rev-parse', 'HEAD'
 }
 
 def jarAttributes = [
@@ -106,7 +101,7 @@ def jarAttributes = [
 	'Specification-Version'  : project.version,
 	'Implementation-Vendor'  : 'yuzawa-san',
 	'Implementation-Title'   : project.name,
-	'Implementation-Version' : "${-> getGitHash()}",
+	'Implementation-Version' : "${-> gitVersionProvider.standardOutput.asText.get().trim()}",
 	'Onnxruntime-Version'    : ORT_VERSION,
 	'Created-By'             : "Gradle ${gradle.gradleVersion}",
 	'Build-Jdk'              : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
