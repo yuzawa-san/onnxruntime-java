@@ -84,7 +84,8 @@ public class Microbenchmark {
             case ONNXRUNTIME_JAVA_ARENA -> new OnnxruntimeJava(bytes, true, size);
             case ONNXRUNTIME_JAVA_IOBINDING -> new OnnxruntimeJavaIoBinding(bytes, false, size);
             case MICROSOFT -> new Microsoft(bytes);
-            default -> throw new IllegalArgumentException();};
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     @Benchmark

@@ -110,10 +110,10 @@ final class TypeInfoImpl implements TypeInfo {
                 return new OnnxSequenceImpl(sequenceInfo, valueContext, ortValueAddress);
             case MAP:
                 return mapInfo.newValue(valueContext, ortValueAddress);
-                // case OPAQUE:
-                // return new OnnxOpaqueImpl(typeInfo.getOpaqueInfo());
-                // case OPTIONAL:
-                // return new OnnxOptionalImpl(typeInfo.getOptionalInfo());
+            // case OPAQUE:
+            // return new OnnxOpaqueImpl(typeInfo.getOpaqueInfo());
+            // case OPTIONAL:
+            // return new OnnxOptionalImpl(typeInfo.getOptionalInfo());
             default:
                 throw new UnsupportedOperationException("OnnxValue with type " + type + " is not supported");
         }
