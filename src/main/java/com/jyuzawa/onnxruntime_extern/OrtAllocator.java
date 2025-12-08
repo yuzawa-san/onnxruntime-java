@@ -21,6 +21,8 @@ import java.util.stream.*;
  *     void (*Free)(struct OrtAllocator *, void *);
  *     const struct OrtMemoryInfo *(*Info)(const struct OrtAllocator *);
  *     void *(*Reserve)(struct OrtAllocator *, size_t);
+ *     OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **);
+ *     void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *);
  * }
  * }
  */
@@ -36,7 +38,9 @@ public class OrtAllocator {
                     onnxruntime_all_h.C_POINTER.withName("Alloc"),
                     onnxruntime_all_h.C_POINTER.withName("Free"),
                     onnxruntime_all_h.C_POINTER.withName("Info"),
-                    onnxruntime_all_h.C_POINTER.withName("Reserve"))
+                    onnxruntime_all_h.C_POINTER.withName("Reserve"),
+                    onnxruntime_all_h.C_POINTER.withName("GetStats"),
+                    onnxruntime_all_h.C_POINTER.withName("AllocOnStream"))
             .withName("OrtAllocator");
 
     /**
@@ -481,6 +485,208 @@ public class OrtAllocator {
      */
     public static void Reserve(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Reserve$LAYOUT, Reserve$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final class GetStats {
+
+        private GetStats() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetStats.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetStats.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetStats$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetStats"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final AddressLayout GetStats$layout() {
+        return GetStats$LAYOUT;
+    }
+
+    private static final long GetStats$OFFSET = $LAYOUT.byteOffset(groupElement("GetStats"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final long GetStats$offset() {
+        return GetStats$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static MemorySegment GetStats(MemorySegment struct) {
+        return struct.get(GetStats$LAYOUT, GetStats$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static void GetStats(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetStats$LAYOUT, GetStats$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *)
+     * }
+     */
+    public static final class AllocOnStream {
+
+        private AllocOnStream() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(AllocOnStream.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(AllocOnStream.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout AllocOnStream$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("AllocOnStream"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *)
+     * }
+     */
+    public static final AddressLayout AllocOnStream$layout() {
+        return AllocOnStream$LAYOUT;
+    }
+
+    private static final long AllocOnStream$OFFSET = $LAYOUT.byteOffset(groupElement("AllocOnStream"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *)
+     * }
+     */
+    public static final long AllocOnStream$offset() {
+        return AllocOnStream$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *)
+     * }
+     */
+    public static MemorySegment AllocOnStream(MemorySegment struct) {
+        return struct.get(AllocOnStream$LAYOUT, AllocOnStream$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *)
+     * }
+     */
+    public static void AllocOnStream(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(AllocOnStream$LAYOUT, AllocOnStream$OFFSET, fieldValue);
     }
 
     /**

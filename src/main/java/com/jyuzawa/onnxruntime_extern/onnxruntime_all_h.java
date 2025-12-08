@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 20L;
+    private static final int ORT_API_VERSION = (int) 23L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 20
+     * #define ORT_API_VERSION 23
      * }
      */
     public static int ORT_API_VERSION() {
@@ -587,6 +587,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return ORT_EP_FAIL;
     }
 
+    private static final int ORT_MODEL_LOAD_CANCELED = (int) 12L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_MODEL_LOAD_CANCELED = 12
+     * }
+     */
+    public static int ORT_MODEL_LOAD_CANCELED() {
+        return ORT_MODEL_LOAD_CANCELED;
+    }
+
+    private static final int ORT_MODEL_REQUIRES_COMPILATION = (int) 13L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_MODEL_REQUIRES_COMPILATION = 13
+     * }
+     */
+    public static int ORT_MODEL_REQUIRES_COMPILATION() {
+        return ORT_MODEL_REQUIRES_COMPILATION;
+    }
+
+    private static final int ORT_NOT_FOUND = (int) 14L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_NOT_FOUND = 14
+     * }
+     */
+    public static int ORT_NOT_FOUND() {
+        return ORT_NOT_FOUND;
+    }
+
     private static final int ORT_OP_ATTR_UNDEFINED = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -656,6 +686,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     public static int ORT_OP_ATTR_STRINGS() {
         return ORT_OP_ATTR_STRINGS;
     }
+
+    private static final int ORT_OP_ATTR_GRAPH = (int) 7L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtOpAttrType.ORT_OP_ATTR_GRAPH = 7
+     * }
+     */
+    public static int ORT_OP_ATTR_GRAPH() {
+        return ORT_OP_ATTR_GRAPH;
+    }
+
+    private static final int ORT_OP_ATTR_TENSOR = (int) 8L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtOpAttrType.ORT_OP_ATTR_TENSOR = 8
+     * }
+     */
+    public static int ORT_OP_ATTR_TENSOR() {
+        return ORT_OP_ATTR_TENSOR;
+    }
     /**
      * {@snippet lang=c :
      * typedef OrtStatus *OrtStatusPtr
@@ -691,6 +741,16 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int ORT_ENABLE_EXTENDED() {
         return ORT_ENABLE_EXTENDED;
+    }
+
+    private static final int ORT_ENABLE_LAYOUT = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum GraphOptimizationLevel.ORT_ENABLE_LAYOUT = 3
+     * }
+     */
+    public static int ORT_ENABLE_LAYOUT() {
+        return ORT_ENABLE_LAYOUT;
     }
 
     private static final int ORT_ENABLE_ALL = (int) 99L;
@@ -823,6 +883,16 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return OrtArenaAllocator;
     }
 
+    private static final int OrtReadOnlyAllocator = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtAllocatorType.OrtReadOnlyAllocator = 2
+     * }
+     */
+    public static int OrtReadOnlyAllocator() {
+        return OrtReadOnlyAllocator;
+    }
+
     private static final int OrtMemTypeCPUInput = (int) -2L;
     /**
      * {@snippet lang=c :
@@ -863,6 +933,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return OrtMemTypeDefault;
     }
 
+    private static final int OrtDeviceMemoryType_DEFAULT = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceMemoryType.OrtDeviceMemoryType_DEFAULT = 0
+     * }
+     */
+    public static int OrtDeviceMemoryType_DEFAULT() {
+        return OrtDeviceMemoryType_DEFAULT;
+    }
+
+    private static final int OrtDeviceMemoryType_HOST_ACCESSIBLE = (int) 5L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceMemoryType.OrtDeviceMemoryType_HOST_ACCESSIBLE = 5
+     * }
+     */
+    public static int OrtDeviceMemoryType_HOST_ACCESSIBLE() {
+        return OrtDeviceMemoryType_HOST_ACCESSIBLE;
+    }
+
     private static final int OrtMemoryInfoDeviceType_CPU = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -891,6 +981,116 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int OrtMemoryInfoDeviceType_FPGA() {
         return OrtMemoryInfoDeviceType_FPGA;
+    }
+
+    private static final int OrtMemoryInfoDeviceType_NPU = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtMemoryInfoDeviceType.OrtMemoryInfoDeviceType_NPU = 3
+     * }
+     */
+    public static int OrtMemoryInfoDeviceType_NPU() {
+        return OrtMemoryInfoDeviceType_NPU;
+    }
+
+    private static final int OrtHardwareDeviceType_CPU = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtHardwareDeviceType.OrtHardwareDeviceType_CPU = 0
+     * }
+     */
+    public static int OrtHardwareDeviceType_CPU() {
+        return OrtHardwareDeviceType_CPU;
+    }
+
+    private static final int OrtHardwareDeviceType_GPU = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtHardwareDeviceType.OrtHardwareDeviceType_GPU = 1
+     * }
+     */
+    public static int OrtHardwareDeviceType_GPU() {
+        return OrtHardwareDeviceType_GPU;
+    }
+
+    private static final int OrtHardwareDeviceType_NPU = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtHardwareDeviceType.OrtHardwareDeviceType_NPU = 2
+     * }
+     */
+    public static int OrtHardwareDeviceType_NPU() {
+        return OrtHardwareDeviceType_NPU;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_DEFAULT = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_DEFAULT = 0
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_DEFAULT() {
+        return OrtExecutionProviderDevicePolicy_DEFAULT;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_PREFER_CPU = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_PREFER_CPU = 1
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_PREFER_CPU() {
+        return OrtExecutionProviderDevicePolicy_PREFER_CPU;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_PREFER_NPU = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_PREFER_NPU = 2
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_PREFER_NPU() {
+        return OrtExecutionProviderDevicePolicy_PREFER_NPU;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_PREFER_GPU = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_PREFER_GPU = 3
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_PREFER_GPU() {
+        return OrtExecutionProviderDevicePolicy_PREFER_GPU;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_MAX_PERFORMANCE = (int) 4L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_MAX_PERFORMANCE = 4
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_MAX_PERFORMANCE() {
+        return OrtExecutionProviderDevicePolicy_MAX_PERFORMANCE;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_MAX_EFFICIENCY = (int) 5L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_MAX_EFFICIENCY = 5
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_MAX_EFFICIENCY() {
+        return OrtExecutionProviderDevicePolicy_MAX_EFFICIENCY;
+    }
+
+    private static final int OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER = (int) 6L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExecutionProviderDevicePolicy.OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER = 6
+     * }
+     */
+    public static int OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER() {
+        return OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER;
     }
 
     private static final int OrtCudnnConvAlgoSearchExhaustive = (int) 0L;
@@ -988,6 +1188,46 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static final AddressLayout OrtCustomThreadHandle = onnxruntime_all_h.C_POINTER;
 
+    private static final int OrtCompiledModelCompatibility_EP_NOT_APPLICABLE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompiledModelCompatibility.OrtCompiledModelCompatibility_EP_NOT_APPLICABLE = 0
+     * }
+     */
+    public static int OrtCompiledModelCompatibility_EP_NOT_APPLICABLE() {
+        return OrtCompiledModelCompatibility_EP_NOT_APPLICABLE;
+    }
+
+    private static final int OrtCompiledModelCompatibility_EP_SUPPORTED_OPTIMAL = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompiledModelCompatibility.OrtCompiledModelCompatibility_EP_SUPPORTED_OPTIMAL = 1
+     * }
+     */
+    public static int OrtCompiledModelCompatibility_EP_SUPPORTED_OPTIMAL() {
+        return OrtCompiledModelCompatibility_EP_SUPPORTED_OPTIMAL;
+    }
+
+    private static final int OrtCompiledModelCompatibility_EP_SUPPORTED_PREFER_RECOMPILATION = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompiledModelCompatibility.OrtCompiledModelCompatibility_EP_SUPPORTED_PREFER_RECOMPILATION = 2
+     * }
+     */
+    public static int OrtCompiledModelCompatibility_EP_SUPPORTED_PREFER_RECOMPILATION() {
+        return OrtCompiledModelCompatibility_EP_SUPPORTED_PREFER_RECOMPILATION;
+    }
+
+    private static final int OrtCompiledModelCompatibility_EP_UNSUPPORTED = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompiledModelCompatibility.OrtCompiledModelCompatibility_EP_UNSUPPORTED = 3
+     * }
+     */
+    public static int OrtCompiledModelCompatibility_EP_UNSUPPORTED() {
+        return OrtCompiledModelCompatibility_EP_UNSUPPORTED;
+    }
+
     private static final int INPUT_OUTPUT_REQUIRED = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -1016,6 +1256,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int INPUT_OUTPUT_VARIADIC() {
         return INPUT_OUTPUT_VARIADIC;
+    }
+
+    private static final int OrtCompileApiFlags_NONE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompileApiFlags.OrtCompileApiFlags_NONE = 0
+     * }
+     */
+    public static int OrtCompileApiFlags_NONE() {
+        return OrtCompileApiFlags_NONE;
+    }
+
+    private static final int OrtCompileApiFlags_ERROR_IF_NO_NODES_COMPILED = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompileApiFlags.OrtCompileApiFlags_ERROR_IF_NO_NODES_COMPILED = 1
+     * }
+     */
+    public static int OrtCompileApiFlags_ERROR_IF_NO_NODES_COMPILED() {
+        return OrtCompileApiFlags_ERROR_IF_NO_NODES_COMPILED;
+    }
+
+    private static final int OrtCompileApiFlags_ERROR_IF_OUTPUT_FILE_EXISTS = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtCompileApiFlags.OrtCompileApiFlags_ERROR_IF_OUTPUT_FILE_EXISTS = 2
+     * }
+     */
+    public static int OrtCompileApiFlags_ERROR_IF_OUTPUT_FILE_EXISTS() {
+        return OrtCompileApiFlags_ERROR_IF_OUTPUT_FILE_EXISTS;
     }
 
     private static class OrtSessionOptionsAppendExecutionProvider_CUDA {
@@ -1313,6 +1583,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
+    }
+
+    private static final int OrtEpDataLayout_NCHW = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtEpDataLayout.OrtEpDataLayout_NCHW = 0
+     * }
+     */
+    public static int OrtEpDataLayout_NCHW() {
+        return OrtEpDataLayout_NCHW;
+    }
+
+    private static final int OrtEpDataLayout_NHWC = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtEpDataLayout.OrtEpDataLayout_NHWC = 1
+     * }
+     */
+    public static int OrtEpDataLayout_NHWC() {
+        return OrtEpDataLayout_NHWC;
+    }
+
+    private static final int OrtEpDataLayout_Default = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtEpDataLayout.OrtEpDataLayout_Default = 0
+     * }
+     */
+    public static int OrtEpDataLayout_Default() {
+        return OrtEpDataLayout_Default;
     }
 
     private static final int COREML_FLAG_USE_NONE = (int) 0L;

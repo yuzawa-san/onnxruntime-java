@@ -4,9 +4,13 @@
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
+import static java.lang.foreign.ValueLayout.*;
+
 import java.lang.foreign.*;
 import java.lang.invoke.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 public class onnxruntime_all_h$shared {
@@ -32,9 +36,8 @@ public class onnxruntime_all_h$shared {
     public static final AddressLayout C_POINTER = ((AddressLayout)
                     Linker.nativeLinker().canonicalLayouts().get("void*"))
             .withTargetLayout(MemoryLayout.sequenceLayout(java.lang.Long.MAX_VALUE, C_CHAR));
-    public static final ValueLayout.OfLong C_LONG = (ValueLayout.OfLong) Linker.nativeLinker()
-            .canonicalLayouts()
-            .get(System.getProperty("os.name").contains("indows") ? "long long" : "long");
+    public static final ValueLayout.OfLong C_LONG =
+            (ValueLayout.OfLong) Linker.nativeLinker().canonicalLayouts().get("long");
 
     static final boolean TRACE_DOWNCALLS = Boolean.getBoolean("jextract.trace.downcalls");
 
