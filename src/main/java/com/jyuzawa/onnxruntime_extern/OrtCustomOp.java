@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -100,7 +100,7 @@ public class OrtCustomOp {
         return version$LAYOUT;
     }
 
-    private static final long version$OFFSET = 0;
+    private static final long version$OFFSET = $LAYOUT.byteOffset(groupElement("version"));
 
     /**
      * Offset for field:
@@ -137,9 +137,9 @@ public class OrtCustomOp {
      * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
      * }
      */
-    public static class CreateKernel {
+    public static final class CreateKernel {
 
-        CreateKernel() {
+        private CreateKernel() {
             // Should not be called directly
         }
 
@@ -183,16 +183,11 @@ public class OrtCustomOp {
                 MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static CreateKernel.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1, _x2) -> invoke(funcPtr, _x0, _x1, _x2);
         }
     }
 
@@ -209,7 +204,7 @@ public class OrtCustomOp {
         return CreateKernel$LAYOUT;
     }
 
-    private static final long CreateKernel$OFFSET = 8;
+    private static final long CreateKernel$OFFSET = $LAYOUT.byteOffset(groupElement("CreateKernel"));
 
     /**
      * Offset for field:
@@ -242,23 +237,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void *(*CreateKernel)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *)
-     * }
-     */
-    public static CreateKernel.Function CreateKernelFunction(MemorySegment struct) {
-        return CreateKernel.function(CreateKernel(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * const char *(*GetName)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetName {
+    public static final class GetName {
 
-        GetName() {
+        private GetName() {
             // Should not be called directly
         }
 
@@ -298,16 +283,11 @@ public class OrtCustomOp {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetName.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -323,7 +303,7 @@ public class OrtCustomOp {
         return GetName$LAYOUT;
     }
 
-    private static final long GetName$OFFSET = 16;
+    private static final long GetName$OFFSET = $LAYOUT.byteOffset(groupElement("GetName"));
 
     /**
      * Offset for field:
@@ -356,23 +336,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * const char *(*GetName)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetName.Function GetNameFunction(MemorySegment struct) {
-        return GetName.function(GetName(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetExecutionProviderType {
+    public static final class GetExecutionProviderType {
 
-        GetExecutionProviderType() {
+        private GetExecutionProviderType() {
             // Should not be called directly
         }
 
@@ -412,16 +382,11 @@ public class OrtCustomOp {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetExecutionProviderType.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -438,7 +403,8 @@ public class OrtCustomOp {
         return GetExecutionProviderType$LAYOUT;
     }
 
-    private static final long GetExecutionProviderType$OFFSET = 24;
+    private static final long GetExecutionProviderType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetExecutionProviderType"));
 
     /**
      * Offset for field:
@@ -471,23 +437,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * const char *(*GetExecutionProviderType)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetExecutionProviderType.Function GetExecutionProviderTypeFunction(MemorySegment struct) {
-        return GetExecutionProviderType.function(GetExecutionProviderType(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public static class GetInputType {
+    public static final class GetInputType {
 
-        GetInputType() {
+        private GetInputType() {
             // Should not be called directly
         }
 
@@ -527,16 +483,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetInputType.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -553,7 +504,7 @@ public class OrtCustomOp {
         return GetInputType$LAYOUT;
     }
 
-    private static final long GetInputType$OFFSET = 32;
+    private static final long GetInputType$OFFSET = $LAYOUT.byteOffset(groupElement("GetInputType"));
 
     /**
      * Offset for field:
@@ -586,23 +537,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * ONNXTensorElementDataType (*GetInputType)(const struct OrtCustomOp *, size_t)
-     * }
-     */
-    public static GetInputType.Function GetInputTypeFunction(MemorySegment struct) {
-        return GetInputType.function(GetInputType(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetInputTypeCount {
+    public static final class GetInputTypeCount {
 
-        GetInputTypeCount() {
+        private GetInputTypeCount() {
             // Should not be called directly
         }
 
@@ -642,16 +583,11 @@ public class OrtCustomOp {
         public static long invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (long) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetInputTypeCount.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -668,7 +604,7 @@ public class OrtCustomOp {
         return GetInputTypeCount$LAYOUT;
     }
 
-    private static final long GetInputTypeCount$OFFSET = 40;
+    private static final long GetInputTypeCount$OFFSET = $LAYOUT.byteOffset(groupElement("GetInputTypeCount"));
 
     /**
      * Offset for field:
@@ -701,23 +637,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * size_t (*GetInputTypeCount)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetInputTypeCount.Function GetInputTypeCountFunction(MemorySegment struct) {
-        return GetInputTypeCount.function(GetInputTypeCount(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public static class GetOutputType {
+    public static final class GetOutputType {
 
-        GetOutputType() {
+        private GetOutputType() {
             // Should not be called directly
         }
 
@@ -757,16 +683,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetOutputType.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -783,7 +704,7 @@ public class OrtCustomOp {
         return GetOutputType$LAYOUT;
     }
 
-    private static final long GetOutputType$OFFSET = 48;
+    private static final long GetOutputType$OFFSET = $LAYOUT.byteOffset(groupElement("GetOutputType"));
 
     /**
      * Offset for field:
@@ -816,23 +737,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * ONNXTensorElementDataType (*GetOutputType)(const struct OrtCustomOp *, size_t)
-     * }
-     */
-    public static GetOutputType.Function GetOutputTypeFunction(MemorySegment struct) {
-        return GetOutputType.function(GetOutputType(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetOutputTypeCount {
+    public static final class GetOutputTypeCount {
 
-        GetOutputTypeCount() {
+        private GetOutputTypeCount() {
             // Should not be called directly
         }
 
@@ -872,16 +783,11 @@ public class OrtCustomOp {
         public static long invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (long) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetOutputTypeCount.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -898,7 +804,7 @@ public class OrtCustomOp {
         return GetOutputTypeCount$LAYOUT;
     }
 
-    private static final long GetOutputTypeCount$OFFSET = 56;
+    private static final long GetOutputTypeCount$OFFSET = $LAYOUT.byteOffset(groupElement("GetOutputTypeCount"));
 
     /**
      * Offset for field:
@@ -931,23 +837,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * size_t (*GetOutputTypeCount)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetOutputTypeCount.Function GetOutputTypeCountFunction(MemorySegment struct) {
-        return GetOutputTypeCount.function(GetOutputTypeCount(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * void (*KernelCompute)(void *, OrtKernelContext *)
      * }
      */
-    public static class KernelCompute {
+    public static final class KernelCompute {
 
-        KernelCompute() {
+        private KernelCompute() {
             // Should not be called directly
         }
 
@@ -987,16 +883,11 @@ public class OrtCustomOp {
         public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static KernelCompute.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1013,7 +904,7 @@ public class OrtCustomOp {
         return KernelCompute$LAYOUT;
     }
 
-    private static final long KernelCompute$OFFSET = 64;
+    private static final long KernelCompute$OFFSET = $LAYOUT.byteOffset(groupElement("KernelCompute"));
 
     /**
      * Offset for field:
@@ -1046,23 +937,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void (*KernelCompute)(void *, OrtKernelContext *)
-     * }
-     */
-    public static KernelCompute.Function KernelComputeFunction(MemorySegment struct) {
-        return KernelCompute.function(KernelCompute(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * void (*KernelDestroy)(void *)
      * }
      */
-    public static class KernelDestroy {
+    public static final class KernelDestroy {
 
-        KernelDestroy() {
+        private KernelDestroy() {
             // Should not be called directly
         }
 
@@ -1101,16 +982,11 @@ public class OrtCustomOp {
         public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static KernelDestroy.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1127,7 +1003,7 @@ public class OrtCustomOp {
         return KernelDestroy$LAYOUT;
     }
 
-    private static final long KernelDestroy$OFFSET = 72;
+    private static final long KernelDestroy$OFFSET = $LAYOUT.byteOffset(groupElement("KernelDestroy"));
 
     /**
      * Offset for field:
@@ -1160,23 +1036,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void (*KernelDestroy)(void *)
-     * }
-     */
-    public static KernelDestroy.Function KernelDestroyFunction(MemorySegment struct) {
-        return KernelDestroy.function(KernelDestroy(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public static class GetInputCharacteristic {
+    public static final class GetInputCharacteristic {
 
-        GetInputCharacteristic() {
+        private GetInputCharacteristic() {
             // Should not be called directly
         }
 
@@ -1216,16 +1082,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetInputCharacteristic.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1242,7 +1103,8 @@ public class OrtCustomOp {
         return GetInputCharacteristic$LAYOUT;
     }
 
-    private static final long GetInputCharacteristic$OFFSET = 80;
+    private static final long GetInputCharacteristic$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetInputCharacteristic"));
 
     /**
      * Offset for field:
@@ -1275,23 +1137,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * OrtCustomOpInputOutputCharacteristic (*GetInputCharacteristic)(const struct OrtCustomOp *, size_t)
-     * }
-     */
-    public static GetInputCharacteristic.Function GetInputCharacteristicFunction(MemorySegment struct) {
-        return GetInputCharacteristic.function(GetInputCharacteristic(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public static class GetOutputCharacteristic {
+    public static final class GetOutputCharacteristic {
 
-        GetOutputCharacteristic() {
+        private GetOutputCharacteristic() {
             // Should not be called directly
         }
 
@@ -1331,16 +1183,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetOutputCharacteristic.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1357,7 +1204,8 @@ public class OrtCustomOp {
         return GetOutputCharacteristic$LAYOUT;
     }
 
-    private static final long GetOutputCharacteristic$OFFSET = 88;
+    private static final long GetOutputCharacteristic$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetOutputCharacteristic"));
 
     /**
      * Offset for field:
@@ -1390,23 +1238,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * OrtCustomOpInputOutputCharacteristic (*GetOutputCharacteristic)(const struct OrtCustomOp *, size_t)
-     * }
-     */
-    public static GetOutputCharacteristic.Function GetOutputCharacteristicFunction(MemorySegment struct) {
-        return GetOutputCharacteristic.function(GetOutputCharacteristic(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
      * }
      */
-    public static class GetInputMemoryType {
+    public static final class GetInputMemoryType {
 
-        GetInputMemoryType() {
+        private GetInputMemoryType() {
             // Should not be called directly
         }
 
@@ -1446,16 +1284,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetInputMemoryType.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -1472,7 +1305,7 @@ public class OrtCustomOp {
         return GetInputMemoryType$LAYOUT;
     }
 
-    private static final long GetInputMemoryType$OFFSET = 96;
+    private static final long GetInputMemoryType$OFFSET = $LAYOUT.byteOffset(groupElement("GetInputMemoryType"));
 
     /**
      * Offset for field:
@@ -1505,23 +1338,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * OrtMemType (*GetInputMemoryType)(const struct OrtCustomOp *, size_t)
-     * }
-     */
-    public static GetInputMemoryType.Function GetInputMemoryTypeFunction(MemorySegment struct) {
-        return GetInputMemoryType.function(GetInputMemoryType(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetVariadicInputMinArity {
+    public static final class GetVariadicInputMinArity {
 
-        GetVariadicInputMinArity() {
+        private GetVariadicInputMinArity() {
             // Should not be called directly
         }
 
@@ -1561,16 +1384,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetVariadicInputMinArity.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1587,7 +1405,8 @@ public class OrtCustomOp {
         return GetVariadicInputMinArity$LAYOUT;
     }
 
-    private static final long GetVariadicInputMinArity$OFFSET = 104;
+    private static final long GetVariadicInputMinArity$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetVariadicInputMinArity"));
 
     /**
      * Offset for field:
@@ -1620,23 +1439,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * int (*GetVariadicInputMinArity)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetVariadicInputMinArity.Function GetVariadicInputMinArityFunction(MemorySegment struct) {
-        return GetVariadicInputMinArity.function(GetVariadicInputMinArity(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetVariadicInputHomogeneity {
+    public static final class GetVariadicInputHomogeneity {
 
-        GetVariadicInputHomogeneity() {
+        private GetVariadicInputHomogeneity() {
             // Should not be called directly
         }
 
@@ -1676,16 +1485,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetVariadicInputHomogeneity.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1702,7 +1506,8 @@ public class OrtCustomOp {
         return GetVariadicInputHomogeneity$LAYOUT;
     }
 
-    private static final long GetVariadicInputHomogeneity$OFFSET = 112;
+    private static final long GetVariadicInputHomogeneity$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetVariadicInputHomogeneity"));
 
     /**
      * Offset for field:
@@ -1735,23 +1540,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * int (*GetVariadicInputHomogeneity)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetVariadicInputHomogeneity.Function GetVariadicInputHomogeneityFunction(MemorySegment struct) {
-        return GetVariadicInputHomogeneity.function(GetVariadicInputHomogeneity(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetVariadicOutputMinArity {
+    public static final class GetVariadicOutputMinArity {
 
-        GetVariadicOutputMinArity() {
+        private GetVariadicOutputMinArity() {
             // Should not be called directly
         }
 
@@ -1791,16 +1586,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetVariadicOutputMinArity.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1817,7 +1607,8 @@ public class OrtCustomOp {
         return GetVariadicOutputMinArity$LAYOUT;
     }
 
-    private static final long GetVariadicOutputMinArity$OFFSET = 120;
+    private static final long GetVariadicOutputMinArity$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetVariadicOutputMinArity"));
 
     /**
      * Offset for field:
@@ -1850,23 +1641,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * int (*GetVariadicOutputMinArity)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetVariadicOutputMinArity.Function GetVariadicOutputMinArityFunction(MemorySegment struct) {
-        return GetVariadicOutputMinArity.function(GetVariadicOutputMinArity(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetVariadicOutputHomogeneity {
+    public static final class GetVariadicOutputHomogeneity {
 
-        GetVariadicOutputHomogeneity() {
+        private GetVariadicOutputHomogeneity() {
             // Should not be called directly
         }
 
@@ -1906,16 +1687,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetVariadicOutputHomogeneity.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -1932,7 +1708,8 @@ public class OrtCustomOp {
         return GetVariadicOutputHomogeneity$LAYOUT;
     }
 
-    private static final long GetVariadicOutputHomogeneity$OFFSET = 128;
+    private static final long GetVariadicOutputHomogeneity$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetVariadicOutputHomogeneity"));
 
     /**
      * Offset for field:
@@ -1965,23 +1742,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * int (*GetVariadicOutputHomogeneity)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetVariadicOutputHomogeneity.Function GetVariadicOutputHomogeneityFunction(MemorySegment struct) {
-        return GetVariadicOutputHomogeneity.function(GetVariadicOutputHomogeneity(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
      * }
      */
-    public static class CreateKernelV2 {
+    public static final class CreateKernelV2 {
 
-        CreateKernelV2() {
+        private CreateKernelV2() {
             // Should not be called directly
         }
 
@@ -2026,16 +1793,11 @@ public class OrtCustomOp {
                 MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static CreateKernelV2.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1, _x2, _x3) -> invoke(funcPtr, _x0, _x1, _x2, _x3);
         }
     }
 
@@ -2052,7 +1814,7 @@ public class OrtCustomOp {
         return CreateKernelV2$LAYOUT;
     }
 
-    private static final long CreateKernelV2$OFFSET = 136;
+    private static final long CreateKernelV2$OFFSET = $LAYOUT.byteOffset(groupElement("CreateKernelV2"));
 
     /**
      * Offset for field:
@@ -2085,23 +1847,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * OrtStatusPtr (*CreateKernelV2)(const struct OrtCustomOp *, const OrtApi *, const OrtKernelInfo *, void **)
-     * }
-     */
-    public static CreateKernelV2.Function CreateKernelV2Function(MemorySegment struct) {
-        return CreateKernelV2.function(CreateKernelV2(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
      * }
      */
-    public static class KernelComputeV2 {
+    public static final class KernelComputeV2 {
 
-        KernelComputeV2() {
+        private KernelComputeV2() {
             // Should not be called directly
         }
 
@@ -2141,16 +1893,11 @@ public class OrtCustomOp {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static KernelComputeV2.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2167,7 +1914,7 @@ public class OrtCustomOp {
         return KernelComputeV2$LAYOUT;
     }
 
-    private static final long KernelComputeV2$OFFSET = 144;
+    private static final long KernelComputeV2$OFFSET = $LAYOUT.byteOffset(groupElement("KernelComputeV2"));
 
     /**
      * Offset for field:
@@ -2200,23 +1947,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * OrtStatusPtr (*KernelComputeV2)(void *, OrtKernelContext *)
-     * }
-     */
-    public static KernelComputeV2.Function KernelComputeV2Function(MemorySegment struct) {
-        return KernelComputeV2.function(KernelComputeV2(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
      * }
      */
-    public static class InferOutputShapeFn {
+    public static final class InferOutputShapeFn {
 
-        InferOutputShapeFn() {
+        private InferOutputShapeFn() {
             // Should not be called directly
         }
 
@@ -2256,16 +1993,11 @@ public class OrtCustomOp {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static InferOutputShapeFn.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2282,7 +2014,7 @@ public class OrtCustomOp {
         return InferOutputShapeFn$LAYOUT;
     }
 
-    private static final long InferOutputShapeFn$OFFSET = 152;
+    private static final long InferOutputShapeFn$OFFSET = $LAYOUT.byteOffset(groupElement("InferOutputShapeFn"));
 
     /**
      * Offset for field:
@@ -2315,23 +2047,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * OrtStatusPtr (*InferOutputShapeFn)(const struct OrtCustomOp *, OrtShapeInferContext *)
-     * }
-     */
-    public static InferOutputShapeFn.Function InferOutputShapeFnFunction(MemorySegment struct) {
-        return InferOutputShapeFn.function(InferOutputShapeFn(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * int (*GetStartVersion)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetStartVersion {
+    public static final class GetStartVersion {
 
-        GetStartVersion() {
+        private GetStartVersion() {
             // Should not be called directly
         }
 
@@ -2371,16 +2093,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetStartVersion.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -2397,7 +2114,7 @@ public class OrtCustomOp {
         return GetStartVersion$LAYOUT;
     }
 
-    private static final long GetStartVersion$OFFSET = 160;
+    private static final long GetStartVersion$OFFSET = $LAYOUT.byteOffset(groupElement("GetStartVersion"));
 
     /**
      * Offset for field:
@@ -2430,23 +2147,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * int (*GetStartVersion)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetStartVersion.Function GetStartVersionFunction(MemorySegment struct) {
-        return GetStartVersion.function(GetStartVersion(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * int (*GetEndVersion)(const struct OrtCustomOp *)
      * }
      */
-    public static class GetEndVersion {
+    public static final class GetEndVersion {
 
-        GetEndVersion() {
+        private GetEndVersion() {
             // Should not be called directly
         }
 
@@ -2486,16 +2193,11 @@ public class OrtCustomOp {
         public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetEndVersion.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -2512,7 +2214,7 @@ public class OrtCustomOp {
         return GetEndVersion$LAYOUT;
     }
 
-    private static final long GetEndVersion$OFFSET = 168;
+    private static final long GetEndVersion$OFFSET = $LAYOUT.byteOffset(groupElement("GetEndVersion"));
 
     /**
      * Offset for field:
@@ -2545,23 +2247,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * int (*GetEndVersion)(const struct OrtCustomOp *)
-     * }
-     */
-    public static GetEndVersion.Function GetEndVersionFunction(MemorySegment struct) {
-        return GetEndVersion.function(GetEndVersion(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * size_t (*GetMayInplace)(int **, int **)
      * }
      */
-    public static class GetMayInplace {
+    public static final class GetMayInplace {
 
-        GetMayInplace() {
+        private GetMayInplace() {
             // Should not be called directly
         }
 
@@ -2601,16 +2293,11 @@ public class OrtCustomOp {
         public static long invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 return (long) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetMayInplace.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2627,7 +2314,7 @@ public class OrtCustomOp {
         return GetMayInplace$LAYOUT;
     }
 
-    private static final long GetMayInplace$OFFSET = 176;
+    private static final long GetMayInplace$OFFSET = $LAYOUT.byteOffset(groupElement("GetMayInplace"));
 
     /**
      * Offset for field:
@@ -2660,23 +2347,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * size_t (*GetMayInplace)(int **, int **)
-     * }
-     */
-    public static GetMayInplace.Function GetMayInplaceFunction(MemorySegment struct) {
-        return GetMayInplace.function(GetMayInplace(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * void (*ReleaseMayInplace)(int *, int *)
      * }
      */
-    public static class ReleaseMayInplace {
+    public static final class ReleaseMayInplace {
 
-        ReleaseMayInplace() {
+        private ReleaseMayInplace() {
             // Should not be called directly
         }
 
@@ -2716,16 +2393,11 @@ public class OrtCustomOp {
         public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static ReleaseMayInplace.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2742,7 +2414,7 @@ public class OrtCustomOp {
         return ReleaseMayInplace$LAYOUT;
     }
 
-    private static final long ReleaseMayInplace$OFFSET = 184;
+    private static final long ReleaseMayInplace$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseMayInplace"));
 
     /**
      * Offset for field:
@@ -2775,23 +2447,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void (*ReleaseMayInplace)(int *, int *)
-     * }
-     */
-    public static ReleaseMayInplace.Function ReleaseMayInplaceFunction(MemorySegment struct) {
-        return ReleaseMayInplace.function(ReleaseMayInplace(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * size_t (*GetAliasMap)(int **, int **)
      * }
      */
-    public static class GetAliasMap {
+    public static final class GetAliasMap {
 
-        GetAliasMap() {
+        private GetAliasMap() {
             // Should not be called directly
         }
 
@@ -2831,16 +2493,11 @@ public class OrtCustomOp {
         public static long invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 return (long) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetAliasMap.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2856,7 +2513,7 @@ public class OrtCustomOp {
         return GetAliasMap$LAYOUT;
     }
 
-    private static final long GetAliasMap$OFFSET = 192;
+    private static final long GetAliasMap$OFFSET = $LAYOUT.byteOffset(groupElement("GetAliasMap"));
 
     /**
      * Offset for field:
@@ -2889,23 +2546,13 @@ public class OrtCustomOp {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * size_t (*GetAliasMap)(int **, int **)
-     * }
-     */
-    public static GetAliasMap.Function GetAliasMapFunction(MemorySegment struct) {
-        return GetAliasMap.function(GetAliasMap(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * void (*ReleaseAliasMap)(int *, int *)
      * }
      */
-    public static class ReleaseAliasMap {
+    public static final class ReleaseAliasMap {
 
-        ReleaseAliasMap() {
+        private ReleaseAliasMap() {
             // Should not be called directly
         }
 
@@ -2945,16 +2592,11 @@ public class OrtCustomOp {
         public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static ReleaseAliasMap.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -2971,7 +2613,7 @@ public class OrtCustomOp {
         return ReleaseAliasMap$LAYOUT;
     }
 
-    private static final long ReleaseAliasMap$OFFSET = 200;
+    private static final long ReleaseAliasMap$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseAliasMap"));
 
     /**
      * Offset for field:
@@ -3001,16 +2643,6 @@ public class OrtCustomOp {
      */
     public static void ReleaseAliasMap(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseAliasMap$LAYOUT, ReleaseAliasMap$OFFSET, fieldValue);
-    }
-
-    /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void (*ReleaseAliasMap)(int *, int *)
-     * }
-     */
-    public static ReleaseAliasMap.Function ReleaseAliasMapFunction(MemorySegment struct) {
-        return ReleaseAliasMap.function(ReleaseAliasMap(struct));
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -18,9 +18,9 @@ import java.util.stream.*;
  * typedef OrtCustomThreadHandle (*OrtCustomCreateThreadFn)(void *, OrtThreadWorkerFn, void *)
  * }
  */
-public class OrtCustomCreateThreadFn {
+public final class OrtCustomCreateThreadFn {
 
-    OrtCustomCreateThreadFn() {
+    private OrtCustomCreateThreadFn() {
         // Should not be called directly
     }
 
@@ -71,16 +71,10 @@ public class OrtCustomCreateThreadFn {
         try {
             return (MemorySegment) DOWN$MH.invokeExact(
                     funcPtr, ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static OrtCustomCreateThreadFn.Function function(MemorySegment funcPtr) {
-        return (ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param) ->
-                invoke(funcPtr, ort_custom_thread_creation_options, ort_thread_worker_fn, ort_worker_fn_param);
     }
 }

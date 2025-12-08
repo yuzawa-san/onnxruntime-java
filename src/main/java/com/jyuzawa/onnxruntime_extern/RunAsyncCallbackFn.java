@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -18,9 +18,9 @@ import java.util.stream.*;
  * typedef void (*RunAsyncCallbackFn)(void *, OrtValue **, size_t, OrtStatusPtr)
  * }
  */
-public class RunAsyncCallbackFn {
+public final class RunAsyncCallbackFn {
 
-    RunAsyncCallbackFn() {
+    private RunAsyncCallbackFn() {
         // Should not be called directly
     }
 
@@ -68,15 +68,10 @@ public class RunAsyncCallbackFn {
             MemorySegment status) {
         try {
             DOWN$MH.invokeExact(funcPtr, user_data, outputs, num_outputs, status);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static RunAsyncCallbackFn.Function function(MemorySegment funcPtr) {
-        return (user_data, outputs, num_outputs, status) -> invoke(funcPtr, user_data, outputs, num_outputs, status);
     }
 }

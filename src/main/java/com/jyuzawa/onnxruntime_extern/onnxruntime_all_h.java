@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -13,46 +13,13 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-public class onnxruntime_all_h {
+public class onnxruntime_all_h extends onnxruntime_all_h$shared {
 
     onnxruntime_all_h() {
         // Should not be called directly
     }
 
     static final Arena LIBRARY_ARENA = Arena.ofAuto();
-    static final boolean TRACE_DOWNCALLS = Boolean.getBoolean("jextract.trace.downcalls");
-
-    static void traceDowncall(String name, Object... args) {
-        String traceArgs = Arrays.stream(args).map(Object::toString).collect(Collectors.joining(", "));
-        System.out.printf("%s(%s)\n", name, traceArgs);
-    }
-
-    static MemorySegment findOrThrow(String symbol) {
-        return SYMBOL_LOOKUP.find(symbol).orElseThrow(() -> new UnsatisfiedLinkError("unresolved symbol: " + symbol));
-    }
-
-    static MethodHandle upcallHandle(Class<?> fi, String name, FunctionDescriptor fdesc) {
-        try {
-            return MethodHandles.lookup().findVirtual(fi, name, fdesc.toMethodType());
-        } catch (ReflectiveOperationException ex) {
-            throw new AssertionError(ex);
-        }
-    }
-
-    static MemoryLayout align(MemoryLayout layout, long align) {
-        return switch (layout) {
-            case PaddingLayout p -> p;
-            case ValueLayout v -> v.withByteAlignment(align);
-            case GroupLayout g -> {
-                MemoryLayout[] alignedMembers =
-                        g.memberLayouts().stream().map(m -> align(m, align)).toArray(MemoryLayout[]::new);
-                yield g instanceof StructLayout
-                        ? MemoryLayout.structLayout(alignedMembers)
-                        : MemoryLayout.unionLayout(alignedMembers);
-            }
-            case SequenceLayout s -> MemoryLayout.sequenceLayout(s.elementCount(), align(s.elementLayout(), align));
-        };
-    }
 
     static {
     }
@@ -60,16 +27,6 @@ public class onnxruntime_all_h {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    public static final ValueLayout.OfBoolean C_BOOL = ValueLayout.JAVA_BOOLEAN;
-    public static final ValueLayout.OfByte C_CHAR = ValueLayout.JAVA_BYTE;
-    public static final ValueLayout.OfShort C_SHORT = ValueLayout.JAVA_SHORT;
-    public static final ValueLayout.OfInt C_INT = ValueLayout.JAVA_INT;
-    public static final ValueLayout.OfLong C_LONG_LONG = ValueLayout.JAVA_LONG;
-    public static final ValueLayout.OfFloat C_FLOAT = ValueLayout.JAVA_FLOAT;
-    public static final ValueLayout.OfDouble C_DOUBLE = ValueLayout.JAVA_DOUBLE;
-    public static final AddressLayout C_POINTER =
-            ValueLayout.ADDRESS.withTargetLayout(MemoryLayout.sequenceLayout(java.lang.Long.MAX_VALUE, JAVA_BYTE));
-    public static final ValueLayout.OfLong C_LONG = ValueLayout.JAVA_LONG;
     private static final int ORT_API_VERSION = (int) 20L;
     /**
      * {@snippet lang=c :
@@ -969,7 +926,7 @@ public class onnxruntime_all_h {
     private static class OrtGetApiBase {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
 
-        public static final MemorySegment ADDR = onnxruntime_all_h.findOrThrow("OrtGetApiBase");
+        public static final MemorySegment ADDR = SYMBOL_LOOKUP.findOrThrow("OrtGetApiBase");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1016,6 +973,8 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtGetApiBase");
             }
             return (MemorySegment) mh$.invokeExact();
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -1064,7 +1023,7 @@ public class onnxruntime_all_h {
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
         public static final MemorySegment ADDR =
-                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CUDA");
+                SYMBOL_LOOKUP.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CUDA");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1111,6 +1070,8 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtSessionOptionsAppendExecutionProvider_CUDA", options, device_id);
             }
             return (MemorySegment) mh$.invokeExact(options, device_id);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -1121,7 +1082,7 @@ public class onnxruntime_all_h {
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
         public static final MemorySegment ADDR =
-                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_ROCM");
+                SYMBOL_LOOKUP.findOrThrow("OrtSessionOptionsAppendExecutionProvider_ROCM");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1168,6 +1129,8 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtSessionOptionsAppendExecutionProvider_ROCM", options, device_id);
             }
             return (MemorySegment) mh$.invokeExact(options, device_id);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -1178,7 +1141,7 @@ public class onnxruntime_all_h {
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
         public static final MemorySegment ADDR =
-                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_MIGraphX");
+                SYMBOL_LOOKUP.findOrThrow("OrtSessionOptionsAppendExecutionProvider_MIGraphX");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1226,6 +1189,8 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtSessionOptionsAppendExecutionProvider_MIGraphX", options, device_id);
             }
             return (MemorySegment) mh$.invokeExact(options, device_id);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -1236,7 +1201,7 @@ public class onnxruntime_all_h {
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
         public static final MemorySegment ADDR =
-                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Dnnl");
+                SYMBOL_LOOKUP.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Dnnl");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1283,6 +1248,8 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtSessionOptionsAppendExecutionProvider_Dnnl", options, use_arena);
             }
             return (MemorySegment) mh$.invokeExact(options, use_arena);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -1293,7 +1260,7 @@ public class onnxruntime_all_h {
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
         public static final MemorySegment ADDR =
-                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Tensorrt");
+                SYMBOL_LOOKUP.findOrThrow("OrtSessionOptionsAppendExecutionProvider_Tensorrt");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1341,6 +1308,8 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtSessionOptionsAppendExecutionProvider_Tensorrt", options, device_id);
             }
             return (MemorySegment) mh$.invokeExact(options, device_id);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -1431,7 +1400,7 @@ public class onnxruntime_all_h {
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
 
         public static final MemorySegment ADDR =
-                onnxruntime_all_h.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CoreML");
+                SYMBOL_LOOKUP.findOrThrow("OrtSessionOptionsAppendExecutionProvider_CoreML");
 
         public static final MethodHandle HANDLE = Linker.nativeLinker().downcallHandle(ADDR, DESC);
     }
@@ -1479,19 +1448,20 @@ public class onnxruntime_all_h {
                 traceDowncall("OrtSessionOptionsAppendExecutionProvider_CoreML", options, coreml_flags);
             }
             return (MemorySegment) mh$.invokeExact(options, coreml_flags);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
     }
     /**
      * {@snippet lang=c :
-     * #define ORT_FILE "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$120974830120199492.h"
+     * #define ORT_FILE "jextract$macro.h"
      * }
      */
     public static MemorySegment ORT_FILE() {
         class Holder {
-            static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom(
-                    "/var/folders/_0/vb3rmc0x05xfzm34qqcsmqk40000gn/T/jextract$120974830120199492.h");
+            static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom("jextract$macro.h");
         }
         return Holder.ORT_FILE;
     }

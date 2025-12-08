@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -49,7 +49,7 @@ public class OrtCustomHandleType {
         return __place_holder$LAYOUT;
     }
 
-    private static final long __place_holder$OFFSET = 0;
+    private static final long __place_holder$OFFSET = $LAYOUT.byteOffset(groupElement("__place_holder"));
 
     /**
      * Offset for field:

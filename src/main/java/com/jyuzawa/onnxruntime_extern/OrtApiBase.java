@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -44,9 +44,9 @@ public class OrtApiBase {
      * const OrtApi *(*GetApi)(uint32_t)
      * }
      */
-    public static class GetApi {
+    public static final class GetApi {
 
-        GetApi() {
+        private GetApi() {
             // Should not be called directly
         }
 
@@ -85,16 +85,11 @@ public class OrtApiBase {
         public static MemorySegment invoke(MemorySegment funcPtr, int _x0) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetApi.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -110,7 +105,7 @@ public class OrtApiBase {
         return GetApi$LAYOUT;
     }
 
-    private static final long GetApi$OFFSET = 0;
+    private static final long GetApi$OFFSET = $LAYOUT.byteOffset(groupElement("GetApi"));
 
     /**
      * Offset for field:
@@ -143,23 +138,13 @@ public class OrtApiBase {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * const OrtApi *(*GetApi)(uint32_t)
-     * }
-     */
-    public static GetApi.Function GetApiFunction(MemorySegment struct) {
-        return GetApi.function(GetApi(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * const char *(*GetVersionString)(void)
      * }
      */
-    public static class GetVersionString {
+    public static final class GetVersionString {
 
-        GetVersionString() {
+        private GetVersionString() {
             // Should not be called directly
         }
 
@@ -198,16 +183,11 @@ public class OrtApiBase {
         public static MemorySegment invoke(MemorySegment funcPtr) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static GetVersionString.Function function(MemorySegment funcPtr) {
-            return () -> invoke(funcPtr);
         }
     }
 
@@ -224,7 +204,7 @@ public class OrtApiBase {
         return GetVersionString$LAYOUT;
     }
 
-    private static final long GetVersionString$OFFSET = 8;
+    private static final long GetVersionString$OFFSET = $LAYOUT.byteOffset(groupElement("GetVersionString"));
 
     /**
      * Offset for field:
@@ -254,16 +234,6 @@ public class OrtApiBase {
      */
     public static void GetVersionString(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetVersionString$LAYOUT, GetVersionString$OFFSET, fieldValue);
-    }
-
-    /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * const char *(*GetVersionString)(void)
-     * }
-     */
-    public static GetVersionString.Function GetVersionStringFunction(MemorySegment struct) {
-        return GetVersionString.function(GetVersionString(struct));
     }
 
     /**

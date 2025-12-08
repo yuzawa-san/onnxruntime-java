@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -18,9 +18,9 @@ import java.util.stream.*;
  * typedef void (*OrtThreadWorkerFn)(void *)
  * }
  */
-public class OrtThreadWorkerFn {
+public final class OrtThreadWorkerFn {
 
-    OrtThreadWorkerFn() {
+    private OrtThreadWorkerFn() {
         // Should not be called directly
     }
 
@@ -59,15 +59,10 @@ public class OrtThreadWorkerFn {
     public static void invoke(MemorySegment funcPtr, MemorySegment ort_worker_fn_param) {
         try {
             DOWN$MH.invokeExact(funcPtr, ort_worker_fn_param);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static OrtThreadWorkerFn.Function function(MemorySegment funcPtr) {
-        return (ort_worker_fn_param) -> invoke(funcPtr, ort_worker_fn_param);
     }
 }
