@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -71,7 +71,7 @@ public class OrtCUDAProviderOptions {
         return device_id$LAYOUT;
     }
 
-    private static final long device_id$OFFSET = 0;
+    private static final long device_id$OFFSET = $LAYOUT.byteOffset(groupElement("device_id"));
 
     /**
      * Offset for field:
@@ -116,7 +116,8 @@ public class OrtCUDAProviderOptions {
         return cudnn_conv_algo_search$LAYOUT;
     }
 
-    private static final long cudnn_conv_algo_search$OFFSET = 4;
+    private static final long cudnn_conv_algo_search$OFFSET =
+            $LAYOUT.byteOffset(groupElement("cudnn_conv_algo_search"));
 
     /**
      * Offset for field:
@@ -160,7 +161,7 @@ public class OrtCUDAProviderOptions {
         return gpu_mem_limit$LAYOUT;
     }
 
-    private static final long gpu_mem_limit$OFFSET = 8;
+    private static final long gpu_mem_limit$OFFSET = $LAYOUT.byteOffset(groupElement("gpu_mem_limit"));
 
     /**
      * Offset for field:
@@ -205,7 +206,7 @@ public class OrtCUDAProviderOptions {
         return arena_extend_strategy$LAYOUT;
     }
 
-    private static final long arena_extend_strategy$OFFSET = 16;
+    private static final long arena_extend_strategy$OFFSET = $LAYOUT.byteOffset(groupElement("arena_extend_strategy"));
 
     /**
      * Offset for field:
@@ -250,7 +251,8 @@ public class OrtCUDAProviderOptions {
         return do_copy_in_default_stream$LAYOUT;
     }
 
-    private static final long do_copy_in_default_stream$OFFSET = 20;
+    private static final long do_copy_in_default_stream$OFFSET =
+            $LAYOUT.byteOffset(groupElement("do_copy_in_default_stream"));
 
     /**
      * Offset for field:
@@ -295,7 +297,8 @@ public class OrtCUDAProviderOptions {
         return has_user_compute_stream$LAYOUT;
     }
 
-    private static final long has_user_compute_stream$OFFSET = 24;
+    private static final long has_user_compute_stream$OFFSET =
+            $LAYOUT.byteOffset(groupElement("has_user_compute_stream"));
 
     /**
      * Offset for field:
@@ -340,7 +343,7 @@ public class OrtCUDAProviderOptions {
         return user_compute_stream$LAYOUT;
     }
 
-    private static final long user_compute_stream$OFFSET = 32;
+    private static final long user_compute_stream$OFFSET = $LAYOUT.byteOffset(groupElement("user_compute_stream"));
 
     /**
      * Offset for field:
@@ -385,7 +388,8 @@ public class OrtCUDAProviderOptions {
         return default_memory_arena_cfg$LAYOUT;
     }
 
-    private static final long default_memory_arena_cfg$OFFSET = 40;
+    private static final long default_memory_arena_cfg$OFFSET =
+            $LAYOUT.byteOffset(groupElement("default_memory_arena_cfg"));
 
     /**
      * Offset for field:
@@ -429,7 +433,7 @@ public class OrtCUDAProviderOptions {
         return tunable_op_enable$LAYOUT;
     }
 
-    private static final long tunable_op_enable$OFFSET = 48;
+    private static final long tunable_op_enable$OFFSET = $LAYOUT.byteOffset(groupElement("tunable_op_enable"));
 
     /**
      * Offset for field:
@@ -474,7 +478,8 @@ public class OrtCUDAProviderOptions {
         return tunable_op_tuning_enable$LAYOUT;
     }
 
-    private static final long tunable_op_tuning_enable$OFFSET = 52;
+    private static final long tunable_op_tuning_enable$OFFSET =
+            $LAYOUT.byteOffset(groupElement("tunable_op_tuning_enable"));
 
     /**
      * Offset for field:
@@ -519,7 +524,8 @@ public class OrtCUDAProviderOptions {
         return tunable_op_max_tuning_duration_ms$LAYOUT;
     }
 
-    private static final long tunable_op_max_tuning_duration_ms$OFFSET = 56;
+    private static final long tunable_op_max_tuning_duration_ms$OFFSET =
+            $LAYOUT.byteOffset(groupElement("tunable_op_max_tuning_duration_ms"));
 
     /**
      * Offset for field:

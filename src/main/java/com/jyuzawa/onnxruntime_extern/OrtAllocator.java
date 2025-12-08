@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -58,7 +58,7 @@ public class OrtAllocator {
         return version$LAYOUT;
     }
 
-    private static final long version$OFFSET = 0;
+    private static final long version$OFFSET = $LAYOUT.byteOffset(groupElement("version"));
 
     /**
      * Offset for field:
@@ -95,9 +95,9 @@ public class OrtAllocator {
      * void *(*Alloc)(struct OrtAllocator *, size_t)
      * }
      */
-    public static class Alloc {
+    public static final class Alloc {
 
-        Alloc() {
+        private Alloc() {
             // Should not be called directly
         }
 
@@ -136,16 +136,11 @@ public class OrtAllocator {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static Alloc.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -161,7 +156,7 @@ public class OrtAllocator {
         return Alloc$LAYOUT;
     }
 
-    private static final long Alloc$OFFSET = 8;
+    private static final long Alloc$OFFSET = $LAYOUT.byteOffset(groupElement("Alloc"));
 
     /**
      * Offset for field:
@@ -194,23 +189,13 @@ public class OrtAllocator {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void *(*Alloc)(struct OrtAllocator *, size_t)
-     * }
-     */
-    public static Alloc.Function AllocFunction(MemorySegment struct) {
-        return Alloc.function(Alloc(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * void (*Free)(struct OrtAllocator *, void *)
      * }
      */
-    public static class Free {
+    public static final class Free {
 
-        Free() {
+        private Free() {
             // Should not be called directly
         }
 
@@ -249,16 +234,11 @@ public class OrtAllocator {
         public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
             try {
                 DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static Free.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -274,7 +254,7 @@ public class OrtAllocator {
         return Free$LAYOUT;
     }
 
-    private static final long Free$OFFSET = 16;
+    private static final long Free$OFFSET = $LAYOUT.byteOffset(groupElement("Free"));
 
     /**
      * Offset for field:
@@ -307,23 +287,13 @@ public class OrtAllocator {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void (*Free)(struct OrtAllocator *, void *)
-     * }
-     */
-    public static Free.Function FreeFunction(MemorySegment struct) {
-        return Free.function(Free(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * const struct OrtMemoryInfo *(*Info)(const struct OrtAllocator *)
      * }
      */
-    public static class Info {
+    public static final class Info {
 
-        Info() {
+        private Info() {
             // Should not be called directly
         }
 
@@ -362,16 +332,11 @@ public class OrtAllocator {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static Info.Function function(MemorySegment funcPtr) {
-            return (_x0) -> invoke(funcPtr, _x0);
         }
     }
 
@@ -387,7 +352,7 @@ public class OrtAllocator {
         return Info$LAYOUT;
     }
 
-    private static final long Info$OFFSET = 24;
+    private static final long Info$OFFSET = $LAYOUT.byteOffset(groupElement("Info"));
 
     /**
      * Offset for field:
@@ -420,23 +385,13 @@ public class OrtAllocator {
     }
 
     /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * const struct OrtMemoryInfo *(*Info)(const struct OrtAllocator *)
-     * }
-     */
-    public static Info.Function InfoFunction(MemorySegment struct) {
-        return Info.function(Info(struct));
-    }
-
-    /**
      * {@snippet lang=c :
      * void *(*Reserve)(struct OrtAllocator *, size_t)
      * }
      */
-    public static class Reserve {
+    public static final class Reserve {
 
-        Reserve() {
+        private Reserve() {
             // Should not be called directly
         }
 
@@ -476,16 +431,11 @@ public class OrtAllocator {
         public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
             } catch (Throwable ex$) {
                 throw new AssertionError("should not reach here", ex$);
             }
-        }
-
-        /**
-         * Get an implementation of the function interface from a function pointer.
-         */
-        public static Reserve.Function function(MemorySegment funcPtr) {
-            return (_x0, _x1) -> invoke(funcPtr, _x0, _x1);
         }
     }
 
@@ -501,7 +451,7 @@ public class OrtAllocator {
         return Reserve$LAYOUT;
     }
 
-    private static final long Reserve$OFFSET = 32;
+    private static final long Reserve$OFFSET = $LAYOUT.byteOffset(groupElement("Reserve"));
 
     /**
      * Offset for field:
@@ -531,16 +481,6 @@ public class OrtAllocator {
      */
     public static void Reserve(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(Reserve$LAYOUT, Reserve$OFFSET, fieldValue);
-    }
-
-    /**
-     * Functional interface getter for field:
-     * {@snippet lang=c :
-     * void *(*Reserve)(struct OrtAllocator *, size_t)
-     * }
-     */
-    public static Reserve.Function ReserveFunction(MemorySegment struct) {
-        return Reserve.function(Reserve(struct));
     }
 
     /**

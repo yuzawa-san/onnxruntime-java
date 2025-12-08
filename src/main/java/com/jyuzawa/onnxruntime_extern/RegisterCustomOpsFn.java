@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -18,9 +18,9 @@ import java.util.stream.*;
  * typedef OrtStatus *(*RegisterCustomOpsFn)(OrtSessionOptions *, const OrtApiBase *)
  * }
  */
-public class RegisterCustomOpsFn {
+public final class RegisterCustomOpsFn {
 
-    RegisterCustomOpsFn() {
+    private RegisterCustomOpsFn() {
         // Should not be called directly
     }
 
@@ -60,15 +60,10 @@ public class RegisterCustomOpsFn {
     public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment options, MemorySegment api) {
         try {
             return (MemorySegment) DOWN$MH.invokeExact(funcPtr, options, api);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static RegisterCustomOpsFn.Function function(MemorySegment funcPtr) {
-        return (options, api) -> invoke(funcPtr, options, api);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -18,9 +18,9 @@ import java.util.stream.*;
  * typedef void (*OrtLoggingFunction)(void *, OrtLoggingLevel, const char *, const char *, const char *, const char *)
  * }
  */
-public class OrtLoggingFunction {
+public final class OrtLoggingFunction {
 
-    OrtLoggingFunction() {
+    private OrtLoggingFunction() {
         // Should not be called directly
     }
 
@@ -78,16 +78,10 @@ public class OrtLoggingFunction {
             MemorySegment message) {
         try {
             DOWN$MH.invokeExact(funcPtr, param, severity, category, logid, code_location, message);
+        } catch (Error | RuntimeException ex) {
+            throw ex;
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
-    }
-
-    /**
-     * Get an implementation of the function interface from a function pointer.
-     */
-    public static OrtLoggingFunction.Function function(MemorySegment funcPtr) {
-        return (param, severity, category, logid, code_location, message) ->
-                invoke(funcPtr, param, severity, category, logid, code_location, message);
     }
 }

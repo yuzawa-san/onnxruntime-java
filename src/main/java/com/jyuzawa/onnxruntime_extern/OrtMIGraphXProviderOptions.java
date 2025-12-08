@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -70,7 +70,7 @@ public class OrtMIGraphXProviderOptions {
         return device_id$LAYOUT;
     }
 
-    private static final long device_id$OFFSET = 0;
+    private static final long device_id$OFFSET = $LAYOUT.byteOffset(groupElement("device_id"));
 
     /**
      * Offset for field:
@@ -115,7 +115,7 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_fp16_enable$LAYOUT;
     }
 
-    private static final long migraphx_fp16_enable$OFFSET = 4;
+    private static final long migraphx_fp16_enable$OFFSET = $LAYOUT.byteOffset(groupElement("migraphx_fp16_enable"));
 
     /**
      * Offset for field:
@@ -160,7 +160,7 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_int8_enable$LAYOUT;
     }
 
-    private static final long migraphx_int8_enable$OFFSET = 8;
+    private static final long migraphx_int8_enable$OFFSET = $LAYOUT.byteOffset(groupElement("migraphx_int8_enable"));
 
     /**
      * Offset for field:
@@ -205,7 +205,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_use_native_calibration_table$LAYOUT;
     }
 
-    private static final long migraphx_use_native_calibration_table$OFFSET = 12;
+    private static final long migraphx_use_native_calibration_table$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_use_native_calibration_table"));
 
     /**
      * Offset for field:
@@ -251,7 +252,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_int8_calibration_table_name$LAYOUT;
     }
 
-    private static final long migraphx_int8_calibration_table_name$OFFSET = 16;
+    private static final long migraphx_int8_calibration_table_name$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_int8_calibration_table_name"));
 
     /**
      * Offset for field:
@@ -297,7 +299,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_save_compiled_model$LAYOUT;
     }
 
-    private static final long migraphx_save_compiled_model$OFFSET = 24;
+    private static final long migraphx_save_compiled_model$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_save_compiled_model"));
 
     /**
      * Offset for field:
@@ -342,7 +345,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_save_model_path$LAYOUT;
     }
 
-    private static final long migraphx_save_model_path$OFFSET = 32;
+    private static final long migraphx_save_model_path$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_save_model_path"));
 
     /**
      * Offset for field:
@@ -387,7 +391,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_load_compiled_model$LAYOUT;
     }
 
-    private static final long migraphx_load_compiled_model$OFFSET = 40;
+    private static final long migraphx_load_compiled_model$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_load_compiled_model"));
 
     /**
      * Offset for field:
@@ -432,7 +437,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_load_model_path$LAYOUT;
     }
 
-    private static final long migraphx_load_model_path$OFFSET = 48;
+    private static final long migraphx_load_model_path$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_load_model_path"));
 
     /**
      * Offset for field:
@@ -477,7 +483,8 @@ public class OrtMIGraphXProviderOptions {
         return migraphx_exhaustive_tune$LAYOUT;
     }
 
-    private static final long migraphx_exhaustive_tune$OFFSET = 56;
+    private static final long migraphx_exhaustive_tune$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_exhaustive_tune"));
 
     /**
      * Offset for field:

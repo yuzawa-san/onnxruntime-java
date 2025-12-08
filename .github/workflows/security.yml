@@ -15,11 +15,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: gradle/actions/wrapper-validation@v5
-      - name: Use JDK 22
+      - name: Use JDK 25
         uses: actions/setup-java@v5
         with:
           distribution: oracle
-          java-version: 22
+          java-version: 25
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:

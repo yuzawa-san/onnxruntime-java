@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -86,7 +86,7 @@ public class OrtTensorRTProviderOptions {
         return device_id$LAYOUT;
     }
 
-    private static final long device_id$OFFSET = 0;
+    private static final long device_id$OFFSET = $LAYOUT.byteOffset(groupElement("device_id"));
 
     /**
      * Offset for field:
@@ -131,7 +131,8 @@ public class OrtTensorRTProviderOptions {
         return has_user_compute_stream$LAYOUT;
     }
 
-    private static final long has_user_compute_stream$OFFSET = 4;
+    private static final long has_user_compute_stream$OFFSET =
+            $LAYOUT.byteOffset(groupElement("has_user_compute_stream"));
 
     /**
      * Offset for field:
@@ -176,7 +177,7 @@ public class OrtTensorRTProviderOptions {
         return user_compute_stream$LAYOUT;
     }
 
-    private static final long user_compute_stream$OFFSET = 8;
+    private static final long user_compute_stream$OFFSET = $LAYOUT.byteOffset(groupElement("user_compute_stream"));
 
     /**
      * Offset for field:
@@ -221,7 +222,8 @@ public class OrtTensorRTProviderOptions {
         return trt_max_partition_iterations$LAYOUT;
     }
 
-    private static final long trt_max_partition_iterations$OFFSET = 16;
+    private static final long trt_max_partition_iterations$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_max_partition_iterations"));
 
     /**
      * Offset for field:
@@ -266,7 +268,7 @@ public class OrtTensorRTProviderOptions {
         return trt_min_subgraph_size$LAYOUT;
     }
 
-    private static final long trt_min_subgraph_size$OFFSET = 20;
+    private static final long trt_min_subgraph_size$OFFSET = $LAYOUT.byteOffset(groupElement("trt_min_subgraph_size"));
 
     /**
      * Offset for field:
@@ -311,7 +313,8 @@ public class OrtTensorRTProviderOptions {
         return trt_max_workspace_size$LAYOUT;
     }
 
-    private static final long trt_max_workspace_size$OFFSET = 24;
+    private static final long trt_max_workspace_size$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_max_workspace_size"));
 
     /**
      * Offset for field:
@@ -355,7 +358,7 @@ public class OrtTensorRTProviderOptions {
         return trt_fp16_enable$LAYOUT;
     }
 
-    private static final long trt_fp16_enable$OFFSET = 32;
+    private static final long trt_fp16_enable$OFFSET = $LAYOUT.byteOffset(groupElement("trt_fp16_enable"));
 
     /**
      * Offset for field:
@@ -399,7 +402,7 @@ public class OrtTensorRTProviderOptions {
         return trt_int8_enable$LAYOUT;
     }
 
-    private static final long trt_int8_enable$OFFSET = 36;
+    private static final long trt_int8_enable$OFFSET = $LAYOUT.byteOffset(groupElement("trt_int8_enable"));
 
     /**
      * Offset for field:
@@ -444,7 +447,8 @@ public class OrtTensorRTProviderOptions {
         return trt_int8_calibration_table_name$LAYOUT;
     }
 
-    private static final long trt_int8_calibration_table_name$OFFSET = 40;
+    private static final long trt_int8_calibration_table_name$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_int8_calibration_table_name"));
 
     /**
      * Offset for field:
@@ -489,7 +493,8 @@ public class OrtTensorRTProviderOptions {
         return trt_int8_use_native_calibration_table$LAYOUT;
     }
 
-    private static final long trt_int8_use_native_calibration_table$OFFSET = 48;
+    private static final long trt_int8_use_native_calibration_table$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_int8_use_native_calibration_table"));
 
     /**
      * Offset for field:
@@ -534,7 +539,7 @@ public class OrtTensorRTProviderOptions {
         return trt_dla_enable$LAYOUT;
     }
 
-    private static final long trt_dla_enable$OFFSET = 52;
+    private static final long trt_dla_enable$OFFSET = $LAYOUT.byteOffset(groupElement("trt_dla_enable"));
 
     /**
      * Offset for field:
@@ -578,7 +583,7 @@ public class OrtTensorRTProviderOptions {
         return trt_dla_core$LAYOUT;
     }
 
-    private static final long trt_dla_core$OFFSET = 56;
+    private static final long trt_dla_core$OFFSET = $LAYOUT.byteOffset(groupElement("trt_dla_core"));
 
     /**
      * Offset for field:
@@ -622,7 +627,7 @@ public class OrtTensorRTProviderOptions {
         return trt_dump_subgraphs$LAYOUT;
     }
 
-    private static final long trt_dump_subgraphs$OFFSET = 60;
+    private static final long trt_dump_subgraphs$OFFSET = $LAYOUT.byteOffset(groupElement("trt_dump_subgraphs"));
 
     /**
      * Offset for field:
@@ -667,7 +672,8 @@ public class OrtTensorRTProviderOptions {
         return trt_engine_cache_enable$LAYOUT;
     }
 
-    private static final long trt_engine_cache_enable$OFFSET = 64;
+    private static final long trt_engine_cache_enable$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_engine_cache_enable"));
 
     /**
      * Offset for field:
@@ -712,7 +718,7 @@ public class OrtTensorRTProviderOptions {
         return trt_engine_cache_path$LAYOUT;
     }
 
-    private static final long trt_engine_cache_path$OFFSET = 72;
+    private static final long trt_engine_cache_path$OFFSET = $LAYOUT.byteOffset(groupElement("trt_engine_cache_path"));
 
     /**
      * Offset for field:
@@ -757,7 +763,8 @@ public class OrtTensorRTProviderOptions {
         return trt_engine_decryption_enable$LAYOUT;
     }
 
-    private static final long trt_engine_decryption_enable$OFFSET = 80;
+    private static final long trt_engine_decryption_enable$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_engine_decryption_enable"));
 
     /**
      * Offset for field:
@@ -802,7 +809,8 @@ public class OrtTensorRTProviderOptions {
         return trt_engine_decryption_lib_path$LAYOUT;
     }
 
-    private static final long trt_engine_decryption_lib_path$OFFSET = 88;
+    private static final long trt_engine_decryption_lib_path$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_engine_decryption_lib_path"));
 
     /**
      * Offset for field:
@@ -847,7 +855,8 @@ public class OrtTensorRTProviderOptions {
         return trt_force_sequential_engine_build$LAYOUT;
     }
 
-    private static final long trt_force_sequential_engine_build$OFFSET = 96;
+    private static final long trt_force_sequential_engine_build$OFFSET =
+            $LAYOUT.byteOffset(groupElement("trt_force_sequential_engine_build"));
 
     /**
      * Offset for field:
