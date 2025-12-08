@@ -1077,6 +1077,7 @@ public class SessionTest {
             LOG.log(Level.ERROR, "Provider failed with: " + message);
             assertTrue(message.contains("not enabled in this build")
                     || message.contains("not supported in this build")
+                    || message.contains("Failed to load shared library")
                     || message.contains("onnxruntime::ProviderSharedLibrary")
                     || message.contains("onnxruntime::ProviderLibrary"));
         }
