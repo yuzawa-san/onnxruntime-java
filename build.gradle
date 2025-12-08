@@ -26,7 +26,7 @@ allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
 	java {
-		sourceCompatibility = targetCompatibility = JavaLanguageVersion.of(22)
+		sourceCompatibility = targetCompatibility = JavaLanguageVersion.of(23)
 	}
 	repositories {
 		mavenCentral()
@@ -363,7 +363,7 @@ java {
 javadoc {
 }
 javadoc.options {
-	addStringOption('-release', '22')
+	addStringOption('-release', '23')
 }
 
 def moduleName = "com.jyuzawa.onnxruntime"
