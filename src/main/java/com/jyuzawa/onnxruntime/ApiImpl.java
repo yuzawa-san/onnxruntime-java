@@ -25,6 +25,8 @@ final class ApiImpl implements Api {
 
     final AddRunConfigEntry.Function AddRunConfigEntry;
     final AddSessionConfigEntry.Function AddSessionConfigEntry;
+    final AllocatorGetStats.Function AllocatorGetStats;
+    final AllocatorAlloc.Function AllocatorAlloc;
     final AllocatorFree.Function AllocatorFree;
     final BindInput.Function BindInput;
     final BindOutput.Function BindOutput;
@@ -66,10 +68,12 @@ final class ApiImpl implements Api {
     final GetDimensionsCount.Function GetDimensionsCount;
     final GetErrorCode.Function GetErrorCode;
     final GetErrorMessage.Function GetErrorMessage;
+    final GetKeyValuePairs.Function GetKeyValuePairs;
     final GetMapKeyType.Function GetMapKeyType;
     final GetMapValueType.Function GetMapValueType;
     final GetOnnxTypeFromTypeInfo.Function GetOnnxTypeFromTypeInfo;
     final GetSequenceElementType.Function GetSequenceElementType;
+    final GetSharedAllocator.Function GetSharedAllocator;
     final GetStringTensorElement.Function GetStringTensorElement;
     final GetStringTensorElementLength.Function GetStringTensorElementLength;
     final GetTensorElementType.Function GetTensorElementType;
@@ -94,6 +98,7 @@ final class ApiImpl implements Api {
     final ReleaseDnnlProviderOptions.Function ReleaseDnnlProviderOptions;
     final ReleaseEnv.Function ReleaseEnv;
     final ReleaseIoBinding.Function ReleaseIoBinding;
+    final ReleaseKeyValuePairs.Function ReleaseKeyValuePairs;
     final ReleaseMemoryInfo.Function ReleaseMemoryInfo;
     final ReleaseModelMetadata.Function ReleaseModelMetadata;
     final ReleaseRunOptions.Function ReleaseRunOptions;
@@ -161,6 +166,10 @@ final class ApiImpl implements Api {
         MemorySegment fnAddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment);
         this.AddSessionConfigEntry =
                 (_x0, _x1, _x2) -> OrtApi.AddSessionConfigEntry.invoke(fnAddSessionConfigEntry, _x0, _x1, _x2);
+        MemorySegment fnAllocatorGetStats = OrtApi.AllocatorGetStats(memorySegment);
+        this.AllocatorGetStats = (_x1, _x2) -> OrtApi.AllocatorGetStats.invoke(fnAllocatorGetStats, _x1, _x2);
+        MemorySegment fnAllocatorAlloc = OrtApi.AllocatorAlloc(memorySegment);
+        this.AllocatorAlloc = (_x0, _x1, _x2) -> OrtApi.AllocatorAlloc.invoke(fnAllocatorAlloc, _x0, _x1, _x2);
         MemorySegment fnAllocatorFree = OrtApi.AllocatorFree(memorySegment);
         this.AllocatorFree = (_x0, _x1) -> OrtApi.AllocatorFree.invoke(fnAllocatorFree, _x0, _x1);
         MemorySegment fnBindInput = OrtApi.BindInput(memorySegment);
@@ -263,6 +272,9 @@ final class ApiImpl implements Api {
         this.GetErrorCode = (_x0) -> OrtApi.GetErrorCode.invoke(fnGetErrorCode, _x0);
         MemorySegment fnGetErrorMessage = OrtApi.GetErrorMessage(memorySegment);
         this.GetErrorMessage = (_x0) -> OrtApi.GetErrorMessage.invoke(fnGetErrorMessage, _x0);
+        MemorySegment fnGetKeyValuePairs = OrtApi.GetKeyValuePairs(memorySegment);
+        this.GetKeyValuePairs =
+                (_x0, _x1, _x2, _x3) -> OrtApi.GetKeyValuePairs.invoke(fnGetKeyValuePairs, _x0, _x1, _x2, _x3);
         MemorySegment fnGetMapKeyType = OrtApi.GetMapKeyType(memorySegment);
         this.GetMapKeyType = (_x0, _x1) -> OrtApi.GetMapKeyType.invoke(fnGetMapKeyType, _x0, _x1);
         MemorySegment fnGetMapValueType = OrtApi.GetMapValueType(memorySegment);
@@ -273,6 +285,9 @@ final class ApiImpl implements Api {
         MemorySegment fnGetSequenceElementType = OrtApi.GetSequenceElementType(memorySegment);
         this.GetSequenceElementType =
                 (_x0, _x1) -> OrtApi.GetSequenceElementType.invoke(fnGetSequenceElementType, _x0, _x1);
+        MemorySegment fnGetSharedAllocator = OrtApi.GetSharedAllocator(memorySegment);
+        this.GetSharedAllocator =
+                (_x0, _x1, _x2) -> OrtApi.GetSharedAllocator.invoke(fnGetSharedAllocator, _x0, _x1, _x2);
         MemorySegment fnGetStringTensorElement = OrtApi.GetStringTensorElement(memorySegment);
         this.GetStringTensorElement = (_x0, _x1, _x2, _x3) ->
                 OrtApi.GetStringTensorElement.invoke(fnGetStringTensorElement, _x0, _x1, _x2, _x3);
@@ -339,6 +354,8 @@ final class ApiImpl implements Api {
                 (_x0) -> OrtApi.ReleaseDnnlProviderOptions.invoke(fnReleaseDnnlProviderOptions, _x0);
         MemorySegment fnReleaseEnv = OrtApi.ReleaseEnv(memorySegment);
         this.ReleaseEnv = (_x0) -> OrtApi.ReleaseEnv.invoke(fnReleaseEnv, _x0);
+        MemorySegment fnReleaseKeyValuePairs = OrtApi.ReleaseKeyValuePairs(memorySegment);
+        this.ReleaseKeyValuePairs = (_x0) -> OrtApi.ReleaseKeyValuePairs.invoke(fnReleaseKeyValuePairs, _x0);
         MemorySegment fnReleaseIoBinding = OrtApi.ReleaseIoBinding(memorySegment);
         this.ReleaseIoBinding = (_x0) -> OrtApi.ReleaseIoBinding.invoke(fnReleaseIoBinding, _x0);
         MemorySegment fnReleaseMemoryInfo = OrtApi.ReleaseMemoryInfo(memorySegment);

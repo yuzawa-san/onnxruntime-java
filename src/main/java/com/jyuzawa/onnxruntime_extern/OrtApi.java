@@ -301,6 +301,111 @@ import java.util.stream.*;
  *     void (*ReleaseLoraAdapter)(OrtLoraAdapter *);
  *     OrtStatusPtr (*RunOptionsAddActiveLoraAdapter)(OrtRunOptions *, const OrtLoraAdapter *);
  *     OrtStatusPtr (*SetEpDynamicOptions)(OrtSession *, const char *const *, const char *const *, size_t);
+ *     void (*ReleaseValueInfo)(OrtValueInfo *);
+ *     void (*ReleaseNode)(OrtNode *);
+ *     void (*ReleaseGraph)(OrtGraph *);
+ *     void (*ReleaseModel)(OrtModel *);
+ *     OrtStatusPtr (*GetValueInfoName)(const OrtValueInfo *, const char **);
+ *     OrtStatusPtr (*GetValueInfoTypeInfo)(const OrtValueInfo *, const OrtTypeInfo **);
+ *     const OrtModelEditorApi *(*GetModelEditorApi)();
+ *     OrtStatusPtr (*CreateTensorWithDataAndDeleterAsOrtValue)(OrtAllocator *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **);
+ *     OrtStatusPtr (*SessionOptionsSetLoadCancellationFlag)(OrtSessionOptions *, bool);
+ *     const OrtCompileApi *(*GetCompileApi)();
+ *     void (*CreateKeyValuePairs)(OrtKeyValuePairs **);
+ *     void (*AddKeyValuePair)(OrtKeyValuePairs *, const char *, const char *);
+ *     const char *(*GetKeyValue)(const OrtKeyValuePairs *, const char *);
+ *     void (*GetKeyValuePairs)(const OrtKeyValuePairs *, const char *const **, const char *const **, size_t *);
+ *     void (*RemoveKeyValuePair)(OrtKeyValuePairs *, const char *);
+ *     void (*ReleaseKeyValuePairs)(OrtKeyValuePairs *);
+ *     OrtStatusPtr (*RegisterExecutionProviderLibrary)(OrtEnv *, const char *, const char *);
+ *     OrtStatusPtr (*UnregisterExecutionProviderLibrary)(OrtEnv *, const char *);
+ *     OrtStatusPtr (*GetEpDevices)(const OrtEnv *, const OrtEpDevice *const **, size_t *);
+ *     OrtStatusPtr (*SessionOptionsAppendExecutionProvider_V2)(OrtSessionOptions *, OrtEnv *, const OrtEpDevice *const *, size_t, const char *const *, const char *const *, size_t);
+ *     OrtStatusPtr (*SessionOptionsSetEpSelectionPolicy)(OrtSessionOptions *, OrtExecutionProviderDevicePolicy);
+ *     OrtStatusPtr (*SessionOptionsSetEpSelectionPolicyDelegate)(OrtSessionOptions *, EpSelectionDelegate, void *);
+ *     OrtHardwareDeviceType (*HardwareDevice_Type)(const OrtHardwareDevice *);
+ *     uint32_t (*HardwareDevice_VendorId)(const OrtHardwareDevice *);
+ *     const char *(*HardwareDevice_Vendor)(const OrtHardwareDevice *);
+ *     uint32_t (*HardwareDevice_DeviceId)(const OrtHardwareDevice *);
+ *     const OrtKeyValuePairs *(*HardwareDevice_Metadata)(const OrtHardwareDevice *);
+ *     const char *(*EpDevice_EpName)(const OrtEpDevice *);
+ *     const char *(*EpDevice_EpVendor)(const OrtEpDevice *);
+ *     const OrtKeyValuePairs *(*EpDevice_EpMetadata)(const OrtEpDevice *);
+ *     const OrtKeyValuePairs *(*EpDevice_EpOptions)(const OrtEpDevice *);
+ *     const OrtHardwareDevice *(*EpDevice_Device)(const OrtEpDevice *);
+ *     const OrtEpApi *(*GetEpApi)();
+ *     OrtStatusPtr (*GetTensorSizeInBytes)(const OrtValue *, size_t *);
+ *     OrtStatusPtr (*AllocatorGetStats)(const OrtAllocator *, OrtKeyValuePairs **);
+ *     OrtStatusPtr (*CreateMemoryInfo_V2)(const char *, enum OrtMemoryInfoDeviceType, uint32_t, int32_t, enum OrtDeviceMemoryType, size_t, enum OrtAllocatorType, OrtMemoryInfo **);
+ *     OrtDeviceMemoryType (*MemoryInfoGetDeviceMemType)(const OrtMemoryInfo *);
+ *     uint32_t (*MemoryInfoGetVendorId)(const OrtMemoryInfo *);
+ *     OrtStatusPtr (*ValueInfo_GetValueProducer)(const OrtValueInfo *, const OrtNode **, size_t *);
+ *     OrtStatusPtr (*ValueInfo_GetValueNumConsumers)(const OrtValueInfo *, size_t *);
+ *     OrtStatusPtr (*ValueInfo_GetValueConsumers)(const OrtValueInfo *, const OrtNode **, int64_t *, size_t);
+ *     OrtStatusPtr (*ValueInfo_GetInitializerValue)(const OrtValueInfo *, const OrtValue **);
+ *     OrtStatusPtr (*ValueInfo_GetExternalInitializerInfo)(const OrtValueInfo *, OrtExternalInitializerInfo **);
+ *     OrtStatusPtr (*ValueInfo_IsRequiredGraphInput)(const OrtValueInfo *, bool *);
+ *     OrtStatusPtr (*ValueInfo_IsOptionalGraphInput)(const OrtValueInfo *, bool *);
+ *     OrtStatusPtr (*ValueInfo_IsGraphOutput)(const OrtValueInfo *, bool *);
+ *     OrtStatusPtr (*ValueInfo_IsConstantInitializer)(const OrtValueInfo *, bool *);
+ *     OrtStatusPtr (*ValueInfo_IsFromOuterScope)(const OrtValueInfo *, bool *);
+ *     OrtStatusPtr (*Graph_GetName)(const OrtGraph *, const char **);
+ *     OrtStatusPtr (*Graph_GetModelPath)(const OrtGraph *, const char **);
+ *     OrtStatusPtr (*Graph_GetOnnxIRVersion)(const OrtGraph *, int64_t *);
+ *     OrtStatusPtr (*Graph_GetNumOperatorSets)(const OrtGraph *, size_t *);
+ *     OrtStatusPtr (*Graph_GetOperatorSets)(const OrtGraph *, const char **, int64_t *, size_t);
+ *     OrtStatusPtr (*Graph_GetNumInputs)(const OrtGraph *, size_t *);
+ *     OrtStatusPtr (*Graph_GetInputs)(const OrtGraph *, const OrtValueInfo **, size_t);
+ *     OrtStatusPtr (*Graph_GetNumOutputs)(const OrtGraph *, size_t *);
+ *     OrtStatusPtr (*Graph_GetOutputs)(const OrtGraph *, const OrtValueInfo **, size_t);
+ *     OrtStatusPtr (*Graph_GetNumInitializers)(const OrtGraph *, size_t *);
+ *     OrtStatusPtr (*Graph_GetInitializers)(const OrtGraph *, const OrtValueInfo **, size_t);
+ *     OrtStatusPtr (*Graph_GetNumNodes)(const OrtGraph *, size_t *);
+ *     OrtStatusPtr (*Graph_GetNodes)(const OrtGraph *, const OrtNode **, size_t);
+ *     OrtStatusPtr (*Graph_GetParentNode)(const OrtGraph *, const OrtNode **);
+ *     OrtStatusPtr (*Graph_GetGraphView)(const OrtGraph *, const OrtNode **, size_t, OrtGraph **);
+ *     OrtStatusPtr (*Node_GetId)(const OrtNode *, size_t *);
+ *     OrtStatusPtr (*Node_GetName)(const OrtNode *, const char **);
+ *     OrtStatusPtr (*Node_GetOperatorType)(const OrtNode *, const char **);
+ *     OrtStatusPtr (*Node_GetDomain)(const OrtNode *, const char **);
+ *     OrtStatusPtr (*Node_GetSinceVersion)(const OrtNode *, int *);
+ *     OrtStatusPtr (*Node_GetNumInputs)(const OrtNode *, size_t *);
+ *     OrtStatusPtr (*Node_GetInputs)(const OrtNode *, const OrtValueInfo **, size_t);
+ *     OrtStatusPtr (*Node_GetNumOutputs)(const OrtNode *, size_t *);
+ *     OrtStatusPtr (*Node_GetOutputs)(const OrtNode *, const OrtValueInfo **, size_t);
+ *     OrtStatusPtr (*Node_GetNumImplicitInputs)(const OrtNode *, size_t *);
+ *     OrtStatusPtr (*Node_GetImplicitInputs)(const OrtNode *, const OrtValueInfo **, size_t);
+ *     OrtStatusPtr (*Node_GetNumAttributes)(const OrtNode *, size_t *);
+ *     OrtStatusPtr (*Node_GetAttributes)(const OrtNode *, const OrtOpAttr **, size_t);
+ *     OrtStatusPtr (*Node_GetAttributeByName)(const OrtNode *, const char *, const OrtOpAttr **);
+ *     OrtStatusPtr (*OpAttr_GetTensorAttributeAsOrtValue)(const OrtOpAttr *, OrtValue **);
+ *     OrtStatusPtr (*OpAttr_GetType)(const OrtOpAttr *, OrtOpAttrType *);
+ *     OrtStatusPtr (*OpAttr_GetName)(const OrtOpAttr *, const char **);
+ *     OrtStatusPtr (*Node_GetNumSubgraphs)(const OrtNode *, size_t *);
+ *     OrtStatusPtr (*Node_GetSubgraphs)(const OrtNode *, const OrtGraph **, size_t, const char **);
+ *     OrtStatusPtr (*Node_GetGraph)(const OrtNode *, const OrtGraph **);
+ *     OrtStatusPtr (*Node_GetEpName)(const OrtNode *, const char **);
+ *     void (*ReleaseExternalInitializerInfo)(OrtExternalInitializerInfo *);
+ *     const char *(*ExternalInitializerInfo_GetFilePath)(const OrtExternalInitializerInfo *);
+ *     int64_t (*ExternalInitializerInfo_GetFileOffset)(const OrtExternalInitializerInfo *);
+ *     size_t (*ExternalInitializerInfo_GetByteSize)(const OrtExternalInitializerInfo *);
+ *     const char *(*GetRunConfigEntry)(const OrtRunOptions *, const char *);
+ *     const OrtMemoryInfo *(*EpDevice_MemoryInfo)(const OrtEpDevice *, OrtDeviceMemoryType);
+ *     OrtStatusPtr (*CreateSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType, OrtAllocatorType, const OrtKeyValuePairs *, OrtAllocator **);
+ *     OrtStatusPtr (*GetSharedAllocator)(OrtEnv *, const OrtMemoryInfo *, OrtAllocator **);
+ *     OrtStatusPtr (*ReleaseSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType);
+ *     OrtStatusPtr (*GetTensorData)(const OrtValue *, const void **);
+ *     OrtStatusPtr (*GetSessionOptionsConfigEntries)(const OrtSessionOptions *, OrtKeyValuePairs **);
+ *     OrtStatusPtr (*SessionGetMemoryInfoForInputs)(const OrtSession *, const OrtMemoryInfo **, size_t);
+ *     OrtStatusPtr (*SessionGetMemoryInfoForOutputs)(const OrtSession *, const OrtMemoryInfo **, size_t);
+ *     OrtStatusPtr (*SessionGetEpDeviceForInputs)(const OrtSession *, const OrtEpDevice **, size_t);
+ *     OrtStatusPtr (*CreateSyncStreamForEpDevice)(const OrtEpDevice *, const OrtKeyValuePairs *, OrtSyncStream **);
+ *     void *(*SyncStream_GetHandle)(OrtSyncStream *);
+ *     void (*ReleaseSyncStream)(OrtSyncStream *);
+ *     OrtStatusPtr (*CopyTensors)(const OrtEnv *, const OrtValue *const *, OrtValue *const *, OrtSyncStream *, size_t);
+ *     OrtStatusPtr (*Graph_GetModelMetadata)(const OrtGraph *, OrtModelMetadata **);
+ *     OrtStatusPtr (*GetModelCompatibilityForEpDevices)(const OrtEpDevice *const *, size_t, const char *, OrtCompiledModelCompatibility *);
+ *     OrtStatusPtr (*CreateExternalInitializerInfo)(const char *, int64_t, size_t, OrtExternalInitializerInfo **);
  * }
  * }
  */
@@ -595,7 +700,112 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("CreateLoraAdapterFromArray"),
                     onnxruntime_all_h.C_POINTER.withName("ReleaseLoraAdapter"),
                     onnxruntime_all_h.C_POINTER.withName("RunOptionsAddActiveLoraAdapter"),
-                    onnxruntime_all_h.C_POINTER.withName("SetEpDynamicOptions"))
+                    onnxruntime_all_h.C_POINTER.withName("SetEpDynamicOptions"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseValueInfo"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseNode"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseGraph"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseModel"),
+                    onnxruntime_all_h.C_POINTER.withName("GetValueInfoName"),
+                    onnxruntime_all_h.C_POINTER.withName("GetValueInfoTypeInfo"),
+                    onnxruntime_all_h.C_POINTER.withName("GetModelEditorApi"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateTensorWithDataAndDeleterAsOrtValue"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetLoadCancellationFlag"),
+                    onnxruntime_all_h.C_POINTER.withName("GetCompileApi"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateKeyValuePairs"),
+                    onnxruntime_all_h.C_POINTER.withName("AddKeyValuePair"),
+                    onnxruntime_all_h.C_POINTER.withName("GetKeyValue"),
+                    onnxruntime_all_h.C_POINTER.withName("GetKeyValuePairs"),
+                    onnxruntime_all_h.C_POINTER.withName("RemoveKeyValuePair"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseKeyValuePairs"),
+                    onnxruntime_all_h.C_POINTER.withName("RegisterExecutionProviderLibrary"),
+                    onnxruntime_all_h.C_POINTER.withName("UnregisterExecutionProviderLibrary"),
+                    onnxruntime_all_h.C_POINTER.withName("GetEpDevices"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsAppendExecutionProvider_V2"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetEpSelectionPolicy"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetEpSelectionPolicyDelegate"),
+                    onnxruntime_all_h.C_POINTER.withName("HardwareDevice_Type"),
+                    onnxruntime_all_h.C_POINTER.withName("HardwareDevice_VendorId"),
+                    onnxruntime_all_h.C_POINTER.withName("HardwareDevice_Vendor"),
+                    onnxruntime_all_h.C_POINTER.withName("HardwareDevice_DeviceId"),
+                    onnxruntime_all_h.C_POINTER.withName("HardwareDevice_Metadata"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_EpName"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_EpVendor"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_EpMetadata"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_EpOptions"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_Device"),
+                    onnxruntime_all_h.C_POINTER.withName("GetEpApi"),
+                    onnxruntime_all_h.C_POINTER.withName("GetTensorSizeInBytes"),
+                    onnxruntime_all_h.C_POINTER.withName("AllocatorGetStats"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateMemoryInfo_V2"),
+                    onnxruntime_all_h.C_POINTER.withName("MemoryInfoGetDeviceMemType"),
+                    onnxruntime_all_h.C_POINTER.withName("MemoryInfoGetVendorId"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_GetValueProducer"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_GetValueNumConsumers"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_GetValueConsumers"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_GetInitializerValue"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_GetExternalInitializerInfo"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_IsRequiredGraphInput"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_IsOptionalGraphInput"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_IsGraphOutput"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_IsConstantInitializer"),
+                    onnxruntime_all_h.C_POINTER.withName("ValueInfo_IsFromOuterScope"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetName"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetModelPath"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetOnnxIRVersion"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetNumOperatorSets"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetOperatorSets"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetNumInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetNumOutputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetOutputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetNumInitializers"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetInitializers"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetNumNodes"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetNodes"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetParentNode"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetGraphView"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetId"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetName"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetOperatorType"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetDomain"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetSinceVersion"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetNumInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetNumOutputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetOutputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetNumImplicitInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetImplicitInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetNumAttributes"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetAttributes"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetAttributeByName"),
+                    onnxruntime_all_h.C_POINTER.withName("OpAttr_GetTensorAttributeAsOrtValue"),
+                    onnxruntime_all_h.C_POINTER.withName("OpAttr_GetType"),
+                    onnxruntime_all_h.C_POINTER.withName("OpAttr_GetName"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetNumSubgraphs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetSubgraphs"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetGraph"),
+                    onnxruntime_all_h.C_POINTER.withName("Node_GetEpName"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseExternalInitializerInfo"),
+                    onnxruntime_all_h.C_POINTER.withName("ExternalInitializerInfo_GetFilePath"),
+                    onnxruntime_all_h.C_POINTER.withName("ExternalInitializerInfo_GetFileOffset"),
+                    onnxruntime_all_h.C_POINTER.withName("ExternalInitializerInfo_GetByteSize"),
+                    onnxruntime_all_h.C_POINTER.withName("GetRunConfigEntry"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_MemoryInfo"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateSharedAllocator"),
+                    onnxruntime_all_h.C_POINTER.withName("GetSharedAllocator"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseSharedAllocator"),
+                    onnxruntime_all_h.C_POINTER.withName("GetTensorData"),
+                    onnxruntime_all_h.C_POINTER.withName("GetSessionOptionsConfigEntries"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionGetMemoryInfoForInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionGetMemoryInfoForOutputs"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionGetEpDeviceForInputs"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateSyncStreamForEpDevice"),
+                    onnxruntime_all_h.C_POINTER.withName("SyncStream_GetHandle"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseSyncStream"),
+                    onnxruntime_all_h.C_POINTER.withName("CopyTensors"),
+                    onnxruntime_all_h.C_POINTER.withName("Graph_GetModelMetadata"),
+                    onnxruntime_all_h.C_POINTER.withName("GetModelCompatibilityForEpDevices"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateExternalInitializerInfo"))
             .withName("OrtApi");
 
     /**
@@ -30160,6 +30370,10731 @@ public class OrtApi {
      */
     public static void SetEpDynamicOptions(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetEpDynamicOptions$LAYOUT, SetEpDynamicOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseValueInfo)(OrtValueInfo *)
+     * }
+     */
+    public static final class ReleaseValueInfo {
+
+        private ReleaseValueInfo() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseValueInfo.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseValueInfo.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseValueInfo$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseValueInfo"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseValueInfo)(OrtValueInfo *)
+     * }
+     */
+    public static final AddressLayout ReleaseValueInfo$layout() {
+        return ReleaseValueInfo$LAYOUT;
+    }
+
+    private static final long ReleaseValueInfo$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseValueInfo"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseValueInfo)(OrtValueInfo *)
+     * }
+     */
+    public static final long ReleaseValueInfo$offset() {
+        return ReleaseValueInfo$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseValueInfo)(OrtValueInfo *)
+     * }
+     */
+    public static MemorySegment ReleaseValueInfo(MemorySegment struct) {
+        return struct.get(ReleaseValueInfo$LAYOUT, ReleaseValueInfo$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseValueInfo)(OrtValueInfo *)
+     * }
+     */
+    public static void ReleaseValueInfo(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseValueInfo$LAYOUT, ReleaseValueInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseNode)(OrtNode *)
+     * }
+     */
+    public static final class ReleaseNode {
+
+        private ReleaseNode() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseNode.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseNode.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseNode$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("ReleaseNode"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseNode)(OrtNode *)
+     * }
+     */
+    public static final AddressLayout ReleaseNode$layout() {
+        return ReleaseNode$LAYOUT;
+    }
+
+    private static final long ReleaseNode$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseNode"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseNode)(OrtNode *)
+     * }
+     */
+    public static final long ReleaseNode$offset() {
+        return ReleaseNode$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseNode)(OrtNode *)
+     * }
+     */
+    public static MemorySegment ReleaseNode(MemorySegment struct) {
+        return struct.get(ReleaseNode$LAYOUT, ReleaseNode$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseNode)(OrtNode *)
+     * }
+     */
+    public static void ReleaseNode(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseNode$LAYOUT, ReleaseNode$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseGraph)(OrtGraph *)
+     * }
+     */
+    public static final class ReleaseGraph {
+
+        private ReleaseGraph() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseGraph.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseGraph.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseGraph$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseGraph"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseGraph)(OrtGraph *)
+     * }
+     */
+    public static final AddressLayout ReleaseGraph$layout() {
+        return ReleaseGraph$LAYOUT;
+    }
+
+    private static final long ReleaseGraph$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseGraph"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseGraph)(OrtGraph *)
+     * }
+     */
+    public static final long ReleaseGraph$offset() {
+        return ReleaseGraph$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseGraph)(OrtGraph *)
+     * }
+     */
+    public static MemorySegment ReleaseGraph(MemorySegment struct) {
+        return struct.get(ReleaseGraph$LAYOUT, ReleaseGraph$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseGraph)(OrtGraph *)
+     * }
+     */
+    public static void ReleaseGraph(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseGraph$LAYOUT, ReleaseGraph$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseModel)(OrtModel *)
+     * }
+     */
+    public static final class ReleaseModel {
+
+        private ReleaseModel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseModel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseModel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseModel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseModel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseModel)(OrtModel *)
+     * }
+     */
+    public static final AddressLayout ReleaseModel$layout() {
+        return ReleaseModel$LAYOUT;
+    }
+
+    private static final long ReleaseModel$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseModel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseModel)(OrtModel *)
+     * }
+     */
+    public static final long ReleaseModel$offset() {
+        return ReleaseModel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseModel)(OrtModel *)
+     * }
+     */
+    public static MemorySegment ReleaseModel(MemorySegment struct) {
+        return struct.get(ReleaseModel$LAYOUT, ReleaseModel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseModel)(OrtModel *)
+     * }
+     */
+    public static void ReleaseModel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseModel$LAYOUT, ReleaseModel$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoName)(const OrtValueInfo *, const char **)
+     * }
+     */
+    public static final class GetValueInfoName {
+
+        private GetValueInfoName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetValueInfoName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetValueInfoName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetValueInfoName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetValueInfoName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoName)(const OrtValueInfo *, const char **)
+     * }
+     */
+    public static final AddressLayout GetValueInfoName$layout() {
+        return GetValueInfoName$LAYOUT;
+    }
+
+    private static final long GetValueInfoName$OFFSET = $LAYOUT.byteOffset(groupElement("GetValueInfoName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoName)(const OrtValueInfo *, const char **)
+     * }
+     */
+    public static final long GetValueInfoName$offset() {
+        return GetValueInfoName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoName)(const OrtValueInfo *, const char **)
+     * }
+     */
+    public static MemorySegment GetValueInfoName(MemorySegment struct) {
+        return struct.get(GetValueInfoName$LAYOUT, GetValueInfoName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoName)(const OrtValueInfo *, const char **)
+     * }
+     */
+    public static void GetValueInfoName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetValueInfoName$LAYOUT, GetValueInfoName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoTypeInfo)(const OrtValueInfo *, const OrtTypeInfo **)
+     * }
+     */
+    public static final class GetValueInfoTypeInfo {
+
+        private GetValueInfoTypeInfo() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetValueInfoTypeInfo.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetValueInfoTypeInfo.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetValueInfoTypeInfo$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetValueInfoTypeInfo"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoTypeInfo)(const OrtValueInfo *, const OrtTypeInfo **)
+     * }
+     */
+    public static final AddressLayout GetValueInfoTypeInfo$layout() {
+        return GetValueInfoTypeInfo$LAYOUT;
+    }
+
+    private static final long GetValueInfoTypeInfo$OFFSET = $LAYOUT.byteOffset(groupElement("GetValueInfoTypeInfo"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoTypeInfo)(const OrtValueInfo *, const OrtTypeInfo **)
+     * }
+     */
+    public static final long GetValueInfoTypeInfo$offset() {
+        return GetValueInfoTypeInfo$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoTypeInfo)(const OrtValueInfo *, const OrtTypeInfo **)
+     * }
+     */
+    public static MemorySegment GetValueInfoTypeInfo(MemorySegment struct) {
+        return struct.get(GetValueInfoTypeInfo$LAYOUT, GetValueInfoTypeInfo$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetValueInfoTypeInfo)(const OrtValueInfo *, const OrtTypeInfo **)
+     * }
+     */
+    public static void GetValueInfoTypeInfo(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetValueInfoTypeInfo$LAYOUT, GetValueInfoTypeInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtModelEditorApi *(*GetModelEditorApi)()
+     * }
+     */
+    public static final class GetModelEditorApi {
+
+        private GetModelEditorApi() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply();
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetModelEditorApi.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetModelEditorApi.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetModelEditorApi$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetModelEditorApi"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtModelEditorApi *(*GetModelEditorApi)()
+     * }
+     */
+    public static final AddressLayout GetModelEditorApi$layout() {
+        return GetModelEditorApi$LAYOUT;
+    }
+
+    private static final long GetModelEditorApi$OFFSET = $LAYOUT.byteOffset(groupElement("GetModelEditorApi"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtModelEditorApi *(*GetModelEditorApi)()
+     * }
+     */
+    public static final long GetModelEditorApi$offset() {
+        return GetModelEditorApi$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtModelEditorApi *(*GetModelEditorApi)()
+     * }
+     */
+    public static MemorySegment GetModelEditorApi(MemorySegment struct) {
+        return struct.get(GetModelEditorApi$LAYOUT, GetModelEditorApi$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtModelEditorApi *(*GetModelEditorApi)()
+     * }
+     */
+    public static void GetModelEditorApi(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetModelEditorApi$LAYOUT, GetModelEditorApi$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorWithDataAndDeleterAsOrtValue)(OrtAllocator *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static final class CreateTensorWithDataAndDeleterAsOrtValue {
+
+        private CreateTensorWithDataAndDeleterAsOrtValue() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(
+                    MemorySegment _x0,
+                    MemorySegment _x1,
+                    long _x2,
+                    MemorySegment _x3,
+                    long _x4,
+                    int _x5,
+                    MemorySegment _x6);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateTensorWithDataAndDeleterAsOrtValue.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateTensorWithDataAndDeleterAsOrtValue.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                long _x2,
+                MemorySegment _x3,
+                long _x4,
+                int _x5,
+                MemorySegment _x6) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateTensorWithDataAndDeleterAsOrtValue$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateTensorWithDataAndDeleterAsOrtValue"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorWithDataAndDeleterAsOrtValue)(OrtAllocator *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static final AddressLayout CreateTensorWithDataAndDeleterAsOrtValue$layout() {
+        return CreateTensorWithDataAndDeleterAsOrtValue$LAYOUT;
+    }
+
+    private static final long CreateTensorWithDataAndDeleterAsOrtValue$OFFSET =
+            $LAYOUT.byteOffset(groupElement("CreateTensorWithDataAndDeleterAsOrtValue"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorWithDataAndDeleterAsOrtValue)(OrtAllocator *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static final long CreateTensorWithDataAndDeleterAsOrtValue$offset() {
+        return CreateTensorWithDataAndDeleterAsOrtValue$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorWithDataAndDeleterAsOrtValue)(OrtAllocator *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static MemorySegment CreateTensorWithDataAndDeleterAsOrtValue(MemorySegment struct) {
+        return struct.get(
+                CreateTensorWithDataAndDeleterAsOrtValue$LAYOUT, CreateTensorWithDataAndDeleterAsOrtValue$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateTensorWithDataAndDeleterAsOrtValue)(OrtAllocator *, void *, size_t, const int64_t *, size_t, ONNXTensorElementDataType, OrtValue **)
+     * }
+     */
+    public static void CreateTensorWithDataAndDeleterAsOrtValue(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                CreateTensorWithDataAndDeleterAsOrtValue$LAYOUT,
+                CreateTensorWithDataAndDeleterAsOrtValue$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetLoadCancellationFlag)(OrtSessionOptions *, bool)
+     * }
+     */
+    public static final class SessionOptionsSetLoadCancellationFlag {
+
+        private SessionOptionsSetLoadCancellationFlag() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, boolean _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_BOOL);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionOptionsSetLoadCancellationFlag.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsSetLoadCancellationFlag.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, boolean _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionOptionsSetLoadCancellationFlag$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsSetLoadCancellationFlag"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetLoadCancellationFlag)(OrtSessionOptions *, bool)
+     * }
+     */
+    public static final AddressLayout SessionOptionsSetLoadCancellationFlag$layout() {
+        return SessionOptionsSetLoadCancellationFlag$LAYOUT;
+    }
+
+    private static final long SessionOptionsSetLoadCancellationFlag$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionOptionsSetLoadCancellationFlag"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetLoadCancellationFlag)(OrtSessionOptions *, bool)
+     * }
+     */
+    public static final long SessionOptionsSetLoadCancellationFlag$offset() {
+        return SessionOptionsSetLoadCancellationFlag$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetLoadCancellationFlag)(OrtSessionOptions *, bool)
+     * }
+     */
+    public static MemorySegment SessionOptionsSetLoadCancellationFlag(MemorySegment struct) {
+        return struct.get(SessionOptionsSetLoadCancellationFlag$LAYOUT, SessionOptionsSetLoadCancellationFlag$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetLoadCancellationFlag)(OrtSessionOptions *, bool)
+     * }
+     */
+    public static void SessionOptionsSetLoadCancellationFlag(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                SessionOptionsSetLoadCancellationFlag$LAYOUT, SessionOptionsSetLoadCancellationFlag$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtCompileApi *(*GetCompileApi)()
+     * }
+     */
+    public static final class GetCompileApi {
+
+        private GetCompileApi() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply();
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetCompileApi.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetCompileApi.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetCompileApi$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetCompileApi"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtCompileApi *(*GetCompileApi)()
+     * }
+     */
+    public static final AddressLayout GetCompileApi$layout() {
+        return GetCompileApi$LAYOUT;
+    }
+
+    private static final long GetCompileApi$OFFSET = $LAYOUT.byteOffset(groupElement("GetCompileApi"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtCompileApi *(*GetCompileApi)()
+     * }
+     */
+    public static final long GetCompileApi$offset() {
+        return GetCompileApi$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtCompileApi *(*GetCompileApi)()
+     * }
+     */
+    public static MemorySegment GetCompileApi(MemorySegment struct) {
+        return struct.get(GetCompileApi$LAYOUT, GetCompileApi$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtCompileApi *(*GetCompileApi)()
+     * }
+     */
+    public static void GetCompileApi(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetCompileApi$LAYOUT, GetCompileApi$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*CreateKeyValuePairs)(OrtKeyValuePairs **)
+     * }
+     */
+    public static final class CreateKeyValuePairs {
+
+        private CreateKeyValuePairs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateKeyValuePairs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateKeyValuePairs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateKeyValuePairs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateKeyValuePairs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*CreateKeyValuePairs)(OrtKeyValuePairs **)
+     * }
+     */
+    public static final AddressLayout CreateKeyValuePairs$layout() {
+        return CreateKeyValuePairs$LAYOUT;
+    }
+
+    private static final long CreateKeyValuePairs$OFFSET = $LAYOUT.byteOffset(groupElement("CreateKeyValuePairs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*CreateKeyValuePairs)(OrtKeyValuePairs **)
+     * }
+     */
+    public static final long CreateKeyValuePairs$offset() {
+        return CreateKeyValuePairs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*CreateKeyValuePairs)(OrtKeyValuePairs **)
+     * }
+     */
+    public static MemorySegment CreateKeyValuePairs(MemorySegment struct) {
+        return struct.get(CreateKeyValuePairs$LAYOUT, CreateKeyValuePairs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*CreateKeyValuePairs)(OrtKeyValuePairs **)
+     * }
+     */
+    public static void CreateKeyValuePairs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateKeyValuePairs$LAYOUT, CreateKeyValuePairs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*AddKeyValuePair)(OrtKeyValuePairs *, const char *, const char *)
+     * }
+     */
+    public static final class AddKeyValuePair {
+
+        private AddKeyValuePair() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(AddKeyValuePair.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(AddKeyValuePair.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout AddKeyValuePair$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("AddKeyValuePair"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*AddKeyValuePair)(OrtKeyValuePairs *, const char *, const char *)
+     * }
+     */
+    public static final AddressLayout AddKeyValuePair$layout() {
+        return AddKeyValuePair$LAYOUT;
+    }
+
+    private static final long AddKeyValuePair$OFFSET = $LAYOUT.byteOffset(groupElement("AddKeyValuePair"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*AddKeyValuePair)(OrtKeyValuePairs *, const char *, const char *)
+     * }
+     */
+    public static final long AddKeyValuePair$offset() {
+        return AddKeyValuePair$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*AddKeyValuePair)(OrtKeyValuePairs *, const char *, const char *)
+     * }
+     */
+    public static MemorySegment AddKeyValuePair(MemorySegment struct) {
+        return struct.get(AddKeyValuePair$LAYOUT, AddKeyValuePair$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*AddKeyValuePair)(OrtKeyValuePairs *, const char *, const char *)
+     * }
+     */
+    public static void AddKeyValuePair(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(AddKeyValuePair$LAYOUT, AddKeyValuePair$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*GetKeyValue)(const OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static final class GetKeyValue {
+
+        private GetKeyValue() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetKeyValue.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetKeyValue.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetKeyValue$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetKeyValue"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*GetKeyValue)(const OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static final AddressLayout GetKeyValue$layout() {
+        return GetKeyValue$LAYOUT;
+    }
+
+    private static final long GetKeyValue$OFFSET = $LAYOUT.byteOffset(groupElement("GetKeyValue"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*GetKeyValue)(const OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static final long GetKeyValue$offset() {
+        return GetKeyValue$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetKeyValue)(const OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static MemorySegment GetKeyValue(MemorySegment struct) {
+        return struct.get(GetKeyValue$LAYOUT, GetKeyValue$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*GetKeyValue)(const OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static void GetKeyValue(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetKeyValue$LAYOUT, GetKeyValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*GetKeyValuePairs)(const OrtKeyValuePairs *, const char *const **, const char *const **, size_t *)
+     * }
+     */
+    public static final class GetKeyValuePairs {
+
+        private GetKeyValuePairs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetKeyValuePairs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetKeyValuePairs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetKeyValuePairs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetKeyValuePairs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*GetKeyValuePairs)(const OrtKeyValuePairs *, const char *const **, const char *const **, size_t *)
+     * }
+     */
+    public static final AddressLayout GetKeyValuePairs$layout() {
+        return GetKeyValuePairs$LAYOUT;
+    }
+
+    private static final long GetKeyValuePairs$OFFSET = $LAYOUT.byteOffset(groupElement("GetKeyValuePairs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*GetKeyValuePairs)(const OrtKeyValuePairs *, const char *const **, const char *const **, size_t *)
+     * }
+     */
+    public static final long GetKeyValuePairs$offset() {
+        return GetKeyValuePairs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*GetKeyValuePairs)(const OrtKeyValuePairs *, const char *const **, const char *const **, size_t *)
+     * }
+     */
+    public static MemorySegment GetKeyValuePairs(MemorySegment struct) {
+        return struct.get(GetKeyValuePairs$LAYOUT, GetKeyValuePairs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*GetKeyValuePairs)(const OrtKeyValuePairs *, const char *const **, const char *const **, size_t *)
+     * }
+     */
+    public static void GetKeyValuePairs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetKeyValuePairs$LAYOUT, GetKeyValuePairs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*RemoveKeyValuePair)(OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static final class RemoveKeyValuePair {
+
+        private RemoveKeyValuePair() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(RemoveKeyValuePair.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(RemoveKeyValuePair.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout RemoveKeyValuePair$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("RemoveKeyValuePair"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*RemoveKeyValuePair)(OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static final AddressLayout RemoveKeyValuePair$layout() {
+        return RemoveKeyValuePair$LAYOUT;
+    }
+
+    private static final long RemoveKeyValuePair$OFFSET = $LAYOUT.byteOffset(groupElement("RemoveKeyValuePair"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*RemoveKeyValuePair)(OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static final long RemoveKeyValuePair$offset() {
+        return RemoveKeyValuePair$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*RemoveKeyValuePair)(OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static MemorySegment RemoveKeyValuePair(MemorySegment struct) {
+        return struct.get(RemoveKeyValuePair$LAYOUT, RemoveKeyValuePair$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*RemoveKeyValuePair)(OrtKeyValuePairs *, const char *)
+     * }
+     */
+    public static void RemoveKeyValuePair(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(RemoveKeyValuePair$LAYOUT, RemoveKeyValuePair$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseKeyValuePairs)(OrtKeyValuePairs *)
+     * }
+     */
+    public static final class ReleaseKeyValuePairs {
+
+        private ReleaseKeyValuePairs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseKeyValuePairs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseKeyValuePairs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseKeyValuePairs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseKeyValuePairs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKeyValuePairs)(OrtKeyValuePairs *)
+     * }
+     */
+    public static final AddressLayout ReleaseKeyValuePairs$layout() {
+        return ReleaseKeyValuePairs$LAYOUT;
+    }
+
+    private static final long ReleaseKeyValuePairs$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseKeyValuePairs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKeyValuePairs)(OrtKeyValuePairs *)
+     * }
+     */
+    public static final long ReleaseKeyValuePairs$offset() {
+        return ReleaseKeyValuePairs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKeyValuePairs)(OrtKeyValuePairs *)
+     * }
+     */
+    public static MemorySegment ReleaseKeyValuePairs(MemorySegment struct) {
+        return struct.get(ReleaseKeyValuePairs$LAYOUT, ReleaseKeyValuePairs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKeyValuePairs)(OrtKeyValuePairs *)
+     * }
+     */
+    public static void ReleaseKeyValuePairs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseKeyValuePairs$LAYOUT, ReleaseKeyValuePairs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterExecutionProviderLibrary)(OrtEnv *, const char *, const char *)
+     * }
+     */
+    public static final class RegisterExecutionProviderLibrary {
+
+        private RegisterExecutionProviderLibrary() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(RegisterExecutionProviderLibrary.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(RegisterExecutionProviderLibrary.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout RegisterExecutionProviderLibrary$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("RegisterExecutionProviderLibrary"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterExecutionProviderLibrary)(OrtEnv *, const char *, const char *)
+     * }
+     */
+    public static final AddressLayout RegisterExecutionProviderLibrary$layout() {
+        return RegisterExecutionProviderLibrary$LAYOUT;
+    }
+
+    private static final long RegisterExecutionProviderLibrary$OFFSET =
+            $LAYOUT.byteOffset(groupElement("RegisterExecutionProviderLibrary"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterExecutionProviderLibrary)(OrtEnv *, const char *, const char *)
+     * }
+     */
+    public static final long RegisterExecutionProviderLibrary$offset() {
+        return RegisterExecutionProviderLibrary$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterExecutionProviderLibrary)(OrtEnv *, const char *, const char *)
+     * }
+     */
+    public static MemorySegment RegisterExecutionProviderLibrary(MemorySegment struct) {
+        return struct.get(RegisterExecutionProviderLibrary$LAYOUT, RegisterExecutionProviderLibrary$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RegisterExecutionProviderLibrary)(OrtEnv *, const char *, const char *)
+     * }
+     */
+    public static void RegisterExecutionProviderLibrary(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(RegisterExecutionProviderLibrary$LAYOUT, RegisterExecutionProviderLibrary$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UnregisterExecutionProviderLibrary)(OrtEnv *, const char *)
+     * }
+     */
+    public static final class UnregisterExecutionProviderLibrary {
+
+        private UnregisterExecutionProviderLibrary() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(UnregisterExecutionProviderLibrary.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(UnregisterExecutionProviderLibrary.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout UnregisterExecutionProviderLibrary$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("UnregisterExecutionProviderLibrary"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UnregisterExecutionProviderLibrary)(OrtEnv *, const char *)
+     * }
+     */
+    public static final AddressLayout UnregisterExecutionProviderLibrary$layout() {
+        return UnregisterExecutionProviderLibrary$LAYOUT;
+    }
+
+    private static final long UnregisterExecutionProviderLibrary$OFFSET =
+            $LAYOUT.byteOffset(groupElement("UnregisterExecutionProviderLibrary"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UnregisterExecutionProviderLibrary)(OrtEnv *, const char *)
+     * }
+     */
+    public static final long UnregisterExecutionProviderLibrary$offset() {
+        return UnregisterExecutionProviderLibrary$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UnregisterExecutionProviderLibrary)(OrtEnv *, const char *)
+     * }
+     */
+    public static MemorySegment UnregisterExecutionProviderLibrary(MemorySegment struct) {
+        return struct.get(UnregisterExecutionProviderLibrary$LAYOUT, UnregisterExecutionProviderLibrary$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*UnregisterExecutionProviderLibrary)(OrtEnv *, const char *)
+     * }
+     */
+    public static void UnregisterExecutionProviderLibrary(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(UnregisterExecutionProviderLibrary$LAYOUT, UnregisterExecutionProviderLibrary$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpDevices)(const OrtEnv *, const OrtEpDevice *const **, size_t *)
+     * }
+     */
+    public static final class GetEpDevices {
+
+        private GetEpDevices() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetEpDevices.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetEpDevices.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetEpDevices$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetEpDevices"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpDevices)(const OrtEnv *, const OrtEpDevice *const **, size_t *)
+     * }
+     */
+    public static final AddressLayout GetEpDevices$layout() {
+        return GetEpDevices$LAYOUT;
+    }
+
+    private static final long GetEpDevices$OFFSET = $LAYOUT.byteOffset(groupElement("GetEpDevices"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpDevices)(const OrtEnv *, const OrtEpDevice *const **, size_t *)
+     * }
+     */
+    public static final long GetEpDevices$offset() {
+        return GetEpDevices$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpDevices)(const OrtEnv *, const OrtEpDevice *const **, size_t *)
+     * }
+     */
+    public static MemorySegment GetEpDevices(MemorySegment struct) {
+        return struct.get(GetEpDevices$LAYOUT, GetEpDevices$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpDevices)(const OrtEnv *, const OrtEpDevice *const **, size_t *)
+     * }
+     */
+    public static void GetEpDevices(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetEpDevices$LAYOUT, GetEpDevices$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_V2)(OrtSessionOptions *, OrtEnv *, const OrtEpDevice *const *, size_t, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final class SessionOptionsAppendExecutionProvider_V2 {
+
+        private SessionOptionsAppendExecutionProvider_V2() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(
+                    MemorySegment _x0,
+                    MemorySegment _x1,
+                    MemorySegment _x2,
+                    long _x3,
+                    MemorySegment _x4,
+                    MemorySegment _x5,
+                    long _x6);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionOptionsAppendExecutionProvider_V2.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsAppendExecutionProvider_V2.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                MemorySegment _x2,
+                long _x3,
+                MemorySegment _x4,
+                MemorySegment _x5,
+                long _x6) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionOptionsAppendExecutionProvider_V2$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsAppendExecutionProvider_V2"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_V2)(OrtSessionOptions *, OrtEnv *, const OrtEpDevice *const *, size_t, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final AddressLayout SessionOptionsAppendExecutionProvider_V2$layout() {
+        return SessionOptionsAppendExecutionProvider_V2$LAYOUT;
+    }
+
+    private static final long SessionOptionsAppendExecutionProvider_V2$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionOptionsAppendExecutionProvider_V2"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_V2)(OrtSessionOptions *, OrtEnv *, const OrtEpDevice *const *, size_t, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static final long SessionOptionsAppendExecutionProvider_V2$offset() {
+        return SessionOptionsAppendExecutionProvider_V2$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_V2)(OrtSessionOptions *, OrtEnv *, const OrtEpDevice *const *, size_t, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static MemorySegment SessionOptionsAppendExecutionProvider_V2(MemorySegment struct) {
+        return struct.get(
+                SessionOptionsAppendExecutionProvider_V2$LAYOUT, SessionOptionsAppendExecutionProvider_V2$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsAppendExecutionProvider_V2)(OrtSessionOptions *, OrtEnv *, const OrtEpDevice *const *, size_t, const char *const *, const char *const *, size_t)
+     * }
+     */
+    public static void SessionOptionsAppendExecutionProvider_V2(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                SessionOptionsAppendExecutionProvider_V2$LAYOUT,
+                SessionOptionsAppendExecutionProvider_V2$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicy)(OrtSessionOptions *, OrtExecutionProviderDevicePolicy)
+     * }
+     */
+    public static final class SessionOptionsSetEpSelectionPolicy {
+
+        private SessionOptionsSetEpSelectionPolicy() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionOptionsSetEpSelectionPolicy.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsSetEpSelectionPolicy.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionOptionsSetEpSelectionPolicy$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsSetEpSelectionPolicy"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicy)(OrtSessionOptions *, OrtExecutionProviderDevicePolicy)
+     * }
+     */
+    public static final AddressLayout SessionOptionsSetEpSelectionPolicy$layout() {
+        return SessionOptionsSetEpSelectionPolicy$LAYOUT;
+    }
+
+    private static final long SessionOptionsSetEpSelectionPolicy$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionOptionsSetEpSelectionPolicy"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicy)(OrtSessionOptions *, OrtExecutionProviderDevicePolicy)
+     * }
+     */
+    public static final long SessionOptionsSetEpSelectionPolicy$offset() {
+        return SessionOptionsSetEpSelectionPolicy$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicy)(OrtSessionOptions *, OrtExecutionProviderDevicePolicy)
+     * }
+     */
+    public static MemorySegment SessionOptionsSetEpSelectionPolicy(MemorySegment struct) {
+        return struct.get(SessionOptionsSetEpSelectionPolicy$LAYOUT, SessionOptionsSetEpSelectionPolicy$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicy)(OrtSessionOptions *, OrtExecutionProviderDevicePolicy)
+     * }
+     */
+    public static void SessionOptionsSetEpSelectionPolicy(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SessionOptionsSetEpSelectionPolicy$LAYOUT, SessionOptionsSetEpSelectionPolicy$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicyDelegate)(OrtSessionOptions *, EpSelectionDelegate, void *)
+     * }
+     */
+    public static final class SessionOptionsSetEpSelectionPolicyDelegate {
+
+        private SessionOptionsSetEpSelectionPolicyDelegate() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                SessionOptionsSetEpSelectionPolicyDelegate.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsSetEpSelectionPolicyDelegate.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionOptionsSetEpSelectionPolicyDelegate$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsSetEpSelectionPolicyDelegate"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicyDelegate)(OrtSessionOptions *, EpSelectionDelegate, void *)
+     * }
+     */
+    public static final AddressLayout SessionOptionsSetEpSelectionPolicyDelegate$layout() {
+        return SessionOptionsSetEpSelectionPolicyDelegate$LAYOUT;
+    }
+
+    private static final long SessionOptionsSetEpSelectionPolicyDelegate$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionOptionsSetEpSelectionPolicyDelegate"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicyDelegate)(OrtSessionOptions *, EpSelectionDelegate, void *)
+     * }
+     */
+    public static final long SessionOptionsSetEpSelectionPolicyDelegate$offset() {
+        return SessionOptionsSetEpSelectionPolicyDelegate$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicyDelegate)(OrtSessionOptions *, EpSelectionDelegate, void *)
+     * }
+     */
+    public static MemorySegment SessionOptionsSetEpSelectionPolicyDelegate(MemorySegment struct) {
+        return struct.get(
+                SessionOptionsSetEpSelectionPolicyDelegate$LAYOUT, SessionOptionsSetEpSelectionPolicyDelegate$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpSelectionPolicyDelegate)(OrtSessionOptions *, EpSelectionDelegate, void *)
+     * }
+     */
+    public static void SessionOptionsSetEpSelectionPolicyDelegate(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                SessionOptionsSetEpSelectionPolicyDelegate$LAYOUT,
+                SessionOptionsSetEpSelectionPolicyDelegate$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtHardwareDeviceType (*HardwareDevice_Type)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final class HardwareDevice_Type {
+
+        private HardwareDevice_Type() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(HardwareDevice_Type.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(HardwareDevice_Type.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout HardwareDevice_Type$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("HardwareDevice_Type"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtHardwareDeviceType (*HardwareDevice_Type)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final AddressLayout HardwareDevice_Type$layout() {
+        return HardwareDevice_Type$LAYOUT;
+    }
+
+    private static final long HardwareDevice_Type$OFFSET = $LAYOUT.byteOffset(groupElement("HardwareDevice_Type"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtHardwareDeviceType (*HardwareDevice_Type)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final long HardwareDevice_Type$offset() {
+        return HardwareDevice_Type$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtHardwareDeviceType (*HardwareDevice_Type)(const OrtHardwareDevice *)
+     * }
+     */
+    public static MemorySegment HardwareDevice_Type(MemorySegment struct) {
+        return struct.get(HardwareDevice_Type$LAYOUT, HardwareDevice_Type$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtHardwareDeviceType (*HardwareDevice_Type)(const OrtHardwareDevice *)
+     * }
+     */
+    public static void HardwareDevice_Type(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(HardwareDevice_Type$LAYOUT, HardwareDevice_Type$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_VendorId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final class HardwareDevice_VendorId {
+
+        private HardwareDevice_VendorId() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(HardwareDevice_VendorId.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(HardwareDevice_VendorId.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout HardwareDevice_VendorId$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("HardwareDevice_VendorId"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_VendorId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final AddressLayout HardwareDevice_VendorId$layout() {
+        return HardwareDevice_VendorId$LAYOUT;
+    }
+
+    private static final long HardwareDevice_VendorId$OFFSET =
+            $LAYOUT.byteOffset(groupElement("HardwareDevice_VendorId"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_VendorId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final long HardwareDevice_VendorId$offset() {
+        return HardwareDevice_VendorId$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_VendorId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static MemorySegment HardwareDevice_VendorId(MemorySegment struct) {
+        return struct.get(HardwareDevice_VendorId$LAYOUT, HardwareDevice_VendorId$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_VendorId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static void HardwareDevice_VendorId(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(HardwareDevice_VendorId$LAYOUT, HardwareDevice_VendorId$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*HardwareDevice_Vendor)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final class HardwareDevice_Vendor {
+
+        private HardwareDevice_Vendor() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(HardwareDevice_Vendor.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(HardwareDevice_Vendor.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout HardwareDevice_Vendor$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("HardwareDevice_Vendor"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*HardwareDevice_Vendor)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final AddressLayout HardwareDevice_Vendor$layout() {
+        return HardwareDevice_Vendor$LAYOUT;
+    }
+
+    private static final long HardwareDevice_Vendor$OFFSET = $LAYOUT.byteOffset(groupElement("HardwareDevice_Vendor"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*HardwareDevice_Vendor)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final long HardwareDevice_Vendor$offset() {
+        return HardwareDevice_Vendor$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*HardwareDevice_Vendor)(const OrtHardwareDevice *)
+     * }
+     */
+    public static MemorySegment HardwareDevice_Vendor(MemorySegment struct) {
+        return struct.get(HardwareDevice_Vendor$LAYOUT, HardwareDevice_Vendor$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*HardwareDevice_Vendor)(const OrtHardwareDevice *)
+     * }
+     */
+    public static void HardwareDevice_Vendor(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(HardwareDevice_Vendor$LAYOUT, HardwareDevice_Vendor$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_DeviceId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final class HardwareDevice_DeviceId {
+
+        private HardwareDevice_DeviceId() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(HardwareDevice_DeviceId.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(HardwareDevice_DeviceId.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout HardwareDevice_DeviceId$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("HardwareDevice_DeviceId"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_DeviceId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final AddressLayout HardwareDevice_DeviceId$layout() {
+        return HardwareDevice_DeviceId$LAYOUT;
+    }
+
+    private static final long HardwareDevice_DeviceId$OFFSET =
+            $LAYOUT.byteOffset(groupElement("HardwareDevice_DeviceId"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_DeviceId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final long HardwareDevice_DeviceId$offset() {
+        return HardwareDevice_DeviceId$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_DeviceId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static MemorySegment HardwareDevice_DeviceId(MemorySegment struct) {
+        return struct.get(HardwareDevice_DeviceId$LAYOUT, HardwareDevice_DeviceId$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * uint32_t (*HardwareDevice_DeviceId)(const OrtHardwareDevice *)
+     * }
+     */
+    public static void HardwareDevice_DeviceId(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(HardwareDevice_DeviceId$LAYOUT, HardwareDevice_DeviceId$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*HardwareDevice_Metadata)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final class HardwareDevice_Metadata {
+
+        private HardwareDevice_Metadata() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(HardwareDevice_Metadata.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(HardwareDevice_Metadata.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout HardwareDevice_Metadata$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("HardwareDevice_Metadata"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*HardwareDevice_Metadata)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final AddressLayout HardwareDevice_Metadata$layout() {
+        return HardwareDevice_Metadata$LAYOUT;
+    }
+
+    private static final long HardwareDevice_Metadata$OFFSET =
+            $LAYOUT.byteOffset(groupElement("HardwareDevice_Metadata"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*HardwareDevice_Metadata)(const OrtHardwareDevice *)
+     * }
+     */
+    public static final long HardwareDevice_Metadata$offset() {
+        return HardwareDevice_Metadata$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*HardwareDevice_Metadata)(const OrtHardwareDevice *)
+     * }
+     */
+    public static MemorySegment HardwareDevice_Metadata(MemorySegment struct) {
+        return struct.get(HardwareDevice_Metadata$LAYOUT, HardwareDevice_Metadata$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*HardwareDevice_Metadata)(const OrtHardwareDevice *)
+     * }
+     */
+    public static void HardwareDevice_Metadata(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(HardwareDevice_Metadata$LAYOUT, HardwareDevice_Metadata$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpName)(const OrtEpDevice *)
+     * }
+     */
+    public static final class EpDevice_EpName {
+
+        private EpDevice_EpName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_EpName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_EpName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_EpName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_EpName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpName)(const OrtEpDevice *)
+     * }
+     */
+    public static final AddressLayout EpDevice_EpName$layout() {
+        return EpDevice_EpName$LAYOUT;
+    }
+
+    private static final long EpDevice_EpName$OFFSET = $LAYOUT.byteOffset(groupElement("EpDevice_EpName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpName)(const OrtEpDevice *)
+     * }
+     */
+    public static final long EpDevice_EpName$offset() {
+        return EpDevice_EpName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpName)(const OrtEpDevice *)
+     * }
+     */
+    public static MemorySegment EpDevice_EpName(MemorySegment struct) {
+        return struct.get(EpDevice_EpName$LAYOUT, EpDevice_EpName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpName)(const OrtEpDevice *)
+     * }
+     */
+    public static void EpDevice_EpName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_EpName$LAYOUT, EpDevice_EpName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpVendor)(const OrtEpDevice *)
+     * }
+     */
+    public static final class EpDevice_EpVendor {
+
+        private EpDevice_EpVendor() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_EpVendor.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_EpVendor.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_EpVendor$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_EpVendor"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpVendor)(const OrtEpDevice *)
+     * }
+     */
+    public static final AddressLayout EpDevice_EpVendor$layout() {
+        return EpDevice_EpVendor$LAYOUT;
+    }
+
+    private static final long EpDevice_EpVendor$OFFSET = $LAYOUT.byteOffset(groupElement("EpDevice_EpVendor"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpVendor)(const OrtEpDevice *)
+     * }
+     */
+    public static final long EpDevice_EpVendor$offset() {
+        return EpDevice_EpVendor$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpVendor)(const OrtEpDevice *)
+     * }
+     */
+    public static MemorySegment EpDevice_EpVendor(MemorySegment struct) {
+        return struct.get(EpDevice_EpVendor$LAYOUT, EpDevice_EpVendor$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*EpDevice_EpVendor)(const OrtEpDevice *)
+     * }
+     */
+    public static void EpDevice_EpVendor(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_EpVendor$LAYOUT, EpDevice_EpVendor$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpMetadata)(const OrtEpDevice *)
+     * }
+     */
+    public static final class EpDevice_EpMetadata {
+
+        private EpDevice_EpMetadata() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_EpMetadata.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_EpMetadata.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_EpMetadata$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_EpMetadata"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpMetadata)(const OrtEpDevice *)
+     * }
+     */
+    public static final AddressLayout EpDevice_EpMetadata$layout() {
+        return EpDevice_EpMetadata$LAYOUT;
+    }
+
+    private static final long EpDevice_EpMetadata$OFFSET = $LAYOUT.byteOffset(groupElement("EpDevice_EpMetadata"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpMetadata)(const OrtEpDevice *)
+     * }
+     */
+    public static final long EpDevice_EpMetadata$offset() {
+        return EpDevice_EpMetadata$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpMetadata)(const OrtEpDevice *)
+     * }
+     */
+    public static MemorySegment EpDevice_EpMetadata(MemorySegment struct) {
+        return struct.get(EpDevice_EpMetadata$LAYOUT, EpDevice_EpMetadata$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpMetadata)(const OrtEpDevice *)
+     * }
+     */
+    public static void EpDevice_EpMetadata(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_EpMetadata$LAYOUT, EpDevice_EpMetadata$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpOptions)(const OrtEpDevice *)
+     * }
+     */
+    public static final class EpDevice_EpOptions {
+
+        private EpDevice_EpOptions() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_EpOptions.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_EpOptions.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_EpOptions$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_EpOptions"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpOptions)(const OrtEpDevice *)
+     * }
+     */
+    public static final AddressLayout EpDevice_EpOptions$layout() {
+        return EpDevice_EpOptions$LAYOUT;
+    }
+
+    private static final long EpDevice_EpOptions$OFFSET = $LAYOUT.byteOffset(groupElement("EpDevice_EpOptions"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpOptions)(const OrtEpDevice *)
+     * }
+     */
+    public static final long EpDevice_EpOptions$offset() {
+        return EpDevice_EpOptions$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpOptions)(const OrtEpDevice *)
+     * }
+     */
+    public static MemorySegment EpDevice_EpOptions(MemorySegment struct) {
+        return struct.get(EpDevice_EpOptions$LAYOUT, EpDevice_EpOptions$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtKeyValuePairs *(*EpDevice_EpOptions)(const OrtEpDevice *)
+     * }
+     */
+    public static void EpDevice_EpOptions(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_EpOptions$LAYOUT, EpDevice_EpOptions$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtHardwareDevice *(*EpDevice_Device)(const OrtEpDevice *)
+     * }
+     */
+    public static final class EpDevice_Device {
+
+        private EpDevice_Device() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_Device.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_Device.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_Device$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_Device"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtHardwareDevice *(*EpDevice_Device)(const OrtEpDevice *)
+     * }
+     */
+    public static final AddressLayout EpDevice_Device$layout() {
+        return EpDevice_Device$LAYOUT;
+    }
+
+    private static final long EpDevice_Device$OFFSET = $LAYOUT.byteOffset(groupElement("EpDevice_Device"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtHardwareDevice *(*EpDevice_Device)(const OrtEpDevice *)
+     * }
+     */
+    public static final long EpDevice_Device$offset() {
+        return EpDevice_Device$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtHardwareDevice *(*EpDevice_Device)(const OrtEpDevice *)
+     * }
+     */
+    public static MemorySegment EpDevice_Device(MemorySegment struct) {
+        return struct.get(EpDevice_Device$LAYOUT, EpDevice_Device$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtHardwareDevice *(*EpDevice_Device)(const OrtEpDevice *)
+     * }
+     */
+    public static void EpDevice_Device(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_Device$LAYOUT, EpDevice_Device$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtEpApi *(*GetEpApi)()
+     * }
+     */
+    public static final class GetEpApi {
+
+        private GetEpApi() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply();
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetEpApi.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetEpApi.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetEpApi$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("GetEpApi"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtEpApi *(*GetEpApi)()
+     * }
+     */
+    public static final AddressLayout GetEpApi$layout() {
+        return GetEpApi$LAYOUT;
+    }
+
+    private static final long GetEpApi$OFFSET = $LAYOUT.byteOffset(groupElement("GetEpApi"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtEpApi *(*GetEpApi)()
+     * }
+     */
+    public static final long GetEpApi$offset() {
+        return GetEpApi$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtEpApi *(*GetEpApi)()
+     * }
+     */
+    public static MemorySegment GetEpApi(MemorySegment struct) {
+        return struct.get(GetEpApi$LAYOUT, GetEpApi$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtEpApi *(*GetEpApi)()
+     * }
+     */
+    public static void GetEpApi(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetEpApi$LAYOUT, GetEpApi$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorSizeInBytes)(const OrtValue *, size_t *)
+     * }
+     */
+    public static final class GetTensorSizeInBytes {
+
+        private GetTensorSizeInBytes() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetTensorSizeInBytes.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetTensorSizeInBytes.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetTensorSizeInBytes$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetTensorSizeInBytes"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorSizeInBytes)(const OrtValue *, size_t *)
+     * }
+     */
+    public static final AddressLayout GetTensorSizeInBytes$layout() {
+        return GetTensorSizeInBytes$LAYOUT;
+    }
+
+    private static final long GetTensorSizeInBytes$OFFSET = $LAYOUT.byteOffset(groupElement("GetTensorSizeInBytes"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorSizeInBytes)(const OrtValue *, size_t *)
+     * }
+     */
+    public static final long GetTensorSizeInBytes$offset() {
+        return GetTensorSizeInBytes$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorSizeInBytes)(const OrtValue *, size_t *)
+     * }
+     */
+    public static MemorySegment GetTensorSizeInBytes(MemorySegment struct) {
+        return struct.get(GetTensorSizeInBytes$LAYOUT, GetTensorSizeInBytes$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorSizeInBytes)(const OrtValue *, size_t *)
+     * }
+     */
+    public static void GetTensorSizeInBytes(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetTensorSizeInBytes$LAYOUT, GetTensorSizeInBytes$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorGetStats)(const OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final class AllocatorGetStats {
+
+        private AllocatorGetStats() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(AllocatorGetStats.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(AllocatorGetStats.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout AllocatorGetStats$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("AllocatorGetStats"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorGetStats)(const OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final AddressLayout AllocatorGetStats$layout() {
+        return AllocatorGetStats$LAYOUT;
+    }
+
+    private static final long AllocatorGetStats$OFFSET = $LAYOUT.byteOffset(groupElement("AllocatorGetStats"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorGetStats)(const OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final long AllocatorGetStats$offset() {
+        return AllocatorGetStats$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorGetStats)(const OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static MemorySegment AllocatorGetStats(MemorySegment struct) {
+        return struct.get(AllocatorGetStats$LAYOUT, AllocatorGetStats$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*AllocatorGetStats)(const OrtAllocator *, OrtKeyValuePairs **)
+     * }
+     */
+    public static void AllocatorGetStats(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(AllocatorGetStats$LAYOUT, AllocatorGetStats$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateMemoryInfo_V2)(const char *, enum OrtMemoryInfoDeviceType, uint32_t, int32_t, enum OrtDeviceMemoryType, size_t, enum OrtAllocatorType, OrtMemoryInfo **)
+     * }
+     */
+    public static final class CreateMemoryInfo_V2 {
+
+        private CreateMemoryInfo_V2() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(
+                    MemorySegment _x0, int _x1, int _x2, int _x3, int _x4, long _x5, int _x6, MemorySegment _x7);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateMemoryInfo_V2.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateMemoryInfo_V2.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                int _x1,
+                int _x2,
+                int _x3,
+                int _x4,
+                long _x5,
+                int _x6,
+                MemorySegment _x7) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5, _x6, _x7);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateMemoryInfo_V2$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateMemoryInfo_V2"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateMemoryInfo_V2)(const char *, enum OrtMemoryInfoDeviceType, uint32_t, int32_t, enum OrtDeviceMemoryType, size_t, enum OrtAllocatorType, OrtMemoryInfo **)
+     * }
+     */
+    public static final AddressLayout CreateMemoryInfo_V2$layout() {
+        return CreateMemoryInfo_V2$LAYOUT;
+    }
+
+    private static final long CreateMemoryInfo_V2$OFFSET = $LAYOUT.byteOffset(groupElement("CreateMemoryInfo_V2"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateMemoryInfo_V2)(const char *, enum OrtMemoryInfoDeviceType, uint32_t, int32_t, enum OrtDeviceMemoryType, size_t, enum OrtAllocatorType, OrtMemoryInfo **)
+     * }
+     */
+    public static final long CreateMemoryInfo_V2$offset() {
+        return CreateMemoryInfo_V2$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateMemoryInfo_V2)(const char *, enum OrtMemoryInfoDeviceType, uint32_t, int32_t, enum OrtDeviceMemoryType, size_t, enum OrtAllocatorType, OrtMemoryInfo **)
+     * }
+     */
+    public static MemorySegment CreateMemoryInfo_V2(MemorySegment struct) {
+        return struct.get(CreateMemoryInfo_V2$LAYOUT, CreateMemoryInfo_V2$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateMemoryInfo_V2)(const char *, enum OrtMemoryInfoDeviceType, uint32_t, int32_t, enum OrtDeviceMemoryType, size_t, enum OrtAllocatorType, OrtMemoryInfo **)
+     * }
+     */
+    public static void CreateMemoryInfo_V2(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateMemoryInfo_V2$LAYOUT, CreateMemoryInfo_V2$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtDeviceMemoryType (*MemoryInfoGetDeviceMemType)(const OrtMemoryInfo *)
+     * }
+     */
+    public static final class MemoryInfoGetDeviceMemType {
+
+        private MemoryInfoGetDeviceMemType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(MemoryInfoGetDeviceMemType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(MemoryInfoGetDeviceMemType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout MemoryInfoGetDeviceMemType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("MemoryInfoGetDeviceMemType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtDeviceMemoryType (*MemoryInfoGetDeviceMemType)(const OrtMemoryInfo *)
+     * }
+     */
+    public static final AddressLayout MemoryInfoGetDeviceMemType$layout() {
+        return MemoryInfoGetDeviceMemType$LAYOUT;
+    }
+
+    private static final long MemoryInfoGetDeviceMemType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("MemoryInfoGetDeviceMemType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtDeviceMemoryType (*MemoryInfoGetDeviceMemType)(const OrtMemoryInfo *)
+     * }
+     */
+    public static final long MemoryInfoGetDeviceMemType$offset() {
+        return MemoryInfoGetDeviceMemType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtDeviceMemoryType (*MemoryInfoGetDeviceMemType)(const OrtMemoryInfo *)
+     * }
+     */
+    public static MemorySegment MemoryInfoGetDeviceMemType(MemorySegment struct) {
+        return struct.get(MemoryInfoGetDeviceMemType$LAYOUT, MemoryInfoGetDeviceMemType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtDeviceMemoryType (*MemoryInfoGetDeviceMemType)(const OrtMemoryInfo *)
+     * }
+     */
+    public static void MemoryInfoGetDeviceMemType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(MemoryInfoGetDeviceMemType$LAYOUT, MemoryInfoGetDeviceMemType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * uint32_t (*MemoryInfoGetVendorId)(const OrtMemoryInfo *)
+     * }
+     */
+    public static final class MemoryInfoGetVendorId {
+
+        private MemoryInfoGetVendorId() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(MemoryInfoGetVendorId.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(MemoryInfoGetVendorId.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout MemoryInfoGetVendorId$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("MemoryInfoGetVendorId"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * uint32_t (*MemoryInfoGetVendorId)(const OrtMemoryInfo *)
+     * }
+     */
+    public static final AddressLayout MemoryInfoGetVendorId$layout() {
+        return MemoryInfoGetVendorId$LAYOUT;
+    }
+
+    private static final long MemoryInfoGetVendorId$OFFSET = $LAYOUT.byteOffset(groupElement("MemoryInfoGetVendorId"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * uint32_t (*MemoryInfoGetVendorId)(const OrtMemoryInfo *)
+     * }
+     */
+    public static final long MemoryInfoGetVendorId$offset() {
+        return MemoryInfoGetVendorId$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * uint32_t (*MemoryInfoGetVendorId)(const OrtMemoryInfo *)
+     * }
+     */
+    public static MemorySegment MemoryInfoGetVendorId(MemorySegment struct) {
+        return struct.get(MemoryInfoGetVendorId$LAYOUT, MemoryInfoGetVendorId$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * uint32_t (*MemoryInfoGetVendorId)(const OrtMemoryInfo *)
+     * }
+     */
+    public static void MemoryInfoGetVendorId(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(MemoryInfoGetVendorId$LAYOUT, MemoryInfoGetVendorId$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueProducer)(const OrtValueInfo *, const OrtNode **, size_t *)
+     * }
+     */
+    public static final class ValueInfo_GetValueProducer {
+
+        private ValueInfo_GetValueProducer() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_GetValueProducer.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_GetValueProducer.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_GetValueProducer$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_GetValueProducer"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueProducer)(const OrtValueInfo *, const OrtNode **, size_t *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_GetValueProducer$layout() {
+        return ValueInfo_GetValueProducer$LAYOUT;
+    }
+
+    private static final long ValueInfo_GetValueProducer$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_GetValueProducer"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueProducer)(const OrtValueInfo *, const OrtNode **, size_t *)
+     * }
+     */
+    public static final long ValueInfo_GetValueProducer$offset() {
+        return ValueInfo_GetValueProducer$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueProducer)(const OrtValueInfo *, const OrtNode **, size_t *)
+     * }
+     */
+    public static MemorySegment ValueInfo_GetValueProducer(MemorySegment struct) {
+        return struct.get(ValueInfo_GetValueProducer$LAYOUT, ValueInfo_GetValueProducer$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueProducer)(const OrtValueInfo *, const OrtNode **, size_t *)
+     * }
+     */
+    public static void ValueInfo_GetValueProducer(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_GetValueProducer$LAYOUT, ValueInfo_GetValueProducer$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueNumConsumers)(const OrtValueInfo *, size_t *)
+     * }
+     */
+    public static final class ValueInfo_GetValueNumConsumers {
+
+        private ValueInfo_GetValueNumConsumers() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_GetValueNumConsumers.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_GetValueNumConsumers.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_GetValueNumConsumers$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_GetValueNumConsumers"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueNumConsumers)(const OrtValueInfo *, size_t *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_GetValueNumConsumers$layout() {
+        return ValueInfo_GetValueNumConsumers$LAYOUT;
+    }
+
+    private static final long ValueInfo_GetValueNumConsumers$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_GetValueNumConsumers"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueNumConsumers)(const OrtValueInfo *, size_t *)
+     * }
+     */
+    public static final long ValueInfo_GetValueNumConsumers$offset() {
+        return ValueInfo_GetValueNumConsumers$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueNumConsumers)(const OrtValueInfo *, size_t *)
+     * }
+     */
+    public static MemorySegment ValueInfo_GetValueNumConsumers(MemorySegment struct) {
+        return struct.get(ValueInfo_GetValueNumConsumers$LAYOUT, ValueInfo_GetValueNumConsumers$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueNumConsumers)(const OrtValueInfo *, size_t *)
+     * }
+     */
+    public static void ValueInfo_GetValueNumConsumers(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_GetValueNumConsumers$LAYOUT, ValueInfo_GetValueNumConsumers$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueConsumers)(const OrtValueInfo *, const OrtNode **, int64_t *, size_t)
+     * }
+     */
+    public static final class ValueInfo_GetValueConsumers {
+
+        private ValueInfo_GetValueConsumers() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_GetValueConsumers.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_GetValueConsumers.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_GetValueConsumers$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_GetValueConsumers"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueConsumers)(const OrtValueInfo *, const OrtNode **, int64_t *, size_t)
+     * }
+     */
+    public static final AddressLayout ValueInfo_GetValueConsumers$layout() {
+        return ValueInfo_GetValueConsumers$LAYOUT;
+    }
+
+    private static final long ValueInfo_GetValueConsumers$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_GetValueConsumers"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueConsumers)(const OrtValueInfo *, const OrtNode **, int64_t *, size_t)
+     * }
+     */
+    public static final long ValueInfo_GetValueConsumers$offset() {
+        return ValueInfo_GetValueConsumers$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueConsumers)(const OrtValueInfo *, const OrtNode **, int64_t *, size_t)
+     * }
+     */
+    public static MemorySegment ValueInfo_GetValueConsumers(MemorySegment struct) {
+        return struct.get(ValueInfo_GetValueConsumers$LAYOUT, ValueInfo_GetValueConsumers$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetValueConsumers)(const OrtValueInfo *, const OrtNode **, int64_t *, size_t)
+     * }
+     */
+    public static void ValueInfo_GetValueConsumers(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_GetValueConsumers$LAYOUT, ValueInfo_GetValueConsumers$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetInitializerValue)(const OrtValueInfo *, const OrtValue **)
+     * }
+     */
+    public static final class ValueInfo_GetInitializerValue {
+
+        private ValueInfo_GetInitializerValue() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_GetInitializerValue.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_GetInitializerValue.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_GetInitializerValue$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_GetInitializerValue"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetInitializerValue)(const OrtValueInfo *, const OrtValue **)
+     * }
+     */
+    public static final AddressLayout ValueInfo_GetInitializerValue$layout() {
+        return ValueInfo_GetInitializerValue$LAYOUT;
+    }
+
+    private static final long ValueInfo_GetInitializerValue$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_GetInitializerValue"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetInitializerValue)(const OrtValueInfo *, const OrtValue **)
+     * }
+     */
+    public static final long ValueInfo_GetInitializerValue$offset() {
+        return ValueInfo_GetInitializerValue$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetInitializerValue)(const OrtValueInfo *, const OrtValue **)
+     * }
+     */
+    public static MemorySegment ValueInfo_GetInitializerValue(MemorySegment struct) {
+        return struct.get(ValueInfo_GetInitializerValue$LAYOUT, ValueInfo_GetInitializerValue$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetInitializerValue)(const OrtValueInfo *, const OrtValue **)
+     * }
+     */
+    public static void ValueInfo_GetInitializerValue(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_GetInitializerValue$LAYOUT, ValueInfo_GetInitializerValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetExternalInitializerInfo)(const OrtValueInfo *, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static final class ValueInfo_GetExternalInitializerInfo {
+
+        private ValueInfo_GetExternalInitializerInfo() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_GetExternalInitializerInfo.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_GetExternalInitializerInfo.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_GetExternalInitializerInfo$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_GetExternalInitializerInfo"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetExternalInitializerInfo)(const OrtValueInfo *, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static final AddressLayout ValueInfo_GetExternalInitializerInfo$layout() {
+        return ValueInfo_GetExternalInitializerInfo$LAYOUT;
+    }
+
+    private static final long ValueInfo_GetExternalInitializerInfo$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_GetExternalInitializerInfo"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetExternalInitializerInfo)(const OrtValueInfo *, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static final long ValueInfo_GetExternalInitializerInfo$offset() {
+        return ValueInfo_GetExternalInitializerInfo$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetExternalInitializerInfo)(const OrtValueInfo *, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static MemorySegment ValueInfo_GetExternalInitializerInfo(MemorySegment struct) {
+        return struct.get(ValueInfo_GetExternalInitializerInfo$LAYOUT, ValueInfo_GetExternalInitializerInfo$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_GetExternalInitializerInfo)(const OrtValueInfo *, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static void ValueInfo_GetExternalInitializerInfo(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                ValueInfo_GetExternalInitializerInfo$LAYOUT, ValueInfo_GetExternalInitializerInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsRequiredGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final class ValueInfo_IsRequiredGraphInput {
+
+        private ValueInfo_IsRequiredGraphInput() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_IsRequiredGraphInput.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_IsRequiredGraphInput.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_IsRequiredGraphInput$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_IsRequiredGraphInput"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsRequiredGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_IsRequiredGraphInput$layout() {
+        return ValueInfo_IsRequiredGraphInput$LAYOUT;
+    }
+
+    private static final long ValueInfo_IsRequiredGraphInput$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_IsRequiredGraphInput"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsRequiredGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final long ValueInfo_IsRequiredGraphInput$offset() {
+        return ValueInfo_IsRequiredGraphInput$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsRequiredGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static MemorySegment ValueInfo_IsRequiredGraphInput(MemorySegment struct) {
+        return struct.get(ValueInfo_IsRequiredGraphInput$LAYOUT, ValueInfo_IsRequiredGraphInput$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsRequiredGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static void ValueInfo_IsRequiredGraphInput(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_IsRequiredGraphInput$LAYOUT, ValueInfo_IsRequiredGraphInput$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsOptionalGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final class ValueInfo_IsOptionalGraphInput {
+
+        private ValueInfo_IsOptionalGraphInput() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_IsOptionalGraphInput.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_IsOptionalGraphInput.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_IsOptionalGraphInput$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_IsOptionalGraphInput"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsOptionalGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_IsOptionalGraphInput$layout() {
+        return ValueInfo_IsOptionalGraphInput$LAYOUT;
+    }
+
+    private static final long ValueInfo_IsOptionalGraphInput$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_IsOptionalGraphInput"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsOptionalGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final long ValueInfo_IsOptionalGraphInput$offset() {
+        return ValueInfo_IsOptionalGraphInput$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsOptionalGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static MemorySegment ValueInfo_IsOptionalGraphInput(MemorySegment struct) {
+        return struct.get(ValueInfo_IsOptionalGraphInput$LAYOUT, ValueInfo_IsOptionalGraphInput$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsOptionalGraphInput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static void ValueInfo_IsOptionalGraphInput(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_IsOptionalGraphInput$LAYOUT, ValueInfo_IsOptionalGraphInput$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsGraphOutput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final class ValueInfo_IsGraphOutput {
+
+        private ValueInfo_IsGraphOutput() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_IsGraphOutput.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_IsGraphOutput.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_IsGraphOutput$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_IsGraphOutput"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsGraphOutput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_IsGraphOutput$layout() {
+        return ValueInfo_IsGraphOutput$LAYOUT;
+    }
+
+    private static final long ValueInfo_IsGraphOutput$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_IsGraphOutput"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsGraphOutput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final long ValueInfo_IsGraphOutput$offset() {
+        return ValueInfo_IsGraphOutput$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsGraphOutput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static MemorySegment ValueInfo_IsGraphOutput(MemorySegment struct) {
+        return struct.get(ValueInfo_IsGraphOutput$LAYOUT, ValueInfo_IsGraphOutput$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsGraphOutput)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static void ValueInfo_IsGraphOutput(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_IsGraphOutput$LAYOUT, ValueInfo_IsGraphOutput$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsConstantInitializer)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final class ValueInfo_IsConstantInitializer {
+
+        private ValueInfo_IsConstantInitializer() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_IsConstantInitializer.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_IsConstantInitializer.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_IsConstantInitializer$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_IsConstantInitializer"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsConstantInitializer)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_IsConstantInitializer$layout() {
+        return ValueInfo_IsConstantInitializer$LAYOUT;
+    }
+
+    private static final long ValueInfo_IsConstantInitializer$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_IsConstantInitializer"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsConstantInitializer)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final long ValueInfo_IsConstantInitializer$offset() {
+        return ValueInfo_IsConstantInitializer$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsConstantInitializer)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static MemorySegment ValueInfo_IsConstantInitializer(MemorySegment struct) {
+        return struct.get(ValueInfo_IsConstantInitializer$LAYOUT, ValueInfo_IsConstantInitializer$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsConstantInitializer)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static void ValueInfo_IsConstantInitializer(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_IsConstantInitializer$LAYOUT, ValueInfo_IsConstantInitializer$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsFromOuterScope)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final class ValueInfo_IsFromOuterScope {
+
+        private ValueInfo_IsFromOuterScope() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ValueInfo_IsFromOuterScope.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ValueInfo_IsFromOuterScope.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ValueInfo_IsFromOuterScope$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ValueInfo_IsFromOuterScope"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsFromOuterScope)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final AddressLayout ValueInfo_IsFromOuterScope$layout() {
+        return ValueInfo_IsFromOuterScope$LAYOUT;
+    }
+
+    private static final long ValueInfo_IsFromOuterScope$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ValueInfo_IsFromOuterScope"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsFromOuterScope)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static final long ValueInfo_IsFromOuterScope$offset() {
+        return ValueInfo_IsFromOuterScope$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsFromOuterScope)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static MemorySegment ValueInfo_IsFromOuterScope(MemorySegment struct) {
+        return struct.get(ValueInfo_IsFromOuterScope$LAYOUT, ValueInfo_IsFromOuterScope$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ValueInfo_IsFromOuterScope)(const OrtValueInfo *, bool *)
+     * }
+     */
+    public static void ValueInfo_IsFromOuterScope(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ValueInfo_IsFromOuterScope$LAYOUT, ValueInfo_IsFromOuterScope$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetName)(const OrtGraph *, const char **)
+     * }
+     */
+    public static final class Graph_GetName {
+
+        private Graph_GetName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetName)(const OrtGraph *, const char **)
+     * }
+     */
+    public static final AddressLayout Graph_GetName$layout() {
+        return Graph_GetName$LAYOUT;
+    }
+
+    private static final long Graph_GetName$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetName)(const OrtGraph *, const char **)
+     * }
+     */
+    public static final long Graph_GetName$offset() {
+        return Graph_GetName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetName)(const OrtGraph *, const char **)
+     * }
+     */
+    public static MemorySegment Graph_GetName(MemorySegment struct) {
+        return struct.get(Graph_GetName$LAYOUT, Graph_GetName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetName)(const OrtGraph *, const char **)
+     * }
+     */
+    public static void Graph_GetName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetName$LAYOUT, Graph_GetName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelPath)(const OrtGraph *, const char **)
+     * }
+     */
+    public static final class Graph_GetModelPath {
+
+        private Graph_GetModelPath() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetModelPath.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetModelPath.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetModelPath$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetModelPath"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelPath)(const OrtGraph *, const char **)
+     * }
+     */
+    public static final AddressLayout Graph_GetModelPath$layout() {
+        return Graph_GetModelPath$LAYOUT;
+    }
+
+    private static final long Graph_GetModelPath$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetModelPath"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelPath)(const OrtGraph *, const char **)
+     * }
+     */
+    public static final long Graph_GetModelPath$offset() {
+        return Graph_GetModelPath$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelPath)(const OrtGraph *, const char **)
+     * }
+     */
+    public static MemorySegment Graph_GetModelPath(MemorySegment struct) {
+        return struct.get(Graph_GetModelPath$LAYOUT, Graph_GetModelPath$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelPath)(const OrtGraph *, const char **)
+     * }
+     */
+    public static void Graph_GetModelPath(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetModelPath$LAYOUT, Graph_GetModelPath$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOnnxIRVersion)(const OrtGraph *, int64_t *)
+     * }
+     */
+    public static final class Graph_GetOnnxIRVersion {
+
+        private Graph_GetOnnxIRVersion() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetOnnxIRVersion.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetOnnxIRVersion.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetOnnxIRVersion$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetOnnxIRVersion"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOnnxIRVersion)(const OrtGraph *, int64_t *)
+     * }
+     */
+    public static final AddressLayout Graph_GetOnnxIRVersion$layout() {
+        return Graph_GetOnnxIRVersion$LAYOUT;
+    }
+
+    private static final long Graph_GetOnnxIRVersion$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Graph_GetOnnxIRVersion"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOnnxIRVersion)(const OrtGraph *, int64_t *)
+     * }
+     */
+    public static final long Graph_GetOnnxIRVersion$offset() {
+        return Graph_GetOnnxIRVersion$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOnnxIRVersion)(const OrtGraph *, int64_t *)
+     * }
+     */
+    public static MemorySegment Graph_GetOnnxIRVersion(MemorySegment struct) {
+        return struct.get(Graph_GetOnnxIRVersion$LAYOUT, Graph_GetOnnxIRVersion$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOnnxIRVersion)(const OrtGraph *, int64_t *)
+     * }
+     */
+    public static void Graph_GetOnnxIRVersion(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetOnnxIRVersion$LAYOUT, Graph_GetOnnxIRVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOperatorSets)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final class Graph_GetNumOperatorSets {
+
+        private Graph_GetNumOperatorSets() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetNumOperatorSets.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetNumOperatorSets.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetNumOperatorSets$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetNumOperatorSets"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOperatorSets)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final AddressLayout Graph_GetNumOperatorSets$layout() {
+        return Graph_GetNumOperatorSets$LAYOUT;
+    }
+
+    private static final long Graph_GetNumOperatorSets$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Graph_GetNumOperatorSets"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOperatorSets)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final long Graph_GetNumOperatorSets$offset() {
+        return Graph_GetNumOperatorSets$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOperatorSets)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static MemorySegment Graph_GetNumOperatorSets(MemorySegment struct) {
+        return struct.get(Graph_GetNumOperatorSets$LAYOUT, Graph_GetNumOperatorSets$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOperatorSets)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static void Graph_GetNumOperatorSets(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetNumOperatorSets$LAYOUT, Graph_GetNumOperatorSets$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOperatorSets)(const OrtGraph *, const char **, int64_t *, size_t)
+     * }
+     */
+    public static final class Graph_GetOperatorSets {
+
+        private Graph_GetOperatorSets() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetOperatorSets.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetOperatorSets.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetOperatorSets$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetOperatorSets"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOperatorSets)(const OrtGraph *, const char **, int64_t *, size_t)
+     * }
+     */
+    public static final AddressLayout Graph_GetOperatorSets$layout() {
+        return Graph_GetOperatorSets$LAYOUT;
+    }
+
+    private static final long Graph_GetOperatorSets$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetOperatorSets"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOperatorSets)(const OrtGraph *, const char **, int64_t *, size_t)
+     * }
+     */
+    public static final long Graph_GetOperatorSets$offset() {
+        return Graph_GetOperatorSets$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOperatorSets)(const OrtGraph *, const char **, int64_t *, size_t)
+     * }
+     */
+    public static MemorySegment Graph_GetOperatorSets(MemorySegment struct) {
+        return struct.get(Graph_GetOperatorSets$LAYOUT, Graph_GetOperatorSets$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOperatorSets)(const OrtGraph *, const char **, int64_t *, size_t)
+     * }
+     */
+    public static void Graph_GetOperatorSets(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetOperatorSets$LAYOUT, Graph_GetOperatorSets$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final class Graph_GetNumInputs {
+
+        private Graph_GetNumInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetNumInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetNumInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetNumInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetNumInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final AddressLayout Graph_GetNumInputs$layout() {
+        return Graph_GetNumInputs$LAYOUT;
+    }
+
+    private static final long Graph_GetNumInputs$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetNumInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final long Graph_GetNumInputs$offset() {
+        return Graph_GetNumInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static MemorySegment Graph_GetNumInputs(MemorySegment struct) {
+        return struct.get(Graph_GetNumInputs$LAYOUT, Graph_GetNumInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static void Graph_GetNumInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetNumInputs$LAYOUT, Graph_GetNumInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final class Graph_GetInputs {
+
+        private Graph_GetInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout Graph_GetInputs$layout() {
+        return Graph_GetInputs$LAYOUT;
+    }
+
+    private static final long Graph_GetInputs$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final long Graph_GetInputs$offset() {
+        return Graph_GetInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static MemorySegment Graph_GetInputs(MemorySegment struct) {
+        return struct.get(Graph_GetInputs$LAYOUT, Graph_GetInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static void Graph_GetInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetInputs$LAYOUT, Graph_GetInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOutputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final class Graph_GetNumOutputs {
+
+        private Graph_GetNumOutputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetNumOutputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetNumOutputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetNumOutputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetNumOutputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOutputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final AddressLayout Graph_GetNumOutputs$layout() {
+        return Graph_GetNumOutputs$LAYOUT;
+    }
+
+    private static final long Graph_GetNumOutputs$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetNumOutputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOutputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final long Graph_GetNumOutputs$offset() {
+        return Graph_GetNumOutputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOutputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static MemorySegment Graph_GetNumOutputs(MemorySegment struct) {
+        return struct.get(Graph_GetNumOutputs$LAYOUT, Graph_GetNumOutputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumOutputs)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static void Graph_GetNumOutputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetNumOutputs$LAYOUT, Graph_GetNumOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOutputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final class Graph_GetOutputs {
+
+        private Graph_GetOutputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetOutputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetOutputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetOutputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetOutputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOutputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout Graph_GetOutputs$layout() {
+        return Graph_GetOutputs$LAYOUT;
+    }
+
+    private static final long Graph_GetOutputs$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetOutputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOutputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final long Graph_GetOutputs$offset() {
+        return Graph_GetOutputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOutputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static MemorySegment Graph_GetOutputs(MemorySegment struct) {
+        return struct.get(Graph_GetOutputs$LAYOUT, Graph_GetOutputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetOutputs)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static void Graph_GetOutputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetOutputs$LAYOUT, Graph_GetOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInitializers)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final class Graph_GetNumInitializers {
+
+        private Graph_GetNumInitializers() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetNumInitializers.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetNumInitializers.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetNumInitializers$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetNumInitializers"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInitializers)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final AddressLayout Graph_GetNumInitializers$layout() {
+        return Graph_GetNumInitializers$LAYOUT;
+    }
+
+    private static final long Graph_GetNumInitializers$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Graph_GetNumInitializers"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInitializers)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final long Graph_GetNumInitializers$offset() {
+        return Graph_GetNumInitializers$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInitializers)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static MemorySegment Graph_GetNumInitializers(MemorySegment struct) {
+        return struct.get(Graph_GetNumInitializers$LAYOUT, Graph_GetNumInitializers$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumInitializers)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static void Graph_GetNumInitializers(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetNumInitializers$LAYOUT, Graph_GetNumInitializers$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInitializers)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final class Graph_GetInitializers {
+
+        private Graph_GetInitializers() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetInitializers.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetInitializers.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetInitializers$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetInitializers"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInitializers)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout Graph_GetInitializers$layout() {
+        return Graph_GetInitializers$LAYOUT;
+    }
+
+    private static final long Graph_GetInitializers$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetInitializers"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInitializers)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final long Graph_GetInitializers$offset() {
+        return Graph_GetInitializers$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInitializers)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static MemorySegment Graph_GetInitializers(MemorySegment struct) {
+        return struct.get(Graph_GetInitializers$LAYOUT, Graph_GetInitializers$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetInitializers)(const OrtGraph *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static void Graph_GetInitializers(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetInitializers$LAYOUT, Graph_GetInitializers$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumNodes)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final class Graph_GetNumNodes {
+
+        private Graph_GetNumNodes() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetNumNodes.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetNumNodes.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetNumNodes$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetNumNodes"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumNodes)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final AddressLayout Graph_GetNumNodes$layout() {
+        return Graph_GetNumNodes$LAYOUT;
+    }
+
+    private static final long Graph_GetNumNodes$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetNumNodes"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumNodes)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static final long Graph_GetNumNodes$offset() {
+        return Graph_GetNumNodes$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumNodes)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static MemorySegment Graph_GetNumNodes(MemorySegment struct) {
+        return struct.get(Graph_GetNumNodes$LAYOUT, Graph_GetNumNodes$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNumNodes)(const OrtGraph *, size_t *)
+     * }
+     */
+    public static void Graph_GetNumNodes(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetNumNodes$LAYOUT, Graph_GetNumNodes$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNodes)(const OrtGraph *, const OrtNode **, size_t)
+     * }
+     */
+    public static final class Graph_GetNodes {
+
+        private Graph_GetNodes() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetNodes.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetNodes.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetNodes$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetNodes"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNodes)(const OrtGraph *, const OrtNode **, size_t)
+     * }
+     */
+    public static final AddressLayout Graph_GetNodes$layout() {
+        return Graph_GetNodes$LAYOUT;
+    }
+
+    private static final long Graph_GetNodes$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetNodes"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNodes)(const OrtGraph *, const OrtNode **, size_t)
+     * }
+     */
+    public static final long Graph_GetNodes$offset() {
+        return Graph_GetNodes$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNodes)(const OrtGraph *, const OrtNode **, size_t)
+     * }
+     */
+    public static MemorySegment Graph_GetNodes(MemorySegment struct) {
+        return struct.get(Graph_GetNodes$LAYOUT, Graph_GetNodes$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetNodes)(const OrtGraph *, const OrtNode **, size_t)
+     * }
+     */
+    public static void Graph_GetNodes(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetNodes$LAYOUT, Graph_GetNodes$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetParentNode)(const OrtGraph *, const OrtNode **)
+     * }
+     */
+    public static final class Graph_GetParentNode {
+
+        private Graph_GetParentNode() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetParentNode.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetParentNode.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetParentNode$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetParentNode"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetParentNode)(const OrtGraph *, const OrtNode **)
+     * }
+     */
+    public static final AddressLayout Graph_GetParentNode$layout() {
+        return Graph_GetParentNode$LAYOUT;
+    }
+
+    private static final long Graph_GetParentNode$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetParentNode"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetParentNode)(const OrtGraph *, const OrtNode **)
+     * }
+     */
+    public static final long Graph_GetParentNode$offset() {
+        return Graph_GetParentNode$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetParentNode)(const OrtGraph *, const OrtNode **)
+     * }
+     */
+    public static MemorySegment Graph_GetParentNode(MemorySegment struct) {
+        return struct.get(Graph_GetParentNode$LAYOUT, Graph_GetParentNode$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetParentNode)(const OrtGraph *, const OrtNode **)
+     * }
+     */
+    public static void Graph_GetParentNode(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetParentNode$LAYOUT, Graph_GetParentNode$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetGraphView)(const OrtGraph *, const OrtNode **, size_t, OrtGraph **)
+     * }
+     */
+    public static final class Graph_GetGraphView {
+
+        private Graph_GetGraphView() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetGraphView.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetGraphView.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetGraphView$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetGraphView"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetGraphView)(const OrtGraph *, const OrtNode **, size_t, OrtGraph **)
+     * }
+     */
+    public static final AddressLayout Graph_GetGraphView$layout() {
+        return Graph_GetGraphView$LAYOUT;
+    }
+
+    private static final long Graph_GetGraphView$OFFSET = $LAYOUT.byteOffset(groupElement("Graph_GetGraphView"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetGraphView)(const OrtGraph *, const OrtNode **, size_t, OrtGraph **)
+     * }
+     */
+    public static final long Graph_GetGraphView$offset() {
+        return Graph_GetGraphView$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetGraphView)(const OrtGraph *, const OrtNode **, size_t, OrtGraph **)
+     * }
+     */
+    public static MemorySegment Graph_GetGraphView(MemorySegment struct) {
+        return struct.get(Graph_GetGraphView$LAYOUT, Graph_GetGraphView$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetGraphView)(const OrtGraph *, const OrtNode **, size_t, OrtGraph **)
+     * }
+     */
+    public static void Graph_GetGraphView(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetGraphView$LAYOUT, Graph_GetGraphView$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetId)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final class Node_GetId {
+
+        private Node_GetId() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetId.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetId.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetId$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Node_GetId"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetId)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final AddressLayout Node_GetId$layout() {
+        return Node_GetId$LAYOUT;
+    }
+
+    private static final long Node_GetId$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetId"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetId)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final long Node_GetId$offset() {
+        return Node_GetId$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetId)(const OrtNode *, size_t *)
+     * }
+     */
+    public static MemorySegment Node_GetId(MemorySegment struct) {
+        return struct.get(Node_GetId$LAYOUT, Node_GetId$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetId)(const OrtNode *, size_t *)
+     * }
+     */
+    public static void Node_GetId(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetId$LAYOUT, Node_GetId$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetName)(const OrtNode *, const char **)
+     * }
+     */
+    public static final class Node_GetName {
+
+        private Node_GetName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetName)(const OrtNode *, const char **)
+     * }
+     */
+    public static final AddressLayout Node_GetName$layout() {
+        return Node_GetName$LAYOUT;
+    }
+
+    private static final long Node_GetName$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetName)(const OrtNode *, const char **)
+     * }
+     */
+    public static final long Node_GetName$offset() {
+        return Node_GetName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetName)(const OrtNode *, const char **)
+     * }
+     */
+    public static MemorySegment Node_GetName(MemorySegment struct) {
+        return struct.get(Node_GetName$LAYOUT, Node_GetName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetName)(const OrtNode *, const char **)
+     * }
+     */
+    public static void Node_GetName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetName$LAYOUT, Node_GetName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOperatorType)(const OrtNode *, const char **)
+     * }
+     */
+    public static final class Node_GetOperatorType {
+
+        private Node_GetOperatorType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetOperatorType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetOperatorType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetOperatorType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetOperatorType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOperatorType)(const OrtNode *, const char **)
+     * }
+     */
+    public static final AddressLayout Node_GetOperatorType$layout() {
+        return Node_GetOperatorType$LAYOUT;
+    }
+
+    private static final long Node_GetOperatorType$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetOperatorType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOperatorType)(const OrtNode *, const char **)
+     * }
+     */
+    public static final long Node_GetOperatorType$offset() {
+        return Node_GetOperatorType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOperatorType)(const OrtNode *, const char **)
+     * }
+     */
+    public static MemorySegment Node_GetOperatorType(MemorySegment struct) {
+        return struct.get(Node_GetOperatorType$LAYOUT, Node_GetOperatorType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOperatorType)(const OrtNode *, const char **)
+     * }
+     */
+    public static void Node_GetOperatorType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetOperatorType$LAYOUT, Node_GetOperatorType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetDomain)(const OrtNode *, const char **)
+     * }
+     */
+    public static final class Node_GetDomain {
+
+        private Node_GetDomain() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetDomain.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetDomain.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetDomain$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetDomain"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetDomain)(const OrtNode *, const char **)
+     * }
+     */
+    public static final AddressLayout Node_GetDomain$layout() {
+        return Node_GetDomain$LAYOUT;
+    }
+
+    private static final long Node_GetDomain$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetDomain"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetDomain)(const OrtNode *, const char **)
+     * }
+     */
+    public static final long Node_GetDomain$offset() {
+        return Node_GetDomain$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetDomain)(const OrtNode *, const char **)
+     * }
+     */
+    public static MemorySegment Node_GetDomain(MemorySegment struct) {
+        return struct.get(Node_GetDomain$LAYOUT, Node_GetDomain$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetDomain)(const OrtNode *, const char **)
+     * }
+     */
+    public static void Node_GetDomain(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetDomain$LAYOUT, Node_GetDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSinceVersion)(const OrtNode *, int *)
+     * }
+     */
+    public static final class Node_GetSinceVersion {
+
+        private Node_GetSinceVersion() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetSinceVersion.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetSinceVersion.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetSinceVersion$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetSinceVersion"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSinceVersion)(const OrtNode *, int *)
+     * }
+     */
+    public static final AddressLayout Node_GetSinceVersion$layout() {
+        return Node_GetSinceVersion$LAYOUT;
+    }
+
+    private static final long Node_GetSinceVersion$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetSinceVersion"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSinceVersion)(const OrtNode *, int *)
+     * }
+     */
+    public static final long Node_GetSinceVersion$offset() {
+        return Node_GetSinceVersion$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSinceVersion)(const OrtNode *, int *)
+     * }
+     */
+    public static MemorySegment Node_GetSinceVersion(MemorySegment struct) {
+        return struct.get(Node_GetSinceVersion$LAYOUT, Node_GetSinceVersion$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSinceVersion)(const OrtNode *, int *)
+     * }
+     */
+    public static void Node_GetSinceVersion(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetSinceVersion$LAYOUT, Node_GetSinceVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final class Node_GetNumInputs {
+
+        private Node_GetNumInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetNumInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetNumInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetNumInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetNumInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final AddressLayout Node_GetNumInputs$layout() {
+        return Node_GetNumInputs$LAYOUT;
+    }
+
+    private static final long Node_GetNumInputs$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetNumInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final long Node_GetNumInputs$offset() {
+        return Node_GetNumInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static MemorySegment Node_GetNumInputs(MemorySegment struct) {
+        return struct.get(Node_GetNumInputs$LAYOUT, Node_GetNumInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static void Node_GetNumInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetNumInputs$LAYOUT, Node_GetNumInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final class Node_GetInputs {
+
+        private Node_GetInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout Node_GetInputs$layout() {
+        return Node_GetInputs$LAYOUT;
+    }
+
+    private static final long Node_GetInputs$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final long Node_GetInputs$offset() {
+        return Node_GetInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static MemorySegment Node_GetInputs(MemorySegment struct) {
+        return struct.get(Node_GetInputs$LAYOUT, Node_GetInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static void Node_GetInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetInputs$LAYOUT, Node_GetInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumOutputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final class Node_GetNumOutputs {
+
+        private Node_GetNumOutputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetNumOutputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetNumOutputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetNumOutputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetNumOutputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumOutputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final AddressLayout Node_GetNumOutputs$layout() {
+        return Node_GetNumOutputs$LAYOUT;
+    }
+
+    private static final long Node_GetNumOutputs$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetNumOutputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumOutputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final long Node_GetNumOutputs$offset() {
+        return Node_GetNumOutputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumOutputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static MemorySegment Node_GetNumOutputs(MemorySegment struct) {
+        return struct.get(Node_GetNumOutputs$LAYOUT, Node_GetNumOutputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumOutputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static void Node_GetNumOutputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetNumOutputs$LAYOUT, Node_GetNumOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOutputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final class Node_GetOutputs {
+
+        private Node_GetOutputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetOutputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetOutputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetOutputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetOutputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOutputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout Node_GetOutputs$layout() {
+        return Node_GetOutputs$LAYOUT;
+    }
+
+    private static final long Node_GetOutputs$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetOutputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOutputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final long Node_GetOutputs$offset() {
+        return Node_GetOutputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOutputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static MemorySegment Node_GetOutputs(MemorySegment struct) {
+        return struct.get(Node_GetOutputs$LAYOUT, Node_GetOutputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetOutputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static void Node_GetOutputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetOutputs$LAYOUT, Node_GetOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumImplicitInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final class Node_GetNumImplicitInputs {
+
+        private Node_GetNumImplicitInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetNumImplicitInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetNumImplicitInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetNumImplicitInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetNumImplicitInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumImplicitInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final AddressLayout Node_GetNumImplicitInputs$layout() {
+        return Node_GetNumImplicitInputs$LAYOUT;
+    }
+
+    private static final long Node_GetNumImplicitInputs$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Node_GetNumImplicitInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumImplicitInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final long Node_GetNumImplicitInputs$offset() {
+        return Node_GetNumImplicitInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumImplicitInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static MemorySegment Node_GetNumImplicitInputs(MemorySegment struct) {
+        return struct.get(Node_GetNumImplicitInputs$LAYOUT, Node_GetNumImplicitInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumImplicitInputs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static void Node_GetNumImplicitInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetNumImplicitInputs$LAYOUT, Node_GetNumImplicitInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetImplicitInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final class Node_GetImplicitInputs {
+
+        private Node_GetImplicitInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetImplicitInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetImplicitInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetImplicitInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetImplicitInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetImplicitInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout Node_GetImplicitInputs$layout() {
+        return Node_GetImplicitInputs$LAYOUT;
+    }
+
+    private static final long Node_GetImplicitInputs$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Node_GetImplicitInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetImplicitInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static final long Node_GetImplicitInputs$offset() {
+        return Node_GetImplicitInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetImplicitInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static MemorySegment Node_GetImplicitInputs(MemorySegment struct) {
+        return struct.get(Node_GetImplicitInputs$LAYOUT, Node_GetImplicitInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetImplicitInputs)(const OrtNode *, const OrtValueInfo **, size_t)
+     * }
+     */
+    public static void Node_GetImplicitInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetImplicitInputs$LAYOUT, Node_GetImplicitInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumAttributes)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final class Node_GetNumAttributes {
+
+        private Node_GetNumAttributes() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetNumAttributes.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetNumAttributes.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetNumAttributes$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetNumAttributes"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumAttributes)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final AddressLayout Node_GetNumAttributes$layout() {
+        return Node_GetNumAttributes$LAYOUT;
+    }
+
+    private static final long Node_GetNumAttributes$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetNumAttributes"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumAttributes)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final long Node_GetNumAttributes$offset() {
+        return Node_GetNumAttributes$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumAttributes)(const OrtNode *, size_t *)
+     * }
+     */
+    public static MemorySegment Node_GetNumAttributes(MemorySegment struct) {
+        return struct.get(Node_GetNumAttributes$LAYOUT, Node_GetNumAttributes$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumAttributes)(const OrtNode *, size_t *)
+     * }
+     */
+    public static void Node_GetNumAttributes(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetNumAttributes$LAYOUT, Node_GetNumAttributes$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributes)(const OrtNode *, const OrtOpAttr **, size_t)
+     * }
+     */
+    public static final class Node_GetAttributes {
+
+        private Node_GetAttributes() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetAttributes.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetAttributes.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetAttributes$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetAttributes"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributes)(const OrtNode *, const OrtOpAttr **, size_t)
+     * }
+     */
+    public static final AddressLayout Node_GetAttributes$layout() {
+        return Node_GetAttributes$LAYOUT;
+    }
+
+    private static final long Node_GetAttributes$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetAttributes"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributes)(const OrtNode *, const OrtOpAttr **, size_t)
+     * }
+     */
+    public static final long Node_GetAttributes$offset() {
+        return Node_GetAttributes$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributes)(const OrtNode *, const OrtOpAttr **, size_t)
+     * }
+     */
+    public static MemorySegment Node_GetAttributes(MemorySegment struct) {
+        return struct.get(Node_GetAttributes$LAYOUT, Node_GetAttributes$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributes)(const OrtNode *, const OrtOpAttr **, size_t)
+     * }
+     */
+    public static void Node_GetAttributes(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetAttributes$LAYOUT, Node_GetAttributes$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributeByName)(const OrtNode *, const char *, const OrtOpAttr **)
+     * }
+     */
+    public static final class Node_GetAttributeByName {
+
+        private Node_GetAttributeByName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetAttributeByName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetAttributeByName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetAttributeByName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetAttributeByName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributeByName)(const OrtNode *, const char *, const OrtOpAttr **)
+     * }
+     */
+    public static final AddressLayout Node_GetAttributeByName$layout() {
+        return Node_GetAttributeByName$LAYOUT;
+    }
+
+    private static final long Node_GetAttributeByName$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Node_GetAttributeByName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributeByName)(const OrtNode *, const char *, const OrtOpAttr **)
+     * }
+     */
+    public static final long Node_GetAttributeByName$offset() {
+        return Node_GetAttributeByName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributeByName)(const OrtNode *, const char *, const OrtOpAttr **)
+     * }
+     */
+    public static MemorySegment Node_GetAttributeByName(MemorySegment struct) {
+        return struct.get(Node_GetAttributeByName$LAYOUT, Node_GetAttributeByName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetAttributeByName)(const OrtNode *, const char *, const OrtOpAttr **)
+     * }
+     */
+    public static void Node_GetAttributeByName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetAttributeByName$LAYOUT, Node_GetAttributeByName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetTensorAttributeAsOrtValue)(const OrtOpAttr *, OrtValue **)
+     * }
+     */
+    public static final class OpAttr_GetTensorAttributeAsOrtValue {
+
+        private OpAttr_GetTensorAttributeAsOrtValue() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(OpAttr_GetTensorAttributeAsOrtValue.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(OpAttr_GetTensorAttributeAsOrtValue.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout OpAttr_GetTensorAttributeAsOrtValue$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("OpAttr_GetTensorAttributeAsOrtValue"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetTensorAttributeAsOrtValue)(const OrtOpAttr *, OrtValue **)
+     * }
+     */
+    public static final AddressLayout OpAttr_GetTensorAttributeAsOrtValue$layout() {
+        return OpAttr_GetTensorAttributeAsOrtValue$LAYOUT;
+    }
+
+    private static final long OpAttr_GetTensorAttributeAsOrtValue$OFFSET =
+            $LAYOUT.byteOffset(groupElement("OpAttr_GetTensorAttributeAsOrtValue"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetTensorAttributeAsOrtValue)(const OrtOpAttr *, OrtValue **)
+     * }
+     */
+    public static final long OpAttr_GetTensorAttributeAsOrtValue$offset() {
+        return OpAttr_GetTensorAttributeAsOrtValue$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetTensorAttributeAsOrtValue)(const OrtOpAttr *, OrtValue **)
+     * }
+     */
+    public static MemorySegment OpAttr_GetTensorAttributeAsOrtValue(MemorySegment struct) {
+        return struct.get(OpAttr_GetTensorAttributeAsOrtValue$LAYOUT, OpAttr_GetTensorAttributeAsOrtValue$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetTensorAttributeAsOrtValue)(const OrtOpAttr *, OrtValue **)
+     * }
+     */
+    public static void OpAttr_GetTensorAttributeAsOrtValue(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(OpAttr_GetTensorAttributeAsOrtValue$LAYOUT, OpAttr_GetTensorAttributeAsOrtValue$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetType)(const OrtOpAttr *, OrtOpAttrType *)
+     * }
+     */
+    public static final class OpAttr_GetType {
+
+        private OpAttr_GetType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(OpAttr_GetType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(OpAttr_GetType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout OpAttr_GetType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("OpAttr_GetType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetType)(const OrtOpAttr *, OrtOpAttrType *)
+     * }
+     */
+    public static final AddressLayout OpAttr_GetType$layout() {
+        return OpAttr_GetType$LAYOUT;
+    }
+
+    private static final long OpAttr_GetType$OFFSET = $LAYOUT.byteOffset(groupElement("OpAttr_GetType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetType)(const OrtOpAttr *, OrtOpAttrType *)
+     * }
+     */
+    public static final long OpAttr_GetType$offset() {
+        return OpAttr_GetType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetType)(const OrtOpAttr *, OrtOpAttrType *)
+     * }
+     */
+    public static MemorySegment OpAttr_GetType(MemorySegment struct) {
+        return struct.get(OpAttr_GetType$LAYOUT, OpAttr_GetType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetType)(const OrtOpAttr *, OrtOpAttrType *)
+     * }
+     */
+    public static void OpAttr_GetType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(OpAttr_GetType$LAYOUT, OpAttr_GetType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetName)(const OrtOpAttr *, const char **)
+     * }
+     */
+    public static final class OpAttr_GetName {
+
+        private OpAttr_GetName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(OpAttr_GetName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(OpAttr_GetName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout OpAttr_GetName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("OpAttr_GetName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetName)(const OrtOpAttr *, const char **)
+     * }
+     */
+    public static final AddressLayout OpAttr_GetName$layout() {
+        return OpAttr_GetName$LAYOUT;
+    }
+
+    private static final long OpAttr_GetName$OFFSET = $LAYOUT.byteOffset(groupElement("OpAttr_GetName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetName)(const OrtOpAttr *, const char **)
+     * }
+     */
+    public static final long OpAttr_GetName$offset() {
+        return OpAttr_GetName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetName)(const OrtOpAttr *, const char **)
+     * }
+     */
+    public static MemorySegment OpAttr_GetName(MemorySegment struct) {
+        return struct.get(OpAttr_GetName$LAYOUT, OpAttr_GetName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*OpAttr_GetName)(const OrtOpAttr *, const char **)
+     * }
+     */
+    public static void OpAttr_GetName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(OpAttr_GetName$LAYOUT, OpAttr_GetName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumSubgraphs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final class Node_GetNumSubgraphs {
+
+        private Node_GetNumSubgraphs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetNumSubgraphs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetNumSubgraphs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetNumSubgraphs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetNumSubgraphs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumSubgraphs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final AddressLayout Node_GetNumSubgraphs$layout() {
+        return Node_GetNumSubgraphs$LAYOUT;
+    }
+
+    private static final long Node_GetNumSubgraphs$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetNumSubgraphs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumSubgraphs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static final long Node_GetNumSubgraphs$offset() {
+        return Node_GetNumSubgraphs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumSubgraphs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static MemorySegment Node_GetNumSubgraphs(MemorySegment struct) {
+        return struct.get(Node_GetNumSubgraphs$LAYOUT, Node_GetNumSubgraphs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetNumSubgraphs)(const OrtNode *, size_t *)
+     * }
+     */
+    public static void Node_GetNumSubgraphs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetNumSubgraphs$LAYOUT, Node_GetNumSubgraphs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSubgraphs)(const OrtNode *, const OrtGraph **, size_t, const char **)
+     * }
+     */
+    public static final class Node_GetSubgraphs {
+
+        private Node_GetSubgraphs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetSubgraphs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetSubgraphs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetSubgraphs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetSubgraphs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSubgraphs)(const OrtNode *, const OrtGraph **, size_t, const char **)
+     * }
+     */
+    public static final AddressLayout Node_GetSubgraphs$layout() {
+        return Node_GetSubgraphs$LAYOUT;
+    }
+
+    private static final long Node_GetSubgraphs$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetSubgraphs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSubgraphs)(const OrtNode *, const OrtGraph **, size_t, const char **)
+     * }
+     */
+    public static final long Node_GetSubgraphs$offset() {
+        return Node_GetSubgraphs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSubgraphs)(const OrtNode *, const OrtGraph **, size_t, const char **)
+     * }
+     */
+    public static MemorySegment Node_GetSubgraphs(MemorySegment struct) {
+        return struct.get(Node_GetSubgraphs$LAYOUT, Node_GetSubgraphs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetSubgraphs)(const OrtNode *, const OrtGraph **, size_t, const char **)
+     * }
+     */
+    public static void Node_GetSubgraphs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetSubgraphs$LAYOUT, Node_GetSubgraphs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetGraph)(const OrtNode *, const OrtGraph **)
+     * }
+     */
+    public static final class Node_GetGraph {
+
+        private Node_GetGraph() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetGraph.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetGraph.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetGraph$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetGraph"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetGraph)(const OrtNode *, const OrtGraph **)
+     * }
+     */
+    public static final AddressLayout Node_GetGraph$layout() {
+        return Node_GetGraph$LAYOUT;
+    }
+
+    private static final long Node_GetGraph$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetGraph"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetGraph)(const OrtNode *, const OrtGraph **)
+     * }
+     */
+    public static final long Node_GetGraph$offset() {
+        return Node_GetGraph$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetGraph)(const OrtNode *, const OrtGraph **)
+     * }
+     */
+    public static MemorySegment Node_GetGraph(MemorySegment struct) {
+        return struct.get(Node_GetGraph$LAYOUT, Node_GetGraph$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetGraph)(const OrtNode *, const OrtGraph **)
+     * }
+     */
+    public static void Node_GetGraph(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetGraph$LAYOUT, Node_GetGraph$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetEpName)(const OrtNode *, const char **)
+     * }
+     */
+    public static final class Node_GetEpName {
+
+        private Node_GetEpName() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Node_GetEpName.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Node_GetEpName.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Node_GetEpName$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Node_GetEpName"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetEpName)(const OrtNode *, const char **)
+     * }
+     */
+    public static final AddressLayout Node_GetEpName$layout() {
+        return Node_GetEpName$LAYOUT;
+    }
+
+    private static final long Node_GetEpName$OFFSET = $LAYOUT.byteOffset(groupElement("Node_GetEpName"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetEpName)(const OrtNode *, const char **)
+     * }
+     */
+    public static final long Node_GetEpName$offset() {
+        return Node_GetEpName$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetEpName)(const OrtNode *, const char **)
+     * }
+     */
+    public static MemorySegment Node_GetEpName(MemorySegment struct) {
+        return struct.get(Node_GetEpName$LAYOUT, Node_GetEpName$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Node_GetEpName)(const OrtNode *, const char **)
+     * }
+     */
+    public static void Node_GetEpName(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Node_GetEpName$LAYOUT, Node_GetEpName$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseExternalInitializerInfo)(OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final class ReleaseExternalInitializerInfo {
+
+        private ReleaseExternalInitializerInfo() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseExternalInitializerInfo.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseExternalInitializerInfo.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseExternalInitializerInfo$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseExternalInitializerInfo"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseExternalInitializerInfo)(OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final AddressLayout ReleaseExternalInitializerInfo$layout() {
+        return ReleaseExternalInitializerInfo$LAYOUT;
+    }
+
+    private static final long ReleaseExternalInitializerInfo$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ReleaseExternalInitializerInfo"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseExternalInitializerInfo)(OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final long ReleaseExternalInitializerInfo$offset() {
+        return ReleaseExternalInitializerInfo$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseExternalInitializerInfo)(OrtExternalInitializerInfo *)
+     * }
+     */
+    public static MemorySegment ReleaseExternalInitializerInfo(MemorySegment struct) {
+        return struct.get(ReleaseExternalInitializerInfo$LAYOUT, ReleaseExternalInitializerInfo$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseExternalInitializerInfo)(OrtExternalInitializerInfo *)
+     * }
+     */
+    public static void ReleaseExternalInitializerInfo(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseExternalInitializerInfo$LAYOUT, ReleaseExternalInitializerInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*ExternalInitializerInfo_GetFilePath)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final class ExternalInitializerInfo_GetFilePath {
+
+        private ExternalInitializerInfo_GetFilePath() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ExternalInitializerInfo_GetFilePath.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ExternalInitializerInfo_GetFilePath.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ExternalInitializerInfo_GetFilePath$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ExternalInitializerInfo_GetFilePath"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*ExternalInitializerInfo_GetFilePath)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final AddressLayout ExternalInitializerInfo_GetFilePath$layout() {
+        return ExternalInitializerInfo_GetFilePath$LAYOUT;
+    }
+
+    private static final long ExternalInitializerInfo_GetFilePath$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ExternalInitializerInfo_GetFilePath"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*ExternalInitializerInfo_GetFilePath)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final long ExternalInitializerInfo_GetFilePath$offset() {
+        return ExternalInitializerInfo_GetFilePath$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*ExternalInitializerInfo_GetFilePath)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static MemorySegment ExternalInitializerInfo_GetFilePath(MemorySegment struct) {
+        return struct.get(ExternalInitializerInfo_GetFilePath$LAYOUT, ExternalInitializerInfo_GetFilePath$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*ExternalInitializerInfo_GetFilePath)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static void ExternalInitializerInfo_GetFilePath(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ExternalInitializerInfo_GetFilePath$LAYOUT, ExternalInitializerInfo_GetFilePath$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * int64_t (*ExternalInitializerInfo_GetFileOffset)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final class ExternalInitializerInfo_GetFileOffset {
+
+        private ExternalInitializerInfo_GetFileOffset() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            long apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_LONG, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ExternalInitializerInfo_GetFileOffset.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ExternalInitializerInfo_GetFileOffset.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static long invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (long) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ExternalInitializerInfo_GetFileOffset$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ExternalInitializerInfo_GetFileOffset"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int64_t (*ExternalInitializerInfo_GetFileOffset)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final AddressLayout ExternalInitializerInfo_GetFileOffset$layout() {
+        return ExternalInitializerInfo_GetFileOffset$LAYOUT;
+    }
+
+    private static final long ExternalInitializerInfo_GetFileOffset$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ExternalInitializerInfo_GetFileOffset"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int64_t (*ExternalInitializerInfo_GetFileOffset)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final long ExternalInitializerInfo_GetFileOffset$offset() {
+        return ExternalInitializerInfo_GetFileOffset$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int64_t (*ExternalInitializerInfo_GetFileOffset)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static MemorySegment ExternalInitializerInfo_GetFileOffset(MemorySegment struct) {
+        return struct.get(ExternalInitializerInfo_GetFileOffset$LAYOUT, ExternalInitializerInfo_GetFileOffset$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int64_t (*ExternalInitializerInfo_GetFileOffset)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static void ExternalInitializerInfo_GetFileOffset(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                ExternalInitializerInfo_GetFileOffset$LAYOUT, ExternalInitializerInfo_GetFileOffset$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * size_t (*ExternalInitializerInfo_GetByteSize)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final class ExternalInitializerInfo_GetByteSize {
+
+        private ExternalInitializerInfo_GetByteSize() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            long apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_LONG, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ExternalInitializerInfo_GetByteSize.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ExternalInitializerInfo_GetByteSize.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static long invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (long) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ExternalInitializerInfo_GetByteSize$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ExternalInitializerInfo_GetByteSize"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t (*ExternalInitializerInfo_GetByteSize)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final AddressLayout ExternalInitializerInfo_GetByteSize$layout() {
+        return ExternalInitializerInfo_GetByteSize$LAYOUT;
+    }
+
+    private static final long ExternalInitializerInfo_GetByteSize$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ExternalInitializerInfo_GetByteSize"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t (*ExternalInitializerInfo_GetByteSize)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static final long ExternalInitializerInfo_GetByteSize$offset() {
+        return ExternalInitializerInfo_GetByteSize$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * size_t (*ExternalInitializerInfo_GetByteSize)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static MemorySegment ExternalInitializerInfo_GetByteSize(MemorySegment struct) {
+        return struct.get(ExternalInitializerInfo_GetByteSize$LAYOUT, ExternalInitializerInfo_GetByteSize$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * size_t (*ExternalInitializerInfo_GetByteSize)(const OrtExternalInitializerInfo *)
+     * }
+     */
+    public static void ExternalInitializerInfo_GetByteSize(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ExternalInitializerInfo_GetByteSize$LAYOUT, ExternalInitializerInfo_GetByteSize$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*GetRunConfigEntry)(const OrtRunOptions *, const char *)
+     * }
+     */
+    public static final class GetRunConfigEntry {
+
+        private GetRunConfigEntry() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetRunConfigEntry.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetRunConfigEntry.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetRunConfigEntry$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetRunConfigEntry"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*GetRunConfigEntry)(const OrtRunOptions *, const char *)
+     * }
+     */
+    public static final AddressLayout GetRunConfigEntry$layout() {
+        return GetRunConfigEntry$LAYOUT;
+    }
+
+    private static final long GetRunConfigEntry$OFFSET = $LAYOUT.byteOffset(groupElement("GetRunConfigEntry"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*GetRunConfigEntry)(const OrtRunOptions *, const char *)
+     * }
+     */
+    public static final long GetRunConfigEntry$offset() {
+        return GetRunConfigEntry$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*GetRunConfigEntry)(const OrtRunOptions *, const char *)
+     * }
+     */
+    public static MemorySegment GetRunConfigEntry(MemorySegment struct) {
+        return struct.get(GetRunConfigEntry$LAYOUT, GetRunConfigEntry$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*GetRunConfigEntry)(const OrtRunOptions *, const char *)
+     * }
+     */
+    public static void GetRunConfigEntry(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetRunConfigEntry$LAYOUT, GetRunConfigEntry$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtMemoryInfo *(*EpDevice_MemoryInfo)(const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static final class EpDevice_MemoryInfo {
+
+        private EpDevice_MemoryInfo() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_MemoryInfo.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_MemoryInfo.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_MemoryInfo$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_MemoryInfo"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtMemoryInfo *(*EpDevice_MemoryInfo)(const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static final AddressLayout EpDevice_MemoryInfo$layout() {
+        return EpDevice_MemoryInfo$LAYOUT;
+    }
+
+    private static final long EpDevice_MemoryInfo$OFFSET = $LAYOUT.byteOffset(groupElement("EpDevice_MemoryInfo"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtMemoryInfo *(*EpDevice_MemoryInfo)(const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static final long EpDevice_MemoryInfo$offset() {
+        return EpDevice_MemoryInfo$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtMemoryInfo *(*EpDevice_MemoryInfo)(const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static MemorySegment EpDevice_MemoryInfo(MemorySegment struct) {
+        return struct.get(EpDevice_MemoryInfo$LAYOUT, EpDevice_MemoryInfo$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtMemoryInfo *(*EpDevice_MemoryInfo)(const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static void EpDevice_MemoryInfo(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_MemoryInfo$LAYOUT, EpDevice_MemoryInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType, OrtAllocatorType, const OrtKeyValuePairs *, OrtAllocator **)
+     * }
+     */
+    public static final class CreateSharedAllocator {
+
+        private CreateSharedAllocator() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(
+                    MemorySegment _x0, MemorySegment _x1, int _x2, int _x3, MemorySegment _x4, MemorySegment _x5);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateSharedAllocator.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateSharedAllocator.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                int _x2,
+                int _x3,
+                MemorySegment _x4,
+                MemorySegment _x5) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateSharedAllocator$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateSharedAllocator"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType, OrtAllocatorType, const OrtKeyValuePairs *, OrtAllocator **)
+     * }
+     */
+    public static final AddressLayout CreateSharedAllocator$layout() {
+        return CreateSharedAllocator$LAYOUT;
+    }
+
+    private static final long CreateSharedAllocator$OFFSET = $LAYOUT.byteOffset(groupElement("CreateSharedAllocator"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType, OrtAllocatorType, const OrtKeyValuePairs *, OrtAllocator **)
+     * }
+     */
+    public static final long CreateSharedAllocator$offset() {
+        return CreateSharedAllocator$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType, OrtAllocatorType, const OrtKeyValuePairs *, OrtAllocator **)
+     * }
+     */
+    public static MemorySegment CreateSharedAllocator(MemorySegment struct) {
+        return struct.get(CreateSharedAllocator$LAYOUT, CreateSharedAllocator$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType, OrtAllocatorType, const OrtKeyValuePairs *, OrtAllocator **)
+     * }
+     */
+    public static void CreateSharedAllocator(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateSharedAllocator$LAYOUT, CreateSharedAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSharedAllocator)(OrtEnv *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static final class GetSharedAllocator {
+
+        private GetSharedAllocator() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetSharedAllocator.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetSharedAllocator.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetSharedAllocator$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetSharedAllocator"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSharedAllocator)(OrtEnv *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static final AddressLayout GetSharedAllocator$layout() {
+        return GetSharedAllocator$LAYOUT;
+    }
+
+    private static final long GetSharedAllocator$OFFSET = $LAYOUT.byteOffset(groupElement("GetSharedAllocator"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSharedAllocator)(OrtEnv *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static final long GetSharedAllocator$offset() {
+        return GetSharedAllocator$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSharedAllocator)(OrtEnv *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static MemorySegment GetSharedAllocator(MemorySegment struct) {
+        return struct.get(GetSharedAllocator$LAYOUT, GetSharedAllocator$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSharedAllocator)(OrtEnv *, const OrtMemoryInfo *, OrtAllocator **)
+     * }
+     */
+    public static void GetSharedAllocator(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetSharedAllocator$LAYOUT, GetSharedAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReleaseSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static final class ReleaseSharedAllocator {
+
+        private ReleaseSharedAllocator() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, int _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseSharedAllocator.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseSharedAllocator.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, int _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseSharedAllocator$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseSharedAllocator"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReleaseSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static final AddressLayout ReleaseSharedAllocator$layout() {
+        return ReleaseSharedAllocator$LAYOUT;
+    }
+
+    private static final long ReleaseSharedAllocator$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ReleaseSharedAllocator"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReleaseSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static final long ReleaseSharedAllocator$offset() {
+        return ReleaseSharedAllocator$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReleaseSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static MemorySegment ReleaseSharedAllocator(MemorySegment struct) {
+        return struct.get(ReleaseSharedAllocator$LAYOUT, ReleaseSharedAllocator$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReleaseSharedAllocator)(OrtEnv *, const OrtEpDevice *, OrtDeviceMemoryType)
+     * }
+     */
+    public static void ReleaseSharedAllocator(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseSharedAllocator$LAYOUT, ReleaseSharedAllocator$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorData)(const OrtValue *, const void **)
+     * }
+     */
+    public static final class GetTensorData {
+
+        private GetTensorData() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetTensorData.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetTensorData.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetTensorData$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetTensorData"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorData)(const OrtValue *, const void **)
+     * }
+     */
+    public static final AddressLayout GetTensorData$layout() {
+        return GetTensorData$LAYOUT;
+    }
+
+    private static final long GetTensorData$OFFSET = $LAYOUT.byteOffset(groupElement("GetTensorData"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorData)(const OrtValue *, const void **)
+     * }
+     */
+    public static final long GetTensorData$offset() {
+        return GetTensorData$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorData)(const OrtValue *, const void **)
+     * }
+     */
+    public static MemorySegment GetTensorData(MemorySegment struct) {
+        return struct.get(GetTensorData$LAYOUT, GetTensorData$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorData)(const OrtValue *, const void **)
+     * }
+     */
+    public static void GetTensorData(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetTensorData$LAYOUT, GetTensorData$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionOptionsConfigEntries)(const OrtSessionOptions *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final class GetSessionOptionsConfigEntries {
+
+        private GetSessionOptionsConfigEntries() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetSessionOptionsConfigEntries.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetSessionOptionsConfigEntries.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetSessionOptionsConfigEntries$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetSessionOptionsConfigEntries"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionOptionsConfigEntries)(const OrtSessionOptions *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final AddressLayout GetSessionOptionsConfigEntries$layout() {
+        return GetSessionOptionsConfigEntries$LAYOUT;
+    }
+
+    private static final long GetSessionOptionsConfigEntries$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetSessionOptionsConfigEntries"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionOptionsConfigEntries)(const OrtSessionOptions *, OrtKeyValuePairs **)
+     * }
+     */
+    public static final long GetSessionOptionsConfigEntries$offset() {
+        return GetSessionOptionsConfigEntries$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionOptionsConfigEntries)(const OrtSessionOptions *, OrtKeyValuePairs **)
+     * }
+     */
+    public static MemorySegment GetSessionOptionsConfigEntries(MemorySegment struct) {
+        return struct.get(GetSessionOptionsConfigEntries$LAYOUT, GetSessionOptionsConfigEntries$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionOptionsConfigEntries)(const OrtSessionOptions *, OrtKeyValuePairs **)
+     * }
+     */
+    public static void GetSessionOptionsConfigEntries(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetSessionOptionsConfigEntries$LAYOUT, GetSessionOptionsConfigEntries$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForInputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static final class SessionGetMemoryInfoForInputs {
+
+        private SessionGetMemoryInfoForInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionGetMemoryInfoForInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionGetMemoryInfoForInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionGetMemoryInfoForInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionGetMemoryInfoForInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForInputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout SessionGetMemoryInfoForInputs$layout() {
+        return SessionGetMemoryInfoForInputs$LAYOUT;
+    }
+
+    private static final long SessionGetMemoryInfoForInputs$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionGetMemoryInfoForInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForInputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static final long SessionGetMemoryInfoForInputs$offset() {
+        return SessionGetMemoryInfoForInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForInputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static MemorySegment SessionGetMemoryInfoForInputs(MemorySegment struct) {
+        return struct.get(SessionGetMemoryInfoForInputs$LAYOUT, SessionGetMemoryInfoForInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForInputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static void SessionGetMemoryInfoForInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SessionGetMemoryInfoForInputs$LAYOUT, SessionGetMemoryInfoForInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForOutputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static final class SessionGetMemoryInfoForOutputs {
+
+        private SessionGetMemoryInfoForOutputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionGetMemoryInfoForOutputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionGetMemoryInfoForOutputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionGetMemoryInfoForOutputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionGetMemoryInfoForOutputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForOutputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static final AddressLayout SessionGetMemoryInfoForOutputs$layout() {
+        return SessionGetMemoryInfoForOutputs$LAYOUT;
+    }
+
+    private static final long SessionGetMemoryInfoForOutputs$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionGetMemoryInfoForOutputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForOutputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static final long SessionGetMemoryInfoForOutputs$offset() {
+        return SessionGetMemoryInfoForOutputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForOutputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static MemorySegment SessionGetMemoryInfoForOutputs(MemorySegment struct) {
+        return struct.get(SessionGetMemoryInfoForOutputs$LAYOUT, SessionGetMemoryInfoForOutputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetMemoryInfoForOutputs)(const OrtSession *, const OrtMemoryInfo **, size_t)
+     * }
+     */
+    public static void SessionGetMemoryInfoForOutputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SessionGetMemoryInfoForOutputs$LAYOUT, SessionGetMemoryInfoForOutputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetEpDeviceForInputs)(const OrtSession *, const OrtEpDevice **, size_t)
+     * }
+     */
+    public static final class SessionGetEpDeviceForInputs {
+
+        private SessionGetEpDeviceForInputs() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionGetEpDeviceForInputs.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionGetEpDeviceForInputs.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionGetEpDeviceForInputs$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionGetEpDeviceForInputs"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetEpDeviceForInputs)(const OrtSession *, const OrtEpDevice **, size_t)
+     * }
+     */
+    public static final AddressLayout SessionGetEpDeviceForInputs$layout() {
+        return SessionGetEpDeviceForInputs$LAYOUT;
+    }
+
+    private static final long SessionGetEpDeviceForInputs$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionGetEpDeviceForInputs"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetEpDeviceForInputs)(const OrtSession *, const OrtEpDevice **, size_t)
+     * }
+     */
+    public static final long SessionGetEpDeviceForInputs$offset() {
+        return SessionGetEpDeviceForInputs$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetEpDeviceForInputs)(const OrtSession *, const OrtEpDevice **, size_t)
+     * }
+     */
+    public static MemorySegment SessionGetEpDeviceForInputs(MemorySegment struct) {
+        return struct.get(SessionGetEpDeviceForInputs$LAYOUT, SessionGetEpDeviceForInputs$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionGetEpDeviceForInputs)(const OrtSession *, const OrtEpDevice **, size_t)
+     * }
+     */
+    public static void SessionGetEpDeviceForInputs(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SessionGetEpDeviceForInputs$LAYOUT, SessionGetEpDeviceForInputs$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSyncStreamForEpDevice)(const OrtEpDevice *, const OrtKeyValuePairs *, OrtSyncStream **)
+     * }
+     */
+    public static final class CreateSyncStreamForEpDevice {
+
+        private CreateSyncStreamForEpDevice() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateSyncStreamForEpDevice.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateSyncStreamForEpDevice.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateSyncStreamForEpDevice$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateSyncStreamForEpDevice"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSyncStreamForEpDevice)(const OrtEpDevice *, const OrtKeyValuePairs *, OrtSyncStream **)
+     * }
+     */
+    public static final AddressLayout CreateSyncStreamForEpDevice$layout() {
+        return CreateSyncStreamForEpDevice$LAYOUT;
+    }
+
+    private static final long CreateSyncStreamForEpDevice$OFFSET =
+            $LAYOUT.byteOffset(groupElement("CreateSyncStreamForEpDevice"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSyncStreamForEpDevice)(const OrtEpDevice *, const OrtKeyValuePairs *, OrtSyncStream **)
+     * }
+     */
+    public static final long CreateSyncStreamForEpDevice$offset() {
+        return CreateSyncStreamForEpDevice$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSyncStreamForEpDevice)(const OrtEpDevice *, const OrtKeyValuePairs *, OrtSyncStream **)
+     * }
+     */
+    public static MemorySegment CreateSyncStreamForEpDevice(MemorySegment struct) {
+        return struct.get(CreateSyncStreamForEpDevice$LAYOUT, CreateSyncStreamForEpDevice$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateSyncStreamForEpDevice)(const OrtEpDevice *, const OrtKeyValuePairs *, OrtSyncStream **)
+     * }
+     */
+    public static void CreateSyncStreamForEpDevice(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateSyncStreamForEpDevice$LAYOUT, CreateSyncStreamForEpDevice$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void *(*SyncStream_GetHandle)(OrtSyncStream *)
+     * }
+     */
+    public static final class SyncStream_GetHandle {
+
+        private SyncStream_GetHandle() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SyncStream_GetHandle.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SyncStream_GetHandle.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SyncStream_GetHandle$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SyncStream_GetHandle"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void *(*SyncStream_GetHandle)(OrtSyncStream *)
+     * }
+     */
+    public static final AddressLayout SyncStream_GetHandle$layout() {
+        return SyncStream_GetHandle$LAYOUT;
+    }
+
+    private static final long SyncStream_GetHandle$OFFSET = $LAYOUT.byteOffset(groupElement("SyncStream_GetHandle"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void *(*SyncStream_GetHandle)(OrtSyncStream *)
+     * }
+     */
+    public static final long SyncStream_GetHandle$offset() {
+        return SyncStream_GetHandle$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void *(*SyncStream_GetHandle)(OrtSyncStream *)
+     * }
+     */
+    public static MemorySegment SyncStream_GetHandle(MemorySegment struct) {
+        return struct.get(SyncStream_GetHandle$LAYOUT, SyncStream_GetHandle$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void *(*SyncStream_GetHandle)(OrtSyncStream *)
+     * }
+     */
+    public static void SyncStream_GetHandle(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SyncStream_GetHandle$LAYOUT, SyncStream_GetHandle$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseSyncStream)(OrtSyncStream *)
+     * }
+     */
+    public static final class ReleaseSyncStream {
+
+        private ReleaseSyncStream() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseSyncStream.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseSyncStream.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseSyncStream$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseSyncStream"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSyncStream)(OrtSyncStream *)
+     * }
+     */
+    public static final AddressLayout ReleaseSyncStream$layout() {
+        return ReleaseSyncStream$LAYOUT;
+    }
+
+    private static final long ReleaseSyncStream$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseSyncStream"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSyncStream)(OrtSyncStream *)
+     * }
+     */
+    public static final long ReleaseSyncStream$offset() {
+        return ReleaseSyncStream$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSyncStream)(OrtSyncStream *)
+     * }
+     */
+    public static MemorySegment ReleaseSyncStream(MemorySegment struct) {
+        return struct.get(ReleaseSyncStream$LAYOUT, ReleaseSyncStream$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseSyncStream)(OrtSyncStream *)
+     * }
+     */
+    public static void ReleaseSyncStream(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseSyncStream$LAYOUT, ReleaseSyncStream$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CopyTensors)(const OrtEnv *, const OrtValue *const *, OrtValue *const *, OrtSyncStream *, size_t)
+     * }
+     */
+    public static final class CopyTensors {
+
+        private CopyTensors() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3, long _x4);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CopyTensors.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CopyTensors.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                MemorySegment _x2,
+                MemorySegment _x3,
+                long _x4) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CopyTensors$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CopyTensors"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CopyTensors)(const OrtEnv *, const OrtValue *const *, OrtValue *const *, OrtSyncStream *, size_t)
+     * }
+     */
+    public static final AddressLayout CopyTensors$layout() {
+        return CopyTensors$LAYOUT;
+    }
+
+    private static final long CopyTensors$OFFSET = $LAYOUT.byteOffset(groupElement("CopyTensors"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CopyTensors)(const OrtEnv *, const OrtValue *const *, OrtValue *const *, OrtSyncStream *, size_t)
+     * }
+     */
+    public static final long CopyTensors$offset() {
+        return CopyTensors$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CopyTensors)(const OrtEnv *, const OrtValue *const *, OrtValue *const *, OrtSyncStream *, size_t)
+     * }
+     */
+    public static MemorySegment CopyTensors(MemorySegment struct) {
+        return struct.get(CopyTensors$LAYOUT, CopyTensors$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CopyTensors)(const OrtEnv *, const OrtValue *const *, OrtValue *const *, OrtSyncStream *, size_t)
+     * }
+     */
+    public static void CopyTensors(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CopyTensors$LAYOUT, CopyTensors$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelMetadata)(const OrtGraph *, OrtModelMetadata **)
+     * }
+     */
+    public static final class Graph_GetModelMetadata {
+
+        private Graph_GetModelMetadata() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Graph_GetModelMetadata.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Graph_GetModelMetadata.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Graph_GetModelMetadata$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("Graph_GetModelMetadata"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelMetadata)(const OrtGraph *, OrtModelMetadata **)
+     * }
+     */
+    public static final AddressLayout Graph_GetModelMetadata$layout() {
+        return Graph_GetModelMetadata$LAYOUT;
+    }
+
+    private static final long Graph_GetModelMetadata$OFFSET =
+            $LAYOUT.byteOffset(groupElement("Graph_GetModelMetadata"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelMetadata)(const OrtGraph *, OrtModelMetadata **)
+     * }
+     */
+    public static final long Graph_GetModelMetadata$offset() {
+        return Graph_GetModelMetadata$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelMetadata)(const OrtGraph *, OrtModelMetadata **)
+     * }
+     */
+    public static MemorySegment Graph_GetModelMetadata(MemorySegment struct) {
+        return struct.get(Graph_GetModelMetadata$LAYOUT, Graph_GetModelMetadata$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Graph_GetModelMetadata)(const OrtGraph *, OrtModelMetadata **)
+     * }
+     */
+    public static void Graph_GetModelMetadata(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Graph_GetModelMetadata$LAYOUT, Graph_GetModelMetadata$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetModelCompatibilityForEpDevices)(const OrtEpDevice *const *, size_t, const char *, OrtCompiledModelCompatibility *)
+     * }
+     */
+    public static final class GetModelCompatibilityForEpDevices {
+
+        private GetModelCompatibilityForEpDevices() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, MemorySegment _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetModelCompatibilityForEpDevices.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetModelCompatibilityForEpDevices.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, long _x1, MemorySegment _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetModelCompatibilityForEpDevices$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetModelCompatibilityForEpDevices"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetModelCompatibilityForEpDevices)(const OrtEpDevice *const *, size_t, const char *, OrtCompiledModelCompatibility *)
+     * }
+     */
+    public static final AddressLayout GetModelCompatibilityForEpDevices$layout() {
+        return GetModelCompatibilityForEpDevices$LAYOUT;
+    }
+
+    private static final long GetModelCompatibilityForEpDevices$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetModelCompatibilityForEpDevices"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetModelCompatibilityForEpDevices)(const OrtEpDevice *const *, size_t, const char *, OrtCompiledModelCompatibility *)
+     * }
+     */
+    public static final long GetModelCompatibilityForEpDevices$offset() {
+        return GetModelCompatibilityForEpDevices$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetModelCompatibilityForEpDevices)(const OrtEpDevice *const *, size_t, const char *, OrtCompiledModelCompatibility *)
+     * }
+     */
+    public static MemorySegment GetModelCompatibilityForEpDevices(MemorySegment struct) {
+        return struct.get(GetModelCompatibilityForEpDevices$LAYOUT, GetModelCompatibilityForEpDevices$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetModelCompatibilityForEpDevices)(const OrtEpDevice *const *, size_t, const char *, OrtCompiledModelCompatibility *)
+     * }
+     */
+    public static void GetModelCompatibilityForEpDevices(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetModelCompatibilityForEpDevices$LAYOUT, GetModelCompatibilityForEpDevices$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalInitializerInfo)(const char *, int64_t, size_t, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static final class CreateExternalInitializerInfo {
+
+        private CreateExternalInitializerInfo() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, long _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateExternalInitializerInfo.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateExternalInitializerInfo.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, long _x1, long _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateExternalInitializerInfo$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateExternalInitializerInfo"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalInitializerInfo)(const char *, int64_t, size_t, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static final AddressLayout CreateExternalInitializerInfo$layout() {
+        return CreateExternalInitializerInfo$LAYOUT;
+    }
+
+    private static final long CreateExternalInitializerInfo$OFFSET =
+            $LAYOUT.byteOffset(groupElement("CreateExternalInitializerInfo"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalInitializerInfo)(const char *, int64_t, size_t, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static final long CreateExternalInitializerInfo$offset() {
+        return CreateExternalInitializerInfo$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalInitializerInfo)(const char *, int64_t, size_t, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static MemorySegment CreateExternalInitializerInfo(MemorySegment struct) {
+        return struct.get(CreateExternalInitializerInfo$LAYOUT, CreateExternalInitializerInfo$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalInitializerInfo)(const char *, int64_t, size_t, OrtExternalInitializerInfo **)
+     * }
+     */
+    public static void CreateExternalInitializerInfo(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateExternalInitializerInfo$LAYOUT, CreateExternalInitializerInfo$OFFSET, fieldValue);
     }
 
     /**

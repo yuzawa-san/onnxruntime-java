@@ -448,13 +448,7 @@ final class SessionImpl extends ManagedImpl implements Session {
             String pathString = path.toAbsolutePath().toString();
             if (IS_WINDOWS) {
                 // treat segment as wchar_t
-                byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
-                MemorySegment addr = arena.allocate(bytes.length + 2);
-                MemorySegment heapSegment = MemorySegment.ofArray(bytes);
-                addr.copyFrom(heapSegment);
-                addr.set(JAVA_BYTE, bytes.length, (byte) 0);
-                addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
-                return addr;
+                return arena.allocateFrom(pathString, StandardCharsets.UTF_16LE);
             }
             return arena.allocateFrom(pathString);
         }

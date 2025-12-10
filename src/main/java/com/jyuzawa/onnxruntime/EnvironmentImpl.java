@@ -12,6 +12,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
+import java.util.HashMap;
 import java.util.Map;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {
@@ -52,24 +53,41 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
                     arena, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
-            this.ortAllocator = api.create(arena, out -> api.GetAllocatorWithDefaultOptions.apply(out));
             Map<String, Long> arenaConfig = builder.arenaConfig;
-            if (arenaConfig == null) {
-                api.RegisterAllocator.apply(address, ortAllocator);
-            } else {
-                int size = arenaConfig.size();
-                MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
-                MemorySegment valueArray = temporarySession.allocate(C_LONG, size);
-                int i = 0;
-                for (Map.Entry<String, Long> entry : arenaConfig.entrySet()) {
-                    keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateFrom(entry.getKey()));
-                    valueArray.setAtIndex(C_LONG, i, entry.getValue());
-                    i++;
-                }
-                MemorySegment arenaConfigAddress = api.create(
-                        temporarySession, out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
-                api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
+            int size = arenaConfig.size();
+            MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
+            MemorySegment valueArray = temporarySession.allocate(C_LONG, size);
+            int i = 0;
+            for (Map.Entry<String, Long> entry : arenaConfig.entrySet()) {
+                keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateFrom(entry.getKey()));
+                valueArray.setAtIndex(C_LONG, i, entry.getValue());
+                i++;
             }
+            MemorySegment arenaConfigAddress =
+                    api.create(temporarySession, out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
+            api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
+            this.ortAllocator = api.create(arena, out -> api.GetSharedAllocator.apply(address, memoryInfo, out));
+        }
+    }
+
+    public Map<String, String> getAllocatorStats() {
+        try (Arena localArena = Arena.ofConfined()) {
+            MemorySegment keyValuePairs = api.create(localArena, out -> api.AllocatorGetStats.apply(ortAllocator, out));
+            MemorySegment keys = localArena.allocate(C_POINTER);
+            MemorySegment values = localArena.allocate(C_POINTER);
+            MemorySegment count = localArena.allocate(C_LONG);
+            api.GetKeyValuePairs.apply(keyValuePairs, keys, values, count);
+            int size = Math.toIntExact(count.get(C_LONG, 0));
+            Map<String, String> out = new HashMap<>(size);
+            MemorySegment theKeys = keys.getAtIndex(C_POINTER, 0);
+            MemorySegment theValues = keys.getAtIndex(C_POINTER, 0);
+            for (int i = 0; i < size; i++) {
+                out.put(
+                        theKeys.getAtIndex(C_POINTER, i).getString(0),
+                        theValues.getAtIndex(C_POINTER, i).getString(0));
+            }
+            api.ReleaseKeyValuePairs.apply(keyValuePairs);
+            return out;
         }
     }
 
@@ -115,6 +133,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             this.api = api;
             this.severityLevel = OnnxRuntimeLoggingLevel.DEFAULT;
             this.logId = "onnxruntime-java";
+            this.arenaConfig = Map.of();
         }
 
         @Override

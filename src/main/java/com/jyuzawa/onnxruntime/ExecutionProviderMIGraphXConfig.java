@@ -20,6 +20,7 @@ final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
         MemorySegment config = OrtMIGraphXProviderOptions.allocate(arena);
         copyInteger("device_id", config, OrtMIGraphXProviderOptions::device_id);
         copyInteger("migraphx_fp16_enable", config, OrtMIGraphXProviderOptions::migraphx_fp16_enable);
+        copyInteger("migraphx_fp8_enable", config, OrtMIGraphXProviderOptions::migraphx_fp8_enable);
         copyInteger("migraphx_int8_enable", config, OrtMIGraphXProviderOptions::migraphx_int8_enable);
         copyInteger(
                 "migraphx_use_native_calibration_table",
@@ -32,10 +33,12 @@ final class ExecutionProviderMIGraphXConfig extends ExecutionProviderConfig {
                 OrtMIGraphXProviderOptions::migraphx_int8_calibration_table_name);
         copyInteger("migraphx_save_compiled_model", config, OrtMIGraphXProviderOptions::migraphx_save_compiled_model);
         copyString("migraphx_save_model_path", config, arena, OrtMIGraphXProviderOptions::migraphx_save_model_path);
-
         copyInteger("migraphx_load_compiled_model", config, OrtMIGraphXProviderOptions::migraphx_load_compiled_model);
         copyString("migraphx_load_model_path", config, arena, OrtMIGraphXProviderOptions::migraphx_load_model_path);
         copyBoolean("migraphx_exhaustive_tune", config, OrtMIGraphXProviderOptions::migraphx_exhaustive_tune);
+        copyLong("migraphx_mem_limit", config, OrtMIGraphXProviderOptions::migraphx_mem_limit);
+        copyInteger(
+                "migraphx_arena_extend_strategy", config, OrtMIGraphXProviderOptions::migraphx_arena_extend_strategy);
         api.checkStatus(api.SessionOptionsAppendExecutionProvider_MIGraphX.apply(sessionOptions, config));
     }
 }

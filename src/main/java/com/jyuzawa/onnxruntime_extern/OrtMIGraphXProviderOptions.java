@@ -18,6 +18,7 @@ import java.util.stream.*;
  * struct OrtMIGraphXProviderOptions {
  *     int device_id;
  *     int migraphx_fp16_enable;
+ *     int migraphx_fp8_enable;
  *     int migraphx_int8_enable;
  *     int migraphx_use_native_calibration_table;
  *     const char *migraphx_int8_calibration_table_name;
@@ -26,6 +27,8 @@ import java.util.stream.*;
  *     int migraphx_load_compiled_model;
  *     const char *migraphx_load_model_path;
  *     bool migraphx_exhaustive_tune;
+ *     size_t migraphx_mem_limit;
+ *     int migraphx_arena_extend_strategy;
  * }
  * }
  */
@@ -38,8 +41,10 @@ public class OrtMIGraphXProviderOptions {
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
                     onnxruntime_all_h.C_INT.withName("device_id"),
                     onnxruntime_all_h.C_INT.withName("migraphx_fp16_enable"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_fp8_enable"),
                     onnxruntime_all_h.C_INT.withName("migraphx_int8_enable"),
                     onnxruntime_all_h.C_INT.withName("migraphx_use_native_calibration_table"),
+                    MemoryLayout.paddingLayout(4),
                     onnxruntime_all_h.C_POINTER.withName("migraphx_int8_calibration_table_name"),
                     onnxruntime_all_h.C_INT.withName("migraphx_save_compiled_model"),
                     MemoryLayout.paddingLayout(4),
@@ -48,7 +53,10 @@ public class OrtMIGraphXProviderOptions {
                     MemoryLayout.paddingLayout(4),
                     onnxruntime_all_h.C_POINTER.withName("migraphx_load_model_path"),
                     onnxruntime_all_h.C_BOOL.withName("migraphx_exhaustive_tune"),
-                    MemoryLayout.paddingLayout(7))
+                    MemoryLayout.paddingLayout(7),
+                    onnxruntime_all_h.C_LONG.withName("migraphx_mem_limit"),
+                    onnxruntime_all_h.C_INT.withName("migraphx_arena_extend_strategy"),
+                    MemoryLayout.paddingLayout(4))
             .withName("OrtMIGraphXProviderOptions");
 
     /**
@@ -145,6 +153,50 @@ public class OrtMIGraphXProviderOptions {
      */
     public static void migraphx_fp16_enable(MemorySegment struct, int fieldValue) {
         struct.set(migraphx_fp16_enable$LAYOUT, migraphx_fp16_enable$OFFSET, fieldValue);
+    }
+
+    private static final OfInt migraphx_fp8_enable$LAYOUT = (OfInt) $LAYOUT.select(groupElement("migraphx_fp8_enable"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_fp8_enable
+     * }
+     */
+    public static final OfInt migraphx_fp8_enable$layout() {
+        return migraphx_fp8_enable$LAYOUT;
+    }
+
+    private static final long migraphx_fp8_enable$OFFSET = $LAYOUT.byteOffset(groupElement("migraphx_fp8_enable"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_fp8_enable
+     * }
+     */
+    public static final long migraphx_fp8_enable$offset() {
+        return migraphx_fp8_enable$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int migraphx_fp8_enable
+     * }
+     */
+    public static int migraphx_fp8_enable(MemorySegment struct) {
+        return struct.get(migraphx_fp8_enable$LAYOUT, migraphx_fp8_enable$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int migraphx_fp8_enable
+     * }
+     */
+    public static void migraphx_fp8_enable(MemorySegment struct, int fieldValue) {
+        struct.set(migraphx_fp8_enable$LAYOUT, migraphx_fp8_enable$OFFSET, fieldValue);
     }
 
     private static final OfInt migraphx_int8_enable$LAYOUT =
@@ -514,6 +566,96 @@ public class OrtMIGraphXProviderOptions {
      */
     public static void migraphx_exhaustive_tune(MemorySegment struct, boolean fieldValue) {
         struct.set(migraphx_exhaustive_tune$LAYOUT, migraphx_exhaustive_tune$OFFSET, fieldValue);
+    }
+
+    private static final OfLong migraphx_mem_limit$LAYOUT = (OfLong) $LAYOUT.select(groupElement("migraphx_mem_limit"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * size_t migraphx_mem_limit
+     * }
+     */
+    public static final OfLong migraphx_mem_limit$layout() {
+        return migraphx_mem_limit$LAYOUT;
+    }
+
+    private static final long migraphx_mem_limit$OFFSET = $LAYOUT.byteOffset(groupElement("migraphx_mem_limit"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * size_t migraphx_mem_limit
+     * }
+     */
+    public static final long migraphx_mem_limit$offset() {
+        return migraphx_mem_limit$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * size_t migraphx_mem_limit
+     * }
+     */
+    public static long migraphx_mem_limit(MemorySegment struct) {
+        return struct.get(migraphx_mem_limit$LAYOUT, migraphx_mem_limit$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * size_t migraphx_mem_limit
+     * }
+     */
+    public static void migraphx_mem_limit(MemorySegment struct, long fieldValue) {
+        struct.set(migraphx_mem_limit$LAYOUT, migraphx_mem_limit$OFFSET, fieldValue);
+    }
+
+    private static final OfInt migraphx_arena_extend_strategy$LAYOUT =
+            (OfInt) $LAYOUT.select(groupElement("migraphx_arena_extend_strategy"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * int migraphx_arena_extend_strategy
+     * }
+     */
+    public static final OfInt migraphx_arena_extend_strategy$layout() {
+        return migraphx_arena_extend_strategy$LAYOUT;
+    }
+
+    private static final long migraphx_arena_extend_strategy$OFFSET =
+            $LAYOUT.byteOffset(groupElement("migraphx_arena_extend_strategy"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * int migraphx_arena_extend_strategy
+     * }
+     */
+    public static final long migraphx_arena_extend_strategy$offset() {
+        return migraphx_arena_extend_strategy$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * int migraphx_arena_extend_strategy
+     * }
+     */
+    public static int migraphx_arena_extend_strategy(MemorySegment struct) {
+        return struct.get(migraphx_arena_extend_strategy$LAYOUT, migraphx_arena_extend_strategy$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * int migraphx_arena_extend_strategy
+     * }
+     */
+    public static void migraphx_arena_extend_strategy(MemorySegment struct, int fieldValue) {
+        struct.set(migraphx_arena_extend_strategy$LAYOUT, migraphx_arena_extend_strategy$OFFSET, fieldValue);
     }
 
     /**
