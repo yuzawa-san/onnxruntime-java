@@ -9,7 +9,7 @@ This is an **performant** and **modern** Java binding to Microsoft's [ONNX Runti
 This project's goals are to provide a type-safe, lightweight, and performant binding which abstracts a lot of the native and C API intricacies away behind a Java-friendly interface.
 This is loosely coupled to the upstream project and built off of the public (and stable) [C API](https://onnxruntime.ai/docs/api/c/struct_ort_api.html).
 
-The minimum supported Java version is 23, since the FFI API was first stabilized in that version.
+The minimum supported Java version is 22, since the FFI API was first stabilized in that version.
 There are [other](https://github.com/bytedeco/javacpp-presets/tree/master/onnxruntime) [fine](https://github.com/microsoft/onnxruntime/tree/main/java) bindings which use JNI and are capable of supporting earlier Java versions.
 
 ## Usage

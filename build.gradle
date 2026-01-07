@@ -26,7 +26,7 @@ allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
 	java {
-		sourceCompatibility = targetCompatibility = JavaLanguageVersion.of(23)
+		sourceCompatibility = targetCompatibility = JavaLanguageVersion.of(22)
 	}
 	repositories {
 		mavenCentral()

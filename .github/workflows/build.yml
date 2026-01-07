@@ -20,7 +20,7 @@ jobs:
         os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
         include:
         # min version
-        - java: 23
+        - java: 22
           os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     name: Build on ${{ matrix.os }} on Java ${{ matrix.java }}
@@ -38,7 +38,7 @@ jobs:
         run: |
           ./gradlew --no-daemon -s :build
       - name: Upload coverage to Codecov
-        if: ${{ matrix.java == '23' && matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.java == '22' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v5.5.2
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
