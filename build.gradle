@@ -234,7 +234,7 @@ configurations {
 components.java {
 }
 
-def makePom(node, osArches, theVersion, theBaseline) {
+def makePom(node, artifactId, osArches, theVersion, theBaseline) {
 	def parentNode = node.appendNode('parent')
 	parentNode.appendNode('groupId', project.group)
 	parentNode.appendNode('artifactId', project.name)
@@ -246,9 +246,9 @@ def makePom(node, osArches, theVersion, theBaseline) {
 	mainDependency.appendNode('version', theBaseline)
 	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
-		dependency.appendNode('groupId', '${project.groupId}')
-		dependency.appendNode('artifactId', '${project.artifactId}')
-		dependency.appendNode('version', '${project.version}')
+		dependency.appendNode('groupId', project.group)
+		dependency.appendNode('artifactId', artifactId)
+		dependency.appendNode('version', theVersion)
 		dependency.appendNode('classifier', it)
 	}
 }
@@ -272,8 +272,39 @@ publishing {
 		onnxruntimeCpu(MavenPublication) {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-cpu"
+			// NOTE: sonatype does not believe in our parent artifact
+			// TODO: DRY
+			pom {
+				name = 'ONNX Runtime for Java'
+				inceptionYear = '2022'
+				description = project.description
+				url = "https://github.com/${REPO}"
+				issueManagement {
+					url = "https://github.com/${REPO}/issues"
+					system = "GitHub Issues"
+				}
+				licenses {
+					license {
+						name = 'MIT License'
+						url = 'https://opensource.org/licenses/MIT'
+						distribution = 'repo'
+					}
+				}
+				developers {
+					developer {
+						id = 'yuzawa-san'
+						name = 'James Yuzawa'
+						email = 'jtyuzawa+onnxruntime-java@gmail.com'
+					}
+				}
+				scm {
+					connection = "scm:git:git://github.com/${REPO}.git"
+					developerConnection = "scm:git:git@github.com:${REPO}.git"
+					url = "https://github.com/${REPO}"
+				}
+			}
 			pom.withXml {
-				makePom(asNode(), cpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
+				makePom(asNode(), artifactId, cpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
 			}
 			artifact tasks.named("cpuJar")
 			cpuOsArches.each {
@@ -285,7 +316,7 @@ publishing {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-gpu"
 			pom.withXml {
-				makePom(asNode(), gpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
+				makePom(asNode(), artifactId, gpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
 			}
 			artifact tasks.named("gpuJar")
 			gpuOsArches.each {
@@ -333,7 +364,7 @@ signing {
 }
 
 dependencies {
-	implementation platform('org.junit:junit-bom:6.0.2')
+	testImplementation platform('org.junit:junit-bom:6.0.2')
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
