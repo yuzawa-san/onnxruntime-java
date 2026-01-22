@@ -327,7 +327,6 @@ publishing {
 		}
 	}
 }
-afterReleaseBuild.dependsOn 'publishOnnxruntimePublicationToSonatypeRepository'
 
 signing {
 	sign publishing.publications
