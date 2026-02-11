@@ -37,7 +37,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                 // TODO: set this
                 // OrtEnvCreationOptions.custom_logging_param(options, logName);
                 if (builder.useThreadingOptions) {
-                    MemorySegment threadOptionsAddress = builder.newThreadingOptions(temporarySession);
+                    threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
                     OrtEnvCreationOptions.threading_options(options, threadingOptionsAddress);
                 }
                 // TODO: configs
