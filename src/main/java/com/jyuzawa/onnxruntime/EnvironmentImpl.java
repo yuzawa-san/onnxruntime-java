@@ -10,6 +10,8 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JA
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
 
+import com.jyuzawa.onnxruntime_extern.OrtEnvCreationOptions;
+import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.HashMap;
@@ -25,30 +27,26 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         super(builder.api, Arena.ofShared());
         try (Arena temporarySession = Arena.ofConfined()) {
             MemorySegment logName = temporarySession.allocateFrom(builder.logId);
-            if (builder.useThreadingOptions) {
-                MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
-                try {
-                    this.address = api.create(
-                            arena,
-                            out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
-                                    OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                    MemorySegment.NULL,
-                                    builder.severityLevel.getNumber(),
-                                    logName,
-                                    threadingOptionsAddress,
-                                    out));
-                } finally {
+            MemorySegment threadingOptionsAddress = null;
+            try {
+                MemorySegment options = OrtEnvCreationOptions.allocate(temporarySession);
+                OrtEnvCreationOptions.version(options, onnxruntime_all_h.ORT_API_VERSION());
+                OrtEnvCreationOptions.logging_severity_level(options, builder.severityLevel.getNumber());
+                OrtEnvCreationOptions.log_id(options, logName);
+                OrtEnvCreationOptions.custom_logging_function(options, OnnxRuntimeLoggingLevel.LOG_CALLBACK);
+                // TODO: set this
+                // OrtEnvCreationOptions.custom_logging_param(options, logName);
+                if (builder.useThreadingOptions) {
+                    MemorySegment threadOptionsAddress = builder.newThreadingOptions(temporarySession);
+                    OrtEnvCreationOptions.threading_options(options, threadingOptionsAddress);
+                }
+                // TODO: configs
+                // OrtEnvCreationOptions.config_entries(options, configEntries);
+                this.address = api.create(arena, out -> api.CreateEnvWithOptions.apply(options, out));
+            } finally {
+                if (threadingOptionsAddress != null) {
                     api.ReleaseThreadingOptions.apply(threadingOptionsAddress);
                 }
-            } else {
-                this.address = api.create(
-                        arena,
-                        out -> api.CreateEnvWithCustomLogger.apply(
-                                OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                MemorySegment.NULL,
-                                builder.severityLevel.getNumber(),
-                                logName,
-                                out));
             }
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(

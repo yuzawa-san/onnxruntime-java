@@ -41,8 +41,7 @@ final class ApiImpl implements Api {
     final CreateDnnlProviderOptions.Function CreateDnnlProviderOptions;
     final CreateIoBinding.Function CreateIoBinding;
     final CreateTensorRTProviderOptions.Function CreateTensorRTProviderOptions;
-    final CreateEnvWithCustomLogger.Function CreateEnvWithCustomLogger;
-    final CreateEnvWithCustomLoggerAndGlobalThreadPools.Function CreateEnvWithCustomLoggerAndGlobalThreadPools;
+    final CreateEnvWithOptions.Function CreateEnvWithOptions;
     final CreateRunOptions.Function CreateRunOptions;
     final CreateSession.Function CreateSession;
     final CreateSessionFromArray.Function CreateSessionFromArray;
@@ -207,14 +206,8 @@ final class ApiImpl implements Api {
                 (_x0) -> OrtApi.CreateTensorRTProviderOptions.invoke(fnCreateTensorRTProviderOptions, _x0);
         MemorySegment fnCreateIoBinding = OrtApi.CreateIoBinding(memorySegment);
         this.CreateIoBinding = (_x0, _x1) -> OrtApi.CreateIoBinding.invoke(fnCreateIoBinding, _x0, _x1);
-        MemorySegment fnCreateEnvWithCustomLogger = OrtApi.CreateEnvWithCustomLogger(memorySegment);
-        this.CreateEnvWithCustomLogger = (_x0, _x1, _x2, _x3, _x4) ->
-                OrtApi.CreateEnvWithCustomLogger.invoke(fnCreateEnvWithCustomLogger, _x0, _x1, _x2, _x3, _x4);
-        MemorySegment fnCreateEnvWithCustomLoggerAndGlobalThreadPools =
-                OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools(memorySegment);
-        this.CreateEnvWithCustomLoggerAndGlobalThreadPools =
-                (_x0, _x1, _x2, _x3, _x4, _x5) -> OrtApi.CreateEnvWithCustomLoggerAndGlobalThreadPools.invoke(
-                        fnCreateEnvWithCustomLoggerAndGlobalThreadPools, _x0, _x1, _x2, _x3, _x4, _x5);
+        MemorySegment fnCreateEnvWithOptions = OrtApi.CreateEnvWithOptions(memorySegment);
+        this.CreateEnvWithOptions = (_x0, _x1) -> OrtApi.CreateEnvWithOptions.invoke(fnCreateEnvWithOptions, _x0, _x1);
         MemorySegment fnCreateRunOptions = OrtApi.CreateRunOptions(memorySegment);
         this.CreateRunOptions = (_x0) -> OrtApi.CreateRunOptions.invoke(fnCreateRunOptions, _x0);
         MemorySegment fnCreateSession = OrtApi.CreateSession(memorySegment);
