@@ -23,6 +23,7 @@ final class ApiImpl implements Api {
 
     private static final Logger LOG = System.getLogger(ApiImpl.class.getName());
 
+    final AddKeyValuePair.Function AddKeyValuePair;
     final AddRunConfigEntry.Function AddRunConfigEntry;
     final AddSessionConfigEntry.Function AddSessionConfigEntry;
     final AllocatorGetStats.Function AllocatorGetStats;
@@ -42,6 +43,7 @@ final class ApiImpl implements Api {
     final CreateIoBinding.Function CreateIoBinding;
     final CreateTensorRTProviderOptions.Function CreateTensorRTProviderOptions;
     final CreateEnvWithOptions.Function CreateEnvWithOptions;
+    final CreateKeyValuePairs.Function CreateKeyValuePairs;
     final CreateRunOptions.Function CreateRunOptions;
     final CreateSession.Function CreateSession;
     final CreateSessionFromArray.Function CreateSessionFromArray;
@@ -160,6 +162,8 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
+        MemorySegment fnAddKeyValuePair = OrtApi.AddKeyValuePair(memorySegment);
+        this.AddKeyValuePair = (_x0, _x1, _x2) -> OrtApi.AddKeyValuePair.invoke(fnAddKeyValuePair, _x0, _x1, _x2);
         MemorySegment fnAddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment);
         this.AddRunConfigEntry = (_x0, _x1, _x2) -> OrtApi.AddRunConfigEntry.invoke(fnAddRunConfigEntry, _x0, _x1, _x2);
         MemorySegment fnAddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment);
@@ -201,13 +205,15 @@ final class ApiImpl implements Api {
         MemorySegment fnCreateDnnlProviderOptions = OrtApi.CreateDnnlProviderOptions(memorySegment);
         this.CreateDnnlProviderOptions =
                 (_x0) -> OrtApi.CreateDnnlProviderOptions.invoke(fnCreateDnnlProviderOptions, _x0);
+        MemorySegment fnCreateEnvWithOptions = OrtApi.CreateEnvWithOptions(memorySegment);
+        this.CreateEnvWithOptions = (_x0, _x1) -> OrtApi.CreateEnvWithOptions.invoke(fnCreateEnvWithOptions, _x0, _x1);
+        MemorySegment fnCreateKeyValuePairs = OrtApi.CreateKeyValuePairs(memorySegment);
+        this.CreateKeyValuePairs = (_x0) -> OrtApi.CreateKeyValuePairs.invoke(fnCreateKeyValuePairs, _x0);
         MemorySegment fnCreateTensorRTProviderOptions = OrtApi.CreateTensorRTProviderOptions(memorySegment);
         this.CreateTensorRTProviderOptions =
                 (_x0) -> OrtApi.CreateTensorRTProviderOptions.invoke(fnCreateTensorRTProviderOptions, _x0);
         MemorySegment fnCreateIoBinding = OrtApi.CreateIoBinding(memorySegment);
         this.CreateIoBinding = (_x0, _x1) -> OrtApi.CreateIoBinding.invoke(fnCreateIoBinding, _x0, _x1);
-        MemorySegment fnCreateEnvWithOptions = OrtApi.CreateEnvWithOptions(memorySegment);
-        this.CreateEnvWithOptions = (_x0, _x1) -> OrtApi.CreateEnvWithOptions.invoke(fnCreateEnvWithOptions, _x0, _x1);
         MemorySegment fnCreateRunOptions = OrtApi.CreateRunOptions(memorySegment);
         this.CreateRunOptions = (_x0) -> OrtApi.CreateRunOptions.invoke(fnCreateRunOptions, _x0);
         MemorySegment fnCreateSession = OrtApi.CreateSession(memorySegment);
