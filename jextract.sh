@@ -5,7 +5,7 @@
 GENERATED_DIR=src/main/java
 HEADER_DIR=build/onnxruntime-${ORT_VERSION}/headers
 mkdir -p ${HEADER_DIR}
-cp build/onnxruntime-${ORT_VERSION}/osx-x86_64/include/*.h ${HEADER_DIR}
+cp build/onnxruntime-${ORT_VERSION}/osx-aarch_64/include/*.h ${HEADER_DIR}
 cp build/onnxruntime-${ORT_VERSION}/linux-x86_64-gpu/include/*.h ${HEADER_DIR}
 HEADER_FILE=onnxruntime_all.h
 rm -rf 'symbols.conf' 'src/main/java/com/jyuzawa/onnxruntime_extern'

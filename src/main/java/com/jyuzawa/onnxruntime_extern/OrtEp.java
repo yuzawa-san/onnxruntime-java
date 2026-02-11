@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2026 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -29,6 +29,8 @@ import java.util.stream.*;
  *     OrtStatusPtr (*CreateAllocator)(OrtEp *, const OrtMemoryInfo *, OrtAllocator **);
  *     OrtStatusPtr (*CreateSyncStreamForDevice)(OrtEp *, const OrtMemoryDevice *, OrtSyncStreamImpl **);
  *     const char *(*GetCompiledModelCompatibilityInfo)(OrtEp *, const OrtGraph *);
+ *     OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **);
+ *     OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *);
  * }
  * }
  */
@@ -52,7 +54,9 @@ public class OrtEp {
                     onnxruntime_all_h.C_POINTER.withName("OnRunEnd"),
                     onnxruntime_all_h.C_POINTER.withName("CreateAllocator"),
                     onnxruntime_all_h.C_POINTER.withName("CreateSyncStreamForDevice"),
-                    onnxruntime_all_h.C_POINTER.withName("GetCompiledModelCompatibilityInfo"))
+                    onnxruntime_all_h.C_POINTER.withName("GetCompiledModelCompatibilityInfo"),
+                    onnxruntime_all_h.C_POINTER.withName("GetKernelRegistry"),
+                    onnxruntime_all_h.C_POINTER.withName("IsConcurrentRunSupported"))
             .withName("OrtEp");
 
     /**
@@ -1356,6 +1360,207 @@ public class OrtEp {
      */
     public static void GetCompiledModelCompatibilityInfo(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetCompiledModelCompatibilityInfo$LAYOUT, GetCompiledModelCompatibilityInfo$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **)
+     * }
+     */
+    public static final class GetKernelRegistry {
+
+        private GetKernelRegistry() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetKernelRegistry.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetKernelRegistry.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetKernelRegistry$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetKernelRegistry"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **)
+     * }
+     */
+    public static final AddressLayout GetKernelRegistry$layout() {
+        return GetKernelRegistry$LAYOUT;
+    }
+
+    private static final long GetKernelRegistry$OFFSET = $LAYOUT.byteOffset(groupElement("GetKernelRegistry"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **)
+     * }
+     */
+    public static final long GetKernelRegistry$offset() {
+        return GetKernelRegistry$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **)
+     * }
+     */
+    public static MemorySegment GetKernelRegistry(MemorySegment struct) {
+        return struct.get(GetKernelRegistry$LAYOUT, GetKernelRegistry$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **)
+     * }
+     */
+    public static void GetKernelRegistry(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetKernelRegistry$LAYOUT, GetKernelRegistry$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *)
+     * }
+     */
+    public static final class IsConcurrentRunSupported {
+
+        private IsConcurrentRunSupported() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(IsConcurrentRunSupported.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(IsConcurrentRunSupported.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout IsConcurrentRunSupported$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("IsConcurrentRunSupported"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *)
+     * }
+     */
+    public static final AddressLayout IsConcurrentRunSupported$layout() {
+        return IsConcurrentRunSupported$LAYOUT;
+    }
+
+    private static final long IsConcurrentRunSupported$OFFSET =
+            $LAYOUT.byteOffset(groupElement("IsConcurrentRunSupported"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *)
+     * }
+     */
+    public static final long IsConcurrentRunSupported$offset() {
+        return IsConcurrentRunSupported$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *)
+     * }
+     */
+    public static MemorySegment IsConcurrentRunSupported(MemorySegment struct) {
+        return struct.get(IsConcurrentRunSupported$LAYOUT, IsConcurrentRunSupported$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *)
+     * }
+     */
+    public static void IsConcurrentRunSupported(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(IsConcurrentRunSupported$LAYOUT, IsConcurrentRunSupported$OFFSET, fieldValue);
     }
 
     /**

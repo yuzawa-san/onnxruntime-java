@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2026 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -30,6 +30,10 @@ import java.util.stream.*;
  *     OrtStatusPtr (*CreateDataTransfer)(OrtEpFactory *, OrtDataTransferImpl **);
  *     bool (*IsStreamAware)(const OrtEpFactory *);
  *     OrtStatusPtr (*CreateSyncStreamForDevice)(OrtEpFactory *, const OrtMemoryDevice *, const OrtKeyValuePairs *, OrtSyncStreamImpl **);
+ *     OrtStatusPtr (*GetHardwareDeviceIncompatibilityDetails)(OrtEpFactory *, const OrtHardwareDevice *, OrtDeviceEpIncompatibilityDetails *);
+ *     OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **);
+ *     OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *);
+ *     OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t);
  * }
  * }
  */
@@ -54,7 +58,11 @@ public class OrtEpFactory {
                     onnxruntime_all_h.C_POINTER.withName("ReleaseAllocator"),
                     onnxruntime_all_h.C_POINTER.withName("CreateDataTransfer"),
                     onnxruntime_all_h.C_POINTER.withName("IsStreamAware"),
-                    onnxruntime_all_h.C_POINTER.withName("CreateSyncStreamForDevice"))
+                    onnxruntime_all_h.C_POINTER.withName("CreateSyncStreamForDevice"),
+                    onnxruntime_all_h.C_POINTER.withName("GetHardwareDeviceIncompatibilityDetails"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateExternalResourceImporterForDevice"),
+                    onnxruntime_all_h.C_POINTER.withName("GetNumCustomOpDomains"),
+                    onnxruntime_all_h.C_POINTER.withName("GetCustomOpDomains"))
             .withName("OrtEpFactory");
 
     /**
@@ -1463,6 +1471,427 @@ public class OrtEpFactory {
      */
     public static void CreateSyncStreamForDevice(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateSyncStreamForDevice$LAYOUT, CreateSyncStreamForDevice$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetHardwareDeviceIncompatibilityDetails)(OrtEpFactory *, const OrtHardwareDevice *, OrtDeviceEpIncompatibilityDetails *)
+     * }
+     */
+    public static final class GetHardwareDeviceIncompatibilityDetails {
+
+        private GetHardwareDeviceIncompatibilityDetails() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetHardwareDeviceIncompatibilityDetails.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetHardwareDeviceIncompatibilityDetails.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetHardwareDeviceIncompatibilityDetails$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetHardwareDeviceIncompatibilityDetails"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetHardwareDeviceIncompatibilityDetails)(OrtEpFactory *, const OrtHardwareDevice *, OrtDeviceEpIncompatibilityDetails *)
+     * }
+     */
+    public static final AddressLayout GetHardwareDeviceIncompatibilityDetails$layout() {
+        return GetHardwareDeviceIncompatibilityDetails$LAYOUT;
+    }
+
+    private static final long GetHardwareDeviceIncompatibilityDetails$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetHardwareDeviceIncompatibilityDetails"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetHardwareDeviceIncompatibilityDetails)(OrtEpFactory *, const OrtHardwareDevice *, OrtDeviceEpIncompatibilityDetails *)
+     * }
+     */
+    public static final long GetHardwareDeviceIncompatibilityDetails$offset() {
+        return GetHardwareDeviceIncompatibilityDetails$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetHardwareDeviceIncompatibilityDetails)(OrtEpFactory *, const OrtHardwareDevice *, OrtDeviceEpIncompatibilityDetails *)
+     * }
+     */
+    public static MemorySegment GetHardwareDeviceIncompatibilityDetails(MemorySegment struct) {
+        return struct.get(
+                GetHardwareDeviceIncompatibilityDetails$LAYOUT, GetHardwareDeviceIncompatibilityDetails$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetHardwareDeviceIncompatibilityDetails)(OrtEpFactory *, const OrtHardwareDevice *, OrtDeviceEpIncompatibilityDetails *)
+     * }
+     */
+    public static void GetHardwareDeviceIncompatibilityDetails(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                GetHardwareDeviceIncompatibilityDetails$LAYOUT,
+                GetHardwareDeviceIncompatibilityDetails$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **)
+     * }
+     */
+    public static final class CreateExternalResourceImporterForDevice {
+
+        private CreateExternalResourceImporterForDevice() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateExternalResourceImporterForDevice.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateExternalResourceImporterForDevice.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateExternalResourceImporterForDevice$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateExternalResourceImporterForDevice"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **)
+     * }
+     */
+    public static final AddressLayout CreateExternalResourceImporterForDevice$layout() {
+        return CreateExternalResourceImporterForDevice$LAYOUT;
+    }
+
+    private static final long CreateExternalResourceImporterForDevice$OFFSET =
+            $LAYOUT.byteOffset(groupElement("CreateExternalResourceImporterForDevice"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **)
+     * }
+     */
+    public static final long CreateExternalResourceImporterForDevice$offset() {
+        return CreateExternalResourceImporterForDevice$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **)
+     * }
+     */
+    public static MemorySegment CreateExternalResourceImporterForDevice(MemorySegment struct) {
+        return struct.get(
+                CreateExternalResourceImporterForDevice$LAYOUT, CreateExternalResourceImporterForDevice$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **)
+     * }
+     */
+    public static void CreateExternalResourceImporterForDevice(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                CreateExternalResourceImporterForDevice$LAYOUT,
+                CreateExternalResourceImporterForDevice$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *)
+     * }
+     */
+    public static final class GetNumCustomOpDomains {
+
+        private GetNumCustomOpDomains() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetNumCustomOpDomains.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetNumCustomOpDomains.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetNumCustomOpDomains$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetNumCustomOpDomains"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *)
+     * }
+     */
+    public static final AddressLayout GetNumCustomOpDomains$layout() {
+        return GetNumCustomOpDomains$LAYOUT;
+    }
+
+    private static final long GetNumCustomOpDomains$OFFSET = $LAYOUT.byteOffset(groupElement("GetNumCustomOpDomains"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *)
+     * }
+     */
+    public static final long GetNumCustomOpDomains$offset() {
+        return GetNumCustomOpDomains$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *)
+     * }
+     */
+    public static MemorySegment GetNumCustomOpDomains(MemorySegment struct) {
+        return struct.get(GetNumCustomOpDomains$LAYOUT, GetNumCustomOpDomains$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *)
+     * }
+     */
+    public static void GetNumCustomOpDomains(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetNumCustomOpDomains$LAYOUT, GetNumCustomOpDomains$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t)
+     * }
+     */
+    public static final class GetCustomOpDomains {
+
+        private GetCustomOpDomains() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetCustomOpDomains.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetCustomOpDomains.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetCustomOpDomains$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetCustomOpDomains"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t)
+     * }
+     */
+    public static final AddressLayout GetCustomOpDomains$layout() {
+        return GetCustomOpDomains$LAYOUT;
+    }
+
+    private static final long GetCustomOpDomains$OFFSET = $LAYOUT.byteOffset(groupElement("GetCustomOpDomains"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t)
+     * }
+     */
+    public static final long GetCustomOpDomains$offset() {
+        return GetCustomOpDomains$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t)
+     * }
+     */
+    public static MemorySegment GetCustomOpDomains(MemorySegment struct) {
+        return struct.get(GetCustomOpDomains$LAYOUT, GetCustomOpDomains$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t)
+     * }
+     */
+    public static void GetCustomOpDomains(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetCustomOpDomains$LAYOUT, GetCustomOpDomains$OFFSET, fieldValue);
     }
 
     /**

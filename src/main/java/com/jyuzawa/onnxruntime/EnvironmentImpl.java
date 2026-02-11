@@ -4,12 +4,15 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h$shared.C_POINTER;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JAVA;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
 
+import com.jyuzawa.onnxruntime_extern.OrtEnvCreationOptions;
+import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.HashMap;
@@ -24,31 +27,39 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     EnvironmentImpl(Builder builder) {
         super(builder.api, Arena.ofShared());
         try (Arena temporarySession = Arena.ofConfined()) {
-            MemorySegment logName = temporarySession.allocateFrom(builder.logId);
-            if (builder.useThreadingOptions) {
-                MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
-                try {
-                    this.address = api.create(
-                            arena,
-                            out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
-                                    OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                    MemorySegment.NULL,
-                                    builder.severityLevel.getNumber(),
-                                    logName,
-                                    threadingOptionsAddress,
-                                    out));
-                } finally {
+            MemorySegment threadingOptionsAddress = null;
+            MemorySegment configKeyValuesPointer = temporarySession.allocate(C_POINTER);
+            api.CreateKeyValuePairs.apply(configKeyValuesPointer);
+            MemorySegment configKeyValues = configKeyValuesPointer.getAtIndex(C_POINTER, 0);
+            try {
+                MemorySegment options = OrtEnvCreationOptions.allocate(temporarySession);
+                OrtEnvCreationOptions.version(options, onnxruntime_all_h.ORT_API_VERSION());
+                OrtEnvCreationOptions.logging_severity_level(options, builder.severityLevel.getNumber());
+                if (builder.logId != null) {
+                    OrtEnvCreationOptions.log_id(options, temporarySession.allocateFrom(builder.logId));
+                }
+                OrtEnvCreationOptions.custom_logging_function(options, OnnxRuntimeLoggingLevel.LOG_CALLBACK);
+                if (builder.logParameter != null) {
+                    OrtEnvCreationOptions.custom_logging_param(
+                            options, temporarySession.allocateFrom(builder.logParameter));
+                }
+                if (builder.useThreadingOptions) {
+                    threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
+                    OrtEnvCreationOptions.threading_options(options, threadingOptionsAddress);
+                }
+                for (Map.Entry<String, String> entry : builder.config.entrySet()) {
+                    api.AddKeyValuePair.apply(
+                            configKeyValues,
+                            temporarySession.allocateFrom(entry.getKey()),
+                            temporarySession.allocateFrom(entry.getValue()));
+                }
+                OrtEnvCreationOptions.config_entries(options, configKeyValues);
+                this.address = api.create(arena, out -> api.CreateEnvWithOptions.apply(options, out));
+            } finally {
+                if (threadingOptionsAddress != null) {
                     api.ReleaseThreadingOptions.apply(threadingOptionsAddress);
                 }
-            } else {
-                this.address = api.create(
-                        arena,
-                        out -> api.CreateEnvWithCustomLogger.apply(
-                                OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                MemorySegment.NULL,
-                                builder.severityLevel.getNumber(),
-                                logName,
-                                out));
+                api.ReleaseKeyValuePairs.apply(configKeyValues);
             }
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
@@ -122,18 +133,21 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         private final ApiImpl api;
         private OnnxRuntimeLoggingLevel severityLevel;
         private String logId;
+        private String logParameter;
         private boolean useThreadingOptions;
         private Boolean globalDenormalAsZero;
         private Integer globalInterOpNumThreads;
         private Integer globalIntraOpNumThreads;
         private Boolean globalSpinControl;
         private Map<String, Long> arenaConfig;
+        private Map<String, String> config;
 
         Builder(ApiImpl api) {
             this.api = api;
             this.severityLevel = OnnxRuntimeLoggingLevel.DEFAULT;
             this.logId = "onnxruntime-java";
             this.arenaConfig = Map.of();
+            this.config = Map.of();
         }
 
         @Override
@@ -145,6 +159,18 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         @Override
         public Builder setLogId(String id) {
             this.logId = id;
+            return this;
+        }
+
+        @Override
+        public Builder setLogParameter(String logParameter) {
+            this.logParameter = logParameter;
+            return this;
+        }
+
+        @Override
+        public Builder setConfigMap(Map<String, String> config) {
+            this.config = config;
             return this;
         }
 

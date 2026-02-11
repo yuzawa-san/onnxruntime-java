@@ -15,27 +15,30 @@ import java.util.stream.*;
 
 /**
  * {@snippet lang=c :
- * struct OrtDataTransferImpl {
+ * struct OrtKernelImpl {
  *     uint32_t ort_version_supported;
- *     void (*Release)(OrtDataTransferImpl *);
- *     bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *);
- *     OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t);
+ *     uint32_t flags;
+ *     OrtStatusPtr (*Compute)(OrtKernelImpl *, OrtKernelContext *);
+ *     void (*Release)(OrtKernelImpl *);
+ *     OrtStatusPtr (*PrePackWeight)(OrtKernelImpl *, const OrtValue *, int, OrtAllocator *, OrtSharedPrePackedWeightCache *, bool *);
+ *     OrtStatusPtr (*SetSharedPrePackedWeight)(OrtKernelImpl *, const void *const *, const size_t *, size_t, int);
  * }
  * }
  */
-public class OrtDataTransferImpl {
+public class OrtKernelImpl {
 
-    OrtDataTransferImpl() {
+    OrtKernelImpl() {
         // Should not be called directly
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
                     onnxruntime_all_h.C_INT.withName("ort_version_supported"),
-                    MemoryLayout.paddingLayout(4),
+                    onnxruntime_all_h.C_INT.withName("flags"),
+                    onnxruntime_all_h.C_POINTER.withName("Compute"),
                     onnxruntime_all_h.C_POINTER.withName("Release"),
-                    onnxruntime_all_h.C_POINTER.withName("CanCopy"),
-                    onnxruntime_all_h.C_POINTER.withName("CopyTensors"))
-            .withName("OrtDataTransferImpl");
+                    onnxruntime_all_h.C_POINTER.withName("PrePackWeight"),
+                    onnxruntime_all_h.C_POINTER.withName("SetSharedPrePackedWeight"))
+            .withName("OrtKernelImpl");
 
     /**
      * The layout of this struct
@@ -89,9 +92,152 @@ public class OrtDataTransferImpl {
         struct.set(ort_version_supported$LAYOUT, ort_version_supported$OFFSET, fieldValue);
     }
 
+    private static final OfInt flags$LAYOUT = (OfInt) $LAYOUT.select(groupElement("flags"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * uint32_t flags
+     * }
+     */
+    public static final OfInt flags$layout() {
+        return flags$LAYOUT;
+    }
+
+    private static final long flags$OFFSET = $LAYOUT.byteOffset(groupElement("flags"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * uint32_t flags
+     * }
+     */
+    public static final long flags$offset() {
+        return flags$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * uint32_t flags
+     * }
+     */
+    public static int flags(MemorySegment struct) {
+        return struct.get(flags$LAYOUT, flags$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * uint32_t flags
+     * }
+     */
+    public static void flags(MemorySegment struct, int fieldValue) {
+        struct.set(flags$LAYOUT, flags$OFFSET, fieldValue);
+    }
+
     /**
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * OrtStatusPtr (*Compute)(OrtKernelImpl *, OrtKernelContext *)
+     * }
+     */
+    public static final class Compute {
+
+        private Compute() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(Compute.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Compute.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Compute$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Compute"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Compute)(OrtKernelImpl *, OrtKernelContext *)
+     * }
+     */
+    public static final AddressLayout Compute$layout() {
+        return Compute$LAYOUT;
+    }
+
+    private static final long Compute$OFFSET = $LAYOUT.byteOffset(groupElement("Compute"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Compute)(OrtKernelImpl *, OrtKernelContext *)
+     * }
+     */
+    public static final long Compute$offset() {
+        return Compute$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Compute)(OrtKernelImpl *, OrtKernelContext *)
+     * }
+     */
+    public static MemorySegment Compute(MemorySegment struct) {
+        return struct.get(Compute$LAYOUT, Compute$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Compute)(OrtKernelImpl *, OrtKernelContext *)
+     * }
+     */
+    public static void Compute(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Compute$LAYOUT, Compute$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*Release)(OrtKernelImpl *)
      * }
      */
     public static final class Release {
@@ -148,7 +294,7 @@ public class OrtDataTransferImpl {
     /**
      * Layout for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtKernelImpl *)
      * }
      */
     public static final AddressLayout Release$layout() {
@@ -160,7 +306,7 @@ public class OrtDataTransferImpl {
     /**
      * Offset for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtKernelImpl *)
      * }
      */
     public static final long Release$offset() {
@@ -170,7 +316,7 @@ public class OrtDataTransferImpl {
     /**
      * Getter for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtKernelImpl *)
      * }
      */
     public static MemorySegment Release(MemorySegment struct) {
@@ -180,7 +326,7 @@ public class OrtDataTransferImpl {
     /**
      * Setter for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtKernelImpl *)
      * }
      */
     public static void Release(MemorySegment struct, MemorySegment fieldValue) {
@@ -189,12 +335,12 @@ public class OrtDataTransferImpl {
 
     /**
      * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
+     * OrtStatusPtr (*PrePackWeight)(OrtKernelImpl *, const OrtValue *, int, OrtAllocator *, OrtSharedPrePackedWeightCache *, bool *)
      * }
      */
-    public static final class CanCopy {
+    public static final class PrePackWeight {
 
-        private CanCopy() {
+        private PrePackWeight() {
             // Should not be called directly
         }
 
@@ -202,11 +348,20 @@ public class OrtDataTransferImpl {
          * The function pointer signature, expressed as a functional interface
          */
         public interface Function {
-            boolean apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+            MemorySegment apply(
+                    MemorySegment _x0,
+                    MemorySegment _x1,
+                    int _x2,
+                    MemorySegment _x3,
+                    MemorySegment _x4,
+                    MemorySegment _x5);
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-                onnxruntime_all_h.C_BOOL,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER);
@@ -219,117 +374,13 @@ public class OrtDataTransferImpl {
         }
 
         private static final MethodHandle UP$MH =
-                onnxruntime_all_h.upcallHandle(CanCopy.Function.class, "apply", $DESC);
+                onnxruntime_all_h.upcallHandle(PrePackWeight.Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
          * The lifetime of the returned segment is managed by {@code arena}
          */
-        public static MemorySegment allocate(CanCopy.Function fi, Arena arena) {
-            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
-        }
-
-        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
-
-        /**
-         * Invoke the upcall stub {@code funcPtr}, with given parameters
-         */
-        public static boolean invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
-            try {
-                return (boolean) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
-            } catch (Error | RuntimeException ex) {
-                throw ex;
-            } catch (Throwable ex$) {
-                throw new AssertionError("should not reach here", ex$);
-            }
-        }
-    }
-
-    private static final AddressLayout CanCopy$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CanCopy"));
-
-    /**
-     * Layout for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static final AddressLayout CanCopy$layout() {
-        return CanCopy$LAYOUT;
-    }
-
-    private static final long CanCopy$OFFSET = $LAYOUT.byteOffset(groupElement("CanCopy"));
-
-    /**
-     * Offset for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static final long CanCopy$offset() {
-        return CanCopy$OFFSET;
-    }
-
-    /**
-     * Getter for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static MemorySegment CanCopy(MemorySegment struct) {
-        return struct.get(CanCopy$LAYOUT, CanCopy$OFFSET);
-    }
-
-    /**
-     * Setter for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static void CanCopy(MemorySegment struct, MemorySegment fieldValue) {
-        struct.set(CanCopy$LAYOUT, CanCopy$OFFSET, fieldValue);
-    }
-
-    /**
-     * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
-     * }
-     */
-    public static final class CopyTensors {
-
-        private CopyTensors() {
-            // Should not be called directly
-        }
-
-        /**
-         * The function pointer signature, expressed as a functional interface
-         */
-        public interface Function {
-            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3, long _x4);
-        }
-
-        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_LONG);
-
-        /**
-         * The descriptor of this function pointer
-         */
-        public static FunctionDescriptor descriptor() {
-            return $DESC;
-        }
-
-        private static final MethodHandle UP$MH =
-                onnxruntime_all_h.upcallHandle(CopyTensors.Function.class, "apply", $DESC);
-
-        /**
-         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
-         * The lifetime of the returned segment is managed by {@code arena}
-         */
-        public static MemorySegment allocate(CopyTensors.Function fi, Arena arena) {
+        public static MemorySegment allocate(PrePackWeight.Function fi, Arena arena) {
             return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
         }
 
@@ -342,9 +393,116 @@ public class OrtDataTransferImpl {
                 MemorySegment funcPtr,
                 MemorySegment _x0,
                 MemorySegment _x1,
-                MemorySegment _x2,
+                int _x2,
                 MemorySegment _x3,
-                long _x4) {
+                MemorySegment _x4,
+                MemorySegment _x5) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout PrePackWeight$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("PrePackWeight"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*PrePackWeight)(OrtKernelImpl *, const OrtValue *, int, OrtAllocator *, OrtSharedPrePackedWeightCache *, bool *)
+     * }
+     */
+    public static final AddressLayout PrePackWeight$layout() {
+        return PrePackWeight$LAYOUT;
+    }
+
+    private static final long PrePackWeight$OFFSET = $LAYOUT.byteOffset(groupElement("PrePackWeight"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*PrePackWeight)(OrtKernelImpl *, const OrtValue *, int, OrtAllocator *, OrtSharedPrePackedWeightCache *, bool *)
+     * }
+     */
+    public static final long PrePackWeight$offset() {
+        return PrePackWeight$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*PrePackWeight)(OrtKernelImpl *, const OrtValue *, int, OrtAllocator *, OrtSharedPrePackedWeightCache *, bool *)
+     * }
+     */
+    public static MemorySegment PrePackWeight(MemorySegment struct) {
+        return struct.get(PrePackWeight$LAYOUT, PrePackWeight$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*PrePackWeight)(OrtKernelImpl *, const OrtValue *, int, OrtAllocator *, OrtSharedPrePackedWeightCache *, bool *)
+     * }
+     */
+    public static void PrePackWeight(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(PrePackWeight$LAYOUT, PrePackWeight$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetSharedPrePackedWeight)(OrtKernelImpl *, const void *const *, const size_t *, size_t, int)
+     * }
+     */
+    public static final class SetSharedPrePackedWeight {
+
+        private SetSharedPrePackedWeight() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3, int _x4);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SetSharedPrePackedWeight.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SetSharedPrePackedWeight.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3, int _x4) {
             try {
                 return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4);
             } catch (Error | RuntimeException ex) {
@@ -355,48 +513,50 @@ public class OrtDataTransferImpl {
         }
     }
 
-    private static final AddressLayout CopyTensors$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CopyTensors"));
+    private static final AddressLayout SetSharedPrePackedWeight$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SetSharedPrePackedWeight"));
 
     /**
      * Layout for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*SetSharedPrePackedWeight)(OrtKernelImpl *, const void *const *, const size_t *, size_t, int)
      * }
      */
-    public static final AddressLayout CopyTensors$layout() {
-        return CopyTensors$LAYOUT;
+    public static final AddressLayout SetSharedPrePackedWeight$layout() {
+        return SetSharedPrePackedWeight$LAYOUT;
     }
 
-    private static final long CopyTensors$OFFSET = $LAYOUT.byteOffset(groupElement("CopyTensors"));
+    private static final long SetSharedPrePackedWeight$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SetSharedPrePackedWeight"));
 
     /**
      * Offset for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*SetSharedPrePackedWeight)(OrtKernelImpl *, const void *const *, const size_t *, size_t, int)
      * }
      */
-    public static final long CopyTensors$offset() {
-        return CopyTensors$OFFSET;
+    public static final long SetSharedPrePackedWeight$offset() {
+        return SetSharedPrePackedWeight$OFFSET;
     }
 
     /**
      * Getter for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*SetSharedPrePackedWeight)(OrtKernelImpl *, const void *const *, const size_t *, size_t, int)
      * }
      */
-    public static MemorySegment CopyTensors(MemorySegment struct) {
-        return struct.get(CopyTensors$LAYOUT, CopyTensors$OFFSET);
+    public static MemorySegment SetSharedPrePackedWeight(MemorySegment struct) {
+        return struct.get(SetSharedPrePackedWeight$LAYOUT, SetSharedPrePackedWeight$OFFSET);
     }
 
     /**
      * Setter for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*SetSharedPrePackedWeight)(OrtKernelImpl *, const void *const *, const size_t *, size_t, int)
      * }
      */
-    public static void CopyTensors(MemorySegment struct, MemorySegment fieldValue) {
-        struct.set(CopyTensors$LAYOUT, CopyTensors$OFFSET, fieldValue);
+    public static void SetSharedPrePackedWeight(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SetSharedPrePackedWeight$LAYOUT, SetSharedPrePackedWeight$OFFSET, fieldValue);
     }
 
     /**
