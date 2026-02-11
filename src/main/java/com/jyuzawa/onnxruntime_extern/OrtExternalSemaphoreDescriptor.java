@@ -15,23 +15,24 @@ import java.util.stream.*;
 
 /**
  * {@snippet lang=c :
- * struct OrtNodeFusionOptions {
- *     uint32_t ort_version_supported;
- *     bool drop_constant_initializers;
+ * struct OrtExternalSemaphoreDescriptor {
+ *     uint32_t version;
+ *     OrtExternalSemaphoreType type;
+ *     void *native_handle;
  * }
  * }
  */
-public class OrtNodeFusionOptions {
+public class OrtExternalSemaphoreDescriptor {
 
-    OrtNodeFusionOptions() {
+    OrtExternalSemaphoreDescriptor() {
         // Should not be called directly
     }
 
     private static final GroupLayout $LAYOUT = MemoryLayout.structLayout(
-                    onnxruntime_all_h.C_INT.withName("ort_version_supported"),
-                    onnxruntime_all_h.C_BOOL.withName("drop_constant_initializers"),
-                    MemoryLayout.paddingLayout(3))
-            .withName("OrtNodeFusionOptions");
+                    onnxruntime_all_h.C_INT.withName("version"),
+                    onnxruntime_all_h.C_INT.withName("type"),
+                    onnxruntime_all_h.C_POINTER.withName("native_handle"))
+            .withName("OrtExternalSemaphoreDescriptor");
 
     /**
      * The layout of this struct
@@ -40,95 +41,137 @@ public class OrtNodeFusionOptions {
         return $LAYOUT;
     }
 
-    private static final OfInt ort_version_supported$LAYOUT =
-            (OfInt) $LAYOUT.select(groupElement("ort_version_supported"));
+    private static final OfInt version$LAYOUT = (OfInt) $LAYOUT.select(groupElement("version"));
 
     /**
      * Layout for field:
      * {@snippet lang=c :
-     * uint32_t ort_version_supported
+     * uint32_t version
      * }
      */
-    public static final OfInt ort_version_supported$layout() {
-        return ort_version_supported$LAYOUT;
+    public static final OfInt version$layout() {
+        return version$LAYOUT;
     }
 
-    private static final long ort_version_supported$OFFSET = $LAYOUT.byteOffset(groupElement("ort_version_supported"));
+    private static final long version$OFFSET = $LAYOUT.byteOffset(groupElement("version"));
 
     /**
      * Offset for field:
      * {@snippet lang=c :
-     * uint32_t ort_version_supported
+     * uint32_t version
      * }
      */
-    public static final long ort_version_supported$offset() {
-        return ort_version_supported$OFFSET;
+    public static final long version$offset() {
+        return version$OFFSET;
     }
 
     /**
      * Getter for field:
      * {@snippet lang=c :
-     * uint32_t ort_version_supported
+     * uint32_t version
      * }
      */
-    public static int ort_version_supported(MemorySegment struct) {
-        return struct.get(ort_version_supported$LAYOUT, ort_version_supported$OFFSET);
+    public static int version(MemorySegment struct) {
+        return struct.get(version$LAYOUT, version$OFFSET);
     }
 
     /**
      * Setter for field:
      * {@snippet lang=c :
-     * uint32_t ort_version_supported
+     * uint32_t version
      * }
      */
-    public static void ort_version_supported(MemorySegment struct, int fieldValue) {
-        struct.set(ort_version_supported$LAYOUT, ort_version_supported$OFFSET, fieldValue);
+    public static void version(MemorySegment struct, int fieldValue) {
+        struct.set(version$LAYOUT, version$OFFSET, fieldValue);
     }
 
-    private static final OfBoolean drop_constant_initializers$LAYOUT =
-            (OfBoolean) $LAYOUT.select(groupElement("drop_constant_initializers"));
+    private static final OfInt type$LAYOUT = (OfInt) $LAYOUT.select(groupElement("type"));
 
     /**
      * Layout for field:
      * {@snippet lang=c :
-     * bool drop_constant_initializers
+     * OrtExternalSemaphoreType type
      * }
      */
-    public static final OfBoolean drop_constant_initializers$layout() {
-        return drop_constant_initializers$LAYOUT;
+    public static final OfInt type$layout() {
+        return type$LAYOUT;
     }
 
-    private static final long drop_constant_initializers$OFFSET =
-            $LAYOUT.byteOffset(groupElement("drop_constant_initializers"));
+    private static final long type$OFFSET = $LAYOUT.byteOffset(groupElement("type"));
 
     /**
      * Offset for field:
      * {@snippet lang=c :
-     * bool drop_constant_initializers
+     * OrtExternalSemaphoreType type
      * }
      */
-    public static final long drop_constant_initializers$offset() {
-        return drop_constant_initializers$OFFSET;
+    public static final long type$offset() {
+        return type$OFFSET;
     }
 
     /**
      * Getter for field:
      * {@snippet lang=c :
-     * bool drop_constant_initializers
+     * OrtExternalSemaphoreType type
      * }
      */
-    public static boolean drop_constant_initializers(MemorySegment struct) {
-        return struct.get(drop_constant_initializers$LAYOUT, drop_constant_initializers$OFFSET);
+    public static int type(MemorySegment struct) {
+        return struct.get(type$LAYOUT, type$OFFSET);
     }
 
     /**
      * Setter for field:
      * {@snippet lang=c :
-     * bool drop_constant_initializers
+     * OrtExternalSemaphoreType type
      * }
      */
-    public static void drop_constant_initializers(MemorySegment struct, boolean fieldValue) {
-        struct.set(drop_constant_initializers$LAYOUT, drop_constant_initializers$OFFSET, fieldValue);
+    public static void type(MemorySegment struct, int fieldValue) {
+        struct.set(type$LAYOUT, type$OFFSET, fieldValue);
+    }
+
+    private static final AddressLayout native_handle$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("native_handle"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void *native_handle
+     * }
+     */
+    public static final AddressLayout native_handle$layout() {
+        return native_handle$LAYOUT;
+    }
+
+    private static final long native_handle$OFFSET = $LAYOUT.byteOffset(groupElement("native_handle"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void *native_handle
+     * }
+     */
+    public static final long native_handle$offset() {
+        return native_handle$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void *native_handle
+     * }
+     */
+    public static MemorySegment native_handle(MemorySegment struct) {
+        return struct.get(native_handle$LAYOUT, native_handle$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void *native_handle
+     * }
+     */
+    public static void native_handle(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(native_handle$LAYOUT, native_handle$OFFSET, fieldValue);
     }
 
     /**
