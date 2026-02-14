@@ -13,33 +13,47 @@ import java.util.function.Function;
 
 abstract class OnnxTensorBufferImpl<T extends Buffer> extends OnnxTensorImpl {
 
-    private final MemorySegment memorySegment;
-    protected final T buffer;
+    private final Function<ByteBuffer, T> convert;
+    private MemorySegment memorySegment;
+    private T buffer;
 
     protected OnnxTensorBufferImpl(
             TensorInfoImpl tensorInfo,
             ValueContext valueContext,
             MemorySegment ortValueAddress,
             Function<ByteBuffer, T> convert) {
-        super(tensorInfo, valueContext);
+        super(tensorInfo, valueContext, ortValueAddress);
+        this.convert = convert;
+    }
+
+    @Override
+    protected final boolean isInitialized() {
+        return buffer != null;
+    }
+
+    protected final T getBuffer() {
+        if (buffer != null) {
+            return buffer;
+        }
         Arena arena = valueContext.arena();
         if (ortValueAddress == null) {
             this.memorySegment = arena.allocate(tensorInfo.getType().getValueLayout(), tensorInfo.getElementCount());
         } else {
             ApiImpl api = valueContext.api();
-            MemorySegment floatOutput = api.create(arena, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
-            this.memorySegment = floatOutput.reinterpret(tensorInfo.getByteCount());
+            MemorySegment tensorData = api.create(arena, out -> api.GetTensorMutableData.apply(ortValueAddress, out));
+            this.memorySegment = tensorData.reinterpret(tensorInfo.getByteCount());
         }
-        this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
+        return this.buffer = convert.apply(memorySegment.asByteBuffer().order(ByteOrder.nativeOrder()));
     }
 
     @Override
     public final String toString() {
-        return "{OnnxTensor: info=" + tensorInfo + ", buffer=" + buffer + "}";
+        return "{OnnxTensor: info=" + tensorInfo + ", buffer=" + getBuffer() + "}";
     }
 
     @Override
     public final MemorySegment toNative() {
+        getBuffer();
         ApiImpl api = valueContext.api();
         return api.create(
                 valueContext.arena(),

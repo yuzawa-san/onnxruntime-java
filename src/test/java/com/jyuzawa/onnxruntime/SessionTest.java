@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -264,8 +265,12 @@ public class SessionTest {
                         .setByteBuffer(identityModel(type))
                         .build();
                 Transaction txn = session.newTransaction().build()) {
+            assertFalse(session.getInputs().get(0).getTypeInfo().getTensorInfo().isDynamicShape());
             float[] rawInput = new float[] {554354, 52345234, 143646};
-            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            OnnxValue addedInput = txn.addInput(0);
+            assertThrows(IllegalArgumentException.class, () -> addedInput.asTensor(List.of(1L, 2L, 3L)));
+            addedInput.asTensor().getFloatBuffer().put(rawInput);
+
             txn.addOutput(0);
             NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput = new float[3];
@@ -462,6 +467,7 @@ public class SessionTest {
             OnnxValue outputValue = output.get(0);
             assertThrows(NoSuchElementException.class, () -> outputValue.asMap());
             assertThrows(NoSuchElementException.class, () -> outputValue.asTensor());
+            assertThrows(NoSuchElementException.class, () -> outputValue.asTensor(List.of(1L)));
             OnnxSequence outputSequence = outputValue.asSequence();
             assertEquals(
                     OnnxTensorElementDataType.FLOAT,
@@ -494,6 +500,60 @@ public class SessionTest {
             assertArrayEquals(rawInput1, outputBuffer);
             outputSequence.get(1).asTensor().getFloatBuffer().get(outputBuffer);
             assertArrayEquals(rawInput2, outputBuffer);
+            LOG.log(Level.INFO, output.get(0));
+        }
+    }
+
+    @Test
+    public void dynamicShapeTest() throws IOException {
+        ByteBuffer model = ModelProto.newBuilder()
+                .setIrVersion(8)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(23))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput("input1")
+                                .addInput("input2")
+                                .addOutput("output")
+                                .setName("addtwotensors-node-0")
+                                .setOpType("Add"))
+                        .setName("addtwotensors-graph-0")
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input1")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder().setElemType(DataType.DOUBLE_VALUE))))
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input2")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder().setElemType(DataType.DOUBLE_VALUE))))
+                        .addOutput(ValueInfoProto.newBuilder()
+                                .setName("output")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder().setElemType(DataType.DOUBLE_VALUE)))))
+                .build()
+                .toByteString()
+                .asReadOnlyByteBuffer();
+        try (Session session = environment.newSession().setByteBuffer(model).build();
+                Transaction txn = session.newTransaction().build()) {
+            assertTrue(session.getInputs().get(0).getTypeInfo().getTensorInfo().isDynamicShape());
+            assertTrue(session.getInputs().get(1).getTypeInfo().getTensorInfo().isDynamicShape());
+            assertTrue(session.getOutputs().get(0).getTypeInfo().getTensorInfo().isDynamicShape());
+            double[] input1 = new double[] {1, 2, 3};
+            double[] input2 = new double[] {4, 5, 6};
+            OnnxValue addedInput1 = txn.addInput(0);
+            assertThrows(IllegalArgumentException.class, () -> addedInput1.asTensor());
+            assertThrows(IllegalArgumentException.class, () -> addedInput1.asTensor(List.of(-1L, 256L)));
+            addedInput1.asTensor(List.of(1L, 3L)).getDoubleBuffer().put(input1);
+            assertThrows(IllegalArgumentException.class, () -> addedInput1.asTensor(List.of(1L, 4L)));
+            txn.addInput(1).asTensor(List.of(1L, 3L)).getDoubleBuffer().put(input2);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            double[] rawOutput = new double[3];
+            OnnxValue outputValue = output.get(0);
+            assertThrows(IllegalArgumentException.class, () -> addedInput1.asTensor(List.of(1L, 2L, 3L)));
+            OnnxTensor outputTensor = outputValue.asTensor();
+            assertEquals(List.of(1L, 3L), outputTensor.getInfo().getShape());
+            outputTensor.getDoubleBuffer().get(rawOutput);
+            assertArrayEquals(new double[] {5, 7, 9}, rawOutput);
             LOG.log(Level.INFO, output.get(0));
         }
     }

@@ -29,7 +29,7 @@ final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
 
     @Override
     protected void implodeKeyVector(OnnxTensorLongImpl keyVector, Set<Long> keys) {
-        LongBuffer buffer = keyVector.buffer;
+        LongBuffer buffer = keyVector.getBuffer();
         for (Long key : keys) {
             buffer.put(key);
         }
@@ -38,7 +38,7 @@ final class OnnxMapLongImpl extends OnnxMapImpl<Long, OnnxTensorLongImpl> {
 
     @Override
     protected Stream<Long> explodeKeyVector(OnnxTensorLongImpl keyVector) {
-        LongBuffer buf = keyVector.buffer;
+        LongBuffer buf = keyVector.getBuffer();
         int count = buf.capacity();
         List<Long> out = new ArrayList<>(count);
         for (int i = 0; i < buf.capacity(); i++) {

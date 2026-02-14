@@ -18,11 +18,12 @@ final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
 
     @Override
     public ByteBuffer getByteBuffer() {
-        return buffer;
+        return getBuffer();
     }
 
     @Override
     public void putScalars(Collection<OnnxTensorImpl> scalars) {
+        ByteBuffer buffer = getBuffer();
         for (OnnxTensorImpl scalar : scalars) {
             buffer.put(scalar.getByteBuffer().flip().get());
         }
@@ -30,6 +31,7 @@ final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
 
     @Override
     public void getScalars(Stream<OnnxTensorImpl> scalars) {
+        ByteBuffer buffer = getBuffer();
         scalars.forEach(scalar -> scalar.getByteBuffer().put(buffer.get()).flip());
     }
 }
