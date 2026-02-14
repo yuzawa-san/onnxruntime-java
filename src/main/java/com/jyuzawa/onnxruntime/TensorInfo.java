@@ -30,7 +30,7 @@ public interface TensorInfo {
     long getByteCount();
 
     /**
-     * Get whether the shape contains a dimension <= 0
+     * Get whether the shape contains a dimension less than or equal to 0
      * @return true if dynamically shaped
      * @since 2.1.0
      */
