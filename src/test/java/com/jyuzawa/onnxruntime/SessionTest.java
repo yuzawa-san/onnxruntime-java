@@ -266,7 +266,10 @@ public class SessionTest {
                         .build();
                 Transaction txn = session.newTransaction().build()) {
             float[] rawInput = new float[] {554354, 52345234, 143646};
-            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            OnnxValue addedInput = txn.addInput(0);
+            assertThrows(IllegalArgumentException.class, () -> addedInput.asTensor(List.of(1L, 2L, 3L)));
+            addedInput.asTensor().getFloatBuffer().put(rawInput);
+
             txn.addOutput(0);
             NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput = new float[3];
@@ -500,7 +503,7 @@ public class SessionTest {
     }
 
     @Test
-    public void shapelessTest() throws IOException {
+    public void dynamicShape() throws IOException {
         ByteBuffer model = ModelProto.newBuilder()
                 .setIrVersion(8)
                 .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(23))
@@ -531,12 +534,16 @@ public class SessionTest {
                 Transaction txn = session.newTransaction().build()) {
             double[] input1 = new double[] {1, 2, 3};
             double[] input2 = new double[] {4, 5, 6};
-            txn.addInput(0).asTensor(List.of(1L, 3L)).getDoubleBuffer().put(input1);
+            OnnxValue addedInput1 = txn.addInput(0);
+            assertThrows(IllegalArgumentException.class, () -> addedInput1.asTensor());
+            addedInput1.asTensor(List.of(1L, 3L)).getDoubleBuffer().put(input1);
             txn.addInput(1).asTensor(List.of(1L, 3L)).getDoubleBuffer().put(input2);
             txn.addOutput(0);
             NamedCollection<OnnxValue> output = txn.run();
             double[] rawOutput = new double[3];
-            OnnxTensor outputTensor = output.get(0).asTensor();
+            OnnxValue outputValue = output.get(0);
+            assertThrows(IllegalArgumentException.class, () -> addedInput1.asTensor(List.of(1L, 2L, 3L)));
+            OnnxTensor outputTensor = outputValue.asTensor();
             assertEquals(List.of(1L, 3L), outputTensor.getInfo().getShape());
             outputTensor.getDoubleBuffer().get(rawOutput);
             assertArrayEquals(new double[] {5, 7, 9}, rawOutput);
