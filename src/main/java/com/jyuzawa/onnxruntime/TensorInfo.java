@@ -29,5 +29,10 @@ public interface TensorInfo {
      */
     long getByteCount();
 
+    /**
+     * Get whether the shape contains a dimension <= 0
+     * @return true if dynamically shaped
+     * @since 2.1.0
+     */
     boolean isDynamicShape();
 }
