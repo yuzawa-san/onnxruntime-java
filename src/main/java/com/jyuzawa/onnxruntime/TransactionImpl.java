@@ -133,7 +133,6 @@ final class TransactionImpl implements Transaction {
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
         for (int i = 0; i < outputs.size(); i++) {
             MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
-            // TODO: get typeinfo from result
             NodeInfoImpl nodeInfo = outputs.get(i);
             OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
             valueContext.closeables().add(() -> api.ReleaseValue.apply(outputAddress));

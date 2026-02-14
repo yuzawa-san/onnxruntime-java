@@ -28,4 +28,6 @@ public interface TensorInfo {
      * @return the number of bytes the buffer takes up, based on shape and bytes for the type.
      */
     long getByteCount();
+
+    boolean isDynamicShape();
 }

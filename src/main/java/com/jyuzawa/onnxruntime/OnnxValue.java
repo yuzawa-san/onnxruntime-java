@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -25,6 +26,14 @@ public interface OnnxValue {
      * @throws NoSuchElementException if the value is not a tensor
      */
     OnnxTensor asTensor();
+
+    /**
+     * A view as a tensor of specified shape. Must be used when inputs have dynamic shape.
+     * @return tensor
+     * @throws NoSuchElementException if the value is not a tensor
+     * @since 2.1.0
+     */
+    OnnxTensor asTensor(List<Long> shape);
 
     /**
      * A view as a sequence

@@ -31,6 +31,24 @@ final class TensorInfoImpl implements TensorInfo {
         this.elementCount = elementCount;
     }
 
+    TensorInfoImpl(OnnxTensorElementDataType type, Arena arena, List<Long> shape) {
+        this.type = type;
+        this.shape = Collections.unmodifiableList(shape);
+        int size = shape.size();
+        long[] shapeArray = new long[size];
+        long elementCount = 1;
+        for (int i = 0; i < size; i++) {
+            long dim = shape.get(i);
+            if (dim <= 0) {
+                throw new IllegalArgumentException("Invalid shape: dimension must be greater than zero");
+            }
+            shapeArray[i] = dim;
+            elementCount *= dim;
+        }
+        this.shapeData = arena.allocateFrom(C_LONG, shapeArray);
+        this.elementCount = elementCount;
+    }
+
     static TensorInfoImpl of(OnnxTensorElementDataType type, long elementCount, Arena arena) {
         MemorySegment shapeData = arena.allocateFrom(C_LONG, new long[] {elementCount});
         return new TensorInfoImpl(type, shapeData, 1, elementCount);
@@ -60,6 +78,20 @@ final class TensorInfoImpl implements TensorInfo {
     public long getByteCount() {
         // TODO: handle missing valueLayout
         return elementCount * type.getValueLayout().byteSize();
+    }
+
+    @Override
+    public boolean isDynamicShape() {
+        int dims = shape.size();
+        if (dims == 0) {
+            return true;
+        }
+        for (int i = 0; i < dims; i++) {
+            if (shape.get(i) < 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     final OnnxTensorImpl newValue(ValueContext valueContext, MemorySegment ortValueAddress) {

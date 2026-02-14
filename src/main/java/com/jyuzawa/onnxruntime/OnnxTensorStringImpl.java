@@ -16,10 +16,27 @@ import java.util.stream.Stream;
 
 final class OnnxTensorStringImpl extends OnnxTensorImpl {
 
-    private final String[] buffer;
+    private String[] buffer;
 
     OnnxTensorStringImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
-        super(tensorInfo, valueContext);
+        super(tensorInfo, valueContext, ortValueAddress);
+    }
+
+    @Override
+    public String toString() {
+        return "{OnnxTensor: info=" + tensorInfo + ", buffer=" + Arrays.toString(getStringBuffer()) + "}";
+    }
+
+    @Override
+    protected boolean isInitialized() {
+        return buffer != null;
+    }
+
+    @Override
+    public String[] getStringBuffer() {
+        if (buffer != null) {
+            return buffer;
+        }
         this.buffer = new String[Math.toIntExact(tensorInfo.getElementCount())];
         if (ortValueAddress != null) {
             ApiImpl api = valueContext.api();
@@ -35,20 +52,12 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                 buffer[i] = output.getString(0);
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "{OnnxTensor: info=" + tensorInfo + ", buffer=" + Arrays.toString(buffer) + "}";
-    }
-
-    @Override
-    public String[] getStringBuffer() {
-        return buffer;
+        return this.buffer;
     }
 
     @Override
     public MemorySegment toNative() {
+        String[] buffer = getStringBuffer();
         int numOutputs = buffer.length;
         ApiImpl api = valueContext.api();
         Arena arena = valueContext.arena();
@@ -71,6 +80,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     @Override
     public void putScalars(Collection<OnnxTensorImpl> scalars) {
         int i = 0;
+        String[] buffer = getStringBuffer();
         for (OnnxTensorImpl scalar : scalars) {
             buffer[i++] = scalar.getStringBuffer()[0];
         }
@@ -79,6 +89,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     @Override
     public void getScalars(Stream<OnnxTensorImpl> scalars) {
         int i = 0;
+        String[] buffer = getStringBuffer();
         Iterator<OnnxTensorImpl> iter = scalars.iterator();
         while (iter.hasNext()) {
             OnnxTensorImpl scalar = iter.next();
