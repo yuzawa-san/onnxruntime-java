@@ -12,7 +12,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault
 
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.util.HashMap;
 import java.util.Map;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {
@@ -70,6 +69,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         }
     }
 
+    // TODO: enable this once it actually returns something
+    /*
     public Map<String, String> getAllocatorStats() {
         try (Arena localArena = Arena.ofConfined()) {
             MemorySegment keyValuePairs = api.create(localArena, out -> api.AllocatorGetStats.apply(ortAllocator, out));
@@ -90,6 +91,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             return out;
         }
     }
+    */
 
     @Override
     public void close() {
@@ -184,7 +186,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
 
         private MemorySegment newThreadingOptions(Arena arena) {
             MemorySegment threadingOptions = api.create(arena, out -> api.CreateThreadingOptions.apply(out));
-            if (globalDenormalAsZero != null && globalSpinControl) {
+            if (globalDenormalAsZero != null && Boolean.TRUE.equals(globalSpinControl)) {
                 api.checkStatus(api.SetGlobalDenormalAsZero.apply(threadingOptions));
             }
             if (globalSpinControl != null) {

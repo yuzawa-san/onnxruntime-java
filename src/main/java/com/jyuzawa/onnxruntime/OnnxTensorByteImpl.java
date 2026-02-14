@@ -22,14 +22,14 @@ final class OnnxTensorByteImpl extends OnnxTensorBufferImpl<ByteBuffer> {
     }
 
     @Override
-    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+    void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
             buffer.put(scalar.getByteBuffer().flip().get());
         }
     }
 
     @Override
-    public void getScalars(Stream<OnnxTensorImpl> scalars) {
+    void getScalars(Stream<OnnxTensorImpl> scalars) {
         scalars.forEach(scalar -> scalar.getByteBuffer().put(buffer.get()).flip());
     }
 }

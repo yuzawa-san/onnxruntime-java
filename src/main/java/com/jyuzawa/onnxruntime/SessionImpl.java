@@ -7,7 +7,6 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
-import static java.lang.foreign.ValueLayout.JAVA_BYTE;
 
 import java.io.IOException;
 import java.lang.System.Logger;
@@ -118,13 +117,7 @@ final class SessionImpl extends ManagedImpl implements Session {
         String pathString = path.toAbsolutePath().toString();
         if (IS_WINDOWS) {
             // treat segment as wchar_t
-            byte[] bytes = pathString.getBytes(StandardCharsets.UTF_16LE);
-            MemorySegment addr = arena.allocate(bytes.length + 2);
-            MemorySegment heapSegment = MemorySegment.ofArray(bytes);
-            addr.copyFrom(heapSegment);
-            addr.set(JAVA_BYTE, bytes.length, (byte) 0);
-            addr.set(JAVA_BYTE, bytes.length + 1, (byte) 0);
-            return addr;
+            return arena.allocateFrom(pathString, StandardCharsets.UTF_16LE);
         }
         return arena.allocateFrom(pathString);
     }
@@ -442,15 +435,6 @@ final class SessionImpl extends ManagedImpl implements Session {
                         api.RegisterCustomOpsLibrary_V2.apply(sessionOptions, createPath(arena, customOpsLibrary)));
             }
             return sessionOptions;
-        }
-
-        private static final MemorySegment createPath(Arena arena, Path path) {
-            String pathString = path.toAbsolutePath().toString();
-            if (IS_WINDOWS) {
-                // treat segment as wchar_t
-                return arena.allocateFrom(pathString, StandardCharsets.UTF_16LE);
-            }
-            return arena.allocateFrom(pathString);
         }
 
         @Override

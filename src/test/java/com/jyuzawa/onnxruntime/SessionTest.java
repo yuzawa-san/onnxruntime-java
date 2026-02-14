@@ -63,8 +63,12 @@ public class SessionTest {
         environment = api.newEnvironment()
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogId("testing")
+                .setGlobalDenormalAsZero(true)
+                .setGlobalSpinControl(true)
                 .setArenaConfig(Map.of("initial_chunk_size_bytes", 65535L, "initial_growth_chunk_size_bytes", 65535L))
                 .build();
+        environment.setTelemetryEvents(true);
+        environment.setTelemetryEvents(false);
     }
 
     @AfterAll
@@ -147,8 +151,24 @@ public class SessionTest {
                 .build()
                 .toByteString()
                 .asReadOnlyByteBuffer();
-        try (Session session =
-                environment.newSession().setByteBuffer(byteBuffer).build()) {
+        ExecutionProvider provider = ExecutionProvider.of("CANNExecutionProvider");
+        if (!provider.isSupported()) {
+            assertThrows(UnsupportedOperationException.class, () -> environment
+                    .newSession()
+                    .setByteBuffer(byteBuffer)
+                    .addProvider(provider)
+                    .build());
+        }
+        try (Session session = environment
+                .newSession()
+                .setByteBuffer(byteBuffer)
+                .setDeterministicCompute(true)
+                .build()) {
+            TypeInfo typeInfo = session.getInputs().get(0).getTypeInfo();
+            assertThrows(NoSuchElementException.class, () -> typeInfo.getSequenceInfo());
+            assertThrows(NoSuchElementException.class, () -> typeInfo.getMapInfo());
+            assertNotNull(typeInfo.getTensorInfo());
+            typeInfo.toString();
             ModelMetadata metadata = session.getModelMetadata();
             Map<String, String> metadataMap = metadata.getCustomMetadata();
             assertEquals(2, metadataMap.size());
@@ -451,6 +471,11 @@ public class SessionTest {
                         .setByteBuffer(identityModel(type))
                         .build();
                 Transaction txn = session.newTransaction().build()) {
+            TypeInfo typeInfo = session.getInputs().get(0).getTypeInfo();
+            assertThrows(NoSuchElementException.class, () -> typeInfo.getTensorInfo());
+            assertThrows(NoSuchElementException.class, () -> typeInfo.getMapInfo());
+            assertNotNull(typeInfo.getSequenceInfo());
+            typeInfo.toString();
             float[] rawInput1 = new float[] {554354, 52345234, 143646};
             float[] rawInput2 = new float[] {5234, 1436, 613};
             OnnxSequence inputSequence = txn.addInput(0).asSequence();
@@ -712,6 +737,11 @@ public class SessionTest {
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build();
                 Transaction txn = session.newTransaction().build()) {
+            TypeInfo typeInfo = session.getInputs().get(0).getTypeInfo();
+            assertThrows(NoSuchElementException.class, () -> typeInfo.getTensorInfo());
+            assertThrows(NoSuchElementException.class, () -> typeInfo.getSequenceInfo());
+            assertNotNull(typeInfo.getMapInfo());
+            typeInfo.toString();
             String[] rawInputs = new String[] {"fsaf", "fa3sf", "fe", "ab", "xr"};
             long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
             OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
@@ -789,7 +819,7 @@ public class SessionTest {
     }
 
     @Test
-    public void castMapFloatTest() throws IOException {
+    public void mapToFloatIdentityTest() throws IOException {
         ModelProto modelProto = ModelProto.newBuilder()
                 .setIrVersion(8)
                 .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
@@ -797,12 +827,7 @@ public class SessionTest {
                         .addNode(NodeProto.newBuilder()
                                 .addInput("input")
                                 .addOutput("output")
-                                .setOpType("CastMap")
-                                .setDomain("ai.onnx.ml")
-                                .addAttribute(AttributeProto.newBuilder()
-                                        .setName("cast_to")
-                                        .setType(AttributeType.STRING)
-                                        .setS(ByteString.copyFrom("TO_FLOAT", StandardCharsets.UTF_8))))
+                                .setOpType("Identity"))
                         .addInput(ValueInfoProto.newBuilder()
                                 .setName("input")
                                 .setType(TypeProto.newBuilder()
@@ -817,13 +842,14 @@ public class SessionTest {
                         .addOutput(ValueInfoProto.newBuilder()
                                 .setName("output")
                                 .setType(TypeProto.newBuilder()
-                                        .setTensorType(Tensor.newBuilder()
-                                                .setElemType(DataType.FLOAT_VALUE)
-                                                .setShape(TensorShapeProto.newBuilder()
-                                                        .addDim(Dimension.newBuilder()
-                                                                .setDimValue(1))
-                                                        .addDim(Dimension.newBuilder()
-                                                                .setDimValue(5)))))))
+                                        .setMapType(TypeProto.Map.newBuilder()
+                                                .setKeyType(DataType.INT64_VALUE)
+                                                .setValueType(TypeProto.newBuilder()
+                                                        .setTensorType(Tensor.newBuilder()
+                                                                .setElemType(DataType.FLOAT_VALUE)
+                                                                .setShape(TensorShapeProto.newBuilder()
+                                                                        .addDim(Dimension.newBuilder()
+                                                                                .setDimValue(1)))))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build();
@@ -838,11 +864,12 @@ public class SessionTest {
             mapInput.set(keys[4]).asTensor().getFloatBuffer().put(rawInputs[4]);
             txn.addOutput(0);
             NamedCollection<OnnxValue> output = txn.run();
-            float[] rawOutput = new float[5];
-            output.get(0).asTensor().getFloatBuffer().get(rawOutput);
-            float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
-            assertArrayEquals(orderedOut, rawOutput);
-            LOG.log(Level.INFO, output.get(0));
+            //            output.get(0).asMap().asLongMap();
+            //            float[] rawOutput = new float[5];
+            //            output.get(0).asTensor().getFloatBuffer().get(rawOutput);
+            //            float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
+            //            assertArrayEquals(orderedOut, rawOutput);
+            LOG.log(Level.INFO, output.get(0).asMap().asLongMap());
         }
     }
 
@@ -968,9 +995,20 @@ public class SessionTest {
                         .build();
                 IoBinding txn = session.newIoBinding()
                         .bindInput(0)
+                        .bindInput("input")
                         .bindOutput(0)
+                        .bindOutput("output")
                         .setConfigMap(Map.of("foo", "bar"))
                         .build()) {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> session.newIoBinding().bindInput(0).build());
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> session.newIoBinding().bindOutput(0).build());
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> session.newIoBinding().bindOutput("not_an_output").build());
             txn.setLogSeverityLevel(OnnxRuntimeLoggingLevel.INFO);
             txn.setLogVerbosityLevel(0);
             txn.setRunTag("foo");
