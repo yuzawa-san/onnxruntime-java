@@ -21,7 +21,7 @@ doIt () {
   mv onnxruntime-${DOWNLOAD_NAME}-${ORT_VERSION} ${OS_ARCH}${GPU_SUFFIX}
   ASSEMBLY_DIR=${OS_ARCH}${GPU_SUFFIX}/assembly/com/jyuzawa/onnxruntime/native/${OS_ARCH}
   mkdir -p ${ASSEMBLY_DIR}
-  for i in $(ls ${OS_ARCH}${GPU_SUFFIX}/lib | grep "\.${LIBRARY_SUFFIX}" | grep -v "${ORT_VERSION}"); do
+  for i in $(ls ${OS_ARCH}${GPU_SUFFIX}/lib | grep "\.${LIBRARY_SUFFIX}$" | grep -v "${ORT_VERSION}"); do
     cp ${OS_ARCH}${GPU_SUFFIX}/lib/$i ${ASSEMBLY_DIR}
   done
   cd ${ASSEMBLY_DIR}
