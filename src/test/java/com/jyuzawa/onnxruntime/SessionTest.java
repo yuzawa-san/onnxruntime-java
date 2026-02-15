@@ -12,12 +12,14 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.lang.foreign.Arena;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -69,6 +71,7 @@ public class SessionTest {
                 .build();
         environment.setTelemetryEvents(true);
         environment.setTelemetryEvents(false);
+        ((com.jyuzawa.onnxruntime.EnvironmentImpl) environment).getAllocatorStats();
     }
 
     @AfterAll
@@ -168,6 +171,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> typeInfo.getSequenceInfo());
             assertThrows(NoSuchElementException.class, () -> typeInfo.getMapInfo());
             assertNotNull(typeInfo.getTensorInfo());
+            assertEquals(OnnxType.TENSOR, typeInfo.getType());
             typeInfo.toString();
             ModelMetadata metadata = session.getModelMetadata();
             Map<String, String> metadataMap = metadata.getCustomMetadata();
@@ -290,6 +294,7 @@ public class SessionTest {
             NamedCollection<OnnxValue> output = txn.run();
             float[] rawOutput = new float[3];
             OnnxValue outputValue = output.get(0);
+            assertEquals(OnnxType.TENSOR, outputValue.getType());
             assertThrows(NoSuchElementException.class, () -> outputValue.asMap());
             assertThrows(NoSuchElementException.class, () -> outputValue.asSequence());
             OnnxTensor outputTensor = outputValue.asTensor();
@@ -475,6 +480,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> typeInfo.getTensorInfo());
             assertThrows(NoSuchElementException.class, () -> typeInfo.getMapInfo());
             assertNotNull(typeInfo.getSequenceInfo());
+            assertEquals(OnnxType.SEQUENCE, typeInfo.getType());
             typeInfo.toString();
             float[] rawInput1 = new float[] {554354, 52345234, 143646};
             float[] rawInput2 = new float[] {5234, 1436, 613};
@@ -741,6 +747,7 @@ public class SessionTest {
             assertThrows(NoSuchElementException.class, () -> typeInfo.getTensorInfo());
             assertThrows(NoSuchElementException.class, () -> typeInfo.getSequenceInfo());
             assertNotNull(typeInfo.getMapInfo());
+            assertEquals(OnnxType.MAP, typeInfo.getType());
             typeInfo.toString();
             String[] rawInputs = new String[] {"fsaf", "fa3sf", "fe", "ab", "xr"};
             long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
@@ -818,59 +825,134 @@ public class SessionTest {
         }
     }
 
+    private OnnxTensorImpl newTensor(OnnxTensorElementDataType type, int size) {
+        ValueContext valueContext = new ValueContext(null, Arena.global(), null, null, List.of());
+        return TensorInfoImpl.of(type, 3, Arena.global()).newValue(valueContext, null);
+    }
+
     @Test
-    public void mapToFloatIdentityTest() throws IOException {
-        ModelProto modelProto = ModelProto.newBuilder()
-                .setIrVersion(8)
-                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
-                .setGraph(GraphProto.newBuilder()
-                        .addNode(NodeProto.newBuilder()
-                                .addInput("input")
-                                .addOutput("output")
-                                .setOpType("Identity"))
-                        .addInput(ValueInfoProto.newBuilder()
-                                .setName("input")
-                                .setType(TypeProto.newBuilder()
-                                        .setMapType(TypeProto.Map.newBuilder()
-                                                .setKeyType(DataType.INT64_VALUE)
-                                                .setValueType(TypeProto.newBuilder()
-                                                        .setTensorType(Tensor.newBuilder()
-                                                                .setElemType(DataType.FLOAT_VALUE)
-                                                                .setShape(TensorShapeProto.newBuilder()
-                                                                        .addDim(Dimension.newBuilder()
-                                                                                .setDimValue(1))))))))
-                        .addOutput(ValueInfoProto.newBuilder()
-                                .setName("output")
-                                .setType(TypeProto.newBuilder()
-                                        .setMapType(TypeProto.Map.newBuilder()
-                                                .setKeyType(DataType.INT64_VALUE)
-                                                .setValueType(TypeProto.newBuilder()
-                                                        .setTensorType(Tensor.newBuilder()
-                                                                .setElemType(DataType.FLOAT_VALUE)
-                                                                .setShape(TensorShapeProto.newBuilder()
-                                                                        .addDim(Dimension.newBuilder()
-                                                                                .setDimValue(1)))))))))
-                .build();
-        ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
-        try (Session session = environment.newSession().setByteBuffer(model).build();
-                Transaction txn = session.newTransaction().build()) {
-            float[] rawInputs = new float[] {1092, 20932, 53, 10, 902};
-            long[] keys = new long[] {554354, 52345234, 143646, 10, 19};
-            OnnxTypedMap<Long> mapInput = txn.addInput(0).asMap().asLongMap();
-            mapInput.set(keys[0]).asTensor().getFloatBuffer().put(rawInputs[0]);
-            mapInput.set(keys[1]).asTensor().getFloatBuffer().put(rawInputs[1]);
-            mapInput.set(keys[2]).asTensor().getFloatBuffer().put(rawInputs[2]);
-            mapInput.set(keys[3]).asTensor().getFloatBuffer().put(rawInputs[3]);
-            mapInput.set(keys[4]).asTensor().getFloatBuffer().put(rawInputs[4]);
-            txn.addOutput(0);
-            NamedCollection<OnnxValue> output = txn.run();
-            //            output.get(0).asMap().asLongMap();
-            //            float[] rawOutput = new float[5];
-            //            output.get(0).asTensor().getFloatBuffer().get(rawOutput);
-            //            float[] orderedOut = new float[] {10, 902, 53, 1092, 20932};
-            //            assertArrayEquals(orderedOut, rawOutput);
-            LOG.log(Level.INFO, output.get(0).asMap().asLongMap());
-        }
+    public void byteVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.INT8;
+        byte[] truth = new byte[] {0x01, 0x02, 0x03};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getByteBuffer().put(truth[0]);
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getByteBuffer().put(truth[1]);
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        vector.getByteBuffer().flip();
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getByteBuffer().get());
+        assertEquals(truth[1], outScalar1.getByteBuffer().get());
+    }
+
+    @Test
+    public void shortVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.INT16;
+        short[] truth = new short[] {0x01, 0x02, 0x03};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getShortBuffer().put(truth[0]);
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getShortBuffer().put(truth[1]);
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        vector.getShortBuffer().flip();
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getShortBuffer().get());
+        assertEquals(truth[1], outScalar1.getShortBuffer().get());
+    }
+
+    @Test
+    public void intVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.INT32;
+        int[] truth = new int[] {0x01, 0x02, 0x03};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getIntBuffer().put(truth[0]);
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getIntBuffer().put(truth[1]);
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        vector.getIntBuffer().flip();
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getIntBuffer().get());
+        assertEquals(truth[1], outScalar1.getIntBuffer().get());
+    }
+
+    @Test
+    public void longVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.INT64;
+        long[] truth = new long[] {0x01, 0x02, 0x03};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getLongBuffer().put(truth[0]);
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getLongBuffer().put(truth[1]);
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        vector.getLongBuffer().flip();
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getLongBuffer().get());
+        assertEquals(truth[1], outScalar1.getLongBuffer().get());
+    }
+
+    @Test
+    public void floatVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.FLOAT;
+        float[] truth = new float[] {1, 2, 3};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getFloatBuffer().put(truth[0]);
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getFloatBuffer().put(truth[1]);
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        vector.getFloatBuffer().flip();
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getFloatBuffer().get());
+        assertEquals(truth[1], outScalar1.getFloatBuffer().get());
+    }
+
+    @Test
+    public void doubleVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.DOUBLE;
+        double[] truth = new double[] {1, 2, 3};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getDoubleBuffer().put(truth[0]);
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getDoubleBuffer().put(truth[1]);
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        vector.getDoubleBuffer().flip();
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getDoubleBuffer().get());
+        assertEquals(truth[1], outScalar1.getDoubleBuffer().get());
+    }
+
+    @Test
+    public void stringVectorizationTest() {
+        OnnxTensorElementDataType type = OnnxTensorElementDataType.STRING;
+        String[] truth = new String[] {"foo", "bar", "baz"};
+        OnnxTensorImpl inScalar0 = newTensor(type, 1);
+        inScalar0.getStringBuffer()[0] = truth[0];
+        OnnxTensorImpl inScalar1 = newTensor(type, 1);
+        inScalar1.getStringBuffer()[0] = truth[1];
+        OnnxTensorImpl vector = newTensor(type, truth.length);
+        vector.putScalars(List.of(inScalar0, inScalar1));
+        OnnxTensorImpl outScalar0 = newTensor(type, 1);
+        OnnxTensorImpl outScalar1 = newTensor(type, 1);
+        vector.getScalars(List.of(outScalar0, outScalar1).stream());
+        assertEquals(truth[0], outScalar0.getStringBuffer()[0]);
+        assertEquals(truth[1], outScalar1.getStringBuffer()[0]);
     }
 
     @Test

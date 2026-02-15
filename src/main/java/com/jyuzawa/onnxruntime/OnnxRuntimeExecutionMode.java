@@ -4,14 +4,18 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.*;
+
+import java.util.Map;
+
 /**
  * A preference for sequential or parallel execution.
  *
  * @since 1.0.0
  */
-public enum OnnxRuntimeExecutionMode {
-    SEQUENTIAL(0),
-    PARALLEL(1);
+public enum OnnxRuntimeExecutionMode implements OnnxRuntimeEnum {
+    SEQUENTIAL(ORT_SEQUENTIAL()),
+    PARALLEL(ORT_PARALLEL());
 
     private final int number;
 
@@ -19,15 +23,15 @@ public enum OnnxRuntimeExecutionMode {
         this.number = number;
     }
 
+    @Override
     public int getNumber() {
         return number;
     }
 
+    private static final Map<Integer, OnnxRuntimeExecutionMode> NUMBER_TO_VALUE =
+            new NumberMap<>(OnnxRuntimeExecutionMode.class);
+
     public static final OnnxRuntimeExecutionMode forNumber(int number) {
-        return switch (number) {
-            case 0 -> SEQUENTIAL;
-            case 1 -> PARALLEL;
-            default -> SEQUENTIAL;
-        };
+        return NUMBER_TO_VALUE.getOrDefault(number, SEQUENTIAL);
     }
 }

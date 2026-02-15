@@ -4,38 +4,40 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_DOUBLE;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_FLOAT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_SHORT;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.*;
 
 import java.lang.foreign.ValueLayout;
+import java.util.Map;
 
 /**
  * A tensor type from ONNX.
  *
  * @since 1.0.0
  */
-public enum OnnxTensorElementDataType {
-    UNDEFINED(0, null),
-    FLOAT(1, C_FLOAT),
-    UINT8(2, null),
-    INT8(3, C_CHAR),
-    UINT16(4, null),
-    INT16(5, C_SHORT),
-    INT32(6, C_INT),
-    INT64(7, C_LONG),
-    STRING(8, null),
-    BOOL(9, C_CHAR),
-    FLOAT16(10, null),
-    DOUBLE(11, C_DOUBLE),
-    UINT32(12, null),
-    UINT64(13, null),
-    COMPLEX64(14, null),
-    COMPLEX128(15, null),
-    BFLOAT16(16, null);
+public enum OnnxTensorElementDataType implements OnnxRuntimeEnum {
+    UNDEFINED(ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED(), null),
+    FLOAT(ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT(), C_FLOAT),
+    UINT8(ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT8(), null),
+    INT8(ONNX_TENSOR_ELEMENT_DATA_TYPE_INT8(), C_CHAR),
+    UINT16(ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT16(), null),
+    INT16(ONNX_TENSOR_ELEMENT_DATA_TYPE_INT16(), C_SHORT),
+    INT32(ONNX_TENSOR_ELEMENT_DATA_TYPE_INT32(), C_INT),
+    INT64(ONNX_TENSOR_ELEMENT_DATA_TYPE_INT64(), C_LONG),
+    STRING(ONNX_TENSOR_ELEMENT_DATA_TYPE_STRING(), null),
+    BOOL(ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL(), C_CHAR),
+    FLOAT16(ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT16(), null),
+    DOUBLE(ONNX_TENSOR_ELEMENT_DATA_TYPE_DOUBLE(), C_DOUBLE),
+    UINT32(ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT32(), null),
+    UINT64(ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT64(), null),
+    COMPLEX64(ONNX_TENSOR_ELEMENT_DATA_TYPE_COMPLEX64(), null),
+    COMPLEX128(ONNX_TENSOR_ELEMENT_DATA_TYPE_COMPLEX128(), null),
+    BFLOAT16(ONNX_TENSOR_ELEMENT_DATA_TYPE_BFLOAT16(), null),
+    FLOAT8E4M3FN(ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FN(), null),
+    FLOAT8E4M3FNUZ(ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E4M3FNUZ(), null),
+    FLOAT8E5M2(ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2(), null),
+    FLOAT8E5M2FNUZ(ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E5M2FNUZ(), null),
+    UINT4(ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT4(), null),
+    INT4(ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4(), null);
 
     private final int number;
     private final ValueLayout valueLayout;
@@ -45,9 +47,13 @@ public enum OnnxTensorElementDataType {
         this.valueLayout = valueLayout;
     }
 
+    @Override
     public int getNumber() {
         return number;
     }
+
+    private static final Map<Integer, OnnxTensorElementDataType> NUMBER_TO_VALUE =
+            new NumberMap<>(OnnxTensorElementDataType.class);
 
     /**
      * Get a level based off its internal number.
@@ -57,26 +63,7 @@ public enum OnnxTensorElementDataType {
      * @return the level, UNDEFINED if not found
      */
     public static final OnnxTensorElementDataType forNumber(int number) {
-        return switch (number) {
-            case 0 -> UNDEFINED;
-            case 1 -> FLOAT;
-            case 2 -> UINT8;
-            case 3 -> INT8;
-            case 4 -> UINT16;
-            case 5 -> INT16;
-            case 6 -> INT32;
-            case 7 -> INT64;
-            case 8 -> STRING;
-            case 9 -> BOOL;
-            case 10 -> FLOAT16;
-            case 11 -> DOUBLE;
-            case 12 -> UINT32;
-            case 13 -> UINT64;
-            case 14 -> COMPLEX64;
-            case 15 -> COMPLEX128;
-            case 16 -> BFLOAT16;
-            default -> UNDEFINED;
-        };
+        return NUMBER_TO_VALUE.getOrDefault(number, UNDEFINED);
     }
 
     ValueLayout getValueLayout() {
