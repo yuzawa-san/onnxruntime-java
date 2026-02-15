@@ -23,6 +23,8 @@ final class ApiImpl implements Api {
 
     private static final Logger LOG = System.getLogger(ApiImpl.class.getName());
 
+    final AddFreeDimensionOverride.Function AddFreeDimensionOverride;
+    final AddFreeDimensionOverrideByName.Function AddFreeDimensionOverrideByName;
     final AddRunConfigEntry.Function AddRunConfigEntry;
     final AddSessionConfigEntry.Function AddSessionConfigEntry;
     final AllocatorGetStats.Function AllocatorGetStats;
@@ -157,6 +159,12 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
+        MemorySegment fnAddFreeDimensionOverride = OrtApi.AddFreeDimensionOverride(memorySegment);
+        this.AddFreeDimensionOverride =
+                (_x0, _x1, _x2) -> OrtApi.AddFreeDimensionOverride.invoke(fnAddFreeDimensionOverride, _x0, _x1, _x2);
+        MemorySegment fnAddFreeDimensionOverrideByName = OrtApi.AddFreeDimensionOverrideByName(memorySegment);
+        this.AddFreeDimensionOverrideByName = (_x0, _x1, _x2) ->
+                OrtApi.AddFreeDimensionOverrideByName.invoke(fnAddFreeDimensionOverrideByName, _x0, _x1, _x2);
         MemorySegment fnAddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment);
         this.AddRunConfigEntry = (_x0, _x1, _x2) -> OrtApi.AddRunConfigEntry.invoke(fnAddRunConfigEntry, _x0, _x1, _x2);
         MemorySegment fnAddSessionConfigEntry = OrtApi.AddSessionConfigEntry(memorySegment);
