@@ -255,6 +255,8 @@ final class SessionImpl extends ManagedImpl implements Session {
         private Map<ExecutionProvider, ExecutionProviderConfig> executionProviderAppenders;
         private List<Path> customOpsLibraries;
         private boolean deterministicCompute;
+        private Map<String, Integer> symbolicDimensionsMap;
+        private Map<String, Integer> denotationsMap;
 
         Builder(EnvironmentImpl environment) {
             this.api = environment.api;
@@ -374,6 +376,18 @@ final class SessionImpl extends ManagedImpl implements Session {
             return this;
         }
 
+        @Override
+        public Builder setFreeDimensionOverrideByName(Map<String, Integer> symbolicDimensionsMap) {
+            this.symbolicDimensionsMap = symbolicDimensionsMap;
+            return this;
+        }
+
+        @Override
+        public Builder setFreeDimensionOverride(Map<String, Integer> denotationsMap) {
+            this.denotationsMap = denotationsMap;
+            return this;
+        }
+
         private MemorySegment newSessionOptions(Arena arena) {
             MemorySegment sessionOptions = api.create(arena, out -> api.CreateSessionOptions.apply(out));
             if (logSeverityLevel != null) {
@@ -422,6 +436,18 @@ final class SessionImpl extends ManagedImpl implements Session {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddSessionConfigEntry.apply(
                             sessionOptions, arena.allocateFrom(entry.getKey()), arena.allocateFrom(entry.getValue())));
+                }
+            }
+            if (symbolicDimensionsMap != null) {
+                for (Map.Entry<String, Integer> entry : symbolicDimensionsMap.entrySet()) {
+                    api.checkStatus(api.AddFreeDimensionOverrideByName.apply(
+                            sessionOptions, arena.allocateFrom(entry.getKey()), entry.getValue()));
+                }
+            }
+            if (denotationsMap != null) {
+                for (Map.Entry<String, Integer> entry : denotationsMap.entrySet()) {
+                    api.checkStatus(api.AddFreeDimensionOverride.apply(
+                            sessionOptions, arena.allocateFrom(entry.getKey()), entry.getValue()));
                 }
             }
 

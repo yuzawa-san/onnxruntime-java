@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h$shared.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 
 import java.lang.foreign.Arena;
@@ -34,8 +35,15 @@ final class TypeInfoImpl implements TypeInfo {
                 int dimCount = api.extractInt(arena, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
                 MemorySegment dims = sessionArena.allocate(C_LONG, dimCount);
                 api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
-                long elementCount =
-                        api.extractInt(arena, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
+                boolean dynamic = dimCount == 0;
+                for (int i = 0; i < dimCount; i++) {
+                    if (dims.getAtIndex(C_LONG, i) <= 0) {
+                        dynamic = true;
+                    }
+                }
+                long elementCount = dynamic
+                        ? 0
+                        : api.extractInt(arena, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
                 tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
             } else if (type == OnnxType.MAP) {
                 MemorySegment ortMapInfo = api.create(arena, out -> api.CastTypeInfoToMapTypeInfo.apply(typeInfo, out));

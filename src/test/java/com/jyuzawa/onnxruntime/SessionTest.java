@@ -535,6 +535,92 @@ public class SessionTest {
     }
 
     @Test
+    public void dimParamTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimParam("param"))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            assertEquals(
+                    List.of(1L, -1L),
+                    session.getInputs().get(0).getTypeInfo().getTensorInfo().getShape());
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor(List.of(1L, 3L)).getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            float[] rawOutput = new float[3];
+            txn.run().get(0).asTensor().getFloatBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+        }
+
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .setFreeDimensionOverrideByName(Map.of("param", 3))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            assertEquals(
+                    List.of(1L, 3L),
+                    session.getInputs().get(0).getTypeInfo().getTensorInfo().getShape());
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            float[] rawOutput = new float[3];
+            txn.run().get(0).asTensor().getFloatBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+        }
+    }
+
+    @Test
+    public void dimDenotationTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDenotation("DENOTATION"))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            assertEquals(
+                    List.of(1L, -1L),
+                    session.getInputs().get(0).getTypeInfo().getTensorInfo().getShape());
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor(List.of(1L, 3L)).getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            float[] rawOutput = new float[3];
+            txn.run().get(0).asTensor().getFloatBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+        }
+
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .setFreeDimensionOverride(Map.of("DENOTATION", 3))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            assertEquals(
+                    List.of(1L, 3L),
+                    session.getInputs().get(0).getTypeInfo().getTensorInfo().getShape());
+            float[] rawInput = new float[] {554354, 52345234, 143646};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            float[] rawOutput = new float[3];
+            txn.run().get(0).asTensor().getFloatBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+        }
+    }
+
+    @Test
     public void dynamicShapeTest() throws IOException {
         ByteBuffer model = ModelProto.newBuilder()
                 .setIrVersion(8)

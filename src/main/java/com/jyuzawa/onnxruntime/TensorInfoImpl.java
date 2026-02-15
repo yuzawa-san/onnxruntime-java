@@ -14,7 +14,6 @@ import java.util.List;
 
 final class TensorInfoImpl implements TensorInfo {
 
-    // TODO: symbolic dims
     private final OnnxTensorElementDataType type;
     final MemorySegment shapeData;
     private final List<Long> shape;
