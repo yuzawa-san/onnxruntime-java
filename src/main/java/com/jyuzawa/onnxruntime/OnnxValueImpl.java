@@ -5,6 +5,7 @@
 package com.jyuzawa.onnxruntime;
 
 import java.lang.foreign.MemorySegment;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 abstract class OnnxValueImpl implements OnnxValue {
@@ -24,6 +25,11 @@ abstract class OnnxValueImpl implements OnnxValue {
 
     @Override
     public OnnxTensor asTensor() {
+        throw new NoSuchElementException("OnnxValue is not a tensor");
+    }
+
+    @Override
+    public OnnxTensor asTensor(List<Long> shape) {
         throw new NoSuchElementException("OnnxValue is not a tensor");
     }
 
