@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2026 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 23L;
+    private static final int ORT_API_VERSION = (int) 24L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 23
+     * #define ORT_API_VERSION 24
      * }
      */
     public static int ORT_API_VERSION() {
@@ -265,6 +265,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4() {
         return ONNX_TENSOR_ELEMENT_DATA_TYPE_INT4;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT4E2M1 = (int) 23L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT4E2M1 = 23
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT4E2M1() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT4E2M1;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT2 = (int) 24L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT2 = 24
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT2() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT2;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_INT2 = (int) 25L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_INT2 = 25
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_INT2() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_INT2;
     }
 
     private static final int ONNX_TYPE_UNKNOWN = (int) 0L;
@@ -1093,6 +1123,56 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return OrtExecutionProviderDevicePolicy_MIN_OVERALL_POWER;
     }
 
+    private static final int OrtDeviceEpIncompatibility_NONE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceEpIncompatibilityReason.OrtDeviceEpIncompatibility_NONE = 0
+     * }
+     */
+    public static int OrtDeviceEpIncompatibility_NONE() {
+        return OrtDeviceEpIncompatibility_NONE;
+    }
+
+    private static final int OrtDeviceEpIncompatibility_DRIVER_INCOMPATIBLE = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceEpIncompatibilityReason.OrtDeviceEpIncompatibility_DRIVER_INCOMPATIBLE = 1
+     * }
+     */
+    public static int OrtDeviceEpIncompatibility_DRIVER_INCOMPATIBLE() {
+        return OrtDeviceEpIncompatibility_DRIVER_INCOMPATIBLE;
+    }
+
+    private static final int OrtDeviceEpIncompatibility_DEVICE_INCOMPATIBLE = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceEpIncompatibilityReason.OrtDeviceEpIncompatibility_DEVICE_INCOMPATIBLE = 2
+     * }
+     */
+    public static int OrtDeviceEpIncompatibility_DEVICE_INCOMPATIBLE() {
+        return OrtDeviceEpIncompatibility_DEVICE_INCOMPATIBLE;
+    }
+
+    private static final int OrtDeviceEpIncompatibility_MISSING_DEPENDENCY = (int) 4L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceEpIncompatibilityReason.OrtDeviceEpIncompatibility_MISSING_DEPENDENCY = 4
+     * }
+     */
+    public static int OrtDeviceEpIncompatibility_MISSING_DEPENDENCY() {
+        return OrtDeviceEpIncompatibility_MISSING_DEPENDENCY;
+    }
+
+    private static final int OrtDeviceEpIncompatibility_UNKNOWN = (int) -2147483648L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtDeviceEpIncompatibilityReason.OrtDeviceEpIncompatibility_UNKNOWN = -2147483648
+     * }
+     */
+    public static int OrtDeviceEpIncompatibility_UNKNOWN() {
+        return OrtDeviceEpIncompatibility_UNKNOWN;
+    }
+
     private static final int OrtCudnnConvAlgoSearchExhaustive = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -1187,6 +1267,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      * }
      */
     public static final AddressLayout OrtCustomThreadHandle = onnxruntime_all_h.C_POINTER;
+
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_RESOURCE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_RESOURCE = 0
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_RESOURCE() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_RESOURCE;
+    }
+
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP = 1
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP;
+    }
+
+    private static final int ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalSemaphoreType.ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE = 0
+     * }
+     */
+    public static int ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE() {
+        return ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE;
+    }
 
     private static final int OrtCompiledModelCompatibility_EP_NOT_APPLICABLE = (int) 0L;
     /**

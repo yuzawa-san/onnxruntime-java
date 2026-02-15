@@ -1,12 +1,16 @@
 /*
- * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2026 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
 
+import static java.lang.foreign.MemoryLayout.PathElement.*;
+import static java.lang.foreign.ValueLayout.*;
+
 import java.lang.foreign.*;
 import java.lang.invoke.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 public class onnxruntime_all_h$shared {
