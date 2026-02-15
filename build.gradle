@@ -76,7 +76,11 @@ jacocoTestReport {
 	}
 	afterEvaluate {
 		classDirectories.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: "com/jyuzawa/onnxruntime_extern/**")
+			fileTree(dir: it, exclude: [
+				"com/jyuzawa/onnxruntime_extern/**",
+				"com/jyuzawa/onnxruntime/Loader.class",
+				"com/jyuzawa/onnxruntime/ExecutionProvider*.class"
+			])
 		}))
 	}
 }
