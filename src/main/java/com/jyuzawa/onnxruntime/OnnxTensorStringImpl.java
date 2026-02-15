@@ -78,7 +78,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+    void putScalars(Collection<OnnxTensorImpl> scalars) {
         int i = 0;
         String[] buffer = getStringBuffer();
         for (OnnxTensorImpl scalar : scalars) {
@@ -87,7 +87,7 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
     }
 
     @Override
-    public void getScalars(Stream<OnnxTensorImpl> scalars) {
+    void getScalars(Stream<OnnxTensorImpl> scalars) {
         int i = 0;
         String[] buffer = getStringBuffer();
         Iterator<OnnxTensorImpl> iter = scalars.iterator();

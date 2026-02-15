@@ -1,7 +1,7 @@
 # onnxruntime-java
 by [@yuzawa-san](https://github.com/yuzawa-san/)
 
-[![build](https://github.com/yuzawa-san/onnxruntime-java/workflows/build/badge.svg)](https://github.com/yuzawa-san/onnxruntime-java/actions)
+[![GitHub branch status](https://img.shields.io/github/checks-status/yuzawa-san/onnxruntime-java/master)](https://github.com/yuzawa-san/onnxruntime-java/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/yuzawa-san/onnxruntime-java/branch/master/graph/badge.svg)](https://codecov.io/gh/yuzawa-san/onnxruntime-java)
 
 This is an **performant** and **modern** Java binding to Microsoft's [ONNX Runtime](https://github.com/microsoft/onnxruntime) which uses Java's new Foreign Function & Memory API (a.k.a. Project Panama).
@@ -26,7 +26,7 @@ Snapshot releases are periodically released for testing and experimentation.
 
 #### onnxruntime
 
-[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime) [![maven-snapshot](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fcontent%2Frepositories%2Fsnapshots%2Fcom%2Fjyuzawa%2Fonnxruntime%2Fmaven-metadata.xml)](https://s01.oss.sonatype.org/content/repositories/snapshots/com/jyuzawa/onnxruntime/)
+[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime)
 
 The binding with no native libraries. For use as a implementation dependency.
 
@@ -37,7 +37,7 @@ The API has a validation to make sure the shared library is minor version compat
 
 #### onnxruntime-cpu
 
-[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime-cpu)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-cpu)  [![maven-snapshot](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fs01.oss.sonatype.org%2Fcontent%2Frepositories%2Fsnapshots%2Fcom%2Fjyuzawa%2Fonnxruntime-cpu%2Fmaven-metadata.xml)](https://s01.oss.sonatype.org/content/repositories/snapshots/com/jyuzawa/onnxruntime-cpu/)
+[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime-cpu)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-cpu)
 
 A collection of native libraries with CPU support for a several common OS/architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like `osx-x86_64` to provide specific support.
 

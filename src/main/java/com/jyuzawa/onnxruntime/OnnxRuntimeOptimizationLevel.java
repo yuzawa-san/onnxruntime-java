@@ -4,16 +4,21 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.*;
+
+import java.util.Map;
+
 /**
  * A level of optimization to target.
  *
  * @since 1.0.0
  */
-public enum OnnxRuntimeOptimizationLevel {
-    DISABLE_ALL(0),
-    ENABLE_BASIC(1),
-    ENABLE_EXTENDED(2),
-    ENABLE_ALL(99);
+public enum OnnxRuntimeOptimizationLevel implements OnnxRuntimeEnum {
+    DISABLE_ALL(ORT_DISABLE_ALL()),
+    ENABLE_BASIC(ORT_ENABLE_BASIC()),
+    ENABLE_EXTENDED(ORT_ENABLE_EXTENDED()),
+    ENABLE_LAYOUT(ORT_ENABLE_LAYOUT()),
+    ENABLE_ALL(ORT_ENABLE_ALL());
 
     private final int number;
 
@@ -21,17 +26,15 @@ public enum OnnxRuntimeOptimizationLevel {
         this.number = number;
     }
 
+    @Override
     public int getNumber() {
         return number;
     }
 
+    private static final Map<Integer, OnnxRuntimeOptimizationLevel> NUMBER_TO_VALUE =
+            new NumberMap<>(OnnxRuntimeOptimizationLevel.class);
+
     public static final OnnxRuntimeOptimizationLevel forNumber(int number) {
-        return switch (number) {
-            case 0 -> DISABLE_ALL;
-            case 1 -> ENABLE_BASIC;
-            case 2 -> ENABLE_EXTENDED;
-            case 99 -> ENABLE_ALL;
-            default -> DISABLE_ALL;
-        };
+        return NUMBER_TO_VALUE.getOrDefault(number, DISABLE_ALL);
     }
 }
