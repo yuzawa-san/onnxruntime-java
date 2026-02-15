@@ -4,19 +4,23 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.*;
+
+import java.util.Map;
+
 /**
  * A type from ONNX.
  *
  * @since 1.0.0
  */
-public enum OnnxType {
-    UNKNOWN(0),
-    TENSOR(1),
-    SEQUENCE(2),
-    MAP(3),
-    OPAQUE(4),
-    SPARSETENSOR(5),
-    OPTIONAL(6);
+public enum OnnxType implements OnnxRuntimeEnum {
+    UNKNOWN(ONNX_TYPE_UNKNOWN()),
+    TENSOR(ONNX_TYPE_TENSOR()),
+    SEQUENCE(ONNX_TYPE_SEQUENCE()),
+    MAP(ONNX_TYPE_MAP()),
+    OPAQUE(ONNX_TYPE_OPAQUE()),
+    SPARSETENSOR(ONNX_TYPE_SPARSETENSOR()),
+    OPTIONAL(ONNX_TYPE_OPTIONAL());
 
     private final int number;
 
@@ -24,9 +28,12 @@ public enum OnnxType {
         this.number = number;
     }
 
+    @Override
     public int getNumber() {
         return number;
     }
+
+    private static final Map<Integer, OnnxType> NUMBER_TO_VALUE = new NumberMap<>(OnnxType.class);
 
     /**
      * Get a level based off its internal number.
@@ -34,15 +41,6 @@ public enum OnnxType {
      * @return the level, UNKNOWN if not found
      */
     public static final OnnxType forNumber(int number) {
-        return switch (number) {
-            case 0 -> UNKNOWN;
-            case 1 -> TENSOR;
-            case 2 -> SEQUENCE;
-            case 3 -> MAP;
-            case 4 -> OPAQUE;
-            case 5 -> SPARSETENSOR;
-            case 6 -> OPTIONAL;
-            default -> UNKNOWN;
-        };
+        return NUMBER_TO_VALUE.getOrDefault(number, UNKNOWN);
     }
 }

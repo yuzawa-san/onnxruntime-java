@@ -76,7 +76,11 @@ jacocoTestReport {
 	}
 	afterEvaluate {
 		classDirectories.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: "com/jyuzawa/onnxruntime_extern/**")
+			fileTree(dir: it, exclude: [
+				"com/jyuzawa/onnxruntime_extern/**",
+				"com/jyuzawa/onnxruntime/Loader.class",
+				"com/jyuzawa/onnxruntime/ExecutionProvider*.class"
+			])
 		}))
 	}
 }
@@ -369,8 +373,8 @@ dependencies {
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation project(':onnx')
-	testRuntimeOnly 'org.apache.logging.log4j:log4j-core:2.25.3'
-	testRuntimeOnly 'org.apache.logging.log4j:log4j-jpl:2.25.3'
+	testImplementation 'org.apache.logging.log4j:log4j-core:2.25.3'
+	testImplementation 'org.apache.logging.log4j:log4j-jpl:2.25.3'
 }
 
 sourceSets {

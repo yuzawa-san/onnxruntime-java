@@ -25,14 +25,14 @@ final class OnnxTensorLongImpl extends OnnxTensorBufferImpl<LongBuffer> {
     }
 
     @Override
-    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+    void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
             buffer.put(scalar.getLongBuffer().flip().get());
         }
     }
 
     @Override
-    public void getScalars(Stream<OnnxTensorImpl> scalars) {
+    void getScalars(Stream<OnnxTensorImpl> scalars) {
         scalars.forEach(scalar -> scalar.getLongBuffer().put(buffer.get()).flip());
     }
 }

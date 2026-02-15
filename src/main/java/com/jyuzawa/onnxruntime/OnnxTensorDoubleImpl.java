@@ -25,14 +25,14 @@ final class OnnxTensorDoubleImpl extends OnnxTensorBufferImpl<DoubleBuffer> {
     }
 
     @Override
-    public void putScalars(Collection<OnnxTensorImpl> scalars) {
+    void putScalars(Collection<OnnxTensorImpl> scalars) {
         for (OnnxTensorImpl scalar : scalars) {
             buffer.put(scalar.getDoubleBuffer().flip().get());
         }
     }
 
     @Override
-    public void getScalars(Stream<OnnxTensorImpl> scalars) {
+    void getScalars(Stream<OnnxTensorImpl> scalars) {
         scalars.forEach(scalar -> scalar.getDoubleBuffer().put(buffer.get()).flip());
     }
 }

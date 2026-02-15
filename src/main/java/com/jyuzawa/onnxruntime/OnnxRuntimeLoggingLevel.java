@@ -4,8 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_INT;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
+import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.*;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
@@ -16,23 +15,24 @@ import java.lang.foreign.MemorySegment;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.Map;
 
 /**
  * The level for the internal logger within the ONNX runtime.
  *
  * @since 1.0.0
  */
-public enum OnnxRuntimeLoggingLevel {
-    VERBOSE(0),
-    INFO(1),
-    WARNING(2),
-    ERROR(3),
-    FATAL(4);
+public enum OnnxRuntimeLoggingLevel implements OnnxRuntimeEnum {
+    VERBOSE(ORT_LOGGING_LEVEL_VERBOSE()),
+    INFO(ORT_LOGGING_LEVEL_INFO()),
+    WARNING(ORT_LOGGING_LEVEL_WARNING()),
+    ERROR(ORT_LOGGING_LEVEL_ERROR()),
+    FATAL(ORT_LOGGING_LEVEL_FATAL());
 
     private static final Logger LOG = System.getLogger(Environment.class.getName());
 
     static final MemorySegment LOG_CALLBACK = createCallback();
-    static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel();
+    static final OnnxRuntimeLoggingLevel DEFAULT = getDefaultLogLevel(LOG);
 
     private final int number;
 
@@ -40,9 +40,13 @@ public enum OnnxRuntimeLoggingLevel {
         this.number = number;
     }
 
+    @Override
     public int getNumber() {
         return number;
     }
+
+    private static final Map<Integer, OnnxRuntimeLoggingLevel> NUMBER_TO_VALUE =
+            new NumberMap<>(OnnxRuntimeLoggingLevel.class);
 
     /**
      * Get a level based off its internal number.
@@ -50,14 +54,7 @@ public enum OnnxRuntimeLoggingLevel {
      * @return the level, VERBOSE if not found
      */
     public static final OnnxRuntimeLoggingLevel forNumber(int number) {
-        return switch (number) {
-            case 0 -> VERBOSE;
-            case 1 -> INFO;
-            case 2 -> WARNING;
-            case 3 -> ERROR;
-            case 4 -> FATAL;
-            default -> VERBOSE;
-        };
+        return NUMBER_TO_VALUE.getOrDefault(number, VERBOSE);
     }
 
     @SuppressWarnings("unused")
@@ -84,17 +81,17 @@ public enum OnnxRuntimeLoggingLevel {
         }
     }
 
-    private static final OnnxRuntimeLoggingLevel getDefaultLogLevel() {
-        if (LOG.isLoggable(Level.DEBUG)) {
+    static final OnnxRuntimeLoggingLevel getDefaultLogLevel(Logger log) {
+        if (log.isLoggable(Level.DEBUG)) {
             return VERBOSE;
         }
-        if (LOG.isLoggable(Level.INFO)) {
+        if (log.isLoggable(Level.INFO)) {
             return INFO;
         }
-        if (LOG.isLoggable(Level.WARNING)) {
+        if (log.isLoggable(Level.WARNING)) {
             return WARNING;
         }
-        if (LOG.isLoggable(Level.ERROR)) {
+        if (log.isLoggable(Level.ERROR)) {
             return ERROR;
         }
         return FATAL;

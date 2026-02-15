@@ -62,7 +62,6 @@ final class ApiImpl implements Api {
     final EnableProfiling.Function EnableProfiling;
     final EnableTelemetryEvents.Function EnableTelemetryEvents;
     final FillStringTensor.Function FillStringTensor;
-    final GetAllocatorWithDefaultOptions.Function GetAllocatorWithDefaultOptions;
     final GetAvailableProviders.Function GetAvailableProviders;
     final GetBuildInfoString.Function GetBuildInfoString;
     final GetDimensions.Function GetDimensions;
@@ -91,9 +90,7 @@ final class ApiImpl implements Api {
     final ModelMetadataGetProducerName.Function ModelMetadataGetProducerName;
     final ModelMetadataGetVersion.Function ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap.Function ModelMetadataLookupCustomMetadataMap;
-    final RegisterAllocator.Function RegisterAllocator;
     final RegisterCustomOpsLibrary_V2.Function RegisterCustomOpsLibrary_V2;
-    final ReleaseAllocator.Function ReleaseAllocator;
     final ReleaseAvailableProviders.Function ReleaseAvailableProviders;
     final ReleaseCUDAProviderOptions.Function ReleaseCUDAProviderOptions;
     final ReleaseDnnlProviderOptions.Function ReleaseDnnlProviderOptions;
@@ -115,7 +112,6 @@ final class ApiImpl implements Api {
     final RunOptionsSetRunLogSeverityLevel.Function RunOptionsSetRunLogSeverityLevel;
     final RunOptionsSetRunLogVerbosityLevel.Function RunOptionsSetRunLogVerbosityLevel;
     final RunOptionsSetRunTag.Function RunOptionsSetRunTag;
-    final RunOptionsSetTerminate.Function RunOptionsSetTerminate;
     final RunWithBinding.Function RunWithBinding;
     final SetGlobalDenormalAsZero.Function SetGlobalDenormalAsZero;
     final SetGlobalIntraOpNumThreads.Function SetGlobalIntraOpNumThreads;
@@ -255,9 +251,6 @@ final class ApiImpl implements Api {
         this.EnableProfiling = (_x0, _x1) -> OrtApi.EnableProfiling.invoke(fnEnableProfiling, _x0, _x1);
         MemorySegment fnFillStringTensor = OrtApi.FillStringTensor(memorySegment);
         this.FillStringTensor = (_x0, _x1, _x2) -> OrtApi.FillStringTensor.invoke(fnFillStringTensor, _x0, _x1, _x2);
-        MemorySegment fnGetAllocatorWithDefaultOptions = OrtApi.GetAllocatorWithDefaultOptions(memorySegment);
-        this.GetAllocatorWithDefaultOptions =
-                (_x0) -> OrtApi.GetAllocatorWithDefaultOptions.invoke(fnGetAllocatorWithDefaultOptions, _x0);
         MemorySegment fnGetAvailableProviders = OrtApi.GetAvailableProviders(memorySegment);
         this.GetAvailableProviders =
                 (_x0, _x1) -> OrtApi.GetAvailableProviders.invoke(fnGetAvailableProviders, _x0, _x1);
@@ -335,13 +328,9 @@ final class ApiImpl implements Api {
         this.ModelMetadataLookupCustomMetadataMap =
                 (_x0, _x1, _x2, _x3) -> OrtApi.ModelMetadataLookupCustomMetadataMap.invoke(
                         fnModelMetadataLookupCustomMetadataMap, _x0, _x1, _x2, _x3);
-        MemorySegment fnRegisterAllocator = OrtApi.RegisterAllocator(memorySegment);
-        this.RegisterAllocator = (_x0, _x1) -> OrtApi.RegisterAllocator.invoke(fnRegisterAllocator, _x0, _x1);
         MemorySegment fnRegisterCustomOpsLibrary_V2 = OrtApi.RegisterCustomOpsLibrary_V2(memorySegment);
         this.RegisterCustomOpsLibrary_V2 =
                 (_x0, _x1) -> OrtApi.RegisterCustomOpsLibrary_V2.invoke(fnRegisterCustomOpsLibrary_V2, _x0, _x1);
-        MemorySegment fnReleaseAllocator = OrtApi.ReleaseAllocator(memorySegment);
-        this.ReleaseAllocator = (_x0) -> OrtApi.ReleaseAllocator.invoke(fnReleaseAllocator, _x0);
         MemorySegment fnReleaseAvailableProviders = OrtApi.ReleaseAvailableProviders(memorySegment);
         this.ReleaseAvailableProviders =
                 (_x0, _x1) -> OrtApi.ReleaseAvailableProviders.invoke(fnReleaseAvailableProviders, _x0, _x1);
@@ -392,8 +381,6 @@ final class ApiImpl implements Api {
                 OrtApi.RunOptionsSetRunLogVerbosityLevel.invoke(fnRunOptionsSetRunLogVerbosityLevel, _x0, _x1);
         MemorySegment fnRunOptionsSetRunTag = OrtApi.RunOptionsSetRunTag(memorySegment);
         this.RunOptionsSetRunTag = (_x0, _x1) -> OrtApi.RunOptionsSetRunTag.invoke(fnRunOptionsSetRunTag, _x0, _x1);
-        MemorySegment fnRunOptionsSetTerminate = OrtApi.RunOptionsSetTerminate(memorySegment);
-        this.RunOptionsSetTerminate = (_x0) -> OrtApi.RunOptionsSetTerminate.invoke(fnRunOptionsSetTerminate, _x0);
         MemorySegment fnRunWithBinding = OrtApi.RunWithBinding(memorySegment);
         this.RunWithBinding = (_x0, _x1, _x2) -> OrtApi.RunWithBinding.invoke(fnRunWithBinding, _x0, _x1, _x2);
         MemorySegment fnSetGlobalDenormalAsZero = OrtApi.SetGlobalDenormalAsZero(memorySegment);
