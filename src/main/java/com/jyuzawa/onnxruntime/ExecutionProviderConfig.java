@@ -29,10 +29,6 @@ abstract class ExecutionProviderConfig {
         return Optional.ofNullable(properties.get(key));
     }
 
-    protected void copyByte(String key, MemorySegment config, BiConsumer<MemorySegment, Byte> consumer) {
-        get(key).ifPresent(val -> consumer.accept(config, Integer.valueOf(val).byteValue()));
-    }
-
     protected void copyInteger(String key, MemorySegment config, BiConsumer<MemorySegment, Integer> consumer) {
         get(key).ifPresent(val -> consumer.accept(config, Integer.parseInt(val)));
     }
