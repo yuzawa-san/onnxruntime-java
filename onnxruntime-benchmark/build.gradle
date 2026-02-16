@@ -20,7 +20,7 @@ dependencies {
 	implementation project(":")
 	implementation project(path: ":", configuration: 'cpu')
 	implementation project(':onnx')
-	implementation "com.microsoft.onnxruntime:onnxruntime:1.23.2"
+	implementation "com.microsoft.onnxruntime:onnxruntime:1.24.1"
 	// jmh "org.bytedeco:onnxruntime-platform:1.13.1-1.5.8"
 	jmh 'org.openjdk.jmh:jmh-core:1.37'
 	jmh 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
