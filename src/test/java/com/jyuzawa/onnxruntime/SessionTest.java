@@ -12,10 +12,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.MemorySegment;
+import java.lang.foreign.Arena;
+import java.lang.foreign.ValueLayout;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -559,15 +558,10 @@ public class SessionTest {
                         .setByteBuffer(identityModel(type))
                         .build()) {
 
-            FloatBuffer buf = ByteBuffer.allocateDirect(12)
-                    .order(ByteOrder.nativeOrder())
-                    .asFloatBuffer()
-                    .put(rawInput)
-                    .flip();
             OnnxTensor input = environment.newTensor(
-                    OnnxTensorElementDataType.FLOAT, List.of(1L, 3L), MemorySegment.ofBuffer(buf));
-            OnnxTensor input2 = environment.newTensor(OnnxTensorElementDataType.FLOAT, List.of(1L, 3L));
-            input2.getFloatBuffer().put(rawInput);
+                    OnnxTensorElementDataType.FLOAT,
+                    List.of(1L, 3L),
+                    Arena.ofAuto().allocateFrom(ValueLayout.JAVA_FLOAT, rawInput));
             OnnxValue output0 = session0.newTransaction()
                     .run(Map.of("input", input), List.of("output"))
                     .get(0);
