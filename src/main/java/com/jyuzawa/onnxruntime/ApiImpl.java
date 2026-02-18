@@ -17,6 +17,7 @@ import java.lang.foreign.MemorySegment;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 final class ApiImpl implements Api {
@@ -594,6 +595,11 @@ final class ApiImpl implements Api {
         MemorySegment pointer = arena.allocate(C_POINTER);
         checkStatus(constructor.apply(pointer));
         return pointer.getAtIndex(C_POINTER, 0);
+    }
+
+    MemorySegment create(
+            Arena arena, Function<MemorySegment, MemorySegment> constructor, Consumer<MemorySegment> cleanup) {
+        return create(arena, constructor).reinterpret(C_POINTER.byteSize(), arena, cleanup);
     }
 
     int extractInt(Arena arena, Function<MemorySegment, MemorySegment> method) {

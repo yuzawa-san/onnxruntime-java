@@ -7,7 +7,6 @@ package com.jyuzawa.onnxruntime;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,7 +39,6 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         this.buffer = new String[Math.toIntExact(tensorInfo.getElementCount())];
         if (ortValueAddress != null) {
             ApiImpl api = valueContext.api();
-            Arena arena = valueContext.arena();
             int numOutputs = buffer.length;
             for (int i = 0; i < numOutputs; i++) {
                 final long index = i;
@@ -60,7 +58,6 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
         String[] buffer = getStringBuffer();
         int numOutputs = buffer.length;
         ApiImpl api = valueContext.api();
-        Arena arena = valueContext.arena();
         MemorySegment stringArray = arena.allocate(C_POINTER, numOutputs);
         for (int i = 0; i < numOutputs; i++) {
             stringArray.setAtIndex(C_POINTER, i, arena.allocateFrom(buffer[i]));
@@ -69,10 +66,11 @@ final class OnnxTensorStringImpl extends OnnxTensorImpl {
                 arena,
                 out -> api.CreateTensorAsOrtValue.apply(
                         valueContext.ortAllocatorAddress(),
-                        tensorInfo.shapeData,
+                        tensorInfo.getShapeData(arena),
                         tensorInfo.getShape().size(),
                         tensorInfo.getType().getNumber(),
-                        out));
+                        out),
+                api.ReleaseValue::apply);
         api.checkStatus(api.FillStringTensor.apply(tensor, stringArray, numOutputs));
         return tensor;
     }

@@ -13,6 +13,7 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {
@@ -27,19 +28,16 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             MemorySegment logName = temporarySession.allocateFrom(builder.logId);
             if (builder.useThreadingOptions) {
                 MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
-                try {
-                    this.address = api.create(
-                            arena,
-                            out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
-                                    OnnxRuntimeLoggingLevel.LOG_CALLBACK,
-                                    MemorySegment.NULL,
-                                    builder.severityLevel.getNumber(),
-                                    logName,
-                                    threadingOptionsAddress,
-                                    out));
-                } finally {
-                    api.ReleaseThreadingOptions.apply(threadingOptionsAddress);
-                }
+                this.address = api.create(
+                        arena,
+                        out -> api.CreateEnvWithCustomLoggerAndGlobalThreadPools.apply(
+                                OnnxRuntimeLoggingLevel.LOG_CALLBACK,
+                                MemorySegment.NULL,
+                                builder.severityLevel.getNumber(),
+                                logName,
+                                threadingOptionsAddress,
+                                out),
+                        api.ReleaseEnv::apply);
             } else {
                 this.address = api.create(
                         arena,
@@ -48,11 +46,14 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                                 MemorySegment.NULL,
                                 builder.severityLevel.getNumber(),
                                 logName,
-                                out));
+                                out),
+                        api.ReleaseEnv::apply);
             }
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
-                    arena, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
+                    arena,
+                    out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out),
+                    api.ReleaseMemoryInfo::apply);
             Map<String, Long> arenaConfig = builder.arenaConfig;
             int size = arenaConfig.size();
             MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
@@ -73,7 +74,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     // TODO: expose this once it actually returns something
     public Map<String, String> getAllocatorStats() {
         try (Arena localArena = Arena.ofConfined()) {
-            MemorySegment keyValuePairs = api.create(localArena, out -> api.AllocatorGetStats.apply(ortAllocator, out));
+            MemorySegment keyValuePairs = api.create(
+                    localArena, out -> api.AllocatorGetStats.apply(ortAllocator, out), api.ReleaseKeyValuePairs::apply);
             MemorySegment keys = localArena.allocate(C_POINTER);
             MemorySegment values = localArena.allocate(C_POINTER);
             MemorySegment count = localArena.allocate(C_LONG);
@@ -87,16 +89,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                         theKeys.getAtIndex(C_POINTER, i).getString(0),
                         theValues.getAtIndex(C_POINTER, i).getString(0));
             }
-            api.ReleaseKeyValuePairs.apply(keyValuePairs);
             return out;
         }
-    }
-
-    @Override
-    public void close() {
-        api.ReleaseMemoryInfo.apply(memoryInfo);
-        api.ReleaseEnv.apply(address);
-        super.close();
     }
 
     @Override
@@ -184,7 +178,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         }
 
         private MemorySegment newThreadingOptions(Arena arena) {
-            MemorySegment threadingOptions = api.create(arena, out -> api.CreateThreadingOptions.apply(out));
+            MemorySegment threadingOptions =
+                    api.create(arena, out -> api.CreateThreadingOptions.apply(out), api.ReleaseThreadingOptions::apply);
             if (globalDenormalAsZero != null && Boolean.TRUE.equals(globalSpinControl)) {
                 api.checkStatus(api.SetGlobalDenormalAsZero.apply(threadingOptions));
             }

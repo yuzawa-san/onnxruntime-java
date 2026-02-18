@@ -6,7 +6,6 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h$shared.C_LONG;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
@@ -21,30 +20,24 @@ import java.util.stream.Stream;
 
 abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
 
-    protected final MemorySegment ortValueAddress;
     protected TensorInfoImpl tensorInfo;
 
     protected OnnxTensorImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
-        super(OnnxType.TENSOR, valueContext);
-        this.ortValueAddress = ortValueAddress;
+        super(OnnxType.TENSOR, valueContext, ortValueAddress);
         // handle dynamic shaped tensor outputs: we will need to read the shape
         if (ortValueAddress != null && tensorInfo.isDynamicShape()) {
             ApiImpl api = valueContext.api();
-            Arena arena = valueContext.arena();
-            MemorySegment ortTensorInfo =
-                    api.create(arena, out -> api.GetTensorTypeAndShape.apply(ortValueAddress, out));
-            try {
-                OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
-                        api.extractInt(arena, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
-                int dimCount = api.extractInt(arena, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
-                MemorySegment dims = arena.allocate(C_LONG, dimCount);
-                api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
-                long elementCount =
-                        api.extractInt(arena, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
-                this.tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
-            } finally {
-                api.ReleaseTensorTypeAndShapeInfo.apply(ortTensorInfo);
-            }
+            MemorySegment ortTensorInfo = api.create(
+                    arena,
+                    out -> api.GetTensorTypeAndShape.apply(ortValueAddress, out),
+                    api.ReleaseTensorTypeAndShapeInfo::apply);
+            OnnxTensorElementDataType dataType = OnnxTensorElementDataType.forNumber(
+                    api.extractInt(arena, out -> api.GetTensorElementType.apply(ortTensorInfo, out)));
+            int dimCount = api.extractInt(arena, out -> api.GetDimensionsCount.apply(ortTensorInfo, out));
+            MemorySegment dims = arena.allocate(C_LONG, dimCount);
+            api.checkStatus(api.GetDimensions.apply(ortTensorInfo, dims, dimCount));
+            long elementCount = api.extractInt(arena, out -> api.GetTensorShapeElementCount.apply(ortTensorInfo, out));
+            this.tensorInfo = new TensorInfoImpl(dataType, dims, dimCount, elementCount);
         } else {
             this.tensorInfo = tensorInfo;
         }
@@ -69,7 +62,7 @@ abstract class OnnxTensorImpl extends OnnxValueImpl implements OnnxTensor {
             throw new IllegalArgumentException("Static shaped tensor info must not specify alternative shape");
         }
 
-        this.tensorInfo = new TensorInfoImpl(tensorInfo.getType(), valueContext.arena(), shape);
+        this.tensorInfo = new TensorInfoImpl(tensorInfo.getType(), shape);
         return this;
     }
 
