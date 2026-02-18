@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,5 +96,7 @@ public interface Transaction extends AutoCloseable {
          * @return a new instance
          */
         Transaction build();
+
+        NamedCollectionImpl<OnnxValue> run(Map<String, ? super OnnxValue> inputs, List<String> outputs);
     }
 }

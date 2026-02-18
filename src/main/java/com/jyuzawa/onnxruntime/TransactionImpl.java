@@ -201,6 +201,71 @@ final class TransactionImpl implements Transaction {
             }
             return runOptions;
         }
+
+        @Override
+        public NamedCollectionImpl<OnnxValue> run(Map<String, ? super OnnxValue> theInputs, List<String> theOutputs) {
+            List<InputTuple> inputs = new ArrayList<>(theInputs.size());
+            theInputs.forEach(
+                    (key, value) -> inputs.add(new InputTuple(session.inputs.get(key), (OnnxValueImpl) value)));
+            List<NodeInfoImpl> outputs = new ArrayList<>(theOutputs.size());
+            theOutputs.forEach(key -> outputs.add(session.outputs.get(key)));
+            if (inputs.isEmpty()) {
+                throw new IllegalArgumentException("No inputs specified");
+            }
+            if (outputs.isEmpty()) {
+                throw new IllegalArgumentException("No outputs specified");
+            }
+            ValueContext valueContext =
+                    new ValueContext(api, session.environment.ortAllocator, session.environment.memoryInfo, true);
+            try (Arena arena = Arena.ofConfined()) {
+                SessionImpl sessionImpl = session;
+                int numInputs = inputs.size();
+                int numOutputs = outputs.size();
+                MemorySegment inputNames = arena.allocate(C_POINTER, numInputs);
+                MemorySegment inputValues = arena.allocate(C_POINTER, numInputs);
+                MemorySegment outputNames = arena.allocate(C_POINTER, numOutputs);
+                MemorySegment outputValues = arena.allocate(C_POINTER, numOutputs);
+                for (int i = 0; i < numInputs; i++) {
+                    InputTuple inputTuple = inputs.get(i);
+                    inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
+                    MemorySegment valueAddress = inputTuple.value().getNative();
+                    inputValues.setAtIndex(C_POINTER, i, valueAddress);
+                }
+
+                for (int i = 0; i < numOutputs; i++) {
+                    outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
+                }
+
+                MemorySegment runOptionsAddress = newRunOptions(arena);
+                // synchronized (cancelLock) {
+                // this.runOptions = runOptionsAddress;
+                // }
+                try {
+                    api.checkStatus(api.Run.apply(
+                            sessionImpl.address(),
+                            runOptionsAddress,
+                            inputNames,
+                            inputValues,
+                            numInputs,
+                            outputNames,
+                            numOutputs,
+                            outputValues));
+                } finally {
+                    // synchronized (cancelLock) {
+                    // runOptions = null;
+                    // }
+                }
+                LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
+                for (int i = 0; i < outputs.size(); i++) {
+                    MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
+                    NodeInfoImpl nodeInfo = outputs.get(i);
+                    OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
+                    out.put(nodeInfo.getName(), outputValue);
+                }
+
+                return new NamedCollectionImpl<>(out);
+            }
+        }
     }
 
     private record InputTuple(NodeInfoImpl nodeInfo, OnnxValueImpl value) {}

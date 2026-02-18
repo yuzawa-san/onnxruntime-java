@@ -12,8 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -535,6 +537,55 @@ public class SessionTest {
     }
 
     @Test
+    public void chainingTest() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.FLOAT_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        float[] rawInput = new float[] {554354, 52345234, 143646};
+        try (Session session0 = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Session session1 = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Session session2 = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build()) {
+
+            FloatBuffer buf = ByteBuffer.allocateDirect(12)
+                    .order(ByteOrder.nativeOrder())
+                    .asFloatBuffer()
+                    .put(rawInput)
+                    .flip();
+            OnnxTensor input = environment.newTensor(
+                    OnnxTensorElementDataType.FLOAT, List.of(1L, 3L), MemorySegment.ofBuffer(buf));
+            OnnxTensor input2 = environment.newTensor(OnnxTensorElementDataType.FLOAT, List.of(1L, 3L));
+            input2.getFloatBuffer().put(rawInput);
+            OnnxValue output0 = session0.newTransaction()
+                    .run(Map.of("input", input), List.of("output"))
+                    .get(0);
+            OnnxValue output1 = session1.newTransaction()
+                    .run(Map.of("input", output0), List.of("output"))
+                    .get(0);
+            float[] rawOutput = new float[3];
+            session2.newTransaction()
+                    .run(Map.of("input", output1), List.of("output"))
+                    .get(0)
+                    .asTensor()
+                    .getFloatBuffer()
+                    .get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+        }
+    }
+
+    @Test
     public void dimParamTest() throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
@@ -970,9 +1021,8 @@ public class SessionTest {
         }
     }
 
-    private OnnxTensorImpl newTensor(OnnxTensorElementDataType type, int size) {
-        ValueContext valueContext = new ValueContext(null, Arena.global(), null, null, List.of());
-        return TensorInfoImpl.of(type, 3, Arena.global()).newValue(valueContext, null);
+    private OnnxTensorImpl newTensor(OnnxTensorElementDataType type, long size) {
+        return (OnnxTensorImpl) environment.newTensor(type, List.of(size));
     }
 
     @Test

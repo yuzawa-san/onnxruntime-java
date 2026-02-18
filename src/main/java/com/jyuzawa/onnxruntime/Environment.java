@@ -4,6 +4,8 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.MemorySegment;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -103,4 +105,8 @@ public interface Environment extends AutoCloseable {
          */
         Environment build();
     }
+
+    OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape, MemorySegment memorySegment);
+
+    OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape);
 }

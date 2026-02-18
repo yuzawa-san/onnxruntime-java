@@ -200,4 +200,18 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             return new EnvironmentImpl(this);
         }
     }
+
+    @Override
+    public OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape, MemorySegment memorySegment) {
+        TensorInfoImpl tensorInfo = new TensorInfoImpl(type, shape);
+        ValueContext valueContext = new ValueContext(api, ortAllocator, memoryInfo, true);
+        return new OnnxTensorWrapped(tensorInfo, valueContext, memorySegment);
+    }
+
+    @Override
+    public OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape) {
+        TensorInfoImpl tensorInfo = new TensorInfoImpl(type, shape);
+        ValueContext valueContext = new ValueContext(api, ortAllocator, memoryInfo, true);
+        return tensorInfo.newValue(valueContext, null);
+    }
 }
