@@ -4,13 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.util.List;
 
 record ValueContext(
-        ApiImpl api,
-        Arena arena,
-        MemorySegment ortAllocatorAddress,
-        MemorySegment memoryInfoAddress,
-        List<Runnable> closeables) {}
+        ApiImpl api, MemorySegment ortAllocatorAddress, MemorySegment memoryInfoAddress, boolean autoRelease) {}

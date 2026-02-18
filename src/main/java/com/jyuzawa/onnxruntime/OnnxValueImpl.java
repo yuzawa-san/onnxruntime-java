@@ -4,18 +4,26 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 abstract class OnnxValueImpl implements OnnxValue {
 
+    protected final Arena arena;
     protected final OnnxType type;
     protected final ValueContext valueContext;
+    protected MemorySegment ortValueAddress;
 
-    protected OnnxValueImpl(OnnxType type, ValueContext valueContext) {
+    protected OnnxValueImpl(OnnxType type, ValueContext valueContext, MemorySegment ortValueAddress) {
+        this.arena = valueContext.autoRelease() ? Arena.ofAuto() : Arena.ofShared();
         this.type = type;
         this.valueContext = valueContext;
+        if (ortValueAddress != null) {
+            ortValueAddress = ortValueAddress.reinterpret(arena, valueContext.api().ReleaseValue::apply);
+        }
+        this.ortValueAddress = ortValueAddress;
     }
 
     @Override
@@ -58,5 +66,21 @@ abstract class OnnxValueImpl implements OnnxValue {
     // throw new NoSuchElementException("OnnxValue is not an optional");
     // }
 
-    abstract MemorySegment toNative();
+    protected abstract MemorySegment toNative();
+
+    final MemorySegment getNative() {
+        if (!arena.scope().isAlive()) {
+            throw new IllegalStateException("value has already been disposed");
+        }
+        if (ortValueAddress == null) {
+            ortValueAddress = toNative();
+        }
+        return ortValueAddress;
+    }
+
+    void dispose() {
+        if (!valueContext.autoRelease()) {
+            arena.close();
+        }
+    }
 }
