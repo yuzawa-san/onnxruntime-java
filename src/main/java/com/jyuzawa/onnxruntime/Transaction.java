@@ -97,6 +97,15 @@ public interface Transaction extends AutoCloseable {
          */
         Transaction build();
 
-        NamedCollectionImpl<OnnxValue> run(Map<String, ? super OnnxValue> inputs, List<String> outputs);
+        /**
+         * Conduct a run with provided inputs and accumulated options
+         *
+         * Notably, the inputs and outputs here have "automatic" scope and may be treated like normal Java objects since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
+         * @param inputs which were created from the environment or were outputs of prior calls to run()
+         * @param outputs the desired outputs to produce
+         * @return a collection of results which can be freely reused.
+         * @since 2.1.0
+         */
+        NamedCollection<OnnxValue> run(Map<String, ? super OnnxValue> inputs, List<String> outputs);
     }
 }

@@ -8,11 +8,12 @@ import java.lang.foreign.MemorySegment;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-final class OnnxTensorWrapped extends OnnxTensorImpl {
+final class OnnxTensorWrappedImpl extends OnnxTensorImpl {
 
+    // this is kept around to ensure automatic arena's know that we are still using it
     private final MemorySegment tensorData;
 
-    protected OnnxTensorWrapped(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment tensorData) {
+    protected OnnxTensorWrappedImpl(TensorInfoImpl tensorInfo, ValueContext valueContext, MemorySegment tensorData) {
         super(tensorInfo, valueContext, null);
         if (!tensorData.isNative()) {
             tensorData = arena.allocate(tensorData.byteSize()).copyFrom(tensorData);
