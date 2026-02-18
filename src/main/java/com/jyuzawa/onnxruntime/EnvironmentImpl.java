@@ -13,7 +13,6 @@ import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {

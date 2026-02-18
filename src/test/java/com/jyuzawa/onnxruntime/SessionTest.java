@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
-import java.lang.foreign.Arena;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
@@ -971,8 +970,12 @@ public class SessionTest {
     }
 
     private OnnxTensorImpl newTensor(OnnxTensorElementDataType type, int size) {
-        ValueContext valueContext = new ValueContext(null, Arena.global(), null, null, List.of());
-        return TensorInfoImpl.of(type, 3, Arena.global()).newValue(valueContext, null);
+        ValueContext valueContext = new ValueContext(
+                ((EnvironmentImpl) environment).api,
+                ((EnvironmentImpl) environment).ortAllocator,
+                ((EnvironmentImpl) environment).memoryInfo,
+                false);
+        return new TensorInfoImpl(type, 3).newValue(valueContext, null);
     }
 
     @Test
