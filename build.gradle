@@ -258,7 +258,7 @@ def makePom(node, artifactId, osArches, theVersion, theBaseline) {
 }
 
 project.group = "com.jyuzawa"
-def REPO = "yuzawa-san/onnxruntime-java"
+def REPO = project.findProperty("repo") ?: "yuzawa-san/onnxruntime-java"
 
 nexusPublishing {
 	repositories {
@@ -271,42 +271,52 @@ nexusPublishing {
 	}
 }
 
+def configureNativePom = { pom ->
+	pom.name = 'ONNX Runtime for Java'
+	pom.inceptionYear = '2022'
+	pom.description = project.description
+	pom.url = "https://github.com/${REPO}"
+	pom.issueManagement {
+		url = "https://github.com/${REPO}/issues"
+		system = "GitHub Issues"
+	}
+	pom.licenses {
+		license {
+			name = 'MIT License'
+			url = 'https://opensource.org/licenses/MIT'
+			distribution = 'repo'
+		}
+	}
+	pom.developers {
+		developer {
+			id = 'yuzawa-san'
+			name = 'James Yuzawa'
+			email = 'jtyuzawa+onnxruntime-java@gmail.com'
+		}
+	}
+	pom.scm {
+		connection = "scm:git:git://github.com/${REPO}.git"
+		developerConnection = "scm:git:git@github.com:${REPO}.git"
+		url = "https://github.com/${REPO}"
+	}
+}
+
 publishing {
+	repositories {
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/${REPO}")
+			credentials {
+				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+			}
+		}
+	}
 	publications {
 		onnxruntimeCpu(MavenPublication) {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-cpu"
-			// NOTE: sonatype does not believe in our parent artifact
-			// TODO: DRY
-			pom {
-				name = 'ONNX Runtime for Java'
-				inceptionYear = '2022'
-				description = project.description
-				url = "https://github.com/${REPO}"
-				issueManagement {
-					url = "https://github.com/${REPO}/issues"
-					system = "GitHub Issues"
-				}
-				licenses {
-					license {
-						name = 'MIT License'
-						url = 'https://opensource.org/licenses/MIT'
-						distribution = 'repo'
-					}
-				}
-				developers {
-					developer {
-						id = 'yuzawa-san'
-						name = 'James Yuzawa'
-						email = 'jtyuzawa+onnxruntime-java@gmail.com'
-					}
-				}
-				scm {
-					connection = "scm:git:git://github.com/${REPO}.git"
-					developerConnection = "scm:git:git@github.com:${REPO}.git"
-					url = "https://github.com/${REPO}"
-				}
-			}
+			pom(configureNativePom)
 			pom.withXml {
 				makePom(asNode(), artifactId, cpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
 			}
@@ -315,10 +325,10 @@ publishing {
 				artifact tasks.named("osArchJar${it}")
 			}
 		}
-		/*
 		onnxruntimeGpu(MavenPublication) {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-gpu"
+			pom(configureNativePom)
 			pom.withXml {
 				makePom(asNode(), artifactId, gpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
 			}
@@ -327,7 +337,6 @@ publishing {
 				artifact tasks.named("osArchJar${it}")
 			}
 		}
-		*/
 		onnxruntime(MavenPublication) {
 			from components.java
 			pom {
@@ -363,8 +372,15 @@ publishing {
 	}
 }
 
+def isSigningConfigured = project.hasProperty('signing.keyId')
+		|| project.hasProperty('signingKey')
+		|| System.getenv('GPG_PRIVATE_KEY')
+
 signing {
-	sign publishing.publications
+	required { isSigningConfigured }
+	if (isSigningConfigured) {
+		sign publishing.publications
+	}
 }
 
 dependencies {
