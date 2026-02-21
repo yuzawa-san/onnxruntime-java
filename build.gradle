@@ -23,6 +23,7 @@ release {
 	}
 }
 
+// blah
 allprojects {
 	apply plugin: "java"
 	apply plugin: "com.diffplug.spotless"
