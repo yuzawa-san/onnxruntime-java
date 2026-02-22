@@ -6,7 +6,6 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
-import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,12 +21,11 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     private final TypeInfoImpl typeInfo;
 
     OnnxSequenceImpl(TypeInfoImpl typeInfo, ValueContext valueContext, MemorySegment ortValueAddress) {
-        super(OnnxType.SEQUENCE, valueContext);
+        super(OnnxType.SEQUENCE, valueContext, ortValueAddress);
         if (ortValueAddress == null) {
             this.data = new ArrayList<>();
         } else {
             ApiImpl api = valueContext.api();
-            Arena arena = valueContext.arena();
             int outputs = Math.toIntExact(api.extractLong(arena, out -> api.GetValueCount.apply(ortValueAddress, out)));
             this.data = new ArrayList<>(outputs);
             for (int i = 0; i < outputs; i++) {
@@ -35,13 +33,21 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
                 MemorySegment valueAddress = api.create(
                         arena,
                         out -> api.GetValue.apply(ortValueAddress, index, valueContext.ortAllocatorAddress(), out));
-                valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
                 OnnxValueImpl value = typeInfo.newValue(valueContext, valueAddress);
                 data.add(value);
             }
         }
         this.unmodifiableData = Collections.unmodifiableList(data);
         this.typeInfo = typeInfo;
+    }
+
+    @Override
+    void dispose() {
+        super.dispose();
+        int size = data.size();
+        for (int i = 0; i < size; i++) {
+            data.get(i).dispose();
+        }
     }
 
     @Override
@@ -73,12 +79,11 @@ final class OnnxSequenceImpl extends OnnxValueImpl implements OnnxSequence {
     @Override
     public MemorySegment toNative() {
         ApiImpl api = valueContext.api();
-        Arena arena = valueContext.arena();
         int size = data.size();
         MemorySegment valuesArray = arena.allocate(C_POINTER, size);
         for (int i = 0; i < size; i++) {
             OnnxValueImpl value = data.get(i);
-            valuesArray.setAtIndex(C_POINTER, i, value.toNative());
+            valuesArray.setAtIndex(C_POINTER, i, value.getNative());
         }
         return api.create(arena, out -> api.CreateValue.apply(valuesArray, size, OnnxType.SEQUENCE.getNumber(), out));
     }

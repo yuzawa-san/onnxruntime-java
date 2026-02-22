@@ -17,12 +17,15 @@ import java.lang.foreign.MemorySegment;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 final class ApiImpl implements Api {
 
     private static final Logger LOG = System.getLogger(ApiImpl.class.getName());
 
+    final AddFreeDimensionOverride.Function AddFreeDimensionOverride;
+    final AddFreeDimensionOverrideByName.Function AddFreeDimensionOverrideByName;
     final AddKeyValuePair.Function AddKeyValuePair;
     final AddRunConfigEntry.Function AddRunConfigEntry;
     final AddSessionConfigEntry.Function AddSessionConfigEntry;
@@ -158,6 +161,12 @@ final class ApiImpl implements Api {
     private final Set<ExecutionProvider> providers;
 
     ApiImpl(MemorySegment memorySegment) {
+        MemorySegment fnAddFreeDimensionOverride = OrtApi.AddFreeDimensionOverride(memorySegment);
+        this.AddFreeDimensionOverride =
+                (_x0, _x1, _x2) -> OrtApi.AddFreeDimensionOverride.invoke(fnAddFreeDimensionOverride, _x0, _x1, _x2);
+        MemorySegment fnAddFreeDimensionOverrideByName = OrtApi.AddFreeDimensionOverrideByName(memorySegment);
+        this.AddFreeDimensionOverrideByName = (_x0, _x1, _x2) ->
+                OrtApi.AddFreeDimensionOverrideByName.invoke(fnAddFreeDimensionOverrideByName, _x0, _x1, _x2);
         MemorySegment fnAddKeyValuePair = OrtApi.AddKeyValuePair(memorySegment);
         this.AddKeyValuePair = (_x0, _x1, _x2) -> OrtApi.AddKeyValuePair.invoke(fnAddKeyValuePair, _x0, _x1, _x2);
         MemorySegment fnAddRunConfigEntry = OrtApi.AddRunConfigEntry(memorySegment);
@@ -585,6 +594,11 @@ final class ApiImpl implements Api {
         MemorySegment pointer = arena.allocate(C_POINTER);
         checkStatus(constructor.apply(pointer));
         return pointer.getAtIndex(C_POINTER, 0);
+    }
+
+    MemorySegment create(
+            Arena arena, Function<MemorySegment, MemorySegment> constructor, Consumer<MemorySegment> cleanup) {
+        return create(arena, constructor).reinterpret(C_POINTER.byteSize(), arena, cleanup);
     }
 
     int extractInt(Arena arena, Function<MemorySegment, MemorySegment> method) {

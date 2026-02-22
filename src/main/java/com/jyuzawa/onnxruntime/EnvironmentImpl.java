@@ -30,8 +30,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             MemorySegment threadingOptionsAddress = null;
             MemorySegment configKeyValuesPointer = temporarySession.allocate(C_POINTER);
             api.CreateKeyValuePairs.apply(configKeyValuesPointer);
-            MemorySegment configKeyValues = configKeyValuesPointer.getAtIndex(C_POINTER, 0);
-            try {
+            MemorySegment configKeyValues = configKeyValuesPointer.getAtIndex(C_POINTER, 0).reinterpret(C_POINTER.byteSize(), temporarySession, api.ReleaseKeyValuePairs::apply)
                 MemorySegment options = OrtEnvCreationOptions.allocate(temporarySession);
                 OrtEnvCreationOptions.version(options, onnxruntime_all_h.ORT_API_VERSION());
                 OrtEnvCreationOptions.logging_severity_level(options, builder.severityLevel.getNumber());
@@ -54,16 +53,12 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                             temporarySession.allocateFrom(entry.getValue()));
                 }
                 OrtEnvCreationOptions.config_entries(options, configKeyValues);
-                this.address = api.create(arena, out -> api.CreateEnvWithOptions.apply(options, out));
-            } finally {
-                if (threadingOptionsAddress != null) {
-                    api.ReleaseThreadingOptions.apply(threadingOptionsAddress);
-                }
-                api.ReleaseKeyValuePairs.apply(configKeyValues);
-            }
+                this.address = api.create(arena, out -> api.CreateEnvWithOptions.apply(options, out), api.ReleaseEnv::apply);
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
             this.memoryInfo = api.create(
-                    arena, out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out));
+                    arena,
+                    out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out),
+                    api.ReleaseMemoryInfo::apply);
             Map<String, Long> arenaConfig = builder.arenaConfig;
             int size = arenaConfig.size();
             MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
@@ -84,7 +79,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     // TODO: expose this once it actually returns something
     public Map<String, String> getAllocatorStats() {
         try (Arena localArena = Arena.ofConfined()) {
-            MemorySegment keyValuePairs = api.create(localArena, out -> api.AllocatorGetStats.apply(ortAllocator, out));
+            MemorySegment keyValuePairs = api.create(
+                    localArena, out -> api.AllocatorGetStats.apply(ortAllocator, out), api.ReleaseKeyValuePairs::apply);
             MemorySegment keys = localArena.allocate(C_POINTER);
             MemorySegment values = localArena.allocate(C_POINTER);
             MemorySegment count = localArena.allocate(C_LONG);
@@ -98,16 +94,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                         theKeys.getAtIndex(C_POINTER, i).getString(0),
                         theValues.getAtIndex(C_POINTER, i).getString(0));
             }
-            api.ReleaseKeyValuePairs.apply(keyValuePairs);
             return out;
         }
-    }
-
-    @Override
-    public void close() {
-        api.ReleaseMemoryInfo.apply(memoryInfo);
-        api.ReleaseEnv.apply(address);
-        super.close();
     }
 
     @Override
@@ -210,7 +198,8 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         }
 
         private MemorySegment newThreadingOptions(Arena arena) {
-            MemorySegment threadingOptions = api.create(arena, out -> api.CreateThreadingOptions.apply(out));
+            MemorySegment threadingOptions =
+                    api.create(arena, out -> api.CreateThreadingOptions.apply(out), api.ReleaseThreadingOptions::apply);
             if (globalDenormalAsZero != null && Boolean.TRUE.equals(globalSpinControl)) {
                 api.checkStatus(api.SetGlobalDenormalAsZero.apply(threadingOptions));
             }

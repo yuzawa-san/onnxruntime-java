@@ -5,7 +5,6 @@
 package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_CHAR;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 
 import java.io.IOException;
@@ -41,75 +40,69 @@ final class SessionImpl extends ManagedImpl implements Session {
             this.environment = builder.environment;
             this.ortAllocator = environment.ortAllocator;
             MemorySegment sessionOptions = builder.newSessionOptions(tempArena);
-            try {
-                final MemorySegment mappedBuf;
-                ByteBuffer buffer = builder.buffer;
-                byte[] bytes = builder.bytes;
-                Path path = builder.path;
-                if (path != null) {
-                    LOG.log(Level.DEBUG, "Loading session from " + path);
-                    this.address = api.create(
-                            arena,
-                            out -> api.CreateSession.apply(
-                                    environment.address(), createPath(tempArena, path), sessionOptions, out));
+            final MemorySegment mappedBuf;
+            ByteBuffer buffer = builder.buffer;
+            byte[] bytes = builder.bytes;
+            Path path = builder.path;
+            if (path != null) {
+                LOG.log(Level.DEBUG, "Loading session from " + path);
+                this.address = api.create(
+                        arena,
+                        out -> api.CreateSession.apply(
+                                environment.address(), createPath(tempArena, path), sessionOptions, out),
+                        api.ReleaseSession::apply);
 
-                } else {
-                    if (buffer != null) {
-                        if (buffer.isDirect()) {
-                            mappedBuf = MemorySegment.ofBuffer(buffer);
+            } else {
+                if (buffer != null) {
+                    if (buffer.isDirect()) {
+                        mappedBuf = MemorySegment.ofBuffer(buffer);
 
-                        } else {
-                            mappedBuf = tempArena.allocate(C_CHAR, buffer.remaining());
-                            mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
-                        }
-                    } else if (bytes != null) {
-                        mappedBuf = tempArena.allocateFrom(C_CHAR, bytes);
                     } else {
-                        throw new IllegalArgumentException("missing model source");
+                        mappedBuf = tempArena.allocate(C_CHAR, buffer.remaining());
+                        mappedBuf.copyFrom(MemorySegment.ofBuffer(buffer));
                     }
-                    this.address = api.create(
-                            arena,
-                            out -> api.CreateSessionFromArray.apply(
-                                    environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out));
+                } else if (bytes != null) {
+                    mappedBuf = tempArena.allocateFrom(C_CHAR, bytes);
+                } else {
+                    throw new IllegalArgumentException("missing model source");
                 }
-
-                this.overridableInitializers = createMap(
-                        api,
-                        tempArena,
+                this.address = api.create(
                         arena,
-                        ortAllocator,
-                        address,
-                        api.SessionGetOverridableInitializerCount::apply,
-                        api.SessionGetOverridableInitializerName::apply,
-                        api.SessionGetOverridableInitializerTypeInfo::apply);
-                this.inputs = createMap(
-                        api,
-                        tempArena,
-                        arena,
-                        ortAllocator,
-                        address,
-                        api.SessionGetInputCount::apply,
-                        api.SessionGetInputName::apply,
-                        api.SessionGetInputTypeInfo::apply);
-                this.outputs = createMap(
-                        api,
-                        tempArena,
-                        arena,
-                        ortAllocator,
-                        address,
-                        api.SessionGetOutputCount::apply,
-                        api.SessionGetOutputName::apply,
-                        api.SessionGetOutputTypeInfo::apply);
-                MemorySegment metadataAddress =
-                        api.create(arena, out -> api.SessionGetModelMetadata.apply(address, out));
-                try {
-                    this.modelMetadata = new ModelMetadataImpl(api, tempArena, metadataAddress, ortAllocator);
-                } finally {
-                    api.ReleaseModelMetadata.apply(metadataAddress);
-                }
-            } finally {
-                api.ReleaseSessionOptions.apply(sessionOptions);
+                        out -> api.CreateSessionFromArray.apply(
+                                environment.address(), mappedBuf, mappedBuf.byteSize(), sessionOptions, out),
+                        api.ReleaseSession::apply);
             }
+
+            this.overridableInitializers = createMap(
+                    api,
+                    tempArena,
+                    arena,
+                    ortAllocator,
+                    address,
+                    api.SessionGetOverridableInitializerCount::apply,
+                    api.SessionGetOverridableInitializerName::apply,
+                    api.SessionGetOverridableInitializerTypeInfo::apply);
+            this.inputs = createMap(
+                    api,
+                    tempArena,
+                    arena,
+                    ortAllocator,
+                    address,
+                    api.SessionGetInputCount::apply,
+                    api.SessionGetInputName::apply,
+                    api.SessionGetInputTypeInfo::apply);
+            this.outputs = createMap(
+                    api,
+                    tempArena,
+                    arena,
+                    ortAllocator,
+                    address,
+                    api.SessionGetOutputCount::apply,
+                    api.SessionGetOutputName::apply,
+                    api.SessionGetOutputTypeInfo::apply);
+            MemorySegment metadataAddress = api.create(
+                    arena, out -> api.SessionGetModelMetadata.apply(address, out), api.ReleaseModelMetadata::apply);
+            this.modelMetadata = new ModelMetadataImpl(api, tempArena, metadataAddress, ortAllocator);
         }
     }
 
@@ -120,12 +113,6 @@ final class SessionImpl extends ManagedImpl implements Session {
             return arena.allocateFrom(pathString, StandardCharsets.UTF_16LE);
         }
         return arena.allocateFrom(pathString);
-    }
-
-    @Override
-    public void close() {
-        api.ReleaseSession.apply(address);
-        super.close();
     }
 
     @Override
@@ -154,16 +141,15 @@ final class SessionImpl extends ManagedImpl implements Session {
             GetCount getCount,
             GetName getName,
             GetTypeInfo getTypeInfo) {
-        MemorySegment numInputsSegment = arena.allocate(C_LONG);
-        api.checkStatus(getCount.apply(session, numInputsSegment));
-        long numInputs = numInputsSegment.getAtIndex(C_LONG, 0);
+        long numInputs = api.extractLong(sessionArena, numInputsSegment -> getCount.apply(session, numInputsSegment));
         LinkedHashMap<String, NodeInfoImpl> inputs = new LinkedHashMap<>();
         for (long i = 0; i < numInputs; i++) {
             final long j = i;
             MemorySegment nameSegment = api.create(arena, out -> getName.apply(session, j, ortAllocator, out));
             String name = nameSegment.getString(0);
             api.checkStatus(api.AllocatorFree.apply(ortAllocator, nameSegment));
-            MemorySegment typeInfoAddress = api.create(arena, out -> getTypeInfo.apply(session, j, out));
+            MemorySegment typeInfoAddress =
+                    api.create(arena, out -> getTypeInfo.apply(session, j, out), api.ReleaseTypeInfo::apply);
             TypeInfoImpl typeInfo = new TypeInfoImpl(api, typeInfoAddress, arena, sessionArena, ortAllocator);
             inputs.put(name, new NodeInfoImpl(name, sessionArena.allocateFrom(name), typeInfo));
         }
@@ -255,6 +241,8 @@ final class SessionImpl extends ManagedImpl implements Session {
         private Map<ExecutionProvider, ExecutionProviderConfig> executionProviderAppenders;
         private List<Path> customOpsLibraries;
         private boolean deterministicCompute;
+        private Map<String, Integer> symbolicDimensionsMap;
+        private Map<String, Integer> denotationsMap;
 
         Builder(EnvironmentImpl environment) {
             this.api = environment.api;
@@ -374,8 +362,21 @@ final class SessionImpl extends ManagedImpl implements Session {
             return this;
         }
 
+        @Override
+        public Builder setFreeDimensionOverrideByName(Map<String, Integer> symbolicDimensionsMap) {
+            this.symbolicDimensionsMap = symbolicDimensionsMap;
+            return this;
+        }
+
+        @Override
+        public Builder setFreeDimensionOverride(Map<String, Integer> denotationsMap) {
+            this.denotationsMap = denotationsMap;
+            return this;
+        }
+
         private MemorySegment newSessionOptions(Arena arena) {
-            MemorySegment sessionOptions = api.create(arena, out -> api.CreateSessionOptions.apply(out));
+            MemorySegment sessionOptions =
+                    api.create(arena, out -> api.CreateSessionOptions.apply(out), api.ReleaseSessionOptions::apply);
             if (logSeverityLevel != null) {
                 api.checkStatus(api.SetSessionLogSeverityLevel.apply(sessionOptions, logSeverityLevel.getNumber()));
             }
@@ -422,6 +423,18 @@ final class SessionImpl extends ManagedImpl implements Session {
                 for (Map.Entry<String, String> entry : config.entrySet()) {
                     api.checkStatus(api.AddSessionConfigEntry.apply(
                             sessionOptions, arena.allocateFrom(entry.getKey()), arena.allocateFrom(entry.getValue())));
+                }
+            }
+            if (symbolicDimensionsMap != null) {
+                for (Map.Entry<String, Integer> entry : symbolicDimensionsMap.entrySet()) {
+                    api.checkStatus(api.AddFreeDimensionOverrideByName.apply(
+                            sessionOptions, arena.allocateFrom(entry.getKey()), entry.getValue()));
+                }
+            }
+            if (denotationsMap != null) {
+                for (Map.Entry<String, Integer> entry : denotationsMap.entrySet()) {
+                    api.checkStatus(api.AddFreeDimensionOverride.apply(
+                            sessionOptions, arena.allocateFrom(entry.getKey()), entry.getValue()));
                 }
             }
 

@@ -1,5 +1,8 @@
 #!/bin/sh
 
+docker ps > /dev/null 2>&1
+[ $? -ne 0 ] && echo "please start docker desktop" && exit 1
+
 NEW_VERSION=$(curl -s https://api.github.com/repos/microsoft/onnxruntime/tags | jq -r ".[0].name" | sed 's/^v//g')
 read -p "Use version $NEW_VERSION (y/n)? " answer
 case ${answer:0:1} in
@@ -10,7 +13,8 @@ case ${answer:0:1} in
         exit 1;
     ;;
 esac
-git checkout ort/$NEW_VERSION && echo "please delete existing branch ort/$NEW_VERSION" && exit 1
+git checkout ort/$NEW_VERSION
+[ $? -ne 0 ] && echo "please delete existing branch ort/$NEW_VERSION" && exit 1
 
 git checkout master && \
 git pull && \

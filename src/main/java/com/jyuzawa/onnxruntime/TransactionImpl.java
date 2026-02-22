@@ -18,36 +18,32 @@ final class TransactionImpl implements Transaction {
     // private final Object cancelLock;
     // private MemoryAddress runOptions;
 
-    private final Arena arena;
     private final Builder builder;
     private final List<InputTuple> inputs;
     private final List<NodeInfoImpl> outputs;
     private final ValueContext valueContext;
+    private final List<OnnxValueImpl> references;
 
     TransactionImpl(Builder builder) {
-        this.arena = Arena.ofConfined();
         this.builder = builder;
         this.inputs = new ArrayList<>(builder.session.inputs.size());
         this.outputs = new ArrayList<>(builder.session.outputs.size());
+        this.references = new LinkedList<>();
         this.valueContext = new ValueContext(
-                builder.api,
-                arena,
-                builder.session.environment.ortAllocator,
-                builder.session.environment.memoryInfo,
-                new LinkedList<>());
+                builder.api, builder.session.environment.ortAllocator, builder.session.environment.memoryInfo, false);
         // this.cancelLock = new Object();
     }
 
     @Override
     public void close() {
-        for (Runnable closeables : valueContext.closeables()) {
-            closeables.run();
+        for (OnnxValueImpl reference : references) {
+            reference.dispose();
         }
-        arena.close();
     }
 
     private OnnxValue addInput(NodeInfoImpl node) {
         OnnxValueImpl input = node.getTypeInfo().newValue(valueContext, null);
+        references.add(input);
         inputs.add(new InputTuple(node, input));
         return input;
     }
@@ -90,57 +86,56 @@ final class TransactionImpl implements Transaction {
         if (outputs.isEmpty()) {
             throw new IllegalArgumentException("No outputs specified");
         }
-        ApiImpl api = builder.api;
-        SessionImpl sessionImpl = builder.session;
-        int numInputs = inputs.size();
-        int numOutputs = outputs.size();
-        MemorySegment inputNames = arena.allocate(C_POINTER, numInputs);
-        MemorySegment inputValues = arena.allocate(C_POINTER, numInputs);
-        MemorySegment outputNames = arena.allocate(C_POINTER, numOutputs);
-        MemorySegment outputValues = arena.allocate(C_POINTER, numOutputs);
-        for (int i = 0; i < numInputs; i++) {
-            InputTuple inputTuple = inputs.get(i);
-            inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
-            MemorySegment valueAddress = inputTuple.value().toNative();
-            valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
-            inputValues.setAtIndex(C_POINTER, i, valueAddress);
-        }
+        try (Arena arena = Arena.ofConfined()) {
+            ApiImpl api = builder.api;
+            SessionImpl sessionImpl = builder.session;
+            int numInputs = inputs.size();
+            int numOutputs = outputs.size();
+            MemorySegment inputNames = arena.allocate(C_POINTER, numInputs);
+            MemorySegment inputValues = arena.allocate(C_POINTER, numInputs);
+            MemorySegment outputNames = arena.allocate(C_POINTER, numOutputs);
+            MemorySegment outputValues = arena.allocate(C_POINTER, numOutputs);
+            for (int i = 0; i < numInputs; i++) {
+                InputTuple inputTuple = inputs.get(i);
+                inputNames.setAtIndex(C_POINTER, i, inputTuple.nodeInfo().nameSegment);
+                MemorySegment valueAddress = inputTuple.value().getNative();
+                inputValues.setAtIndex(C_POINTER, i, valueAddress);
+            }
 
-        for (int i = 0; i < numOutputs; i++) {
-            outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
-        }
+            for (int i = 0; i < numOutputs; i++) {
+                outputNames.setAtIndex(C_POINTER, i, outputs.get(i).nameSegment);
+            }
 
-        MemorySegment runOptionsAddress = builder.newRunOptions(arena);
-        // synchronized (cancelLock) {
-        // this.runOptions = runOptionsAddress;
-        // }
-        try {
-            api.checkStatus(api.Run.apply(
-                    sessionImpl.address(),
-                    runOptionsAddress,
-                    inputNames,
-                    inputValues,
-                    numInputs,
-                    outputNames,
-                    numOutputs,
-                    outputValues));
-        } finally {
+            MemorySegment runOptionsAddress = builder.newRunOptions(arena);
             // synchronized (cancelLock) {
-            api.ReleaseRunOptions.apply(runOptionsAddress);
-            // runOptions = null;
+            // this.runOptions = runOptionsAddress;
             // }
-        }
-        LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
-        for (int i = 0; i < outputs.size(); i++) {
-            MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
-            // TODO: get typeinfo from result
-            NodeInfoImpl nodeInfo = outputs.get(i);
-            OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
-            valueContext.closeables().add(() -> api.ReleaseValue.apply(outputAddress));
-            out.put(nodeInfo.getName(), outputValue);
-        }
+            try {
+                api.checkStatus(api.Run.apply(
+                        sessionImpl.address(),
+                        runOptionsAddress,
+                        inputNames,
+                        inputValues,
+                        numInputs,
+                        outputNames,
+                        numOutputs,
+                        outputValues));
+            } finally {
+                // synchronized (cancelLock) {
+                // runOptions = null;
+                // }
+            }
+            LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
+            for (int i = 0; i < outputs.size(); i++) {
+                MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
+                NodeInfoImpl nodeInfo = outputs.get(i);
+                OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
+                references.add(outputValue);
+                out.put(nodeInfo.getName(), outputValue);
+            }
 
-        return new NamedCollectionImpl<>(out);
+            return new NamedCollectionImpl<>(out);
+        }
     }
 
     static final class Builder implements Transaction.Builder {
@@ -187,7 +182,8 @@ final class TransactionImpl implements Transaction {
         }
 
         private MemorySegment newRunOptions(Arena arena) {
-            MemorySegment runOptions = api.create(arena, out -> api.CreateRunOptions.apply(out));
+            MemorySegment runOptions =
+                    api.create(arena, out -> api.CreateRunOptions.apply(out), api.ReleaseRunOptions::apply);
             if (logSeverityLevel != null) {
                 api.checkStatus(api.RunOptionsSetRunLogSeverityLevel.apply(runOptions, logSeverityLevel.getNumber()));
             }

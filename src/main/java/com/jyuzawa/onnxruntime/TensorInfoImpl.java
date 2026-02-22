@@ -14,10 +14,9 @@ import java.util.List;
 
 final class TensorInfoImpl implements TensorInfo {
 
-    // TODO: symbolic dims
     private final OnnxTensorElementDataType type;
-    final MemorySegment shapeData;
     private final List<Long> shape;
+    private final MemorySegment shapeData;
     private final long elementCount;
 
     TensorInfoImpl(OnnxTensorElementDataType type, MemorySegment shapeData, int dimCount, long elementCount) {
@@ -31,9 +30,36 @@ final class TensorInfoImpl implements TensorInfo {
         this.elementCount = elementCount;
     }
 
-    static TensorInfoImpl of(OnnxTensorElementDataType type, long elementCount, Arena arena) {
-        MemorySegment shapeData = arena.allocateFrom(C_LONG, new long[] {elementCount});
-        return new TensorInfoImpl(type, shapeData, 1, elementCount);
+    TensorInfoImpl(OnnxTensorElementDataType type, List<Long> shape) {
+        this.type = type;
+        this.shape = Collections.unmodifiableList(shape);
+        int size = shape.size();
+        long elementCount = 1;
+        for (int i = 0; i < size; i++) {
+            long dim = shape.get(i);
+            if (dim <= 0) {
+                throw new IllegalArgumentException("Invalid shape: dimension must be greater than zero");
+            }
+            elementCount *= dim;
+        }
+        this.shapeData = null;
+        this.elementCount = elementCount;
+    }
+
+    TensorInfoImpl(OnnxTensorElementDataType type, long size) {
+        this(type, Collections.singletonList(size));
+    }
+
+    MemorySegment getShapeData(Arena arena) {
+        if (shapeData != null) {
+            return shapeData;
+        }
+        int size = shape.size();
+        MemorySegment out = arena.allocate(C_LONG, size);
+        for (int i = 0; i < size; i++) {
+            out.setAtIndex(C_LONG, i, shape.get(i));
+        }
+        return out;
     }
 
     @Override
@@ -60,6 +86,20 @@ final class TensorInfoImpl implements TensorInfo {
     public long getByteCount() {
         // TODO: handle missing valueLayout
         return elementCount * type.getValueLayout().byteSize();
+    }
+
+    @Override
+    public boolean isDynamicShape() {
+        int dims = shape.size();
+        if (dims == 0) {
+            return true;
+        }
+        for (int i = 0; i < dims; i++) {
+            if (shape.get(i) < 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     final OnnxTensorImpl newValue(ValueContext valueContext, MemorySegment ortValueAddress) {

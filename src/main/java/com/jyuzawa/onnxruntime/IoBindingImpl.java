@@ -18,7 +18,6 @@ final class IoBindingImpl implements IoBinding {
     private final MemorySegment runOptions;
     private final NamedCollectionImpl<OnnxValue> inputs;
     private final NamedCollectionImpl<OnnxValue> outputs;
-    private final List<Runnable> closeables;
     private final MemorySegment session;
 
     IoBindingImpl(Builder builder) {
@@ -26,8 +25,9 @@ final class IoBindingImpl implements IoBinding {
         this.arena = Arena.ofShared();
         this.api = builder.api;
         this.session = builder.session.address();
-        this.ioBinding = builder.api.create(arena, out -> builder.api.CreateIoBinding.apply(session, out));
-        this.runOptions = api.create(arena, out -> api.CreateRunOptions.apply(out));
+        this.ioBinding = builder.api.create(
+                arena, out -> builder.api.CreateIoBinding.apply(session, out), api.ReleaseIoBinding::apply);
+        this.runOptions = api.create(arena, out -> api.CreateRunOptions.apply(out), api.ReleaseRunOptions::apply);
         Map<String, String> config = builder.config;
         if (config != null && !config.isEmpty()) {
             for (Map.Entry<String, String> entry : config.entrySet()) {
@@ -37,13 +37,8 @@ final class IoBindingImpl implements IoBinding {
         }
         List<NodeInfoImpl> rawInputs = builder.inputs;
         List<NodeInfoImpl> rawOutputs = builder.outputs;
-        this.closeables = new ArrayList<>(rawInputs.size() + rawOutputs.size());
         ValueContext valueContext = new ValueContext(
-                builder.api,
-                arena,
-                builder.session.environment.ortAllocator,
-                builder.session.environment.memoryInfo,
-                closeables);
+                builder.api, builder.session.environment.ortAllocator, builder.session.environment.memoryInfo, false);
         this.inputs = add(rawInputs, valueContext, api, ioBinding, true);
         this.outputs = add(rawOutputs, valueContext, api, ioBinding, false);
     }
@@ -57,8 +52,7 @@ final class IoBindingImpl implements IoBinding {
         LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(nodes.size());
         for (NodeInfoImpl node : nodes) {
             OnnxValueImpl output = node.getTypeInfo().newValue(valueContext, null);
-            MemorySegment valueAddress = output.toNative();
-            valueContext.closeables().add(() -> api.ReleaseValue.apply(valueAddress));
+            MemorySegment valueAddress = output.getNative();
             out.put(node.getName(), output);
             final MemorySegment result;
             if (isInput) {
@@ -73,10 +67,13 @@ final class IoBindingImpl implements IoBinding {
 
     @Override
     public void close() {
-        api.ReleaseIoBinding.apply(ioBinding);
-        api.ReleaseRunOptions.apply(runOptions);
-        for (Runnable closeable : closeables) {
-            closeable.run();
+        int numInputs = inputs.size();
+        for (int i = 0; i < numInputs; i++) {
+            ((OnnxValueImpl) inputs.get(i)).dispose();
+        }
+        int numOutputs = outputs.size();
+        for (int i = 0; i < numOutputs; i++) {
+            ((OnnxValueImpl) outputs.get(i)).dispose();
         }
         arena.close();
     }

@@ -3,7 +3,8 @@
 # TODO: enable jextract
 # GENERATED_DIR=build/generated/source/jextract
 GENERATED_DIR=src/main/java
-HEADER_DIR=build/onnxruntime-${ORT_VERSION}/headers
+HEADER_DIR=build/jextract-headers
+rm -rf ${HEADER_DIR}
 mkdir -p ${HEADER_DIR}
 cp build/onnxruntime-${ORT_VERSION}/osx-aarch_64/include/*.h ${HEADER_DIR}
 cp build/onnxruntime-${ORT_VERSION}/linux-x86_64-gpu/include/*.h ${HEADER_DIR}
@@ -20,4 +21,5 @@ docker run --rm -v `pwd`:/workdir onnxruntime-jextract --use-system-load-library
 RUNTIME_HELPER=${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java
 grep -v "System.loadLibrary" < ${RUNTIME_HELPER} > ${RUNTIME_HELPER}.bak
 mv ${RUNTIME_HELPER}.bak ${RUNTIME_HELPER}
- 
+# windows is weird with longs
+sed -i '' -e 's/"long"/System.getProperty("os.name").contains("indows") ? "long long" : "long"/g' "${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h\$shared.java"

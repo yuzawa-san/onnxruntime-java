@@ -30,8 +30,7 @@ enum OnnxRuntimeImpl implements OnnxRuntime {
         }
         this.version = OrtApiBase.GetVersionString.invoke(OrtApiBase.GetVersionString(segment))
                 .getString(0);
-        MemorySegment apiSegment = OrtApiBase.GetApi.invoke(OrtApiBase.GetApi(segment), ORT_API_VERSION());
-        this.api = new ApiImpl(apiSegment);
+        this.api = new ApiImpl(apiAddress);
         System.getLogger(OnnxRuntimeImpl.class.getName())
                 .log(
                         Level.DEBUG,

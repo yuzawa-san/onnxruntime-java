@@ -220,6 +220,22 @@ public interface Session extends AutoCloseable {
         Builder addCustomOpsLibrary(Path path);
 
         /**
+         * Specify proper sizes for dimensions with dim_param on this session.
+         * @param symbolicDimensionsMap a mapping of dim_param to concrete size
+         * @return the builder
+         * @since 2.1.0
+         */
+        Builder setFreeDimensionOverrideByName(Map<String, Integer> symbolicDimensionsMap);
+
+        /**
+         * Specify proper sizes for dimensions with denotation on this session.
+         * @param denotationsMap a mapping of dim_param to concrete size
+         * @return the builder
+         * @since 2.1.0
+         */
+        Builder setFreeDimensionOverride(Map<String, Integer> denotationsMap);
+
+        /**
          * Construct a {@link Session}.
          * @return a new instance
          * @throws IOException
