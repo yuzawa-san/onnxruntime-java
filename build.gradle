@@ -89,10 +89,8 @@ description = "A Java binding of Microsoft's ONNX Runtime project."
 
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
-def ORT_BASELINE = project.findProperty('com.jyuzawa.onnxruntime.library_baseline')
-// NOTE: if the baseline is a snapshot then the other artifacts need to be snapshots in order to be uploaded
-def ORT_JAR_VERSION = ORT_BASELINE.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
-// NOTE: publish tasks are: publishOnnxruntimeCpuPublicationToMavenRepository publishOnnxruntimeGpuPublicationToMavenRepository
+// NOTE: if the version is a snapshot, the ort upload
+def ORT_JAR_VERSION = version.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
 
 def gitVersionProvider = providers.exec {
 	commandLine 'git', 'rev-parse', 'HEAD'
@@ -238,16 +236,11 @@ configurations {
 components.java {
 }
 
-def makePom(node, artifactId, osArches, theVersion, theBaseline) {
-	def parentNode = node.appendNode('parent')
-	parentNode.appendNode('groupId', project.group)
-	parentNode.appendNode('artifactId', project.name)
-	parentNode.appendNode('version', theBaseline)
+project.group = "com.jyuzawa"
+def REPO = "yuzawa-san/onnxruntime-java"
+
+def addPomDependencies(node, artifactId, osArches, theVersion) {
 	def dependenciesNode = node.appendNode('dependencies')
-	def mainDependency = dependenciesNode.appendNode('dependency')
-	mainDependency.appendNode('groupId', project.group)
-	mainDependency.appendNode('artifactId', project.name)
-	mainDependency.appendNode('version', theBaseline)
 	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
 		dependency.appendNode('groupId', project.group)
@@ -257,8 +250,35 @@ def makePom(node, artifactId, osArches, theVersion, theBaseline) {
 	}
 }
 
-project.group = "com.jyuzawa"
-def REPO = "yuzawa-san/onnxruntime-java"
+def generatePom = { pom ->
+	pom.name = 'ONNX Runtime for Java'
+	pom.inceptionYear = '2022'
+	pom.description = project.description
+	pom.url = "https://github.com/${REPO}"
+	pom.issueManagement {
+		url = "https://github.com/${REPO}/issues"
+		system = "GitHub Issues"
+	}
+	pom.licenses {
+		license {
+			name = 'MIT License'
+			url = 'https://opensource.org/licenses/MIT'
+			distribution = 'repo'
+		}
+	}
+	pom.developers {
+		developer {
+			id = 'yuzawa-san'
+			name = 'James Yuzawa'
+			email = 'jtyuzawa+onnxruntime-java@gmail.com'
+		}
+	}
+	pom.scm {
+		connection = "scm:git:git://github.com/${REPO}.git"
+		developerConnection = "scm:git:git@github.com:${REPO}.git"
+		url = "https://github.com/${REPO}"
+	}
+}
 
 nexusPublishing {
 	repositories {
@@ -276,94 +296,41 @@ publishing {
 		onnxruntimeCpu(MavenPublication) {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-cpu"
-			// NOTE: sonatype does not believe in our parent artifact
-			// TODO: DRY
-			pom {
-				name = 'ONNX Runtime for Java'
-				inceptionYear = '2022'
-				description = project.description
-				url = "https://github.com/${REPO}"
-				issueManagement {
-					url = "https://github.com/${REPO}/issues"
-					system = "GitHub Issues"
-				}
-				licenses {
-					license {
-						name = 'MIT License'
-						url = 'https://opensource.org/licenses/MIT'
-						distribution = 'repo'
-					}
-				}
-				developers {
-					developer {
-						id = 'yuzawa-san'
-						name = 'James Yuzawa'
-						email = 'jtyuzawa+onnxruntime-java@gmail.com'
-					}
-				}
-				scm {
-					connection = "scm:git:git://github.com/${REPO}.git"
-					developerConnection = "scm:git:git@github.com:${REPO}.git"
-					url = "https://github.com/${REPO}"
-				}
-			}
+			pom(generatePom)
 			pom.withXml {
-				makePom(asNode(), artifactId, cpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
+				addPomDependencies(asNode(), artifactId, cpuOsArches, ORT_JAR_VERSION)
 			}
 			artifact tasks.named("cpuJar")
 			cpuOsArches.each {
 				artifact tasks.named("osArchJar${it}")
 			}
 		}
-		/*
 		onnxruntimeGpu(MavenPublication) {
 			version = ORT_JAR_VERSION
 			artifactId = "${rootProject.name}-gpu"
+			pom(generatePom)
 			pom.withXml {
-				makePom(asNode(), artifactId, gpuOsArches, ORT_JAR_VERSION, ORT_BASELINE)
+				addPomDependencies(asNode(), artifactId, gpuOsArches, ORT_JAR_VERSION)
 			}
 			artifact tasks.named("gpuJar")
 			gpuOsArches.each {
 				artifact tasks.named("osArchJar${it}")
 			}
 		}
-		*/
 		onnxruntime(MavenPublication) {
 			from components.java
-			pom {
-				name = 'ONNX Runtime for Java'
-				inceptionYear = '2022'
-				description = project.description
-				url = "https://github.com/${REPO}"
-				issueManagement {
-					url = "https://github.com/${REPO}/issues"
-					system = "GitHub Issues"
-				}
-				licenses {
-					license {
-						name = 'MIT License'
-						url = 'https://opensource.org/licenses/MIT'
-						distribution = 'repo'
-					}
-				}
-				developers {
-					developer {
-						id = 'yuzawa-san'
-						name = 'James Yuzawa'
-						email = 'jtyuzawa+onnxruntime-java@gmail.com'
-					}
-				}
-				scm {
-					connection = "scm:git:git://github.com/${REPO}.git"
-					developerConnection = "scm:git:git@github.com:${REPO}.git"
-					url = "https://github.com/${REPO}"
-				}
-			}
+			pom(generatePom)
 		}
 	}
 }
 
 signing {
+	def signingKeyId = findProperty("signingKeyId")
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	if (signingKey != null) {
+		useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+	}
 	sign publishing.publications
 }
 
