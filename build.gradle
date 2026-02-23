@@ -89,8 +89,6 @@ description = "A Java binding of Microsoft's ONNX Runtime project."
 
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
 def ORT_VERSION = project.findProperty('com.jyuzawa.onnxruntime.library_version')
-// NOTE: if the version is a snapshot, the ort upload
-def ORT_JAR_VERSION = version.endsWith('-SNAPSHOT') ? "${ORT_VERSION}-SNAPSHOT" : ORT_VERSION
 
 def gitVersionProvider = providers.exec {
 	commandLine 'git', 'rev-parse', 'HEAD'
@@ -142,7 +140,7 @@ allArches.each { osArch ->
 		from tasks.named("copy${osArch}")
 		archiveBaseName = osArch.endsWith("-gpu") ? "onnxruntime-gpu" : "onnxruntime-cpu"
 		archiveClassifier = osArch.replace("-gpu","")
-		archiveVersion = ORT_JAR_VERSION
+		archiveVersion = ORT_VERSION
 		doFirst {
 			manifest {
 				attributes(jarAttributes)
@@ -158,7 +156,7 @@ allArches.each { osArch ->
 
 task "cpuJar" (type: Jar) {
 	archiveBaseName = "onnxruntime-cpu"
-	archiveVersion = ORT_JAR_VERSION
+	archiveVersion = ORT_VERSION
 	doFirst {
 		manifest {
 			attributes(jarAttributes)
@@ -168,7 +166,7 @@ task "cpuJar" (type: Jar) {
 
 task "gpuJar" (type: Jar) {
 	archiveBaseName = "onnxruntime-gpu"
-	archiveVersion = ORT_JAR_VERSION
+	archiveVersion = ORT_VERSION
 	doFirst {
 		manifest {
 			attributes(jarAttributes)
@@ -250,10 +248,8 @@ def addPomDependencies(node, artifactId, osArches, theVersion) {
 	}
 }
 
-def generatePom = { pom ->
-	pom.name = 'ONNX Runtime for Java'
+def generateCommonPom = { pom ->
 	pom.inceptionYear = '2022'
-	pom.description = project.description
 	pom.url = "https://github.com/${REPO}"
 	pom.issueManagement {
 		url = "https://github.com/${REPO}/issues"
@@ -294,11 +290,15 @@ nexusPublishing {
 publishing {
 	publications {
 		onnxruntimeCpu(MavenPublication) {
-			version = ORT_JAR_VERSION
+			version = ORT_VERSION
 			artifactId = "${rootProject.name}-cpu"
-			pom(generatePom)
+			pom {
+				name = 'ONNX Runtime for Java: CPU'
+				description = 'The native libraries with basic CPU support for common architectures and platforms.'
+			}
+			pom(generateCommonPom)
 			pom.withXml {
-				addPomDependencies(asNode(), artifactId, cpuOsArches, ORT_JAR_VERSION)
+				addPomDependencies(asNode(), artifactId, cpuOsArches, ORT_VERSION)
 			}
 			artifact tasks.named("cpuJar")
 			cpuOsArches.each {
@@ -306,11 +306,15 @@ publishing {
 			}
 		}
 		onnxruntimeGpu(MavenPublication) {
-			version = ORT_JAR_VERSION
+			version = ORT_VERSION
 			artifactId = "${rootProject.name}-gpu"
-			pom(generatePom)
+			pom {
+				name = 'ONNX Runtime for Java: GPU'
+				description = 'The native libraries with CUDA GPU support for common architectures and platforms.'
+			}
+			pom(generateCommonPom)
 			pom.withXml {
-				addPomDependencies(asNode(), artifactId, gpuOsArches, ORT_JAR_VERSION)
+				addPomDependencies(asNode(), artifactId, gpuOsArches, ORT_VERSION)
 			}
 			artifact tasks.named("gpuJar")
 			gpuOsArches.each {
@@ -319,7 +323,11 @@ publishing {
 		}
 		onnxruntime(MavenPublication) {
 			from components.java
-			pom(generatePom)
+			pom {
+				name = 'ONNX Runtime for Java'
+				description = project.description
+			}
+			pom(generateCommonPom)
 		}
 	}
 }
