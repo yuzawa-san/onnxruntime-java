@@ -47,7 +47,10 @@ jobs:
             exit 0
           fi
           BRANCH=ort/$NEW_VERSION
-          git checkout $BRANCH || exit 0
+          if git checkout $BRANCH ; then
+            echo "::notice::branch $BRANCH already exists"
+            exit 0
+          fi
           git checkout -b $BRANCH
           echo $NEW_VERSION > ORT_VERSION
           git config --global user.name "github-actions[bot]"
