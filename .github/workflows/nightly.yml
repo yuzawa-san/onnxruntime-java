@@ -1,0 +1,68 @@
+name: nightly
+
+on:
+  schedule:
+    - cron: '23 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+    name: Nightly Checks
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+      - uses: gradle/actions/wrapper-validation@v5
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: oracle
+          java-version: 25
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+      # TODO: make conditional upon changes happening in the last 24 hours
+      # - name: Build with Gradle
+      #   env:
+      #     BLAH: blah
+      #   run: |
+      #     ./gradlew --no-daemon -s publishOnnxruntimePublicationToSonatypeRepository
+      - name: Check upstream project for upgrades
+        id: update_check
+        run: |
+          OLD_VERSION=$(cat ORT_VERSION)
+          NEW_VERSION=$(curl -s https://api.github.com/repos/microsoft/onnxruntime/tags | jq -r ".[0].name" | sed 's/^v//g')
+          echo "old: $OLD_VERSION"
+          echo "new: $NEW_VERSION"
+          if [ "$OLD_VERSION" = "$NEW_VERSION" ]; then
+            echo "::notice::up to date with upstream"
+            exit 0
+          fi
+          BRANCH=ort/$NEW_VERSION
+          git checkout -b $BRANCH
+          if [ $? -ne 0 ]; then
+             echo "::notice::branch $BRANCH already exists"
+             exit 0
+          fi
+          echo $NEW_VERSION > ORT_VERSION
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "ORT v$NEW_VERSION bump"
+          git push origin $BRANCH
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v8
+        if: ${{ steps.update_check.new_version }}
+        with:
+          branch: ${{ steps.update_check.branch }}
+          delete-branch: true
+          title: 'Upgrade onnxruntime to ${{ steps.update_check.new_version }}'
+          body: |
+            This is an automated PR to bump to version ${{ steps.update_check.new_version }} of the upstream project.
+          labels: |
+            upstream_upgrade
