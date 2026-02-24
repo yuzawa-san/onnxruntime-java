@@ -63,6 +63,7 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         if: ${{ steps.update_check.outputs.new_version }}
         with:
+          base: master
           branch: ${{ steps.update_check.outputs.branch }}
           delete-branch: true
           title: 'Upgrade onnxruntime to ${{ steps.update_check.outputs.new_version }}'
