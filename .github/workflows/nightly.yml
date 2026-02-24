@@ -47,13 +47,12 @@ jobs:
             exit 0
           fi
           BRANCH=ort/$NEW_VERSION
-          git pull
-          git log -1
-          git checkout -b $BRANCH
-          if [ $? -ne 0 ]; then
+          git checkout $BRANCH
+          if [ $? -eq 0 ]; then
              echo "::notice::branch $BRANCH already exists"
              exit 0
           fi
+          git checkout -b $BRANCH
           echo $NEW_VERSION > ORT_VERSION
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
