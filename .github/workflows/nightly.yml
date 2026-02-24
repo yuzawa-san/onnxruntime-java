@@ -61,12 +61,12 @@ jobs:
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
-        if: ${{ steps.update_check.new_version }}
+        if: ${{ steps.update_check.outputs.new_version }}
         with:
-          branch: ${{ steps.update_check.branch }}
+          branch: ${{ steps.update_check.outputs.branch }}
           delete-branch: true
-          title: 'Upgrade onnxruntime to ${{ steps.update_check.new_version }}'
+          title: 'Upgrade onnxruntime to ${{ steps.update_check.outputs.new_version }}'
           body: |
-            This is an automated PR to bump to version ${{ steps.update_check.new_version }} of the upstream project.
+            This is an automated PR to bump to version ${{ steps.update_check.outputs.new_version }} of the upstream project.
           labels: |
             upstream_upgrade
