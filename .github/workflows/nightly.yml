@@ -47,6 +47,8 @@ jobs:
             exit 0
           fi
           BRANCH=ort/$NEW_VERSION
+          git pull
+          git log -1
           git checkout -b $BRANCH
           if [ $? -ne 0 ]; then
              echo "::notice::branch $BRANCH already exists"
