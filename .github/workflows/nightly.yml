@@ -51,6 +51,7 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         if: ${{ steps.update_check.outputs.new_version }}
         with:
+          token: ${{ secrets.GHA_PR_TOKEN }}
           branch: ort/${{ steps.update_check.outputs.new_version }}
           delete-branch: true
           commit-message: "ORT v${{ steps.update_check.outputs.new_version }} bump"
