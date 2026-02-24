@@ -1,4 +1,4 @@
-name: nightly
+name: Nightly Checks
 
 on:
   schedule:
