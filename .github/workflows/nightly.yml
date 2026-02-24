@@ -57,8 +57,6 @@ jobs:
           commit-message: "ORT v${{ steps.update_check.outputs.new_version }} bump"
           add-paths: |
             ORT_VERSION
-          sign-commits: true
-          draft: always-true
           title: 'Upgrade onnxruntime to ${{ steps.update_check.outputs.new_version }}'
           body: |
             This is an automated PR to bump to version ${{ steps.update_check.outputs.new_version }} of the upstream project.
