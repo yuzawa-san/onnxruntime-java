@@ -16,7 +16,6 @@ jobs:
       - uses: actions/checkout@v6
         with:
           ref: master
-          fetch-depth: 0
       - uses: gradle/actions/wrapper-validation@v5
       - name: Set up JDK
         uses: actions/setup-java@v5
@@ -46,26 +45,18 @@ jobs:
             echo "::notice::up to date with upstream"
             exit 0
           fi
-          BRANCH=ort/$NEW_VERSION
-          if git checkout $BRANCH ; then
-            echo "::notice::branch $BRANCH already exists"
-            exit 0
-          fi
-          git checkout -b $BRANCH
           echo $NEW_VERSION > ORT_VERSION
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "ORT v$NEW_VERSION bump"
-          git push origin $BRANCH
-          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         if: ${{ steps.update_check.outputs.new_version }}
         with:
-          base: master
-          branch: ${{ steps.update_check.outputs.branch }}
+          branch: ort/${{ steps.update_check.outputs.branch }}
           delete-branch: true
+          commit-message: "ORT v${{ steps.update_check.outputs.new_version }} bump"
+          add-paths: |
+            ORT_VERSION
+          sign-commits: true
           title: 'Upgrade onnxruntime to ${{ steps.update_check.outputs.new_version }}'
           body: |
             This is an automated PR to bump to version ${{ steps.update_check.outputs.new_version }} of the upstream project.
