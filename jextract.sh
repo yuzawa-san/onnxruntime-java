@@ -12,10 +12,8 @@ HEADER_FILE=onnxruntime_all.h
 rm -rf 'symbols.conf' 'src/main/java/com/jyuzawa/onnxruntime_extern'
 jextract --use-system-load-library --output ${GENERATED_DIR} -l onnxruntime --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I ${HEADER_DIR} --dump-includes symbols.conf ${HEADER_FILE}
 # strip out the irrelevant symbols
-csplit symbols.conf "/headers/"
-rm xx00
-mv xx01 symbols.conf
-jextract --use-system-load-library --output ${GENERATED_DIR} -l onnxruntime --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I ${HEADER_DIR} @symbols.conf ${HEADER_FILE}
+grep jextract-headers symbols.conf > symbols-filtered.conf
+jextract --use-system-load-library --output ${GENERATED_DIR} -l onnxruntime --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I ${HEADER_DIR} @symbols-filtered.conf ${HEADER_FILE}
 # strip out loads since we'll manage load
 RUNTIME_HELPER=${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h.java
 grep -v "System.loadLibrary" < ${RUNTIME_HELPER} > ${RUNTIME_HELPER}.bak
