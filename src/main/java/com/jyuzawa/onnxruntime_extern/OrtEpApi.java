@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 James Yuzawa (https://www.jyuzawa.com/)
+ * Copyright (c) 2026 James Yuzawa (https://www.jyuzawa.com/)
  * SPDX-License-Identifier: MIT
  */
 package com.jyuzawa.onnxruntime_extern;
@@ -32,6 +32,40 @@ import java.util.stream.*;
  *     const OrtSyncStreamImpl *(*SyncStream_GetImpl)(const OrtSyncStream *);
  *     uint64_t (*SyncStream_GetSyncId)(const OrtSyncStream *);
  *     uint64_t (*GetSyncIdForLastWaitOnSyncStream)(const OrtSyncStream *, const OrtSyncStream *);
+ *     OrtStatusPtr (*CreateHardwareDevice)(OrtHardwareDeviceType, uint32_t, uint32_t, const char *, const OrtKeyValuePairs *, OrtHardwareDevice **);
+ *     void (*ReleaseHardwareDevice)(OrtHardwareDevice *);
+ *     OrtStatusPtr (*CreateKernelRegistry)(OrtKernelRegistry **);
+ *     void (*ReleaseKernelRegistry)(OrtKernelRegistry *);
+ *     OrtStatusPtr (*KernelRegistry_AddKernel)(OrtKernelRegistry *, const OrtKernelDef *, OrtKernelCreateFunc, void *);
+ *     OrtStatusPtr (*CreateKernelDefBuilder)(OrtKernelDefBuilder **);
+ *     void (*ReleaseKernelDefBuilder)(OrtKernelDefBuilder *);
+ *     OrtStatusPtr (*KernelDefBuilder_SetOperatorType)(OrtKernelDefBuilder *, const char *);
+ *     OrtStatusPtr (*KernelDefBuilder_SetDomain)(OrtKernelDefBuilder *, const char *);
+ *     OrtStatusPtr (*KernelDefBuilder_SetSinceVersion)(OrtKernelDefBuilder *, int, int);
+ *     OrtStatusPtr (*KernelDefBuilder_SetExecutionProvider)(OrtKernelDefBuilder *, const char *);
+ *     OrtStatusPtr (*KernelDefBuilder_SetInputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType);
+ *     OrtStatusPtr (*KernelDefBuilder_SetOutputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType);
+ *     OrtStatusPtr (*KernelDefBuilder_AddTypeConstraint)(OrtKernelDefBuilder *, const char *, const OrtDataType *const *, size_t);
+ *     OrtStatusPtr (*KernelDefBuilder_AddInputOutputAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t);
+ *     OrtStatusPtr (*KernelDefBuilder_AddInputOutputMutableAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t);
+ *     OrtStatusPtr (*KernelDefBuilder_Build)(OrtKernelDefBuilder *, OrtKernelDef **);
+ *     void (*ReleaseKernelDef)(OrtKernelDef *);
+ *     const char *(*KernelDef_GetOperatorType)(const OrtKernelDef *);
+ *     const char *(*KernelDef_GetDomain)(const OrtKernelDef *);
+ *     OrtStatusPtr (*KernelDef_GetSinceVersion)(const OrtKernelDef *, int *, int *);
+ *     const char *(*KernelDef_GetExecutionProvider)(const OrtKernelDef *);
+ *     OrtStatusPtr (*KernelDef_GetInputMemType)(const OrtKernelDef *, size_t, OrtMemType *);
+ *     OrtStatusPtr (*KernelDef_GetOutputMemType)(const OrtKernelDef *, size_t, OrtMemType *);
+ *     OrtStatusPtr (*GetTensorDataType)(ONNXTensorElementDataType, const OrtDataType **);
+ *     OrtStatusPtr (*EpGraphSupportInfo_LookUpKernel)(OrtEpGraphSupportInfo *, const OrtNode *, const OrtKernelDef **);
+ *     OrtStatusPtr (*SharedPrePackedWeightCache_StoreWeightData)(OrtSharedPrePackedWeightCache *, void **, size_t *, size_t);
+ *     OrtStatusPtr (*KernelInfo_GetEp)(const OrtKernelInfo *, const OrtEp **);
+ *     OrtStatusPtr (*DeviceEpIncompatibilityDetails_SetDetails)(OrtDeviceEpIncompatibilityDetails *, uint32_t, int32_t, const char *);
+ *     OrtStatusPtr (*CreateIfKernel)(const OrtKernelInfo *, OrtKernelImpl **);
+ *     OrtStatusPtr (*CreateLoopKernel)(const OrtKernelInfo *, OrtLoopKernelHelper *, OrtKernelImpl **);
+ *     OrtStatusPtr (*CreateScanKernel)(const OrtKernelInfo *, OrtScanKernelHelper *, OrtKernelImpl **);
+ *     void (*ReleaseKernelImpl)(OrtKernelImpl *);
+ *     OrtStatusPtr (*GetEnvConfigEntries)(OrtKeyValuePairs **);
  * }
  * }
  */
@@ -57,7 +91,41 @@ public class OrtEpApi {
                     onnxruntime_all_h.C_POINTER.withName("MemoryDevice_GetDeviceId"),
                     onnxruntime_all_h.C_POINTER.withName("SyncStream_GetImpl"),
                     onnxruntime_all_h.C_POINTER.withName("SyncStream_GetSyncId"),
-                    onnxruntime_all_h.C_POINTER.withName("GetSyncIdForLastWaitOnSyncStream"))
+                    onnxruntime_all_h.C_POINTER.withName("GetSyncIdForLastWaitOnSyncStream"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateHardwareDevice"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseHardwareDevice"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateKernelRegistry"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseKernelRegistry"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelRegistry_AddKernel"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateKernelDefBuilder"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseKernelDefBuilder"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_SetOperatorType"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_SetDomain"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_SetSinceVersion"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_SetExecutionProvider"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_SetInputMemType"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_SetOutputMemType"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_AddTypeConstraint"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_AddInputOutputAliases"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_AddInputOutputMutableAliases"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDefBuilder_Build"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseKernelDef"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDef_GetOperatorType"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDef_GetDomain"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDef_GetSinceVersion"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDef_GetExecutionProvider"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDef_GetInputMemType"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelDef_GetOutputMemType"),
+                    onnxruntime_all_h.C_POINTER.withName("GetTensorDataType"),
+                    onnxruntime_all_h.C_POINTER.withName("EpGraphSupportInfo_LookUpKernel"),
+                    onnxruntime_all_h.C_POINTER.withName("SharedPrePackedWeightCache_StoreWeightData"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelInfo_GetEp"),
+                    onnxruntime_all_h.C_POINTER.withName("DeviceEpIncompatibilityDetails_SetDetails"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateIfKernel"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateLoopKernel"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateScanKernel"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseKernelImpl"),
+                    onnxruntime_all_h.C_POINTER.withName("GetEnvConfigEntries"))
             .withName("OrtEpApi");
 
     /**
@@ -1691,6 +1759,3513 @@ public class OrtEpApi {
      */
     public static void GetSyncIdForLastWaitOnSyncStream(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetSyncIdForLastWaitOnSyncStream$LAYOUT, GetSyncIdForLastWaitOnSyncStream$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateHardwareDevice)(OrtHardwareDeviceType, uint32_t, uint32_t, const char *, const OrtKeyValuePairs *, OrtHardwareDevice **)
+     * }
+     */
+    public static final class CreateHardwareDevice {
+
+        private CreateHardwareDevice() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(int _x0, int _x1, int _x2, MemorySegment _x3, MemorySegment _x4, MemorySegment _x5);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateHardwareDevice.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateHardwareDevice.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                int _x0,
+                int _x1,
+                int _x2,
+                MemorySegment _x3,
+                MemorySegment _x4,
+                MemorySegment _x5) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateHardwareDevice$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateHardwareDevice"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateHardwareDevice)(OrtHardwareDeviceType, uint32_t, uint32_t, const char *, const OrtKeyValuePairs *, OrtHardwareDevice **)
+     * }
+     */
+    public static final AddressLayout CreateHardwareDevice$layout() {
+        return CreateHardwareDevice$LAYOUT;
+    }
+
+    private static final long CreateHardwareDevice$OFFSET = $LAYOUT.byteOffset(groupElement("CreateHardwareDevice"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateHardwareDevice)(OrtHardwareDeviceType, uint32_t, uint32_t, const char *, const OrtKeyValuePairs *, OrtHardwareDevice **)
+     * }
+     */
+    public static final long CreateHardwareDevice$offset() {
+        return CreateHardwareDevice$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateHardwareDevice)(OrtHardwareDeviceType, uint32_t, uint32_t, const char *, const OrtKeyValuePairs *, OrtHardwareDevice **)
+     * }
+     */
+    public static MemorySegment CreateHardwareDevice(MemorySegment struct) {
+        return struct.get(CreateHardwareDevice$LAYOUT, CreateHardwareDevice$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateHardwareDevice)(OrtHardwareDeviceType, uint32_t, uint32_t, const char *, const OrtKeyValuePairs *, OrtHardwareDevice **)
+     * }
+     */
+    public static void CreateHardwareDevice(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateHardwareDevice$LAYOUT, CreateHardwareDevice$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseHardwareDevice)(OrtHardwareDevice *)
+     * }
+     */
+    public static final class ReleaseHardwareDevice {
+
+        private ReleaseHardwareDevice() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseHardwareDevice.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseHardwareDevice.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseHardwareDevice$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseHardwareDevice"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseHardwareDevice)(OrtHardwareDevice *)
+     * }
+     */
+    public static final AddressLayout ReleaseHardwareDevice$layout() {
+        return ReleaseHardwareDevice$LAYOUT;
+    }
+
+    private static final long ReleaseHardwareDevice$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseHardwareDevice"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseHardwareDevice)(OrtHardwareDevice *)
+     * }
+     */
+    public static final long ReleaseHardwareDevice$offset() {
+        return ReleaseHardwareDevice$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseHardwareDevice)(OrtHardwareDevice *)
+     * }
+     */
+    public static MemorySegment ReleaseHardwareDevice(MemorySegment struct) {
+        return struct.get(ReleaseHardwareDevice$LAYOUT, ReleaseHardwareDevice$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseHardwareDevice)(OrtHardwareDevice *)
+     * }
+     */
+    public static void ReleaseHardwareDevice(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseHardwareDevice$LAYOUT, ReleaseHardwareDevice$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelRegistry)(OrtKernelRegistry **)
+     * }
+     */
+    public static final class CreateKernelRegistry {
+
+        private CreateKernelRegistry() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateKernelRegistry.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateKernelRegistry.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateKernelRegistry$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateKernelRegistry"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelRegistry)(OrtKernelRegistry **)
+     * }
+     */
+    public static final AddressLayout CreateKernelRegistry$layout() {
+        return CreateKernelRegistry$LAYOUT;
+    }
+
+    private static final long CreateKernelRegistry$OFFSET = $LAYOUT.byteOffset(groupElement("CreateKernelRegistry"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelRegistry)(OrtKernelRegistry **)
+     * }
+     */
+    public static final long CreateKernelRegistry$offset() {
+        return CreateKernelRegistry$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelRegistry)(OrtKernelRegistry **)
+     * }
+     */
+    public static MemorySegment CreateKernelRegistry(MemorySegment struct) {
+        return struct.get(CreateKernelRegistry$LAYOUT, CreateKernelRegistry$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelRegistry)(OrtKernelRegistry **)
+     * }
+     */
+    public static void CreateKernelRegistry(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateKernelRegistry$LAYOUT, CreateKernelRegistry$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseKernelRegistry)(OrtKernelRegistry *)
+     * }
+     */
+    public static final class ReleaseKernelRegistry {
+
+        private ReleaseKernelRegistry() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseKernelRegistry.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseKernelRegistry.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseKernelRegistry$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseKernelRegistry"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelRegistry)(OrtKernelRegistry *)
+     * }
+     */
+    public static final AddressLayout ReleaseKernelRegistry$layout() {
+        return ReleaseKernelRegistry$LAYOUT;
+    }
+
+    private static final long ReleaseKernelRegistry$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseKernelRegistry"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelRegistry)(OrtKernelRegistry *)
+     * }
+     */
+    public static final long ReleaseKernelRegistry$offset() {
+        return ReleaseKernelRegistry$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelRegistry)(OrtKernelRegistry *)
+     * }
+     */
+    public static MemorySegment ReleaseKernelRegistry(MemorySegment struct) {
+        return struct.get(ReleaseKernelRegistry$LAYOUT, ReleaseKernelRegistry$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelRegistry)(OrtKernelRegistry *)
+     * }
+     */
+    public static void ReleaseKernelRegistry(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseKernelRegistry$LAYOUT, ReleaseKernelRegistry$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelRegistry_AddKernel)(OrtKernelRegistry *, const OrtKernelDef *, OrtKernelCreateFunc, void *)
+     * }
+     */
+    public static final class KernelRegistry_AddKernel {
+
+        private KernelRegistry_AddKernel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelRegistry_AddKernel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelRegistry_AddKernel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelRegistry_AddKernel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelRegistry_AddKernel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelRegistry_AddKernel)(OrtKernelRegistry *, const OrtKernelDef *, OrtKernelCreateFunc, void *)
+     * }
+     */
+    public static final AddressLayout KernelRegistry_AddKernel$layout() {
+        return KernelRegistry_AddKernel$LAYOUT;
+    }
+
+    private static final long KernelRegistry_AddKernel$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelRegistry_AddKernel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelRegistry_AddKernel)(OrtKernelRegistry *, const OrtKernelDef *, OrtKernelCreateFunc, void *)
+     * }
+     */
+    public static final long KernelRegistry_AddKernel$offset() {
+        return KernelRegistry_AddKernel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelRegistry_AddKernel)(OrtKernelRegistry *, const OrtKernelDef *, OrtKernelCreateFunc, void *)
+     * }
+     */
+    public static MemorySegment KernelRegistry_AddKernel(MemorySegment struct) {
+        return struct.get(KernelRegistry_AddKernel$LAYOUT, KernelRegistry_AddKernel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelRegistry_AddKernel)(OrtKernelRegistry *, const OrtKernelDef *, OrtKernelCreateFunc, void *)
+     * }
+     */
+    public static void KernelRegistry_AddKernel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelRegistry_AddKernel$LAYOUT, KernelRegistry_AddKernel$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelDefBuilder)(OrtKernelDefBuilder **)
+     * }
+     */
+    public static final class CreateKernelDefBuilder {
+
+        private CreateKernelDefBuilder() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateKernelDefBuilder.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateKernelDefBuilder.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateKernelDefBuilder$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateKernelDefBuilder"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelDefBuilder)(OrtKernelDefBuilder **)
+     * }
+     */
+    public static final AddressLayout CreateKernelDefBuilder$layout() {
+        return CreateKernelDefBuilder$LAYOUT;
+    }
+
+    private static final long CreateKernelDefBuilder$OFFSET =
+            $LAYOUT.byteOffset(groupElement("CreateKernelDefBuilder"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelDefBuilder)(OrtKernelDefBuilder **)
+     * }
+     */
+    public static final long CreateKernelDefBuilder$offset() {
+        return CreateKernelDefBuilder$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelDefBuilder)(OrtKernelDefBuilder **)
+     * }
+     */
+    public static MemorySegment CreateKernelDefBuilder(MemorySegment struct) {
+        return struct.get(CreateKernelDefBuilder$LAYOUT, CreateKernelDefBuilder$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateKernelDefBuilder)(OrtKernelDefBuilder **)
+     * }
+     */
+    public static void CreateKernelDefBuilder(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateKernelDefBuilder$LAYOUT, CreateKernelDefBuilder$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDefBuilder)(OrtKernelDefBuilder *)
+     * }
+     */
+    public static final class ReleaseKernelDefBuilder {
+
+        private ReleaseKernelDefBuilder() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseKernelDefBuilder.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseKernelDefBuilder.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseKernelDefBuilder$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseKernelDefBuilder"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDefBuilder)(OrtKernelDefBuilder *)
+     * }
+     */
+    public static final AddressLayout ReleaseKernelDefBuilder$layout() {
+        return ReleaseKernelDefBuilder$LAYOUT;
+    }
+
+    private static final long ReleaseKernelDefBuilder$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ReleaseKernelDefBuilder"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDefBuilder)(OrtKernelDefBuilder *)
+     * }
+     */
+    public static final long ReleaseKernelDefBuilder$offset() {
+        return ReleaseKernelDefBuilder$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDefBuilder)(OrtKernelDefBuilder *)
+     * }
+     */
+    public static MemorySegment ReleaseKernelDefBuilder(MemorySegment struct) {
+        return struct.get(ReleaseKernelDefBuilder$LAYOUT, ReleaseKernelDefBuilder$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDefBuilder)(OrtKernelDefBuilder *)
+     * }
+     */
+    public static void ReleaseKernelDefBuilder(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseKernelDefBuilder$LAYOUT, ReleaseKernelDefBuilder$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOperatorType)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final class KernelDefBuilder_SetOperatorType {
+
+        private KernelDefBuilder_SetOperatorType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_SetOperatorType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_SetOperatorType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_SetOperatorType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_SetOperatorType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOperatorType)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_SetOperatorType$layout() {
+        return KernelDefBuilder_SetOperatorType$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_SetOperatorType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_SetOperatorType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOperatorType)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final long KernelDefBuilder_SetOperatorType$offset() {
+        return KernelDefBuilder_SetOperatorType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOperatorType)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_SetOperatorType(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_SetOperatorType$LAYOUT, KernelDefBuilder_SetOperatorType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOperatorType)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static void KernelDefBuilder_SetOperatorType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_SetOperatorType$LAYOUT, KernelDefBuilder_SetOperatorType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetDomain)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final class KernelDefBuilder_SetDomain {
+
+        private KernelDefBuilder_SetDomain() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_SetDomain.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_SetDomain.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_SetDomain$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_SetDomain"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetDomain)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_SetDomain$layout() {
+        return KernelDefBuilder_SetDomain$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_SetDomain$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_SetDomain"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetDomain)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final long KernelDefBuilder_SetDomain$offset() {
+        return KernelDefBuilder_SetDomain$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetDomain)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_SetDomain(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_SetDomain$LAYOUT, KernelDefBuilder_SetDomain$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetDomain)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static void KernelDefBuilder_SetDomain(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_SetDomain$LAYOUT, KernelDefBuilder_SetDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetSinceVersion)(OrtKernelDefBuilder *, int, int)
+     * }
+     */
+    public static final class KernelDefBuilder_SetSinceVersion {
+
+        private KernelDefBuilder_SetSinceVersion() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1, int _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_SetSinceVersion.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_SetSinceVersion.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1, int _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_SetSinceVersion$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_SetSinceVersion"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetSinceVersion)(OrtKernelDefBuilder *, int, int)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_SetSinceVersion$layout() {
+        return KernelDefBuilder_SetSinceVersion$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_SetSinceVersion$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_SetSinceVersion"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetSinceVersion)(OrtKernelDefBuilder *, int, int)
+     * }
+     */
+    public static final long KernelDefBuilder_SetSinceVersion$offset() {
+        return KernelDefBuilder_SetSinceVersion$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetSinceVersion)(OrtKernelDefBuilder *, int, int)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_SetSinceVersion(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_SetSinceVersion$LAYOUT, KernelDefBuilder_SetSinceVersion$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetSinceVersion)(OrtKernelDefBuilder *, int, int)
+     * }
+     */
+    public static void KernelDefBuilder_SetSinceVersion(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_SetSinceVersion$LAYOUT, KernelDefBuilder_SetSinceVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetExecutionProvider)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final class KernelDefBuilder_SetExecutionProvider {
+
+        private KernelDefBuilder_SetExecutionProvider() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_SetExecutionProvider.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_SetExecutionProvider.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_SetExecutionProvider$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_SetExecutionProvider"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetExecutionProvider)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_SetExecutionProvider$layout() {
+        return KernelDefBuilder_SetExecutionProvider$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_SetExecutionProvider$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_SetExecutionProvider"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetExecutionProvider)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static final long KernelDefBuilder_SetExecutionProvider$offset() {
+        return KernelDefBuilder_SetExecutionProvider$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetExecutionProvider)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_SetExecutionProvider(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_SetExecutionProvider$LAYOUT, KernelDefBuilder_SetExecutionProvider$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetExecutionProvider)(OrtKernelDefBuilder *, const char *)
+     * }
+     */
+    public static void KernelDefBuilder_SetExecutionProvider(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                KernelDefBuilder_SetExecutionProvider$LAYOUT, KernelDefBuilder_SetExecutionProvider$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetInputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static final class KernelDefBuilder_SetInputMemType {
+
+        private KernelDefBuilder_SetInputMemType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, int _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_SetInputMemType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_SetInputMemType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, int _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_SetInputMemType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_SetInputMemType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetInputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_SetInputMemType$layout() {
+        return KernelDefBuilder_SetInputMemType$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_SetInputMemType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_SetInputMemType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetInputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static final long KernelDefBuilder_SetInputMemType$offset() {
+        return KernelDefBuilder_SetInputMemType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetInputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_SetInputMemType(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_SetInputMemType$LAYOUT, KernelDefBuilder_SetInputMemType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetInputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static void KernelDefBuilder_SetInputMemType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_SetInputMemType$LAYOUT, KernelDefBuilder_SetInputMemType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOutputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static final class KernelDefBuilder_SetOutputMemType {
+
+        private KernelDefBuilder_SetOutputMemType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, int _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_SetOutputMemType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_SetOutputMemType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, int _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_SetOutputMemType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_SetOutputMemType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOutputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_SetOutputMemType$layout() {
+        return KernelDefBuilder_SetOutputMemType$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_SetOutputMemType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_SetOutputMemType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOutputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static final long KernelDefBuilder_SetOutputMemType$offset() {
+        return KernelDefBuilder_SetOutputMemType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOutputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_SetOutputMemType(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_SetOutputMemType$LAYOUT, KernelDefBuilder_SetOutputMemType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_SetOutputMemType)(OrtKernelDefBuilder *, size_t, OrtMemType)
+     * }
+     */
+    public static void KernelDefBuilder_SetOutputMemType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_SetOutputMemType$LAYOUT, KernelDefBuilder_SetOutputMemType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddTypeConstraint)(OrtKernelDefBuilder *, const char *, const OrtDataType *const *, size_t)
+     * }
+     */
+    public static final class KernelDefBuilder_AddTypeConstraint {
+
+        private KernelDefBuilder_AddTypeConstraint() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_AddTypeConstraint.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_AddTypeConstraint.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_AddTypeConstraint$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_AddTypeConstraint"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddTypeConstraint)(OrtKernelDefBuilder *, const char *, const OrtDataType *const *, size_t)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_AddTypeConstraint$layout() {
+        return KernelDefBuilder_AddTypeConstraint$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_AddTypeConstraint$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_AddTypeConstraint"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddTypeConstraint)(OrtKernelDefBuilder *, const char *, const OrtDataType *const *, size_t)
+     * }
+     */
+    public static final long KernelDefBuilder_AddTypeConstraint$offset() {
+        return KernelDefBuilder_AddTypeConstraint$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddTypeConstraint)(OrtKernelDefBuilder *, const char *, const OrtDataType *const *, size_t)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_AddTypeConstraint(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_AddTypeConstraint$LAYOUT, KernelDefBuilder_AddTypeConstraint$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddTypeConstraint)(OrtKernelDefBuilder *, const char *, const OrtDataType *const *, size_t)
+     * }
+     */
+    public static void KernelDefBuilder_AddTypeConstraint(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_AddTypeConstraint$LAYOUT, KernelDefBuilder_AddTypeConstraint$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static final class KernelDefBuilder_AddInputOutputAliases {
+
+        private KernelDefBuilder_AddInputOutputAliases() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_AddInputOutputAliases.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_AddInputOutputAliases.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_AddInputOutputAliases$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_AddInputOutputAliases"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_AddInputOutputAliases$layout() {
+        return KernelDefBuilder_AddInputOutputAliases$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_AddInputOutputAliases$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_AddInputOutputAliases"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static final long KernelDefBuilder_AddInputOutputAliases$offset() {
+        return KernelDefBuilder_AddInputOutputAliases$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_AddInputOutputAliases(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_AddInputOutputAliases$LAYOUT, KernelDefBuilder_AddInputOutputAliases$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static void KernelDefBuilder_AddInputOutputAliases(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                KernelDefBuilder_AddInputOutputAliases$LAYOUT,
+                KernelDefBuilder_AddInputOutputAliases$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputMutableAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static final class KernelDefBuilder_AddInputOutputMutableAliases {
+
+        private KernelDefBuilder_AddInputOutputMutableAliases() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                KernelDefBuilder_AddInputOutputMutableAliases.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_AddInputOutputMutableAliases.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_AddInputOutputMutableAliases$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_AddInputOutputMutableAliases"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputMutableAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_AddInputOutputMutableAliases$layout() {
+        return KernelDefBuilder_AddInputOutputMutableAliases$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_AddInputOutputMutableAliases$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_AddInputOutputMutableAliases"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputMutableAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static final long KernelDefBuilder_AddInputOutputMutableAliases$offset() {
+        return KernelDefBuilder_AddInputOutputMutableAliases$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputMutableAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_AddInputOutputMutableAliases(MemorySegment struct) {
+        return struct.get(
+                KernelDefBuilder_AddInputOutputMutableAliases$LAYOUT,
+                KernelDefBuilder_AddInputOutputMutableAliases$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_AddInputOutputMutableAliases)(OrtKernelDefBuilder *, const int *, const int *, size_t)
+     * }
+     */
+    public static void KernelDefBuilder_AddInputOutputMutableAliases(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                KernelDefBuilder_AddInputOutputMutableAliases$LAYOUT,
+                KernelDefBuilder_AddInputOutputMutableAliases$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_Build)(OrtKernelDefBuilder *, OrtKernelDef **)
+     * }
+     */
+    public static final class KernelDefBuilder_Build {
+
+        private KernelDefBuilder_Build() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDefBuilder_Build.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDefBuilder_Build.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDefBuilder_Build$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDefBuilder_Build"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_Build)(OrtKernelDefBuilder *, OrtKernelDef **)
+     * }
+     */
+    public static final AddressLayout KernelDefBuilder_Build$layout() {
+        return KernelDefBuilder_Build$LAYOUT;
+    }
+
+    private static final long KernelDefBuilder_Build$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDefBuilder_Build"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_Build)(OrtKernelDefBuilder *, OrtKernelDef **)
+     * }
+     */
+    public static final long KernelDefBuilder_Build$offset() {
+        return KernelDefBuilder_Build$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_Build)(OrtKernelDefBuilder *, OrtKernelDef **)
+     * }
+     */
+    public static MemorySegment KernelDefBuilder_Build(MemorySegment struct) {
+        return struct.get(KernelDefBuilder_Build$LAYOUT, KernelDefBuilder_Build$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDefBuilder_Build)(OrtKernelDefBuilder *, OrtKernelDef **)
+     * }
+     */
+    public static void KernelDefBuilder_Build(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDefBuilder_Build$LAYOUT, KernelDefBuilder_Build$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDef)(OrtKernelDef *)
+     * }
+     */
+    public static final class ReleaseKernelDef {
+
+        private ReleaseKernelDef() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseKernelDef.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseKernelDef.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseKernelDef$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseKernelDef"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDef)(OrtKernelDef *)
+     * }
+     */
+    public static final AddressLayout ReleaseKernelDef$layout() {
+        return ReleaseKernelDef$LAYOUT;
+    }
+
+    private static final long ReleaseKernelDef$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseKernelDef"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDef)(OrtKernelDef *)
+     * }
+     */
+    public static final long ReleaseKernelDef$offset() {
+        return ReleaseKernelDef$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDef)(OrtKernelDef *)
+     * }
+     */
+    public static MemorySegment ReleaseKernelDef(MemorySegment struct) {
+        return struct.get(ReleaseKernelDef$LAYOUT, ReleaseKernelDef$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelDef)(OrtKernelDef *)
+     * }
+     */
+    public static void ReleaseKernelDef(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseKernelDef$LAYOUT, ReleaseKernelDef$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetOperatorType)(const OrtKernelDef *)
+     * }
+     */
+    public static final class KernelDef_GetOperatorType {
+
+        private KernelDef_GetOperatorType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDef_GetOperatorType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDef_GetOperatorType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDef_GetOperatorType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDef_GetOperatorType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetOperatorType)(const OrtKernelDef *)
+     * }
+     */
+    public static final AddressLayout KernelDef_GetOperatorType$layout() {
+        return KernelDef_GetOperatorType$LAYOUT;
+    }
+
+    private static final long KernelDef_GetOperatorType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDef_GetOperatorType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetOperatorType)(const OrtKernelDef *)
+     * }
+     */
+    public static final long KernelDef_GetOperatorType$offset() {
+        return KernelDef_GetOperatorType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetOperatorType)(const OrtKernelDef *)
+     * }
+     */
+    public static MemorySegment KernelDef_GetOperatorType(MemorySegment struct) {
+        return struct.get(KernelDef_GetOperatorType$LAYOUT, KernelDef_GetOperatorType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetOperatorType)(const OrtKernelDef *)
+     * }
+     */
+    public static void KernelDef_GetOperatorType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDef_GetOperatorType$LAYOUT, KernelDef_GetOperatorType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetDomain)(const OrtKernelDef *)
+     * }
+     */
+    public static final class KernelDef_GetDomain {
+
+        private KernelDef_GetDomain() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDef_GetDomain.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDef_GetDomain.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDef_GetDomain$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDef_GetDomain"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetDomain)(const OrtKernelDef *)
+     * }
+     */
+    public static final AddressLayout KernelDef_GetDomain$layout() {
+        return KernelDef_GetDomain$LAYOUT;
+    }
+
+    private static final long KernelDef_GetDomain$OFFSET = $LAYOUT.byteOffset(groupElement("KernelDef_GetDomain"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetDomain)(const OrtKernelDef *)
+     * }
+     */
+    public static final long KernelDef_GetDomain$offset() {
+        return KernelDef_GetDomain$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetDomain)(const OrtKernelDef *)
+     * }
+     */
+    public static MemorySegment KernelDef_GetDomain(MemorySegment struct) {
+        return struct.get(KernelDef_GetDomain$LAYOUT, KernelDef_GetDomain$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetDomain)(const OrtKernelDef *)
+     * }
+     */
+    public static void KernelDef_GetDomain(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDef_GetDomain$LAYOUT, KernelDef_GetDomain$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetSinceVersion)(const OrtKernelDef *, int *, int *)
+     * }
+     */
+    public static final class KernelDef_GetSinceVersion {
+
+        private KernelDef_GetSinceVersion() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDef_GetSinceVersion.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDef_GetSinceVersion.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDef_GetSinceVersion$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDef_GetSinceVersion"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetSinceVersion)(const OrtKernelDef *, int *, int *)
+     * }
+     */
+    public static final AddressLayout KernelDef_GetSinceVersion$layout() {
+        return KernelDef_GetSinceVersion$LAYOUT;
+    }
+
+    private static final long KernelDef_GetSinceVersion$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDef_GetSinceVersion"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetSinceVersion)(const OrtKernelDef *, int *, int *)
+     * }
+     */
+    public static final long KernelDef_GetSinceVersion$offset() {
+        return KernelDef_GetSinceVersion$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetSinceVersion)(const OrtKernelDef *, int *, int *)
+     * }
+     */
+    public static MemorySegment KernelDef_GetSinceVersion(MemorySegment struct) {
+        return struct.get(KernelDef_GetSinceVersion$LAYOUT, KernelDef_GetSinceVersion$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetSinceVersion)(const OrtKernelDef *, int *, int *)
+     * }
+     */
+    public static void KernelDef_GetSinceVersion(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDef_GetSinceVersion$LAYOUT, KernelDef_GetSinceVersion$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetExecutionProvider)(const OrtKernelDef *)
+     * }
+     */
+    public static final class KernelDef_GetExecutionProvider {
+
+        private KernelDef_GetExecutionProvider() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDef_GetExecutionProvider.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDef_GetExecutionProvider.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDef_GetExecutionProvider$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDef_GetExecutionProvider"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetExecutionProvider)(const OrtKernelDef *)
+     * }
+     */
+    public static final AddressLayout KernelDef_GetExecutionProvider$layout() {
+        return KernelDef_GetExecutionProvider$LAYOUT;
+    }
+
+    private static final long KernelDef_GetExecutionProvider$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDef_GetExecutionProvider"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetExecutionProvider)(const OrtKernelDef *)
+     * }
+     */
+    public static final long KernelDef_GetExecutionProvider$offset() {
+        return KernelDef_GetExecutionProvider$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetExecutionProvider)(const OrtKernelDef *)
+     * }
+     */
+    public static MemorySegment KernelDef_GetExecutionProvider(MemorySegment struct) {
+        return struct.get(KernelDef_GetExecutionProvider$LAYOUT, KernelDef_GetExecutionProvider$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const char *(*KernelDef_GetExecutionProvider)(const OrtKernelDef *)
+     * }
+     */
+    public static void KernelDef_GetExecutionProvider(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDef_GetExecutionProvider$LAYOUT, KernelDef_GetExecutionProvider$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetInputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static final class KernelDef_GetInputMemType {
+
+        private KernelDef_GetInputMemType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDef_GetInputMemType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDef_GetInputMemType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDef_GetInputMemType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDef_GetInputMemType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetInputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static final AddressLayout KernelDef_GetInputMemType$layout() {
+        return KernelDef_GetInputMemType$LAYOUT;
+    }
+
+    private static final long KernelDef_GetInputMemType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDef_GetInputMemType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetInputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static final long KernelDef_GetInputMemType$offset() {
+        return KernelDef_GetInputMemType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetInputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static MemorySegment KernelDef_GetInputMemType(MemorySegment struct) {
+        return struct.get(KernelDef_GetInputMemType$LAYOUT, KernelDef_GetInputMemType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetInputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static void KernelDef_GetInputMemType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDef_GetInputMemType$LAYOUT, KernelDef_GetInputMemType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetOutputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static final class KernelDef_GetOutputMemType {
+
+        private KernelDef_GetOutputMemType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelDef_GetOutputMemType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelDef_GetOutputMemType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelDef_GetOutputMemType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelDef_GetOutputMemType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetOutputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static final AddressLayout KernelDef_GetOutputMemType$layout() {
+        return KernelDef_GetOutputMemType$LAYOUT;
+    }
+
+    private static final long KernelDef_GetOutputMemType$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelDef_GetOutputMemType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetOutputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static final long KernelDef_GetOutputMemType$offset() {
+        return KernelDef_GetOutputMemType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetOutputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static MemorySegment KernelDef_GetOutputMemType(MemorySegment struct) {
+        return struct.get(KernelDef_GetOutputMemType$LAYOUT, KernelDef_GetOutputMemType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelDef_GetOutputMemType)(const OrtKernelDef *, size_t, OrtMemType *)
+     * }
+     */
+    public static void KernelDef_GetOutputMemType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelDef_GetOutputMemType$LAYOUT, KernelDef_GetOutputMemType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorDataType)(ONNXTensorElementDataType, const OrtDataType **)
+     * }
+     */
+    public static final class GetTensorDataType {
+
+        private GetTensorDataType() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(int _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetTensorDataType.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetTensorDataType.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, int _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetTensorDataType$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetTensorDataType"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorDataType)(ONNXTensorElementDataType, const OrtDataType **)
+     * }
+     */
+    public static final AddressLayout GetTensorDataType$layout() {
+        return GetTensorDataType$LAYOUT;
+    }
+
+    private static final long GetTensorDataType$OFFSET = $LAYOUT.byteOffset(groupElement("GetTensorDataType"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorDataType)(ONNXTensorElementDataType, const OrtDataType **)
+     * }
+     */
+    public static final long GetTensorDataType$offset() {
+        return GetTensorDataType$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorDataType)(ONNXTensorElementDataType, const OrtDataType **)
+     * }
+     */
+    public static MemorySegment GetTensorDataType(MemorySegment struct) {
+        return struct.get(GetTensorDataType$LAYOUT, GetTensorDataType$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetTensorDataType)(ONNXTensorElementDataType, const OrtDataType **)
+     * }
+     */
+    public static void GetTensorDataType(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetTensorDataType$LAYOUT, GetTensorDataType$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpGraphSupportInfo_LookUpKernel)(OrtEpGraphSupportInfo *, const OrtNode *, const OrtKernelDef **)
+     * }
+     */
+    public static final class EpGraphSupportInfo_LookUpKernel {
+
+        private EpGraphSupportInfo_LookUpKernel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpGraphSupportInfo_LookUpKernel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpGraphSupportInfo_LookUpKernel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpGraphSupportInfo_LookUpKernel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpGraphSupportInfo_LookUpKernel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpGraphSupportInfo_LookUpKernel)(OrtEpGraphSupportInfo *, const OrtNode *, const OrtKernelDef **)
+     * }
+     */
+    public static final AddressLayout EpGraphSupportInfo_LookUpKernel$layout() {
+        return EpGraphSupportInfo_LookUpKernel$LAYOUT;
+    }
+
+    private static final long EpGraphSupportInfo_LookUpKernel$OFFSET =
+            $LAYOUT.byteOffset(groupElement("EpGraphSupportInfo_LookUpKernel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpGraphSupportInfo_LookUpKernel)(OrtEpGraphSupportInfo *, const OrtNode *, const OrtKernelDef **)
+     * }
+     */
+    public static final long EpGraphSupportInfo_LookUpKernel$offset() {
+        return EpGraphSupportInfo_LookUpKernel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpGraphSupportInfo_LookUpKernel)(OrtEpGraphSupportInfo *, const OrtNode *, const OrtKernelDef **)
+     * }
+     */
+    public static MemorySegment EpGraphSupportInfo_LookUpKernel(MemorySegment struct) {
+        return struct.get(EpGraphSupportInfo_LookUpKernel$LAYOUT, EpGraphSupportInfo_LookUpKernel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpGraphSupportInfo_LookUpKernel)(OrtEpGraphSupportInfo *, const OrtNode *, const OrtKernelDef **)
+     * }
+     */
+    public static void EpGraphSupportInfo_LookUpKernel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpGraphSupportInfo_LookUpKernel$LAYOUT, EpGraphSupportInfo_LookUpKernel$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SharedPrePackedWeightCache_StoreWeightData)(OrtSharedPrePackedWeightCache *, void **, size_t *, size_t)
+     * }
+     */
+    public static final class SharedPrePackedWeightCache_StoreWeightData {
+
+        private SharedPrePackedWeightCache_StoreWeightData() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                SharedPrePackedWeightCache_StoreWeightData.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SharedPrePackedWeightCache_StoreWeightData.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SharedPrePackedWeightCache_StoreWeightData$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SharedPrePackedWeightCache_StoreWeightData"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SharedPrePackedWeightCache_StoreWeightData)(OrtSharedPrePackedWeightCache *, void **, size_t *, size_t)
+     * }
+     */
+    public static final AddressLayout SharedPrePackedWeightCache_StoreWeightData$layout() {
+        return SharedPrePackedWeightCache_StoreWeightData$LAYOUT;
+    }
+
+    private static final long SharedPrePackedWeightCache_StoreWeightData$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SharedPrePackedWeightCache_StoreWeightData"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SharedPrePackedWeightCache_StoreWeightData)(OrtSharedPrePackedWeightCache *, void **, size_t *, size_t)
+     * }
+     */
+    public static final long SharedPrePackedWeightCache_StoreWeightData$offset() {
+        return SharedPrePackedWeightCache_StoreWeightData$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SharedPrePackedWeightCache_StoreWeightData)(OrtSharedPrePackedWeightCache *, void **, size_t *, size_t)
+     * }
+     */
+    public static MemorySegment SharedPrePackedWeightCache_StoreWeightData(MemorySegment struct) {
+        return struct.get(
+                SharedPrePackedWeightCache_StoreWeightData$LAYOUT, SharedPrePackedWeightCache_StoreWeightData$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SharedPrePackedWeightCache_StoreWeightData)(OrtSharedPrePackedWeightCache *, void **, size_t *, size_t)
+     * }
+     */
+    public static void SharedPrePackedWeightCache_StoreWeightData(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                SharedPrePackedWeightCache_StoreWeightData$LAYOUT,
+                SharedPrePackedWeightCache_StoreWeightData$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetEp)(const OrtKernelInfo *, const OrtEp **)
+     * }
+     */
+    public static final class KernelInfo_GetEp {
+
+        private KernelInfo_GetEp() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelInfo_GetEp.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelInfo_GetEp.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelInfo_GetEp$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelInfo_GetEp"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetEp)(const OrtKernelInfo *, const OrtEp **)
+     * }
+     */
+    public static final AddressLayout KernelInfo_GetEp$layout() {
+        return KernelInfo_GetEp$LAYOUT;
+    }
+
+    private static final long KernelInfo_GetEp$OFFSET = $LAYOUT.byteOffset(groupElement("KernelInfo_GetEp"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetEp)(const OrtKernelInfo *, const OrtEp **)
+     * }
+     */
+    public static final long KernelInfo_GetEp$offset() {
+        return KernelInfo_GetEp$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetEp)(const OrtKernelInfo *, const OrtEp **)
+     * }
+     */
+    public static MemorySegment KernelInfo_GetEp(MemorySegment struct) {
+        return struct.get(KernelInfo_GetEp$LAYOUT, KernelInfo_GetEp$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfo_GetEp)(const OrtKernelInfo *, const OrtEp **)
+     * }
+     */
+    public static void KernelInfo_GetEp(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelInfo_GetEp$LAYOUT, KernelInfo_GetEp$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeviceEpIncompatibilityDetails_SetDetails)(OrtDeviceEpIncompatibilityDetails *, uint32_t, int32_t, const char *)
+     * }
+     */
+    public static final class DeviceEpIncompatibilityDetails_SetDetails {
+
+        private DeviceEpIncompatibilityDetails_SetDetails() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1, int _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                DeviceEpIncompatibilityDetails_SetDetails.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(DeviceEpIncompatibilityDetails_SetDetails.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, int _x1, int _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout DeviceEpIncompatibilityDetails_SetDetails$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("DeviceEpIncompatibilityDetails_SetDetails"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeviceEpIncompatibilityDetails_SetDetails)(OrtDeviceEpIncompatibilityDetails *, uint32_t, int32_t, const char *)
+     * }
+     */
+    public static final AddressLayout DeviceEpIncompatibilityDetails_SetDetails$layout() {
+        return DeviceEpIncompatibilityDetails_SetDetails$LAYOUT;
+    }
+
+    private static final long DeviceEpIncompatibilityDetails_SetDetails$OFFSET =
+            $LAYOUT.byteOffset(groupElement("DeviceEpIncompatibilityDetails_SetDetails"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeviceEpIncompatibilityDetails_SetDetails)(OrtDeviceEpIncompatibilityDetails *, uint32_t, int32_t, const char *)
+     * }
+     */
+    public static final long DeviceEpIncompatibilityDetails_SetDetails$offset() {
+        return DeviceEpIncompatibilityDetails_SetDetails$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeviceEpIncompatibilityDetails_SetDetails)(OrtDeviceEpIncompatibilityDetails *, uint32_t, int32_t, const char *)
+     * }
+     */
+    public static MemorySegment DeviceEpIncompatibilityDetails_SetDetails(MemorySegment struct) {
+        return struct.get(
+                DeviceEpIncompatibilityDetails_SetDetails$LAYOUT, DeviceEpIncompatibilityDetails_SetDetails$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeviceEpIncompatibilityDetails_SetDetails)(OrtDeviceEpIncompatibilityDetails *, uint32_t, int32_t, const char *)
+     * }
+     */
+    public static void DeviceEpIncompatibilityDetails_SetDetails(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                DeviceEpIncompatibilityDetails_SetDetails$LAYOUT,
+                DeviceEpIncompatibilityDetails_SetDetails$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateIfKernel)(const OrtKernelInfo *, OrtKernelImpl **)
+     * }
+     */
+    public static final class CreateIfKernel {
+
+        private CreateIfKernel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateIfKernel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateIfKernel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateIfKernel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateIfKernel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateIfKernel)(const OrtKernelInfo *, OrtKernelImpl **)
+     * }
+     */
+    public static final AddressLayout CreateIfKernel$layout() {
+        return CreateIfKernel$LAYOUT;
+    }
+
+    private static final long CreateIfKernel$OFFSET = $LAYOUT.byteOffset(groupElement("CreateIfKernel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateIfKernel)(const OrtKernelInfo *, OrtKernelImpl **)
+     * }
+     */
+    public static final long CreateIfKernel$offset() {
+        return CreateIfKernel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateIfKernel)(const OrtKernelInfo *, OrtKernelImpl **)
+     * }
+     */
+    public static MemorySegment CreateIfKernel(MemorySegment struct) {
+        return struct.get(CreateIfKernel$LAYOUT, CreateIfKernel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateIfKernel)(const OrtKernelInfo *, OrtKernelImpl **)
+     * }
+     */
+    public static void CreateIfKernel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateIfKernel$LAYOUT, CreateIfKernel$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoopKernel)(const OrtKernelInfo *, OrtLoopKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static final class CreateLoopKernel {
+
+        private CreateLoopKernel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateLoopKernel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateLoopKernel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateLoopKernel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateLoopKernel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoopKernel)(const OrtKernelInfo *, OrtLoopKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static final AddressLayout CreateLoopKernel$layout() {
+        return CreateLoopKernel$LAYOUT;
+    }
+
+    private static final long CreateLoopKernel$OFFSET = $LAYOUT.byteOffset(groupElement("CreateLoopKernel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoopKernel)(const OrtKernelInfo *, OrtLoopKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static final long CreateLoopKernel$offset() {
+        return CreateLoopKernel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoopKernel)(const OrtKernelInfo *, OrtLoopKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static MemorySegment CreateLoopKernel(MemorySegment struct) {
+        return struct.get(CreateLoopKernel$LAYOUT, CreateLoopKernel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateLoopKernel)(const OrtKernelInfo *, OrtLoopKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static void CreateLoopKernel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateLoopKernel$LAYOUT, CreateLoopKernel$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateScanKernel)(const OrtKernelInfo *, OrtScanKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static final class CreateScanKernel {
+
+        private CreateScanKernel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateScanKernel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateScanKernel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateScanKernel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateScanKernel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateScanKernel)(const OrtKernelInfo *, OrtScanKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static final AddressLayout CreateScanKernel$layout() {
+        return CreateScanKernel$LAYOUT;
+    }
+
+    private static final long CreateScanKernel$OFFSET = $LAYOUT.byteOffset(groupElement("CreateScanKernel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateScanKernel)(const OrtKernelInfo *, OrtScanKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static final long CreateScanKernel$offset() {
+        return CreateScanKernel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateScanKernel)(const OrtKernelInfo *, OrtScanKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static MemorySegment CreateScanKernel(MemorySegment struct) {
+        return struct.get(CreateScanKernel$LAYOUT, CreateScanKernel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateScanKernel)(const OrtKernelInfo *, OrtScanKernelHelper *, OrtKernelImpl **)
+     * }
+     */
+    public static void CreateScanKernel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateScanKernel$LAYOUT, CreateScanKernel$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseKernelImpl)(OrtKernelImpl *)
+     * }
+     */
+    public static final class ReleaseKernelImpl {
+
+        private ReleaseKernelImpl() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseKernelImpl.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseKernelImpl.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseKernelImpl$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseKernelImpl"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelImpl)(OrtKernelImpl *)
+     * }
+     */
+    public static final AddressLayout ReleaseKernelImpl$layout() {
+        return ReleaseKernelImpl$LAYOUT;
+    }
+
+    private static final long ReleaseKernelImpl$OFFSET = $LAYOUT.byteOffset(groupElement("ReleaseKernelImpl"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelImpl)(OrtKernelImpl *)
+     * }
+     */
+    public static final long ReleaseKernelImpl$offset() {
+        return ReleaseKernelImpl$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelImpl)(OrtKernelImpl *)
+     * }
+     */
+    public static MemorySegment ReleaseKernelImpl(MemorySegment struct) {
+        return struct.get(ReleaseKernelImpl$LAYOUT, ReleaseKernelImpl$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseKernelImpl)(OrtKernelImpl *)
+     * }
+     */
+    public static void ReleaseKernelImpl(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseKernelImpl$LAYOUT, ReleaseKernelImpl$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEnvConfigEntries)(OrtKeyValuePairs **)
+     * }
+     */
+    public static final class GetEnvConfigEntries {
+
+        private GetEnvConfigEntries() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetEnvConfigEntries.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetEnvConfigEntries.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetEnvConfigEntries$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetEnvConfigEntries"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEnvConfigEntries)(OrtKeyValuePairs **)
+     * }
+     */
+    public static final AddressLayout GetEnvConfigEntries$layout() {
+        return GetEnvConfigEntries$LAYOUT;
+    }
+
+    private static final long GetEnvConfigEntries$OFFSET = $LAYOUT.byteOffset(groupElement("GetEnvConfigEntries"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEnvConfigEntries)(OrtKeyValuePairs **)
+     * }
+     */
+    public static final long GetEnvConfigEntries$offset() {
+        return GetEnvConfigEntries$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEnvConfigEntries)(OrtKeyValuePairs **)
+     * }
+     */
+    public static MemorySegment GetEnvConfigEntries(MemorySegment struct) {
+        return struct.get(GetEnvConfigEntries$LAYOUT, GetEnvConfigEntries$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEnvConfigEntries)(OrtKeyValuePairs **)
+     * }
+     */
+    public static void GetEnvConfigEntries(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetEnvConfigEntries$LAYOUT, GetEnvConfigEntries$OFFSET, fieldValue);
     }
 
     /**

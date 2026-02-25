@@ -64,6 +64,8 @@ public class SessionTest {
         environment = api.newEnvironment()
                 .setLogSeverityLevel(OnnxRuntimeLoggingLevel.VERBOSE)
                 .setLogId("testing")
+                .setLogParameter("logParameter")
+                .setConfigMap(Map.of("foo", "bar"))
                 .setGlobalDenormalAsZero(true)
                 .setGlobalSpinControl(true)
                 .setArenaConfig(Map.of("initial_chunk_size_bytes", 65535L, "initial_growth_chunk_size_bytes", 65535L))

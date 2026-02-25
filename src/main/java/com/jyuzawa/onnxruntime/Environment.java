@@ -61,6 +61,24 @@ public interface Environment extends AutoCloseable {
         Builder setLogId(String id);
 
         /**
+         * Set the logging parameter.
+         *
+         * @param logParameter the tag for logging
+         * @return the builder
+         * @since 2.1.0
+         */
+        Builder setLogParameter(String logParameter);
+
+        /**
+         * Set the config keys.
+         *
+         * @param configMap the key-values to configure
+         * @return the builder
+         * @since 2.1.0
+         */
+        Builder setConfigMap(Map<String, String> configMap);
+
+        /**
          * Set the shared thread pool's "denormal as zero" setting.
          * @param globalDenormalAsZero whether to denormal as zero
          * @return the builder

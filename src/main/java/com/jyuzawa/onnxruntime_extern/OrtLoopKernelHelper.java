@@ -15,17 +15,16 @@ import java.util.stream.*;
 
 /**
  * {@snippet lang=c :
- * struct OrtDataTransferImpl {
+ * struct OrtLoopKernelHelper {
  *     uint32_t ort_version_supported;
- *     void (*Release)(OrtDataTransferImpl *);
- *     bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *);
- *     OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t);
+ *     void (*Release)(OrtLoopKernelHelper *);
+ *     OrtStatusPtr (*ConcatOutput)(OrtLoopKernelHelper *, void *, const OrtValue *const *, size_t, void *, size_t);
  * }
  * }
  */
-public class OrtDataTransferImpl {
+public class OrtLoopKernelHelper {
 
-    OrtDataTransferImpl() {
+    OrtLoopKernelHelper() {
         // Should not be called directly
     }
 
@@ -33,9 +32,8 @@ public class OrtDataTransferImpl {
                     onnxruntime_all_h.C_INT.withName("ort_version_supported"),
                     MemoryLayout.paddingLayout(4),
                     onnxruntime_all_h.C_POINTER.withName("Release"),
-                    onnxruntime_all_h.C_POINTER.withName("CanCopy"),
-                    onnxruntime_all_h.C_POINTER.withName("CopyTensors"))
-            .withName("OrtDataTransferImpl");
+                    onnxruntime_all_h.C_POINTER.withName("ConcatOutput"))
+            .withName("OrtLoopKernelHelper");
 
     /**
      * The layout of this struct
@@ -91,7 +89,7 @@ public class OrtDataTransferImpl {
 
     /**
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtLoopKernelHelper *)
      * }
      */
     public static final class Release {
@@ -148,7 +146,7 @@ public class OrtDataTransferImpl {
     /**
      * Layout for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtLoopKernelHelper *)
      * }
      */
     public static final AddressLayout Release$layout() {
@@ -160,7 +158,7 @@ public class OrtDataTransferImpl {
     /**
      * Offset for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtLoopKernelHelper *)
      * }
      */
     public static final long Release$offset() {
@@ -170,7 +168,7 @@ public class OrtDataTransferImpl {
     /**
      * Getter for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtLoopKernelHelper *)
      * }
      */
     public static MemorySegment Release(MemorySegment struct) {
@@ -180,7 +178,7 @@ public class OrtDataTransferImpl {
     /**
      * Setter for field:
      * {@snippet lang=c :
-     * void (*Release)(OrtDataTransferImpl *)
+     * void (*Release)(OrtLoopKernelHelper *)
      * }
      */
     public static void Release(MemorySegment struct, MemorySegment fieldValue) {
@@ -189,12 +187,12 @@ public class OrtDataTransferImpl {
 
     /**
      * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
+     * OrtStatusPtr (*ConcatOutput)(OrtLoopKernelHelper *, void *, const OrtValue *const *, size_t, void *, size_t)
      * }
      */
-    public static final class CanCopy {
+    public static final class ConcatOutput {
 
-        private CanCopy() {
+        private ConcatOutput() {
             // Should not be called directly
         }
 
@@ -202,109 +200,8 @@ public class OrtDataTransferImpl {
          * The function pointer signature, expressed as a functional interface
          */
         public interface Function {
-            boolean apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
-        }
-
-        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
-                onnxruntime_all_h.C_BOOL,
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_POINTER,
-                onnxruntime_all_h.C_POINTER);
-
-        /**
-         * The descriptor of this function pointer
-         */
-        public static FunctionDescriptor descriptor() {
-            return $DESC;
-        }
-
-        private static final MethodHandle UP$MH =
-                onnxruntime_all_h.upcallHandle(CanCopy.Function.class, "apply", $DESC);
-
-        /**
-         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
-         * The lifetime of the returned segment is managed by {@code arena}
-         */
-        public static MemorySegment allocate(CanCopy.Function fi, Arena arena) {
-            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
-        }
-
-        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
-
-        /**
-         * Invoke the upcall stub {@code funcPtr}, with given parameters
-         */
-        public static boolean invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
-            try {
-                return (boolean) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
-            } catch (Error | RuntimeException ex) {
-                throw ex;
-            } catch (Throwable ex$) {
-                throw new AssertionError("should not reach here", ex$);
-            }
-        }
-    }
-
-    private static final AddressLayout CanCopy$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CanCopy"));
-
-    /**
-     * Layout for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static final AddressLayout CanCopy$layout() {
-        return CanCopy$LAYOUT;
-    }
-
-    private static final long CanCopy$OFFSET = $LAYOUT.byteOffset(groupElement("CanCopy"));
-
-    /**
-     * Offset for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static final long CanCopy$offset() {
-        return CanCopy$OFFSET;
-    }
-
-    /**
-     * Getter for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static MemorySegment CanCopy(MemorySegment struct) {
-        return struct.get(CanCopy$LAYOUT, CanCopy$OFFSET);
-    }
-
-    /**
-     * Setter for field:
-     * {@snippet lang=c :
-     * bool (*CanCopy)(const OrtDataTransferImpl *, const OrtMemoryDevice *, const OrtMemoryDevice *)
-     * }
-     */
-    public static void CanCopy(MemorySegment struct, MemorySegment fieldValue) {
-        struct.set(CanCopy$LAYOUT, CanCopy$OFFSET, fieldValue);
-    }
-
-    /**
-     * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
-     * }
-     */
-    public static final class CopyTensors {
-
-        private CopyTensors() {
-            // Should not be called directly
-        }
-
-        /**
-         * The function pointer signature, expressed as a functional interface
-         */
-        public interface Function {
-            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3, long _x4);
+            MemorySegment apply(
+                    MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, long _x3, MemorySegment _x4, long _x5);
         }
 
         private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
@@ -312,6 +209,7 @@ public class OrtDataTransferImpl {
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
                 onnxruntime_all_h.C_POINTER,
                 onnxruntime_all_h.C_LONG);
 
@@ -323,13 +221,13 @@ public class OrtDataTransferImpl {
         }
 
         private static final MethodHandle UP$MH =
-                onnxruntime_all_h.upcallHandle(CopyTensors.Function.class, "apply", $DESC);
+                onnxruntime_all_h.upcallHandle(ConcatOutput.Function.class, "apply", $DESC);
 
         /**
          * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
          * The lifetime of the returned segment is managed by {@code arena}
          */
-        public static MemorySegment allocate(CopyTensors.Function fi, Arena arena) {
+        public static MemorySegment allocate(ConcatOutput.Function fi, Arena arena) {
             return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
         }
 
@@ -343,10 +241,11 @@ public class OrtDataTransferImpl {
                 MemorySegment _x0,
                 MemorySegment _x1,
                 MemorySegment _x2,
-                MemorySegment _x3,
-                long _x4) {
+                long _x3,
+                MemorySegment _x4,
+                long _x5) {
             try {
-                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4);
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
             } catch (Error | RuntimeException ex) {
                 throw ex;
             } catch (Throwable ex$) {
@@ -355,48 +254,49 @@ public class OrtDataTransferImpl {
         }
     }
 
-    private static final AddressLayout CopyTensors$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("CopyTensors"));
+    private static final AddressLayout ConcatOutput$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ConcatOutput"));
 
     /**
      * Layout for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*ConcatOutput)(OrtLoopKernelHelper *, void *, const OrtValue *const *, size_t, void *, size_t)
      * }
      */
-    public static final AddressLayout CopyTensors$layout() {
-        return CopyTensors$LAYOUT;
+    public static final AddressLayout ConcatOutput$layout() {
+        return ConcatOutput$LAYOUT;
     }
 
-    private static final long CopyTensors$OFFSET = $LAYOUT.byteOffset(groupElement("CopyTensors"));
+    private static final long ConcatOutput$OFFSET = $LAYOUT.byteOffset(groupElement("ConcatOutput"));
 
     /**
      * Offset for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*ConcatOutput)(OrtLoopKernelHelper *, void *, const OrtValue *const *, size_t, void *, size_t)
      * }
      */
-    public static final long CopyTensors$offset() {
-        return CopyTensors$OFFSET;
+    public static final long ConcatOutput$offset() {
+        return ConcatOutput$OFFSET;
     }
 
     /**
      * Getter for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*ConcatOutput)(OrtLoopKernelHelper *, void *, const OrtValue *const *, size_t, void *, size_t)
      * }
      */
-    public static MemorySegment CopyTensors(MemorySegment struct) {
-        return struct.get(CopyTensors$LAYOUT, CopyTensors$OFFSET);
+    public static MemorySegment ConcatOutput(MemorySegment struct) {
+        return struct.get(ConcatOutput$LAYOUT, ConcatOutput$OFFSET);
     }
 
     /**
      * Setter for field:
      * {@snippet lang=c :
-     * OrtStatusPtr (*CopyTensors)(OrtDataTransferImpl *, const OrtValue **, OrtValue **, OrtSyncStream **, size_t)
+     * OrtStatusPtr (*ConcatOutput)(OrtLoopKernelHelper *, void *, const OrtValue *const *, size_t, void *, size_t)
      * }
      */
-    public static void CopyTensors(MemorySegment struct, MemorySegment fieldValue) {
-        struct.set(CopyTensors$LAYOUT, CopyTensors$OFFSET, fieldValue);
+    public static void ConcatOutput(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ConcatOutput$LAYOUT, ConcatOutput$OFFSET, fieldValue);
     }
 
     /**
