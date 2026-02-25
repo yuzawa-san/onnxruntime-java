@@ -26,11 +26,6 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     EnvironmentImpl(Builder builder) {
         super(builder.api, Arena.ofShared());
         try (Arena temporarySession = Arena.ofConfined()) {
-            MemorySegment configKeyValuesPointer = temporarySession.allocate(C_POINTER);
-            api.CreateKeyValuePairs.apply(configKeyValuesPointer);
-            MemorySegment configKeyValues = configKeyValuesPointer
-                    .getAtIndex(C_POINTER, 0)
-                    .reinterpret(C_POINTER.byteSize(), temporarySession, api.ReleaseKeyValuePairs::apply);
             MemorySegment options = OrtEnvCreationOptions.allocate(temporarySession);
             OrtEnvCreationOptions.version(options, onnxruntime_all_h.ORT_API_VERSION());
             OrtEnvCreationOptions.logging_severity_level(options, builder.severityLevel.getNumber());
@@ -46,13 +41,20 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                 MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
                 OrtEnvCreationOptions.threading_options(options, threadingOptionsAddress);
             }
-            for (Map.Entry<String, String> entry : builder.config.entrySet()) {
-                api.AddKeyValuePair.apply(
-                        configKeyValues,
-                        temporarySession.allocateFrom(entry.getKey()),
-                        temporarySession.allocateFrom(entry.getValue()));
+            if (builder.config != null) {
+                MemorySegment configKeyValuesPointer = temporarySession.allocate(C_POINTER);
+                api.CreateKeyValuePairs.apply(configKeyValuesPointer);
+                MemorySegment configKeyValues = configKeyValuesPointer
+                        .getAtIndex(C_POINTER, 0)
+                        .reinterpret(C_POINTER.byteSize(), temporarySession, api.ReleaseKeyValuePairs::apply);
+                for (Map.Entry<String, String> entry : builder.config.entrySet()) {
+                    api.AddKeyValuePair.apply(
+                            configKeyValues,
+                            temporarySession.allocateFrom(entry.getKey()),
+                            temporarySession.allocateFrom(entry.getValue()));
+                }
+                OrtEnvCreationOptions.config_entries(options, configKeyValues);
             }
-            OrtEnvCreationOptions.config_entries(options, configKeyValues);
             this.address =
                     api.create(arena, out -> api.CreateEnvWithOptions.apply(options, out), api.ReleaseEnv::apply);
             api.checkStatus(api.SetLanguageProjection.apply(address, ORT_PROJECTION_JAVA()));
@@ -137,7 +139,6 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             this.severityLevel = OnnxRuntimeLoggingLevel.DEFAULT;
             this.logId = "onnxruntime-java";
             this.arenaConfig = Map.of();
-            this.config = Map.of();
         }
 
         @Override
