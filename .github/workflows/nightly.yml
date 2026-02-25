@@ -27,22 +27,20 @@ jobs:
       - name: Get recent commits
         id: recent_commits
         run: echo "count=$(git log --oneline --since '24 hours ago' | wc -l)" >> "$GITHUB_OUTPUT"
-      # TODO: revert
-      # - name: Publish snapshot
-      #   if: ${{ steps.recent_commits.outputs.count > 0 }}
-      #   env:
-      #     ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.PGP_KEY_ID }}
-      #     ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_KEY }}
-      #     ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSWORD }}
-      #     ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
-      #     ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
-      #   run: |
-      #     ./gradlew --no-daemon -s publishOnnxruntimePublicationToSonatypeRepository
+      - name: Publish snapshot
+        if: ${{ steps.recent_commits.outputs.count > 0 }}
+        env:
+          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.PGP_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSWORD }}
+          ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
+          ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
+        run: |
+          ./gradlew --no-daemon -s publishOnnxruntimePublicationToSonatypeRepository
       - name: Check upstream project for upgrades
         id: update_check
         run: |
-          # TODO: revert
-          OLD_VERSION=1.23.1 #$(cat ORT_VERSION)
+          OLD_VERSION=$(cat ORT_VERSION)
           NEW_VERSION=$(curl -s https://api.github.com/repos/microsoft/onnxruntime/tags | jq -r ".[0].name" | sed 's/^v//g')
           echo "old: $OLD_VERSION"
           echo "new: $NEW_VERSION"
