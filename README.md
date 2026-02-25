@@ -22,7 +22,7 @@ This project is released to [Maven Central](https://search.maven.org/artifact/co
 The library is currently built for Linux, Windows, MacOS and for arm64 and x86_64.
 These were chosen since the upstream projects publishes artifacts for these enviroments.
 Here are the artifacts published listed below.
-Snapshot releases are periodically released for testing and experimentation.
+[Snapshot releases](https://central.sonatype.org/publish/publish-portal-snapshots/#consuming-snapshot-releases-for-your-project) are periodically released for testing and experimentation.
 
 #### onnxruntime
 
