@@ -127,7 +127,7 @@ public interface Environment extends AutoCloseable {
 
     /**
      * Create a new tensor.
-     * 
+     *
      * The onnruntime library will own the underlying tensor data.
      * The default allocator will be used.
      * The caller is responsible to copy whatever memory into this empty tensor.
