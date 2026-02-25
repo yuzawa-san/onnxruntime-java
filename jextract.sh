@@ -21,4 +21,4 @@ RUNTIME_HELPER=${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h
 grep -v "System.loadLibrary" < ${RUNTIME_HELPER} > ${RUNTIME_HELPER}.bak
 mv ${RUNTIME_HELPER}.bak ${RUNTIME_HELPER}
 # windows is weird with longs
-sed -i '' -e 's/"long"/System.getProperty("os.name").contains("indows") ? "long long" : "long"/g' "${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h\$shared.java"
+sed -i -e 's/"long"/System.getProperty("os.name").contains("indows") ? "long long" : "long"/g' "${GENERATED_DIR}/com/jyuzawa/onnxruntime_extern/onnxruntime_all_h\$shared.java"
