@@ -9,6 +9,8 @@ dependencies {
 	// For the application to work, you will need to provide the native libraries.
 	// Optionally, provide the CPU libraries (for various OS/Architecture combinations)
 	// runtimeOnly "com.jyuzawa:onnxruntime-cpu:1.X.0:linux-x86_64"
+	// Optionally, provide the GPU libraries (for various OS/Architecture combinations)
+	// runtimeOnly "com.jyuzawa:onnxruntime-gpu:1.X.0:linx-x86_64"
 	// Alternatively, do nothing and the Java library path will be used
 }
 
