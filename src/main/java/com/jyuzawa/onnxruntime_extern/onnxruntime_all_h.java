@@ -1214,7 +1214,7 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     /**
      * Function descriptor for:
      * {@snippet lang=c :
-     * const OrtApiBase *OrtGetApiBase(void)
+     * const OrtApiBase *OrtGetApiBase()
      * }
      */
     public static FunctionDescriptor OrtGetApiBase$descriptor() {
@@ -1224,7 +1224,7 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     /**
      * Downcall method handle for:
      * {@snippet lang=c :
-     * const OrtApiBase *OrtGetApiBase(void)
+     * const OrtApiBase *OrtGetApiBase()
      * }
      */
     public static MethodHandle OrtGetApiBase$handle() {
@@ -1234,7 +1234,7 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     /**
      * Address for:
      * {@snippet lang=c :
-     * const OrtApiBase *OrtGetApiBase(void)
+     * const OrtApiBase *OrtGetApiBase()
      * }
      */
     public static MemorySegment OrtGetApiBase$address() {
@@ -1243,7 +1243,7 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
 
     /**
      * {@snippet lang=c :
-     * const OrtApiBase *OrtGetApiBase(void)
+     * const OrtApiBase *OrtGetApiBase()
      * }
      */
     public static MemorySegment OrtGetApiBase() {
