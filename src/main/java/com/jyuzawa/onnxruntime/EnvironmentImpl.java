@@ -6,7 +6,6 @@ package com.jyuzawa.onnxruntime;
 
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h$shared.C_POINTER;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_LONG;
-import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.C_POINTER;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.ORT_PROJECTION_JAVA;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtArenaAllocator;
 import static com.jyuzawa.onnxruntime_extern.onnxruntime_all_h.OrtMemTypeDefault;
@@ -27,7 +26,6 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     EnvironmentImpl(Builder builder) {
         super(builder.api, Arena.ofShared());
         try (Arena temporarySession = Arena.ofConfined()) {
-            MemorySegment threadingOptionsAddress = null;
             MemorySegment configKeyValuesPointer = temporarySession.allocate(C_POINTER);
             api.CreateKeyValuePairs.apply(configKeyValuesPointer);
             MemorySegment configKeyValues = configKeyValuesPointer
@@ -45,7 +43,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                         options, temporarySession.allocateFrom(builder.logParameter));
             }
             if (builder.useThreadingOptions) {
-                threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
+                MemorySegment threadingOptionsAddress = builder.newThreadingOptions(temporarySession);
                 OrtEnvCreationOptions.threading_options(options, threadingOptionsAddress);
             }
             for (Map.Entry<String, String> entry : builder.config.entrySet()) {
