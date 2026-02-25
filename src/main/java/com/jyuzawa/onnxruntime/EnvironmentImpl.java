@@ -15,6 +15,7 @@ import com.jyuzawa.onnxruntime_extern.onnxruntime_all_h;
 import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 final class EnvironmentImpl extends ManagedImpl implements Environment {
@@ -22,6 +23,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     private final MemorySegment address;
     final MemorySegment memoryInfo;
     final MemorySegment ortAllocator;
+    private final ValueContext valueContext;
 
     EnvironmentImpl(Builder builder) {
         super(builder.api, Arena.ofShared());
@@ -76,6 +78,7 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                     api.create(temporarySession, out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
             api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
             this.ortAllocator = api.create(arena, out -> api.GetSharedAllocator.apply(address, memoryInfo, out));
+            this.valueContext = new ValueContext(api, ortAllocator, memoryInfo, true);
         }
     }
 
@@ -221,5 +224,17 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         public Environment build() {
             return new EnvironmentImpl(this);
         }
+    }
+
+    @Override
+    public OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape, MemorySegment memorySegment) {
+        TensorInfoImpl tensorInfo = new TensorInfoImpl(type, shape);
+        return new OnnxTensorWrappedImpl(tensorInfo, valueContext, memorySegment);
+    }
+
+    @Override
+    public OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape) {
+        TensorInfoImpl tensorInfo = new TensorInfoImpl(type, shape);
+        return tensorInfo.newValue(valueContext, null);
     }
 }
