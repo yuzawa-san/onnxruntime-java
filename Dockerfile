@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y -q \
   xz-utils \
 && apt-get clean
 RUN ln -s /usr/lib/llvm-18/lib/libclang-18.so.18 /usr/lib/llvm-18/lib/libclang.so.18
-ADD https://github.com/openjdk/jextract/archive/91fc954c46fac907cae6cd1417d835208c9df150.tar.gz jextract.tar.gz
+ADD https://github.com/yuzawa-san/jextract/archive/88c74ebf257afc4663b1e07c89845781e7c8d967.tar.gz jextract.tar.gz
 RUN tar xvzf jextract.tar.gz && \
 	rm jextract.tar.gz && \
 	mv jextract-* jextract
