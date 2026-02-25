@@ -72,11 +72,11 @@ public interface Environment extends AutoCloseable {
         /**
          * Set the config keys.
          *
-         * @param logParameter the tag for logging
+         * @param configMap the key-values to configure
          * @return the builder
          * @since 2.1.0
          */
-        Builder setConfigMap(Map<String, String> logParameter);
+        Builder setConfigMap(Map<String, String> configMap);
 
         /**
          * Set the shared thread pool's "denormal as zero" setting.
