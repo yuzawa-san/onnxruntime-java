@@ -55,7 +55,8 @@ jobs:
           pushd /tmp
           curl -o jextract.tar.gz -L https://download.java.net/java/early_access/jextract/25/2/openjdk-25-jextract+2-4_linux-x64_bin.tar.gz
           tar xvzf jextract.tar.gz
-          mv jextract-25 jextract
+          rm jextract.tar.gz
+          mv jextract-* jextract
           popd
           PATH=/tmp/jextract/bin:$PATH ./gradlew jextract
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
