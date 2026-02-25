@@ -38,9 +38,6 @@ case $VARIANT in
   linux-x86_64-gpu)
     doIt linux-x86_64 -gpu linux-x64-gpu tgz so
     ;;
-  osx-x86_64)
-    doIt osx-x86_64 "" osx-x86_64 tgz dylib
-    ;;
   osx-aarch_64)
     doIt osx-aarch_64 "" osx-arm64 tgz dylib
     ;;
