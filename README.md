@@ -27,6 +27,7 @@ Snapshot releases are periodically released for testing and experimentation.
 #### onnxruntime
 
 [![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime)
+![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fjyuzawa%2Fonnxruntime%2Fmaven-metadata.xml)
 
 The binding with no native libraries. For use as a implementation dependency.
 
