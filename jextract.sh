@@ -10,7 +10,6 @@ cp build/onnxruntime-${ORT_VERSION}/osx-aarch_64/include/*.h ${HEADER_DIR}
 cp build/onnxruntime-${ORT_VERSION}/linux-x86_64-gpu/include/*.h ${HEADER_DIR}
 HEADER_FILE=onnxruntime_all.h
 rm -rf 'symbols.conf' 'src/main/java/com/jyuzawa/onnxruntime_extern'
-docker build -t onnxruntime-jextract .
 jextract --use-system-load-library --output ${GENERATED_DIR} -l onnxruntime --target-package com.jyuzawa.onnxruntime_extern -I /usr/include -I ${HEADER_DIR} --dump-includes symbols.conf ${HEADER_FILE}
 # strip out the irrelevant symbols
 csplit symbols.conf "/headers/"
