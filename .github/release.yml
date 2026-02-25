@@ -1,0 +1,14 @@
+changelog:
+  categories:
+    - title: Upstream Upgrades
+      labels:
+        - upstream_upgrade
+    - title: Required Minimum Version Changes
+      labels:
+        - baseline_upgrade
+    - title: Dependency Upgrades
+      labels:
+        - dependencies
+    - title: Other Changes
+      labels:
+        - "*"

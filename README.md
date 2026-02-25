@@ -22,11 +22,12 @@ This project is released to [Maven Central](https://search.maven.org/artifact/co
 The library is currently built for Linux, Windows, MacOS and for arm64 and x86_64.
 These were chosen since the upstream projects publishes artifacts for these enviroments.
 Here are the artifacts published listed below.
-Snapshot releases are periodically released for testing and experimentation.
+[Snapshot releases](https://central.sonatype.org/publish/publish-portal-snapshots/#consuming-snapshot-releases-for-your-project) are periodically released for testing and experimentation.
 
 #### onnxruntime
 
 [![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fjyuzawa%2Fonnxruntime%2Fmaven-metadata.xml&label=maven-central-snapshot)](https://central.sonatype.com/repository/maven-snapshots/com/jyuzawa/onnxruntime/maven-metadata.xml)
 
 The binding with no native libraries. For use as a implementation dependency.
 
@@ -39,11 +40,13 @@ The API has a validation to make sure the shared library is minor version compat
 
 [![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime-cpu)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-cpu)
 
-A collection of native libraries with CPU support for a several common OS/architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like `osx-x86_64` to provide specific support.
+A collection of native libraries with CPU support for a several common OS/architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like `linux-x86_64` to provide specific support.
 
 #### onnxruntime-gpu
 
-See https://github.com/yuzawa-san/onnxruntime-java/issues/258
+[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime-gpu)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-gpu)
+
+A collection of native libraries with GPU (CUDA) support for a several common OS/architecture combinations. For use as an optional runtime dependency. Include one of the OS/Architecture classifiers like `linux-x86_64` to provide specific support.
 
 ### In your library
 
@@ -56,7 +59,7 @@ This puts the burden of providing a native library on your end user.
 There is an example application in the `onnxruntime-sample-application` directory.
 The library should use the `onnxruntime` as a implementation dependency.
 The application needs to have acccess to the native library.
-You have the option providing it via a runtime dependency using either a classifier variant from `onnxruntime-cpu`.
+You have the option providing it via a runtime dependency using either a classifier variant from `onnxruntime-cpu` or `onnxruntime-gpu`.
 Otherwise, the Java library path will be used to load the native library.
 
 
@@ -83,4 +86,4 @@ Upstream major version changes will typically be major version changes here.
 Minor version will be bumped for smaller, but compatible changes.
 Upstream minor version changes will typically be minor version changes here.
 
-The `onnxruntime-cpu` artifacts are versioned to match the upstream versions and depend on a minimum compatible `onnxruntime` version.
+The minimum native library version (e.g. `onnxruntime-cpu`) for the `onnxruntime` artifact will be stated in the release notes.
