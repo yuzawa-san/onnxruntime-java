@@ -28,20 +28,22 @@ jobs:
       - name: Get recent commits
         id: recent_commits
         run: echo "count=$(git log --oneline --since '24 hours ago' | wc -l)" >> "$GITHUB_OUTPUT"
-      - name: Publish snapshot
-        if: ${{ steps.recent_commits.outputs.count > 0 }}
-        env:
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.PGP_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSWORD }}
-          ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
-        run: |
-          ./gradlew --no-daemon -s publishOnnxruntimePublicationToSonatypeRepository
+      # TODO: revert
+      # - name: Publish snapshot
+      #   if: ${{ steps.recent_commits.outputs.count > 0 }}
+      #   env:
+      #     ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.PGP_KEY_ID }}
+      #     ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_KEY }}
+      #     ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSWORD }}
+      #     ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
+      #     ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
+      #   run: |
+      #     ./gradlew --no-daemon -s publishOnnxruntimePublicationToSonatypeRepository
       - name: Check upstream project for upgrades
         id: update_check
         run: |
-          OLD_VERSION=$(cat ORT_VERSION)
+          # TODO: revert
+          OLD_VERSION=1.23.1 #$(cat ORT_VERSION)
           NEW_VERSION=$(curl -s https://api.github.com/repos/microsoft/onnxruntime/tags | jq -r ".[0].name" | sed 's/^v//g')
           echo "old: $OLD_VERSION"
           echo "new: $NEW_VERSION"
@@ -50,6 +52,12 @@ jobs:
             exit 0
           fi
           echo $NEW_VERSION > ORT_VERSION
+          pushd /tmp
+          curl -o jextract.tar.gz -L https://download.java.net/java/early_access/jextract/25/2/openjdk-25-jextract+2-4_linux-x64_bin.tar.gz
+          tar xvzf jextract.tar.gz
+          mv jextract-25 jextract
+          popd
+          PATH=/tmp/jextract/bin:$PATH ./gradlew jextract
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
