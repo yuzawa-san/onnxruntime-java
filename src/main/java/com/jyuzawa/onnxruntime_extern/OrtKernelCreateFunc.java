@@ -15,12 +15,12 @@ import java.util.stream.*;
 
 /**
  * {@snippet lang=c :
- * typedef OrtStatus *(*OrtWriteBufferFunc)(void *, const void *, size_t)
+ * typedef OrtStatus *(*OrtKernelCreateFunc)(void *, const OrtKernelInfo *, OrtKernelImpl **)
  * }
  */
-public final class OrtWriteBufferFunc {
+public final class OrtKernelCreateFunc {
 
-    private OrtWriteBufferFunc() {
+    private OrtKernelCreateFunc() {
         // Should not be called directly
     }
 
@@ -28,14 +28,14 @@ public final class OrtWriteBufferFunc {
      * The function pointer signature, expressed as a functional interface
      */
     public interface Function {
-        MemorySegment apply(MemorySegment state, MemorySegment buffer, long buffer_num_bytes);
+        MemorySegment apply(MemorySegment kernel_create_func_state, MemorySegment info, MemorySegment kernel_out);
     }
 
     private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
             onnxruntime_all_h.C_POINTER,
             onnxruntime_all_h.C_POINTER,
             onnxruntime_all_h.C_POINTER,
-            onnxruntime_all_h.C_LONG);
+            onnxruntime_all_h.C_POINTER);
 
     /**
      * The descriptor of this function pointer
@@ -45,13 +45,13 @@ public final class OrtWriteBufferFunc {
     }
 
     private static final MethodHandle UP$MH =
-            onnxruntime_all_h.upcallHandle(OrtWriteBufferFunc.Function.class, "apply", $DESC);
+            onnxruntime_all_h.upcallHandle(OrtKernelCreateFunc.Function.class, "apply", $DESC);
 
     /**
      * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
      * The lifetime of the returned segment is managed by {@code arena}
      */
-    public static MemorySegment allocate(OrtWriteBufferFunc.Function fi, Arena arena) {
+    public static MemorySegment allocate(OrtKernelCreateFunc.Function fi, Arena arena) {
         return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
     }
 
@@ -61,9 +61,12 @@ public final class OrtWriteBufferFunc {
      * Invoke the upcall stub {@code funcPtr}, with given parameters
      */
     public static MemorySegment invoke(
-            MemorySegment funcPtr, MemorySegment state, MemorySegment buffer, long buffer_num_bytes) {
+            MemorySegment funcPtr,
+            MemorySegment kernel_create_func_state,
+            MemorySegment info,
+            MemorySegment kernel_out) {
         try {
-            return (MemorySegment) DOWN$MH.invokeExact(funcPtr, state, buffer, buffer_num_bytes);
+            return (MemorySegment) DOWN$MH.invokeExact(funcPtr, kernel_create_func_state, info, kernel_out);
         } catch (Error | RuntimeException ex) {
             throw ex;
         } catch (Throwable ex$) {

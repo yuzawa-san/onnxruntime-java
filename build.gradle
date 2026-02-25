@@ -88,7 +88,7 @@ jacocoTestReport {
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
-def ORT_VERSION = new File("ORT_VERSION").text.trim()
+def ORT_VERSION = new File("${project.rootDir}/ORT_VERSION").text.trim()
 
 def gitVersionProvider = providers.exec {
 	commandLine 'git', 'rev-parse', 'HEAD'
@@ -114,7 +114,7 @@ java {
 	withSourcesJar()
 }
 
-def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-x86_64", "osx-aarch_64"]
+def cpuOsArches = ["linux-x86_64", "linux-aarch_64", "windows-x86_64", "windows-aarch_64", "osx-aarch_64"]
 def gpuOsArches = ["linux-x86_64-gpu", "windows-x86_64-gpu"]
 def allArches = cpuOsArches + gpuOsArches
 

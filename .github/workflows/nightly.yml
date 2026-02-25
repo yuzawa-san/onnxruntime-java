@@ -15,7 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: master
           fetch-depth: 0
       - uses: gradle/actions/wrapper-validation@v5
       - name: Set up JDK
@@ -50,6 +49,13 @@ jobs:
             exit 0
           fi
           echo $NEW_VERSION > ORT_VERSION
+          pushd /tmp
+          curl -o jextract.tar.gz -L https://download.java.net/java/early_access/jextract/25/2/openjdk-25-jextract+2-4_linux-x64_bin.tar.gz
+          tar xvzf jextract.tar.gz
+          rm jextract.tar.gz
+          mv jextract-* jextract
+          popd
+          PATH=/tmp/jextract/bin:$PATH ./gradlew --no-daemon -s jextract
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
@@ -59,9 +65,7 @@ jobs:
           branch: ort/${{ steps.update_check.outputs.new_version }}
           delete-branch: true
           commit-message: "ORT v${{ steps.update_check.outputs.new_version }} bump"
-          add-paths: |
-            ORT_VERSION
-          title: 'Upgrade onnxruntime to ${{ steps.update_check.outputs.new_version }}'
+          title: 'Set onnxruntime baseline to v${{ steps.update_check.outputs.new_version }}'
           body: |
             This is an automated PR to bump to version ${{ steps.update_check.outputs.new_version }} of the upstream project.
           labels: |
