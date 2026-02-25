@@ -58,7 +58,7 @@ jobs:
           rm jextract.tar.gz
           mv jextract-* jextract
           popd
-          PATH=/tmp/jextract/bin:$PATH ./gradlew jextract
+          PATH=/tmp/jextract/bin:$PATH ./gradlew --no-daemon -s jextract
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
