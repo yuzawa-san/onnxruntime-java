@@ -109,6 +109,7 @@ public interface Environment extends AutoCloseable {
     /**
      * Create a new tensor around an existing piece of memory.
      *
+     * The default memory info (CPU) will be used.
      * Direct segments will be wrapped and must remain allocated for the lifetime this value is utilized.
      * This is not an issue for segments from automatic arenas.
      * It would cause a runtime exception from confined or shared arenas if they are closed prior to this value's utilization.
@@ -129,7 +130,7 @@ public interface Environment extends AutoCloseable {
      * Create a new tensor.
      *
      * The onnruntime library will own the underlying tensor data.
-     * The default allocator will be used.
+     * The default CPU allocator will be used.
      * The caller is responsible to copy whatever memory into this empty tensor.
      *
      * This will have "automatic" scope and may be treated like normal a Java object, since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
