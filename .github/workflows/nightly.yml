@@ -67,7 +67,7 @@ jobs:
           branch: ort/${{ steps.update_check.outputs.new_version }}
           delete-branch: true
           commit-message: "ORT v${{ steps.update_check.outputs.new_version }} bump"
-          title: 'Upgrade onnxruntime to ${{ steps.update_check.outputs.new_version }}'
+          title: 'Set onnxruntime baseline to v${{ steps.update_check.outputs.new_version }}'
           body: |
             This is an automated PR to bump to version ${{ steps.update_check.outputs.new_version }} of the upstream project.
           labels: |
