@@ -15,7 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: master
           fetch-depth: 0
       - uses: gradle/actions/wrapper-validation@v5
       - name: Set up JDK
