@@ -109,10 +109,14 @@ public interface Environment extends AutoCloseable {
     /**
      * Create a new tensor around an existing piece of memory.
      *
-     * Direct segments will be wrapped directly, but the owning Arena remain alive and not release this memory.
+     * Direct segments will be wrapped and must remain allocated for the lifetime this value is utilized.
+     * This is not an issue for segments from automatic arenas.
+     * It would cause a runtime exception from confined or shared arenas if they are closed prior to this value's utilization.
+     * However, if the memory comes from elsewhere, care must be taken to not release the memory.
      * Heap segments will require an intermediate copy, which will be done internally.
+     * If you have the data on the heap, it is recommended to use {@link #newTensor(OnnxTensorElementDataType, List)}.
      *
-     * This will have "automatic" scope and may be treated like normal Java objects since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
+     * This will have "automatic" scope and may be treated like normal a Java object, since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
      * @param type the element type
      * @param shape the dimensions
      * @param memorySegment a piece of memory which will be wrapped to create the tensor
@@ -123,8 +127,12 @@ public interface Environment extends AutoCloseable {
 
     /**
      * Create a new tensor.
+     * 
+     * The onnruntime library will own the underlying tensor data.
+     * The default allocator will be used.
+     * The caller is responsible to copy whatever memory into this empty tensor.
      *
-     * This will have "automatic" scope and may be treated like normal Java objects since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
+     * This will have "automatic" scope and may be treated like normal a Java object, since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
      * @param type the element type
      * @param shape the dimensions
      * @return a value that can be used as a model input
