@@ -38,10 +38,12 @@ jobs:
         run: |
           ./gradlew --no-daemon -s :build
       - name: Upload coverage to Codecov
-        if: ${{ matrix.java == '23' && matrix.os == 'ubuntu-latest' }}
+        # skip minimum version
+        if: ${{ matrix.java != '23' }}
         uses: codecov/codecov-action@v5.5.2
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: java-${{ matrix.java }}-${{ matrix.os }}
       - name: Save reports
         uses: actions/upload-artifact@v6
         if: ${{ failure() }}
