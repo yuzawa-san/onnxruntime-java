@@ -1311,7 +1311,7 @@ public class SessionTest {
     }
 
     @Test
-    @EnabledOnOs(value = OS.MAC, architectures = "x86_64")
+    @EnabledOnOs(value = OS.MAC)
     public void customOpTest() throws Exception {
         Path f = Path.of(getClass().getResource("/libcustom_op_library.dylib").toURI());
         try (Session session = environment
