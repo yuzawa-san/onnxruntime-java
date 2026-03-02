@@ -4,6 +4,7 @@
  */
 package com.jyuzawa.onnxruntime;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -92,8 +93,21 @@ public interface Transaction extends AutoCloseable {
         /**
          * Construct a {@link Transaction}.
          *
+         * The tensors for input and output will have lifetime restricted to that of the resulting {@link Transaction}.
+         *
          * @return a new instance
          */
         Transaction build();
+
+        /**
+         * Conduct a run with provided inputs and accumulated options
+         *
+         * Notably, the outputs here have "automatic" scope and may be treated like a normal Java object, since they are managed by the garbage collector (albeit with slight overhead for tracking and cleaning).
+         * @param inputs which were created from the environment or were outputs of prior calls to run()
+         * @param outputs the desired outputs to produce
+         * @return a collection of results which can be freely reused.
+         * @since 2.1.0
+         */
+        NamedCollection<OnnxValue> run(Map<String, ? super OnnxValue> inputs, List<String> outputs);
     }
 }

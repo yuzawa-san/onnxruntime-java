@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 final class TransactionImpl implements Transaction {
-    // private final Object cancelLock;
-    // private MemoryAddress runOptions;
-
     private final Builder builder;
     private final List<InputTuple> inputs;
     private final List<NodeInfoImpl> outputs;
@@ -31,7 +28,6 @@ final class TransactionImpl implements Transaction {
         this.references = new LinkedList<>();
         this.valueContext = new ValueContext(
                 builder.api, builder.session.environment.ortAllocator, builder.session.environment.memoryInfo, false);
-        // this.cancelLock = new Object();
     }
 
     @Override
@@ -80,6 +76,16 @@ final class TransactionImpl implements Transaction {
 
     @Override
     public NamedCollection<OnnxValue> run() {
+        NamedCollection<OnnxValue> out = run(builder, inputs, outputs, valueContext);
+        int numOutputs = out.size();
+        for (int i = 0; i < numOutputs; i++) {
+            references.add((OnnxValueImpl) out.get(i));
+        }
+        return out;
+    }
+
+    private static NamedCollection<OnnxValue> run(
+            Builder builder, List<InputTuple> inputs, List<NodeInfoImpl> outputs, ValueContext valueContext) {
         if (inputs.isEmpty()) {
             throw new IllegalArgumentException("No inputs specified");
         }
@@ -107,30 +113,20 @@ final class TransactionImpl implements Transaction {
             }
 
             MemorySegment runOptionsAddress = builder.newRunOptions(arena);
-            // synchronized (cancelLock) {
-            // this.runOptions = runOptionsAddress;
-            // }
-            try {
-                api.checkStatus(api.Run.apply(
-                        sessionImpl.address(),
-                        runOptionsAddress,
-                        inputNames,
-                        inputValues,
-                        numInputs,
-                        outputNames,
-                        numOutputs,
-                        outputValues));
-            } finally {
-                // synchronized (cancelLock) {
-                // runOptions = null;
-                // }
-            }
+            api.checkStatus(api.Run.apply(
+                    sessionImpl.address(),
+                    runOptionsAddress,
+                    inputNames,
+                    inputValues,
+                    numInputs,
+                    outputNames,
+                    numOutputs,
+                    outputValues));
             LinkedHashMap<String, OnnxValue> out = new LinkedHashMap<>(outputs.size());
             for (int i = 0; i < outputs.size(); i++) {
                 MemorySegment outputAddress = outputValues.getAtIndex(C_POINTER, i);
                 NodeInfoImpl nodeInfo = outputs.get(i);
                 OnnxValueImpl outputValue = nodeInfo.getTypeInfo().newValue(valueContext, outputAddress);
-                references.add(outputValue);
                 out.put(nodeInfo.getName(), outputValue);
             }
 
@@ -200,6 +196,21 @@ final class TransactionImpl implements Transaction {
                 }
             }
             return runOptions;
+        }
+
+        @Override
+        public NamedCollection<OnnxValue> run(Map<String, ? super OnnxValue> inputs, List<String> outputs) {
+            List<InputTuple> inputTuples = new ArrayList<>(inputs.size());
+            inputs.forEach(
+                    (key, value) -> inputTuples.add(new InputTuple(session.inputs.get(key), (OnnxValueImpl) value)));
+            int numOutputs = outputs.size();
+            List<NodeInfoImpl> outputNodes = new ArrayList<>(numOutputs);
+            for (int i = 0; i < numOutputs; i++) {
+                outputNodes.add(session.outputs.get(outputs.get(i)));
+            }
+            ValueContext valueContext =
+                    new ValueContext(api, session.environment.ortAllocator, session.environment.memoryInfo, true);
+            return TransactionImpl.run(this, inputTuples, outputNodes, valueContext);
         }
     }
 
