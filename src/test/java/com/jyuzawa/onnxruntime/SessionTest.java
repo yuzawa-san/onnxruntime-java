@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.lang.foreign.Arena;
+import java.lang.foreign.MemorySegment;
 import java.lang.foreign.ValueLayout;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -44,6 +45,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class SessionTest {
 
@@ -537,8 +540,9 @@ public class SessionTest {
         }
     }
 
-    @Test
-    public void chainingTest() throws IOException {
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    public void chainingTest(boolean direct) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
                         .setElemType(DataType.FLOAT_VALUE)
@@ -560,10 +564,10 @@ public class SessionTest {
                         .setByteBuffer(identityModel(type))
                         .build()) {
 
-            OnnxTensor input = environment.newTensor(
-                    OnnxTensorElementDataType.FLOAT,
-                    List.of(1L, 3L),
-                    Arena.ofAuto().allocateFrom(ValueLayout.JAVA_FLOAT, rawInput));
+            MemorySegment segment = direct
+                    ? Arena.ofAuto().allocateFrom(ValueLayout.JAVA_FLOAT, rawInput)
+                    : MemorySegment.ofArray(rawInput);
+            OnnxTensor input = environment.newTensor(OnnxTensorElementDataType.FLOAT, List.of(1L, 3L), segment);
             OnnxValue output0 = session0.newTransaction()
                     .run(Map.of("input", input), List.of("output"))
                     .get(0);
