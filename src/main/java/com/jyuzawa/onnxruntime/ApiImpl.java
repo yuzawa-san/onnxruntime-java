@@ -65,6 +65,7 @@ final class ApiImpl implements Api {
     final EnableProfiling.Function EnableProfiling;
     final EnableTelemetryEvents.Function EnableTelemetryEvents;
     final FillStringTensor.Function FillStringTensor;
+    final GetAllocatorWithDefaultOptions.Function GetAllocatorWithDefaultOptions;
     final GetAvailableProviders.Function GetAvailableProviders;
     final GetBuildInfoString.Function GetBuildInfoString;
     final GetDimensions.Function GetDimensions;
@@ -93,6 +94,7 @@ final class ApiImpl implements Api {
     final ModelMetadataGetProducerName.Function ModelMetadataGetProducerName;
     final ModelMetadataGetVersion.Function ModelMetadataGetVersion;
     final ModelMetadataLookupCustomMetadataMap.Function ModelMetadataLookupCustomMetadataMap;
+    final RegisterAllocator.Function RegisterAllocator;
     final RegisterCustomOpsLibrary_V2.Function RegisterCustomOpsLibrary_V2;
     final ReleaseAvailableProviders.Function ReleaseAvailableProviders;
     final ReleaseCUDAProviderOptions.Function ReleaseCUDAProviderOptions;
@@ -260,6 +262,9 @@ final class ApiImpl implements Api {
         this.EnableProfiling = (_x0, _x1) -> OrtApi.EnableProfiling.invoke(fnEnableProfiling, _x0, _x1);
         MemorySegment fnFillStringTensor = OrtApi.FillStringTensor(memorySegment);
         this.FillStringTensor = (_x0, _x1, _x2) -> OrtApi.FillStringTensor.invoke(fnFillStringTensor, _x0, _x1, _x2);
+        MemorySegment fnGetAllocatorWithDefaultOptions = OrtApi.GetAllocatorWithDefaultOptions(memorySegment);
+        this.GetAllocatorWithDefaultOptions =
+                (_x0) -> OrtApi.GetAllocatorWithDefaultOptions.invoke(fnGetAllocatorWithDefaultOptions, _x0);
         MemorySegment fnGetAvailableProviders = OrtApi.GetAvailableProviders(memorySegment);
         this.GetAvailableProviders =
                 (_x0, _x1) -> OrtApi.GetAvailableProviders.invoke(fnGetAvailableProviders, _x0, _x1);
@@ -337,6 +342,8 @@ final class ApiImpl implements Api {
         this.ModelMetadataLookupCustomMetadataMap =
                 (_x0, _x1, _x2, _x3) -> OrtApi.ModelMetadataLookupCustomMetadataMap.invoke(
                         fnModelMetadataLookupCustomMetadataMap, _x0, _x1, _x2, _x3);
+        MemorySegment fnRegisterAllocator = OrtApi.RegisterAllocator(memorySegment);
+        this.RegisterAllocator = (_x0, _x1) -> OrtApi.RegisterAllocator.invoke(fnRegisterAllocator, _x0, _x1);
         MemorySegment fnRegisterCustomOpsLibrary_V2 = OrtApi.RegisterCustomOpsLibrary_V2(memorySegment);
         this.RegisterCustomOpsLibrary_V2 =
                 (_x0, _x1) -> OrtApi.RegisterCustomOpsLibrary_V2.invoke(fnRegisterCustomOpsLibrary_V2, _x0, _x1);

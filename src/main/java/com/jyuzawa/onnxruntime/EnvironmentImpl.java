@@ -65,18 +65,25 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
                     out -> api.CreateCpuMemoryInfo.apply(OrtArenaAllocator(), OrtMemTypeDefault(), out),
                     api.ReleaseMemoryInfo::apply);
             Map<String, Long> arenaConfig = builder.arenaConfig;
-            int size = arenaConfig.size();
-            MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
-            MemorySegment valueArray = temporarySession.allocate(C_LONG, size);
-            int i = 0;
-            for (Map.Entry<String, Long> entry : arenaConfig.entrySet()) {
-                keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateFrom(entry.getKey()));
-                valueArray.setAtIndex(C_LONG, i, entry.getValue());
-                i++;
+            if (arenaConfig == null) {
+                // docs say this should NOT be freed
+                MemorySegment defaultAllocator =
+                        api.create(arena, out -> api.GetAllocatorWithDefaultOptions.apply(out));
+                api.RegisterAllocator.apply(address, defaultAllocator);
+            } else {
+                int size = arenaConfig.size();
+                MemorySegment keyArray = temporarySession.allocate(C_POINTER, size);
+                MemorySegment valueArray = temporarySession.allocate(C_LONG, size);
+                int i = 0;
+                for (Map.Entry<String, Long> entry : arenaConfig.entrySet()) {
+                    keyArray.setAtIndex(C_POINTER, i, temporarySession.allocateFrom(entry.getKey()));
+                    valueArray.setAtIndex(C_LONG, i, entry.getValue());
+                    i++;
+                }
+                MemorySegment arenaConfigAddress = api.create(
+                        temporarySession, out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
+                api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
             }
-            MemorySegment arenaConfigAddress =
-                    api.create(temporarySession, out -> api.CreateArenaCfgV2.apply(keyArray, valueArray, size, out));
-            api.checkStatus(api.CreateAndRegisterAllocator.apply(address, memoryInfo, arenaConfigAddress));
             this.ortAllocator = api.create(arena, out -> api.GetSharedAllocator.apply(address, memoryInfo, out));
             this.valueContext = new ValueContext(api, ortAllocator, memoryInfo, true);
         }
@@ -141,7 +148,6 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
             this.api = api;
             this.severityLevel = OnnxRuntimeLoggingLevel.DEFAULT;
             this.logId = "onnxruntime-java";
-            this.arenaConfig = Map.of();
         }
 
         @Override
