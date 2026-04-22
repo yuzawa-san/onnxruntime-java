@@ -431,6 +431,10 @@ import java.util.stream.*;
  *     OrtStatusPtr (*EpAssignedNode_GetOperatorType)(const OrtEpAssignedNode *, const char **);
  *     void (*RunOptionsSetSyncStream)(OrtRunOptions *, OrtSyncStream *);
  *     OrtStatusPtr (*GetTensorElementTypeAndShapeDataReference)(const OrtValue *, ONNXTensorElementDataType *, const int64_t **, size_t *);
+ *     OrtStatusPtr (*RunOptionsEnableProfiling)(OrtRunOptions *, const char *);
+ *     OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *);
+ *     OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *);
+ *     OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *);
  * }
  * }
  */
@@ -855,7 +859,11 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("EpAssignedNode_GetDomain"),
                     onnxruntime_all_h.C_POINTER.withName("EpAssignedNode_GetOperatorType"),
                     onnxruntime_all_h.C_POINTER.withName("RunOptionsSetSyncStream"),
-                    onnxruntime_all_h.C_POINTER.withName("GetTensorElementTypeAndShapeDataReference"))
+                    onnxruntime_all_h.C_POINTER.withName("GetTensorElementTypeAndShapeDataReference"),
+                    onnxruntime_all_h.C_POINTER.withName("RunOptionsEnableProfiling"),
+                    onnxruntime_all_h.C_POINTER.withName("RunOptionsDisableProfiling"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelInfoGetAttributeArray_string"),
+                    onnxruntime_all_h.C_POINTER.withName("SetPerSessionThreadPoolCallbacks"))
             .withName("OrtApi");
 
     /**
@@ -43736,6 +43744,422 @@ public class OrtApi {
                 GetTensorElementTypeAndShapeDataReference$LAYOUT,
                 GetTensorElementTypeAndShapeDataReference$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsEnableProfiling)(OrtRunOptions *, const char *)
+     * }
+     */
+    public static final class RunOptionsEnableProfiling {
+
+        private RunOptionsEnableProfiling() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(RunOptionsEnableProfiling.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(RunOptionsEnableProfiling.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout RunOptionsEnableProfiling$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("RunOptionsEnableProfiling"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsEnableProfiling)(OrtRunOptions *, const char *)
+     * }
+     */
+    public static final AddressLayout RunOptionsEnableProfiling$layout() {
+        return RunOptionsEnableProfiling$LAYOUT;
+    }
+
+    private static final long RunOptionsEnableProfiling$OFFSET =
+            $LAYOUT.byteOffset(groupElement("RunOptionsEnableProfiling"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsEnableProfiling)(OrtRunOptions *, const char *)
+     * }
+     */
+    public static final long RunOptionsEnableProfiling$offset() {
+        return RunOptionsEnableProfiling$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsEnableProfiling)(OrtRunOptions *, const char *)
+     * }
+     */
+    public static MemorySegment RunOptionsEnableProfiling(MemorySegment struct) {
+        return struct.get(RunOptionsEnableProfiling$LAYOUT, RunOptionsEnableProfiling$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsEnableProfiling)(OrtRunOptions *, const char *)
+     * }
+     */
+    public static void RunOptionsEnableProfiling(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(RunOptionsEnableProfiling$LAYOUT, RunOptionsEnableProfiling$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *)
+     * }
+     */
+    public static final class RunOptionsDisableProfiling {
+
+        private RunOptionsDisableProfiling() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(RunOptionsDisableProfiling.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(RunOptionsDisableProfiling.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout RunOptionsDisableProfiling$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("RunOptionsDisableProfiling"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *)
+     * }
+     */
+    public static final AddressLayout RunOptionsDisableProfiling$layout() {
+        return RunOptionsDisableProfiling$LAYOUT;
+    }
+
+    private static final long RunOptionsDisableProfiling$OFFSET =
+            $LAYOUT.byteOffset(groupElement("RunOptionsDisableProfiling"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *)
+     * }
+     */
+    public static final long RunOptionsDisableProfiling$offset() {
+        return RunOptionsDisableProfiling$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *)
+     * }
+     */
+    public static MemorySegment RunOptionsDisableProfiling(MemorySegment struct) {
+        return struct.get(RunOptionsDisableProfiling$LAYOUT, RunOptionsDisableProfiling$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *)
+     * }
+     */
+    public static void RunOptionsDisableProfiling(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(RunOptionsDisableProfiling$LAYOUT, RunOptionsDisableProfiling$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *)
+     * }
+     */
+    public static final class KernelInfoGetAttributeArray_string {
+
+        private KernelInfoGetAttributeArray_string() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(
+                    MemorySegment _x0, MemorySegment _x1, MemorySegment _x2, MemorySegment _x3, MemorySegment _x4);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelInfoGetAttributeArray_string.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelInfoGetAttributeArray_string.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                MemorySegment _x2,
+                MemorySegment _x3,
+                MemorySegment _x4) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelInfoGetAttributeArray_string$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelInfoGetAttributeArray_string"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *)
+     * }
+     */
+    public static final AddressLayout KernelInfoGetAttributeArray_string$layout() {
+        return KernelInfoGetAttributeArray_string$LAYOUT;
+    }
+
+    private static final long KernelInfoGetAttributeArray_string$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelInfoGetAttributeArray_string"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *)
+     * }
+     */
+    public static final long KernelInfoGetAttributeArray_string$offset() {
+        return KernelInfoGetAttributeArray_string$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *)
+     * }
+     */
+    public static MemorySegment KernelInfoGetAttributeArray_string(MemorySegment struct) {
+        return struct.get(KernelInfoGetAttributeArray_string$LAYOUT, KernelInfoGetAttributeArray_string$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *)
+     * }
+     */
+    public static void KernelInfoGetAttributeArray_string(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelInfoGetAttributeArray_string$LAYOUT, KernelInfoGetAttributeArray_string$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *)
+     * }
+     */
+    public static final class SetPerSessionThreadPoolCallbacks {
+
+        private SetPerSessionThreadPoolCallbacks() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SetPerSessionThreadPoolCallbacks.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SetPerSessionThreadPoolCallbacks.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SetPerSessionThreadPoolCallbacks$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SetPerSessionThreadPoolCallbacks"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *)
+     * }
+     */
+    public static final AddressLayout SetPerSessionThreadPoolCallbacks$layout() {
+        return SetPerSessionThreadPoolCallbacks$LAYOUT;
+    }
+
+    private static final long SetPerSessionThreadPoolCallbacks$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SetPerSessionThreadPoolCallbacks"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *)
+     * }
+     */
+    public static final long SetPerSessionThreadPoolCallbacks$offset() {
+        return SetPerSessionThreadPoolCallbacks$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *)
+     * }
+     */
+    public static MemorySegment SetPerSessionThreadPoolCallbacks(MemorySegment struct) {
+        return struct.get(SetPerSessionThreadPoolCallbacks$LAYOUT, SetPerSessionThreadPoolCallbacks$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *)
+     * }
+     */
+    public static void SetPerSessionThreadPoolCallbacks(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SetPerSessionThreadPoolCallbacks$LAYOUT, SetPerSessionThreadPoolCallbacks$OFFSET, fieldValue);
     }
 
     /**
