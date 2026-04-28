@@ -31,6 +31,8 @@ import java.util.stream.*;
  *     const char *(*GetCompiledModelCompatibilityInfo)(OrtEp *, const OrtGraph *);
  *     OrtStatusPtr (*GetKernelRegistry)(OrtEp *, const OrtKernelRegistry **);
  *     OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *);
+ *     OrtStatusPtr (*Sync)(OrtEp *);
+ *     OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **);
  * }
  * }
  */
@@ -56,7 +58,9 @@ public class OrtEp {
                     onnxruntime_all_h.C_POINTER.withName("CreateSyncStreamForDevice"),
                     onnxruntime_all_h.C_POINTER.withName("GetCompiledModelCompatibilityInfo"),
                     onnxruntime_all_h.C_POINTER.withName("GetKernelRegistry"),
-                    onnxruntime_all_h.C_POINTER.withName("IsConcurrentRunSupported"))
+                    onnxruntime_all_h.C_POINTER.withName("IsConcurrentRunSupported"),
+                    onnxruntime_all_h.C_POINTER.withName("Sync"),
+                    onnxruntime_all_h.C_POINTER.withName("CreateProfiler"))
             .withName("OrtEp");
 
     /**
@@ -1561,6 +1565,204 @@ public class OrtEp {
      */
     public static void IsConcurrentRunSupported(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(IsConcurrentRunSupported$LAYOUT, IsConcurrentRunSupported$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Sync)(OrtEp *)
+     * }
+     */
+    public static final class Sync {
+
+        private Sync() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(Sync.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Sync.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Sync$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Sync"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Sync)(OrtEp *)
+     * }
+     */
+    public static final AddressLayout Sync$layout() {
+        return Sync$LAYOUT;
+    }
+
+    private static final long Sync$OFFSET = $LAYOUT.byteOffset(groupElement("Sync"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Sync)(OrtEp *)
+     * }
+     */
+    public static final long Sync$offset() {
+        return Sync$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Sync)(OrtEp *)
+     * }
+     */
+    public static MemorySegment Sync(MemorySegment struct) {
+        return struct.get(Sync$LAYOUT, Sync$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Sync)(OrtEp *)
+     * }
+     */
+    public static void Sync(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Sync$LAYOUT, Sync$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **)
+     * }
+     */
+    public static final class CreateProfiler {
+
+        private CreateProfiler() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(CreateProfiler.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(CreateProfiler.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout CreateProfiler$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("CreateProfiler"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **)
+     * }
+     */
+    public static final AddressLayout CreateProfiler$layout() {
+        return CreateProfiler$LAYOUT;
+    }
+
+    private static final long CreateProfiler$OFFSET = $LAYOUT.byteOffset(groupElement("CreateProfiler"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **)
+     * }
+     */
+    public static final long CreateProfiler$offset() {
+        return CreateProfiler$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **)
+     * }
+     */
+    public static MemorySegment CreateProfiler(MemorySegment struct) {
+        return struct.get(CreateProfiler$LAYOUT, CreateProfiler$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **)
+     * }
+     */
+    public static void CreateProfiler(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(CreateProfiler$LAYOUT, CreateProfiler$OFFSET, fieldValue);
     }
 
     /**
