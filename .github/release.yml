@@ -1,6 +1,6 @@
 changelog:
   categories:
-    - title: Required Minimum Version Changes
+    - title: Upstream Upgrades
       labels:
         - upstream_upgrade
     - title: Dependency Upgrades
