@@ -23,6 +23,7 @@ import java.util.stream.*;
  *     void *(*Reserve)(struct OrtAllocator *, size_t);
  *     OrtStatusPtr (*GetStats)(const struct OrtAllocator *, OrtKeyValuePairs **);
  *     void *(*AllocOnStream)(struct OrtAllocator *, size_t, OrtSyncStream *);
+ *     OrtStatusPtr (*Shrink)(struct OrtAllocator *);
  * }
  * }
  */
@@ -40,7 +41,8 @@ public class OrtAllocator {
                     onnxruntime_all_h.C_POINTER.withName("Info"),
                     onnxruntime_all_h.C_POINTER.withName("Reserve"),
                     onnxruntime_all_h.C_POINTER.withName("GetStats"),
-                    onnxruntime_all_h.C_POINTER.withName("AllocOnStream"))
+                    onnxruntime_all_h.C_POINTER.withName("AllocOnStream"),
+                    onnxruntime_all_h.C_POINTER.withName("Shrink"))
             .withName("OrtAllocator");
 
     /**
@@ -687,6 +689,104 @@ public class OrtAllocator {
      */
     public static void AllocOnStream(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(AllocOnStream$LAYOUT, AllocOnStream$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Shrink)(struct OrtAllocator *)
+     * }
+     */
+    public static final class Shrink {
+
+        private Shrink() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(Shrink.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(Shrink.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout Shrink$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("Shrink"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Shrink)(struct OrtAllocator *)
+     * }
+     */
+    public static final AddressLayout Shrink$layout() {
+        return Shrink$LAYOUT;
+    }
+
+    private static final long Shrink$OFFSET = $LAYOUT.byteOffset(groupElement("Shrink"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Shrink)(struct OrtAllocator *)
+     * }
+     */
+    public static final long Shrink$offset() {
+        return Shrink$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Shrink)(struct OrtAllocator *)
+     * }
+     */
+    public static MemorySegment Shrink(MemorySegment struct) {
+        return struct.get(Shrink$LAYOUT, Shrink$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*Shrink)(struct OrtAllocator *)
+     * }
+     */
+    public static void Shrink(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(Shrink$LAYOUT, Shrink$OFFSET, fieldValue);
     }
 
     /**
