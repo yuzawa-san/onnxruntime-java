@@ -40,7 +40,7 @@ jobs:
       - name: Check upstream project for upgrades
         id: update_check
         run: |
-          OLD_VERSION=$(sed -nE 's/^version=([\.0-9]+)-.+$/\1/p' gradle.properties)
+          OLD_VERSION=$(sed -nE 's/^version=([\.0-9]+)-[0-9]-SNAPSHOT$/\1/p' gradle.properties)
           NEW_VERSION=$(curl -s https://api.github.com/repos/microsoft/onnxruntime/tags | jq -r ".[0].name" | sed 's/^v//g')
           echo "old: $OLD_VERSION"
           echo "new: $NEW_VERSION"
@@ -48,7 +48,7 @@ jobs:
             echo "::notice::up to date with upstream"
             exit 0
           fi
-          sed "s/^version=$OLD_VERSION-[0-9]+/version=$NEW_VERSION-1/" gradle.properties
+          sed -i -E '/version=/ s/=.*/=${NEW_VERSION}-1-SNAPSHOT/' gradle.properties
           pushd /tmp
           curl -o jextract.tar.gz -L https://download.java.net/java/early_access/jextract/25/2/openjdk-25-jextract+2-4_linux-x64_bin.tar.gz
           tar xvzf jextract.tar.gz
