@@ -34,6 +34,8 @@ import java.util.stream.*;
  *     OrtStatusPtr (*CreateExternalResourceImporterForDevice)(OrtEpFactory *, const OrtEpDevice *, OrtExternalResourceImporterImpl **);
  *     OrtStatusPtr (*GetNumCustomOpDomains)(OrtEpFactory *, size_t *);
  *     OrtStatusPtr (*GetCustomOpDomains)(OrtEpFactory *, OrtCustomOpDomain **, size_t);
+ *     OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *);
+ *     OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *);
  * }
  * }
  */
@@ -62,7 +64,9 @@ public class OrtEpFactory {
                     onnxruntime_all_h.C_POINTER.withName("GetHardwareDeviceIncompatibilityDetails"),
                     onnxruntime_all_h.C_POINTER.withName("CreateExternalResourceImporterForDevice"),
                     onnxruntime_all_h.C_POINTER.withName("GetNumCustomOpDomains"),
-                    onnxruntime_all_h.C_POINTER.withName("GetCustomOpDomains"))
+                    onnxruntime_all_h.C_POINTER.withName("GetCustomOpDomains"),
+                    onnxruntime_all_h.C_POINTER.withName("InitGraphicsInterop"),
+                    onnxruntime_all_h.C_POINTER.withName("DeinitGraphicsInterop"))
             .withName("OrtEpFactory");
 
     /**
@@ -1892,6 +1896,210 @@ public class OrtEpFactory {
      */
     public static void GetCustomOpDomains(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetCustomOpDomains$LAYOUT, GetCustomOpDomains$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *)
+     * }
+     */
+    public static final class InitGraphicsInterop {
+
+        private InitGraphicsInterop() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(InitGraphicsInterop.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(InitGraphicsInterop.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout InitGraphicsInterop$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("InitGraphicsInterop"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *)
+     * }
+     */
+    public static final AddressLayout InitGraphicsInterop$layout() {
+        return InitGraphicsInterop$LAYOUT;
+    }
+
+    private static final long InitGraphicsInterop$OFFSET = $LAYOUT.byteOffset(groupElement("InitGraphicsInterop"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *)
+     * }
+     */
+    public static final long InitGraphicsInterop$offset() {
+        return InitGraphicsInterop$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *)
+     * }
+     */
+    public static MemorySegment InitGraphicsInterop(MemorySegment struct) {
+        return struct.get(InitGraphicsInterop$LAYOUT, InitGraphicsInterop$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *)
+     * }
+     */
+    public static void InitGraphicsInterop(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(InitGraphicsInterop$LAYOUT, InitGraphicsInterop$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *)
+     * }
+     */
+    public static final class DeinitGraphicsInterop {
+
+        private DeinitGraphicsInterop() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(DeinitGraphicsInterop.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(DeinitGraphicsInterop.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout DeinitGraphicsInterop$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("DeinitGraphicsInterop"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *)
+     * }
+     */
+    public static final AddressLayout DeinitGraphicsInterop$layout() {
+        return DeinitGraphicsInterop$LAYOUT;
+    }
+
+    private static final long DeinitGraphicsInterop$OFFSET = $LAYOUT.byteOffset(groupElement("DeinitGraphicsInterop"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *)
+     * }
+     */
+    public static final long DeinitGraphicsInterop$offset() {
+        return DeinitGraphicsInterop$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *)
+     * }
+     */
+    public static MemorySegment DeinitGraphicsInterop(MemorySegment struct) {
+        return struct.get(DeinitGraphicsInterop$LAYOUT, DeinitGraphicsInterop$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *)
+     * }
+     */
+    public static void DeinitGraphicsInterop(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(DeinitGraphicsInterop$LAYOUT, DeinitGraphicsInterop$OFFSET, fieldValue);
     }
 
     /**
