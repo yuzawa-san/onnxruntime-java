@@ -48,7 +48,7 @@ jobs:
             echo "::notice::up to date with upstream"
             exit 0
           fi
-          sed -i -E '/version=/ s/=.*/=${NEW_VERSION}-1-SNAPSHOT/' gradle.properties
+          sed -i -E "/version=/ s/=.*/=${NEW_VERSION}-1-SNAPSHOT/" gradle.properties
           pushd /tmp
           curl -o jextract.tar.gz -L https://download.java.net/java/early_access/jextract/25/2/openjdk-25-jextract+2-4_linux-x64_bin.tar.gz
           tar xvzf jextract.tar.gz
