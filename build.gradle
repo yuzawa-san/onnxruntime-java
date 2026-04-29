@@ -88,7 +88,7 @@ jacocoTestReport {
 description = "A Java binding of Microsoft's ONNX Runtime project."
 
 // NOTE: to bump ORT version, update gradle.properties then run `./gradlew clean jextractClean jextract`
-def ORT_VERSION = new File("${project.rootDir}/ORT_VERSION").text.trim()
+def ORT_VERSION = version.split('-')[0]
 
 def gitVersionProvider = providers.exec {
 	commandLine 'git', 'rev-parse', 'HEAD'
@@ -291,7 +291,7 @@ publishing {
 	publications {
 		onnxruntimeCpu(MavenPublication) {
 			version = ORT_VERSION
-			artifactId = "${rootProject.name}-cpu"
+			artifactId = "onnxruntime-cpu"
 			pom {
 				name = 'ONNX Runtime for Java: CPU'
 				description = 'The native libraries with basic CPU support for common architectures and platforms.'
@@ -307,7 +307,7 @@ publishing {
 		}
 		onnxruntimeGpu(MavenPublication) {
 			version = ORT_VERSION
-			artifactId = "${rootProject.name}-gpu"
+			artifactId = "onnxruntime-gpu"
 			pom {
 				name = 'ONNX Runtime for Java: GPU'
 				description = 'The native libraries with CUDA GPU support for common architectures and platforms.'
