@@ -30,6 +30,7 @@ import java.util.stream.*;
  *     OrtStatusPtr (*ModelCompilationOptions_SetGraphOptimizationLevel)(OrtModelCompilationOptions *, GraphOptimizationLevel);
  *     OrtStatusPtr (*ModelCompilationOptions_SetOutputModelWriteFunc)(OrtModelCompilationOptions *, OrtWriteBufferFunc, void *);
  *     OrtStatusPtr (*ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc)(OrtModelCompilationOptions *, OrtGetInitializerLocationFunc, void *);
+ *     OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *);
  * }
  * }
  */
@@ -55,7 +56,8 @@ public class OrtCompileApi {
                     onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetGraphOptimizationLevel"),
                     onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetOutputModelWriteFunc"),
                     onnxruntime_all_h.C_POINTER.withName(
-                            "ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc"))
+                            "ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc"),
+                    onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetInputModel"))
             .withName("OrtCompileApi");
 
     /**
@@ -1565,6 +1567,108 @@ public class OrtCompileApi {
                 ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc$LAYOUT,
                 ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *)
+     * }
+     */
+    public static final class ModelCompilationOptions_SetInputModel {
+
+        private ModelCompilationOptions_SetInputModel() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ModelCompilationOptions_SetInputModel.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ModelCompilationOptions_SetInputModel.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ModelCompilationOptions_SetInputModel$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ModelCompilationOptions_SetInputModel"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *)
+     * }
+     */
+    public static final AddressLayout ModelCompilationOptions_SetInputModel$layout() {
+        return ModelCompilationOptions_SetInputModel$LAYOUT;
+    }
+
+    private static final long ModelCompilationOptions_SetInputModel$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ModelCompilationOptions_SetInputModel"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *)
+     * }
+     */
+    public static final long ModelCompilationOptions_SetInputModel$offset() {
+        return ModelCompilationOptions_SetInputModel$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *)
+     * }
+     */
+    public static MemorySegment ModelCompilationOptions_SetInputModel(MemorySegment struct) {
+        return struct.get(ModelCompilationOptions_SetInputModel$LAYOUT, ModelCompilationOptions_SetInputModel$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *)
+     * }
+     */
+    public static void ModelCompilationOptions_SetInputModel(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                ModelCompilationOptions_SetInputModel$LAYOUT, ModelCompilationOptions_SetInputModel$OFFSET, fieldValue);
     }
 
     /**

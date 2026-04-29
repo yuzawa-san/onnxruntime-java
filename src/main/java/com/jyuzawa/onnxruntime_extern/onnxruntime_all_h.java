@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 24L;
+    private static final int ORT_API_VERSION = (int) 25L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 24
+     * #define ORT_API_VERSION 25
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1298,6 +1298,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE;
     }
 
+    private static final int ORT_GRAPHICS_API_NONE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtGraphicsApi.ORT_GRAPHICS_API_NONE = 0
+     * }
+     */
+    public static int ORT_GRAPHICS_API_NONE() {
+        return ORT_GRAPHICS_API_NONE;
+    }
+
+    private static final int ORT_GRAPHICS_API_D3D12 = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtGraphicsApi.ORT_GRAPHICS_API_D3D12 = 1
+     * }
+     */
+    public static int ORT_GRAPHICS_API_D3D12() {
+        return ORT_GRAPHICS_API_D3D12;
+    }
+
+    private static final int ORT_GRAPHICS_API_VULKAN = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtGraphicsApi.ORT_GRAPHICS_API_VULKAN = 2
+     * }
+     */
+    public static int ORT_GRAPHICS_API_VULKAN() {
+        return ORT_GRAPHICS_API_VULKAN;
+    }
+
     private static final int OrtCompiledModelCompatibility_EP_NOT_APPLICABLE = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -1693,6 +1723,46 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
+    }
+
+    private static final int OrtProfilingEventCategory_SESSION = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtProfilingEventCategory.OrtProfilingEventCategory_SESSION = 0
+     * }
+     */
+    public static int OrtProfilingEventCategory_SESSION() {
+        return OrtProfilingEventCategory_SESSION;
+    }
+
+    private static final int OrtProfilingEventCategory_NODE = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtProfilingEventCategory.OrtProfilingEventCategory_NODE = 1
+     * }
+     */
+    public static int OrtProfilingEventCategory_NODE() {
+        return OrtProfilingEventCategory_NODE;
+    }
+
+    private static final int OrtProfilingEventCategory_KERNEL = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtProfilingEventCategory.OrtProfilingEventCategory_KERNEL = 2
+     * }
+     */
+    public static int OrtProfilingEventCategory_KERNEL() {
+        return OrtProfilingEventCategory_KERNEL;
+    }
+
+    private static final int OrtProfilingEventCategory_API = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtProfilingEventCategory.OrtProfilingEventCategory_API = 3
+     * }
+     */
+    public static int OrtProfilingEventCategory_API() {
+        return OrtProfilingEventCategory_API;
     }
 
     private static final int OrtEpDataLayout_NCHW = (int) 0L;
