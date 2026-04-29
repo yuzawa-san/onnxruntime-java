@@ -332,7 +332,6 @@ publishing {
 	}
 }
 
-/*
 signing {
 	def signingKeyId = findProperty("signingKeyId")
 	def signingKey = findProperty("signingKey")
@@ -342,7 +341,6 @@ signing {
 	}
 	sign publishing.publications
 }
-*/
 
 dependencies {
 	testImplementation platform('org.junit:junit-bom:6.0.3')
