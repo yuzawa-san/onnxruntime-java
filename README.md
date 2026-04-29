@@ -26,15 +26,21 @@ Here are the artifacts published listed below.
 
 #### onnxruntime
 
-[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime)
-[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fjyuzawa%2Fonnxruntime%2Fmaven-metadata.xml&label=maven-central-snapshot)](https://central.sonatype.com/repository/maven-snapshots/com/jyuzawa/onnxruntime/maven-metadata.xml)
+[![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime-api)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-api)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime-api/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime-api)
+[![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fjyuzawa%2Fonnxruntime-api%2Fmaven-metadata.xml&label=maven-central-snapshot)](https://central.sonatype.com/repository/maven-snapshots/com/jyuzawa/onnxruntime-api/maven-metadata.xml)
 
 The binding with no native libraries. For use as a implementation dependency.
 
 The native library (from [Microsoft](https://github.com/microsoft/onnxruntime/releases)) will need to be provided at runtime using one of the next two artifacts.
 Alternatively, the Java library path (`java.library.path`) will be used if neither of those artifacts is provided.
 This allows users to "bring their own" shared library.
-The API has a validation to make sure the shared library is minor version compatible with this library.
+
+##### Versioning
+
+This library's version string will be `${ORT_UPSTREAM_VERSION}-${THIS_REPO_VERSION}`.
+This indicates the minimum upstream native library this Java API supports, so please use the corresponding (or older) version.
+The second part of the version (THIS_REPO_VERSION) may get incremented if we add additional changes to the API but still target the same minimum upstream version.
+This API has a validation to make sure the shared library is minor version compatible with this library.
 
 #### onnxruntime-cpu
 
@@ -76,14 +82,3 @@ Since this uses a native library, this will require the runtime to have the `--e
 
 Only those which are exposed in the C API are supported.
 If you wish to use another execution provider which is present in the C API, but not in any of the artifacts from the upstream project, you can choose to bring your own onnxruntime shared library to link against.
-
-## Versioning
-
-The version of the upstream project used will be reflected in the release notes.
-Semantic versioning is used.
-Major version will be bumped when this API or the underlying C API has backward incompatible changes.
-Upstream major version changes will typically be major version changes here.
-Minor version will be bumped for smaller, but compatible changes.
-Upstream minor version changes will typically be minor version changes here.
-
-The minimum native library version (e.g. `onnxruntime-cpu`) for the `onnxruntime` artifact will be stated in the release notes.

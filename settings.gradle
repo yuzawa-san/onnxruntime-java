@@ -1,4 +1,4 @@
-rootProject.name = 'onnxruntime'
+rootProject.name = 'onnxruntime-api'
 include 'onnxruntime-sample-library'
 include 'onnxruntime-sample-application'
 include 'onnxruntime-benchmark'
