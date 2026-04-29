@@ -27,7 +27,7 @@ Here are the artifacts published listed below.
 #### onnxruntime
 
 > [!WARNING]
-> Prior versions used the `com.jyuzawa:onnxruntime` Maven coordinates with a bastardized version of semver. Please upgrade to the new `com.jyuzawa:onnxruntime-api`. See Versioning below for details.
+> Prior versions used the `com.jyuzawa:onnxruntime` [Maven coordinates](https://search.maven.org/artifact/com.jyuzawa/onnxruntime) with a bastardized version of semver. Please upgrade to the `com.jyuzawa:onnxruntime-api`. See "Versioning" below for details.
 
 [![maven](https://img.shields.io/maven-central/v/com.jyuzawa/onnxruntime-api)](https://search.maven.org/artifact/com.jyuzawa/onnxruntime-api)  [![javadoc](https://javadoc.io/badge2/com.jyuzawa/onnxruntime-api/javadoc.svg)](https://javadoc.io/doc/com.jyuzawa/onnxruntime-api)
 [![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fjyuzawa%2Fonnxruntime-api%2Fmaven-metadata.xml&label=maven-central-snapshot)](https://central.sonatype.com/repository/maven-snapshots/com/jyuzawa/onnxruntime-api/maven-metadata.xml)
@@ -41,7 +41,7 @@ This allows users to "bring their own" shared library.
 ##### Versioning
 
 This library's version string will be `${ORT_UPSTREAM_VERSION}-${THIS_REPO_VERSION}`.
-This indicates the minimum upstream native library this Java API supports, so please use the corresponding (or older) version.
+The first part indicates the minimum upstream native library this Java API supports, so please use the corresponding (or older) version.
 The second part of the version (THIS_REPO_VERSION) may get incremented if we add additional changes to the API but still target the same minimum upstream version.
 This API has a validation to make sure the shared library is minor version compatible with this library.
 
