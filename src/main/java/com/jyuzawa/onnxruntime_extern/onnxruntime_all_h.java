@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 25L;
+    private static final int ORT_API_VERSION = (int) 26L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 25
+     * #define ORT_API_VERSION 26
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1288,6 +1288,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP;
     }
 
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32 = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32 = 2
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32;
+    }
+
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD = 3
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD;
+    }
+
     private static final int ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -1296,6 +1316,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE() {
         return ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE;
+    }
+
+    private static final int ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_WIN32 = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalSemaphoreType.ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_WIN32 = 1
+     * }
+     */
+    public static int ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_WIN32() {
+        return ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_WIN32;
+    }
+
+    private static final int ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_OPAQUE_FD = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalSemaphoreType.ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_OPAQUE_FD = 2
+     * }
+     */
+    public static int ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_OPAQUE_FD() {
+        return ORT_EXTERNAL_SEMAPHORE_VK_TIMELINE_SEMAPHORE_OPAQUE_FD;
     }
 
     private static final int ORT_GRAPHICS_API_NONE = (int) 0L;
@@ -1765,6 +1805,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return OrtProfilingEventCategory_API;
     }
 
+    private static final int OrtResourceCountKind_None = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtResourceCountKind.OrtResourceCountKind_None = 0
+     * }
+     */
+    public static int OrtResourceCountKind_None() {
+        return OrtResourceCountKind_None;
+    }
+
+    private static final int OrtResourceCountKind_TotalBytes = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtResourceCountKind.OrtResourceCountKind_TotalBytes = 1
+     * }
+     */
+    public static int OrtResourceCountKind_TotalBytes() {
+        return OrtResourceCountKind_TotalBytes;
+    }
+
     private static final int OrtEpDataLayout_NCHW = (int) 0L;
     /**
      * {@snippet lang=c :
@@ -1793,6 +1853,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int OrtEpDataLayout_Default() {
         return OrtEpDataLayout_Default;
+    }
+
+    private static final int OrtGraphCaptureNodeAssignmentPolicy_ALL_NODES_ON_EP = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtGraphCaptureNodeAssignmentPolicy.OrtGraphCaptureNodeAssignmentPolicy_ALL_NODES_ON_EP = 0
+     * }
+     */
+    public static int OrtGraphCaptureNodeAssignmentPolicy_ALL_NODES_ON_EP() {
+        return OrtGraphCaptureNodeAssignmentPolicy_ALL_NODES_ON_EP;
+    }
+
+    private static final int OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtGraphCaptureNodeAssignmentPolicy.OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES = 1
+     * }
+     */
+    public static int OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES() {
+        return OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES;
     }
 
     private static final int COREML_FLAG_USE_NONE = (int) 0L;
