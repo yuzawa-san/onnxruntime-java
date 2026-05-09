@@ -33,6 +33,11 @@ import java.util.stream.*;
  *     OrtStatusPtr (*IsConcurrentRunSupported)(OrtEp *, bool *);
  *     OrtStatusPtr (*Sync)(OrtEp *);
  *     OrtStatusPtr (*CreateProfiler)(OrtEp *, OrtEpProfilerImpl **);
+ *     bool (*IsGraphCaptureEnabled)(const OrtEp *);
+ *     bool (*IsGraphCaptured)(const OrtEp *, int);
+ *     OrtStatusPtr (*ReplayGraph)(OrtEp *, int);
+ *     OrtGraphCaptureNodeAssignmentPolicy (*GetGraphCaptureNodeAssignmentPolicy)(const OrtEp *);
+ *     OrtStatusPtr (*GetAvailableResource)(const OrtEp *, OrtResourceCount *);
  * }
  * }
  */
@@ -60,7 +65,12 @@ public class OrtEp {
                     onnxruntime_all_h.C_POINTER.withName("GetKernelRegistry"),
                     onnxruntime_all_h.C_POINTER.withName("IsConcurrentRunSupported"),
                     onnxruntime_all_h.C_POINTER.withName("Sync"),
-                    onnxruntime_all_h.C_POINTER.withName("CreateProfiler"))
+                    onnxruntime_all_h.C_POINTER.withName("CreateProfiler"),
+                    onnxruntime_all_h.C_POINTER.withName("IsGraphCaptureEnabled"),
+                    onnxruntime_all_h.C_POINTER.withName("IsGraphCaptured"),
+                    onnxruntime_all_h.C_POINTER.withName("ReplayGraph"),
+                    onnxruntime_all_h.C_POINTER.withName("GetGraphCaptureNodeAssignmentPolicy"),
+                    onnxruntime_all_h.C_POINTER.withName("GetAvailableResource"))
             .withName("OrtEp");
 
     /**
@@ -1763,6 +1773,506 @@ public class OrtEp {
      */
     public static void CreateProfiler(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(CreateProfiler$LAYOUT, CreateProfiler$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptureEnabled)(const OrtEp *)
+     * }
+     */
+    public static final class IsGraphCaptureEnabled {
+
+        private IsGraphCaptureEnabled() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            boolean apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_BOOL, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(IsGraphCaptureEnabled.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(IsGraphCaptureEnabled.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static boolean invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (boolean) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout IsGraphCaptureEnabled$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("IsGraphCaptureEnabled"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptureEnabled)(const OrtEp *)
+     * }
+     */
+    public static final AddressLayout IsGraphCaptureEnabled$layout() {
+        return IsGraphCaptureEnabled$LAYOUT;
+    }
+
+    private static final long IsGraphCaptureEnabled$OFFSET = $LAYOUT.byteOffset(groupElement("IsGraphCaptureEnabled"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptureEnabled)(const OrtEp *)
+     * }
+     */
+    public static final long IsGraphCaptureEnabled$offset() {
+        return IsGraphCaptureEnabled$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptureEnabled)(const OrtEp *)
+     * }
+     */
+    public static MemorySegment IsGraphCaptureEnabled(MemorySegment struct) {
+        return struct.get(IsGraphCaptureEnabled$LAYOUT, IsGraphCaptureEnabled$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptureEnabled)(const OrtEp *)
+     * }
+     */
+    public static void IsGraphCaptureEnabled(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(IsGraphCaptureEnabled$LAYOUT, IsGraphCaptureEnabled$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptured)(const OrtEp *, int)
+     * }
+     */
+    public static final class IsGraphCaptured {
+
+        private IsGraphCaptured() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            boolean apply(MemorySegment _x0, int _x1);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_BOOL, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(IsGraphCaptured.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(IsGraphCaptured.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static boolean invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1) {
+            try {
+                return (boolean) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout IsGraphCaptured$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("IsGraphCaptured"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptured)(const OrtEp *, int)
+     * }
+     */
+    public static final AddressLayout IsGraphCaptured$layout() {
+        return IsGraphCaptured$LAYOUT;
+    }
+
+    private static final long IsGraphCaptured$OFFSET = $LAYOUT.byteOffset(groupElement("IsGraphCaptured"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptured)(const OrtEp *, int)
+     * }
+     */
+    public static final long IsGraphCaptured$offset() {
+        return IsGraphCaptured$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptured)(const OrtEp *, int)
+     * }
+     */
+    public static MemorySegment IsGraphCaptured(MemorySegment struct) {
+        return struct.get(IsGraphCaptured$LAYOUT, IsGraphCaptured$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * bool (*IsGraphCaptured)(const OrtEp *, int)
+     * }
+     */
+    public static void IsGraphCaptured(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(IsGraphCaptured$LAYOUT, IsGraphCaptured$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReplayGraph)(OrtEp *, int)
+     * }
+     */
+    public static final class ReplayGraph {
+
+        private ReplayGraph() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReplayGraph.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReplayGraph.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReplayGraph$LAYOUT = (AddressLayout) $LAYOUT.select(groupElement("ReplayGraph"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReplayGraph)(OrtEp *, int)
+     * }
+     */
+    public static final AddressLayout ReplayGraph$layout() {
+        return ReplayGraph$LAYOUT;
+    }
+
+    private static final long ReplayGraph$OFFSET = $LAYOUT.byteOffset(groupElement("ReplayGraph"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReplayGraph)(OrtEp *, int)
+     * }
+     */
+    public static final long ReplayGraph$offset() {
+        return ReplayGraph$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReplayGraph)(OrtEp *, int)
+     * }
+     */
+    public static MemorySegment ReplayGraph(MemorySegment struct) {
+        return struct.get(ReplayGraph$LAYOUT, ReplayGraph$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ReplayGraph)(OrtEp *, int)
+     * }
+     */
+    public static void ReplayGraph(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReplayGraph$LAYOUT, ReplayGraph$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtGraphCaptureNodeAssignmentPolicy (*GetGraphCaptureNodeAssignmentPolicy)(const OrtEp *)
+     * }
+     */
+    public static final class GetGraphCaptureNodeAssignmentPolicy {
+
+        private GetGraphCaptureNodeAssignmentPolicy() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            int apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC =
+                FunctionDescriptor.of(onnxruntime_all_h.C_INT, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetGraphCaptureNodeAssignmentPolicy.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetGraphCaptureNodeAssignmentPolicy.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static int invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                return (int) DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetGraphCaptureNodeAssignmentPolicy$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetGraphCaptureNodeAssignmentPolicy"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtGraphCaptureNodeAssignmentPolicy (*GetGraphCaptureNodeAssignmentPolicy)(const OrtEp *)
+     * }
+     */
+    public static final AddressLayout GetGraphCaptureNodeAssignmentPolicy$layout() {
+        return GetGraphCaptureNodeAssignmentPolicy$LAYOUT;
+    }
+
+    private static final long GetGraphCaptureNodeAssignmentPolicy$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetGraphCaptureNodeAssignmentPolicy"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtGraphCaptureNodeAssignmentPolicy (*GetGraphCaptureNodeAssignmentPolicy)(const OrtEp *)
+     * }
+     */
+    public static final long GetGraphCaptureNodeAssignmentPolicy$offset() {
+        return GetGraphCaptureNodeAssignmentPolicy$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtGraphCaptureNodeAssignmentPolicy (*GetGraphCaptureNodeAssignmentPolicy)(const OrtEp *)
+     * }
+     */
+    public static MemorySegment GetGraphCaptureNodeAssignmentPolicy(MemorySegment struct) {
+        return struct.get(GetGraphCaptureNodeAssignmentPolicy$LAYOUT, GetGraphCaptureNodeAssignmentPolicy$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtGraphCaptureNodeAssignmentPolicy (*GetGraphCaptureNodeAssignmentPolicy)(const OrtEp *)
+     * }
+     */
+    public static void GetGraphCaptureNodeAssignmentPolicy(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetGraphCaptureNodeAssignmentPolicy$LAYOUT, GetGraphCaptureNodeAssignmentPolicy$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAvailableResource)(const OrtEp *, OrtResourceCount *)
+     * }
+     */
+    public static final class GetAvailableResource {
+
+        private GetAvailableResource() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetAvailableResource.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetAvailableResource.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetAvailableResource$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetAvailableResource"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAvailableResource)(const OrtEp *, OrtResourceCount *)
+     * }
+     */
+    public static final AddressLayout GetAvailableResource$layout() {
+        return GetAvailableResource$LAYOUT;
+    }
+
+    private static final long GetAvailableResource$OFFSET = $LAYOUT.byteOffset(groupElement("GetAvailableResource"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAvailableResource)(const OrtEp *, OrtResourceCount *)
+     * }
+     */
+    public static final long GetAvailableResource$offset() {
+        return GetAvailableResource$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAvailableResource)(const OrtEp *, OrtResourceCount *)
+     * }
+     */
+    public static MemorySegment GetAvailableResource(MemorySegment struct) {
+        return struct.get(GetAvailableResource$LAYOUT, GetAvailableResource$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetAvailableResource)(const OrtEp *, OrtResourceCount *)
+     * }
+     */
+    public static void GetAvailableResource(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetAvailableResource$LAYOUT, GetAvailableResource$OFFSET, fieldValue);
     }
 
     /**
