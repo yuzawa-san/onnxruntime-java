@@ -102,25 +102,16 @@ final class TensorInfoImpl implements TensorInfo {
         return false;
     }
 
-    final OnnxTensorImpl newValue(ValueContext valueContext, MemorySegment ortValueAddress) {
-        switch (type) {
-            case BOOL:
-            case INT8:
-                return new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
-            case INT16:
-                return new OnnxTensorShortImpl(this, valueContext, ortValueAddress);
-            case INT32:
-                return new OnnxTensorIntImpl(this, valueContext, ortValueAddress);
-            case INT64:
-                return new OnnxTensorLongImpl(this, valueContext, ortValueAddress);
-            case FLOAT:
-                return new OnnxTensorFloatImpl(this, valueContext, ortValueAddress);
-            case DOUBLE:
-                return new OnnxTensorDoubleImpl(this, valueContext, ortValueAddress);
-            case STRING:
-                return new OnnxTensorStringImpl(this, valueContext, ortValueAddress);
-            default:
-                throw new UnsupportedOperationException("OnnxTensor with type " + type + " is not supported");
-        }
+    OnnxTensorImpl newValue(ValueContext valueContext, MemorySegment ortValueAddress) {
+        return switch (type) {
+            case BOOL, INT8, UINT8 -> new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
+            case INT16, UINT16 -> new OnnxTensorShortImpl(this, valueContext, ortValueAddress);
+            case INT32, UINT32 -> new OnnxTensorIntImpl(this, valueContext, ortValueAddress);
+            case INT64, UINT64 -> new OnnxTensorLongImpl(this, valueContext, ortValueAddress);
+            case FLOAT, FLOAT16, BFLOAT16 -> new OnnxTensorFloatImpl(this, valueContext, ortValueAddress);
+            case DOUBLE -> new OnnxTensorDoubleImpl(this, valueContext, ortValueAddress);
+            case STRING -> new OnnxTensorStringImpl(this, valueContext, ortValueAddress);
+            default -> throw new UnsupportedOperationException("OnnxTensor with type " + type + " is not supported");
+        };
     }
 }
