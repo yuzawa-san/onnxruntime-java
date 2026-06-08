@@ -15,6 +15,17 @@ import java.util.NoSuchElementException;
 /**
  * A representation of a dense tensor. Use {@link #getInfo()} to select the proper buffer type. A {@link NoSuchElementException} will be thrown if a view does not exist for this instance's type.
  *
+ * The relevant view will depend on the number of bits of the tensor's type. Consider the following examples:
+ * <ul>
+ * <li>INT32 will use an IntBuffer.
+ * <li>UINT32 will use a IntBuffer. It is on the caller to convert the 32 bit ints to the relevant unsigned int representation.
+ * <li>DOUBLE will use a DoubleBuffer.
+ * <li>FLOAT16 will use a ShortBuffer (not a FloatBuffer!). It is on the caller to convert the 16 bit shorts to the relevant 32-bit float representation.
+ * <li>COMPLEX64 will use a FloatBuffer, since each of the constituent real/imaginary components are floats.
+ * <li>COMPLEX128 will use a DoubleBuffer, since each of the constituent real/imaginary components are doubles.
+ * <li>FLOAT8E4M3FN will use a ByteBuffer. It is on the caller to convert the 8 bit bytes to the relevant 32-bit float representation.
+ * <li>INT2 will use a ByteBuffer.
+ * </ul>
  * @since 1.0.0
  */
 public interface OnnxTensor {
