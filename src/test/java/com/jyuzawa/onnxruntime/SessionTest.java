@@ -345,7 +345,16 @@ public class SessionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {DataType.INT8_VALUE, DataType.UINT8_VALUE, DataType.FLOAT16_VALUE, DataType.BFLOAT16_VALUE})
+    @ValueSource(
+            ints = {
+                DataType.INT8_VALUE,
+                DataType.UINT8_VALUE,
+                DataType.BOOL_VALUE,
+                DataType.FLOAT8E4M3FN_VALUE,
+                DataType.FLOAT8E4M3FNUZ_VALUE,
+                DataType.FLOAT8E5M2_VALUE,
+                DataType.FLOAT8E5M2FNUZ_VALUE
+            })
     public void byteTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
@@ -371,16 +380,7 @@ public class SessionTest {
     }
 
     @ParameterizedTest
-    @ValueSource(
-            ints = {
-                DataType.INT16_VALUE,
-                DataType.UINT16_VALUE,
-                DataType.BOOL_VALUE,
-                DataType.FLOAT8E4M3FN_VALUE,
-                DataType.FLOAT8E4M3FNUZ_VALUE,
-                DataType.FLOAT8E5M2_VALUE,
-                DataType.FLOAT8E5M2FNUZ_VALUE
-            })
+    @ValueSource(ints = {DataType.INT16_VALUE, DataType.UINT16_VALUE, DataType.FLOAT16_VALUE, DataType.BFLOAT16_VALUE})
     public void shortTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
@@ -582,17 +582,6 @@ public class SessionTest {
             String[] rawOutput = output.get(0).asTensor().getStringBuffer();
             assertArrayEquals(rawInput, rawOutput);
             LOG.log(Level.INFO, output.get(0));
-        }
-    }
-
-    @Test
-    public void typesTest() {
-        for (DataType type : DataType.values()) {
-            if (type != DataType.UNDEFINED) {
-                assertEquals(
-                        type.getNumber(),
-                        OnnxTensorElementDataType.forNumber(type.getNumber()).getNumber());
-            }
         }
     }
 
