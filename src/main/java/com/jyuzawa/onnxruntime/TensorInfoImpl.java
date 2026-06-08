@@ -84,8 +84,7 @@ final class TensorInfoImpl implements TensorInfo {
 
     @Override
     public long getByteCount() {
-        // TODO: handle missing valueLayout
-        return elementCount * type.getValueLayout().byteSize();
+        return Math.ceilDiv(elementCount * type.getBits(), 8);
     }
 
     @Override
@@ -103,24 +102,27 @@ final class TensorInfoImpl implements TensorInfo {
     }
 
     final OnnxTensorImpl newValue(ValueContext valueContext, MemorySegment ortValueAddress) {
-        switch (type) {
-            case BOOL:
-            case INT8:
-                return new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
-            case INT16:
-                return new OnnxTensorShortImpl(this, valueContext, ortValueAddress);
-            case INT32:
-                return new OnnxTensorIntImpl(this, valueContext, ortValueAddress);
-            case INT64:
-                return new OnnxTensorLongImpl(this, valueContext, ortValueAddress);
-            case FLOAT:
-                return new OnnxTensorFloatImpl(this, valueContext, ortValueAddress);
-            case DOUBLE:
-                return new OnnxTensorDoubleImpl(this, valueContext, ortValueAddress);
-            case STRING:
-                return new OnnxTensorStringImpl(this, valueContext, ortValueAddress);
-            default:
+        return switch (type) {
+            case INT8,
+                    UINT8,
+                    BOOL,
+                    FLOAT8E4M3FN,
+                    FLOAT8E4M3FNUZ,
+                    FLOAT8E5M2,
+                    FLOAT8E5M2FNUZ,
+                    INT4,
+                    UINT4,
+                    FLOAT4E2M1,
+                    INT2,
+                    UINT2 -> new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
+            case INT16, UINT16, FLOAT16, BFLOAT16 -> new OnnxTensorShortImpl(this, valueContext, ortValueAddress);
+            case INT32, UINT32 -> new OnnxTensorIntImpl(this, valueContext, ortValueAddress);
+            case INT64, UINT64 -> new OnnxTensorLongImpl(this, valueContext, ortValueAddress);
+            case FLOAT, COMPLEX64 -> new OnnxTensorFloatImpl(this, valueContext, ortValueAddress);
+            case DOUBLE, COMPLEX128 -> new OnnxTensorDoubleImpl(this, valueContext, ortValueAddress);
+            case STRING -> new OnnxTensorStringImpl(this, valueContext, ortValueAddress);
+            case UNDEFINED ->
                 throw new UnsupportedOperationException("OnnxTensor with type " + type + " is not supported");
-        }
+        };
     }
 }
