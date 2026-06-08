@@ -87,7 +87,7 @@ public class SessionTest {
 
     private ByteBuffer identityModel(TypeProto type) {
         return ModelProto.newBuilder()
-                .setIrVersion(25)
+                .setIrVersion(13)
                 .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
                 .setGraph(GraphProto.newBuilder()
                         .addNode(NodeProto.newBuilder()
