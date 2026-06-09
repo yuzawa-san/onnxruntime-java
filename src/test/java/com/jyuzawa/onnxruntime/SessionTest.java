@@ -81,8 +81,12 @@ public class SessionTest {
     }
 
     @AfterAll
-    public static void tearDown() {
-        environment.close();
+    public static void tearDown() throws InterruptedException {
+        environment = null;
+        // check to see if there are any weird issue with the auto free logic
+        Thread.sleep(1000);
+        System.gc();
+        Thread.sleep(1000);
     }
 
     private ByteBuffer identityModel(TypeProto type) {
