@@ -68,7 +68,7 @@ public class ConcurrencyTest {
 
     @AfterAll
     public static void tearDown() {
-        environment.close();
+        environment = null;
     }
 
     @Test

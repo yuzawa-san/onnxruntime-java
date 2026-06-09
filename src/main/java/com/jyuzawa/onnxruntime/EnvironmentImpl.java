@@ -18,15 +18,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class EnvironmentImpl extends ManagedImpl implements Environment {
+final class EnvironmentImpl implements Environment {
 
+    protected final ApiImpl api;
     private final MemorySegment address;
     final MemorySegment memoryInfo;
     final MemorySegment ortAllocator;
     private final ValueContext valueContext;
 
     EnvironmentImpl(Builder builder) {
-        super(builder.api, Arena.ofShared());
+        this.api = builder.api;
+        Arena arena = Arena.ofAuto();
         try (Arena temporarySession = Arena.ofConfined()) {
             MemorySegment options = OrtEnvCreationOptions.allocate(temporarySession);
             OrtEnvCreationOptions.version(options, onnxruntime_all_h.ORT_API_VERSION());
@@ -111,7 +113,6 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
         }
     }
 
-    @Override
     MemorySegment address() {
         return address;
     }
@@ -242,5 +243,10 @@ final class EnvironmentImpl extends ManagedImpl implements Environment {
     public OnnxTensor newTensor(OnnxTensorElementDataType type, List<Long> shape) {
         TensorInfoImpl tensorInfo = new TensorInfoImpl(type, shape);
         return tensorInfo.newValue(valueContext, null);
+    }
+
+    @Override
+    public void close() {
+        // does not do anything any more
     }
 }
