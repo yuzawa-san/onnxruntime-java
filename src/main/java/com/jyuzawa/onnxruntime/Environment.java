@@ -12,13 +12,21 @@ import java.util.Map;
  * The environment in which model evaluation sessions can be constructed. Only
  * one environment should be used in your application. This class is thread safe.
  *
+ * The close() method is deprecated.
+ * In general, there should not be a need to close the environment,
+ * given there should be single environment per JVM process and
+ * it can live for the duration of the application.
+ *
  * @since 1.0.0
  */
 public interface Environment extends AutoCloseable {
 
     /**
-     * Releases native resources.
+     * DEPRECATED: This is a no-op.
+     * If you want to close the environment, just set all references to this environment null
+     * and the garbage collector will release it automatically.
      */
+    @Deprecated
     @Override
     void close();
 
