@@ -36,7 +36,7 @@ case $VARIANT in
     doIt linux-x86_64 "" linux-x64 tgz so
     ;;
   linux-x86_64-gpu)
-    doIt linux-x86_64 -gpu linux-x64-gpu tgz so
+    doIt linux-x86_64 -gpu linux-x64-gpu_cuda13 tgz so
     ;;
   osx-aarch_64)
     doIt osx-aarch_64 "" osx-arm64 tgz dylib
@@ -48,6 +48,6 @@ case $VARIANT in
     doIt windows-x86_64 "" win-x64 zip dll
     ;;
   windows-x86_64-gpu)
-    doIt windows-x86_64 -gpu win-x64-gpu zip dll
+    doIt windows-x86_64 -gpu win-x64-gpu_cuda13 zip dll
     ;;
 esac
