@@ -114,7 +114,8 @@ final class TensorInfoImpl implements TensorInfo {
                     UINT4,
                     FLOAT4E2M1,
                     INT2,
-                    UINT2 -> new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
+                    UINT2,
+                    FLOAT8E8M0 -> new OnnxTensorByteImpl(this, valueContext, ortValueAddress);
             case INT16, UINT16, FLOAT16, BFLOAT16 -> new OnnxTensorShortImpl(this, valueContext, ortValueAddress);
             case INT32, UINT32 -> new OnnxTensorIntImpl(this, valueContext, ortValueAddress);
             case INT64, UINT64 -> new OnnxTensorLongImpl(this, valueContext, ortValueAddress);

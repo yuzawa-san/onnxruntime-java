@@ -357,7 +357,8 @@ public class SessionTest {
                 DataType.FLOAT8E4M3FN_VALUE,
                 DataType.FLOAT8E4M3FNUZ_VALUE,
                 DataType.FLOAT8E5M2_VALUE,
-                DataType.FLOAT8E5M2FNUZ_VALUE
+                DataType.FLOAT8E5M2FNUZ_VALUE,
+                DataType.FLOAT8E8M0_VALUE
             })
     public void byteTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
