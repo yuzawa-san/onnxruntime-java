@@ -435,6 +435,9 @@ import java.util.stream.*;
  *     OrtStatusPtr (*RunOptionsDisableProfiling)(OrtRunOptions *);
  *     OrtStatusPtr (*KernelInfoGetAttributeArray_string)(const OrtKernelInfo *, const char *, OrtAllocator *, char ***, size_t *);
  *     OrtStatusPtr (*SetPerSessionThreadPoolCallbacks)(OrtEnv *, const OrtThreadPoolCallbacksConfig *);
+ *     OrtStatusPtr (*GetMemPatternEnabled)(const OrtSessionOptions *, int *);
+ *     OrtStatusPtr (*GetSessionExecutionMode)(const OrtSessionOptions *, ExecutionMode *);
+ *     OrtStatusPtr (*SessionReleaseCapturedGraph)(OrtSession *, int);
  * }
  * }
  */
@@ -863,7 +866,10 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("RunOptionsEnableProfiling"),
                     onnxruntime_all_h.C_POINTER.withName("RunOptionsDisableProfiling"),
                     onnxruntime_all_h.C_POINTER.withName("KernelInfoGetAttributeArray_string"),
-                    onnxruntime_all_h.C_POINTER.withName("SetPerSessionThreadPoolCallbacks"))
+                    onnxruntime_all_h.C_POINTER.withName("SetPerSessionThreadPoolCallbacks"),
+                    onnxruntime_all_h.C_POINTER.withName("GetMemPatternEnabled"),
+                    onnxruntime_all_h.C_POINTER.withName("GetSessionExecutionMode"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionReleaseCapturedGraph"))
             .withName("OrtApi");
 
     /**
@@ -44160,6 +44166,308 @@ public class OrtApi {
      */
     public static void SetPerSessionThreadPoolCallbacks(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SetPerSessionThreadPoolCallbacks$LAYOUT, SetPerSessionThreadPoolCallbacks$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMemPatternEnabled)(const OrtSessionOptions *, int *)
+     * }
+     */
+    public static final class GetMemPatternEnabled {
+
+        private GetMemPatternEnabled() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetMemPatternEnabled.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetMemPatternEnabled.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetMemPatternEnabled$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetMemPatternEnabled"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMemPatternEnabled)(const OrtSessionOptions *, int *)
+     * }
+     */
+    public static final AddressLayout GetMemPatternEnabled$layout() {
+        return GetMemPatternEnabled$LAYOUT;
+    }
+
+    private static final long GetMemPatternEnabled$OFFSET = $LAYOUT.byteOffset(groupElement("GetMemPatternEnabled"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMemPatternEnabled)(const OrtSessionOptions *, int *)
+     * }
+     */
+    public static final long GetMemPatternEnabled$offset() {
+        return GetMemPatternEnabled$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMemPatternEnabled)(const OrtSessionOptions *, int *)
+     * }
+     */
+    public static MemorySegment GetMemPatternEnabled(MemorySegment struct) {
+        return struct.get(GetMemPatternEnabled$LAYOUT, GetMemPatternEnabled$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetMemPatternEnabled)(const OrtSessionOptions *, int *)
+     * }
+     */
+    public static void GetMemPatternEnabled(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetMemPatternEnabled$LAYOUT, GetMemPatternEnabled$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionExecutionMode)(const OrtSessionOptions *, ExecutionMode *)
+     * }
+     */
+    public static final class GetSessionExecutionMode {
+
+        private GetSessionExecutionMode() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetSessionExecutionMode.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetSessionExecutionMode.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetSessionExecutionMode$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetSessionExecutionMode"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionExecutionMode)(const OrtSessionOptions *, ExecutionMode *)
+     * }
+     */
+    public static final AddressLayout GetSessionExecutionMode$layout() {
+        return GetSessionExecutionMode$LAYOUT;
+    }
+
+    private static final long GetSessionExecutionMode$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetSessionExecutionMode"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionExecutionMode)(const OrtSessionOptions *, ExecutionMode *)
+     * }
+     */
+    public static final long GetSessionExecutionMode$offset() {
+        return GetSessionExecutionMode$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionExecutionMode)(const OrtSessionOptions *, ExecutionMode *)
+     * }
+     */
+    public static MemorySegment GetSessionExecutionMode(MemorySegment struct) {
+        return struct.get(GetSessionExecutionMode$LAYOUT, GetSessionExecutionMode$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetSessionExecutionMode)(const OrtSessionOptions *, ExecutionMode *)
+     * }
+     */
+    public static void GetSessionExecutionMode(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetSessionExecutionMode$LAYOUT, GetSessionExecutionMode$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionReleaseCapturedGraph)(OrtSession *, int)
+     * }
+     */
+    public static final class SessionReleaseCapturedGraph {
+
+        private SessionReleaseCapturedGraph() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionReleaseCapturedGraph.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionReleaseCapturedGraph.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, int _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionReleaseCapturedGraph$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionReleaseCapturedGraph"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionReleaseCapturedGraph)(OrtSession *, int)
+     * }
+     */
+    public static final AddressLayout SessionReleaseCapturedGraph$layout() {
+        return SessionReleaseCapturedGraph$LAYOUT;
+    }
+
+    private static final long SessionReleaseCapturedGraph$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionReleaseCapturedGraph"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionReleaseCapturedGraph)(OrtSession *, int)
+     * }
+     */
+    public static final long SessionReleaseCapturedGraph$offset() {
+        return SessionReleaseCapturedGraph$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionReleaseCapturedGraph)(OrtSession *, int)
+     * }
+     */
+    public static MemorySegment SessionReleaseCapturedGraph(MemorySegment struct) {
+        return struct.get(SessionReleaseCapturedGraph$LAYOUT, SessionReleaseCapturedGraph$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionReleaseCapturedGraph)(OrtSession *, int)
+     * }
+     */
+    public static void SessionReleaseCapturedGraph(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SessionReleaseCapturedGraph$LAYOUT, SessionReleaseCapturedGraph$OFFSET, fieldValue);
     }
 
     /**

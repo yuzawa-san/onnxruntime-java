@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 26L;
+    private static final int ORT_API_VERSION = (int) 27L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 26
+     * #define ORT_API_VERSION 27
      * }
      */
     public static int ORT_API_VERSION() {
@@ -295,6 +295,16 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_INT2() {
         return ONNX_TENSOR_ELEMENT_DATA_TYPE_INT2;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E8M0 = (int) 26L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E8M0 = 26
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E8M0() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E8M0;
     }
 
     private static final int ONNX_TYPE_UNKNOWN = (int) 0L;
