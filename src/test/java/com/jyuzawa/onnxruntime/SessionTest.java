@@ -91,8 +91,8 @@ public class SessionTest {
 
     private ByteBuffer identityModel(TypeProto type) {
         return ModelProto.newBuilder()
-                .setIrVersion(8)
-                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
+                .setIrVersion(13)
+                .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(25))
                 .setGraph(GraphProto.newBuilder()
                         .addNode(NodeProto.newBuilder()
                                 .addInput("input")
@@ -348,11 +348,21 @@ public class SessionTest {
         }
     }
 
-    @Test
-    public void byteTest() throws IOException {
+    @ParameterizedTest
+    @ValueSource(
+            ints = {
+                DataType.INT8_VALUE,
+                DataType.UINT8_VALUE,
+                DataType.BOOL_VALUE,
+                DataType.FLOAT8E4M3FN_VALUE,
+                DataType.FLOAT8E4M3FNUZ_VALUE,
+                DataType.FLOAT8E5M2_VALUE,
+                DataType.FLOAT8E5M2FNUZ_VALUE
+            })
+    public void byteTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.INT8_VALUE)
+                        .setElemType(elemType)
                         .setShape(TensorShapeProto.newBuilder()
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
@@ -373,11 +383,12 @@ public class SessionTest {
         }
     }
 
-    @Test
-    public void shortTest() throws IOException {
+    @ParameterizedTest
+    @ValueSource(ints = {DataType.INT16_VALUE, DataType.UINT16_VALUE, DataType.FLOAT16_VALUE, DataType.BFLOAT16_VALUE})
+    public void shortTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.INT16_VALUE)
+                        .setElemType(elemType)
                         .setShape(TensorShapeProto.newBuilder()
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
@@ -398,11 +409,12 @@ public class SessionTest {
         }
     }
 
-    @Test
-    public void intTest() throws IOException {
+    @ParameterizedTest
+    @ValueSource(ints = {DataType.INT32_VALUE, DataType.UINT32_VALUE})
+    public void intTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.INT32_VALUE)
+                        .setElemType(elemType)
                         .setShape(TensorShapeProto.newBuilder()
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
@@ -423,11 +435,12 @@ public class SessionTest {
         }
     }
 
-    @Test
-    public void longTest() throws IOException {
+    @ParameterizedTest
+    @ValueSource(ints = {DataType.INT64_VALUE, DataType.UINT64_VALUE})
+    public void longTest(int elemType) throws IOException {
         TypeProto type = TypeProto.newBuilder()
                 .setTensorType(Tensor.newBuilder()
-                        .setElemType(DataType.INT64_VALUE)
+                        .setElemType(elemType)
                         .setShape(TensorShapeProto.newBuilder()
                                 .addDim(Dimension.newBuilder().setDimValue(1))
                                 .addDim(Dimension.newBuilder().setDimValue(3))))
@@ -447,6 +460,111 @@ public class SessionTest {
             LOG.log(Level.INFO, output.get(0));
         }
     }
+
+    // NOTE: these types are not supported yet
+    /*
+    @Test
+    public void complex64Test() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.COMPLEX64_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            float[] rawInput = new float[] {6, 5, 4, 3, 2, 1};
+            txn.addInput(0).asTensor().getFloatBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            float[] rawOutput = new float[6];
+            output.get(0).asTensor().getFloatBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+            LOG.log(Level.INFO, output.get(0));
+        }
+    }
+
+    @Test
+    public void complex128Test() throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(DataType.COMPLEX128_VALUE)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(3))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            double[] rawInput = new double[] {6, 5, 4, 3, 2, 1};
+            txn.addInput(0).asTensor().getDoubleBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            double[] rawOutput = new double[6];
+            output.get(0).asTensor().getDoubleBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+            LOG.log(Level.INFO, output.get(0));
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {DataType.INT4_VALUE, DataType.UINT4_VALUE, DataType.FLOAT4E2M1_VALUE})
+    public void bits4Test(int elemType) throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(elemType)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(4))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            byte[] rawInput = new byte[] {6, 5};
+            txn.addInput(0).asTensor().getByteBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            byte[] rawOutput = new byte[2];
+            output.get(0).asTensor().getByteBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+            LOG.log(Level.INFO, output.get(0));
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {DataType.INT2_VALUE, DataType.UINT2_VALUE})
+    public void int2Test(int elemType) throws IOException {
+        TypeProto type = TypeProto.newBuilder()
+                .setTensorType(Tensor.newBuilder()
+                        .setElemType(elemType)
+                        .setShape(TensorShapeProto.newBuilder()
+                                .addDim(Dimension.newBuilder().setDimValue(1))
+                                .addDim(Dimension.newBuilder().setDimValue(8))))
+                .build();
+        try (Session session = environment
+                        .newSession()
+                        .setByteBuffer(identityModel(type))
+                        .build();
+                Transaction txn = session.newTransaction().build()) {
+            byte[] rawInput = new byte[] {6, 5};
+            txn.addInput(0).asTensor().getByteBuffer().put(rawInput);
+            txn.addOutput(0);
+            NamedCollection<OnnxValue> output = txn.run();
+            byte[] rawOutput = new byte[2];
+            output.get(0).asTensor().getByteBuffer().get(rawOutput);
+            assertArrayEquals(rawInput, rawOutput);
+            LOG.log(Level.INFO, output.get(0));
+        }
+    }
+    */
 
     @Test
     public void stringTest() throws IOException {
