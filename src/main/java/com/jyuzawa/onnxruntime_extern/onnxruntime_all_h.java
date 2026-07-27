@@ -27,14 +27,174 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 27L;
+    private static final int ORT_API_VERSION = (int) 28L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 27
+     * #define ORT_API_VERSION 28
      * }
      */
     public static int ORT_API_VERSION() {
         return ORT_API_VERSION;
+    }
+
+    private static final int ORT_OK = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_OK = 0
+     * }
+     */
+    public static int ORT_OK() {
+        return ORT_OK;
+    }
+
+    private static final int ORT_FAIL = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_FAIL = 1
+     * }
+     */
+    public static int ORT_FAIL() {
+        return ORT_FAIL;
+    }
+
+    private static final int ORT_INVALID_ARGUMENT = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_INVALID_ARGUMENT = 2
+     * }
+     */
+    public static int ORT_INVALID_ARGUMENT() {
+        return ORT_INVALID_ARGUMENT;
+    }
+
+    private static final int ORT_NO_SUCHFILE = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_NO_SUCHFILE = 3
+     * }
+     */
+    public static int ORT_NO_SUCHFILE() {
+        return ORT_NO_SUCHFILE;
+    }
+
+    private static final int ORT_NO_MODEL = (int) 4L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_NO_MODEL = 4
+     * }
+     */
+    public static int ORT_NO_MODEL() {
+        return ORT_NO_MODEL;
+    }
+
+    private static final int ORT_ENGINE_ERROR = (int) 5L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_ENGINE_ERROR = 5
+     * }
+     */
+    public static int ORT_ENGINE_ERROR() {
+        return ORT_ENGINE_ERROR;
+    }
+
+    private static final int ORT_RUNTIME_EXCEPTION = (int) 6L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_RUNTIME_EXCEPTION = 6
+     * }
+     */
+    public static int ORT_RUNTIME_EXCEPTION() {
+        return ORT_RUNTIME_EXCEPTION;
+    }
+
+    private static final int ORT_INVALID_PROTOBUF = (int) 7L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_INVALID_PROTOBUF = 7
+     * }
+     */
+    public static int ORT_INVALID_PROTOBUF() {
+        return ORT_INVALID_PROTOBUF;
+    }
+
+    private static final int ORT_MODEL_LOADED = (int) 8L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_MODEL_LOADED = 8
+     * }
+     */
+    public static int ORT_MODEL_LOADED() {
+        return ORT_MODEL_LOADED;
+    }
+
+    private static final int ORT_NOT_IMPLEMENTED = (int) 9L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_NOT_IMPLEMENTED = 9
+     * }
+     */
+    public static int ORT_NOT_IMPLEMENTED() {
+        return ORT_NOT_IMPLEMENTED;
+    }
+
+    private static final int ORT_INVALID_GRAPH = (int) 10L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_INVALID_GRAPH = 10
+     * }
+     */
+    public static int ORT_INVALID_GRAPH() {
+        return ORT_INVALID_GRAPH;
+    }
+
+    private static final int ORT_EP_FAIL = (int) 11L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_EP_FAIL = 11
+     * }
+     */
+    public static int ORT_EP_FAIL() {
+        return ORT_EP_FAIL;
+    }
+
+    private static final int ORT_MODEL_LOAD_CANCELED = (int) 12L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_MODEL_LOAD_CANCELED = 12
+     * }
+     */
+    public static int ORT_MODEL_LOAD_CANCELED() {
+        return ORT_MODEL_LOAD_CANCELED;
+    }
+
+    private static final int ORT_MODEL_REQUIRES_COMPILATION = (int) 13L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_MODEL_REQUIRES_COMPILATION = 13
+     * }
+     */
+    public static int ORT_MODEL_REQUIRES_COMPILATION() {
+        return ORT_MODEL_REQUIRES_COMPILATION;
+    }
+
+    private static final int ORT_NOT_FOUND = (int) 14L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_NOT_FOUND = 14
+     * }
+     */
+    public static int ORT_NOT_FOUND() {
+        return ORT_NOT_FOUND;
+    }
+
+    private static final int ORT_DEVICE_RESET = (int) 15L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtErrorCode.ORT_DEVICE_RESET = 15
+     * }
+     */
+    public static int ORT_DEVICE_RESET() {
+        return ORT_DEVICE_RESET;
     }
 
     private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_UNDEFINED = (int) 0L;
@@ -505,156 +665,6 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int ORT_LOGGING_LEVEL_FATAL() {
         return ORT_LOGGING_LEVEL_FATAL;
-    }
-
-    private static final int ORT_OK = (int) 0L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_OK = 0
-     * }
-     */
-    public static int ORT_OK() {
-        return ORT_OK;
-    }
-
-    private static final int ORT_FAIL = (int) 1L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_FAIL = 1
-     * }
-     */
-    public static int ORT_FAIL() {
-        return ORT_FAIL;
-    }
-
-    private static final int ORT_INVALID_ARGUMENT = (int) 2L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_INVALID_ARGUMENT = 2
-     * }
-     */
-    public static int ORT_INVALID_ARGUMENT() {
-        return ORT_INVALID_ARGUMENT;
-    }
-
-    private static final int ORT_NO_SUCHFILE = (int) 3L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_NO_SUCHFILE = 3
-     * }
-     */
-    public static int ORT_NO_SUCHFILE() {
-        return ORT_NO_SUCHFILE;
-    }
-
-    private static final int ORT_NO_MODEL = (int) 4L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_NO_MODEL = 4
-     * }
-     */
-    public static int ORT_NO_MODEL() {
-        return ORT_NO_MODEL;
-    }
-
-    private static final int ORT_ENGINE_ERROR = (int) 5L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_ENGINE_ERROR = 5
-     * }
-     */
-    public static int ORT_ENGINE_ERROR() {
-        return ORT_ENGINE_ERROR;
-    }
-
-    private static final int ORT_RUNTIME_EXCEPTION = (int) 6L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_RUNTIME_EXCEPTION = 6
-     * }
-     */
-    public static int ORT_RUNTIME_EXCEPTION() {
-        return ORT_RUNTIME_EXCEPTION;
-    }
-
-    private static final int ORT_INVALID_PROTOBUF = (int) 7L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_INVALID_PROTOBUF = 7
-     * }
-     */
-    public static int ORT_INVALID_PROTOBUF() {
-        return ORT_INVALID_PROTOBUF;
-    }
-
-    private static final int ORT_MODEL_LOADED = (int) 8L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_MODEL_LOADED = 8
-     * }
-     */
-    public static int ORT_MODEL_LOADED() {
-        return ORT_MODEL_LOADED;
-    }
-
-    private static final int ORT_NOT_IMPLEMENTED = (int) 9L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_NOT_IMPLEMENTED = 9
-     * }
-     */
-    public static int ORT_NOT_IMPLEMENTED() {
-        return ORT_NOT_IMPLEMENTED;
-    }
-
-    private static final int ORT_INVALID_GRAPH = (int) 10L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_INVALID_GRAPH = 10
-     * }
-     */
-    public static int ORT_INVALID_GRAPH() {
-        return ORT_INVALID_GRAPH;
-    }
-
-    private static final int ORT_EP_FAIL = (int) 11L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_EP_FAIL = 11
-     * }
-     */
-    public static int ORT_EP_FAIL() {
-        return ORT_EP_FAIL;
-    }
-
-    private static final int ORT_MODEL_LOAD_CANCELED = (int) 12L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_MODEL_LOAD_CANCELED = 12
-     * }
-     */
-    public static int ORT_MODEL_LOAD_CANCELED() {
-        return ORT_MODEL_LOAD_CANCELED;
-    }
-
-    private static final int ORT_MODEL_REQUIRES_COMPILATION = (int) 13L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_MODEL_REQUIRES_COMPILATION = 13
-     * }
-     */
-    public static int ORT_MODEL_REQUIRES_COMPILATION() {
-        return ORT_MODEL_REQUIRES_COMPILATION;
-    }
-
-    private static final int ORT_NOT_FOUND = (int) 14L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtErrorCode.ORT_NOT_FOUND = 14
-     * }
-     */
-    public static int ORT_NOT_FOUND() {
-        return ORT_NOT_FOUND;
     }
 
     private static final int ORT_OP_ATTR_UNDEFINED = (int) 0L;
