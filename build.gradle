@@ -237,8 +237,12 @@ components.java {
 project.group = "com.jyuzawa"
 def REPO = "yuzawa-san/onnxruntime-java"
 
-def addPomDependencies(node, artifactId, osArches, theVersion) {
+def addPomDependencies(node, artifactId, osArches, baseVersion, theVersion) {
 	def dependenciesNode = node.appendNode('dependencies')
+	def baseDependency = dependenciesNode.appendNode('dependency')
+	baseDependency.appendNode('groupId', project.group)
+	baseDependency.appendNode('artifactId', 'onnxruntime-api')
+	baseDependency.appendNode('version', baseVersion)
 	osArches.each {
 		def dependency = dependenciesNode.appendNode('dependency')
 		dependency.appendNode('groupId', project.group)
@@ -298,7 +302,7 @@ publishing {
 			}
 			pom(generateCommonPom)
 			pom.withXml {
-				addPomDependencies(asNode(), artifactId, cpuOsArches, ORT_VERSION)
+				addPomDependencies(asNode(), artifactId, cpuOsArches, project.version, ORT_VERSION)
 			}
 			artifact tasks.named("cpuJar")
 			cpuOsArches.each {
@@ -314,7 +318,7 @@ publishing {
 			}
 			pom(generateCommonPom)
 			pom.withXml {
-				addPomDependencies(asNode(), artifactId, gpuOsArches, ORT_VERSION)
+				addPomDependencies(asNode(), artifactId, gpuOsArches, project.version, ORT_VERSION)
 			}
 			artifact tasks.named("gpuJar")
 			gpuOsArches.each {
