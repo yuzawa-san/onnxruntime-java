@@ -41,6 +41,7 @@ import java.util.stream.*;
  *     OrtStatusPtr (*OnSessionInitializationEnd)(OrtEp *);
  *     OrtStatusPtr (*GetDefaultMemoryDevice)(const OrtEp *, const OrtMemoryDevice **);
  *     OrtStatusPtr (*ReleaseCapturedGraph)(OrtEp *, int);
+ *     OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *);
  * }
  * }
  */
@@ -76,7 +77,8 @@ public class OrtEp {
                     onnxruntime_all_h.C_POINTER.withName("GetAvailableResource"),
                     onnxruntime_all_h.C_POINTER.withName("OnSessionInitializationEnd"),
                     onnxruntime_all_h.C_POINTER.withName("GetDefaultMemoryDevice"),
-                    onnxruntime_all_h.C_POINTER.withName("ReleaseCapturedGraph"))
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseCapturedGraph"),
+                    onnxruntime_all_h.C_POINTER.withName("GetWeightlessSupport"))
             .withName("OrtEp");
 
     /**
@@ -2581,6 +2583,106 @@ public class OrtEp {
      */
     public static void ReleaseCapturedGraph(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(ReleaseCapturedGraph$LAYOUT, ReleaseCapturedGraph$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *)
+     * }
+     */
+    public static final class GetWeightlessSupport {
+
+        private GetWeightlessSupport() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetWeightlessSupport.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetWeightlessSupport.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetWeightlessSupport$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetWeightlessSupport"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *)
+     * }
+     */
+    public static final AddressLayout GetWeightlessSupport$layout() {
+        return GetWeightlessSupport$LAYOUT;
+    }
+
+    private static final long GetWeightlessSupport$OFFSET = $LAYOUT.byteOffset(groupElement("GetWeightlessSupport"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *)
+     * }
+     */
+    public static final long GetWeightlessSupport$offset() {
+        return GetWeightlessSupport$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *)
+     * }
+     */
+    public static MemorySegment GetWeightlessSupport(MemorySegment struct) {
+        return struct.get(GetWeightlessSupport$LAYOUT, GetWeightlessSupport$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *)
+     * }
+     */
+    public static void GetWeightlessSupport(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetWeightlessSupport$LAYOUT, GetWeightlessSupport$OFFSET, fieldValue);
     }
 
     /**
