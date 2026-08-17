@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 28L;
+    private static final int ORT_API_VERSION = (int) 29L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 28
+     * #define ORT_API_VERSION 29
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1893,6 +1893,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES() {
         return OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES;
+    }
+
+    private static final int OrtWeightlessSupport_NONE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_NONE = 0
+     * }
+     */
+    public static int OrtWeightlessSupport_NONE() {
+        return OrtWeightlessSupport_NONE;
+    }
+
+    private static final int OrtWeightlessSupport_EXTERNAL_ONLY = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_EXTERNAL_ONLY = 1
+     * }
+     */
+    public static int OrtWeightlessSupport_EXTERNAL_ONLY() {
+        return OrtWeightlessSupport_EXTERNAL_ONLY;
+    }
+
+    private static final int OrtWeightlessSupport_ALL = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_ALL = 2
+     * }
+     */
+    public static int OrtWeightlessSupport_ALL() {
+        return OrtWeightlessSupport_ALL;
     }
 
     private static final int COREML_FLAG_USE_NONE = (int) 0L;
