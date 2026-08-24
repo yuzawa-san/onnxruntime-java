@@ -12,14 +12,14 @@ jobs:
     name: Release
     steps:
       - uses: actions/checkout@v7
-      - uses: gradle/actions/wrapper-validation@v6.2.0
+      - uses: gradle/actions/wrapper-validation@v6.3.0
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
           distribution: oracle
           java-version: 25
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6.2.0
+        uses: gradle/actions/setup-gradle@v6.3.0
       - name: Get the tag
         id: get_tag
         run: echo tag=$(echo ${{ github.ref }} | cut -d / -f 3) >> $GITHUB_OUTPUT
