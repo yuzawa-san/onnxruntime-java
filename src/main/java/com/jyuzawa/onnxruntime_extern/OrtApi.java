@@ -441,6 +441,7 @@ import java.util.stream.*;
  *     OrtExperimentalFnPtr (*GetExperimentalFunction)(const char *);
  *     OrtStatusPtr (*KernelContext_GetSyncStream)(const OrtKernelContext *, OrtSyncStream **);
  *     OrtStatusPtr (*SessionOptionsSetWeightlessSourceModelBuffer)(OrtSessionOptions *, const void *, size_t);
+ *     OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **);
  * }
  * }
  */
@@ -875,7 +876,8 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("SessionReleaseCapturedGraph"),
                     onnxruntime_all_h.C_POINTER.withName("GetExperimentalFunction"),
                     onnxruntime_all_h.C_POINTER.withName("KernelContext_GetSyncStream"),
-                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetWeightlessSourceModelBuffer"))
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetWeightlessSourceModelBuffer"),
+                    onnxruntime_all_h.C_POINTER.withName("KernelContext_GetPreallocatedOutput"))
             .withName("OrtApi");
 
     /**
@@ -44785,6 +44787,110 @@ public class OrtApi {
                 SessionOptionsSetWeightlessSourceModelBuffer$LAYOUT,
                 SessionOptionsSetWeightlessSourceModelBuffer$OFFSET,
                 fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **)
+     * }
+     */
+    public static final class KernelContext_GetPreallocatedOutput {
+
+        private KernelContext_GetPreallocatedOutput() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(KernelContext_GetPreallocatedOutput.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(KernelContext_GetPreallocatedOutput.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout KernelContext_GetPreallocatedOutput$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("KernelContext_GetPreallocatedOutput"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **)
+     * }
+     */
+    public static final AddressLayout KernelContext_GetPreallocatedOutput$layout() {
+        return KernelContext_GetPreallocatedOutput$LAYOUT;
+    }
+
+    private static final long KernelContext_GetPreallocatedOutput$OFFSET =
+            $LAYOUT.byteOffset(groupElement("KernelContext_GetPreallocatedOutput"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **)
+     * }
+     */
+    public static final long KernelContext_GetPreallocatedOutput$offset() {
+        return KernelContext_GetPreallocatedOutput$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **)
+     * }
+     */
+    public static MemorySegment KernelContext_GetPreallocatedOutput(MemorySegment struct) {
+        return struct.get(KernelContext_GetPreallocatedOutput$LAYOUT, KernelContext_GetPreallocatedOutput$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **)
+     * }
+     */
+    public static void KernelContext_GetPreallocatedOutput(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(KernelContext_GetPreallocatedOutput$LAYOUT, KernelContext_GetPreallocatedOutput$OFFSET, fieldValue);
     }
 
     /**
