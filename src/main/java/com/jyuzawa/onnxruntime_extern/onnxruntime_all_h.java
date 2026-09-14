@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 29L;
+    private static final int ORT_API_VERSION = (int) 30L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 29
+     * #define ORT_API_VERSION 30
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1308,24 +1308,34 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP;
     }
 
-    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32 = (int) 2L;
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_WIN32 = (int) 2L;
     /**
      * {@snippet lang=c :
-     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32 = 2
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_WIN32 = 2
      * }
      */
-    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32() {
-        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32;
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_WIN32() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_WIN32;
     }
 
-    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD = (int) 3L;
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_OPAQUE_FD = (int) 3L;
     /**
      * {@snippet lang=c :
-     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD = 3
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_OPAQUE_FD = 3
      * }
      */
-    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD() {
-        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD;
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_OPAQUE_FD() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_MEMORY_OPAQUE_FD;
+    }
+
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_ALLOCATION = (int) 4L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtExternalMemoryHandleType.ORT_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_ALLOCATION = 4
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_ALLOCATION() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_ALLOCATION;
     }
 
     private static final int ORT_EXTERNAL_SEMAPHORE_D3D12_FENCE = (int) 0L;
@@ -2074,5 +2084,25 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
             static final MemorySegment ORT_FILE = onnxruntime_all_h.LIBRARY_ARENA.allocateFrom("jextract$macro.h");
         }
         return Holder.ORT_FILE;
+    }
+
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32 = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * #define ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32 2
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_WIN32;
+    }
+
+    private static final int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * #define ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD 3
+     * }
+     */
+    public static int ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD() {
+        return ORT_EXTERNAL_MEMORY_HANDLE_TYPE_VK_MEMORY_OPAQUE_FD;
     }
 }
