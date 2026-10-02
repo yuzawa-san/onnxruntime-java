@@ -166,11 +166,13 @@ public class SessionTest {
                 .asReadOnlyByteBuffer();
         ExecutionProvider provider = ExecutionProvider.of("CANNExecutionProvider");
         if (!provider.isSupported()) {
-            assertThrows(UnsupportedOperationException.class, () -> environment
-                    .newSession()
-                    .setByteBuffer(byteBuffer)
-                    .addProvider(provider)
-                    .build());
+            assertThrows(
+                    UnsupportedOperationException.class,
+                    () -> environment
+                            .newSession()
+                            .setByteBuffer(byteBuffer)
+                            .addProvider(provider)
+                            .build());
         }
         try (Session session = environment
                 .newSession()
@@ -852,59 +854,40 @@ public class SessionTest {
         ModelProto modelProto = ModelProto.newBuilder()
                 .setIrVersion(8)
                 .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
-                .setGraph(
-                        GraphProto.newBuilder()
-                                .addNode(NodeProto.newBuilder()
-                                        .addInput("input")
-                                        .addOutput("output")
-                                        .setOpType("ZipMap")
-                                        .setDomain("ai.onnx.ml")
-                                        .addAttribute(AttributeProto.newBuilder()
-                                                .setName("classlabels_int64s")
-                                                .setType(AttributeType.INTS)
-                                                .addInts(1435)
-                                                .addInts(35234)
-                                                .addInts(572457)))
-                                .addInput(ValueInfoProto.newBuilder()
-                                        .setName("input")
-                                        .setType(TypeProto.newBuilder()
-                                                .setTensorType(Tensor.newBuilder()
-                                                        .setElemType(DataType.FLOAT_VALUE)
-                                                        .setShape(TensorShapeProto.newBuilder()
-                                                                .addDim(Dimension.newBuilder()
-                                                                        .setDimValue(3))))))
-                                .addOutput(
-                                        ValueInfoProto.newBuilder()
-                                                .setName("output")
-                                                .setType(
-                                                        TypeProto.newBuilder()
-                                                                .setSequenceType(
-                                                                        Sequence.newBuilder()
-                                                                                .setElemType(
-                                                                                        TypeProto.newBuilder()
-                                                                                                .setMapType(
-                                                                                                        TypeProto.Map
-                                                                                                                .newBuilder()
-                                                                                                                .setKeyType(
-                                                                                                                        DataType
-                                                                                                                                .INT64_VALUE)
-                                                                                                                .setValueType(
-                                                                                                                        TypeProto
-                                                                                                                                .newBuilder()
-                                                                                                                                .setTensorType(
-                                                                                                                                        Tensor
-                                                                                                                                                .newBuilder()
-                                                                                                                                                .setElemType(
-                                                                                                                                                        DataType
-                                                                                                                                                                .FLOAT_VALUE)
-                                                                                                                                                .setShape(
-                                                                                                                                                        TensorShapeProto
-                                                                                                                                                                .newBuilder()
-                                                                                                                                                                .addDim(
-                                                                                                                                                                        Dimension
-                                                                                                                                                                                .newBuilder()
-                                                                                                                                                                                .setDimValue(
-                                                                                                                                                                                        1)))))))))))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput("input")
+                                .addOutput("output")
+                                .setOpType("ZipMap")
+                                .setDomain("ai.onnx.ml")
+                                .addAttribute(AttributeProto.newBuilder()
+                                        .setName("classlabels_int64s")
+                                        .setType(AttributeType.INTS)
+                                        .addInts(1435)
+                                        .addInts(35234)
+                                        .addInts(572457)))
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder()
+                                                .setElemType(DataType.FLOAT_VALUE)
+                                                .setShape(TensorShapeProto.newBuilder()
+                                                        .addDim(Dimension.newBuilder()
+                                                                .setDimValue(3))))))
+                        .addOutput(ValueInfoProto.newBuilder()
+                                .setName("output")
+                                .setType(TypeProto.newBuilder()
+                                        .setSequenceType(Sequence.newBuilder()
+                                                .setElemType(TypeProto.newBuilder()
+                                                        .setMapType(TypeProto.Map.newBuilder()
+                                                                .setKeyType(DataType.INT64_VALUE)
+                                                                .setValueType(TypeProto.newBuilder()
+                                                                        .setTensorType(Tensor.newBuilder()
+                                                                                .setElemType(DataType.FLOAT_VALUE)
+                                                                                .setShape(TensorShapeProto.newBuilder()
+                                                                                        .addDim(Dimension.newBuilder()
+                                                                                                .setDimValue(
+                                                                                                        1)))))))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build();
@@ -929,59 +912,40 @@ public class SessionTest {
         ModelProto modelProto = ModelProto.newBuilder()
                 .setIrVersion(8)
                 .addOpsetImport(OperatorSetIdProto.newBuilder().setVersion(15))
-                .setGraph(
-                        GraphProto.newBuilder()
-                                .addNode(NodeProto.newBuilder()
-                                        .addInput("input")
-                                        .addOutput("output")
-                                        .setOpType("ZipMap")
-                                        .setDomain("ai.onnx.ml")
-                                        .addAttribute(AttributeProto.newBuilder()
-                                                .setName("classlabels_strings")
-                                                .setType(AttributeType.STRINGS)
-                                                .addStrings(ByteString.copyFrom("foo", "utf-8"))
-                                                .addStrings(ByteString.copyFrom("bazz", "utf-8"))
-                                                .addStrings(ByteString.copyFrom("barss", "utf-8"))))
-                                .addInput(ValueInfoProto.newBuilder()
-                                        .setName("input")
-                                        .setType(TypeProto.newBuilder()
-                                                .setTensorType(Tensor.newBuilder()
-                                                        .setElemType(DataType.FLOAT_VALUE)
-                                                        .setShape(TensorShapeProto.newBuilder()
-                                                                .addDim(Dimension.newBuilder()
-                                                                        .setDimValue(3))))))
-                                .addOutput(
-                                        ValueInfoProto.newBuilder()
-                                                .setName("output")
-                                                .setType(
-                                                        TypeProto.newBuilder()
-                                                                .setSequenceType(
-                                                                        Sequence.newBuilder()
-                                                                                .setElemType(
-                                                                                        TypeProto.newBuilder()
-                                                                                                .setMapType(
-                                                                                                        TypeProto.Map
-                                                                                                                .newBuilder()
-                                                                                                                .setKeyType(
-                                                                                                                        DataType
-                                                                                                                                .STRING_VALUE)
-                                                                                                                .setValueType(
-                                                                                                                        TypeProto
-                                                                                                                                .newBuilder()
-                                                                                                                                .setTensorType(
-                                                                                                                                        Tensor
-                                                                                                                                                .newBuilder()
-                                                                                                                                                .setElemType(
-                                                                                                                                                        DataType
-                                                                                                                                                                .FLOAT_VALUE)
-                                                                                                                                                .setShape(
-                                                                                                                                                        TensorShapeProto
-                                                                                                                                                                .newBuilder()
-                                                                                                                                                                .addDim(
-                                                                                                                                                                        Dimension
-                                                                                                                                                                                .newBuilder()
-                                                                                                                                                                                .setDimValue(
-                                                                                                                                                                                        1)))))))))))
+                .setGraph(GraphProto.newBuilder()
+                        .addNode(NodeProto.newBuilder()
+                                .addInput("input")
+                                .addOutput("output")
+                                .setOpType("ZipMap")
+                                .setDomain("ai.onnx.ml")
+                                .addAttribute(AttributeProto.newBuilder()
+                                        .setName("classlabels_strings")
+                                        .setType(AttributeType.STRINGS)
+                                        .addStrings(ByteString.copyFrom("foo", "utf-8"))
+                                        .addStrings(ByteString.copyFrom("bazz", "utf-8"))
+                                        .addStrings(ByteString.copyFrom("barss", "utf-8"))))
+                        .addInput(ValueInfoProto.newBuilder()
+                                .setName("input")
+                                .setType(TypeProto.newBuilder()
+                                        .setTensorType(Tensor.newBuilder()
+                                                .setElemType(DataType.FLOAT_VALUE)
+                                                .setShape(TensorShapeProto.newBuilder()
+                                                        .addDim(Dimension.newBuilder()
+                                                                .setDimValue(3))))))
+                        .addOutput(ValueInfoProto.newBuilder()
+                                .setName("output")
+                                .setType(TypeProto.newBuilder()
+                                        .setSequenceType(Sequence.newBuilder()
+                                                .setElemType(TypeProto.newBuilder()
+                                                        .setMapType(TypeProto.Map.newBuilder()
+                                                                .setKeyType(DataType.STRING_VALUE)
+                                                                .setValueType(TypeProto.newBuilder()
+                                                                        .setTensorType(Tensor.newBuilder()
+                                                                                .setElemType(DataType.FLOAT_VALUE)
+                                                                                .setShape(TensorShapeProto.newBuilder()
+                                                                                        .addDim(Dimension.newBuilder()
+                                                                                                .setDimValue(
+                                                                                                        1)))))))))))
                 .build();
         ByteBuffer model = modelProto.toByteString().asReadOnlyByteBuffer();
         try (Session session = environment.newSession().setByteBuffer(model).build();
