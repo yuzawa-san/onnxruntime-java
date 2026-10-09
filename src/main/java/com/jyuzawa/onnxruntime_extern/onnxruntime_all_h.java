@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 30L;
+    private static final int ORT_API_VERSION = (int) 31L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 30
+     * #define ORT_API_VERSION 31
      * }
      */
     public static int ORT_API_VERSION() {
@@ -1191,6 +1191,36 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int OrtDeviceEpIncompatibility_UNKNOWN() {
         return OrtDeviceEpIncompatibility_UNKNOWN;
+    }
+
+    private static final int OrtEpContextDataCallbackSupportFlags_NONE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtEpContextDataCallbackSupportFlags.OrtEpContextDataCallbackSupportFlags_NONE = 0
+     * }
+     */
+    public static int OrtEpContextDataCallbackSupportFlags_NONE() {
+        return OrtEpContextDataCallbackSupportFlags_NONE;
+    }
+
+    private static final int OrtEpContextDataCallbackSupportFlags_READ = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtEpContextDataCallbackSupportFlags.OrtEpContextDataCallbackSupportFlags_READ = 1
+     * }
+     */
+    public static int OrtEpContextDataCallbackSupportFlags_READ() {
+        return OrtEpContextDataCallbackSupportFlags_READ;
+    }
+
+    private static final int OrtEpContextDataCallbackSupportFlags_WRITE = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtEpContextDataCallbackSupportFlags.OrtEpContextDataCallbackSupportFlags_WRITE = 2
+     * }
+     */
+    public static int OrtEpContextDataCallbackSupportFlags_WRITE() {
+        return OrtEpContextDataCallbackSupportFlags_WRITE;
     }
 
     private static final int OrtCudnnConvAlgoSearchExhaustive = (int) 0L;
