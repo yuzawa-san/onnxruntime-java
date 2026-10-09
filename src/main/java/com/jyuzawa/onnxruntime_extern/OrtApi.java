@@ -442,6 +442,8 @@ import java.util.stream.*;
  *     OrtStatusPtr (*KernelContext_GetSyncStream)(const OrtKernelContext *, OrtSyncStream **);
  *     OrtStatusPtr (*SessionOptionsSetWeightlessSourceModelBuffer)(OrtSessionOptions *, const void *, size_t);
  *     OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **);
+ *     OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *);
+ *     const OrtModelPackageApi *(*GetModelPackageApi)(void);
  * }
  * }
  */
@@ -877,7 +879,9 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("GetExperimentalFunction"),
                     onnxruntime_all_h.C_POINTER.withName("KernelContext_GetSyncStream"),
                     onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetWeightlessSourceModelBuffer"),
-                    onnxruntime_all_h.C_POINTER.withName("KernelContext_GetPreallocatedOutput"))
+                    onnxruntime_all_h.C_POINTER.withName("KernelContext_GetPreallocatedOutput"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetEpContextDataReadFunc"),
+                    onnxruntime_all_h.C_POINTER.withName("GetModelPackageApi"))
             .withName("OrtApi");
 
     /**
@@ -44891,6 +44895,213 @@ public class OrtApi {
      */
     public static void KernelContext_GetPreallocatedOutput(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(KernelContext_GetPreallocatedOutput$LAYOUT, KernelContext_GetPreallocatedOutput$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *)
+     * }
+     */
+    public static final class SessionOptionsSetEpContextDataReadFunc {
+
+        private SessionOptionsSetEpContextDataReadFunc() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionOptionsSetEpContextDataReadFunc.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsSetEpContextDataReadFunc.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionOptionsSetEpContextDataReadFunc$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsSetEpContextDataReadFunc"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *)
+     * }
+     */
+    public static final AddressLayout SessionOptionsSetEpContextDataReadFunc$layout() {
+        return SessionOptionsSetEpContextDataReadFunc$LAYOUT;
+    }
+
+    private static final long SessionOptionsSetEpContextDataReadFunc$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionOptionsSetEpContextDataReadFunc"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *)
+     * }
+     */
+    public static final long SessionOptionsSetEpContextDataReadFunc$offset() {
+        return SessionOptionsSetEpContextDataReadFunc$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *)
+     * }
+     */
+    public static MemorySegment SessionOptionsSetEpContextDataReadFunc(MemorySegment struct) {
+        return struct.get(SessionOptionsSetEpContextDataReadFunc$LAYOUT, SessionOptionsSetEpContextDataReadFunc$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *)
+     * }
+     */
+    public static void SessionOptionsSetEpContextDataReadFunc(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                SessionOptionsSetEpContextDataReadFunc$LAYOUT,
+                SessionOptionsSetEpContextDataReadFunc$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * const OrtModelPackageApi *(*GetModelPackageApi)(void)
+     * }
+     */
+    public static final class GetModelPackageApi {
+
+        private GetModelPackageApi() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply();
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetModelPackageApi.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetModelPackageApi.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetModelPackageApi$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetModelPackageApi"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * const OrtModelPackageApi *(*GetModelPackageApi)(void)
+     * }
+     */
+    public static final AddressLayout GetModelPackageApi$layout() {
+        return GetModelPackageApi$LAYOUT;
+    }
+
+    private static final long GetModelPackageApi$OFFSET = $LAYOUT.byteOffset(groupElement("GetModelPackageApi"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * const OrtModelPackageApi *(*GetModelPackageApi)(void)
+     * }
+     */
+    public static final long GetModelPackageApi$offset() {
+        return GetModelPackageApi$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * const OrtModelPackageApi *(*GetModelPackageApi)(void)
+     * }
+     */
+    public static MemorySegment GetModelPackageApi(MemorySegment struct) {
+        return struct.get(GetModelPackageApi$LAYOUT, GetModelPackageApi$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * const OrtModelPackageApi *(*GetModelPackageApi)(void)
+     * }
+     */
+    public static void GetModelPackageApi(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetModelPackageApi$LAYOUT, GetModelPackageApi$OFFSET, fieldValue);
     }
 
     /**
