@@ -42,6 +42,7 @@ import java.util.stream.*;
  *     OrtStatusPtr (*GetDefaultMemoryDevice)(const OrtEp *, const OrtMemoryDevice **);
  *     OrtStatusPtr (*ReleaseCapturedGraph)(OrtEp *, int);
  *     OrtStatusPtr (*GetWeightlessSupport)(const OrtEp *, OrtWeightlessSupport *);
+ *     OrtStatusPtr (*GetEpContextDataCallbackSupport)(const OrtEp *, uint32_t *);
  * }
  * }
  */
@@ -78,7 +79,8 @@ public class OrtEp {
                     onnxruntime_all_h.C_POINTER.withName("OnSessionInitializationEnd"),
                     onnxruntime_all_h.C_POINTER.withName("GetDefaultMemoryDevice"),
                     onnxruntime_all_h.C_POINTER.withName("ReleaseCapturedGraph"),
-                    onnxruntime_all_h.C_POINTER.withName("GetWeightlessSupport"))
+                    onnxruntime_all_h.C_POINTER.withName("GetWeightlessSupport"),
+                    onnxruntime_all_h.C_POINTER.withName("GetEpContextDataCallbackSupport"))
             .withName("OrtEp");
 
     /**
@@ -2683,6 +2685,107 @@ public class OrtEp {
      */
     public static void GetWeightlessSupport(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetWeightlessSupport$LAYOUT, GetWeightlessSupport$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpContextDataCallbackSupport)(const OrtEp *, uint32_t *)
+     * }
+     */
+    public static final class GetEpContextDataCallbackSupport {
+
+        private GetEpContextDataCallbackSupport() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetEpContextDataCallbackSupport.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetEpContextDataCallbackSupport.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetEpContextDataCallbackSupport$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetEpContextDataCallbackSupport"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpContextDataCallbackSupport)(const OrtEp *, uint32_t *)
+     * }
+     */
+    public static final AddressLayout GetEpContextDataCallbackSupport$layout() {
+        return GetEpContextDataCallbackSupport$LAYOUT;
+    }
+
+    private static final long GetEpContextDataCallbackSupport$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetEpContextDataCallbackSupport"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpContextDataCallbackSupport)(const OrtEp *, uint32_t *)
+     * }
+     */
+    public static final long GetEpContextDataCallbackSupport$offset() {
+        return GetEpContextDataCallbackSupport$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpContextDataCallbackSupport)(const OrtEp *, uint32_t *)
+     * }
+     */
+    public static MemorySegment GetEpContextDataCallbackSupport(MemorySegment struct) {
+        return struct.get(GetEpContextDataCallbackSupport$LAYOUT, GetEpContextDataCallbackSupport$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetEpContextDataCallbackSupport)(const OrtEp *, uint32_t *)
+     * }
+     */
+    public static void GetEpContextDataCallbackSupport(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetEpContextDataCallbackSupport$LAYOUT, GetEpContextDataCallbackSupport$OFFSET, fieldValue);
     }
 
     /**

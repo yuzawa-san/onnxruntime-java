@@ -32,6 +32,9 @@ import java.util.stream.*;
  *     OrtStatusPtr (*ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc)(OrtModelCompilationOptions *, OrtGetInitializerLocationFunc, void *);
  *     OrtStatusPtr (*ModelCompilationOptions_SetInputModel)(OrtModelCompilationOptions *, const OrtModel *);
  *     OrtStatusPtr (*ModelCompilationOptions_SetWeightlessEnabled)(OrtModelCompilationOptions *, bool);
+ *     OrtStatusPtr (*ModelCompilationOptions_SetEpContextDataWriteFunc)(OrtModelCompilationOptions *, OrtWriteNamedBufferFunc, void *);
+ *     OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersBuffer)(OrtModelCompilationOptions *, const char *, size_t, OrtAllocator *, void **, size_t *);
+ *     OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersAlignment)(OrtModelCompilationOptions *, size_t, size_t);
  * }
  * }
  */
@@ -59,7 +62,12 @@ public class OrtCompileApi {
                     onnxruntime_all_h.C_POINTER.withName(
                             "ModelCompilationOptions_SetOutputModelGetInitializerLocationFunc"),
                     onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetInputModel"),
-                    onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetWeightlessEnabled"))
+                    onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetWeightlessEnabled"),
+                    onnxruntime_all_h.C_POINTER.withName("ModelCompilationOptions_SetEpContextDataWriteFunc"),
+                    onnxruntime_all_h.C_POINTER.withName(
+                            "ModelCompilationOptions_SetOutputModelExternalInitializersBuffer"),
+                    onnxruntime_all_h.C_POINTER.withName(
+                            "ModelCompilationOptions_SetOutputModelExternalInitializersAlignment"))
             .withName("OrtCompileApi");
 
     /**
@@ -1776,6 +1784,359 @@ public class OrtCompileApi {
         struct.set(
                 ModelCompilationOptions_SetWeightlessEnabled$LAYOUT,
                 ModelCompilationOptions_SetWeightlessEnabled$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetEpContextDataWriteFunc)(OrtModelCompilationOptions *, OrtWriteNamedBufferFunc, void *)
+     * }
+     */
+    public static final class ModelCompilationOptions_SetEpContextDataWriteFunc {
+
+        private ModelCompilationOptions_SetEpContextDataWriteFunc() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                ModelCompilationOptions_SetEpContextDataWriteFunc.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(
+                ModelCompilationOptions_SetEpContextDataWriteFunc.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ModelCompilationOptions_SetEpContextDataWriteFunc$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ModelCompilationOptions_SetEpContextDataWriteFunc"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetEpContextDataWriteFunc)(OrtModelCompilationOptions *, OrtWriteNamedBufferFunc, void *)
+     * }
+     */
+    public static final AddressLayout ModelCompilationOptions_SetEpContextDataWriteFunc$layout() {
+        return ModelCompilationOptions_SetEpContextDataWriteFunc$LAYOUT;
+    }
+
+    private static final long ModelCompilationOptions_SetEpContextDataWriteFunc$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ModelCompilationOptions_SetEpContextDataWriteFunc"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetEpContextDataWriteFunc)(OrtModelCompilationOptions *, OrtWriteNamedBufferFunc, void *)
+     * }
+     */
+    public static final long ModelCompilationOptions_SetEpContextDataWriteFunc$offset() {
+        return ModelCompilationOptions_SetEpContextDataWriteFunc$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetEpContextDataWriteFunc)(OrtModelCompilationOptions *, OrtWriteNamedBufferFunc, void *)
+     * }
+     */
+    public static MemorySegment ModelCompilationOptions_SetEpContextDataWriteFunc(MemorySegment struct) {
+        return struct.get(
+                ModelCompilationOptions_SetEpContextDataWriteFunc$LAYOUT,
+                ModelCompilationOptions_SetEpContextDataWriteFunc$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetEpContextDataWriteFunc)(OrtModelCompilationOptions *, OrtWriteNamedBufferFunc, void *)
+     * }
+     */
+    public static void ModelCompilationOptions_SetEpContextDataWriteFunc(
+            MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                ModelCompilationOptions_SetEpContextDataWriteFunc$LAYOUT,
+                ModelCompilationOptions_SetEpContextDataWriteFunc$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersBuffer)(OrtModelCompilationOptions *, const char *, size_t, OrtAllocator *, void **, size_t *)
+     * }
+     */
+    public static final class ModelCompilationOptions_SetOutputModelExternalInitializersBuffer {
+
+        private ModelCompilationOptions_SetOutputModelExternalInitializersBuffer() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(
+                    MemorySegment _x0,
+                    MemorySegment _x1,
+                    long _x2,
+                    MemorySegment _x3,
+                    MemorySegment _x4,
+                    MemorySegment _x5);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                ModelCompilationOptions_SetOutputModelExternalInitializersBuffer.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(
+                ModelCompilationOptions_SetOutputModelExternalInitializersBuffer.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                long _x2,
+                MemorySegment _x3,
+                MemorySegment _x4,
+                MemorySegment _x5) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4, _x5);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$LAYOUT =
+            (AddressLayout)
+                    $LAYOUT.select(groupElement("ModelCompilationOptions_SetOutputModelExternalInitializersBuffer"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersBuffer)(OrtModelCompilationOptions *, const char *, size_t, OrtAllocator *, void **, size_t *)
+     * }
+     */
+    public static final AddressLayout ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$layout() {
+        return ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$LAYOUT;
+    }
+
+    private static final long ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ModelCompilationOptions_SetOutputModelExternalInitializersBuffer"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersBuffer)(OrtModelCompilationOptions *, const char *, size_t, OrtAllocator *, void **, size_t *)
+     * }
+     */
+    public static final long ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$offset() {
+        return ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersBuffer)(OrtModelCompilationOptions *, const char *, size_t, OrtAllocator *, void **, size_t *)
+     * }
+     */
+    public static MemorySegment ModelCompilationOptions_SetOutputModelExternalInitializersBuffer(MemorySegment struct) {
+        return struct.get(
+                ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$LAYOUT,
+                ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersBuffer)(OrtModelCompilationOptions *, const char *, size_t, OrtAllocator *, void **, size_t *)
+     * }
+     */
+    public static void ModelCompilationOptions_SetOutputModelExternalInitializersBuffer(
+            MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$LAYOUT,
+                ModelCompilationOptions_SetOutputModelExternalInitializersBuffer$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersAlignment)(OrtModelCompilationOptions *, size_t, size_t)
+     * }
+     */
+    public static final class ModelCompilationOptions_SetOutputModelExternalInitializersAlignment {
+
+        private ModelCompilationOptions_SetOutputModelExternalInitializersAlignment() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, long _x1, long _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_LONG,
+                onnxruntime_all_h.C_LONG);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH = onnxruntime_all_h.upcallHandle(
+                ModelCompilationOptions_SetOutputModelExternalInitializersAlignment.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(
+                ModelCompilationOptions_SetOutputModelExternalInitializersAlignment.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, long _x1, long _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$LAYOUT =
+            (AddressLayout)
+                    $LAYOUT.select(groupElement("ModelCompilationOptions_SetOutputModelExternalInitializersAlignment"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersAlignment)(OrtModelCompilationOptions *, size_t, size_t)
+     * }
+     */
+    public static final AddressLayout ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$layout() {
+        return ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$LAYOUT;
+    }
+
+    private static final long ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ModelCompilationOptions_SetOutputModelExternalInitializersAlignment"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersAlignment)(OrtModelCompilationOptions *, size_t, size_t)
+     * }
+     */
+    public static final long ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$offset() {
+        return ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersAlignment)(OrtModelCompilationOptions *, size_t, size_t)
+     * }
+     */
+    public static MemorySegment ModelCompilationOptions_SetOutputModelExternalInitializersAlignment(
+            MemorySegment struct) {
+        return struct.get(
+                ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$LAYOUT,
+                ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*ModelCompilationOptions_SetOutputModelExternalInitializersAlignment)(OrtModelCompilationOptions *, size_t, size_t)
+     * }
+     */
+    public static void ModelCompilationOptions_SetOutputModelExternalInitializersAlignment(
+            MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$LAYOUT,
+                ModelCompilationOptions_SetOutputModelExternalInitializersAlignment$OFFSET,
                 fieldValue);
     }
 

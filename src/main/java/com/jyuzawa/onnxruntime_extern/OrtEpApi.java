@@ -90,6 +90,10 @@ import java.util.stream.*;
  *     OrtStatusPtr (*ProfilingEvent_GetArgValue)(const OrtProfilingEvent *, const char *, const char **);
  *     OrtStatusPtr (*ProfilingEventsContainer_AddEvents)(OrtProfilingEventsContainer *, const OrtProfilingEvent *const *, size_t);
  *     OrtStatusPtr (*SessionOptionsGetWeightlessSourceModelBuffer)(const OrtSessionOptions *, const void **, size_t *);
+ *     OrtStatusPtr (*SessionOptionsGetEpContextConfig)(const OrtSessionOptions *, OrtEpContextConfig **);
+ *     void (*ReleaseEpContextConfig)(OrtEpContextConfig *);
+ *     OrtStatusPtr (*EpContextConfigGetEpContextDataReadFunc)(const OrtEpContextConfig *, OrtReadNamedBufferFunc *, void **);
+ *     OrtStatusPtr (*EpContextConfigGetEpContextDataWriteFunc)(const OrtEpContextConfig *, OrtWriteNamedBufferFunc *, void **);
  * }
  * }
  */
@@ -173,7 +177,11 @@ public class OrtEpApi {
                     onnxruntime_all_h.C_POINTER.withName("ProfilingEvent_GetDurationUs"),
                     onnxruntime_all_h.C_POINTER.withName("ProfilingEvent_GetArgValue"),
                     onnxruntime_all_h.C_POINTER.withName("ProfilingEventsContainer_AddEvents"),
-                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsGetWeightlessSourceModelBuffer"))
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsGetWeightlessSourceModelBuffer"),
+                    onnxruntime_all_h.C_POINTER.withName("SessionOptionsGetEpContextConfig"),
+                    onnxruntime_all_h.C_POINTER.withName("ReleaseEpContextConfig"),
+                    onnxruntime_all_h.C_POINTER.withName("EpContextConfigGetEpContextDataReadFunc"),
+                    onnxruntime_all_h.C_POINTER.withName("EpContextConfigGetEpContextDataWriteFunc"))
             .withName("OrtEpApi");
 
     /**
@@ -7821,6 +7829,425 @@ public class OrtEpApi {
         struct.set(
                 SessionOptionsGetWeightlessSourceModelBuffer$LAYOUT,
                 SessionOptionsGetWeightlessSourceModelBuffer$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsGetEpContextConfig)(const OrtSessionOptions *, OrtEpContextConfig **)
+     * }
+     */
+    public static final class SessionOptionsGetEpContextConfig {
+
+        private SessionOptionsGetEpContextConfig() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(SessionOptionsGetEpContextConfig.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(SessionOptionsGetEpContextConfig.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout SessionOptionsGetEpContextConfig$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("SessionOptionsGetEpContextConfig"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsGetEpContextConfig)(const OrtSessionOptions *, OrtEpContextConfig **)
+     * }
+     */
+    public static final AddressLayout SessionOptionsGetEpContextConfig$layout() {
+        return SessionOptionsGetEpContextConfig$LAYOUT;
+    }
+
+    private static final long SessionOptionsGetEpContextConfig$OFFSET =
+            $LAYOUT.byteOffset(groupElement("SessionOptionsGetEpContextConfig"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsGetEpContextConfig)(const OrtSessionOptions *, OrtEpContextConfig **)
+     * }
+     */
+    public static final long SessionOptionsGetEpContextConfig$offset() {
+        return SessionOptionsGetEpContextConfig$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsGetEpContextConfig)(const OrtSessionOptions *, OrtEpContextConfig **)
+     * }
+     */
+    public static MemorySegment SessionOptionsGetEpContextConfig(MemorySegment struct) {
+        return struct.get(SessionOptionsGetEpContextConfig$LAYOUT, SessionOptionsGetEpContextConfig$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*SessionOptionsGetEpContextConfig)(const OrtSessionOptions *, OrtEpContextConfig **)
+     * }
+     */
+    public static void SessionOptionsGetEpContextConfig(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(SessionOptionsGetEpContextConfig$LAYOUT, SessionOptionsGetEpContextConfig$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * void (*ReleaseEpContextConfig)(OrtEpContextConfig *)
+     * }
+     */
+    public static final class ReleaseEpContextConfig {
+
+        private ReleaseEpContextConfig() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            void apply(MemorySegment _x0);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.ofVoid(onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(ReleaseEpContextConfig.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(ReleaseEpContextConfig.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static void invoke(MemorySegment funcPtr, MemorySegment _x0) {
+            try {
+                DOWN$MH.invokeExact(funcPtr, _x0);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout ReleaseEpContextConfig$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("ReleaseEpContextConfig"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * void (*ReleaseEpContextConfig)(OrtEpContextConfig *)
+     * }
+     */
+    public static final AddressLayout ReleaseEpContextConfig$layout() {
+        return ReleaseEpContextConfig$LAYOUT;
+    }
+
+    private static final long ReleaseEpContextConfig$OFFSET =
+            $LAYOUT.byteOffset(groupElement("ReleaseEpContextConfig"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * void (*ReleaseEpContextConfig)(OrtEpContextConfig *)
+     * }
+     */
+    public static final long ReleaseEpContextConfig$offset() {
+        return ReleaseEpContextConfig$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseEpContextConfig)(OrtEpContextConfig *)
+     * }
+     */
+    public static MemorySegment ReleaseEpContextConfig(MemorySegment struct) {
+        return struct.get(ReleaseEpContextConfig$LAYOUT, ReleaseEpContextConfig$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * void (*ReleaseEpContextConfig)(OrtEpContextConfig *)
+     * }
+     */
+    public static void ReleaseEpContextConfig(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(ReleaseEpContextConfig$LAYOUT, ReleaseEpContextConfig$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataReadFunc)(const OrtEpContextConfig *, OrtReadNamedBufferFunc *, void **)
+     * }
+     */
+    public static final class EpContextConfigGetEpContextDataReadFunc {
+
+        private EpContextConfigGetEpContextDataReadFunc() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpContextConfigGetEpContextDataReadFunc.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpContextConfigGetEpContextDataReadFunc.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpContextConfigGetEpContextDataReadFunc$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpContextConfigGetEpContextDataReadFunc"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataReadFunc)(const OrtEpContextConfig *, OrtReadNamedBufferFunc *, void **)
+     * }
+     */
+    public static final AddressLayout EpContextConfigGetEpContextDataReadFunc$layout() {
+        return EpContextConfigGetEpContextDataReadFunc$LAYOUT;
+    }
+
+    private static final long EpContextConfigGetEpContextDataReadFunc$OFFSET =
+            $LAYOUT.byteOffset(groupElement("EpContextConfigGetEpContextDataReadFunc"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataReadFunc)(const OrtEpContextConfig *, OrtReadNamedBufferFunc *, void **)
+     * }
+     */
+    public static final long EpContextConfigGetEpContextDataReadFunc$offset() {
+        return EpContextConfigGetEpContextDataReadFunc$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataReadFunc)(const OrtEpContextConfig *, OrtReadNamedBufferFunc *, void **)
+     * }
+     */
+    public static MemorySegment EpContextConfigGetEpContextDataReadFunc(MemorySegment struct) {
+        return struct.get(
+                EpContextConfigGetEpContextDataReadFunc$LAYOUT, EpContextConfigGetEpContextDataReadFunc$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataReadFunc)(const OrtEpContextConfig *, OrtReadNamedBufferFunc *, void **)
+     * }
+     */
+    public static void EpContextConfigGetEpContextDataReadFunc(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                EpContextConfigGetEpContextDataReadFunc$LAYOUT,
+                EpContextConfigGetEpContextDataReadFunc$OFFSET,
+                fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataWriteFunc)(const OrtEpContextConfig *, OrtWriteNamedBufferFunc *, void **)
+     * }
+     */
+    public static final class EpContextConfigGetEpContextDataWriteFunc {
+
+        private EpContextConfigGetEpContextDataWriteFunc() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, MemorySegment _x2);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpContextConfigGetEpContextDataWriteFunc.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpContextConfigGetEpContextDataWriteFunc.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, MemorySegment _x1, MemorySegment _x2) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpContextConfigGetEpContextDataWriteFunc$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpContextConfigGetEpContextDataWriteFunc"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataWriteFunc)(const OrtEpContextConfig *, OrtWriteNamedBufferFunc *, void **)
+     * }
+     */
+    public static final AddressLayout EpContextConfigGetEpContextDataWriteFunc$layout() {
+        return EpContextConfigGetEpContextDataWriteFunc$LAYOUT;
+    }
+
+    private static final long EpContextConfigGetEpContextDataWriteFunc$OFFSET =
+            $LAYOUT.byteOffset(groupElement("EpContextConfigGetEpContextDataWriteFunc"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataWriteFunc)(const OrtEpContextConfig *, OrtWriteNamedBufferFunc *, void **)
+     * }
+     */
+    public static final long EpContextConfigGetEpContextDataWriteFunc$offset() {
+        return EpContextConfigGetEpContextDataWriteFunc$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataWriteFunc)(const OrtEpContextConfig *, OrtWriteNamedBufferFunc *, void **)
+     * }
+     */
+    public static MemorySegment EpContextConfigGetEpContextDataWriteFunc(MemorySegment struct) {
+        return struct.get(
+                EpContextConfigGetEpContextDataWriteFunc$LAYOUT, EpContextConfigGetEpContextDataWriteFunc$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpContextConfigGetEpContextDataWriteFunc)(const OrtEpContextConfig *, OrtWriteNamedBufferFunc *, void **)
+     * }
+     */
+    public static void EpContextConfigGetEpContextDataWriteFunc(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(
+                EpContextConfigGetEpContextDataWriteFunc$LAYOUT,
+                EpContextConfigGetEpContextDataWriteFunc$OFFSET,
                 fieldValue);
     }
 
