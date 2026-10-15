@@ -65,13 +65,12 @@ public enum OnnxRuntimeLoggingLevel implements OnnxRuntimeEnum {
             MemorySegment idAddress,
             MemorySegment locationAddress,
             MemorySegment messageAddress) {
-        Level theLevel =
-                switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
-                    case VERBOSE -> Level.DEBUG;
-                    case INFO -> Level.INFO;
-                    case WARNING -> Level.WARNING;
-                    case FATAL, ERROR -> Level.ERROR;
-                };
+        Level theLevel = switch (OnnxRuntimeLoggingLevel.forNumber(level)) {
+            case VERBOSE -> Level.DEBUG;
+            case INFO -> Level.INFO;
+            case WARNING -> Level.WARNING;
+            case FATAL, ERROR -> Level.ERROR;
+        };
         if (LOG.isLoggable(theLevel)) {
             String category = categoryAddress.getString(0);
             String id = idAddress.getString(0);
