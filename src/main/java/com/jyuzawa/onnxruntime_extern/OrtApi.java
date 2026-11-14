@@ -444,6 +444,7 @@ import java.util.stream.*;
  *     OrtStatusPtr (*KernelContext_GetPreallocatedOutput)(const OrtKernelContext *, size_t, OrtValue **);
  *     OrtStatusPtr (*SessionOptionsSetEpContextDataReadFunc)(OrtSessionOptions *, OrtReadNamedBufferFunc, void *);
  *     const OrtModelPackageApi *(*GetModelPackageApi)(void);
+ *     OrtStatusPtr (*EpDevice_GetMemoryCapacity)(const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *);
  * }
  * }
  */
@@ -881,7 +882,8 @@ public class OrtApi {
                     onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetWeightlessSourceModelBuffer"),
                     onnxruntime_all_h.C_POINTER.withName("KernelContext_GetPreallocatedOutput"),
                     onnxruntime_all_h.C_POINTER.withName("SessionOptionsSetEpContextDataReadFunc"),
-                    onnxruntime_all_h.C_POINTER.withName("GetModelPackageApi"))
+                    onnxruntime_all_h.C_POINTER.withName("GetModelPackageApi"),
+                    onnxruntime_all_h.C_POINTER.withName("EpDevice_GetMemoryCapacity"))
             .withName("OrtApi");
 
     /**
@@ -45102,6 +45104,112 @@ public class OrtApi {
      */
     public static void GetModelPackageApi(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(GetModelPackageApi$LAYOUT, GetModelPackageApi$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpDevice_GetMemoryCapacity)(const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static final class EpDevice_GetMemoryCapacity {
+
+        private EpDevice_GetMemoryCapacity() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, int _x1, MemorySegment _x2, MemorySegment _x3);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(EpDevice_GetMemoryCapacity.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(EpDevice_GetMemoryCapacity.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr, MemorySegment _x0, int _x1, MemorySegment _x2, MemorySegment _x3) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout EpDevice_GetMemoryCapacity$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("EpDevice_GetMemoryCapacity"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpDevice_GetMemoryCapacity)(const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static final AddressLayout EpDevice_GetMemoryCapacity$layout() {
+        return EpDevice_GetMemoryCapacity$LAYOUT;
+    }
+
+    private static final long EpDevice_GetMemoryCapacity$OFFSET =
+            $LAYOUT.byteOffset(groupElement("EpDevice_GetMemoryCapacity"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpDevice_GetMemoryCapacity)(const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static final long EpDevice_GetMemoryCapacity$offset() {
+        return EpDevice_GetMemoryCapacity$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpDevice_GetMemoryCapacity)(const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static MemorySegment EpDevice_GetMemoryCapacity(MemorySegment struct) {
+        return struct.get(EpDevice_GetMemoryCapacity$LAYOUT, EpDevice_GetMemoryCapacity$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*EpDevice_GetMemoryCapacity)(const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static void EpDevice_GetMemoryCapacity(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(EpDevice_GetMemoryCapacity$LAYOUT, EpDevice_GetMemoryCapacity$OFFSET, fieldValue);
     }
 
     /**

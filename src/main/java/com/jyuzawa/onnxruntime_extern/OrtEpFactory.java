@@ -37,6 +37,7 @@ import java.util.stream.*;
  *     OrtStatusPtr (*InitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *, const OrtGraphicsInteropConfig *);
  *     OrtStatusPtr (*DeinitGraphicsInterop)(OrtEpFactory *, const OrtEpDevice *);
  *     OrtStatusPtr (*SelectBestModelCandidate)(OrtEpFactory *, const OrtHardwareDevice *, const OrtKeyValuePairs *const *, size_t, const OrtSessionOptions *, size_t *);
+ *     OrtStatusPtr (*GetDeviceMemoryCapacity)(OrtEpFactory *, const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *);
  * }
  * }
  */
@@ -68,7 +69,8 @@ public class OrtEpFactory {
                     onnxruntime_all_h.C_POINTER.withName("GetCustomOpDomains"),
                     onnxruntime_all_h.C_POINTER.withName("InitGraphicsInterop"),
                     onnxruntime_all_h.C_POINTER.withName("DeinitGraphicsInterop"),
-                    onnxruntime_all_h.C_POINTER.withName("SelectBestModelCandidate"))
+                    onnxruntime_all_h.C_POINTER.withName("SelectBestModelCandidate"),
+                    onnxruntime_all_h.C_POINTER.withName("GetDeviceMemoryCapacity"))
             .withName("OrtEpFactory");
 
     /**
@@ -2222,6 +2224,118 @@ public class OrtEpFactory {
      */
     public static void SelectBestModelCandidate(MemorySegment struct, MemorySegment fieldValue) {
         struct.set(SelectBestModelCandidate$LAYOUT, SelectBestModelCandidate$OFFSET, fieldValue);
+    }
+
+    /**
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDeviceMemoryCapacity)(OrtEpFactory *, const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static final class GetDeviceMemoryCapacity {
+
+        private GetDeviceMemoryCapacity() {
+            // Should not be called directly
+        }
+
+        /**
+         * The function pointer signature, expressed as a functional interface
+         */
+        public interface Function {
+            MemorySegment apply(MemorySegment _x0, MemorySegment _x1, int _x2, MemorySegment _x3, MemorySegment _x4);
+        }
+
+        private static final FunctionDescriptor $DESC = FunctionDescriptor.of(
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_INT,
+                onnxruntime_all_h.C_POINTER,
+                onnxruntime_all_h.C_POINTER);
+
+        /**
+         * The descriptor of this function pointer
+         */
+        public static FunctionDescriptor descriptor() {
+            return $DESC;
+        }
+
+        private static final MethodHandle UP$MH =
+                onnxruntime_all_h.upcallHandle(GetDeviceMemoryCapacity.Function.class, "apply", $DESC);
+
+        /**
+         * Allocates a new upcall stub, whose implementation is defined by {@code fi}.
+         * The lifetime of the returned segment is managed by {@code arena}
+         */
+        public static MemorySegment allocate(GetDeviceMemoryCapacity.Function fi, Arena arena) {
+            return Linker.nativeLinker().upcallStub(UP$MH.bindTo(fi), $DESC, arena);
+        }
+
+        private static final MethodHandle DOWN$MH = Linker.nativeLinker().downcallHandle($DESC);
+
+        /**
+         * Invoke the upcall stub {@code funcPtr}, with given parameters
+         */
+        public static MemorySegment invoke(
+                MemorySegment funcPtr,
+                MemorySegment _x0,
+                MemorySegment _x1,
+                int _x2,
+                MemorySegment _x3,
+                MemorySegment _x4) {
+            try {
+                return (MemorySegment) DOWN$MH.invokeExact(funcPtr, _x0, _x1, _x2, _x3, _x4);
+            } catch (Error | RuntimeException ex) {
+                throw ex;
+            } catch (Throwable ex$) {
+                throw new AssertionError("should not reach here", ex$);
+            }
+        }
+    }
+
+    private static final AddressLayout GetDeviceMemoryCapacity$LAYOUT =
+            (AddressLayout) $LAYOUT.select(groupElement("GetDeviceMemoryCapacity"));
+
+    /**
+     * Layout for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDeviceMemoryCapacity)(OrtEpFactory *, const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static final AddressLayout GetDeviceMemoryCapacity$layout() {
+        return GetDeviceMemoryCapacity$LAYOUT;
+    }
+
+    private static final long GetDeviceMemoryCapacity$OFFSET =
+            $LAYOUT.byteOffset(groupElement("GetDeviceMemoryCapacity"));
+
+    /**
+     * Offset for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDeviceMemoryCapacity)(OrtEpFactory *, const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static final long GetDeviceMemoryCapacity$offset() {
+        return GetDeviceMemoryCapacity$OFFSET;
+    }
+
+    /**
+     * Getter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDeviceMemoryCapacity)(OrtEpFactory *, const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static MemorySegment GetDeviceMemoryCapacity(MemorySegment struct) {
+        return struct.get(GetDeviceMemoryCapacity$LAYOUT, GetDeviceMemoryCapacity$OFFSET);
+    }
+
+    /**
+     * Setter for field:
+     * {@snippet lang=c :
+     * OrtStatusPtr (*GetDeviceMemoryCapacity)(OrtEpFactory *, const OrtEpDevice *, OrtDeviceMemoryType, uint64_t *, uint64_t *)
+     * }
+     */
+    public static void GetDeviceMemoryCapacity(MemorySegment struct, MemorySegment fieldValue) {
+        struct.set(GetDeviceMemoryCapacity$LAYOUT, GetDeviceMemoryCapacity$OFFSET, fieldValue);
     }
 
     /**
