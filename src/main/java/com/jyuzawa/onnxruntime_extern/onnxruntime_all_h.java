@@ -27,10 +27,10 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
     static final SymbolLookup SYMBOL_LOOKUP =
             SymbolLookup.loaderLookup().or(Linker.nativeLinker().defaultLookup());
 
-    private static final int ORT_API_VERSION = (int) 31L;
+    private static final int ORT_API_VERSION = (int) 32L;
     /**
      * {@snippet lang=c :
-     * #define ORT_API_VERSION 31
+     * #define ORT_API_VERSION 32
      * }
      */
     public static int ORT_API_VERSION() {
@@ -465,6 +465,26 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E8M0() {
         return ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT8E8M0;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E2M3 = (int) 27L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E2M3 = 27
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E2M3() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E2M3;
+    }
+
+    private static final int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E3M2 = (int) 28L;
+    /**
+     * {@snippet lang=c :
+     * enum ONNXTensorElementDataType.ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E3M2 = 28
+     * }
+     */
+    public static int ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E3M2() {
+        return ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT6E3M2;
     }
 
     private static final int ONNX_TYPE_UNKNOWN = (int) 0L;
@@ -1528,6 +1548,46 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
         return OrtCompileApiFlags_ERROR_IF_OUTPUT_FILE_EXISTS;
     }
 
+    private static final int OrtWeightlessSupport_NONE = (int) 0L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_NONE = 0
+     * }
+     */
+    public static int OrtWeightlessSupport_NONE() {
+        return OrtWeightlessSupport_NONE;
+    }
+
+    private static final int OrtWeightlessSupport_EXTERNAL_ONLY = (int) 1L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_EXTERNAL_ONLY = 1
+     * }
+     */
+    public static int OrtWeightlessSupport_EXTERNAL_ONLY() {
+        return OrtWeightlessSupport_EXTERNAL_ONLY;
+    }
+
+    private static final int OrtWeightlessSupport_ALL = (int) 2L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_ALL = 2
+     * }
+     */
+    public static int OrtWeightlessSupport_ALL() {
+        return OrtWeightlessSupport_ALL;
+    }
+
+    private static final int OrtWeightlessSupport_ALL_OR_EXTERNAL_ONLY = (int) 3L;
+    /**
+     * {@snippet lang=c :
+     * enum OrtWeightlessSupport.OrtWeightlessSupport_ALL_OR_EXTERNAL_ONLY = 3
+     * }
+     */
+    public static int OrtWeightlessSupport_ALL_OR_EXTERNAL_ONLY() {
+        return OrtWeightlessSupport_ALL_OR_EXTERNAL_ONLY;
+    }
+
     private static class OrtSessionOptionsAppendExecutionProvider_CUDA {
         public static final FunctionDescriptor DESC = FunctionDescriptor.of(
                 onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_POINTER, onnxruntime_all_h.C_INT);
@@ -1933,36 +1993,6 @@ public class onnxruntime_all_h extends onnxruntime_all_h$shared {
      */
     public static int OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES() {
         return OrtGraphCaptureNodeAssignmentPolicy_ALLOW_CPU_FOR_SHAPES;
-    }
-
-    private static final int OrtWeightlessSupport_NONE = (int) 0L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtWeightlessSupport.OrtWeightlessSupport_NONE = 0
-     * }
-     */
-    public static int OrtWeightlessSupport_NONE() {
-        return OrtWeightlessSupport_NONE;
-    }
-
-    private static final int OrtWeightlessSupport_EXTERNAL_ONLY = (int) 1L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtWeightlessSupport.OrtWeightlessSupport_EXTERNAL_ONLY = 1
-     * }
-     */
-    public static int OrtWeightlessSupport_EXTERNAL_ONLY() {
-        return OrtWeightlessSupport_EXTERNAL_ONLY;
-    }
-
-    private static final int OrtWeightlessSupport_ALL = (int) 2L;
-    /**
-     * {@snippet lang=c :
-     * enum OrtWeightlessSupport.OrtWeightlessSupport_ALL = 2
-     * }
-     */
-    public static int OrtWeightlessSupport_ALL() {
-        return OrtWeightlessSupport_ALL;
     }
 
     private static final int COREML_FLAG_USE_NONE = (int) 0L;

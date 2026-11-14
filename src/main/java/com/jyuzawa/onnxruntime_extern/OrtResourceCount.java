@@ -149,7 +149,7 @@ public class OrtResourceCount {
         private static final GroupLayout $LAYOUT = MemoryLayout.unionLayout(
                         onnxruntime_all_h.C_LONG.withName("total_bytes"),
                         MemoryLayout.sequenceLayout(6, onnxruntime_all_h.C_LONG).withName("reserved_words"))
-                .withName("$anon$983:3");
+                .withName("$anon$988:3");
 
         /**
          * The layout of this union
